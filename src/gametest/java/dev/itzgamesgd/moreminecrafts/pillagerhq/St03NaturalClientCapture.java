@@ -30,7 +30,8 @@ public final class St03NaturalClientCapture implements FabricClientGameTest {
     private record View(String name,int x,int y,int z,int tx,int ty,int tz) {}
     private static final List<View> VIEWS=List.of(
             new View("exterior",56,46,170,56,8,56),
-            new View("interior",53,7,19,56,8,14));
+            // F01 NBT: feet/eye and central sightline are explicit air above the chandelier ring.
+            new View("interior",51,8,16,56,9,14));
 
     @Override public void runTest(ClientGameTestContext context) {
         String planFile=System.getProperty("mm.st03.capture.plan");if(planFile==null)return;

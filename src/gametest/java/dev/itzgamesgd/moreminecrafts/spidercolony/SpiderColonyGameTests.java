@@ -40,6 +40,25 @@ public final class SpiderColonyGameTests {
   anchor.setGameMode(net.minecraft.world.level.GameType.CREATIVE);
   var position=ctx.absoluteVec(new net.minecraft.world.phys.Vec3(8.5,3,8.5));
   anchor.teleportTo(position.x,position.y,position.z);
+  if(Boolean.getBoolean("mm.spider.fixture.diagnostics"))ctx.onEachTick(()-> {
+   if(ctx.getTick()%100!=0)return;
+   var state=net.minecraft.world.level.storage.TagValueOutput.createWithContext(net.minecraft.util.ProblemReporter.DISCARDING,level.registryAccess());
+   mother.saveWithoutId(state);
+   int floor=0,empty=0,clear=0;
+   var child=SpiderColonyEntities.JUVENILE.create(level,EntitySpawnReason.MOB_SUMMONED);
+   for(int dx=-3;dx<=3;dx++)for(int dz=-3;dz<=3;dz++) {
+    child.setPos(mother.getX()+dx,mother.getY(),mother.getZ()+dz);var below=child.blockPosition().below();
+    if(level.getBlockState(below).isFaceSturdy(level,below,net.minecraft.core.Direction.UP))floor++;
+    if(level.getFluidState(child.blockPosition()).isEmpty())empty++;
+    if(level.noCollision(child))clear++;
+   }
+   child.discard();
+   System.out.println("SPIDER_FIXTURE tick="+ctx.getTick()+" motherTicks="+mother.tickCount+" motherPos="+mother.position()
+    +" motherAlive="+mother.isAlive()+" motherTicking="+level.isPositionEntityTicking(mother.blockPosition())
+    +" targetTicks="+target.tickCount+" targetAlive="+target.isAlive()+" targetHealth="+target.getHealth()+" targetTicking="+level.isPositionEntityTicking(target.blockPosition())
+    +" currentTarget="+mother.getTarget()+" cooldown="+state.buildResult().getIntOr("colony_cooldown",-1)
+    +" children="+SpiderColonyEntities.data(level).childCount(mother.getUUID())+" sturdy="+floor+" dry="+empty+" collisionFree="+clear);
+  });
   ctx.runAfterDelay(310,()-> {
    int count=SpiderColonyEntities.data(level).childCount(mother.getUUID());
    ctx.assertTrue(count>0 && count<=2,"first cycle must create at most two juveniles; got "+count);

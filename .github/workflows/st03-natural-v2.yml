@@ -13,6 +13,10 @@ on:
         description: 'Also validate full chunks, completion and first proximity (requires production terrain wiring)'
         type: boolean
         default: true
+      spider_diagnostic:
+        description: 'Isolate the CI-blocking Spider Colony test fixtures with diagnostic logging'
+        type: boolean
+        default: false
 permissions:
   contents: read
   checks: write
@@ -76,3 +80,32 @@ jobs:
           name: st03-natural-${{ matrix.seed }}
           path: build/st03-natural/results/
           retention-days: 30
+  spider-diagnostic:
+    if: github.event_name == 'workflow_dispatch' && inputs.spider_diagnostic
+    needs: inspect
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-java@v5
+        with: {distribution: temurin, java-version: '25'}
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Run only Spider Colony fixtures with boundary diagnostics
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('src/gametest/resources/fabric.mod.json');d=json.loads(p.read_text())
+          d['entrypoints']['fabric-gametest']=['dev.itzgamesgd.moreminecrafts.spidercolony.SpiderColonyGameTests']
+          p.write_text(json.dumps(d,indent=2)+'\n')
+          PY
+          mkdir -p build/st03-natural
+          set -o pipefail
+          JAVA_TOOL_OPTIONS='-Dmm.spider.fixture.diagnostics=true' ./gradlew runGameTest --no-daemon --max-workers=2 2>&1 | tee build/st03-natural/spider-diagnostic.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: st03-ci-spider-diagnostic
+          path: build/st03-natural/spider-diagnostic.log
