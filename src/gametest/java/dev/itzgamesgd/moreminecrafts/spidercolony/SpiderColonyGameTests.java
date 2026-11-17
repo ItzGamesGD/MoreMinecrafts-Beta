@@ -40,7 +40,7 @@ public final class SpiderColonyGameTests {
   anchor.setGameMode(net.minecraft.world.level.GameType.CREATIVE);
   var position=ctx.absoluteVec(new net.minecraft.world.phys.Vec3(8.5,3,8.5));
   anchor.teleportTo(position.x,position.y,position.z);
-  if(Boolean.getBoolean("mm.spider.fixture.diagnostics"))ctx.onEachTick(()-> {
+  ctx.onEachTick(()-> {
    if(ctx.getTick()%100!=0)return;
    var state=net.minecraft.world.level.storage.TagValueOutput.createWithContext(net.minecraft.util.ProblemReporter.DISCARDING,level.registryAccess());
    mother.saveWithoutId(state);

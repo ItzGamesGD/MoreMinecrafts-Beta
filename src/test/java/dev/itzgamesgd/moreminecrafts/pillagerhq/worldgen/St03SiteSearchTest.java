@@ -28,4 +28,21 @@ class St03SiteSearchTest {
         var r=St03SiteSearch.select(terrain(Set.of("10,14","22,14"),true),0,0).orElseThrow();
         assertEquals(2,r.dxChunks());assertEquals(0,r.result().cut());
     }
+    @Test void repeatedSearchHasTheSameResultAtPositiveAndNegativeOrigins() {
+        for(int origin:new int[]{0,16000,-16000}) {
+            int q=origin/4;
+            var terrain=terrain(Set.of((q+10)+","+(q+14),(q+14)+","+(q+18)),false);
+            var expected=St03SiteSearch.select(terrain,origin,origin).orElseThrow();
+            assertEquals(-1,expected.dxChunks());assertEquals(0,expected.dzChunks());
+            for(int repeat=0;repeat<25;repeat++)
+                assertEquals(expected,St03SiteSearch.select(terrain,origin,origin).orElseThrow());
+        }
+    }
+    @Test void rejectsTheBestUnsampledCliffAndUsesTheNextMeasuredCandidate() {
+        var t=terrain(Set.of("10,14","14,18"),false);
+        var first=St03SiteSearch.select(t,0,0).orElseThrow();assertEquals(-1,first.dxChunks());
+        var next=St03SiteSearch.select(t,0,0,site->site.dxChunks()!=-1).orElseThrow();
+        assertEquals(0,next.dxChunks());assertEquals(1,next.dzChunks());
+        assertTrue(St03SiteSearch.select(t,0,0,site->false).isEmpty());
+    }
 }

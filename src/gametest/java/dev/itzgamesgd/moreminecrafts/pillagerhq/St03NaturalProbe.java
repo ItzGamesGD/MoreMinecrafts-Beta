@@ -90,6 +90,8 @@ public final class St03NaturalProbe implements ModInitializer {
         result.put("region_radius",RADIUS);result.put("area_blocks_squared",AREA);result.put("min_block_inclusive",-25*66*16);result.put("max_block_exclusive",26*66*16);
         result.put("predicted_per_64km2",PREDICTED);result.put("common_min_chunk",COMMON_MIN);result.put("common_max_chunk_exclusive",COMMON_MAX);result.put("common_area_blocks_squared",COMMON_AREA);
         int potential=0,placementPass=0,valid=0,commonPotential=0,commonValid=0;
+        Map<St03FullTerrainCheck.Verdict,Long> before=new EnumMap<>(St03FullTerrainCheck.Verdict.class);
+        St03HeadquartersStructure.ACTUAL_COLUMN_COUNTS.forEach((v,n)->before.put(v,n.get()));
         List<Map<String,Object>> starts=new ArrayList<>();long started=System.nanoTime();
         try(BufferedWriter out=Files.newBufferedWriter(dir.resolve("starts.csv"))) {
             out.write("seed,rx,rz,candidate_chunk_x,candidate_chunk_z,valid,origin_x,foundation_y,origin_z,dx_chunks,dz_chunks,pieces,common_rectangle\n");
@@ -125,6 +127,21 @@ public final class St03NaturalProbe implements ModInitializer {
         result.put("common_potential_candidates",commonPotential);result.put("common_valid_starts",commonValid);result.put("common_starts_per_64km2",commonValid*64000000.0/COMMON_AREA);
         result.put("scan_seconds",(System.nanoTime()-started)/1e9);
         if(potential!=2601||starts.isEmpty())throw new AssertionError("Incomplete suite or no actual starts");
+        Map<String,Long> denseCounts=new LinkedHashMap<>();
+        St03HeadquartersStructure.ACTUAL_COLUMN_COUNTS.forEach((v,n)->denseCounts.put(v.name(),n.get()-before.get(v)));
+        result.put("actual_column_gate_site_checks",denseCounts);
+        int parity=0;
+        for(var row:starts.subList(0,Math.min(3,starts.size()))) {
+            int minX=((Number)row.get("candidate_chunk_x")).intValue()*16,minZ=((Number)row.get("candidate_chunk_z")).intValue()*16;
+            var columns=St03TerrainColumns.read(gen,level,rs,minX,minZ);
+            for(int x=minX;x<minX+16;x++)for(int z=minZ;z<minZ+16;z++) {
+                if(columns.surfaceAt(x,z)!=gen.getBaseHeight(x,z,net.minecraft.world.level.levelgen.Heightmap.Types.WORLD_SURFACE_WG,level,rs)
+                        ||columns.floorAt(x,z)!=gen.getBaseHeight(x,z,net.minecraft.world.level.levelgen.Heightmap.Types.OCEAN_FLOOR_WG,level,rs))
+                    throw new AssertionError("Dense WG heightmap parity failed at "+x+","+z);
+                parity++;
+            }
+        }
+        result.put("dense_heightmap_parity_columns",parity);
     }
     private static final class Session {
         final MinecraftServer server;final ServerLevel level;final Path dir;final Map<String,Object> result;final long started;
@@ -176,6 +193,12 @@ public final class St03NaturalProbe implements ModInitializer {
             var modules=actual.getPieces().stream().filter(p->p instanceof St03AssemblyPiece).map(p->(St03AssemblyPiece)p).toList();
             if(modules.size()!=34||actual.getPieces().size()!=35)throw new AssertionError("Terrain correction plus 34 unchanged modules required");
             BlockPos origin=modules.getFirst().compoundOrigin();int chunks=0,maxRadius=0;
+            var rs=level.getChunkSource().randomState();var gen=level.getChunkSource().getGenerator();
+            Map<Long,St03TerrainColumns.Columns> dense=new HashMap<>();
+            java.util.function.BiFunction<Integer,Integer,St03TerrainColumns.Columns> column=(x,z)->dense.computeIfAbsent(new ChunkPos(x>>4,z>>4).pack(),
+                    k->St03TerrainColumns.read(gen,level,rs,x&~15,z&~15));
+            var actualLimits=St03FullTerrainCheck.evaluate((x,z)->column.apply(x,z).surfaceAt(x,z),(x,z)->column.apply(x,z).floorAt(x,z),origin.getX(),origin.getZ(),origin.getY());
+            if(!actualLimits.eligible()||actualLimits.columnsChecked()!=12544)throw new AssertionError("Full terrain gate failed on natural start");
             for(int x=origin.getX()>>4;x<=(origin.getX()+111)>>4;x++)for(int z=origin.getZ()>>4;z<=(origin.getZ()+111)>>4;z++) {
                 level.setChunkForced(x,z,true);forced.add(new ChunkPos(x,z));level.getChunk(x,z,ChunkStatus.FULL);chunks++;
                 maxRadius=Math.max(maxRadius,Math.max(Math.abs(x-cx),Math.abs(z-cz)));
@@ -194,6 +217,8 @@ public final class St03NaturalProbe implements ModInitializer {
                 for(int dy=1;dy<=26;dy++)if(level.getBlockState(new BlockPos(x,origin.getY()+dy,z)).is(net.minecraft.world.level.block.Blocks.SPRUCE_PLANKS))planks++;
             }
             current=new LinkedHashMap<>(target);current.put("actual_start_valid",true);current.put("assembly_pieces",modules.size());current.put("total_pieces",actual.getPieces().size());
+            current.put("actual_max_cut",actualLimits.cut());current.put("actual_max_skirt",actualLimits.skirt());current.put("actual_max_footing_fill",actualLimits.footingFill());
+            current.put("actual_columns_checked",actualLimits.columnsChecked());
             current.put("full_chunks_generated",chunks);current.put("max_chunk_radius",maxRadius);current.put("support_plane_columns",112*112);
             current.put("unsupported_columns",unsupported);current.put("wet_columns",wet);current.put("current_air_cells_below_1_16",airBelow);current.put("current_water_cells_below_1_16",waterBelow);
             current.put("placed_spruce_planks_above_foundation",planks);current.put("overlaps",overlaps(actual,hq.box));
