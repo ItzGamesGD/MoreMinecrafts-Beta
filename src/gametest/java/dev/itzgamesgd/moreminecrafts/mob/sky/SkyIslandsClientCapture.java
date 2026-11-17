@@ -245,9 +245,9 @@ public final class SkyIslandsClientCapture implements FabricClientGameTest {
                     net.minecraft.world.level.levelgen.Heightmap.Types.WORLD_SURFACE, (int) cx, (int) cz));
             double py = Math.max(box.minY() + 8, top[0]);
             System.out.println("SKY_CAPTURE_FAMILY family=" + fam + " start=" + f.start() + " box=" + box + " plateauY~" + py);
-            look(context, server, connection, cx + dist[i] * 0.7, py + dist[i] * 0.55, cz + dist[i] * 0.7, cx, py, cz, 60);
+            look(context, server, connection, cx + dist[i] * 0.7, py + dist[i] * 0.55, cz + dist[i] * 0.7, cx, py, cz, 140);
             snap(context, shot, "island-" + fam + "-" + f.start() + "-a");
-            look(context, server, connection, cx - dist[i] * 0.7, py + dist[i] * 0.55, cz - dist[i] * 0.7, cx, py, cz, 60);
+            look(context, server, connection, cx - dist[i] * 0.7, py + dist[i] * 0.55, cz - dist[i] * 0.7, cx, py, cz, 140);
             snap(context, shot, "island-" + fam + "-" + f.start() + "-b");
         }
 
@@ -278,11 +278,11 @@ public final class SkyIslandsClientCapture implements FabricClientGameTest {
         int[] tb = site.bounds();
         double tx = (tb[0] + tb[3]) / 2.0, tz = (tb[2] + tb[5]) / 2.0, ty = tb[1] + 40;
         // Tower island from 70 blocks (camera offsets 50 + 50 on the diagonal), inside the 40-70 block fog-free range.
-        look(context, server, connection, tx + 50, ty + 12, tz + 50, tx, ty, tz, 60);
+        look(context, server, connection, tx + 50, ty + 12, tz + 50, tx, ty, tz, 140);
         snap(context, shot, "tower-island-far-1");
-        look(context, server, connection, tx - 50, ty + 12, tz - 50, tx, ty, tz, 60);
+        look(context, server, connection, tx - 50, ty + 12, tz - 50, tx, ty, tz, 140);
         snap(context, shot, "tower-island-far-2");
-        look(context, server, connection, tx + 40, tb[1] + 20, tz - 40, tx, tb[1] + 25, tz, 60);
+        look(context, server, connection, tx + 40, tb[1] + 20, tz - 40, tx, tb[1] + 25, tz, 140);
         snap(context, shot, "tower-exterior-close");
 
         String[] floorCombos = {"a-b", "b-c", "c-d-e", "d-e"};
@@ -307,6 +307,9 @@ public final class SkyIslandsClientCapture implements FabricClientGameTest {
         server.runOnServer(s -> s.getPlayerList().getPlayers().getFirst()
                 .teleportTo(s.overworld(), px, py, pz, Set.of(), yaw, pitch, true));
         connection.waitForClientboundPackets();
+        // The software renderer needs time to receive and mesh a far-away island: wait for the target chunk first.
+        final net.minecraft.core.BlockPos targetPos = net.minecraft.core.BlockPos.containing(tx, ty, tz);
+        context.waitFor(c -> c.level != null && c.level.hasChunkAt(targetPos), 600);
         context.waitTicks(wait);
     }
 
