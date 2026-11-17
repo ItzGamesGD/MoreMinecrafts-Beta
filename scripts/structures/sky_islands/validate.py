@@ -47,6 +47,46 @@ def template_info(path):
     return size, blocks
 
 
+TOWER_LARGE = ("large_d", "large_e")
+SMALL = ("plain_small_a", "plain_small_b", "plain_small_c", "plain_small_d")
+MEDIUM = ("plain_medium_a", "plain_medium_b", "plain_medium_c", "plain_medium_d", "plain_medium_e")
+LARGE = ("large_a", "large_b", "large_c", "large_d", "large_e")
+
+
+def tower_orientation(path):
+    nbt = load_template(path)
+    palette = nbt["palette"]
+    out = {}
+    for entry in nbt["blocks"]:
+        state = palette[int(entry["state"])]
+        if str(state["id"]) == "minecraft:jigsaw":
+            out[tuple(int(v) for v in entry["pos"])] = state["properties"]["orientation"]
+    return out
+
+
+def check_family_size(style, stem, size):
+    x, _, z = size
+    if stem in SMALL:
+        check(23 <= x <= 27 and 23 <= z <= 27, f"{style}/{stem}: small island footprint {x}x{z} outside 23-27")
+    elif stem in MEDIUM:
+        check(43 <= x <= 47 and 33 <= z <= 37, f"{style}/{stem}: medium island footprint {x}x{z} outside 43-47 x 33-37")
+    elif stem in LARGE:
+        check(96 <= x <= 160 and 96 <= z <= 160, f"{style}/{stem}: large island footprint {x}x{z} outside 96-160 (6-10 chunks)")
+
+
+def check_tower_fit(style, stem, size, blocks, jigs):
+    """The composite child (58 x 97 x 49, connector at local (36, 16, 24)) must lie inside the parent box, on solid plateau."""
+    (px, py, pz), = [pos for pos, n in jigs.items() if str(n["pool"]).endswith("/tower_top")]
+    ox, oy, oz = px - 36, py + 1 - 16, pz - 24
+    check(ox >= 0 and oy >= 0 and oz >= 0 and ox + 58 <= size[0] and oy + 97 <= size[1] and oz + 49 <= size[2],
+          f"{style}/{stem}: tower child box ({ox},{oy},{oz}) + (58,97,49) leaves the parent {size}")
+    top = py + 1
+    # the whole approved tower footprint (x 0..49, z 0..48 of the child) stands on flat solid plateau ground
+    missing = [(x, z) for x in range(ox, ox + 50) for z in range(oz, oz + 49)
+               if blocks.get((x, top, z), ("minecraft:air",))[0] in ("minecraft:air", "minecraft:water")]
+    check(not missing, f"{style}/{stem}: {len(missing)} tower footprint columns lack plateau ground, e.g. {missing[:3]}")
+
+
 def pool_locations(pool_path):
     pool = json.loads(pool_path.read_text())
     return [e["element"]["location"] for e in pool["elements"] if e["element"].get("location")]
@@ -151,8 +191,33 @@ def main():
                       f"{style}/{template.name}: composite must preserve 8 approved vaults")
             elif template.stem in ("ruins", "temple"):
                 check(any(str(n["pool"]).endswith(f"{template.stem}_top") for n in jigs.values()), f"{template.name}: missing structure socket")
-            check(template.stem in ("ruins", "tower", "temple") or not any(str(n["pool"]).endswith("_top") for n in jigs.values()),
+            if template.stem == "tower":
+                orientations = {nbt_pos: str(info_state) for nbt_pos, info_state in tower_orientation(template).items()}
+                check(list(orientations.values()) == ["down_north"], f"{style}/tower: composite connector must face down, got {orientations}")
+            has_socket = any(str(n["pool"]).endswith("_top") for n in jigs.values())
+            check(template.stem in ("ruins", "tower", "temple") + tuple(TOWER_LARGE) or not has_socket,
                   f"{style}/{template.name}: a plain island must not carry a structure socket")
+            if template.stem in TOWER_LARGE:
+                check(sum(1 for n in jigs.values() if str(n["pool"]) == f"{NS}:sky_islands/{style}/tower_top") == 1,
+                      f"{style}/{template.name}: tower-bearing large island needs exactly one tower_top socket")
+                check_tower_fit(style, template.stem, size, blocks, jigs)
+            elif template.stem.startswith("large_") or template.stem.startswith("plain_"):
+                check(not has_socket, f"{style}/{template.name}: only large_d / large_e may carry the tower socket")
+            check_family_size(style, template.stem, size)
+
+    # start pools: size families 4:3:3 (40/30/30), equal weights inside a family, the tower only through large islands
+    for style in styles:
+        pool = json.loads((DATA / f"worldgen/template_pool/sky_islands/{style}/start.json").read_text())
+        weights = {e["element"]["location"].rsplit("/", 1)[-1]: e["weight"] for e in pool["elements"]}
+        check(set(weights) == set(SMALL) | set(MEDIUM) | set(LARGE) | {"ruins", "temple"}, f"{style}/start: unexpected elements {sorted(weights)}")
+        check("tower" not in weights, f"{style}/start: the composite tower must not be a start element")
+        for fam, names in (("small", SMALL), ("medium", MEDIUM), ("large", LARGE)):
+            check(len({weights.get(n) for n in names}) == 1, f"{style}/start: {fam} weights differ: {[weights.get(n) for n in names]}")
+        totals = [sum(weights.get(n, 0) for n in names) for names in (SMALL, MEDIUM, LARGE)]
+        check(totals == [40, 30, 30], f"{style}/start: family totals {totals} != [40, 30, 30]")
+        check(weights.get("ruins") == 6 and weights.get("temple") == 2, f"{style}/start: ruins/temple weights changed")
+        child = json.loads((DATA / f"worldgen/template_pool/sky_islands/{style}/tower_top.json").read_text())
+        check([e["element"]["location"] for e in child["elements"]] == [f"{NS}:sky_islands/{style}/tower"], f"{style}/tower_top pool")
 
     # structures / sets / tags
     structures = {}

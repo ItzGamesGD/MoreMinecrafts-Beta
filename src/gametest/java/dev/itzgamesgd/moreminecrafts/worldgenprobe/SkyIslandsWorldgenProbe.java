@@ -79,6 +79,10 @@ public final class SkyIslandsWorldgenProbe implements ModInitializer {
         Map<String, Integer> variantCount = new TreeMap<>();
         Map<String, Integer> islandStyleCount = new TreeMap<>();
         Map<String, Integer> islandKindCount = new TreeMap<>();
+        // island size families (owner decision 2026-11-17): start element counts and the Sky Tower parent check
+        Map<String, Integer> startElementCount = new TreeMap<>();
+        Map<String, Integer> towerParentCount = new TreeMap<>();
+        List<String> towerViolations = new ArrayList<>();
         Map<String, Sample> samples = new LinkedHashMap<>();
         int totalStarts = 0, scanned = 0, minY = Integer.MAX_VALUE, maxY = Integer.MIN_VALUE;
 
@@ -97,6 +101,22 @@ public final class SkyIslandsWorldgenProbe implements ModInitializer {
                         totalStarts++;
                         startsByStructure.merge(id.getPath(), 1, Integer::sum);
                         BoundingBox all = start.getBoundingBox();
+                        if (!start.getPieces().isEmpty() && start.getPieces().getFirst() instanceof PoolElementStructurePiece first) {
+                            String startName = first.getElement().toString();
+                            startName = startName.substring(startName.lastIndexOf('/') + 1).replaceAll("[^A-Za-z0-9_]+$", "");
+                            startElementCount.merge(startName, 1, Integer::sum);
+                            for (var raw : start.getPieces()) {
+                                if (raw != first && raw instanceof PoolElementStructurePiece child
+                                        && child.getElement().toString().matches(".*moreminecrafts:sky_islands/[a-z]+/tower[\\],].*")) {
+                                    towerParentCount.merge(startName, 1, Integer::sum);
+                                    BoundingBox pb = first.getBoundingBox(), cb = child.getBoundingBox();
+                                    boolean inside = cb.minX() >= pb.minX() && cb.maxX() <= pb.maxX() && cb.minY() >= pb.minY()
+                                            && cb.maxY() <= pb.maxY() && cb.minZ() >= pb.minZ() && cb.maxZ() <= pb.maxZ();
+                                    if (!startName.startsWith("large_") || !inside)
+                                        towerViolations.add(id.getPath() + " chunk " + cx + "," + cz + " parent=" + startName + " inside=" + inside);
+                                }
+                            }
+                        }
                         minY = Math.min(minY, all.minY());
                         maxY = Math.max(maxY, all.maxY());
                         List<String> pieces = new ArrayList<>();
@@ -184,6 +204,9 @@ public final class SkyIslandsWorldgenProbe implements ModInitializer {
         doc.put("building_variants_seen", variantCount);
         doc.put("island_pieces_by_style", islandStyleCount);
         doc.put("island_pieces_by_kind", islandKindCount);
+        doc.put("start_element_counts", startElementCount);
+        doc.put("tower_parent_counts", towerParentCount);
+        doc.put("tower_violations", towerViolations);
         doc.put("start_y_min", minY == Integer.MAX_VALUE ? null : minY);
         doc.put("start_y_max", maxY == Integer.MIN_VALUE ? null : maxY);
         doc.put("physical", physical);

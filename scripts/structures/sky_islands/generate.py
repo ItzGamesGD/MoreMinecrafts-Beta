@@ -37,7 +37,14 @@ STRUCTURES = {
     "sky_island_badlands": ("badlands", (40, 110), ["badlands", "eroded_badlands", "wooded_badlands"]),
 }
 
-START_WEIGHTS = {"plain_small_a": 3, "plain_small_b": 3, "plain_medium": 4, "ruins": 6, "tower": 3, "temple": 2}
+# Island size families (owner decision 2026-11-17): small / medium / large appear 4:3:3. Family totals are 40 / 30 / 30 with equal
+# weights inside a family (4 x 10, 5 x 6, 5 x 6). The Sky Tower only stands on a large island (large_d / large_e carry its socket);
+# ruins and temple islands keep their previous start weights and templates.
+SMALL = ["plain_small_a", "plain_small_b", "plain_small_c", "plain_small_d"]
+MEDIUM = ["plain_medium_a", "plain_medium_b", "plain_medium_c", "plain_medium_d", "plain_medium_e"]
+LARGE = ["large_a", "large_b", "large_c", "large_d", "large_e"]
+TOWER_LARGE = ["large_d", "large_e"]
+START_WEIGHTS = {**{n: 10 for n in SMALL}, **{n: 6 for n in MEDIUM}, **{n: 6 for n in LARGE}, "ruins": 6, "temple": 2}
 SATELLITE_WEIGHTS = {"satellite_a": 3, "satellite_b": 3}
 SATELLITE_EMPTY_WEIGHT = 4
 
@@ -63,10 +70,29 @@ def build_style_islands(style):
         out[name] = v
         return meta
 
+    # small family: 25-27 blocks wide (same footprint range as the previous two templates)
     make("plain_small_a", rx=10, rz=10, depth=8, seed=1)
     make("plain_small_b", rx=11, rz=9, depth=9, seed=2)
-    make("plain_medium", rx=17, rz=15, depth=12, seed=3, links=[("east", sat_pool), ("west", sat_pool)],
-         link_dy={"east": 5, "west": -4}, veg_scale=1.0)
+    make("plain_small_c", rx=10, rz=11, depth=8, seed=7)
+    make("plain_small_d", rx=11, rz=10, depth=9, seed=8)
+    # medium family: about 45 x 35 (previous template), each with both satellite links; some with an enclosed pond or brook.
+    # clearance 30 leaves room above the plateau for a small structure to be attached later.
+    for name, rx, rz, depth, seed, water in [("plain_medium_a", 17, 15, 12, 3, None), ("plain_medium_b", 16, 15, 12, 9, "pond"),
+                                             ("plain_medium_c", 18, 14, 13, 10, "brook"), ("plain_medium_d", 17, 16, 12, 11, "pond"),
+                                             ("plain_medium_e", 16, 14, 11, 12, "brook")]:
+        make(name, rx=rx, rz=rz, depth=depth, seed=seed, links=[("east", sat_pool), ("west", sat_pool)],
+             link_dy={"east": 5, "west": -4}, veg_scale=1.0, water=water, clearance=30)
+    # large family: 97 x 97 up to 155 x 137 blocks (6 to 10 chunks), no satellite links, large free plateau
+    for name, rx, rz, depth, seed, water in [("large_a", 46, 46, 26, 13, "brook"), ("large_b", 52, 47, 28, 14, "pond"),
+                                             ("large_c", 60, 54, 30, 15, "brook")]:
+        make(name, rx=rx, rz=rz, depth=depth, seed=seed, water=water, clearance=40, margin=2)
+    for name, rx, rz, depth, seed, water in [("large_d", 70, 62, 16, 16, "pond"), ("large_e", 75, 66, 16, 17, "brook")]:
+        cx, cz = 2 + rx, 2 + rz
+        px, pz = cx + 6, cz
+        # the composite tower child occupies x in [px-36, px+21], z in [pz-24, pz+24]
+        reserved = [(px - 37, pz - 25, px + 22, pz + 25)]
+        make(name, rx=rx, rz=rz, depth=depth, seed=seed, water=water, clearance=84, margin=2, reserved=reserved,
+             child_socket=(px, pz, f"{NS}:sky_islands/{style}/tower_top"))
     # reserved footprints are expressed after the centre is known, so build twice: probe for the centre, then rebuild
     for name, rx, rz, depth, half, socket, links, shift, clearance in [
         ("ruins", 14, 14, 10, (7, 7), f"{NS}:sky_islands/ruins_top", [("east", sat_pool)], {"east": 3}, 16),
@@ -141,6 +167,8 @@ def collect():
             files[DATA / f"structure/sky_islands/{style}/{name}.nbt"] = v.to_nbt()
         text(f"worldgen/template_pool/sky_islands/{style}/start.json",
              pool([(f"sky_islands/{style}/{n}", w) for n, w in START_WEIGHTS.items()]))
+        # Sky Tower child: the only way a tower is placed; referenced only by the large tower-bearing islands.
+        text(f"worldgen/template_pool/sky_islands/{style}/tower_top.json", pool([(f"sky_islands/{style}/tower", 1)]))
         text(f"worldgen/template_pool/sky_islands/{style}/satellite.json",
              pool([(f"sky_islands/{style}/{n}", w) for n, w in SATELLITE_WEIGHTS.items()], SATELLITE_EMPTY_WEIGHT))
 
