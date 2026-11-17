@@ -2,6 +2,9 @@
 set -euo pipefail
 seed="${1:?seed required}"
 full="${2:-true}"
+if [ "$full" = "false" ]; then
+  exec bash tools/st03-natural-v2/run_audit2.sh "$seed"
+fi
 out="$PWD/build/st03-natural/results/$seed"
 run_dir="$PWD/build/st03-natural/run"
 mkdir -p "$out" "$run_dir"
