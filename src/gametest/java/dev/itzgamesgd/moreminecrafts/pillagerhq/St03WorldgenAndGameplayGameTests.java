@@ -52,7 +52,9 @@ public final class St03WorldgenAndGameplayGameTests {
     @GameTest(maxTicks = 300)
     public void st03GarrisonVanillaFollowRangeAndPostClearOptionD(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();
-        BlockPos origin = helper.absolutePos(new BlockPos(2, 2, 2));
+        // A 112-block fixture must not share the default eight-block GameTest grid. Its force-load
+        // cleanup at tick 40 otherwise releases neighboring tests' chunks while those tests still run.
+        BlockPos origin = new BlockPos(600000, 80, 600000);
         // Build minimal floor for spawn checks
         for (int dx = 0; dx < 12; dx++) {
             for (int dz = 0; dz < 12; dz++) {
@@ -75,6 +77,7 @@ public final class St03WorldgenAndGameplayGameTests {
             for (int cz = hq.box.minZ() >> 4; cz <= hq.box.maxZ() >> 4; cz++) {
                 var chunkPos = new net.minecraft.world.level.ChunkPos(cx, cz);
                 level.setChunkForced(cx, cz, true);
+                level.getChunk(cx, cz);
                 forcedChunks.add(chunkPos);
             }
         }
