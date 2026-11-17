@@ -6,7 +6,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
-import net.minecraft.world.entity.EntityType;
 
 /** Feather Charm passive: fall damage reduction. The air jump lives in {@link T1AccessoryRuntime#onJump}. */
 public final class FeatherCharmAbility {
@@ -26,7 +25,6 @@ public final class FeatherCharmAbility {
 
     /** Ender pearl and stalactite/stalagmite sources, which share the 10 second reduction cooldown. */
     static boolean isCooldownSource(DamageSource source) {
-        if (source.getDirectEntity() != null && source.getDirectEntity().getType() == EntityType.ENDER_PEARL) return true;
         return isType(source, ENDER_PEARL_TYPE) || isType(source, STALAGMITE_TYPE) || isType(source, FALLING_STALACTITE_TYPE);
     }
 
