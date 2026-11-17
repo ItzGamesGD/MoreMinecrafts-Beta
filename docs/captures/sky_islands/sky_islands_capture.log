@@ -1,23 +1,55 @@
-[05:51:11] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SEED 1
-[05:51:11] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_MOB_SPAWNED moreminecrafts:cloud_wraith box=0.60x1.95
-[05:51:11] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_MOB_SPAWNED moreminecrafts:skyguard_archer box=0.60x1.99
-[05:51:11] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_MOB_SPAWNED moreminecrafts:crystal_bug box=1.00x0.75
-[05:51:11] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_MOB_SPAWNED moreminecrafts:cloud_slime box=2.08x2.08
-[05:51:11] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_MOB_SPAWNED moreminecrafts:fallen_sentinel box=0.60x1.95
-[05:51:11] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_MOB_SPAWNED moreminecrafts:weathered_zombie box=0.60x1.95
-[05:51:11] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_MOB_SPAWNED moreminecrafts:sky_archer box=0.60x1.99
-[05:51:11] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_MOB_SPAWNED moreminecrafts:rock_creeper box=0.60x1.70
-[05:51:11] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_MOB_SPAWNED moreminecrafts:pale_enderman box=0.60x2.90
-[05:51:11] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_MOB_SPAWNED moreminecrafts:azure_slime box=2.08x2.08
-[05:51:14] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0000_sky-islands-00-mob-cloud-wraith.png
-[05:51:17] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0001_sky-islands-01-mob-skyguard-archer.png
-[05:51:20] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0002_sky-islands-02-mob-crystal-bug.png
-[05:51:22] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0003_sky-islands-03-mob-cloud-slime.png
-[05:51:24] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0004_sky-islands-04-mob-fallen-sentinel.png
-[05:51:26] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0005_sky-islands-05-mob-weathered-zombie.png
-[05:51:29] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0006_sky-islands-06-mob-sky-archer.png
-[05:51:31] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0007_sky-islands-07-mob-rock-creeper.png
-[05:51:33] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0008_sky-islands-08-mob-pale-enderman.png
-[05:51:35] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0009_sky-islands-09-mob-azure-slime.png
-[05:51:38] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0010_sky-islands-10-lineup-group-c.png
-[05:51:40] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0011_sky-islands-11-lineup-group-b.png
+[00:13:30] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SEED 2632028
+[00:13:30] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_MOB_SPAWNED moreminecrafts:cloud_wraith box=0.60x1.95
+[00:13:30] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_MOB_SPAWNED moreminecrafts:skyguard_archer box=0.60x1.99
+[00:13:30] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_MOB_SPAWNED moreminecrafts:crystal_bug box=1.00x0.75
+[00:13:30] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_MOB_SPAWNED moreminecrafts:cloud_slime box=1.04x1.04
+[00:13:30] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_MOB_SPAWNED moreminecrafts:fallen_sentinel box=0.60x1.95
+[00:13:30] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_MOB_SPAWNED moreminecrafts:weathered_zombie box=0.60x1.95
+[00:13:30] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_MOB_SPAWNED moreminecrafts:sky_archer box=0.60x1.99
+[00:13:30] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_MOB_SPAWNED moreminecrafts:rock_creeper box=0.60x1.70
+[00:13:30] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_MOB_SPAWNED moreminecrafts:pale_enderman box=0.60x2.90
+[00:13:30] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_MOB_SPAWNED moreminecrafts:azure_slime box=2.08x2.08
+[00:13:37] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0000_sky-islands-00-mob-cloud-wraith.png
+[00:13:41] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0001_sky-islands-01-mob-skyguard-archer.png
+[00:13:45] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0002_sky-islands-02-mob-crystal-bug.png
+[00:13:50] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0003_sky-islands-03-mob-cloud-slime.png
+[00:13:56] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0004_sky-islands-04-mob-fallen-sentinel.png
+[00:14:00] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0005_sky-islands-05-mob-weathered-zombie.png
+[00:14:04] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0006_sky-islands-06-mob-sky-archer.png
+[00:14:08] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0007_sky-islands-07-mob-rock-creeper.png
+[00:14:12] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0008_sky-islands-08-mob-pale-enderman.png
+[00:14:15] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0009_sky-islands-09-mob-azure-slime.png
+[00:14:18] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0010_sky-islands-10-lineup-group-c.png
+[00:14:20] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0011_sky-islands-11-lineup-group-b.png
+[00:14:24] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_FOUND_TOWER_START structure=moreminecrafts:sky_island_forest chunk=-42,3 box=BoundingBox{minX=-720, minY=206, minZ=48, maxX=-672, maxY=302, maxZ=105}
+[00:14:24] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_TOWER_SITE minecraft:overworld|-672,223,48|1
+[00:14:32] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_TOWER_SPAWNER index=0 expectedCombo=a normalConfig=moreminecrafts:sky_tower/combo_a/normal
+[00:14:32] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_TOWER_SPAWNER index=1 expectedCombo=a normalConfig=moreminecrafts:sky_tower/combo_a/normal
+[00:14:32] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_TOWER_SPAWNER index=2 expectedCombo=b normalConfig=moreminecrafts:sky_tower/combo_b/normal
+[00:14:32] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_TOWER_SPAWNER index=3 expectedCombo=a normalConfig=moreminecrafts:sky_tower/combo_a/normal
+[00:14:32] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_TOWER_SPAWNER index=4 expectedCombo=b normalConfig=moreminecrafts:sky_tower/combo_b/normal
+[00:14:32] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_TOWER_SPAWNER index=5 expectedCombo=c normalConfig=moreminecrafts:sky_tower/combo_c/normal
+[00:14:32] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_TOWER_SPAWNER index=6 expectedCombo=c normalConfig=moreminecrafts:sky_tower/combo_c/normal
+[00:14:32] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_TOWER_SPAWNER index=7 expectedCombo=b normalConfig=moreminecrafts:sky_tower/combo_b/normal
+[00:14:32] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_TOWER_SPAWNER index=8 expectedCombo=c normalConfig=moreminecrafts:sky_tower/combo_c/normal
+[00:14:32] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_TOWER_SPAWNER index=9 expectedCombo=d normalConfig=moreminecrafts:sky_tower/combo_d/normal
+[00:14:32] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_TOWER_SPAWNER index=10 expectedCombo=d normalConfig=moreminecrafts:sky_tower/combo_d/normal
+[00:14:32] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_TOWER_SPAWNER index=11 expectedCombo=e normalConfig=moreminecrafts:sky_tower/combo_e/normal
+[00:14:32] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_TOWER_SPAWNER index=12 expectedCombo=d normalConfig=moreminecrafts:sky_tower/combo_d/normal
+[00:14:32] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_TOWER_SPAWNER index=13 expectedCombo=e normalConfig=moreminecrafts:sky_tower/combo_e/normal
+[00:14:32] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_TOWER_SPAWNER index=14 expectedCombo=e normalConfig=moreminecrafts:sky_tower/combo_e/normal
+[00:14:32] [Server thread/INFO] (Minecraft) [STDOUT]: SKY_TOWER_SPAWNER index=15 expectedCombo=e normalConfig=moreminecrafts:sky_tower/combo_e/normal
+[00:14:43] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0012_sky-islands-12-island-far-1.png
+[00:14:55] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0013_sky-islands-13-island-far-2.png
+[00:15:06] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0014_sky-islands-14-tower-exterior-1.png
+[00:15:15] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0015_sky-islands-15-tower-exterior-2.png
+[00:15:19] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0016_sky-islands-16-tower-exterior-close.png
+[00:15:22] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0017_sky-islands-17-tower-floor0-combos-a-b-a.png
+[00:15:24] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0018_sky-islands-18-tower-floor0-combos-a-b-b.png
+[00:15:27] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0019_sky-islands-19-tower-floor1-combos-b-c-a.png
+[00:15:30] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0020_sky-islands-20-tower-floor1-combos-b-c-b.png
+[00:15:33] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0021_sky-islands-21-tower-floor2-combos-c-d-e-a.png
+[00:15:36] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0022_sky-islands-22-tower-floor2-combos-c-d-e-b.png
+[00:15:39] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0023_sky-islands-23-tower-floor3-combos-d-e-a.png
+[00:15:42] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_CAPTURE_SCREENSHOT /home/runner/work/MoreMinecrafts-Beta/MoreMinecrafts-Beta/build/run/clientGameTest/screenshots/0024_sky-islands-24-tower-floor3-combos-d-e-b.png
+[00:15:42] [Test thread/INFO] (Minecraft) [STDOUT]: SKY_ISLANDS_CAPTURE_COMPLETE 25
