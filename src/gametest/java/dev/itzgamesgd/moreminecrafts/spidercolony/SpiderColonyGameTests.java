@@ -156,6 +156,9 @@ public final class SpiderColonyGameTests {
      for(int i=0;i<4;i++) {
       var baby=SpiderColonyEntities.JUVENILE.create(level,EntitySpawnReason.MOB_SUMMONED);
       baby.setPos(mother.getX(),mother.getY(),mother.getZ()); baby.setNoAi(true); baby.setNoGravity(true);
+      // The fixture has no player within 128 blocks; vanilla Mob#checkDespawn would discard a non-persistent juvenile on reload (and the
+      // unload hook would then drop its ledger entry), which makes this chunk-reload test depend on which mock players other tests left behind.
+      baby.setPersistenceRequired();
       baby.addTag("mm_spider_owner_"+mother.getUUID()); SpiderColonyEntities.data(level).addChild(mother.getUUID(),baby.getUUID());
       children.add(baby.getUUID()); level.addFreshEntity(baby);
      }
