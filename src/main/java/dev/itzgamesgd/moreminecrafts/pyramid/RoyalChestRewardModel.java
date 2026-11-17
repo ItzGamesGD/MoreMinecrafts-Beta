@@ -25,6 +25,14 @@ public final class RoyalChestRewardModel {
     /** PRIMARY only: two separate independent rolls (100%, then 45%), one Ancient World Tree Sap each (max 2). */
     public static final List<Double> SAP_ROLL_CHANCES = List.of(1.00D, 0.45D);
 
+    public static final String SOUL_GLASS_ID = "moreminecrafts:shimmering_soul_glass";
+    /**
+     * PRIMARY only: one independent roll for one Shimmering Soul Glass (a single stack entry). PROVISIONAL: the owner
+     * delegated this value on 2026-11-16 (docs say ST-01 only, with no slot or chance); retunable here.
+     */
+    public static final double SOUL_GLASS_CHANCE = 0.40D;
+    public static final int SOUL_GLASS_COUNT = 1;
+
     /** One independent item: success probability, then an inclusive uniform quantity. */
     public record Entry(String itemId, double chance, int min, int max) {}
 
@@ -106,6 +114,11 @@ public final class RoyalChestRewardModel {
         return count == 0 ? Optional.empty() : Optional.of(new Reward(SAP_ID, count));
     }
 
+    /** Shimmering Soul Glass: one independent chance draw, drawn after the sap draws so no earlier draw shifts. */
+    public static Optional<Reward> rollSoulGlass(RandomGenerator random) {
+        return random.nextDouble() < SOUL_GLASS_CHANCE ? Optional.of(new Reward(SOUL_GLASS_ID, SOUL_GLASS_COUNT)) : Optional.empty();
+    }
+
     /** True when the draw includes a T2 accessory (Seed of Life / Ring of Time); drives the Q39 reveal effect. */
     public static boolean hasAccessory(List<Reward> rewards) {
         return rewards.stream().anyMatch(r -> PyramidRoyalChestRewards.ITEMS.stream()
@@ -127,7 +140,10 @@ public final class RoyalChestRewardModel {
     public static List<Reward> chestRewards(RoyalChestRole role, RandomGenerator chestRandom, boolean holdsCatalyst) {
         List<Reward> rewards = new ArrayList<>(rollMaterials(role, chestRandom));
         rollAccessory(chestRandom).ifPresent(id -> rewards.add(new Reward(id, 1)));
-        if (role == RoyalChestRole.PRIMARY) rollSap(chestRandom).ifPresent(rewards::add);
+        if (role == RoyalChestRole.PRIMARY) {
+            rollSap(chestRandom).ifPresent(rewards::add);
+            rollSoulGlass(chestRandom).ifPresent(rewards::add);
+        }
         if (holdsCatalyst) rewards.add(new Reward(CATALYST_ID, 1));
         return rewards;
     }
