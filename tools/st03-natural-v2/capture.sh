@@ -22,7 +22,7 @@ xvfb-run -a -s '-screen 0 1600x1000x24 +extension GLX +render -noreset' bash -eu
   trap "kill $! 2>/dev/null || true" EXIT
   timeout 3300 ./gradlew runClientGameTest --args="--width 1280 --height 720" --no-daemon --max-workers=2 2>&1 | tee build/st03-natural/captures/client.log
 '
-rg 'ST03_NATURAL_CAPTURE_COMPLETE 6' "$out/client.log"
+grep -Fq 'ST03_NATURAL_CAPTURE_COMPLETE 6' "$out/client.log"
 python3 - <<'PY'
 import hashlib,json
 from pathlib import Path
