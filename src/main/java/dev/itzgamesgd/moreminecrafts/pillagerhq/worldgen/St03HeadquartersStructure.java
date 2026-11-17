@@ -56,9 +56,10 @@ public final class St03HeadquartersStructure extends Structure {
         Rotation rotation = Rotation.getRandom(context.random());
 
         GeneratorTerrain terrain = new GeneratorTerrain(context);
-        var selected = St03SiteSearch.select(terrain, originX, originZ,site->{
-            var check=terrain.actualLimits(site.originX(),site.originZ(),site.result().foundationY());
-            ACTUAL_COLUMN_COUNTS.get(check.verdict()).incrementAndGet();return check.eligible();
+        var selected = St03SiteSearch.select(terrain, originX, originZ, (St03SiteSearch.Site site) -> {
+            var check = terrain.actualLimits(site.originX(), site.originZ(), site.result().foundationY());
+            ACTUAL_COLUMN_COUNTS.get(check.verdict()).incrementAndGet();
+            return check.eligible() ? check.foundationY() : Integer.MIN_VALUE;
         });
         if (selected.isEmpty()) return Optional.empty();
         var site = selected.get();

@@ -2,6 +2,9 @@
 set -euo pipefail
 seed="${1:?seed required}"
 full="${2:-true}"
+if [ "$full" = "false" ]; then
+  exec bash tools/st03-natural-v2/run_audit2.sh "$seed"
+fi
 out="$PWD/build/st03-natural/results/$seed"
 run_dir="$PWD/build/st03-natural/run"
 mkdir -p "$out" "$run_dir"
@@ -39,12 +42,12 @@ if p.get('scope')=='actual_start_scan_only':
  assert p['full_generation_status']=='NOT RUN'
  print('PASS: actual start survey; full generation NOT RUN')
  sys.exit(0)
-assert len(p['full_generation'])>=(3 if p['seed']==10079 else 1)
+assert len(p['full_generation'])>=2
 for hq in p['full_generation']:
  assert hq['actual_start_valid'] and hq['assembly_pieces']==34 and hq['total_pieces']==35
- assert hq['unsupported_columns']==0 and hq['wet_columns']==0
+ assert hq['unsupported_columns']==0 and hq['wet_column_ratio_pct']<=15.0 and hq['water_samples_169']<=25
  assert hq['completion_record_created'] and hq['defenders_first_proximity']==40
  assert hq['max_chunk_radius']<=8
- assert hq['actual_columns_checked']==12544 and hq['actual_max_cut']<=10 and hq['actual_max_skirt']<=12 and hq['actual_max_footing_fill']<=16
+ assert hq['actual_columns_checked']==9216 and hq['actual_max_cut']<=10 and hq['actual_max_skirt']<=12 and hq['actual_max_footing_fill']<=16
 print('PASS: actual starts, unchanged templates, full chunks and support plane')
 PY

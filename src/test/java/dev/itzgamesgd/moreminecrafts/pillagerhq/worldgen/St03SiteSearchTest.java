@@ -39,16 +39,33 @@ class St03SiteSearchTest {
         }
     }
     @Test void rejectsTheBestUnsampledCliffAndUsesTheNextMeasuredCandidate() {
-        var biomes=terrain(Set.of("10,14","14,18"),false);
-        var t=new St03Eligibility.Terrain() {
-            public int surfaceHeight(int x,int z){return x==-15&&z==1?75:64;}
-            public int oceanFloorHeight(int x,int z){return 64;}
-            public boolean isEligibleBiomeCell(int x,int y,int z){return biomes.isEligibleBiomeCell(x,y,z);}
+        var biomes = terrain(Set.of("10,14", "14,18"), false);
+        var t = new St03Eligibility.Terrain() {
+            public int surfaceHeight(int x, int z) { return x == -7 && z == 9 ? 75 : (x == -6 && z == 9 ? 52 : 64); }
+            public int oceanFloorHeight(int x, int z) { return 64; }
+            public boolean isEligibleBiomeCell(int x, int y, int z) { return biomes.isEligibleBiomeCell(x, y, z); }
         };
-        var first=St03SiteSearch.select(t,0,0).orElseThrow();assertEquals(-1,first.dxChunks());
-        var next=St03SiteSearch.select(t,0,0,site->St03FullTerrainCheck.evaluate(t::surfaceHeight,t::oceanFloorHeight,
-                site.originX(),site.originZ(),site.result().foundationY()).eligible()).orElseThrow();
-        assertEquals(0,next.dxChunks());assertEquals(1,next.dzChunks());
-        assertTrue(St03SiteSearch.select(t,0,0,site->false).isEmpty());
+        var first = St03SiteSearch.select(t, 0, 0).orElseThrow(); assertEquals(-1, first.dxChunks());
+        var next = St03SiteSearch.select(t, 0, 0, (St03SiteSearch.Site site) -> {
+            var check = St03FullTerrainCheck.evaluate(t::surfaceHeight, t::oceanFloorHeight,
+                    site.originX(), site.originZ(), site.result().foundationY());
+            return check.eligible() ? check.foundationY() : Integer.MIN_VALUE;
+        }).orElseThrow();
+        assertEquals(0, next.dxChunks()); assertEquals(1, next.dzChunks());
+        assertTrue(St03SiteSearch.select(t, 0, 0, (java.util.function.Predicate<St03SiteSearch.Site>) site -> false).isEmpty());
+    }
+    @Test void updatesSelectedSiteFoundationYWhenFullCheckAdjustsIt() {
+        var biomes = terrain(Set.of("14,14"), false);
+        var t = new St03Eligibility.Terrain() {
+            public int surfaceHeight(int x, int z) { return x == 9 && z == 9 ? 75 : (x == 10 && z == 10 ? 53 : 64); }
+            public int oceanFloorHeight(int x, int z) { return 50; }
+            public boolean isEligibleBiomeCell(int x, int y, int z) { return biomes.isEligibleBiomeCell(x, y, z); }
+        };
+        var selected = St03SiteSearch.select(t, 0, 0, (St03SiteSearch.Site site) -> {
+            var check = St03FullTerrainCheck.evaluate(t::surfaceHeight, t::oceanFloorHeight,
+                    site.originX(), site.originZ(), site.result().foundationY());
+            return check.eligible() ? check.foundationY() : Integer.MIN_VALUE;
+        }).orElseThrow();
+        assertEquals(65, selected.result().foundationY());
     }
 }
