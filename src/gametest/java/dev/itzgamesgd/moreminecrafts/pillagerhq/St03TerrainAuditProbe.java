@@ -865,14 +865,19 @@ public final class St03TerrainAuditProbe implements ModInitializer {
                                 + ovAny3d + "," + ovVillage3d + "," + ovAny2d + "," + ovVillage2d + ",\""
                                 + String.join(";", ov.hits3d) + "\",\"" + String.join(";", ov.hits2d) + "\"\n");
                         if (ovAny3d || ovAny2d) {
-                            validOverlapsDetail.add(Map.of(
-                                    "seed", seed, "rx", rx, "rz", rz,
-                                    "cand_cx", cp.x(), "cand_cz", cp.z(),
-                                    "origin_x", best19N2.originX, "foundation_y", best19N2.foundationY, "origin_z", best19N2.originZ,
-                                    "center_biome", best19N2.centerBiomeLower,
-                                    "overlaps_3d", ov.hits3d,
-                                    "overlaps_2d", ov.hits2d
-                            ));
+                            Map<String, Object> ovRow = new LinkedHashMap<>();
+                            ovRow.put("seed", seed);
+                            ovRow.put("rx", rx);
+                            ovRow.put("rz", rz);
+                            ovRow.put("cand_cx", cp.x());
+                            ovRow.put("cand_cz", cp.z());
+                            ovRow.put("origin_x", best19N2.originX);
+                            ovRow.put("foundation_y", best19N2.foundationY);
+                            ovRow.put("origin_z", best19N2.originZ);
+                            ovRow.put("center_biome", best19N2.centerBiomeLower);
+                            ovRow.put("overlaps_3d", ov.hits3d);
+                            ovRow.put("overlaps_2d", ov.hits2d);
+                            validOverlapsDetail.add(ovRow);
                         }
                     }
                 }

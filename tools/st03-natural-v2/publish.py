@@ -4,7 +4,10 @@ folder=Path(sys.argv[1]);name=sys.argv[2]
 p=folder/'result.json'
 if p.exists():data=json.loads(p.read_text())
 else:data={'status':'FAIL','error':'No completed probe result'}
-if (folder/'build.log').exists():data['build_log_tail']=(folder/'build.log').read_text()[-30000:]
+if (folder/'build.log').exists():
+ bl=(folder/'build.log').read_text()
+ errs='\n'.join(l for l in bl.splitlines() if 'error:' in l or 'FAILED' in l)
+ data['build_log_tail']=(errs+'\n---\n'+bl[-25000:]) if errs else bl[-30000:]
 if (folder/'structure-api.txt').exists():data['structure_api']=(folder/'structure-api.txt').read_text()[:60000]
 if not p.exists() and (folder/'probe.log').exists():data['probe_log_tail']=(folder/'probe.log').read_text()[-25000:]
 data['head_sha']=os.environ['GITHUB_SHA'];data['run_id']=os.environ['GITHUB_RUN_ID']
