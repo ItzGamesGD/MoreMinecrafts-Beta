@@ -86,7 +86,7 @@ public final class St03NaturalProbe implements ModInitializer {
     }
     @SuppressWarnings("unchecked") private static void writeCapturePlan(Path dir,Map<String,Object> result) throws Exception {
         var starts=(List<Map<String,Object>>)result.get("starts");
-        var targets=List.copyOf(starts.subList(0,Math.min(3,starts.size())));
+        var targets=List.copyOf(prioritizeNewBiomes(starts).subList(0,Math.min(3,starts.size())));
         Map<String,Object> plan=new LinkedHashMap<>();plan.put("seed",result.get("seed"));plan.put("head_sha",result.get("head_sha"));
         plan.put("run_id",result.get("run_id"));plan.put("targets",targets);
         Files.writeString(dir.resolve("capture-plan.json"),JSON.toJson(plan));
@@ -97,6 +97,12 @@ public final class St03NaturalProbe implements ModInitializer {
         try {Files.createDirectories(dir);Files.writeString(dir.resolve("result.json"),JSON.toJson(result));}
         catch(Exception e){throw new RuntimeException(e);}
         Runtime.getRuntime().halt(error==null?0:1);
+    }
+    /** Full-generation and capture targets prefer starts whose center biome is one of the 11 newly approved biomes (stable order otherwise). */
+    private static List<Map<String,Object>> prioritizeNewBiomes(List<Map<String,Object>> starts) {
+        List<Map<String,Object>> ordered=new ArrayList<>(starts);
+        ordered.sort(java.util.Comparator.comparingInt(row->St03BiomeRules.ADDED_BIOME_IDS.contains(row.get("center_biome"))?0:1));
+        return ordered;
     }
     private static void scan(ServerLevel level,Path dir,Map<String,Object> result) throws Exception {
         Files.createDirectories(dir);
@@ -115,6 +121,7 @@ public final class St03NaturalProbe implements ModInitializer {
         int potential=0,placementPass=0,valid=0,commonPotential=0,commonValid=0;
         Map<St03FullTerrainCheck.Verdict,Long> before=new EnumMap<>(St03FullTerrainCheck.Verdict.class);
         St03HeadquartersStructure.ACTUAL_COLUMN_COUNTS.forEach((v,n)->before.put(v,n.get()));
+        Map<String,Integer> centerBiomeCandidates=new java.util.TreeMap<>(),centerEligibleByBiome=new java.util.TreeMap<>(),validByCenterBiome=new java.util.TreeMap<>();
         List<Map<String,Object>> starts=new ArrayList<>();long started=System.nanoTime();
         try(BufferedWriter out=Files.newBufferedWriter(dir.resolve("starts.csv"))) {
             out.write("seed,rx,rz,candidate_chunk_x,candidate_chunk_z,valid,origin_x,foundation_y,origin_z,dx_chunks,dz_chunks,pieces,common_rectangle\n");
@@ -124,10 +131,23 @@ public final class St03NaturalProbe implements ModInitializer {
                     boolean common=cp.x()>=COMMON_MIN&&cp.x()<COMMON_MAX&&cp.z()>=COMMON_MIN&&cp.z()<COMMON_MAX;
                     potential++;if(common)commonPotential++;
                     if(!placement.isStructureChunk(state,cp.x(),cp.z()))continue;placementPass++;
+                    {var ctx0=new Structure.GenerationContext(level.registryAccess(),gen,gen.getBiomeSource(),sampler,rs,level.getStructureTemplateManager(),level.getSeed(),cp,level,structure.biomes()::contains);
+                     var t0=new St03HeadquartersStructure.GeneratorTerrain(ctx0);
+                     int cx0=cp.getMinBlockX()-St03PlacementConfig.BOX_SIZE/2+8+56,cz0=cp.getMinBlockZ()-St03PlacementConfig.BOX_SIZE/2+8+56;
+                     var b0=ctx0.biomeResolver().getNoiseBiome(Math.floorDiv(cx0,4),Math.floorDiv(t0.surfaceHeight(cx0,cz0)-3,4),Math.floorDiv(cz0,4));
+                     String id0=b0.unwrapKey().map(k->k.identifier().toString()).orElse("unknown");
+                     centerBiomeCandidates.merge(id0,1,Integer::sum);
+                     if(St03HeadquartersStructure.isEligibleBiome(b0))centerEligibleByBiome.merge(id0,1,Integer::sum);}
                     StructureStart generated=structure.generate(holder,level.dimension(),level.registryAccess(),gen,gen.getBiomeSource(),sampler,rs,
                             level.getStructureTemplateManager(),level.getSeed(),cp,0,level,structure.biomes()::contains);
                     if(!generated.isValid()) {out.write(level.getSeed()+","+rx+","+rz+","+cp.x()+","+cp.z()+",false,,,,,,,"+common+"\n");continue;}
                     valid++;if(common)commonValid++;
+                    String vbId;
+                    {int vx=generated.getBoundingBox().getCenter().getX(),vz=generated.getBoundingBox().getCenter().getZ();
+                     var vt=new St03HeadquartersStructure.GeneratorTerrain(new Structure.GenerationContext(level.registryAccess(),gen,gen.getBiomeSource(),sampler,rs,level.getStructureTemplateManager(),level.getSeed(),cp,level,structure.biomes()::contains));
+                     var vb=gen.getBiomeSource().getNoiseBiome(Math.floorDiv(vx,4),Math.floorDiv(vt.surfaceHeight(vx,vz)-3,4),Math.floorDiv(vz,4),sampler);
+                     vbId=vb.unwrapKey().map(k->k.identifier().toString()).orElse("unknown");
+                     validByCenterBiome.merge(vbId,1,Integer::sum);}
                     var first=generated.getPieces().stream().filter(p->p instanceof St03AssemblyPiece).map(p->(St03AssemblyPiece)p).findFirst().orElseThrow();
                     BlockPos origin=first.compoundOrigin();int dx=(origin.getX()-(cp.getMinBlockX()-48))/16,dz=(origin.getZ()-(cp.getMinBlockZ()-48))/16;
                     if(Math.abs(dx)>2||Math.abs(dz)>2)throw new AssertionError("Selected site outside N=2");
@@ -135,7 +155,7 @@ public final class St03NaturalProbe implements ModInitializer {
                     var evaluated=St03Eligibility.evaluate(new St03HeadquartersStructure.GeneratorTerrain(context),origin.getX(),origin.getZ());
                     if(!evaluated.eligible()||evaluated.foundationY()!=origin.getY())throw new AssertionError("Actual start does not meet V2");
                     Map<String,Object> row=new LinkedHashMap<>();row.put("candidate_chunk_x",cp.x());row.put("candidate_chunk_z",cp.z());row.put("region_x",rx);row.put("region_z",rz);
-                    row.put("origin_x",origin.getX());row.put("origin_z",origin.getZ());row.put("foundation_y",origin.getY());row.put("common_rectangle",common);
+                    row.put("origin_x",origin.getX());row.put("origin_z",origin.getZ());row.put("foundation_y",origin.getY());row.put("common_rectangle",common);row.put("center_biome",vbId);
                     row.put("dx_chunks",dx);row.put("dz_chunks",dz);row.put("pieces",generated.getPieces().size());row.put("rotation",first.compoundRotation().name());
                     row.put("cut",evaluated.cut());row.put("skirt",evaluated.skirt());row.put("fill",evaluated.footingFill());starts.add(row);
                     out.write(level.getSeed()+","+rx+","+rz+","+cp.x()+","+cp.z()+",true,"+origin.getX()+","+origin.getY()+","+origin.getZ()+","+dx+","+dz+","+generated.getPieces().size()+","+common+"\n");
@@ -144,6 +164,10 @@ public final class St03NaturalProbe implements ModInitializer {
                 Files.writeString(dir.resolve("progress.json"),JSON.toJson(Map.of("seed",level.getSeed(),"potential",potential,"valid",valid,"seconds",(System.nanoTime()-started)/1e9)));
             }
         }
+        result.put("center_biome_candidates",centerBiomeCandidates);result.put("center_eligible_by_biome",centerEligibleByBiome);
+        result.put("center_eligible_total",centerEligibleByBiome.values().stream().mapToInt(Integer::intValue).sum());
+        result.put("valid_starts_by_center_biome",validByCenterBiome);
+        result.put("biome_list_size",St03BiomeRules.ELIGIBLE_BIOME_IDS.size());
         result.put("potential_candidates",potential);result.put("placement_pass",placementPass);result.put("valid_starts",valid);
         result.put("acceptance_pct",100.0*valid/potential);result.put("starts_per_64km2",valid*64000000.0/AREA);
         result.put("delta_vs_prediction_pct",100*(valid*64000000.0/AREA-PREDICTED)/PREDICTED);result.put("starts",starts);
@@ -173,7 +197,7 @@ public final class St03NaturalProbe implements ModInitializer {
         @SuppressWarnings("unchecked") Session(MinecraftServer server,Path dir,Map<String,Object> result,long started) {
             this.server=server;level=server.overworld();this.dir=dir;this.result=result;this.started=started;
             List<Map<String,Object>> starts=(List<Map<String,Object>>)result.get("starts");int count=level.getSeed()==10079?3:1;
-            if(starts.size()<count)throw new AssertionError("Too few natural starts");targets=List.copyOf(starts.subList(0,count));result.put("full_generation",verified);
+            if(starts.size()<count)throw new AssertionError("Too few natural starts");targets=List.copyOf(prioritizeNewBiomes(starts).subList(0,count));result.put("full_generation",verified);
             var cookie=net.minecraft.server.network.CommonListenerCookie.createInitial(new com.mojang.authlib.GameProfile(UUID.randomUUID(),"st03-probe"),false);
             player=new ServerPlayer(server,level,cookie.gameProfile(),cookie.clientInformation());
             var connection=new net.minecraft.network.Connection(net.minecraft.network.protocol.PacketFlow.SERVERBOUND);

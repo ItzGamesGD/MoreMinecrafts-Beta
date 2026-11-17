@@ -39,15 +39,9 @@ public final class St03HeadquartersStructure extends Structure {
         super(settings);
     }
 
+    /** The approved 19-biome list lives in {@link St03BiomeRules}; the edge-neutral set below is unchanged. */
     public static boolean isEligibleBiome(Holder<Biome> biome) {
-        return biome.is(Biomes.PLAINS)
-                || biome.is(Biomes.SUNFLOWER_PLAINS)
-                || biome.is(Biomes.MEADOW)
-                || biome.is(Biomes.FOREST)
-                || biome.is(Biomes.FLOWER_FOREST)
-                || biome.is(Biomes.BIRCH_FOREST)
-                || biome.is(Biomes.OLD_GROWTH_BIRCH_FOREST)
-                || biome.is(Biomes.DARK_FOREST);
+        return St03BiomeRules.isEligible(biome);
     }
 
     public static boolean isEdgeBiome(Holder<Biome> biome) {
