@@ -148,4 +148,74 @@ public final class St03TerrainGameTests {
                 "ST-03 currently has no cross-context decision memo (unlike ST-01 St01DecisionMemo)");
         helper.succeed();
     }
+
+    @GameTest(maxTicks = 650)
+    public void verifyNoWaterFloodsInteriorEmptySpaceOver400Ticks(GameTestHelper helper) {
+        var level = helper.getLevel();
+        BlockPos origin = new BlockPos(420000, 62, 420000);
+        int fy = origin.getY();
+
+        for (int x = (origin.getX() - 16) >> 4; x <= (origin.getX() + 128) >> 4; x++) {
+            for (int z = (origin.getZ() - 16) >> 4; z <= (origin.getZ() + 128) >> 4; z++) {
+                level.getChunk(x, z);
+            }
+        }
+
+        List<ChunkPos> chunks = new ArrayList<>();
+        for (int x = origin.getX() >> 4; x <= (origin.getX() + 111) >> 4; x++) {
+            for (int z = origin.getZ() >> 4; z <= (origin.getZ() + 111) >> 4; z++) {
+                chunks.add(new ChunkPos(x, z));
+            }
+        }
+        for (var cp : chunks) {
+            BoundingBox box = new BoundingBox(cp.getMinBlockX(), level.getMinY(), cp.getMinBlockZ(),
+                    cp.getMaxBlockX(), level.getMaxY(), cp.getMaxBlockZ());
+            St03TerrainCorrectionPiece.correct(level, box, origin, fy - 16, fy + 10, (x, z) -> fy + 10);
+        }
+
+        var templates = level.getStructureTemplateManager();
+        var builder = new net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder();
+        St03HeadquartersStructure.addPieces(builder, templates, origin, net.minecraft.world.level.block.Rotation.NONE);
+        BoundingBox totalBox = new BoundingBox(origin.getX() - 16, level.getMinY(), origin.getZ() - 16,
+                origin.getX() + 128, level.getMaxY(), origin.getZ() + 128);
+        for (var piece : builder.build().pieces()) {
+            piece.postProcess(level, level.structureManager(), level.getChunkSource().getGenerator(),
+                    level.getRandom(), totalBox, new ChunkPos(origin), origin);
+        }
+
+        for (int i = -1; i <= 112; i++) {
+            level.setBlock(origin.offset(-1, 1, i), Blocks.WATER.defaultBlockState(), 3);
+            level.setBlock(origin.offset(112, 1, i), Blocks.WATER.defaultBlockState(), 3);
+            level.setBlock(origin.offset(i, 1, -1), Blocks.WATER.defaultBlockState(), 3);
+            level.setBlock(origin.offset(i, 1, 112), Blocks.WATER.defaultBlockState(), 3);
+        }
+
+        List<BlockPos> interiorAirCells = new ArrayList<>();
+        for (int x = 14; x <= 98; x++) {
+            for (int z = 14; z <= 98; z++) {
+                for (int dy = 0; dy <= 8; dy++) {
+                    BlockPos p = origin.offset(x, dy, z);
+                    if (level.getBlockState(p).isAir()) {
+                        interiorAirCells.add(p);
+                    }
+                }
+            }
+        }
+        helper.assertTrue(!interiorAirCells.isEmpty(), "Interior must contain air cells to monitor");
+
+        helper.runAfterDelay(400, () -> {
+            int floodedCount = 0;
+            List<BlockPos> floodedPositions = new ArrayList<>();
+            for (BlockPos p : interiorAirCells) {
+                var state = level.getBlockState(p);
+                if (state.is(Blocks.WATER) || !state.getFluidState().isEmpty()) {
+                    floodedCount++;
+                    if (floodedPositions.size() < 10) floodedPositions.add(p);
+                }
+            }
+            helper.assertTrue(floodedCount == 0,
+                    "Expected 0 water blocks in interior empty space after 400 ticks, but found " + floodedCount + " at " + floodedPositions);
+            helper.succeed();
+        });
+    }
 }
