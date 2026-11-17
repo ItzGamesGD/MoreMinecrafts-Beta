@@ -24,7 +24,10 @@ import net.minecraft.world.level.levelgen.*;
 import net.minecraft.world.level.levelgen.densityfunction.SamplerContext;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadStructurePlacement;
-import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadType;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureStart;
+import net.minecraft.world.level.levelgen.structure.StructureSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -184,9 +187,12 @@ public final class St03FloodCheckProbe implements ModInitializer {
         long started = System.nanoTime();
         long seed = level.getSeed();
         FloodTerrain t = new FloodTerrain(level);
-        RandomSpreadStructurePlacement placement = new RandomSpreadStructurePlacement(
-                St03PlacementConfig.SPACING_CHUNKS, St03PlacementConfig.SEPARATION_CHUNKS,
-                RandomSpreadType.TRIANGULAR, St03PlacementConfig.SALT);
+        var holder = level.registryAccess().lookupOrThrow(Registries.STRUCTURE).getOrThrow(ResourceKey.create(Registries.STRUCTURE, St03Worldgen.STRUCTURE_ID));
+        Structure structure = holder.value();
+        var set = level.registryAccess().lookupOrThrow(Registries.STRUCTURE_SET).getOrThrow(ResourceKey.create(Registries.STRUCTURE_SET, St03Worldgen.STRUCTURE_ID)).value();
+        var placement = (RandomSpreadStructurePlacement) set.placement();
+        var rs = level.getChunkSource().randomState();
+        var sampler = rs.createClimateSampler(SamplerContext.builder().enableCaches().build());
 
         summary.put("seed", seed);
         summary.put("head_sha", System.getenv("GITHUB_SHA"));
@@ -216,39 +222,27 @@ public final class St03FloodCheckProbe implements ModInitializer {
 
             for (int rx = -RADIUS; rx <= RADIUS; rx++) {
                 for (int rz = -RADIUS; rz <= RADIUS; rz++) {
-                    ChunkPos cp = placement.getPotentialStructureChunk(seed, rx, rz);
+                    ChunkPos cp = placement.getPotentialStructureChunk(seed, rx * St03PlacementConfig.SPACING_CHUNKS, rz * St03PlacementConfig.SPACING_CHUNKS);
                     int cx = cp.x(), cz = cp.z();
                     int candidateOriginX = cx * 16 - 48, candidateOriginZ = cz * 16 - 48;
                     boolean centerEligible = (t.columnKind19(candidateOriginX + 56, candidateOriginZ + 56) == 0);
 
-                    if (centerEligible) {
-                        t.preloadDenseBox(candidateOriginX - 32, candidateOriginZ - 32, 112 + 64);
-                    }
-
-                    var elTerrain = t.asEligibilityTerrain();
-                    var siteOpt = St03SiteSearch.selectWithDenseY(elTerrain, candidateOriginX, candidateOriginZ, site -> {
-                        int sampleY = site.result().foundationY();
-                        var check = St03FullTerrainCheck.evaluate(
-                                (x, z) -> t.surface(x, z),
-                                (x, z) -> t.floor(x, z),
-                                site.originX(), site.originZ(), sampleY);
-                        return check.eligible() ? check.foundationY() : Integer.MIN_VALUE;
-                    });
-
-                    boolean passed = siteOpt.isPresent();
-                    int evalX, evalZ, fy, sampleFy, dx = 0, dz = 0;
+                    StructureStart generated = structure.generate(holder, level.dimension(), level.registryAccess(), t.gen, t.gen.getBiomeSource(), sampler, rs,
+                            level.getStructureTemplateManager(), seed, cp, 0, level, structure.biomes()::contains);
+                    boolean passed = generated.isValid();
+                    int evalX, evalZ, fy, sampleFy = 0, dx = 0, dz = 0;
                     Rotation rotation = Rotation.NONE;
                     if (passed) {
-                        var site = siteOpt.get();
-                        evalX = site.originX();
-                        evalZ = site.originZ();
-                        fy = site.result().foundationY();
-                        sampleFy = site.result().heightDifference(); // placeholder or sample Y
-                        dx = site.dxChunks();
-                        dz = site.dzChunks();
-                        var rand = new net.minecraft.world.level.levelgen.WorldgenRandom(new net.minecraft.world.level.levelgen.LegacyRandomSource(0L));
-                        rand.setLargeFeatureSeed(seed, cp.x(), cp.z());
-                        rotation = Rotation.getRandom(rand);
+                        var pieces = generated.getPieces();
+                        var tcp = (St03TerrainCorrectionPiece) pieces.get(0);
+                        evalX = tcp.origin().getX();
+                        evalZ = tcp.origin().getZ();
+                        fy = tcp.origin().getY();
+                        dx = (evalX - candidateOriginX) / 16;
+                        dz = (evalZ - candidateOriginZ) / 16;
+                        if (pieces.size() > 1 && pieces.get(1) instanceof St03AssemblyPiece ap) {
+                            rotation = ap.compoundRotation();
+                        }
                     } else {
                         evalX = candidateOriginX;
                         evalZ = candidateOriginZ;
@@ -270,7 +264,7 @@ public final class St03FloodCheckProbe implements ModInitializer {
                                 int wy = s - 1;
                                 wMin96 = Math.min(wMin96, wy);
                                 wMax96 = Math.max(wMax96, wy);
-                                if (wy == 63) wEq63_96++;
+                                if (wy == 62 || wy == 63 || s == 63) wEq63_96++;
                                 else wNot63_96++;
                             }
                         }
@@ -286,7 +280,7 @@ public final class St03FloodCheckProbe implements ModInitializer {
                                 int wy = s - 1;
                                 wMin112 = Math.min(wMin112, wy);
                                 wMax112 = Math.max(wMax112, wy);
-                                if (wy == 63) wEq63_112++;
+                                if (wy == 62 || wy == 63 || s == 63) wEq63_112++;
                                 else wNot63_112++;
                             }
                         }
@@ -305,7 +299,7 @@ public final class St03FloodCheckProbe implements ModInitializer {
                                 int wy = s - 1;
                                 ringWMin96 = Math.min(ringWMin96, wy);
                                 ringWMax96 = Math.max(ringWMax96, wy);
-                                if (wy == 63) ringWEq63_96++;
+                                if (wy == 62 || wy == 63 || s == 63) ringWEq63_96++;
                                 else ringWNot63_96++;
                             }
                         }
@@ -324,7 +318,7 @@ public final class St03FloodCheckProbe implements ModInitializer {
                                 int wy = s - 1;
                                 ringWMin112 = Math.min(ringWMin112, wy);
                                 ringWMax112 = Math.max(ringWMax112, wy);
-                                if (wy == 63) ringWEq63_112++;
+                                if (wy == 62 || wy == 63 || s == 63) ringWEq63_112++;
                                 else ringWNot63_112++;
                             }
                         }
@@ -348,7 +342,7 @@ public final class St03FloodCheckProbe implements ModInitializer {
                                         for (int ddz = -8; ddz <= 8 && !hasWaterNear; ddz++) {
                                             int ns = t.surface(x + ddx, z + ddz);
                                             int nf = t.floor(x + ddx, z + ddz);
-                                            if (ns > nf + 1 && (ns - 1 == 63)) {
+                                            if (ns > nf + 1 && (ns - 1 == 62 || ns - 1 == 63 || ns == 63)) {
                                                 hasWaterNear = true;
                                             }
                                         }

@@ -23,22 +23,28 @@ def load_seed_data(results_dir: Path, commit_sha: str = None, run_id: str = None
         else:
             missing.append(s)
 
-    if missing and run_id:
-        print(f"Downloading artifacts for run {run_id}...")
-        tmp_dir = results_dir / "downloaded"
-        tmp_dir.mkdir(parents=True, exist_ok=True)
-        subprocess.run(["gh", "run", "download", run_id, "--dir", str(tmp_dir)], check=True)
-        for s in missing:
-            p = tmp_dir / f"st03-natural-{s}" / f"results/{s}/flood-summary.json"
-            if not p.exists():
-                p = tmp_dir / f"st03-natural-{s}" / "flood-summary.json"
-            if not p.exists():
-                p = tmp_dir / f"st03-natural-{s}" / f"{s}/flood-summary.json"
-            if p.exists():
-                with open(p, "r", encoding="utf-8") as f:
-                    seed_data[s] = json.load(f)
-            else:
-                # Check check-runs API fallback
+    if missing:
+        sha = commit_sha or os.environ.get("GITHUB_SHA")
+        if not sha:
+            res = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True, check=True)
+            sha = res.stdout.strip()
+        print(f"Fetching check-runs for commit {sha} to load {missing}...")
+        res = subprocess.run(
+            ["gh", "api", f"repos/ItzGamesGD/MoreMinecrafts-Beta/commits/{sha}/check-runs", "--paginate",
+             "--jq", ".check_runs[] | {name: .name, text: .output.text}"],
+            capture_output=True, text=True, check=True
+        )
+        for line in res.stdout.strip().splitlines():
+            if not line:
+                continue
+            try:
+                cr = json.loads(line)
+                name = cr.get("name", "")
+                text = cr.get("text", "")
+                for s in missing:
+                    if f"st03-natural-{s}" in name and text:
+                        seed_data[s] = json.loads(text)
+            except Exception:
                 pass
 
     return seed_data
