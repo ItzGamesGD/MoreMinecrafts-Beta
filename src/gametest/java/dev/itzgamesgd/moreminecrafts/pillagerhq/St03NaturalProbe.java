@@ -394,7 +394,7 @@ public final class St03NaturalProbe implements ModInitializer {
                         if (fixedFail == null) {
                             if (s - sampleY96 > 10) fixedFail = "REJECT_DENSE_CUT";
                             else if (sampleY96 - s > 12) fixedFail = "REJECT_DENSE_SKIRT";
-                            else if (sampleY96 - f > 16) fixedFail = "REJECT_DENSE_FILL";
+                            else if (sampleY96 - f > 16) fixedFail = "REJECT_DENSE_FOOTING_FILL";
                         }
                     }
                 }
@@ -417,7 +417,7 @@ public final class St03NaturalProbe implements ModInitializer {
                 int skirtAtSample = Math.max(0, sampleY96 - min);
                 if (cutAtSample > 10) this.denseVerdict96ReclampY = "REJECT_DENSE_CUT";
                 else if (skirtAtSample > 12 || highS <= highF) this.denseVerdict96ReclampY = "REJECT_DENSE_SKIRT";
-                else this.denseVerdict96ReclampY = "REJECT_DENSE_FILL";
+                else this.denseVerdict96ReclampY = "REJECT_DENSE_FOOTING_FILL";
             }
         }
     }
@@ -431,7 +431,7 @@ public final class St03NaturalProbe implements ModInitializer {
             "REJECT_FOOTING_FILL", 5,
             "REJECT_DENSE_CUT", 6,
             "REJECT_DENSE_SKIRT", 7,
-            "REJECT_DENSE_FILL", 8,
+            "REJECT_DENSE_FOOTING_FILL", 8,
             "ELIGIBLE", 9
     );
 
