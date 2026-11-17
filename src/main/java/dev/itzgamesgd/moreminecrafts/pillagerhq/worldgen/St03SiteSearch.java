@@ -9,16 +9,16 @@ public final class St03SiteSearch {
     public record Site(int originX, int originZ, int dxChunks, int dzChunks, St03Eligibility.Result result) {}
 
     public static Optional<Site> select(St03Eligibility.Terrain terrain, int candidateOriginX, int candidateOriginZ) {
-        return select(terrain, candidateOriginX, candidateOriginZ, site -> site.result().foundationY());
+        return selectWithDenseY(terrain, candidateOriginX, candidateOriginZ, site -> site.result().foundationY());
     }
 
     public static Optional<Site> select(St03Eligibility.Terrain terrain, int candidateOriginX, int candidateOriginZ, Predicate<Site> actualLimits) {
-        return select(terrain, candidateOriginX, candidateOriginZ,
+        return selectWithDenseY(terrain, candidateOriginX, candidateOriginZ,
                 site -> actualLimits.test(site) ? site.result().foundationY() : Integer.MIN_VALUE);
     }
 
-    public static Optional<Site> select(St03Eligibility.Terrain terrain, int candidateOriginX, int candidateOriginZ,
-                                        java.util.function.ToIntFunction<Site> actualFoundationY) {
+    public static Optional<Site> selectWithDenseY(St03Eligibility.Terrain terrain, int candidateOriginX, int candidateOriginZ,
+                                                  java.util.function.ToIntFunction<Site> actualFoundationY) {
         Site best = null;
         int bestScore = Integer.MAX_VALUE;
         int n = St03PlacementConfig.SEARCH_RADIUS_CHUNKS;
