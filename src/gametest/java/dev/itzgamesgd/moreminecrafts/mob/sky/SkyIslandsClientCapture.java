@@ -213,13 +213,18 @@ public final class SkyIslandsClientCapture implements FabricClientGameTest {
 
     // ---- island and tower ------------------------------------------------------------------------------------
 
-    private static void forceChunks(TestDedicatedServerContext server, BoundingBox box) {
-        server.runOnServer(s -> {
-            ServerLevel level = s.overworld();
-            for (int cx = (box.minX() - 16) >> 4; cx <= (box.maxX() + 16) >> 4; cx++)
+    /** Loads the box (plus a one-chunk halo) to FULL one chunk column per server call, so the server thread is never
+     *  blocked long enough for the client's keep-alive to time out (a 155-block island is about 150 chunks). */
+    private static void forceChunks(ClientGameTestContext context, TestDedicatedServerContext server, BoundingBox box) {
+        for (int cx = (box.minX() - 16) >> 4; cx <= (box.maxX() + 16) >> 4; cx++) {
+            final int x = cx;
+            server.runOnServer(s -> {
+                ServerLevel level = s.overworld();
                 for (int cz = (box.minZ() - 16) >> 4; cz <= (box.maxZ() + 16) >> 4; cz++)
-                    level.getChunk(cx, cz, ChunkStatus.FULL, true);
-        });
+                    level.getChunk(x, cz, ChunkStatus.FULL, true);
+            });
+            context.waitTick();
+        }
     }
 
     private static void captureIslandAndTower(ClientGameTestContext context, TestDedicatedServerContext server,
@@ -232,7 +237,7 @@ public final class SkyIslandsClientCapture implements FabricClientGameTest {
             String fam = FAMILIES.get(i);
             Found f = found.get(fam);
             BoundingBox box = f.box();
-            forceChunks(server, box);
+            forceChunks(context, server, box);
             context.waitTicks(60);
             double cx = (box.minX() + box.maxX()) / 2.0, cz = (box.minZ() + box.maxZ()) / 2.0;
             int[] top = {0};
@@ -252,7 +257,7 @@ public final class SkyIslandsClientCapture implements FabricClientGameTest {
         int rotation = SkyTowerWorldgenRegistration.rotationIndex(tf.towerRotation());
         var site = new SkyTowerLayout.Site("minecraft:overworld", origin.getX(), origin.getY(), origin.getZ(), rotation);
         System.out.println("SKY_CAPTURE_TOWER_SITE " + site.id() + " parent=" + tf.start() + " parentBox=" + box);
-        forceChunks(server, box);
+        forceChunks(context, server, box);
         // Let the mod's chunk-load hook configure the tower spawners naturally; nothing is applied by this test.
         context.waitTicks(100);
         server.runOnServer(s -> {

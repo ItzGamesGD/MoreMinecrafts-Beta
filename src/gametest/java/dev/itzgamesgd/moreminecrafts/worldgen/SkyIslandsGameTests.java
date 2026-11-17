@@ -158,7 +158,8 @@ public final class SkyIslandsGameTests implements CustomTestMethodInvoker {
             }
         }
         MoreMinecrafts.LOGGER.info("SKY_POOLS_VERIFIED pools={} elements={}", loadedPools, loadedElements);
-        ctx.assertTrue(loadedPools == 6 * 2 + 3, "expected 15 sky island pools, loaded " + loadedPools);
+        // per style: start, satellite and tower_top (the Sky Tower child pool of the large islands), plus the global ruins/temple/tower_top pools
+        ctx.assertTrue(loadedPools == 6 * 3 + 3, "expected 21 sky island pools, loaded " + loadedPools);
         ctx.succeed();
     }
 
