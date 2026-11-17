@@ -118,7 +118,7 @@ jobs:
           from PIL import Image
           out = Path('docs/captures/sky_islands')
           out.mkdir(parents=True, exist_ok=True)
-          shots = sorted(p for p in Path('.').rglob('sky-islands-*.png') if out not in p.parents)
+          shots = sorted(p for p in Path('.').rglob('*sky-islands-*.png') if out not in p.parents)
           print("found", len(shots))
           for src in shots:
               img = Image.open(src).convert('RGB')

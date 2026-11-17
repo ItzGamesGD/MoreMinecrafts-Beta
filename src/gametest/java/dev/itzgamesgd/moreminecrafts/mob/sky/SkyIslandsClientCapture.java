@@ -57,7 +57,8 @@ public final class SkyIslandsClientCapture implements FabricClientGameTest {
         properties.setProperty("spawn-monsters", "false");
         properties.setProperty("max-tick-time", "-1");
         int[] shot = {0};
-        try (TestDedicatedServerContext server = context.worldBuilder().createServer(properties);
+        try (TestDedicatedServerContext server = context.worldBuilder().setUseConsistentSettings(false)
+                .adjustSettings(st -> st.setSeed(SEED)).createServer(properties);
              TestDedicatedServerConnection connection = server.connect()) {
             context.waitFor(c -> c.player != null && c.level != null);
             context.runOnClient(c -> {
