@@ -15,8 +15,12 @@ import org.spongepowered.asm.mixin.injection.At;
 abstract class T1AccessoryDamageMixin {
     @ModifyExpressionValue(method = "actuallyHurt", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/entity/player/Player;getDamageAfterMagicAbsorb(Lnet/minecraft/world/damagesource/DamageSource;F)F"))
-    private float moreminecrafts$bufferFinalDamage(float amount) {
-        return (Object) this instanceof ServerPlayer player ? T1AccessoryRuntime.bufferDamage(player, amount) : amount;
+    private float moreminecrafts$bufferFinalDamage(float amount,
+            @com.llamalad7.mixinextras.sugar.Local(argsOnly = true) DamageSource source) {
+        if (!((Object) this instanceof ServerPlayer player)) return amount;
+        // Heavy Buffer still sees the unreduced amount; the Feather Charm fall reduction is applied after it.
+        return dev.itzgamesgd.moreminecrafts.accessory.FeatherCharmAbility.reduceFallDamage(player, source,
+                T1AccessoryRuntime.bufferDamage(player, amount));
     }
     @WrapMethod(method = "hurtServer")
     private boolean moreminecrafts$afterActualDamage(ServerLevel level, DamageSource source, float amount, Operation<Boolean> original) {
