@@ -50,7 +50,10 @@ public final class St03NaturalProbe implements ModInitializer {
             Map<String,Object> result=new LinkedHashMap<>();long start=System.nanoTime();Path dir=Path.of(output);
             result.put("head_sha",System.getenv("GITHUB_SHA"));result.put("run_id",System.getenv("GITHUB_RUN_ID"));result.put("seed",server.overworld().getSeed());
             try {
-                scan(server.overworld(),dir,result);
+                Files.createDirectories(dir);
+                String saved=System.getProperty("mm.st03.natural.scan");
+                if(saved==null)scan(server.overworld(),dir,result);
+                else restoreScan(server.overworld(),Path.of(saved),result);
                 Files.writeString(dir.resolve("scan.json"),JSON.toJson(result));
                 if(Boolean.getBoolean("mm.st03.natural.scanOnly")) {
                     result.put("scope","actual_start_scan_only");result.put("full_generation_status","NOT RUN");
@@ -65,6 +68,21 @@ public final class St03NaturalProbe implements ModInitializer {
                 session=new Session(server,dir,result,start);
             } catch(Throwable t) {writeAndExit(server,dir,result,start,t);}
         });
+    }
+    @SuppressWarnings("unchecked") private static void restoreScan(ServerLevel level,Path source,Map<String,Object> result) throws Exception {
+        if(!(level.getChunkSource().getGenerator() instanceof NoiseBasedChunkGenerator))throw new AssertionError("Runtime revalidation requires normal noise world");
+        Map<String,Object> saved=JSON.fromJson(Files.readString(source),Map.class);
+        if(((Number)saved.get("seed")).longValue()!=level.getSeed()||((Number)saved.get("potential_candidates")).intValue()!=2601)
+            throw new AssertionError("Saved scan seed/region suite mismatch");
+        if(((Number)saved.get("spacing")).intValue()!=66||((Number)saved.get("separation")).intValue()!=22)
+            throw new AssertionError("Saved scan must use approved 66/22");
+        if(!saved.containsKey("actual_column_gate_site_checks")||((Number)saved.get("dense_heightmap_parity_columns")).intValue()!=768)
+            throw new AssertionError("Runtime replay requires a completed full-column-policy placement scan");
+        if(Boolean.getBoolean("mm.st03.natural.scanOnly"))throw new AssertionError("Saved scans are for full runtime revalidation only");
+        Object head=result.get("head_sha"),run=result.get("run_id");result.putAll(saved);
+        result.put("source_scan_head",saved.get("head_sha"));result.put("source_scan_run",saved.get("run_id"));
+        result.put("head_sha",head);result.put("run_id",run);result.put("scope","fresh_world_runtime_revalidation_from_saved_start_scan");
+        LoggerFactory.getLogger("st03-natural-v2").info("ST03_NATURAL_GENERATOR seed={} class={} source_scan_run={}",level.getSeed(),level.getChunkSource().getGenerator().getClass().getName(),saved.get("run_id"));
     }
     @SuppressWarnings("unchecked") private static void writeCapturePlan(Path dir,Map<String,Object> result) throws Exception {
         var starts=(List<Map<String,Object>>)result.get("starts");
@@ -206,6 +224,9 @@ public final class St03NaturalProbe implements ModInitializer {
             var modules=actual.getPieces().stream().filter(p->p instanceof St03AssemblyPiece).map(p->(St03AssemblyPiece)p).toList();
             if(modules.size()!=34||actual.getPieces().size()!=35)throw new AssertionError("Terrain correction plus 34 unchanged modules required");
             BlockPos origin=modules.getFirst().compoundOrigin();int chunks=0,maxRadius=0;
+            if(origin.getX()!=((Number)target.get("origin_x")).intValue()||origin.getY()!=((Number)target.get("foundation_y")).intValue()
+                    ||origin.getZ()!=((Number)target.get("origin_z")).intValue()||!modules.getFirst().compoundRotation().name().equals(target.get("rotation")))
+                throw new AssertionError("Fresh chunk pipeline start differs from recorded placement scan");
             var rs=level.getChunkSource().randomState();var gen=level.getChunkSource().getGenerator();
             Map<Long,St03TerrainColumns.Columns> dense=new HashMap<>();
             java.util.function.BiFunction<Integer,Integer,St03TerrainColumns.Columns> column=(x,z)->dense.computeIfAbsent(new ChunkPos(x>>4,z>>4).pack(),
@@ -219,10 +240,13 @@ public final class St03NaturalProbe implements ModInitializer {
             if(maxRadius>8)throw new AssertionError("Structure exceeds vanilla reference radius");
             hq=St03HeadquartersData.get(level).instances().get(new ChunkPos(cx,cz).pack());
             if(hq==null||hq.origin==null||!hq.origin.equals(origin))throw new AssertionError("Completion did not record natural HQ origin");
-            int unsupported=0,wet=0,airBelow=0,waterBelow=0,planks=0;
+            int unsupported=0,wet=0,airBelow=0,waterBelow=0,planks=0;List<Map<String,Object>> badColumns=new ArrayList<>();
             for(int x=origin.getX();x<origin.getX()+112;x++)for(int z=origin.getZ();z<origin.getZ()+112;z++) {
                 var block=level.getBlockState(new BlockPos(x,origin.getY()-1,z));
                 if(!block.isSolidRender())unsupported++;if(!block.getFluidState().isEmpty())wet++;
+                if((!block.isSolidRender()||!block.getFluidState().isEmpty())&&badColumns.size()<16)
+                    badColumns.add(Map.of("x",x,"y",origin.getY()-1,"z",z,"block",block.toString(),
+                            "base_surface",column.apply(x,z).surfaceAt(x,z),"base_floor",column.apply(x,z).floorAt(x,z)));
                 for(int dy=1;dy<=16;dy++) {
                     var below=level.getBlockState(new BlockPos(x,origin.getY()-dy,z));
                     if(below.isAir())airBelow++;if(!below.getFluidState().isEmpty())waterBelow++;
@@ -235,6 +259,7 @@ public final class St03NaturalProbe implements ModInitializer {
             current.put("actual_columns_checked",actualLimits.columnsChecked());
             current.put("full_chunks_generated",chunks);current.put("max_chunk_radius",maxRadius);current.put("support_plane_columns",112*112);
             current.put("unsupported_columns",unsupported);current.put("wet_columns",wet);current.put("current_air_cells_below_1_16",airBelow);current.put("current_water_cells_below_1_16",waterBelow);
+            current.put("bad_support_columns",badColumns);
             current.put("placed_spruce_planks_above_foundation",planks);current.put("overlaps",overlaps(actual,hq.box));
             if(unsupported!=0||wet!=0||planks==0)throw new AssertionError("Natural template placement/support validation failed: "+current);
         }

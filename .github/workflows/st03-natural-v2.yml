@@ -22,9 +22,14 @@ on:
         type: choice
         default: all
         options: [all, '10079', '10033', '10148', '10137', '10142', '10039', '10135', '10061', '314159265', '867530926']
+      source_run:
+        description: 'Optional completed start-survey run: reuse its scan for fresh-world runtime revalidation'
+        type: string
+        default: ''
 permissions:
   contents: read
   checks: write
+  actions: read
 jobs:
   inspect:
     runs-on: ubuntu-latest
@@ -72,6 +77,14 @@ jobs:
       - uses: actions/setup-java@v5
         with: {distribution: temurin, java-version: '25'}
       - uses: gradle/actions/setup-gradle@v4
+      - name: Download a completed placement scan for runtime-only revalidation
+        if: inputs.source_run != ''
+        uses: actions/download-artifact@v4
+        with:
+          name: st03-natural-${{ matrix.seed }}
+          path: build/st03-natural/source-download
+          run-id: ${{ inputs.source_run }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Real normal-world starts and full chunk placement
         run: bash tools/st03-natural-v2/run.sh '${{ matrix.seed }}' '${{ inputs.full_generation }}'
       - name: Publish actual generation evidence

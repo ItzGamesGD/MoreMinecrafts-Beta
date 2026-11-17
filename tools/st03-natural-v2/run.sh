@@ -20,7 +20,13 @@ max-tick-time=-1
 sync-chunk-writes=false
 enable-status=false
 PROPS
-JAVA_TOOL_OPTIONS="-Xmx4G -Dmm.st03.natural.out=$out -Dmm.st03.natural.scanOnly=$([ "$full" = true ] && echo false || echo true)" timeout 6600 ./gradlew runSt03NaturalProbe --no-daemon --max-workers=2 2>&1 | tee "$out/probe.log"
+scan_option=''
+if [ -d build/st03-natural/source-download ]; then
+ scan=$(find "$PWD/build/st03-natural/source-download" -name scan.json -print -quit)
+ test -n "$scan"
+ scan_option="-Dmm.st03.natural.scan=$scan"
+fi
+JAVA_TOOL_OPTIONS="-Xmx4G -Dmm.st03.natural.out=$out -Dmm.st03.natural.scanOnly=$([ "$full" = true ] && echo false || echo true) $scan_option" timeout 6600 ./gradlew runSt03NaturalProbe --no-daemon --max-workers=2 2>&1 | tee "$out/probe.log"
 python3 - "$out/result.json" <<'PY'
 import json,sys
 p=json.load(open(sys.argv[1]));assert p['status']=='PASS',p.get('error')
@@ -37,5 +43,6 @@ for hq in p['full_generation']:
  assert hq['unsupported_columns']==0 and hq['wet_columns']==0
  assert hq['completion_record_created'] and hq['defenders_first_proximity']==40
  assert hq['max_chunk_radius']<=8
+ assert hq['actual_columns_checked']==12544 and hq['actual_max_cut']<=10 and hq['actual_max_skirt']<=12 and hq['actual_max_footing_fill']<=16
 print('PASS: actual starts, unchanged templates, full chunks and support plane')
 PY
