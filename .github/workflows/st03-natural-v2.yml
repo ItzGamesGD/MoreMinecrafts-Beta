@@ -1,0 +1,129 @@
+name: ST-03 V2 Natural Placement
+on:
+  push:
+    branches: [codex/st03-v2-natural-placement-20261116]
+    paths: ['src/**', 'tools/st03-natural-v2/**', '.github/workflows/st03-natural-v2.yml', 'build.gradle']
+  workflow_dispatch:
+    inputs:
+      measure:
+        description: 'Run the complete 10-seed actual-start survey'
+        type: boolean
+        default: true
+      full_generation:
+        description: 'Also validate full chunks, completion and first proximity (requires production terrain wiring)'
+        type: boolean
+        default: true
+      spider_diagnostic:
+        description: 'Isolate the CI-blocking Spider Colony test fixtures with diagnostic logging'
+        type: boolean
+        default: false
+      single_seed:
+        description: 'all runs the required suite; one seed is available for focused runtime diagnostics'
+        type: choice
+        default: all
+        options: [all, '10079', '10033', '10148', '10137', '10142', '10039', '10135', '10061', '314159265', '867530926']
+      source_run:
+        description: 'Optional completed start-survey run: reuse its scan for fresh-world runtime revalidation'
+        type: string
+        default: ''
+permissions:
+  contents: read
+  checks: write
+  actions: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-java@v5
+        with: {distribution: temurin, java-version: '25'}
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Compile production and probe, run unit tests
+        shell: bash
+        run: |
+          mkdir -p build/st03-natural/inspect
+          set +e
+          ./gradlew test compileGametestJava --no-daemon --max-workers=2 2>&1 | tee build/st03-natural/inspect/build.log
+          result=${PIPESTATUS[0]}
+          if [ "$result" -eq 0 ]; then echo '{"status":"PASS"}' > build/st03-natural/inspect/result.json; fi
+          exit "$result"
+      - name: Inspect engine structure gate
+        if: always()
+        run: python3 tools/st03-natural-v2/inspect.py
+      - name: Publish build evidence
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/st03-natural-v2/publish.py build/st03-natural/inspect inspect
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: st03-natural-inspect
+          path: build/st03-natural/inspect/
+  measure:
+    if: github.event_name == 'workflow_dispatch' && inputs.measure
+    needs: inspect
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        seed: ${{ fromJSON((inputs.single_seed || 'all') == 'all' && '[10079,10033,10148,10137,10142,10039,10135,10061,314159265,867530926]' || format('[{0}]', inputs.single_seed)) }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-java@v5
+        with: {distribution: temurin, java-version: '25'}
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Download a completed placement scan for runtime-only revalidation
+        if: inputs.source_run != ''
+        uses: actions/download-artifact@v4
+        with:
+          name: st03-natural-${{ matrix.seed }}
+          path: build/st03-natural/source-download
+          run-id: ${{ inputs.source_run }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Real normal-world starts and full chunk placement
+        run: bash tools/st03-natural-v2/run.sh '${{ matrix.seed }}' '${{ inputs.full_generation }}'
+      - name: Publish actual generation evidence
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/st03-natural-v2/publish.py 'build/st03-natural/results/${{ matrix.seed }}' '${{ matrix.seed }}'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: st03-natural-${{ matrix.seed }}
+          path: build/st03-natural/results/
+          retention-days: 30
+  spider-diagnostic:
+    if: github.event_name == 'workflow_dispatch' && inputs.spider_diagnostic
+    needs: inspect
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-java@v5
+        with: {distribution: temurin, java-version: '25'}
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Run only Spider Colony fixtures with boundary diagnostics
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('src/gametest/resources/fabric.mod.json');d=json.loads(p.read_text())
+          d['entrypoints']['fabric-gametest']=['dev.itzgamesgd.moreminecrafts.spidercolony.SpiderColonyGameTests']
+          p.write_text(json.dumps(d,indent=2)+'\n')
+          PY
+          mkdir -p build/st03-natural
+          set -o pipefail
+          JAVA_TOOL_OPTIONS='-Dmm.spider.fixture.diagnostics=true' ./gradlew runGameTest --no-daemon --max-workers=2 2>&1 | tee build/st03-natural/spider-diagnostic.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: st03-ci-spider-diagnostic
+          path: build/st03-natural/spider-diagnostic.log

@@ -71,6 +71,13 @@ loom {
             runDir = "build/st01-p8a-probe/run"
             ideConfigGenerated false
         }
+        st03NaturalProbe {
+            server()
+            name = "ST-03 V2 Natural Placement Probe"
+            source sourceSets.gametest
+            runDir = "build/st03-natural/run"
+            ideConfigGenerated false
+        }
         // ST-01 P8-C2-B natural worldgen validation probe (tools/st01-p8c2b/run_validation.sh); inert unless -Dmm.st01.c2b.out is set; not part of check/build/CI.
         st01C2BProbe {
             server()
