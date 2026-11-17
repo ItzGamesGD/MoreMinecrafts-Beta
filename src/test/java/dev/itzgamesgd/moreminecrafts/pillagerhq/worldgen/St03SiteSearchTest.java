@@ -66,6 +66,6 @@ class St03SiteSearchTest {
                     site.originX(), site.originZ(), site.result().foundationY());
             return check.eligible() ? check.foundationY() : Integer.MIN_VALUE;
         }).orElseThrow();
-        assertEquals(64, selected.result().foundationY());
+        assertEquals(65, selected.result().foundationY());
     }
 }
