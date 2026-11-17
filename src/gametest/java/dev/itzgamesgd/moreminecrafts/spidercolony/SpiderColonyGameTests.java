@@ -27,13 +27,25 @@ public final class SpiderColonyGameTests {
   var mother=ctx.spawn(SpiderColonyEntities.MOTHER,new net.minecraft.core.BlockPos(2,3,2));
   var target=ctx.spawn(net.minecraft.world.entity.EntityTypes.ZOMBIE,new net.minecraft.core.BlockPos(7,3,2));
   mother.setNoAi(true); mother.setNoGravity(true); target.setNoAi(true); target.setNoGravity(true); mother.setTarget(target);
+  target.setInvulnerable(true); // Keep the combat fixture alive through both cooldowns, including daylight.
+  // Juveniles are ordinary monsters: a nearby player prevents vanilla hard distance despawn,
+  // matching the already-fixed Tomb Guardian summon fixture without changing production rules.
+  var cookie=net.minecraft.server.network.CommonListenerCookie.createInitial(
+    new com.mojang.authlib.GameProfile(java.util.UUID.randomUUID(),"spider-cap-anchor"),false);
+  var anchor=new net.minecraft.server.level.ServerPlayer(level.getServer(),level,cookie.gameProfile(),cookie.clientInformation());
+  var connection=new net.minecraft.network.Connection(net.minecraft.network.protocol.PacketFlow.SERVERBOUND);
+  new io.netty.channel.embedded.EmbeddedChannel(connection);
+  level.getServer().getPlayerList().placeNewPlayer(connection,anchor,cookie);
+  anchor.setGameMode(net.minecraft.world.level.GameType.CREATIVE);
+  var position=ctx.absoluteVec(new net.minecraft.world.phys.Vec3(8.5,3,8.5));
+  anchor.teleportTo(position.x,position.y,position.z);
   ctx.runAfterDelay(310,()-> {
    int count=SpiderColonyEntities.data(level).childCount(mother.getUUID());
    ctx.assertTrue(count>0 && count<=2,"first cycle must create at most two juveniles; got "+count);
    ctx.runAfterDelay(320,()-> {
     int later=SpiderColonyEntities.data(level).childCount(mother.getUUID());
     ctx.assertTrue(later<=4,"simultaneous summon cap exceeded: "+later);
-    mother.discard(); target.discard(); ctx.succeed();
+    mother.discard(); target.discard(); level.getServer().getPlayerList().remove(anchor); ctx.succeed();
    });
   });
  }
