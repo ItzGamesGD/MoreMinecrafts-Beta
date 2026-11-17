@@ -496,6 +496,9 @@ public final class St03NaturalProbe implements ModInitializer {
         int stageAValidCount = 0;
         int stageAYUnchangedInAB = 0;
         int stageAYChangedInAB = 0;
+        int stageABetterOffsetSelectedInAB = 0;
+        int stageAAllPassingOffsetsChecked = 0;
+        int stageAAllPassingOffsetsYChanged = 0;
         int baselineValidCount = 0;
         int baselineSameSiteInABC = 0;
         int baselineSameSiteYUnchangedInABC = 0;
@@ -538,7 +541,13 @@ public final class St03NaturalProbe implements ModInitializer {
                         for (int dz = -2; dz <= 2; dz++) {
                             OffsetEval oe = new OffsetEval(fastCache, baseOx + dx * 16, baseOz + dz * 16, dx, dz);
                             if ("ELIGIBLE".equals(oe.sampleVerdict112)) oe.ensureDense112(fastCache);
-                            if ("ELIGIBLE".equals(oe.sampleVerdict96W5) || "ELIGIBLE".equals(oe.sampleVerdict96W15)) oe.ensureDense96(fastCache);
+                            if ("ELIGIBLE".equals(oe.sampleVerdict96W5) || "ELIGIBLE".equals(oe.sampleVerdict96W15)) {
+                                oe.ensureDense96(fastCache);
+                                if ("ELIGIBLE".equals(oe.denseVerdict96FixedY)) {
+                                    stageAAllPassingOffsetsChecked++;
+                                    if (oe.reclampY96 != oe.sampleY96) stageAAllPassingOffsetsYChanged++;
+                                }
+                            }
                             grid[dx + 2][dz + 2] = oe;
                         }
                     }
@@ -587,12 +596,15 @@ public final class St03NaturalProbe implements ModInitializer {
                     // Stage B Y-invariance checks
                     if (bestSite[1] != null) {
                         stageAValidCount++;
-                        // At the exact site selected by Stage A, check if Stage B recomputation keeps Y identical
-                        if (bestSite[1].reclampY96 == bestSite[1].sampleY96 && bestSite[2] != null
-                                && bestSite[2].dx == bestSite[1].dx && bestSite[2].dz == bestSite[1].dz && bestY[2] == bestY[1]) {
+                        // 1) At the exact site selected by Stage A, Stage B recomputation must NEVER change Y
+                        if (bestSite[1].reclampY96 == bestSite[1].sampleY96) {
                             stageAYUnchangedInAB++;
                         } else {
                             stageAYChangedInAB++;
+                        }
+                        // 2) Also check if Stage B rescued a lower-score (better) offset within the same N=2 neighborhood
+                        if (bestSite[2] != null && (bestSite[2].dx != bestSite[1].dx || bestSite[2].dz != bestSite[1].dz)) {
+                            stageABetterOffsetSelectedInAB++;
                         }
                     }
                     if (bestSite[0] != null) {
@@ -742,6 +754,9 @@ public final class St03NaturalProbe implements ModInitializer {
         stageBVerification.put("stageA_valid_count", stageAValidCount);
         stageBVerification.put("stageA_y_unchanged_in_AB", stageAYUnchangedInAB);
         stageBVerification.put("stageA_y_changed_in_AB", stageAYChangedInAB);
+        stageBVerification.put("stageA_better_offset_selected_in_AB", stageABetterOffsetSelectedInAB);
+        stageBVerification.put("stageA_all_passing_offsets_checked", stageAAllPassingOffsetsChecked);
+        stageBVerification.put("stageA_all_passing_offsets_y_changed", stageAAllPassingOffsetsYChanged);
         stageBVerification.put("baseline_valid_count", baselineValidCount);
         stageBVerification.put("baseline_same_site_in_ABC", baselineSameSiteInABC);
         stageBVerification.put("baseline_same_site_y_unchanged_in_ABC", baselineSameSiteYUnchangedInABC);
@@ -777,8 +792,9 @@ public final class St03NaturalProbe implements ModInitializer {
 
         if (potential != 2601 || starts.isEmpty())
             throw new AssertionError("Incomplete suite or no actual starts");
-        if (stageAYChangedInAB != 0)
-            throw new AssertionError("Stage B changed foundationY on an already-passing Stage A site! changed=" + stageAYChangedInAB);
+        if (stageAYChangedInAB != 0 || stageAAllPassingOffsetsYChanged != 0)
+            throw new AssertionError("Stage B changed foundationY on an already-passing Stage A site! changed="
+                    + stageAYChangedInAB + ", allOffsetsChanged=" + stageAAllPassingOffsetsYChanged);
 
         Map<String, Long> denseCounts = new LinkedHashMap<>();
         St03HeadquartersStructure.ACTUAL_COLUMN_COUNTS.forEach((v, n) -> denseCounts.put(v.name(), n.get() - before.get(v)));
