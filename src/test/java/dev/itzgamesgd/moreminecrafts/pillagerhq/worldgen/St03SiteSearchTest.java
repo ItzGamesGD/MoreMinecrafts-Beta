@@ -58,7 +58,7 @@ class St03SiteSearchTest {
         var biomes = terrain(Set.of("14,14"), false);
         var t = new St03Eligibility.Terrain() {
             public int surfaceHeight(int x, int z) { return x == 9 && z == 9 ? 75 : (x == 10 && z == 10 ? 53 : 64); }
-            public int oceanFloorHeight(int x, int z) { return 50; }
+            public int oceanFloorHeight(int x, int z) { return surfaceHeight(x, z); }
             public boolean isEligibleBiomeCell(int x, int y, int z) { return biomes.isEligibleBiomeCell(x, y, z); }
         };
         var selected = St03SiteSearch.selectWithDenseY(t, 0, 0, site -> {
@@ -66,6 +66,6 @@ class St03SiteSearchTest {
                     site.originX(), site.originZ(), site.result().foundationY());
             return check.eligible() ? check.foundationY() : Integer.MIN_VALUE;
         }).orElseThrow();
-        assertEquals(65, selected.result().foundationY());
+        assertEquals(64, selected.result().foundationY());
     }
 }
