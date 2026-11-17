@@ -48,11 +48,13 @@ public final class St03NaturalClientCapture implements FabricClientGameTest {
             props.setProperty("level-type","minecraft:normal");props.setProperty("generate-structures","true");props.setProperty("spawn-protection","0");
             props.setProperty("view-distance","10");props.setProperty("simulation-distance","6");props.setProperty("max-tick-time","-1");
             props.setProperty("spawn-monsters","false");props.setProperty("spawn-animals","false");
+            // Send the intended view distance in the login client information, before connecting.
+            context.runOnClient(c->c.options.renderDistance().set(10));
             try(TestDedicatedServerContext server=context.worldBuilder().setUseConsistentSettings(false)
                     .adjustSettings(settings->settings.setSeed(Long.toString(seed))).createServer(props);
                 TestDedicatedServerConnection connection=server.connect()) {
                 context.waitFor(c->c.player!=null&&c.level!=null);
-                context.runOnClient(c->{if(!c.gui.hud.isHidden())c.gui.hud.toggle();c.gui.toastManager().clear();c.options.fov().set(85);c.options.renderDistance().set(10);});
+                context.runOnClient(c->{if(!c.gui.hud.isHidden())c.gui.hud.toggle();c.gui.toastManager().clear();c.options.fov().set(85);});
                 server.runOnServer(s->{
                     if(!(s.overworld().getChunkSource().getGenerator() instanceof NoiseBasedChunkGenerator)||s.overworld().getSeed()!=seed)
                         throw new AssertionError("Capture requires the surveyed seed and NoiseBasedChunkGenerator");
@@ -105,6 +107,8 @@ public final class St03NaturalClientCapture implements FabricClientGameTest {
                         natural.put("hq_id",hq.id());natural.put("structure_completed",hq.structureCompleted);natural.put("first_proximity_defenders",count);
                         natural.put("all_49_chunks_entity_ticking_before_proximity",true);
                         s.getPlayerList().getPlayers().getFirst().setGameMode(GameType.SPECTATOR);
+                        s.tickRateManager().setFrozen(true);
+                        System.out.println("ST03_CAPTURE_READY "+hq.id()+" origin="+origin+" defenders="+count);
                     });
                     for(var view:VIEWS) {
                         String name="st03-natural-"+index+"-"+view.name();
@@ -114,6 +118,7 @@ public final class St03NaturalClientCapture implements FabricClientGameTest {
                     }
                     server.runOnServer(s->{
                         var p=s.getPlayerList().getPlayers().getFirst();p.teleportTo(s.overworld(),0,200,0,Set.of(),0,0,true);
+                        s.tickRateManager().setFrozen(false);
                         for(int x=origin.getX()>>4;x<=(origin.getX()+111)>>4;x++)for(int z=origin.getZ()>>4;z<=(origin.getZ()+111)>>4;z++)s.overworld().setChunkForced(x,z,false);
                     });
                 }
@@ -131,7 +136,16 @@ public final class St03NaturalClientCapture implements FabricClientGameTest {
         float yaw=(float)Math.toDegrees(Math.atan2(-(tx-x),tz-z));float pitch=(float)-Math.toDegrees(Math.atan2(ty-(y+1.62),Math.hypot(tx-x,tz-z)));
         server.runOnServer(s->s.getPlayerList().getPlayers().getFirst().teleportTo(s.overworld(),x,y,z,Set.of(),yaw,pitch,true));
         context.waitFor(c->c.player.position().distanceTo(new Vec3(x,y,z))<0.6,400);
-        connection.waitForChunksDownload();context.waitTicks(view.name().equals("exterior")?100:40);connection.waitForClientboundPackets();
+        // The Fabric helper requests a complete view-distance square, while the server can send a rounded view.
+        // Require every actual HQ chunk and the camera's immediate terrain, then wait for received meshes to render.
+        context.waitFor(c->{
+            for(int cx=origin.getX()>>4;cx<=(origin.getX()+111)>>4;cx++)for(int cz=origin.getZ()>>4;cz<=(origin.getZ()+111)>>4;cz++)
+                if(c.level.getChunk(cx,cz,ChunkStatus.FULL,false)==null)return false;
+            int cx=((int)Math.floor(x))>>4,cz=((int)Math.floor(z))>>4;
+            for(int dx=-1;dx<=1;dx++)for(int dz=-1;dz<=1;dz++)if(c.level.getChunk(cx+dx,cz+dz,ChunkStatus.FULL,false)==null)return false;
+            return true;
+        },2400);
+        int renderTicks=connection.waitForChunksRender(false,2400);connection.waitForClientboundPackets();
         context.runOnClient(c->c.gui.toastManager().clear());context.waitTicks(10);
         boolean eyeClear=context.computeOnClient(c->c.level.getBlockState(BlockPos.containing(c.player.getEyePosition())).isAir());
         if(!eyeClear)throw new AssertionError("Capture camera inside solid block: "+name);
@@ -139,6 +153,7 @@ public final class St03NaturalClientCapture implements FabricClientGameTest {
         if(size[0]!=1280||size[1]!=720)throw new AssertionError("Native screenshot must be 1280x720, got "+Arrays.toString(size));
         Path screenshot=context.takeScreenshot(name);Files.copy(screenshot,out.resolve(name+".png"),java.nio.file.StandardCopyOption.REPLACE_EXISTING);
         Map<String,Object> row=new LinkedHashMap<>();row.put("name",name);row.put("file",name+".png");row.put("feet",List.of(x,y,z));row.put("yaw",yaw);row.put("pitch",pitch);row.put("eye_air",true);
+        row.put("hq_chunks_downloaded",49);row.put("render_wait_ticks",renderTicks);row.put("server_frozen_for_photography",true);
         return row;
     }
 }

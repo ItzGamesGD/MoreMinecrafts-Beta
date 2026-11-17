@@ -60,12 +60,12 @@ public final class St03TerrainCorrectionPiece extends StructurePiece {
                 if(!level.getBlockState(pos.set(x,y,z)).isAir()) {level.setBlock(pos,Blocks.AIR.defaultBlockState(),2);cleared++;}
             }
             if(fy>=floor && fy<=ceiling && !level.getBlockState(pos.set(x,fy,z)).isSolidRender()) {
-                level.setBlock(pos,Blocks.DIRT.defaultBlockState(),2);filled++;
+                level.setBlock(pos,Blocks.COBBLESTONE.defaultBlockState(),2);filled++;
             }
             for(int y=fy-1;y>=floor;y--) {
                 if(level.getBlockState(pos.set(x,y,z)).isSolidRender())break;
-                // Air and water both become support, using dirt already present in the approved ground assets.
-                level.setBlock(pos,Blocks.DIRT.defaultBlockState(),2);filled++;
+                // Use the approved ground palette's masonry: vanilla springs can replace dirt after structures.
+                level.setBlock(pos,Blocks.COBBLESTONE.defaultBlockState(),2);filled++;
             }
         }
         return new Changes(cleared,filled);

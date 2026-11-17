@@ -136,7 +136,17 @@ public final class SpiderColonyGameTests {
   var phase=new java.util.concurrent.atomic.AtomicInteger();
   var motherId=new java.util.concurrent.atomic.AtomicReference<java.util.UUID>();
   var children=new java.util.ArrayList<java.util.UUID>();
+  net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents.ENTITY_UNLOAD.register((entity,world)-> {
+   if(children.contains(entity.getUUID())||entity.getUUID().equals(motherId.get()))
+    System.out.println("SPIDER_RELOAD_UNLOAD phase="+phase.get()+" type="+entity.getType()+" uuid="+entity.getUUID()+" reason="+entity.getRemovalReason());
+  });
   ctx.onEachTick(()-> {
+   if(ctx.getTick()%100==0) {
+    int visible=0;for(var id:children)if(level.getEntity(id)!=null)visible++;
+    System.out.println("SPIDER_RELOAD tick="+ctx.getTick()+" phase="+phase.get()+" entitiesLoaded="+level.areEntitiesLoaded(chunk.pack())
+     +" motherPresent="+(motherId.get()!=null&&level.getEntity(motherId.get())!=null)+" visibleChildren="+visible
+     +" ledger="+(motherId.get()==null?-1:SpiderColonyEntities.data(level).childCount(motherId.get())));
+   }
    switch(phase.get()) {
     case 0 -> {
      if(!level.areEntitiesLoaded(chunk.pack()))return;
