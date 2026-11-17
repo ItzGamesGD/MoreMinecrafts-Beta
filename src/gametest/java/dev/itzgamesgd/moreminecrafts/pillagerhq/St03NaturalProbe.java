@@ -144,8 +144,9 @@ public final class St03NaturalProbe implements ModInitializer {
                     valid++;if(common)commonValid++;
                     String vbId;
                     {int vx=generated.getBoundingBox().getCenter().getX(),vz=generated.getBoundingBox().getCenter().getZ();
-                     var vt=new St03HeadquartersStructure.GeneratorTerrain(new Structure.GenerationContext(level.registryAccess(),gen,gen.getBiomeSource(),sampler,rs,level.getStructureTemplateManager(),level.getSeed(),cp,level,structure.biomes()::contains));
-                     var vb=gen.getBiomeSource().getNoiseBiome(Math.floorDiv(vx,4),Math.floorDiv(vt.surfaceHeight(vx,vz)-3,4),Math.floorDiv(vz,4),sampler);
+                     var vctx=new Structure.GenerationContext(level.registryAccess(),gen,gen.getBiomeSource(),sampler,rs,level.getStructureTemplateManager(),level.getSeed(),cp,level,structure.biomes()::contains);
+                     var vt=new St03HeadquartersStructure.GeneratorTerrain(vctx);
+                     var vb=vctx.biomeResolver().getNoiseBiome(Math.floorDiv(vx,4),Math.floorDiv(vt.surfaceHeight(vx,vz)-3,4),Math.floorDiv(vz,4));
                      vbId=vb.unwrapKey().map(k->k.identifier().toString()).orElse("unknown");
                      validByCenterBiome.merge(vbId,1,Integer::sum);}
                     var first=generated.getPieces().stream().filter(p->p instanceof St03AssemblyPiece).map(p->(St03AssemblyPiece)p).findFirst().orElseThrow();
