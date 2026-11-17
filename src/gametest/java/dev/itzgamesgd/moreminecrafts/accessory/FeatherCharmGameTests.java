@@ -3,7 +3,11 @@ package dev.itzgamesgd.moreminecrafts.accessory;
 import java.lang.reflect.Method;
 import net.fabricmc.fabric.api.gametest.v1.CustomTestMethodInvoker;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.phys.Vec3;
 
@@ -92,5 +96,34 @@ public final class FeatherCharmGameTests implements CustomTestMethodInvoker {
 
     @Override public void invokeTestMethod(GameTestHelper ctx, Method method) throws ReflectiveOperationException {
         method.invoke(this, ctx);
+    }
+
+    /** Stalagmite damage: same percent table as fall damage, but one reduction per 10 second cooldown. */
+    @GameTest public void stalagmiteReductionFollowsTheTableAndIsLimitedByTheTenSecondCooldown(GameTestHelper ctx) {
+        var player = T1AccessoryGameTests.player(ctx);
+        T1AccessoryGameTests.equip(player, AccessoryDefinition.FEATHER_CHARM, 10);
+        var key = ResourceKey.create(Registries.DAMAGE_TYPE, Identifier.withDefaultNamespace("stalagmite"));
+        var holder = ctx.getLevel().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(key);
+        DamageSource stalagmite = new DamageSource(holder);
+        ctx.assertTrue(FeatherCharmAbility.isCooldownSource(stalagmite), "stalagmite uses the cooldown path");
+
+        player.setHealth(20);
+        player.setInvulnerableTime(0);
+        player.hurtServer(ctx.getLevel(), stalagmite, RAW_FALL);
+        float first = 20 - player.getHealth();
+        ctx.assertTrue(Math.abs(first - RAW_FALL * 0.35F) < 0.01F, "first stalagmite hit reduced by +10 table: " + first);
+        ctx.assertTrue(AccessoryCooldownRuntime.remaining(player, AccessoryDefinition.FEATHER_CHARM) == 200, "10 second cooldown started");
+
+        player.setHealth(20);
+        player.setInvulnerableTime(0);
+        player.hurtServer(ctx.getLevel(), stalagmite, RAW_FALL);
+        ctx.assertTrue(Math.abs((20 - player.getHealth()) - RAW_FALL) < 0.001F, "second hit inside the cooldown is unreduced");
+
+        for (int i = 0; i < 200; i++) AccessoryCooldownRuntime.tick(player);
+        player.setHealth(20);
+        player.setInvulnerableTime(0);
+        player.hurtServer(ctx.getLevel(), stalagmite, RAW_FALL);
+        ctx.assertTrue(Math.abs((20 - player.getHealth()) - RAW_FALL * 0.35F) < 0.01F, "reduced again after the cooldown");
+        ctx.succeed();
     }
 }

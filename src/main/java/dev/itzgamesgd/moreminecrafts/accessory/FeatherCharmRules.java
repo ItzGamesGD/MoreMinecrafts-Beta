@@ -22,7 +22,13 @@ public final class FeatherCharmRules {
     public static final List<Double> FALL_DAMAGE_REDUCTION_PERCENT =
             List.of(40d, 45d, 45d, 50d, 50d, 55d, 55d, 60d, 60d, 65d, 65d);
 
-    /** Owner-decided: no cooldown at any level. */
+    /**
+     * Owner-decided (2026-11-17): ender pearl and stalactite/stalagmite damage use the same percent table, but the
+     * reduction for those sources is limited by a 10 second cooldown (200 ticks). Vanilla fall damage has no cooldown.
+     */
+    public static final long NON_FALL_COOLDOWN_TICKS = 200L;
+
+    /** Owner-decided: no cooldown at any level for vanilla fall damage. */
     public static final List<Double> COOLDOWN_TICKS =
             List.of(0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d);
 
