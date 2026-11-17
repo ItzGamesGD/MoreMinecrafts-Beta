@@ -68,7 +68,7 @@ public final class St03Eligibility {
                 floorMin = Math.min(floorMin, f);
             }
         }
-        if (100L * water > (long) St03PlacementConfig.MAX_WATER_PERCENT * heights.length)
+        if (!withinWaterLimit(water, heights.length))
             return reject(Verdict.REJECT_WATER);
         Arrays.sort(heights);
         int min = heights[0], max = heights[224], median = heights[112];
@@ -90,5 +90,9 @@ public final class St03Eligibility {
     public static int nearestRank(int[] sorted, double fraction) {
         if (sorted.length == 0) throw new IllegalArgumentException("Empty height population");
         return sorted[Math.max(0, (int) Math.ceil(sorted.length * fraction) - 1)];
+    }
+
+    static boolean withinWaterLimit(int water, int samples) {
+        return samples > 0 && 100L * water <= (long) St03PlacementConfig.MAX_WATER_PERCENT * samples;
     }
 }

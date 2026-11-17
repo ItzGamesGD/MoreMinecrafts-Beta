@@ -156,7 +156,7 @@ public final class St03NaturalProbe implements ModInitializer {
             current.put("hq_id",hq.id());current.put("committed_chunks",hq.committedChunks.size());
             if(defenders!=40)throw new AssertionError("Natural first proximity must spawn 40 defenders, got "+defenders);
             Map<String,Integer> types=new TreeMap<>();
-            for(Mob mob:level.getEntitiesOfClass(Mob.class,new AABB(hq.box).inflate(32),this::ownsDefender))
+            for(Mob mob:level.getEntitiesOfClass(Mob.class,new AABB(hq.box.minX(),hq.box.minY(),hq.box.minZ(),hq.box.maxX()+1,hq.box.maxY()+1,hq.box.maxZ()+1).inflate(32),this::ownsDefender))
                 types.merge(net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(mob.getType()).toString(),1,Integer::sum);
             current.put("defender_types",types);verified.add(current);
             player.setGameMode(GameType.SPECTATOR);player.teleportTo(0,200,0);
@@ -167,7 +167,7 @@ public final class St03NaturalProbe implements ModInitializer {
             return mob.isAlive()&&mob.entityTags().contains(St03GarrisonManager.TAG_HQ_PREFIX+hq.id())
                     &&!mob.entityTags().contains(St03GarrisonManager.TAG_PRISONER);
         }
-        int defenders(){return level.getEntitiesOfClass(Mob.class,new AABB(hq.box).inflate(32),this::ownsDefender).size();}
+        int defenders(){return level.getEntitiesOfClass(Mob.class,new AABB(hq.box.minX(),hq.box.minY(),hq.box.minZ(),hq.box.maxX()+1,hq.box.maxY()+1,hq.box.maxZ()+1).inflate(32),this::ownsDefender).size();}
         void prepare() {
             var target=targets.get(index);int cx=((Number)target.get("candidate_chunk_x")).intValue(),cz=((Number)target.get("candidate_chunk_z")).intValue();
             var structure=level.registryAccess().lookupOrThrow(Registries.STRUCTURE).getValue(St03Worldgen.STRUCTURE_ID);

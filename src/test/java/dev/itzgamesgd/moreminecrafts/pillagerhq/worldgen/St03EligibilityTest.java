@@ -58,6 +58,13 @@ class St03EligibilityTest {
         assertTrue(t.evaluate().eligible());
         t.floors[11]=62;assertEquals(St03Eligibility.Verdict.REJECT_WATER,t.evaluate().verdict());
     }
+    @Test void exactlyFivePercentWaterIsInclusive() {
+        assertTrue(St03Eligibility.withinWaterLimit(5,100));
+        assertTrue(St03Eligibility.withinWaterLimit(1,20));
+        assertFalse(St03Eligibility.withinWaterLimit(6,100));
+        assertFalse(St03Eligibility.withinWaterLimit(1,19));
+        assertFalse(St03Eligibility.withinWaterLimit(0,0));
+    }
     @Test void oneBlockWaterRetainsMeasuredDefinition() {
         Terrain t=new Terrain();Arrays.fill(t.floors,63);assertTrue(t.evaluate().eligible());
     }

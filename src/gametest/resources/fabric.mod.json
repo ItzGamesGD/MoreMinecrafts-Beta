@@ -125,6 +125,7 @@
       "dev.itzgamesgd.moreminecrafts.mob.pyramid.PyramidMobGameTests"
     ],
     "fabric-client-gametest": [
+      "dev.itzgamesgd.moreminecrafts.pillagerhq.St03NaturalClientCapture",
       "dev.itzgamesgd.moreminecrafts.colosseum.St05Stage1dClientScenario",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01p8a.St01P8AClientCaptureTest",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01p8a.St01P8ARecaptureTest",
