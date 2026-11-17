@@ -14,7 +14,7 @@ d['entrypoints']['fabric-client-gametest']=['dev.itzgamesgd.moreminecrafts.pilla
 p.write_text(json.dumps(d,indent=2)+'\n')
 PY
 export LIBGL_ALWAYS_SOFTWARE=1 MESA_LOADER_DRIVER_OVERRIDE=llvmpipe
-export JAVA_TOOL_OPTIONS="-Xmx2G -Dmm.st03.capture.plan=$plan -Dmm.st03.capture.out=$out"
+export JAVA_TOOL_OPTIONS="-Xmx4G -Dmm.st03.capture.plan=$plan -Dmm.st03.capture.out=$out"
 icd=$(find /usr/share/vulkan/icd.d -name 'lvp_icd*.json' -print -quit)
 if [[ -n "$icd" ]]; then export VK_ICD_FILENAMES="$icd"; fi
 xvfb-run -a -s '-screen 0 1600x1000x24 +extension GLX +render -noreset' bash -euo pipefail -c '

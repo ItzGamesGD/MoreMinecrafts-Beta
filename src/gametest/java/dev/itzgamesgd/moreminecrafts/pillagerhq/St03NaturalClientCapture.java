@@ -134,7 +134,13 @@ public final class St03NaturalClientCapture implements FabricClientGameTest {
         double x=origin.getX()+at[0]+0.5,y=origin.getY()+view.y(),z=origin.getZ()+at[1]+0.5;
         double tx=origin.getX()+look[0]+0.5,ty=origin.getY()+view.ty(),tz=origin.getZ()+look[1]+0.5;
         float yaw=(float)Math.toDegrees(Math.atan2(-(tx-x),tz-z));float pitch=(float)-Math.toDegrees(Math.atan2(ty-(y+1.62),Math.hypot(tx-x,tz-z)));
-        server.runOnServer(s->s.getPlayerList().getPlayers().getFirst().teleportTo(s.overworld(),x,y,z,Set.of(),yaw,pitch,true));
+        server.runOnServer(s->{
+            s.tickRateManager().setFrozen(false);
+            int cx=((int)Math.floor(x))>>4,cz=((int)Math.floor(z))>>4;
+            // Prepare the photographic surroundings before freezing, including ordinary terrain outside the HQ.
+            for(int dx=-12;dx<=12;dx++)for(int dz=-12;dz<=12;dz++)s.overworld().getChunk(cx+dx,cz+dz,ChunkStatus.FULL);
+            s.getPlayerList().getPlayers().getFirst().teleportTo(s.overworld(),x,y,z,Set.of(),yaw,pitch,true);
+        });
         context.waitFor(c->c.player.position().distanceTo(new Vec3(x,y,z))<0.6,400);
         // The Fabric helper requests a complete view-distance square, while the server can send a rounded view.
         // Require every actual HQ chunk and the camera's immediate terrain, then wait for received meshes to render.
@@ -142,10 +148,21 @@ public final class St03NaturalClientCapture implements FabricClientGameTest {
             for(int cx=origin.getX()>>4;cx<=(origin.getX()+111)>>4;cx++)for(int cz=origin.getZ()>>4;cz<=(origin.getZ()+111)>>4;cz++)
                 if(c.level.getChunk(cx,cz,ChunkStatus.FULL,false)==null)return false;
             int cx=((int)Math.floor(x))>>4,cz=((int)Math.floor(z))>>4;
-            for(int dx=-1;dx<=1;dx++)for(int dz=-1;dz<=1;dz++)if(c.level.getChunk(cx+dx,cz+dz,ChunkStatus.FULL,false)==null)return false;
+            for(int dx=-9;dx<=9;dx++)for(int dz=-9;dz<=9;dz++)
+                if(dx*dx+dz*dz<=81&&c.level.getChunk(cx+dx,cz+dz,ChunkStatus.FULL,false)==null)return false;
             return true;
         },2400);
-        int renderTicks=connection.waitForChunksRender(false,2400);connection.waitForClientboundPackets();
+        connection.waitForClientboundPackets();context.waitTicks(100);
+        int renderTicks=connection.waitForChunksRender(false,2400);
+        server.runOnServer(s->{
+            var level=s.overworld();int unsupported=0,wet=0;
+            for(int bx=origin.getX();bx<origin.getX()+112;bx++)for(int bz=origin.getZ();bz<origin.getZ()+112;bz++) {
+                var support=level.getBlockState(new BlockPos(bx,origin.getY()-1,bz));
+                if(!support.isSolidRender())unsupported++;if(!support.getFluidState().isEmpty())wet++;
+            }
+            if(unsupported!=0||wet!=0)throw new AssertionError("Photographic neighbors changed HQ support: "+unsupported+" unsupported, "+wet+" wet");
+            s.tickRateManager().setFrozen(true);
+        });
         context.runOnClient(c->c.gui.toastManager().clear());context.waitTicks(10);
         boolean eyeClear=context.computeOnClient(c->c.level.getBlockState(BlockPos.containing(c.player.getEyePosition())).isAir());
         if(!eyeClear)throw new AssertionError("Capture camera inside solid block: "+name);
