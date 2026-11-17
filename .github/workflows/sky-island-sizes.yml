@@ -224,7 +224,7 @@ jobs:
           git commit -m "docs(captures): sky islands client captures from run ${GITHUB_RUN_NUMBER}"
           for i in 1 2 3 4; do
             git fetch origin claude/sky-island-sizes-20261117
-            git rebase origin/claude/sky-island-sizes-20261117 && git push origin HEAD:claude/sky-island-sizes-20261117 && exit 0
+            git rebase -X theirs origin/claude/sky-island-sizes-20261117 && git push origin HEAD:claude/sky-island-sizes-20261117 && exit 0
             sleep $((i*3))
           done
           exit 1
