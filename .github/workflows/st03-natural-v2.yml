@@ -17,6 +17,11 @@ on:
         description: 'Isolate the CI-blocking Spider Colony test fixtures with diagnostic logging'
         type: boolean
         default: false
+      single_seed:
+        description: 'all runs the required suite; one seed is available for focused runtime diagnostics'
+        type: choice
+        default: all
+        options: [all, '10079', '10033', '10148', '10137', '10142', '10039', '10135', '10061', '314159265', '867530926']
 permissions:
   contents: read
   checks: write
@@ -60,7 +65,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        seed: [10079, 10033, 10148, 10137, 10142, 10039, 10135, 10061, 314159265, 867530926]
+        seed: ${{ fromJSON((inputs.single_seed || 'all') == 'all' && '[10079,10033,10148,10137,10142,10039,10135,10061,314159265,867530926]' || format('[{0}]', inputs.single_seed)) }}
     steps:
       - uses: actions/checkout@v4
         with: {persist-credentials: false}

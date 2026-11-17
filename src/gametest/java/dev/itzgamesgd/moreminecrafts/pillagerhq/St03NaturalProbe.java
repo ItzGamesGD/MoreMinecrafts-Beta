@@ -57,6 +57,11 @@ public final class St03NaturalProbe implements ModInitializer {
                     result.put("full_generation_reason","Standalone start survey; full terrain/completion validation runs separately");
                     writeCapturePlan(dir,result);writeAndExit(server,dir,result,start,null);return;
                 }
+                if(server.overworld().getSeed()==10079) {
+                    long testStart=System.nanoTime();
+                    result.put("normal_world_terrain_gametest",St03TerrainGameTests.verifyCorrectionFixture(server.overworld(),new BlockPos(400000,240,400000)));
+                    result.put("normal_world_terrain_gametest_seconds",(System.nanoTime()-testStart)/1e9);
+                }
                 session=new Session(server,dir,result,start);
             } catch(Throwable t) {writeAndExit(server,dir,result,start,t);}
         });

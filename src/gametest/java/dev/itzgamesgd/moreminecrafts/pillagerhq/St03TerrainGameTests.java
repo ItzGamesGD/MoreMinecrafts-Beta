@@ -13,34 +13,46 @@ import net.minecraft.world.level.levelgen.structure.BoundingBox;
 
 public final class St03TerrainGameTests {
     @GameTest public void chunkClippedCutFillWaterAndOutsideSentinels(GameTestHelper helper) {
-        var level=helper.getLevel();BlockPos origin=new BlockPos(400000,80,400000);
+        verifyCorrectionFixture(helper.getLevel(),new BlockPos(400000,80,400000));helper.succeed();
+    }
+    /** The normal dedicated-server probe also runs this same GameTest fixture in its NoiseBased world. */
+    public static java.util.Map<String,Object> verifyCorrectionFixture(net.minecraft.server.level.ServerLevel level,BlockPos origin) {
+        int fy=origin.getY();
         for(int x=-1;x<=112;x++)for(int z=-1;z<=112;z++) {
             level.getChunk((origin.getX()+x)>>4,(origin.getZ()+z)>>4);
-            for(int y=74;y<=85;y++) {
-                var state=y<=75?Blocks.STONE.defaultBlockState():x<40?Blocks.STONE.defaultBlockState():Blocks.WATER.defaultBlockState();
-                level.setBlock(origin.offset(x,y-80,z),state,2);
+            for(int dy=-17;dy<=9;dy++) {
+                var state=dy==-17||x<40?Blocks.STONE.defaultBlockState():Blocks.WATER.defaultBlockState();
+                level.setBlock(origin.offset(x,dy,z),state,2);
             }
         }
+        level.setBlock(origin.offset(111,-17,111),Blocks.DIAMOND_BLOCK.defaultBlockState(),2);
+        level.setBlock(origin.offset(0,11,0),Blocks.EMERALD_BLOCK.defaultBlockState(),2);
         List<ChunkPos> chunks=new ArrayList<>();
         for(int x=origin.getX()>>4;x<=(origin.getX()+111)>>4;x++)for(int z=origin.getZ()>>4;z<=(origin.getZ()+111)>>4;z++)chunks.add(new ChunkPos(x,z));
         Collections.reverse(chunks);
         for(var cp:chunks) {
             BoundingBox box=new BoundingBox(cp.getMinBlockX(),level.getMinY(),cp.getMinBlockZ(),cp.getMaxBlockX(),level.getMaxY(),cp.getMaxBlockZ());
-            St03TerrainCorrectionPiece.correct(level,box,origin,64,90,(x,z)->86);
+            St03TerrainCorrectionPiece.correct(level,box,origin,fy-16,fy+10,(x,z)->fy+10);
         }
         for(int x=0;x<112;x++)for(int z=0;z<112;z++) {
-            helper.assertTrue(level.getBlockState(origin.offset(x,0,z)).isSolidRender(),"Foundation missing");
-            helper.assertTrue(level.getBlockState(origin.offset(x,-1,z)).isSolidRender(),"Water/air below foundation");
-            helper.assertTrue(level.getBlockState(origin.offset(x,1,z)).isAir(),"Natural hill or water left above foundation");
+            require(level.getBlockState(origin.offset(x,0,z)).isSolidRender(),"Foundation missing");
+            for(int dy=1;dy<=16;dy++)require(level.getBlockState(origin.offset(x,-dy,z)).isSolidRender(),"Water/air in allowed foundation fill");
+            for(int dy=1;dy<=9;dy++)require(level.getBlockState(origin.offset(x,dy,z)).isAir(),"Natural hill or water left above foundation");
         }
-        for(int i=-1;i<=112;i++) {
-            helper.assertTrue(level.getBlockState(origin.offset(-1,1,i)).is(Blocks.STONE),"West footprint boundary modified");
-            helper.assertTrue(level.getBlockState(origin.offset(112,1,i)).is(Blocks.WATER),"East footprint boundary modified");
-            helper.assertTrue(!level.getBlockState(origin.offset(i,1,-1)).isAir(),"North footprint boundary modified");
-            helper.assertTrue(!level.getBlockState(origin.offset(i,1,112)).isAir(),"South footprint boundary modified");
+        int checked=0;
+        for(int i=-1;i<=112;i++)for(int dy=-16;dy<=9;dy++) {
+            require(level.getBlockState(origin.offset(-1,dy,i)).is(Blocks.STONE),"West footprint boundary modified");
+            require(level.getBlockState(origin.offset(112,dy,i)).is(Blocks.WATER),"East footprint boundary modified");
+            var expected=i<40?Blocks.STONE:Blocks.WATER;
+            require(level.getBlockState(origin.offset(i,dy,-1)).is(expected),"North footprint boundary modified");
+            require(level.getBlockState(origin.offset(i,dy,112)).is(expected),"South footprint boundary modified");checked+=4;
         }
-        helper.succeed();
+        require(level.getBlockState(origin.offset(111,-17,111)).is(Blocks.DIAMOND_BLOCK),"Fill exceeded 16 blocks");
+        require(level.getBlockState(origin.offset(0,11,0)).is(Blocks.EMERALD_BLOCK),"Cut exceeded 10 blocks");
+        return java.util.Map.of("status","PASS","generator",level.getChunkSource().getGenerator().getClass().getName(),
+                "origin",List.of(origin.getX(),fy,origin.getZ()),"columns",12544,"outside_checks",checked,"cut_limit",10,"fill_limit",16);
     }
+    private static void require(boolean condition,String message){if(!condition)throw new AssertionError(message);}
     @GameTest public void approvedTemplateBoxesStayInsideFootprintInEveryRotation(GameTestHelper helper) {
         var templates=helper.getLevel().getStructureTemplateManager();
         ChunkPos start=new ChunkPos(-25003,25007);int farthest=0;
