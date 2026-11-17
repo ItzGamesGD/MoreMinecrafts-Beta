@@ -180,7 +180,7 @@ public final class St03TerrainGameTests {
                 origin.getX() + 128, level.getMaxY(), origin.getZ() + 128);
         for (var piece : builder.build().pieces()) {
             piece.postProcess(level, level.structureManager(), level.getChunkSource().getGenerator(),
-                    level.getRandom(), totalBox, new ChunkPos(origin), origin);
+                    level.getRandom(), totalBox, new ChunkPos(origin.getX() >> 4, origin.getZ() >> 4), origin);
         }
 
         for (int i = -1; i <= 112; i++) {

@@ -246,7 +246,9 @@ public final class St03FloodCheckProbe implements ModInitializer {
                         sampleFy = site.result().heightDifference(); // placeholder or sample Y
                         dx = site.dxChunks();
                         dz = site.dzChunks();
-                        rotation = St03AssemblyPlacement.selectRotation(level.registryAccess(), seed, cp);
+                        var rand = new net.minecraft.world.level.levelgen.WorldgenRandom(new net.minecraft.world.level.levelgen.LegacyRandomSource(0L));
+                        rand.setLargeFeatureSeed(seed, cp.x(), cp.z());
+                        rotation = Rotation.getRandom(rand);
                     } else {
                         evalX = candidateOriginX;
                         evalZ = candidateOriginZ;
@@ -504,8 +506,8 @@ public final class St03FloodCheckProbe implements ModInitializer {
         long allWaterNot63_96 = allRows.stream().mapToLong(CandidateFloodRow::waterYNot63_96).sum();
         long allWaterNot63_112 = allRows.stream().mapToLong(CandidateFloodRow::waterYNot63_112).sum();
 
-        summary.put("hypothesis_1_water_height", Map.of(
-                "passing_starts", Map.of(
+        summary.put("hypothesis_1_water_height", map(
+                "passing_starts", map(
                         "total_starts", passingRows.size(),
                         "starts_with_water_96", passingRows.stream().filter(r -> r.waterCols96() > 0).count(),
                         "starts_with_water_112", passingRows.stream().filter(r -> r.waterCols112() > 0).count(),
@@ -518,7 +520,7 @@ public final class St03FloodCheckProbe implements ModInitializer {
                         "water_y_min_across_starts_112", passingRows.stream().filter(r -> r.waterCols112() > 0).mapToInt(CandidateFloodRow::waterYMin112).min().orElse(63),
                         "water_y_max_across_starts_112", passingRows.stream().filter(r -> r.waterCols112() > 0).mapToInt(CandidateFloodRow::waterYMax112).max().orElse(63)
                 ),
-                "all_candidates", Map.of(
+                "all_candidates", map(
                         "total_candidates", allRows.size(),
                         "candidates_with_water_96", allRows.stream().filter(r -> r.waterCols96() > 0).count(),
                         "candidates_with_water_112", allRows.stream().filter(r -> r.waterCols112() > 0).count(),
@@ -531,7 +533,7 @@ public final class St03FloodCheckProbe implements ModInitializer {
         ));
 
         // Hypothesis 2: Interior water ingress after generation
-        summary.put("hypothesis_2_interior_ingress", Map.of(
+        summary.put("hypothesis_2_interior_ingress", map(
                 "targets_tested", liveGenerationVerifications.size(),
                 "total_interior_water_blocks", totalInteriorWaterBlocksObserved,
                 "verdict", totalInteriorWaterBlocksObserved == 0 ? "CONFIRMED_NO_FLOODING" : "FLOODING_DETECTED",
@@ -544,7 +546,7 @@ public final class St03FloodCheckProbe implements ModInitializer {
         long passTotalDryFloodRiskCols = passingRows.stream().mapToLong(CandidateFloodRow::dryGroundFloodRisk8b_112).sum();
         long allCandidatesDryFloodRisk = allRows.stream().filter(r -> r.dryGroundFloodRisk8b_112() > 0).count();
 
-        summary.put("hypothesis_3_dry_ground_adjacent_water", Map.of(
+        summary.put("hypothesis_3_dry_ground_adjacent_water", map(
                 "passing_starts_with_dry_ground_below_63", passStartsDryBelow63,
                 "passing_starts_with_water_within_8b", passStartsDryFloodRisk,
                 "passing_total_dry_flood_risk_cols", passTotalDryFloodRiskCols,
@@ -557,13 +559,13 @@ public final class St03FloodCheckProbe implements ModInitializer {
         long passTotalBoundaryCutCols = passingRows.stream().mapToLong(CandidateFloodRow::boundaryWaterTouchCutTotal).sum();
         long passGatehouseWaterContact = passingRows.stream().filter(CandidateFloodRow::gatehouseWaterContact).count();
 
-        summary.put("hypothesis_4_boundary_cut_contact", Map.of(
+        summary.put("hypothesis_4_boundary_cut_contact", map(
                 "code_cut_footprint", "112x112",
                 "code_water_handling", "cleared_to_air_from_fy_plus_1_to_top",
                 "passing_starts_with_boundary_water_touch_cut", passStartsBoundaryWaterCut,
                 "passing_total_boundary_water_cut_cols", passTotalBoundaryCutCols,
                 "passing_starts_with_gatehouse_water_contact", passGatehouseWaterContact,
-                "cut_contact_by_edge", Map.of(
+                "cut_contact_by_edge", map(
                         "north", passingRows.stream().mapToLong(CandidateFloodRow::boundaryWaterTouchCutN).sum(),
                         "south", passingRows.stream().mapToLong(CandidateFloodRow::boundaryWaterTouchCutS).sum(),
                         "west", passingRows.stream().mapToLong(CandidateFloodRow::boundaryWaterTouchCutW).sum(),
@@ -574,5 +576,13 @@ public final class St03FloodCheckProbe implements ModInitializer {
 
         summary.put("elapsed_seconds", (System.nanoTime() - started) / 1e9);
         summary.put("csv_file", "flood-candidates.csv");
+    }
+
+    private static Map<String, Object> map(Object... kvs) {
+        Map<String, Object> m = new LinkedHashMap<>();
+        for (int i = 0; i < kvs.length; i += 2) {
+            m.put(String.valueOf(kvs[i]), kvs[i + 1]);
+        }
+        return m;
     }
 }
