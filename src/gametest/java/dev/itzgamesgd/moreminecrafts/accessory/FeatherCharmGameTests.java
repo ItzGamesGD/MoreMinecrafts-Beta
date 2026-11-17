@@ -25,19 +25,20 @@ public final class FeatherCharmGameTests implements CustomTestMethodInvoker {
     }
 
     @GameTest public void fallDamageReductionFollowsTheEnhancementTableAtEveryLevel(GameTestHelper ctx) {
-        var player = T1AccessoryGameTests.player(ctx);
-        ctx.assertTrue(Math.abs(fallLoss(ctx, player) - RAW_FALL) < 0.001F, "no charm: unreduced fall damage");
+        // One fresh player per measurement: vanilla damage cooldown state would otherwise swallow a second hit in the same tick.
+        ctx.assertTrue(Math.abs(fallLoss(ctx, T1AccessoryGameTests.player(ctx)) - RAW_FALL) < 0.001F, "no charm: unreduced fall damage");
         for (int level = 0; level <= 10; level++) {
+            var player = T1AccessoryGameTests.player(ctx);
             T1AccessoryGameTests.equip(player, AccessoryDefinition.FEATHER_CHARM, level);
             float expected = (float) (RAW_FALL * (1 - FeatherCharmRules.FALL_DAMAGE_REDUCTION_PERCENT.get(level) / 100));
             float loss = fallLoss(ctx, player);
             ctx.assertTrue(Math.abs(loss - expected) < 0.01F, "+" + level + " fall loss " + loss + " expected " + expected);
         }
         // Only fall damage is reduced.
-        player.setHealth(20);
-        player.setInvulnerableTime(0);
-        player.hurtServer(ctx.getLevel(), ctx.getLevel().damageSources().generic(), RAW_FALL);
-        ctx.assertTrue(Math.abs(20 - player.getHealth() - RAW_FALL) < 0.001F, "non-fall damage unchanged");
+        var other = T1AccessoryGameTests.player(ctx);
+        T1AccessoryGameTests.equip(other, AccessoryDefinition.FEATHER_CHARM, 10);
+        other.hurtServer(ctx.getLevel(), ctx.getLevel().damageSources().generic(), RAW_FALL);
+        ctx.assertTrue(Math.abs(20 - other.getHealth() - RAW_FALL) < 0.001F, "non-fall damage unchanged");
         ctx.succeed();
     }
 
