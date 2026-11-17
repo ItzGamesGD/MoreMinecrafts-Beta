@@ -39,9 +39,15 @@ class St03SiteSearchTest {
         }
     }
     @Test void rejectsTheBestUnsampledCliffAndUsesTheNextMeasuredCandidate() {
-        var t=terrain(Set.of("10,14","14,18"),false);
+        var biomes=terrain(Set.of("10,14","14,18"),false);
+        var t=new St03Eligibility.Terrain() {
+            public int surfaceHeight(int x,int z){return x==-15&&z==1?75:64;}
+            public int oceanFloorHeight(int x,int z){return 64;}
+            public boolean isEligibleBiomeCell(int x,int y,int z){return biomes.isEligibleBiomeCell(x,y,z);}
+        };
         var first=St03SiteSearch.select(t,0,0).orElseThrow();assertEquals(-1,first.dxChunks());
-        var next=St03SiteSearch.select(t,0,0,site->site.dxChunks()!=-1).orElseThrow();
+        var next=St03SiteSearch.select(t,0,0,site->St03FullTerrainCheck.evaluate(t::surfaceHeight,t::oceanFloorHeight,
+                site.originX(),site.originZ(),site.result().foundationY()).eligible()).orElseThrow();
         assertEquals(0,next.dxChunks());assertEquals(1,next.dzChunks());
         assertTrue(St03SiteSearch.select(t,0,0,site->false).isEmpty());
     }

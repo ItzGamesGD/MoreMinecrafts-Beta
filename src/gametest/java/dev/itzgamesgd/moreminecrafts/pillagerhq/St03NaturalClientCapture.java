@@ -82,7 +82,12 @@ public final class St03NaturalClientCapture implements FabricClientGameTest {
                     });
                     boolean complete=false;
                     for(int n=0;n<80&&!complete;n++) {
-                        context.waitTicks(5);complete=server.computeOnServer(s->{var hq=St03HeadquartersData.get(s.overworld()).instances().get(startKey);return hq!=null&&hq.structureCompleted;});
+                        context.waitTicks(5);complete=server.computeOnServer(s->{
+                            var level=s.overworld();var hq=St03HeadquartersData.get(level).instances().get(startKey);if(hq==null||!hq.structureCompleted)return false;
+                            for(int x=origin.getX()>>4;x<=(origin.getX()+111)>>4;x++)for(int z=origin.getZ()>>4;z<=(origin.getZ()+111)>>4;z++)
+                                if(!level.areEntitiesLoaded(new ChunkPos(x,z).pack())||!level.isPositionEntityTicking(new BlockPos(x*16+8,origin.getY(),z*16+8)))return false;
+                            return true;
+                        });
                     }
                     if(!complete)throw new AssertionError("Natural completion hook did not finish "+cx+","+cz);
                     server.runOnServer(s->{
@@ -98,6 +103,7 @@ public final class St03NaturalClientCapture implements FabricClientGameTest {
                                 &&m.entityTags().contains(St03GarrisonManager.TAG_HQ_PREFIX+hq.id())&&!m.entityTags().contains(St03GarrisonManager.TAG_PRISONER)).size();
                         if(!hq.garrisonInitialized||count!=40)throw new AssertionError("First natural proximity defenders="+count);
                         natural.put("hq_id",hq.id());natural.put("structure_completed",hq.structureCompleted);natural.put("first_proximity_defenders",count);
+                        natural.put("all_49_chunks_entity_ticking_before_proximity",true);
                         s.getPlayerList().getPlayers().getFirst().setGameMode(GameType.SPECTATOR);
                     });
                     for(var view:VIEWS) {

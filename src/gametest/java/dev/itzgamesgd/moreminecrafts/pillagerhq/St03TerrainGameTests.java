@@ -18,8 +18,10 @@ public final class St03TerrainGameTests {
     /** The normal dedicated-server probe also runs this same GameTest fixture in its NoiseBased world. */
     public static java.util.Map<String,Object> verifyCorrectionFixture(net.minecraft.server.level.ServerLevel level,BlockPos origin) {
         int fy=origin.getY();
+        // Finish neighboring feature generation before installing the disposable fixture/sentinels.
+        for(int x=(origin.getX()-1)>>4;x<=(origin.getX()+112)>>4;x++)
+            for(int z=(origin.getZ()-1)>>4;z<=(origin.getZ()+112)>>4;z++)level.getChunk(x,z);
         for(int x=-1;x<=112;x++)for(int z=-1;z<=112;z++) {
-            level.getChunk((origin.getX()+x)>>4,(origin.getZ()+z)>>4);
             for(int dy=-17;dy<=9;dy++) {
                 var state=dy==-17||x<40?Blocks.STONE.defaultBlockState():Blocks.WATER.defaultBlockState();
                 level.setBlock(origin.offset(x,dy,z),state,2);

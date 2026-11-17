@@ -55,6 +55,7 @@ public final class SpiderColonyGameTests {
    child.discard();
    System.out.println("SPIDER_FIXTURE tick="+ctx.getTick()+" motherTicks="+mother.tickCount+" motherPos="+mother.position()
     +" motherAlive="+mother.isAlive()+" motherTicking="+level.isPositionEntityTicking(mother.blockPosition())
+    +" motherHealth="+mother.getHealth()+" motherRemoved="+mother.getRemovalReason()+" anchorRemoved="+anchor.getRemovalReason()
     +" targetTicks="+target.tickCount+" targetAlive="+target.isAlive()+" targetHealth="+target.getHealth()+" targetTicking="+level.isPositionEntityTicking(target.blockPosition())
     +" currentTarget="+mother.getTarget()+" cooldown="+state.buildResult().getIntOr("colony_cooldown",-1)
     +" children="+SpiderColonyEntities.data(level).childCount(mother.getUUID())+" sturdy="+floor+" dry="+empty+" collisionFree="+clear);

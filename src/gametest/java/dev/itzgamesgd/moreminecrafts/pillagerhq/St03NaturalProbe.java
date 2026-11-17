@@ -167,6 +167,10 @@ public final class St03NaturalProbe implements ModInitializer {
             if(phase==0) {prepare();phase=1;ticks=0;return;}
             if(phase==1) {
                 if(hq==null||!hq.structureCompleted)return;
+                int ready=0;
+                for(var cp:forced)if(level.areEntitiesLoaded(cp.pack())&&level.isPositionEntityTicking(new BlockPos(cp.getMinBlockX()+8,hq.origin.getY(),cp.getMinBlockZ()+8)))ready++;
+                current.put("entity_ticking_chunks_before_proximity",ready);
+                if(ready!=forced.size())return;
                 if(hq.garrisonInitialized||defenders()!=0)throw new AssertionError("Garrison spawned before first proximity");
                 current.put("completion_record_created",true);current.put("structure_completed",true);current.put("pre_proximity_defenders",0);
                 player.setGameMode(GameType.SURVIVAL);player.getAbilities().invulnerable=true;player.onUpdateAbilities();
@@ -175,8 +179,12 @@ public final class St03NaturalProbe implements ModInitializer {
             }
             if(!hq.garrisonInitialized)return;
             int defenders=defenders();current.put("garrison_initialized",true);current.put("defenders_first_proximity",defenders);
+            current.putIfAbsent("first_entity_observation",defenders);current.put("entity_observation_ticks",ticks);
             current.put("hq_id",hq.id());current.put("committed_chunks",hq.committedChunks.size());
-            if(defenders!=40)throw new AssertionError("Natural first proximity must spawn 40 defenders, got "+defenders);
+            if(defenders!=40) {
+                if(ticks<40)return;
+                throw new AssertionError("Natural first proximity must spawn 40 defenders, got "+defenders+"; ready chunks="+current.get("entity_ticking_chunks_before_proximity"));
+            }
             Map<String,Integer> types=new TreeMap<>();
             for(Mob mob:level.getEntitiesOfClass(Mob.class,new AABB(hq.box.minX(),hq.box.minY(),hq.box.minZ(),hq.box.maxX()+1,hq.box.maxY()+1,hq.box.maxZ()+1).inflate(32),this::ownsDefender))
                 types.merge(net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(mob.getType()).toString(),1,Integer::sum);
@@ -222,6 +230,7 @@ public final class St03NaturalProbe implements ModInitializer {
                 for(int dy=1;dy<=26;dy++)if(level.getBlockState(new BlockPos(x,origin.getY()+dy,z)).is(net.minecraft.world.level.block.Blocks.SPRUCE_PLANKS))planks++;
             }
             current=new LinkedHashMap<>(target);current.put("actual_start_valid",true);current.put("assembly_pieces",modules.size());current.put("total_pieces",actual.getPieces().size());
+            result.put("current_target",current);
             current.put("actual_max_cut",actualLimits.cut());current.put("actual_max_skirt",actualLimits.skirt());current.put("actual_max_footing_fill",actualLimits.footingFill());
             current.put("actual_columns_checked",actualLimits.columnsChecked());
             current.put("full_chunks_generated",chunks);current.put("max_chunk_radius",maxRadius);current.put("support_plane_columns",112*112);
@@ -246,6 +255,7 @@ public final class St03NaturalProbe implements ModInitializer {
             if(error==null) {
                 try {
                     server.getPlayerList().remove(player);server.saveEverything(true,true,true);result.put("world_saved",true);
+                    result.remove("current_target");
                     writeCapturePlan(dir,result);result.put("full_generation_status","PASS");
                 }catch(Throwable t){error=t;}
             }
