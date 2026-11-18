@@ -34,4 +34,18 @@ class St03FullTerrainCheckTest {
         }, (x, z) -> 64, -160, 32, 64);
         assertEquals(St03FullTerrainCheck.Verdict.CUT, r.verdict()); assertEquals(9216, r.columnsChecked());
     }
+    @Test void detectsBoundaryWaterCutContactOnAllFourEdgesAndGatehouse() {
+        // Dry land or water below foundationY+1 (surface <= foundationY+1) does not trigger rejection
+        assertFalse(St03FullTerrainCheck.hasBoundaryWaterCutContact((x, z) -> 63, (x, z) -> 63, 0, 0, 62));
+        assertFalse(St03FullTerrainCheck.hasBoundaryWaterCutContact((x, z) -> 63, (x, z) -> 55, 0, 0, 62));
+        // Water with surface >= foundationY+2 (top water block y = s-1 >= foundationY+1) on North, South (gatehouse), West, East
+        assertTrue(St03FullTerrainCheck.hasBoundaryWaterCutContact(
+                (x, z) -> (x == 50 && z == -1) ? 63 : 64, (x, z) -> (x == 50 && z == -1) ? 58 : 64, 0, 0, 61));
+        assertTrue(St03FullTerrainCheck.hasBoundaryWaterCutContact(
+                (x, z) -> (x == 55 && z == 112) ? 63 : 64, (x, z) -> (x == 55 && z == 112) ? 58 : 64, 0, 0, 61));
+        assertTrue(St03FullTerrainCheck.hasBoundaryWaterCutContact(
+                (x, z) -> (x == -1 && z == 40) ? 63 : 64, (x, z) -> (x == -1 && z == 40) ? 58 : 64, 0, 0, 61));
+        assertTrue(St03FullTerrainCheck.hasBoundaryWaterCutContact(
+                (x, z) -> (x == 112 && z == 80) ? 63 : 64, (x, z) -> (x == 112 && z == 80) ? 58 : 64, 0, 0, 61));
+    }
 }

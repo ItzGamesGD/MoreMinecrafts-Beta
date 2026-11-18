@@ -648,10 +648,12 @@ public final class St03NaturalProbe implements ModInitializer {
                             level.getStructureTemplateManager(), level.getSeed(), cp, 0, level, structure.biomes()::contains);
                     prodScanNs += (System.nanoTime() - tProd0);
 
-                    // Verify production Structure.generate matches Stage 4 (A+B+C)
-                    if (generated.isValid() != (bestSite[3] != null)) {
-                        throw new AssertionError("Production Structure.generate mismatch vs Stage 4 (A+B+C) at " + cp
-                                + ": generated=" + generated.isValid() + ", stage4=" + (bestSite[3] != null));
+                    // Verify production Structure.generate matches Stage 4 (A+B+C) with boundary water cut filter
+                    boolean expectedValid = bestSite[3] != null
+                            && !St03FullTerrainCheck.hasBoundaryWaterCutContact(fastCache::surface, fastCache::floor, bestSite[3].originX, bestSite[3].originZ, bestY[3]);
+                    if (generated.isValid() != expectedValid) {
+                        throw new AssertionError("Production Structure.generate mismatch vs Stage 4 + boundary filter at " + cp
+                                + ": generated=" + generated.isValid() + ", expected=" + expectedValid);
                     }
 
                     stagesCsv.write(level.getSeed() + "," + rx + "," + rz + "," + cp.x() + "," + cp.z() + ","

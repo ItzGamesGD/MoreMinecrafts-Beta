@@ -63,6 +63,9 @@ public final class St03HeadquartersStructure extends Structure {
         });
         if (selected.isEmpty()) return Optional.empty();
         var site = selected.get();
+        if (terrain.hasBoundaryWaterCutContact(site.originX(), site.originZ(), site.result().foundationY())) {
+            return Optional.empty();
+        }
         VERDICT_COUNTS.get(site.result().verdict()).incrementAndGet();
         BlockPos origin = new BlockPos(site.originX(), site.result().foundationY(), site.originZ());
         // The engine validates the stub's biome. Use the approved *surface center*, not a footprint corner
@@ -109,6 +112,10 @@ public final class St03HeadquartersStructure extends Structure {
         public St03FullTerrainCheck.Result actualLimits(int x,int z,int foundationY) {
             return St03FullTerrainCheck.evaluate((sx,sz)->dense(sx,sz).surfaceAt(sx,sz),
                     (sx,sz)->dense(sx,sz).floorAt(sx,sz),x,z,foundationY);
+        }
+
+        public boolean hasBoundaryWaterCutContact(int x, int z, int foundationY) {
+            return St03FullTerrainCheck.hasBoundaryWaterCutContact(this::surfaceHeight, this::oceanFloorHeight, x, z, foundationY);
         }
 
         @Override
