@@ -808,7 +808,8 @@ public final class St03NaturalProbe implements ModInitializer {
 
                     // Verify production Structure.generate matches Stage 4 (A+B+C) with boundary water cut filter
                     boolean expectedValid = bestSite[3] != null
-                            && !St03FullTerrainCheck.hasBoundaryWaterCutContact(fastCache::surface, fastCache::floor, bestSite[3].originX, bestSite[3].originZ, bestY[3]);
+                            && !St03FullTerrainCheck.hasBoundaryWaterCutContact(fastCache::surface, fastCache::floor, bestSite[3].originX, bestSite[3].originZ, bestY[3])
+                            && !ovVillage[3];
                     if (generated.isValid() != expectedValid) {
                         throw new AssertionError("Production Structure.generate mismatch vs Stage 4 + boundary filter at " + cp
                                 + ": generated=" + generated.isValid() + ", expected=" + expectedValid);
