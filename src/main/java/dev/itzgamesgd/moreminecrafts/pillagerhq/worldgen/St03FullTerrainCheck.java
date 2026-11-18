@@ -66,4 +66,29 @@ public final class St03FullTerrainCheck {
         }
         return new Result(Verdict.FOOTING_FILL, cutAtSample, skirtAtSample, fillAtSample, n, sampleFoundationY);
     }
+
+    /**
+     * Deterministic pre-generation boundary water filter:
+     * Rejects a site if any column in the 1-block outer ring surrounding the 112x112 cut box
+     * (including the gatehouse entrance perimeter) contains water at or above foundationY + 1.
+     */
+    public static boolean hasBoundaryWaterCutContact(IntBinaryOperator surface, IntBinaryOperator floor,
+                                                     int originX, int originZ, int foundationY) {
+        int box = St03PlacementConfig.BOX_SIZE;
+        int minWaterSurface = foundationY + 2; // top water block y = s - 1 >= foundationY + 1 <=> s >= foundationY + 2
+        for (int i = 0; i < box; i++) {
+            int sN = surface.applyAsInt(originX + i, originZ - 1);
+            if (sN >= minWaterSurface && sN > floor.applyAsInt(originX + i, originZ - 1) + 1) return true;
+
+            int sS = surface.applyAsInt(originX + i, originZ + box);
+            if (sS >= minWaterSurface && sS > floor.applyAsInt(originX + i, originZ + box) + 1) return true;
+
+            int sW = surface.applyAsInt(originX - 1, originZ + i);
+            if (sW >= minWaterSurface && sW > floor.applyAsInt(originX - 1, originZ + i) + 1) return true;
+
+            int sE = surface.applyAsInt(originX + box, originZ + i);
+            if (sE >= minWaterSurface && sE > floor.applyAsInt(originX + box, originZ + i) + 1) return true;
+        }
+        return false;
+    }
 }
