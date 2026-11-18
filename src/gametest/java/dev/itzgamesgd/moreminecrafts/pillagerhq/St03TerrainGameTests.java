@@ -148,4 +148,171 @@ public final class St03TerrainGameTests {
                 "ST-03 currently has no cross-context decision memo (unlike ST-01 St01DecisionMemo)");
         helper.succeed();
     }
+
+    /**
+     * Real-generation 400-tick water gate:
+     * Generates a complete natural headquarters structure, surrounds the perimeter with water at foundation level,
+     * monitors all interior empty space (including courtyard, rooms, and gatehouse corridor z in [100..111]),
+     * and asserts 0 water blocks penetrate interior space after 400 game ticks.
+     */
+    @GameTest(maxTicks = 650)
+    public void verifyRealGeneration400TicksWaterGate(GameTestHelper helper) {
+        var level = helper.getLevel();
+        BlockPos origin = new BlockPos(420000, 62, 420000);
+        int fy = origin.getY();
+
+        for (int x = (origin.getX() - 16) >> 4; x <= (origin.getX() + 128) >> 4; x++) {
+            for (int z = (origin.getZ() - 16) >> 4; z <= (origin.getZ() + 128) >> 4; z++) {
+                level.getChunk(x, z);
+            }
+        }
+
+        List<ChunkPos> chunks = new ArrayList<>();
+        for (int x = origin.getX() >> 4; x <= (origin.getX() + 111) >> 4; x++) {
+            for (int z = origin.getZ() >> 4; z <= (origin.getZ() + 111) >> 4; z++) {
+                chunks.add(new ChunkPos(x, z));
+            }
+        }
+        for (var cp : chunks) {
+            BoundingBox box = new BoundingBox(cp.getMinBlockX(), level.getMinY(), cp.getMinBlockZ(),
+                    cp.getMaxBlockX(), level.getMaxY(), cp.getMaxBlockZ());
+            St03TerrainCorrectionPiece.correct(level, box, origin, fy - 16, fy + 10, (x, z) -> fy + 10);
+        }
+
+        var templates = level.getStructureTemplateManager();
+        var builder = new net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder();
+        St03HeadquartersStructure.addPieces(builder, templates, origin, net.minecraft.world.level.block.Rotation.NONE);
+        BoundingBox totalBox = new BoundingBox(origin.getX() - 16, level.getMinY(), origin.getZ() - 16,
+                origin.getX() + 128, level.getMaxY(), origin.getZ() + 128);
+        for (var piece : builder.build().pieces()) {
+            piece.postProcess(level, level.structureManager(), level.getChunkSource().getGenerator(),
+                    level.getRandom(), totalBox, new ChunkPos(origin.getX() >> 4, origin.getZ() >> 4), origin);
+        }
+
+        // Place perimeter water ring directly adjacent to footprint
+        for (int i = -1; i <= 112; i++) {
+            level.setBlock(origin.offset(-1, 1, i), Blocks.WATER.defaultBlockState(), 3);
+            level.setBlock(origin.offset(112, 1, i), Blocks.WATER.defaultBlockState(), 3);
+            level.setBlock(origin.offset(i, 1, -1), Blocks.WATER.defaultBlockState(), 3);
+            level.setBlock(origin.offset(i, 1, 112), Blocks.WATER.defaultBlockState(), 3);
+        }
+
+        // Monitor all interior empty space (including gatehouse corridor at z 100..111)
+        List<BlockPos> interiorAirCells = new ArrayList<>();
+        for (int x = 7; x <= 104; x++) {
+            for (int z = 7; z <= 104; z++) {
+                for (int dy = 0; dy <= 8; dy++) {
+                    BlockPos p = origin.offset(x, dy, z);
+                    if (level.getBlockState(p).isAir()) {
+                        interiorAirCells.add(p);
+                    }
+                }
+            }
+        }
+        // Also explicitly include gatehouse corridor passage [48..63, dy 0..4, 100..111]
+        for (int x = 48; x <= 63; x++) {
+            for (int z = 100; z <= 111; z++) {
+                for (int dy = 0; dy <= 4; dy++) {
+                    BlockPos p = origin.offset(x, dy, z);
+                    if (level.getBlockState(p).isAir() && !interiorAirCells.contains(p)) {
+                        interiorAirCells.add(p);
+                    }
+                }
+            }
+        }
+        helper.assertTrue(!interiorAirCells.isEmpty(), "Interior must contain air cells to monitor");
+
+        helper.runAfterDelay(400, () -> {
+            int floodedCount = 0;
+            List<BlockPos> floodedPositions = new ArrayList<>();
+            for (BlockPos p : interiorAirCells) {
+                var state = level.getBlockState(p);
+                if (state.is(Blocks.WATER) || !state.getFluidState().isEmpty()) {
+                    floodedCount++;
+                    if (floodedPositions.size() < 10) floodedPositions.add(p);
+                }
+            }
+            helper.assertTrue(floodedCount == 0,
+                    "Expected 0 water blocks in interior empty space after 400 ticks, but found " + floodedCount + " at " + floodedPositions);
+            helper.succeed();
+        });
+    }
+
+    /**
+     * Mandatory Positive Control:
+     * Deliberately breaches the gatehouse wall/threshold and places water right outside.
+     * Asserts that the water gate MUST FAIL (flooding occurs in the interior monitored space within 400 ticks).
+     * If this control does not fail, the water gate monitoring is proven invalid.
+     */
+    @GameTest(maxTicks = 650)
+    public void verifyPositiveControlBreachedGatehouseFloodsOver400Ticks(GameTestHelper helper) {
+        var level = helper.getLevel();
+        BlockPos origin = new BlockPos(430000, 62, 430000);
+        int fy = origin.getY();
+
+        for (int x = (origin.getX() - 16) >> 4; x <= (origin.getX() + 128) >> 4; x++) {
+            for (int z = (origin.getZ() - 16) >> 4; z <= (origin.getZ() + 128) >> 4; z++) {
+                level.getChunk(x, z);
+            }
+        }
+
+        List<ChunkPos> chunks = new ArrayList<>();
+        for (int x = origin.getX() >> 4; x <= (origin.getX() + 111) >> 4; x++) {
+            for (int z = origin.getZ() >> 4; z <= (origin.getZ() + 111) >> 4; z++) {
+                chunks.add(new ChunkPos(x, z));
+            }
+        }
+        for (var cp : chunks) {
+            BoundingBox box = new BoundingBox(cp.getMinBlockX(), level.getMinY(), cp.getMinBlockZ(),
+                    cp.getMaxBlockX(), level.getMaxY(), cp.getMaxBlockZ());
+            St03TerrainCorrectionPiece.correct(level, box, origin, fy - 16, fy + 10, (x, z) -> fy + 10);
+        }
+
+        var templates = level.getStructureTemplateManager();
+        var builder = new net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder();
+        St03HeadquartersStructure.addPieces(builder, templates, origin, net.minecraft.world.level.block.Rotation.NONE);
+        BoundingBox totalBox = new BoundingBox(origin.getX() - 16, level.getMinY(), origin.getZ() - 16,
+                origin.getX() + 128, level.getMaxY(), origin.getZ() + 128);
+        for (var piece : builder.build().pieces()) {
+            piece.postProcess(level, level.structureManager(), level.getChunkSource().getGenerator(),
+                    level.getRandom(), totalBox, new ChunkPos(origin.getX() >> 4, origin.getZ() >> 4), origin);
+        }
+
+        // Intentionally breach the gatehouse entry portal (clear wall and threshold to air)
+        for (int x = 52; x <= 59; x++) {
+            for (int z = 100; z <= 112; z++) {
+                for (int dy = 0; dy <= 4; dy++) {
+                    level.setBlock(origin.offset(x, dy, z), Blocks.AIR.defaultBlockState(), 3);
+                }
+            }
+        }
+
+        // Place water source directly outside the breach
+        for (int x = 52; x <= 59; x++) {
+            level.setBlock(origin.offset(x, 0, 113), Blocks.WATER.defaultBlockState(), 3);
+            level.setBlock(origin.offset(x, 1, 113), Blocks.WATER.defaultBlockState(), 3);
+        }
+
+        // Target corridor position inside the gatehouse passage that must be reached by the flooding water
+        List<BlockPos> corridorCells = new ArrayList<>();
+        for (int x = 53; x <= 58; x++) {
+            for (int z = 102; z <= 108; z++) {
+                corridorCells.add(origin.offset(x, 0, z));
+            }
+        }
+
+        helper.runAfterDelay(400, () -> {
+            int floodCount = 0;
+            for (BlockPos p : corridorCells) {
+                var state = level.getBlockState(p);
+                if (state.is(Blocks.WATER) || !state.getFluidState().isEmpty()) {
+                    floodCount++;
+                }
+            }
+            // Positive control MUST detect water ingress!
+            helper.assertTrue(floodCount > 0,
+                    "POSITIVE CONTROL FAILED: Water did not flood into breached gatehouse corridor! Gate monitoring would be blind.");
+            helper.succeed();
+        });
+    }
 }
