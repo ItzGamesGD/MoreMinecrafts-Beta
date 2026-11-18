@@ -251,6 +251,25 @@ public final class St03FloodCheckProbe implements ModInitializer {
                         sampleFy = sMid;
                     }
 
+                    if (!passed && !centerEligible) {
+                        CandidateFloodRow row = new CandidateFloodRow(
+                                cx, cz, rx, rz, false, false,
+                                evalX, fy, evalZ, sampleFy, 0, 0, "NONE",
+                                0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0,
+                                0, 0, 0,
+                                0, 0, 0, 0, 0, false
+                        );
+                        allRows.add(row);
+                        nonPassingRows.add(row);
+                        bw.write(String.format(Locale.ROOT,
+                                "%d,%d,%d,%d,false,false,%d,%d,%d,%d,0,0,NONE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,false\n",
+                                cx, cz, rx, rz, evalX, fy, evalZ, sampleFy));
+                        continue;
+                    }
+
                     // Preload the box area including 8-block margins for neighborhood searches
                     t.preloadDenseBox(evalX - 8, evalZ - 8, 112 + 16);
 
@@ -326,6 +345,19 @@ public final class St03FloodCheckProbe implements ModInitializer {
                     if (ringW112 == 0) { ringWMin112 = 0; ringWMax112 = 0; }
 
                     // --- Item B: Dry ground below 63 / below foundation and flood risk ---
+                    boolean[][] isWaterGrid = new boolean[128][128];
+                    boolean anyWaterInGrid = false;
+                    for (int dx0 = 0; dx0 < 128; dx0++) {
+                        for (int dz0 = 0; dz0 < 128; dz0++) {
+                            int gx = evalX - 8 + dx0, gz = evalZ - 8 + dz0;
+                            int s = t.surface(gx, gz), f = t.floor(gx, gz);
+                            if (s > f + 1 && (s == 63 || s - 1 == 63 || s - 1 == 62)) {
+                                isWaterGrid[dx0][dz0] = true;
+                                anyWaterInGrid = true;
+                            }
+                        }
+                    }
+
                     int dryBelow63 = 0, dryBelowFy = 0, dryFloodRisk = 0;
                     for (int x = evalX; x < evalX + 112; x++) {
                         for (int z = evalZ; z < evalZ + 112; z++) {
@@ -336,13 +368,13 @@ public final class St03FloodCheckProbe implements ModInitializer {
                                 if (s < 63 || gy < 63) dryBelow63++;
                                 if (gy < fy) dryBelowFy++;
 
-                                if (s < 63 || gy < 63) {
+                                if ((s < 63 || gy < 63) && anyWaterInGrid) {
+                                    int gx = x - (evalX - 8);
+                                    int gz = z - (evalZ - 8);
                                     boolean hasWaterNear = false;
-                                    for (int ddx = -8; ddx <= 8 && !hasWaterNear; ddx++) {
-                                        for (int ddz = -8; ddz <= 8 && !hasWaterNear; ddz++) {
-                                            int ns = t.surface(x + ddx, z + ddz);
-                                            int nf = t.floor(x + ddx, z + ddz);
-                                            if (ns > nf + 1 && (ns - 1 == 62 || ns - 1 == 63 || ns == 63)) {
+                                    for (int ddx = Math.max(0, gx - 8); ddx <= Math.min(127, gx + 8) && !hasWaterNear; ddx++) {
+                                        for (int ddz = Math.max(0, gz - 8); ddz <= Math.min(127, gz + 8) && !hasWaterNear; ddz++) {
+                                            if (isWaterGrid[ddx][ddz]) {
                                                 hasWaterNear = true;
                                             }
                                         }
