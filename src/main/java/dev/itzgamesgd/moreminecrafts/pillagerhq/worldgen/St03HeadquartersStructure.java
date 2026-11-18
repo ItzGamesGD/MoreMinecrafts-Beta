@@ -39,15 +39,9 @@ public final class St03HeadquartersStructure extends Structure {
         super(settings);
     }
 
+    /** The approved 19-biome list lives in {@link St03BiomeRules}; the edge-neutral set below is unchanged. */
     public static boolean isEligibleBiome(Holder<Biome> biome) {
-        return biome.is(Biomes.PLAINS)
-                || biome.is(Biomes.SUNFLOWER_PLAINS)
-                || biome.is(Biomes.MEADOW)
-                || biome.is(Biomes.FOREST)
-                || biome.is(Biomes.FLOWER_FOREST)
-                || biome.is(Biomes.BIRCH_FOREST)
-                || biome.is(Biomes.OLD_GROWTH_BIRCH_FOREST)
-                || biome.is(Biomes.DARK_FOREST);
+        return St03BiomeRules.isEligible(biome);
     }
 
     public static boolean isEdgeBiome(Holder<Biome> biome) {
@@ -62,12 +56,16 @@ public final class St03HeadquartersStructure extends Structure {
         Rotation rotation = Rotation.getRandom(context.random());
 
         GeneratorTerrain terrain = new GeneratorTerrain(context);
-        var selected = St03SiteSearch.select(terrain, originX, originZ,site->{
-            var check=terrain.actualLimits(site.originX(),site.originZ(),site.result().foundationY());
-            ACTUAL_COLUMN_COUNTS.get(check.verdict()).incrementAndGet();return check.eligible();
+        var selected = St03SiteSearch.selectWithDenseY(terrain, originX, originZ, site -> {
+            var check = terrain.actualLimits(site.originX(), site.originZ(), site.result().foundationY());
+            ACTUAL_COLUMN_COUNTS.get(check.verdict()).incrementAndGet();
+            return check.eligible() ? check.foundationY() : Integer.MIN_VALUE;
         });
         if (selected.isEmpty()) return Optional.empty();
         var site = selected.get();
+        if (terrain.hasBoundaryWaterCutContact(site.originX(), site.originZ(), site.result().foundationY())) {
+            return Optional.empty();
+        }
         VERDICT_COUNTS.get(site.result().verdict()).incrementAndGet();
         BlockPos origin = new BlockPos(site.originX(), site.result().foundationY(), site.originZ());
         // The engine validates the stub's biome. Use the approved *surface center*, not a footprint corner
@@ -114,6 +112,10 @@ public final class St03HeadquartersStructure extends Structure {
         public St03FullTerrainCheck.Result actualLimits(int x,int z,int foundationY) {
             return St03FullTerrainCheck.evaluate((sx,sz)->dense(sx,sz).surfaceAt(sx,sz),
                     (sx,sz)->dense(sx,sz).floorAt(sx,sz),x,z,foundationY);
+        }
+
+        public boolean hasBoundaryWaterCutContact(int x, int z, int foundationY) {
+            return St03FullTerrainCheck.hasBoundaryWaterCutContact(this::surfaceHeight, this::oceanFloorHeight, x, z, foundationY);
         }
 
         @Override
