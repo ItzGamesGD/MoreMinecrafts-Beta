@@ -80,4 +80,72 @@ public final class St03TerrainGameTests {
         helper.assertTrue(farthest==5,"All 25 offsets and four rotations must exercise the five-chunk boundary");
         helper.succeed();
     }
+    @GameTest(maxTicks = 400)
+    public void consecutiveLocateEvaluationsAndDecisionMemoPresenceCheck(GameTestHelper helper) {
+        var level = helper.getLevel();
+        var access = level.registryAccess();
+        var biomeSource = net.minecraft.world.level.biome.MultiNoiseBiomeSource.createFromPreset(
+                access.lookupOrThrow(net.minecraft.core.registries.Registries.MULTI_NOISE_BIOME_SOURCE_PARAMETER_LIST)
+                        .getOrThrow(net.minecraft.world.level.biome.MultiNoiseBiomeSourceParameterLists.OVERWORLD));
+        var settings = access.lookupOrThrow(net.minecraft.core.registries.Registries.NOISE_SETTINGS)
+                .getOrThrow(net.minecraft.world.level.levelgen.NoiseGeneratorSettings.OVERWORLD);
+        var generator = new net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator(biomeSource, settings);
+        long seed = 10079L;
+        var randomState = net.minecraft.world.level.levelgen.RandomState.create(
+                access.lookupOrThrow(net.minecraft.core.registries.Registries.NOISE), seed, settings.value());
+        var sampler = randomState.createClimateSampler(
+                net.minecraft.world.level.levelgen.densityfunction.SamplerContext.builder().enableCaches().build());
+        var st03 = access.lookupOrThrow(net.minecraft.core.registries.Registries.STRUCTURE).getValue(St03Worldgen.STRUCTURE_ID);
+        var placement = new net.minecraft.world.level.levelgen.structure.placement.RandomSpreadStructurePlacement(
+                St03PlacementConfig.SPACING_CHUNKS, St03PlacementConfig.SEPARATION_CHUNKS,
+                net.minecraft.world.level.levelgen.structure.placement.RandomSpreadType.TRIANGULAR, St03PlacementConfig.SALT);
+        var height = net.minecraft.world.level.LevelHeightAccessor.create(-64, 384);
+
+        long totalNs = 0, maxCandidateNs = 0;
+        int evaluated = 0, found = 0;
+        // Simulate consecutive /locate ring evaluations across 16 region cells (4x4 ring around origin)
+        for (int rx = -2; rx < 2; rx++) {
+            for (int rz = -2; rz < 2; rz++) {
+                ChunkPos cp = placement.getPotentialStructureChunk(seed, rx * 66, rz * 66);
+                long t0 = System.nanoTime();
+                var ctx = new net.minecraft.world.level.levelgen.structure.Structure.GenerationContext(
+                        access, generator, biomeSource, sampler, randomState, level.getStructureTemplateManager(),
+                        seed, cp, height, h -> st03.biomes().contains(h));
+                var stub = st03.findValidGenerationPoint(ctx);
+                long dt = System.nanoTime() - t0;
+                totalNs += dt;
+                maxCandidateNs = Math.max(maxCandidateNs, dt);
+                evaluated++;
+                if (stub.isPresent()) found++;
+            }
+        }
+        // Check whether repeating the exact same candidate evaluation hits a decision memo or re-runs dense checks
+        ChunkPos probeChunk = placement.getPotentialStructureChunk(seed, -23 * 66, -4 * 66); // known valid savanna start on 10079
+        long beforeDense = St03HeadquartersStructure.ACTUAL_COLUMN_COUNTS.values().stream().mapToLong(java.util.concurrent.atomic.AtomicLong::get).sum();
+        var ctx1 = new net.minecraft.world.level.levelgen.structure.Structure.GenerationContext(
+                access, generator, biomeSource, sampler, randomState, level.getStructureTemplateManager(),
+                seed, probeChunk, height, h -> st03.biomes().contains(h));
+        var stub1 = st03.findValidGenerationPoint(ctx1);
+        long midDense = St03HeadquartersStructure.ACTUAL_COLUMN_COUNTS.values().stream().mapToLong(java.util.concurrent.atomic.AtomicLong::get).sum();
+        var ctx2 = new net.minecraft.world.level.levelgen.structure.Structure.GenerationContext(
+                access, generator, biomeSource, sampler, randomState, level.getStructureTemplateManager(),
+                seed, probeChunk, height, h -> st03.biomes().contains(h));
+        var stub2 = st03.findValidGenerationPoint(ctx2);
+        long afterDense = St03HeadquartersStructure.ACTUAL_COLUMN_COUNTS.values().stream().mapToLong(java.util.concurrent.atomic.AtomicLong::get).sum();
+
+        long firstCallDenseChecks = midDense - beforeDense;
+        long secondCallDenseChecks = afterDense - midDense;
+        boolean hasDecisionMemo = (secondCallDenseChecks == 0 && firstCallDenseChecks > 0);
+        org.slf4j.LoggerFactory.getLogger("st03-locate-gametest").info(
+                "ST03_LOCATE_GAMETEST evaluated={} found={} total_ms={} mean_ms={} max_candidate_ms={} first_call_dense_checks={} second_call_dense_checks={} has_decision_memo={}",
+                evaluated, found, totalNs / 1e6, (totalNs / 1e6) / evaluated, maxCandidateNs / 1e6,
+                firstCallDenseChecks, secondCallDenseChecks, hasDecisionMemo);
+
+        helper.assertTrue(evaluated == 16, "Expected 16 consecutive candidate evaluations");
+        helper.assertTrue(stub1.isPresent() && stub2.isPresent() && stub1.get().position().equals(stub2.get().position()),
+                "Repeated evaluation of the same candidate must be deterministic");
+        helper.assertTrue(!hasDecisionMemo && firstCallDenseChecks == secondCallDenseChecks,
+                "ST-03 currently has no cross-context decision memo (unlike ST-01 St01DecisionMemo)");
+        helper.succeed();
+    }
 }
