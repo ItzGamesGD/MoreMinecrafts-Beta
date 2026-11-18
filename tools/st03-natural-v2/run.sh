@@ -25,16 +25,24 @@ enable-status=false
 PROPS
 scan_option=''
 trace_option=''
+mode_option=''
+if [ "${ST03_NATURAL_MODE:-}" = stability ]; then
+  mode_option='-Dmm.st03.natural.mode=stability'
+fi
 if [ "$seed" = 10148 ]; then trace_option='-Dmm.st03.terrain.trace=true'; fi
 if [ -d build/st03-natural/source-download ]; then
  scan=$(find "$PWD/build/st03-natural/source-download" -name scan.json -print -quit)
  test -n "$scan"
  scan_option="-Dmm.st03.natural.scan=$scan"
 fi
-JAVA_TOOL_OPTIONS="-Xmx4G -Dmm.st03.natural.out=$out -Dmm.st03.natural.scanOnly=$([ "$full" = true ] && echo false || echo true) $scan_option $trace_option" timeout 6600 ./gradlew runSt03NaturalProbe --no-daemon --max-workers=2 2>&1 | tee "$out/probe.log"
+JAVA_TOOL_OPTIONS="-Xmx4G -Dmm.st03.natural.out=$out -Dmm.st03.natural.scanOnly=$([ "$full" = true ] && echo false || echo true) $scan_option $trace_option $mode_option" timeout 6600 ./gradlew runSt03NaturalProbe --no-daemon --max-workers=2 2>&1 | tee "$out/probe.log"
 python3 - "$out/result.json" <<'PY'
 import json,sys
 p=json.load(open(sys.argv[1]));assert p['status']=='PASS',p.get('error')
+if p.get('mode')=='stability':
+ assert p['search_passed'] and p['generation_passed'] and p['unload_confirmed']
+ assert len(p['call_ms'])==8 and 'reload_match=true' in p['stability_log']
+ sys.exit(0)
 assert p['valid_starts']==len(p['starts'])
 assert p['spacing']==66 and p['separation']==22
 assert p['potential_candidates']==2601

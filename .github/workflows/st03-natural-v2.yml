@@ -13,6 +13,10 @@ on:
         description: 'Also validate full chunks, completion and first proximity (requires production terrain wiring)'
         type: boolean
         default: true
+      stability:
+        description: 'Measure only stability on seed 10079 (measure=false, full_generation=true)'
+        type: boolean
+        default: false
       spider_diagnostic:
         description: 'Isolate the CI-blocking Spider Colony test fixtures with diagnostic logging'
         type: boolean
@@ -32,6 +36,7 @@ permissions:
   actions: read
 jobs:
   inspect:
+    if: github.event_name != 'workflow_dispatch' || !inputs.stability
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -63,14 +68,17 @@ jobs:
           name: st03-natural-inspect
           path: build/st03-natural/inspect/
   measure:
-    if: github.event_name == 'workflow_dispatch' && inputs.measure
+    if: >-
+      ${{ !cancelled() && github.event_name == 'workflow_dispatch' &&
+      ((inputs.measure && !inputs.stability && needs.inspect.result == 'success') ||
+      (inputs.stability && needs.inspect.result == 'skipped')) }}
     needs: inspect
     runs-on: ubuntu-latest
     timeout-minutes: 120
     strategy:
       fail-fast: false
       matrix:
-        seed: ${{ fromJSON((inputs.single_seed || 'all') == 'all' && '[10079,10033,10148,10137,10142,10039,10135,10061,314159265,867530926]' || format('[{0}]', inputs.single_seed)) }}
+        seed: ${{ fromJSON(inputs.stability && '[10079]' || (inputs.single_seed || 'all') == 'all' && '[10079,10033,10148,10137,10142,10039,10135,10061,314159265,867530926]' || format('[{0}]', inputs.single_seed)) }}
     steps:
       - uses: actions/checkout@v4
         with: {persist-credentials: false}
@@ -78,7 +86,7 @@ jobs:
         with: {distribution: temurin, java-version: '25'}
       - uses: gradle/actions/setup-gradle@v4
       - name: Download a completed placement scan for runtime-only revalidation
-        if: inputs.source_run != ''
+        if: ${{ !inputs.stability && inputs.source_run != '' }}
         uses: actions/download-artifact@v4
         with:
           name: st03-natural-${{ matrix.seed }}
@@ -86,7 +94,18 @@ jobs:
           run-id: ${{ inputs.source_run }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Real normal-world starts and full chunk placement
-        run: bash tools/st03-natural-v2/run.sh '${{ matrix.seed }}' '${{ inputs.full_generation }}'
+        env:
+          ST03_NATURAL_MODE: ${{ inputs.stability && 'stability' || '' }}
+          ST03_MEASURE: ${{ inputs.measure }}
+          ST03_FULL_GENERATION: ${{ inputs.full_generation }}
+          ST03_SINGLE_SEED: ${{ inputs.single_seed }}
+        run: |
+          if [[ "$ST03_NATURAL_MODE" == stability ]] &&
+             [[ "$ST03_MEASURE/$ST03_FULL_GENERATION/$ST03_SINGLE_SEED" != false/true/10079 ]]; then
+            echo 'Stability requires measure=false, full_generation=true, single_seed=10079'
+            exit 1
+          fi
+          bash tools/st03-natural-v2/run.sh '${{ matrix.seed }}' "$ST03_FULL_GENERATION"
       - name: Publish actual generation evidence
         if: always()
         env:
@@ -99,7 +118,7 @@ jobs:
           path: build/st03-natural/results/
           retention-days: 30
   spider-diagnostic:
-    if: github.event_name == 'workflow_dispatch' && inputs.spider_diagnostic
+    if: github.event_name == 'workflow_dispatch' && !inputs.stability && inputs.spider_diagnostic
     needs: inspect
     runs-on: ubuntu-latest
     timeout-minutes: 20

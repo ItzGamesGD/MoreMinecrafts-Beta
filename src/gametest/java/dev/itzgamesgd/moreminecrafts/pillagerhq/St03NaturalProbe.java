@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.util.*;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.Event;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.core.BlockPos;
@@ -24,11 +25,13 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeResolver;
+import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.minecraft.world.level.levelgen.*;
 import net.minecraft.world.level.levelgen.densityfunction.SamplerContext;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
 import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadStructurePlacement;
@@ -54,14 +57,27 @@ public final class St03NaturalProbe implements ModInitializer {
             "minecraft:river", "minecraft:frozen_river");
 
     private static Session session;
+    private static StabilitySession stabilitySession;
 
     @Override
     public void onInitialize() {
         String output = System.getProperty("mm.st03.natural.out");
         if (output == null) return;
+        boolean stability = "stability".equals(System.getProperty("mm.st03.natural.mode"));
+        if (stability) {
+            ServerChunkEvents.CHUNK_UNLOAD.register((level, chunk) -> {
+                if (stabilitySession != null && stabilitySession.level == level && stabilitySession.generatedChunk == chunk) {
+                    stabilitySession.unloadObserved = true;
+                }
+            });
+        }
         Identifier after = Identifier.fromNamespaceAndPath("moreminecrafts", "st03_natural_validation");
         ServerTickEvents.END_SERVER_TICK.addPhaseOrdering(Event.DEFAULT_PHASE, after);
         ServerTickEvents.END_SERVER_TICK.register(after, server -> {
+            if (stabilitySession != null) {
+                try { stabilitySession.tick(); } catch (Throwable t) { stabilitySession.finish(t); }
+                return;
+            }
             if (session == null) return;
             try { session.tick(); } catch (Throwable t) { session.finish(t); }
         });
@@ -72,6 +88,11 @@ public final class St03NaturalProbe implements ModInitializer {
             result.put("head_sha", System.getenv("GITHUB_SHA"));
             result.put("run_id", System.getenv("GITHUB_RUN_ID"));
             result.put("seed", server.overworld().getSeed());
+            if (stability) {
+                stabilitySession = new StabilitySession(server, dir, result, start);
+                try { stabilitySession.prepare(); } catch (Throwable t) { stabilitySession.finish(t); }
+                return;
+            }
             try {
                 Files.createDirectories(dir);
                 String saved = System.getProperty("mm.st03.natural.scan");
@@ -96,6 +117,143 @@ public final class St03NaturalProbe implements ModInitializer {
                 writeAndExit(server, dir, result, start, t);
             }
         });
+    }
+
+    private record StabilitySnapshot(BlockPos origin, int pieces) {
+        static StabilitySnapshot from(StructureStart start) {
+            if (start == null || !start.isValid()) throw new AssertionError("Natural HQ structure start absent");
+            return from(start.getPieces());
+        }
+
+        static StabilitySnapshot from(List<StructurePiece> pieces) {
+            var correction = pieces.stream().filter(St03TerrainCorrectionPiece.class::isInstance)
+                    .map(St03TerrainCorrectionPiece.class::cast).findFirst().orElseThrow();
+            return new StabilitySnapshot(correction.origin(), pieces.size());
+        }
+    }
+
+    private static final class StabilitySession {
+        private final MinecraftServer server;
+        private final ServerLevel level;
+        private final Path dir;
+        private final Map<String, Object> result;
+        private final long start;
+        private final List<Double> callMs = new ArrayList<>();
+        private String stage = "search";
+        private int calls;
+        private int exceptions;
+        private int unloadTicks;
+        private boolean unloadObserved;
+        private boolean reloadMatch;
+        private Structure structure;
+        private ChunkPos target;
+        private ChunkAccess generatedChunk;
+        private StabilitySnapshot before;
+
+        StabilitySession(MinecraftServer server, Path dir, Map<String, Object> result, long start) {
+            this.server = server;
+            this.level = server.overworld();
+            this.dir = dir;
+            this.result = result;
+            this.start = start;
+            result.put("mode", "stability");
+        }
+
+        void prepare() {
+            var chunks = level.getChunkSource();
+            var generator = chunks.getGenerator();
+            if (!(generator instanceof NoiseBasedChunkGenerator) || level.getSeed() != 10079L) {
+                throw new AssertionError("Stability requires the normal noise world on seed 10079");
+            }
+            var access = level.registryAccess();
+            structure = access.lookupOrThrow(Registries.STRUCTURE).getOrThrow(
+                    ResourceKey.create(Registries.STRUCTURE, St03Worldgen.STRUCTURE_ID)).value();
+            var set = access.lookupOrThrow(Registries.STRUCTURE_SET).getOrThrow(
+                    ResourceKey.create(Registries.STRUCTURE_SET, St03Worldgen.STRUCTURE_ID)).value();
+            var placement = (RandomSpreadStructurePlacement) set.placement();
+            var randomState = chunks.randomState();
+            var sampler = randomState.createClimateSampler(SamplerContext.builder().enableCaches().build());
+            Structure.GenerationStub selected = null;
+            // The first region includes the known savanna start used by St03TerrainGameTests.
+            for (int rx = -23; rx < -15; rx++) {
+                var candidate = placement.getPotentialStructureChunk(level.getSeed(),
+                        rx * placement.spacing(), -4 * placement.spacing());
+                var context = new Structure.GenerationContext(access, generator, generator.getBiomeSource(),
+                        sampler, randomState, level.getStructureTemplateManager(), level.getSeed(),
+                        candidate, level, structure.biomes()::contains);
+                calls++;
+                long time = System.nanoTime();
+                Optional<Structure.GenerationStub> found;
+                try {
+                    found = structure.findValidGenerationPoint(context);
+                } catch (Throwable error) {
+                    exceptions++;
+                    throw error;
+                } finally {
+                    callMs.add((System.nanoTime() - time) / 1e6);
+                }
+                if (selected == null && found.isPresent()) {
+                    selected = found.get();
+                    target = candidate;
+                }
+            }
+            if (selected == null) throw new AssertionError("No valid ST-03 start in the eight regions");
+            result.put("search_passed", true);
+            result.put("target_chunk", List.of(target.x(), target.z()));
+
+            stage = "generation";
+            var expected = StabilitySnapshot.from(selected.getPiecesBuilder().build().pieces());
+            var footprint = new ArrayList<ChunkPos>();
+            for (int x = expected.origin().getX() >> 4;
+                    x <= (expected.origin().getX() + St03PlacementConfig.BOX_SIZE - 1) >> 4; x++) {
+                for (int z = expected.origin().getZ() >> 4;
+                        z <= (expected.origin().getZ() + St03PlacementConfig.BOX_SIZE - 1) >> 4; z++) {
+                    level.setChunkForced(x, z, true);
+                    footprint.add(new ChunkPos(x, z));
+                    level.getChunk(x, z, ChunkStatus.FULL);
+                }
+            }
+            generatedChunk = level.getChunk(target.x(), target.z(), ChunkStatus.FULL);
+            before = StabilitySnapshot.from(generatedChunk.getStartForStructure(structure));
+            if (!before.equals(expected)) throw new AssertionError("Natural chunk start differs from the selected search result");
+            result.put("generation_passed", true);
+
+            stage = "unload";
+            chunks.save(true);
+            for (var chunk : footprint) level.setChunkForced(chunk.x(), chunk.z(), false);
+        }
+
+        void tick() {
+            if (!unloadObserved || level.getChunkSource().getChunkNow(target.x(), target.z()) != null) {
+                if (++unloadTicks >= 600) throw new AssertionError("Start chunk did not unload within 600 ticks");
+                return;
+            }
+            result.put("unload_confirmed", true);
+            result.put("unload_wait_ticks", unloadTicks);
+            stage = "reload";
+            var reloaded = level.getChunk(target.x(), target.z(), ChunkStatus.FULL);
+            var after = StabilitySnapshot.from(reloaded.getStartForStructure(structure));
+            result.put("reloaded_foundationY", after.origin().getY());
+            result.put("reloaded_pieces", after.pieces());
+            reloadMatch = reloaded != generatedChunk && before.origin().getY() == after.origin().getY()
+                    && before.pieces() == after.pieces();
+            if (!reloadMatch) throw new AssertionError("Reloaded chunk identity, foundation height or piece count did not match expectations");
+            finish(null);
+        }
+
+        void finish(Throwable error) {
+            double mean = callMs.stream().mapToDouble(Double::doubleValue).average().orElse(0);
+            double max = callMs.stream().mapToDouble(Double::doubleValue).max().orElse(0);
+            String line = String.format(Locale.ROOT,
+                    "ST03_STABILITY calls=%d mean_ms=%.3f max_ms=%.3f exceptions=%d reload_match=%b foundationY=%s pieces=%s",
+                    calls, mean, max, exceptions, reloadMatch,
+                    before == null ? "NA" : before.origin().getY(), before == null ? "NA" : before.pieces());
+            LOG.info(line);
+            result.put("stability_log", line);
+            result.put("call_ms", callMs);
+            if (error != null) result.put("failed_stage", stage);
+            writeAndExit(server, dir, result, start, error);
+        }
     }
 
     @SuppressWarnings("unchecked")
