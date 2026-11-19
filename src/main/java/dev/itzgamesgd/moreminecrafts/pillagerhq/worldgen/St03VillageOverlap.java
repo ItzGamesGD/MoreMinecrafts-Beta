@@ -25,6 +25,7 @@ import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadStruct
  * Generation-time village overlap check for ST-03 candidates.
  * Rebuilds the generator structure state from the generation context (the context does not carry it)
  * and reports whether any village start bounding box intersects the candidate headquarters box.
+ * The spawn chunk is only used by ring placements; villages use random spread, so ChunkPos.ZERO is used.
  * Village starts are cached per chunk generator, since the seed and state are fixed for one generator.
  */
 final class St03VillageOverlap {
@@ -39,7 +40,7 @@ final class St03VillageOverlap {
         var registries = context.registryAccess();
         ChunkGeneratorStructureState state = STATES.computeIfAbsent(generator, g ->
                 ChunkGeneratorStructureState.createForNormal(context.randomState(), context.seed(),
-                        context.biomeSource(), registries.lookupOrThrow(Registries.STRUCTURE_SET)));
+                        ChunkPos.ZERO, context.biomeSource(), registries.lookupOrThrow(Registries.STRUCTURE_SET)));
         Map<String, Optional<BoundingBox>> cache = CACHES.computeIfAbsent(generator, g -> new HashMap<>());
 
         int minCx = (headquartersBox.minX() >> 4) - 5, maxCx = (headquartersBox.maxX() >> 4) + 5;
