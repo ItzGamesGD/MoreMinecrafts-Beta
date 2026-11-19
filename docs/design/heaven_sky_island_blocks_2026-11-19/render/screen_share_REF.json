@@ -1,0 +1,122 @@
+{
+ "full": {
+  "grass_block": {
+   "pct": 51.1,
+   "top": 46893,
+   "side": 69238,
+   "bottom": 0
+  },
+  "dirt": {
+   "pct": 15.5,
+   "top": 0,
+   "side": 35291,
+   "bottom": 0
+  },
+  "coarse_dirt": {
+   "pct": 5.6,
+   "top": 0,
+   "side": 12627,
+   "bottom": 0
+  },
+  "stone": {
+   "pct": 15.2,
+   "top": 0,
+   "side": 34572,
+   "bottom": 0
+  },
+  "andesite": {
+   "pct": 6.1,
+   "top": 0,
+   "side": 13965,
+   "bottom": 0
+  },
+  "tuff": {
+   "pct": 6.4,
+   "top": 0,
+   "side": 14624,
+   "bottom": 0
+  },
+  "_terrain_px": 227210,
+  "_veg_px": 115536
+ },
+ "edge": {
+  "grass_block": {
+   "pct": 38.0,
+   "top": 89832,
+   "side": 231991,
+   "bottom": 0
+  },
+  "dirt": {
+   "pct": 15.8,
+   "top": 0,
+   "side": 133747,
+   "bottom": 0
+  },
+  "coarse_dirt": {
+   "pct": 2.9,
+   "top": 0,
+   "side": 24389,
+   "bottom": 0
+  },
+  "stone": {
+   "pct": 22.5,
+   "top": 0,
+   "side": 190542,
+   "bottom": 0
+  },
+  "andesite": {
+   "pct": 10.5,
+   "top": 0,
+   "side": 88576,
+   "bottom": 0
+  },
+  "tuff": {
+   "pct": 10.4,
+   "top": 0,
+   "side": 88235,
+   "bottom": 0
+  },
+  "_terrain_px": 847312,
+  "_veg_px": 69435
+ },
+ "underside": {
+  "grass_block": {
+   "pct": 2.2,
+   "top": 0,
+   "side": 16579,
+   "bottom": 0
+  },
+  "dirt": {
+   "pct": 8.9,
+   "top": 0,
+   "side": 39151,
+   "bottom": 26879
+  },
+  "coarse_dirt": {
+   "pct": 4.8,
+   "top": 0,
+   "side": 23360,
+   "bottom": 11887
+  },
+  "stone": {
+   "pct": 45.1,
+   "top": 0,
+   "side": 188619,
+   "bottom": 145084
+  },
+  "andesite": {
+   "pct": 19.7,
+   "top": 0,
+   "side": 79952,
+   "bottom": 66125
+  },
+  "tuff": {
+   "pct": 19.2,
+   "top": 0,
+   "side": 78237,
+   "bottom": 64094
+  },
+  "_terrain_px": 739967,
+  "_veg_px": 19593
+ }
+}
