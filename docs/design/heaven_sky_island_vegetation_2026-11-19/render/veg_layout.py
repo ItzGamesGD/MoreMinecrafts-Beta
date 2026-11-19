@@ -139,13 +139,13 @@ class Layout:
         self.tree_pos = pos
         return pos
 
-    def scatter(self, cat, makers, density, mask=None, r_free=0, field=None, thresh=None):
+    def scatter(self, cat, makers, density, mask=None, r_free=0, field=None, thresh=None, allow_soft=False):
         cells = self.s.cells(self.s.grass & (mask if mask is not None else True))
         n = 0
         for (x, z) in cells:
             if field is not None and field[x, z] < thresh:
                 continue
-            if self.rng.random() > density or not self.free(x, z, r_free):
+            if self.rng.random() > density or not self.free(x, z, r_free, allow_soft):
                 continue
             sp, mk, H = makers[self.rng.integers(0, len(makers))]
             self.place(cat, sp, mk(int(self.rng.integers(0, 10 ** 6))), x, z, H=H, soft=r_free)
@@ -259,8 +259,8 @@ def build(name, surf=None, scale=None):
             for x in range(s.top.shape[0]):
                 for z in range(s.top.shape[1]):
                     if np.hypot(x - tx, z - tz) <= 4: near_tree[x, z] = True
-        L.scatter('ground', [('bigleaf', lambda sd: vm.big_leaf_plant(sd), 0.75)], 0.12, mask=near_tree, r_free=1)
-        L.scatter('bush', [('leafbush', lambda sd: vm.bush(sd), 1.4)], 0.12, mask=near_tree, r_free=1)
+        L.scatter('ground', [('bigleaf', lambda sd: vm.big_leaf_plant(sd), 0.75)], 0.12, mask=near_tree, r_free=0, allow_soft=True)
+        L.scatter('bush', [('leafbush', lambda sd: vm.bush(sd), 1.4)], 0.14, mask=near_tree, r_free=0, allow_soft=True)
         L.scatter('medium', [('bells', MED['bells'], 2.0)], 0.35, mask=waterside, r_free=1)
         L.scatter('grass', [TUFT[1]], 0.6, mask=waterside)
         f = noise2(s.top.shape, 4, 7)
