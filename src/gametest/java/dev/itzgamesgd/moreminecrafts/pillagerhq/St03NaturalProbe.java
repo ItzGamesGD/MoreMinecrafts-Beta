@@ -1150,16 +1150,15 @@ public final class St03NaturalProbe implements ModInitializer {
                 @SuppressWarnings("unchecked")
                 List<Map<String, Object>> caveCases = (List<Map<String, Object>>) result.computeIfAbsent("cave_air_feature_intersections", k -> new ArrayList<>());
                 caveCases.add(current);
-            } else if (verified.size() < 2) {
+            } else {
                 verified.add(current);
             }
             player.setGameMode(GameType.SPECTATOR);
             player.teleportTo(0, 200, 0);
             for (var cp : forced) level.setChunkForced(cp.x(), cp.z(), false);
             forced.clear();
-            while (++index < targets.size() && verified.size() >= 2 && !Boolean.TRUE.equals(targets.get(index).get("known_village_overlap_diagnostic"))) {
-                // Already verified 2 clean newly-unlocked targets; skip remaining non-diagnostic fallback candidates
-            }
+            // Check every sampled target so the cave_air rate is measured over the full sample.
+            index++;
             if (index >= targets.size()) {
                 if (verified.size() < 2) {
                     finish(new AssertionError("Fewer than 2 clean full_generation targets verified: " + verified.size()));
