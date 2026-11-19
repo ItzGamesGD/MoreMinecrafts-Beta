@@ -1,0 +1,4 @@
+grass side soil part vs loam block:  A 7.6  B 0.4
+vanilla dirt vs garden_loam_B dE 7.9  L* 44.0 vs 51.4
+grass top A L*a*b* [ 62.6 -49.6  50.5]  vs vanilla short_grass dE 42.3
+grass top B L*a*b* [ 79.6 -35.8  42.2]  vs vanilla short_grass dE 42.8
