@@ -44,6 +44,8 @@ import org.slf4j.LoggerFactory;
  * and natural-completion/first-proximity validation. Inert without opt-in.
  */
 public final class St03NaturalProbe implements ModInitializer {
+    /** Valid starts per seed that get full chunk generation and support-plane checks. */
+    private static final int FULL_SAMPLE_PER_SEED = 12;
     private static final Logger LOG = LoggerFactory.getLogger("st03-natural-v2");
     private static final Gson JSON = new GsonBuilder().setPrettyPrinting().create();
     private static final int RADIUS = 25, COMMON_MIN = -1200, COMMON_MAX = 1248;
@@ -1072,8 +1074,11 @@ public final class St03NaturalProbe implements ModInitializer {
             this.started = started;
             List<Map<String, Object>> starts = (List<Map<String, Object>>) result.get("starts");
             List<Map<String, Object>> selected = new ArrayList<>();
-            for (var row : prioritizeNewTargets(starts)) {
-                if (selected.size() < 3) selected.add(row);
+            // Unbiased random sample of valid starts (fixed per seed) for the cave_air intersection rate.
+            List<Map<String, Object>> pool = new ArrayList<>(starts);
+            Collections.shuffle(pool, new Random(level.getSeed() ^ 0x5EEDCA7EL));
+            for (var row : pool) {
+                if (selected.size() < FULL_SAMPLE_PER_SEED) selected.add(row);
             }
             // On seed 10079, also explicitly inspect the historical village-overlapping savanna case (-1429, -123)
             if (level.getSeed() == 10079L) {
