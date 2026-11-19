@@ -1,0 +1,358 @@
+{
+ "B": {
+  "textures": {
+   "textures": {
+    "cream_stone_B": {
+     "L": 86.0,
+     "a": -0.6,
+     "b": 15.7,
+     "L_std": 4.53,
+     "L_range": 22.8,
+     "dE_p90": 7.0,
+     "nb_step": 2.41
+    },
+    "calcite": {
+     "L": 89.1,
+     "a": -1.0,
+     "b": 1.7,
+     "L_std": 6.83,
+     "L_range": 27.1,
+     "dE_p90": 11.1,
+     "nb_step": 4.65
+    },
+    "dripstone_block": {
+     "L": 47.5,
+     "a": 8.4,
+     "b": 12.4,
+     "L_std": 8.04,
+     "L_range": 25.6,
+     "dE_p90": 14.3,
+     "nb_step": 6.95
+    },
+    "garden_loam_B": {
+     "L": 51.4,
+     "a": 10.5,
+     "b": 24.9,
+     "L_std": 11.39,
+     "L_range": 33.2,
+     "dE_p90": 17.0,
+     "nb_step": 12.92
+    }
+   },
+   "inter_dE": {
+    "cream_stone_B / calcite": 14.3,
+    "cream_stone_B / dripstone_block": 39.6,
+    "cream_stone_B / garden_loam_B": 37.5,
+    "calcite / dripstone_block": 43.9,
+    "calcite / garden_loam_B": 45.7,
+    "dripstone_block / garden_loam_B": 13.2
+   }
+  },
+  "full": {
+   "rock_L_mean": 54.7,
+   "rock_L_std": 15.68,
+   "dark_spot_px": 0.223,
+   "rock_vs_soil_dL": 17.9,
+   "rock_vs_sky_dL": -29.8
+  },
+  "edge": {
+   "rock_L_mean": 53.9,
+   "rock_L_std": 15.64,
+   "dark_spot_px": 0.238,
+   "rock_vs_soil_dL": 17.1,
+   "rock_vs_sky_dL": -36.3
+  },
+  "underside": {
+   "rock_L_mean": 45.5,
+   "rock_L_std": 15.28,
+   "dark_spot_px": 0.177,
+   "rock_vs_soil_dL": 13.1,
+   "rock_vs_sky_dL": -43.4
+  }
+ },
+ "B1": {
+  "textures": {
+   "textures": {
+    "cream_stone_B1": {
+     "L": 86.2,
+     "a": -0.6,
+     "b": 15.7,
+     "L_std": 2.14,
+     "L_range": 11.5,
+     "dE_p90": 2.9,
+     "nb_step": 1.18
+    },
+    "garden_loam_B": {
+     "L": 51.4,
+     "a": 10.5,
+     "b": 24.9,
+     "L_std": 11.39,
+     "L_range": 33.2,
+     "dE_p90": 17.0,
+     "nb_step": 12.92
+    }
+   },
+   "inter_dE": {
+    "cream_stone_B1 / garden_loam_B": 37.6
+   }
+  },
+  "full": {
+   "rock_L_mean": 60.7,
+   "rock_L_std": 9.32,
+   "dark_spot_px": 0.074,
+   "rock_vs_soil_dL": 23.9,
+   "rock_vs_sky_dL": -23.8
+  },
+  "edge": {
+   "rock_L_mean": 60.0,
+   "rock_L_std": 9.29,
+   "dark_spot_px": 0.081,
+   "rock_vs_soil_dL": 23.2,
+   "rock_vs_sky_dL": -30.2
+  },
+  "underside": {
+   "rock_L_mean": 50.5,
+   "rock_L_std": 11.16,
+   "dark_spot_px": 0.024,
+   "rock_vs_soil_dL": 18.2,
+   "rock_vs_sky_dL": -38.3
+  }
+ },
+ "B2": {
+  "textures": {
+   "textures": {
+    "cream_stone_B2": {
+     "L": 85.4,
+     "a": -0.2,
+     "b": 12.5,
+     "L_std": 3.15,
+     "L_range": 14.5,
+     "dE_p90": 9.6,
+     "nb_step": 2.36
+    },
+    "cream_stone_pale_B2": {
+     "L": 88.9,
+     "a": -0.4,
+     "b": 6.6,
+     "L_std": 2.84,
+     "L_range": 14.5,
+     "dE_p90": 8.2,
+     "nb_step": 1.76
+    },
+    "garden_loam_B": {
+     "L": 51.4,
+     "a": 10.5,
+     "b": 24.9,
+     "L_std": 11.39,
+     "L_range": 33.2,
+     "dE_p90": 17.0,
+     "nb_step": 12.92
+    }
+   },
+   "inter_dE": {
+    "cream_stone_B2 / cream_stone_pale_B2": 6.9,
+    "cream_stone_B2 / garden_loam_B": 37.7,
+    "cream_stone_pale_B2 / garden_loam_B": 43.1
+   }
+  },
+  "full": {
+   "rock_L_mean": 61.4,
+   "rock_L_std": 9.45,
+   "dark_spot_px": 0.093,
+   "rock_vs_soil_dL": 24.6,
+   "rock_vs_sky_dL": -23.1
+  },
+  "edge": {
+   "rock_L_mean": 60.8,
+   "rock_L_std": 9.49,
+   "dark_spot_px": 0.103,
+   "rock_vs_soil_dL": 24.0,
+   "rock_vs_sky_dL": -29.4
+  },
+  "underside": {
+   "rock_L_mean": 51.0,
+   "rock_L_std": 11.36,
+   "dark_spot_px": 0.03,
+   "rock_vs_soil_dL": 18.7,
+   "rock_vs_sky_dL": -37.8
+  }
+ },
+ "B3": {
+  "textures": {
+   "textures": {
+    "pale_stone_B3": {
+     "L": 84.6,
+     "a": -0.2,
+     "b": 3.9,
+     "L_std": 3.39,
+     "L_range": 17.1,
+     "dE_p90": 4.7,
+     "nb_step": 3.28
+    },
+    "calcite": {
+     "L": 89.1,
+     "a": -1.0,
+     "b": 1.7,
+     "L_std": 6.83,
+     "L_range": 27.1,
+     "dE_p90": 11.1,
+     "nb_step": 4.65
+    },
+    "garden_loam_B": {
+     "L": 51.4,
+     "a": 10.5,
+     "b": 24.9,
+     "L_std": 11.39,
+     "L_range": 33.2,
+     "dE_p90": 17.0,
+     "nb_step": 12.92
+    }
+   },
+   "inter_dE": {
+    "pale_stone_B3 / calcite": 5.1,
+    "pale_stone_B3 / garden_loam_B": 40.7,
+    "calcite / garden_loam_B": 45.7
+   }
+  },
+  "full": {
+   "rock_L_mean": 60.3,
+   "rock_L_std": 9.68,
+   "dark_spot_px": 0.086,
+   "rock_vs_soil_dL": 23.5,
+   "rock_vs_sky_dL": -24.3
+  },
+  "edge": {
+   "rock_L_mean": 59.7,
+   "rock_L_std": 9.72,
+   "dark_spot_px": 0.097,
+   "rock_vs_soil_dL": 22.9,
+   "rock_vs_sky_dL": -30.5
+  },
+  "underside": {
+   "rock_L_mean": 50.2,
+   "rock_L_std": 11.4,
+   "dark_spot_px": 0.029,
+   "rock_vs_soil_dL": 17.8,
+   "rock_vs_sky_dL": -38.7
+  }
+ },
+ "B4": {
+  "textures": {
+   "textures": {
+    "cream_stone_B4": {
+     "L": 84.2,
+     "a": -0.1,
+     "b": 16.1,
+     "L_std": 2.45,
+     "L_range": 13.7,
+     "dE_p90": 4.3,
+     "nb_step": 2.01
+    },
+    "cream_stone_light_B4": {
+     "L": 91.0,
+     "a": -0.0,
+     "b": 8.7,
+     "L_std": 2.36,
+     "L_range": 11.9,
+     "dE_p90": 4.3,
+     "nb_step": 1.92
+    },
+    "cream_stone_deep_B4": {
+     "L": 77.8,
+     "a": 1.0,
+     "b": 18.1,
+     "L_std": 3.23,
+     "L_range": 15.8,
+     "dE_p90": 4.6,
+     "nb_step": 2.57
+    },
+    "garden_loam_B": {
+     "L": 51.4,
+     "a": 10.5,
+     "b": 24.9,
+     "L_std": 11.39,
+     "L_range": 33.2,
+     "dE_p90": 17.0,
+     "nb_step": 12.92
+    }
+   },
+   "inter_dE": {
+    "cream_stone_B4 / cream_stone_light_B4": 10.1,
+    "cream_stone_B4 / cream_stone_deep_B4": 6.8,
+    "cream_stone_B4 / garden_loam_B": 35.5,
+    "cream_stone_light_B4 / cream_stone_deep_B4": 16.2,
+    "cream_stone_light_B4 / garden_loam_B": 44.0,
+    "cream_stone_deep_B4 / garden_loam_B": 28.9
+   }
+  },
+  "full": {
+   "rock_L_mean": 59.4,
+   "rock_L_std": 9.83,
+   "dark_spot_px": 0.088,
+   "rock_vs_soil_dL": 22.6,
+   "rock_vs_sky_dL": -25.1
+  },
+  "edge": {
+   "rock_L_mean": 58.8,
+   "rock_L_std": 9.9,
+   "dark_spot_px": 0.097,
+   "rock_vs_soil_dL": 22.0,
+   "rock_vs_sky_dL": -31.4
+  },
+  "underside": {
+   "rock_L_mean": 49.4,
+   "rock_L_std": 11.45,
+   "dark_spot_px": 0.029,
+   "rock_vs_soil_dL": 17.0,
+   "rock_vs_sky_dL": -39.5
+  }
+ },
+ "B5": {
+  "textures": {
+   "textures": {
+    "pearl_stone_B5": {
+     "L": 90.1,
+     "a": 1.1,
+     "b": 9.4,
+     "L_std": 2.48,
+     "L_range": 12.7,
+     "dE_p90": 4.5,
+     "nb_step": 2.32
+    },
+    "garden_loam_B": {
+     "L": 51.4,
+     "a": 10.5,
+     "b": 24.9,
+     "L_std": 11.39,
+     "L_range": 33.2,
+     "dE_p90": 17.0,
+     "nb_step": 12.92
+    }
+   },
+   "inter_dE": {
+    "pearl_stone_B5 / garden_loam_B": 42.7
+   }
+  },
+  "full": {
+   "rock_L_mean": 63.6,
+   "rock_L_std": 9.69,
+   "dark_spot_px": 0.094,
+   "rock_vs_soil_dL": 26.8,
+   "rock_vs_sky_dL": -21.0
+  },
+  "edge": {
+   "rock_L_mean": 62.9,
+   "rock_L_std": 9.65,
+   "dark_spot_px": 0.108,
+   "rock_vs_soil_dL": 26.1,
+   "rock_vs_sky_dL": -27.3
+  },
+  "underside": {
+   "rock_L_mean": 52.9,
+   "rock_L_std": 11.64,
+   "dark_spot_px": 0.029,
+   "rock_vs_soil_dL": 20.6,
+   "rock_vs_sky_dL": -35.9
+  }
+ }
+}

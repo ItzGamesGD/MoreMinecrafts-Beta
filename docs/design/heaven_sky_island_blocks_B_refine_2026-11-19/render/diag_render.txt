@@ -1,0 +1,10 @@
+B {'L_mean': 45.5, 'L_std': 15.28, 'dark_spot_px': 0.177}
+B_noAO {'L_mean': 51.8, 'L_std': 16.18, 'dark_spot_px': 0.167}
+B_noAO_flat {'L_mean': 63.4, 'L_std': 14.73, 'dark_spot_px': 0.229}
+B_uniform_rock {'L_mean': 50.4, 'L_std': 11.41, 'dark_spot_px': 0.032}
+B_uniform_rock_noAO_flat {'L_mean': 70.1, 'L_std': 3.8, 'dark_spot_px': 0.0}
+B1 {'L_mean': 50.5, 'L_std': 11.16, 'dark_spot_px': 0.024}
+B2 {'L_mean': 51.0, 'L_std': 11.36, 'dark_spot_px': 0.03}
+B3 {'L_mean': 50.2, 'L_std': 11.4, 'dark_spot_px': 0.029}
+B4 {'L_mean': 49.4, 'L_std': 11.45, 'dark_spot_px': 0.029}
+B5 {'L_mean': 52.9, 'L_std': 11.64, 'dark_spot_px': 0.029}
