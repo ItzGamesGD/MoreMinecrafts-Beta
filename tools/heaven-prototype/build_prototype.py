@@ -220,7 +220,10 @@ def prototype_nbt(s, L, placements):
                        'blocks': nbtlib.List[nbtlib.Compound](blocks), 'entities': nbtlib.List[nbtlib.Compound]([])}, gzipped=True)
     dst = os.path.join(D, 'structure/heaven_prototype/plain_medium_d_v5.nbt')
     os.makedirs(os.path.dirname(dst), exist_ok=True)
-    out.save(dst, gzipped=True)
+    import gzip, io
+    buf = io.BytesIO(); out.write(buf)          # uncompressed NBT payload
+    with open(dst, 'wb') as fh:                  # mtime=0 -> byte-reproducible gzip
+        fh.write(gzip.compress(buf.getvalue(), compresslevel=9, mtime=0))
     assert open(src, 'rb').read() == raw, 'original template must be untouched'
     return dict(source_sha256=hashlib.sha256(raw).hexdigest(), terrain_blocks=len(terrain_pos),
                 dropped_template_blocks=dict(dropped), flora_blocks=len(placements), flora_terrain_clash=clash,
