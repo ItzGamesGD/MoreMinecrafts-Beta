@@ -1,0 +1,433 @@
+{
+  "design": "V5 (docs/design/heaven_sky_island_vegetation_2026-11-19), crc32 3288601534",
+  "p1": {
+    "blocks": 1,
+    "models": 1241,
+    "elements": 13078,
+    "faces": 44126,
+    "textures": 57,
+    "texture_bytes": 8419,
+    "island_palette": 1246,
+    "island_bytes": 31614,
+    "p1_island_sha256": "ce2018eb24ccdeab8b6e5c5a353cbf2d5956f25a4c1762427b569cac1aea46b7"
+  },
+  "p2": {
+    "resources": {
+      "blocks": {
+        "heaven_giant_stem": {
+          "parts": 57,
+          "family": "giant",
+          "facing": false
+        },
+        "heaven_giant_leaf": {
+          "parts": 112,
+          "family": "giant",
+          "facing": false
+        },
+        "heaven_giant_bloom": {
+          "parts": 172,
+          "family": "giant",
+          "facing": false
+        },
+        "heaven_lavender": {
+          "parts": 31,
+          "family": "medium",
+          "facing": true
+        },
+        "heaven_hydrangea": {
+          "parts": 15,
+          "family": "medium",
+          "facing": true
+        },
+        "heaven_phlox": {
+          "parts": 42,
+          "family": "medium",
+          "facing": true
+        },
+        "heaven_flower_red": {
+          "parts": 1,
+          "family": "small",
+          "facing": false
+        },
+        "heaven_flower_yellow": {
+          "parts": 1,
+          "family": "small",
+          "facing": false
+        },
+        "heaven_flower_white": {
+          "parts": 1,
+          "family": "small",
+          "facing": false
+        },
+        "heaven_flower_pink": {
+          "parts": 1,
+          "family": "small",
+          "facing": false
+        },
+        "heaven_flower_blue": {
+          "parts": 1,
+          "family": "small",
+          "facing": false
+        },
+        "heaven_flower_violet": {
+          "parts": 1,
+          "family": "small",
+          "facing": false
+        },
+        "heaven_short_grass": {
+          "parts": 3,
+          "family": "grass",
+          "facing": true
+        },
+        "heaven_tall_grass": {
+          "parts": 2,
+          "family": "grass",
+          "facing": true
+        },
+        "heaven_vine": {
+          "parts": 4,
+          "family": "vine",
+          "facing": true
+        },
+        "heaven_wisteria": {
+          "parts": 5,
+          "family": "vine",
+          "facing": true
+        },
+        "heaven_white_blossom_leaves": {
+          "parts": 1,
+          "family": "tree",
+          "facing": false
+        }
+      },
+      "models": 450,
+      "elements": 2884,
+      "faces": 12034,
+      "textures": 48,
+      "texture_bytes": 7286
+    },
+    "terrain_blocks": 6376,
+    "vegetation_blocks": 1232,
+    "island_palette": 551,
+    "island_bytes": 27474,
+    "structures": {
+      "giant_starlotus": {
+        "size": [
+          7,
+          11,
+          7
+        ],
+        "pivot": [
+          3,
+          1,
+          3
+        ],
+        "blocks": 123,
+        "palette": 122
+      },
+      "giant_lily": {
+        "size": [
+          7,
+          13,
+          6
+        ],
+        "pivot": [
+          3,
+          1,
+          2
+        ],
+        "blocks": 120,
+        "palette": 117
+      },
+      "giant_daffodil": {
+        "size": [
+          10,
+          12,
+          10
+        ],
+        "pivot": [
+          4,
+          1,
+          4
+        ],
+        "blocks": 106,
+        "palette": 105
+      },
+      "tree_blossom": {
+        "size": [
+          6,
+          8,
+          7
+        ],
+        "pivot": [
+          3,
+          1,
+          2
+        ],
+        "blocks": 91,
+        "palette": 2
+      },
+      "tree_white": {
+        "size": [
+          8,
+          9,
+          9
+        ],
+        "pivot": [
+          3,
+          1,
+          4
+        ],
+        "blocks": 136,
+        "palette": 2
+      },
+      "medium_lavender_0": {
+        "size": [
+          3,
+          3,
+          3
+        ],
+        "pivot": [
+          1,
+          0,
+          1
+        ],
+        "blocks": 17,
+        "palette": 17
+      },
+      "medium_lavender_1": {
+        "size": [
+          3,
+          3,
+          3
+        ],
+        "pivot": [
+          1,
+          0,
+          1
+        ],
+        "blocks": 14,
+        "palette": 14
+      },
+      "medium_hydrangea_0": {
+        "size": [
+          3,
+          3,
+          3
+        ],
+        "pivot": [
+          1,
+          0,
+          1
+        ],
+        "blocks": 15,
+        "palette": 15
+      },
+      "medium_hydrangea_1": {
+        "size": [
+          3,
+          3,
+          3
+        ],
+        "pivot": [
+          1,
+          0,
+          1
+        ],
+        "blocks": 15,
+        "palette": 15
+      },
+      "medium_phlox_0": {
+        "size": [
+          3,
+          3,
+          3
+        ],
+        "pivot": [
+          1,
+          0,
+          1
+        ],
+        "blocks": 21,
+        "palette": 21
+      },
+      "medium_phlox_1": {
+        "size": [
+          3,
+          3,
+          3
+        ],
+        "pivot": [
+          1,
+          0,
+          1
+        ],
+        "blocks": 22,
+        "palette": 22
+      }
+    }
+  },
+  "voxel_comparison": {
+    "giant": {
+      "design_voxels": 4212,
+      "p2_voxels": 4212,
+      "iou": 1.0,
+      "volume_ratio": 1.0,
+      "column_overlap": 1.0,
+      "mean_top_height_diff_blocks": 0.0
+    },
+    "tree": {
+      "design_voxels": 12513,
+      "p2_voxels": 14400,
+      "iou": 0.71,
+      "volume_ratio": 1.15,
+      "column_overlap": 0.748,
+      "mean_top_height_diff_blocks": 0.35
+    },
+    "medium": {
+      "design_voxels": 4855,
+      "p2_voxels": 4762,
+      "iou": 0.445,
+      "volume_ratio": 0.98,
+      "column_overlap": 0.876,
+      "mean_top_height_diff_blocks": 0.43
+    },
+    "small": {
+      "design_voxels": 1397,
+      "p2_voxels": 1397,
+      "iou": 1.0,
+      "volume_ratio": 1.0,
+      "column_overlap": 1.0,
+      "mean_top_height_diff_blocks": 0.0
+    },
+    "grass": {
+      "design_voxels": 1670,
+      "p2_voxels": 1501,
+      "iou": 0.129,
+      "volume_ratio": 0.9,
+      "column_overlap": 0.671,
+      "mean_top_height_diff_blocks": 0.13
+    },
+    "ground": {
+      "design_voxels": 186,
+      "p2_voxels": 296,
+      "iou": 0.113,
+      "volume_ratio": 1.59,
+      "column_overlap": 0.687,
+      "mean_top_height_diff_blocks": 0.0
+    },
+    "vine": {
+      "design_voxels": 291,
+      "p2_voxels": 349,
+      "iou": 0.113,
+      "volume_ratio": 1.2,
+      "column_overlap": 0.536,
+      "mean_top_height_diff_blocks": 0.07
+    },
+    "drape": {
+      "design_voxels": 115,
+      "p2_voxels": 233,
+      "iou": 0.006,
+      "volume_ratio": 2.03,
+      "column_overlap": 0.567,
+      "mean_top_height_diff_blocks": 1.99
+    },
+    "ALL": {
+      "design_voxels": 25239,
+      "p2_voxels": 27150,
+      "iou": 0.634
+    }
+  },
+  "conversion_stats": {
+    "giant": {
+      "cell_conflicts": 8,
+      "instances": 3
+    },
+    "tree": {
+      "cell_conflicts": 2,
+      "cells_dropped_below_threshold": 167,
+      "instances": 2
+    },
+    "drape": {
+      "instances": 1
+    },
+    "medium": {
+      "instances": 19,
+      "cell_conflicts": 4
+    },
+    "small": {
+      "instances": 127
+    },
+    "grass": {
+      "instances": 108
+    },
+    "ground": {
+      "cell_conflicts": 31,
+      "instances": 12
+    },
+    "vine": {
+      "instances": 18,
+      "cell_conflicts": 2,
+      "instances_without_voxels_in_v5": 1
+    }
+  },
+  "giants": [
+    {
+      "species": "starlotus",
+      "base": [
+        27,
+        14,
+        10
+      ],
+      "voxel_top_blocks": 9.25,
+      "bbox_blocks": [
+        -3.0,
+        -0.5,
+        -3.25,
+        2.5,
+        9.0,
+        2.5
+      ]
+    },
+    {
+      "species": "lily",
+      "base": [
+        16,
+        14,
+        11
+      ],
+      "voxel_top_blocks": 11.5,
+      "bbox_blocks": [
+        -3.25,
+        -1.0,
+        -2.5,
+        2.5,
+        11.25,
+        3.25
+      ]
+    },
+    {
+      "species": "daffodil",
+      "base": [
+        22,
+        14,
+        29
+      ],
+      "voxel_top_blocks": 10.5,
+      "bbox_blocks": [
+        -4.0,
+        -0.25,
+        -4.5,
+        4.5,
+        10.25,
+        4.5
+      ]
+    }
+  ],
+  "rules": {
+    "tree_leaf_threshold": 24,
+    "tree_bark_threshold": 8,
+    "medium_variants": 2,
+    "stem_library": "rejected: canonical stems 44->26 cells at mean IoU 0.68 (min 0.25)"
+  }
+}

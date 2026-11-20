@@ -33,6 +33,7 @@ public final class ModRegistries {
         EnchantmentRuntime.initialize();
         ModBlocks.initialize();
         dev.itzgamesgd.moreminecrafts.heaven.HeavenPrototypeBlocks.initialize();
+        dev.itzgamesgd.moreminecrafts.heaven.HeavenP2Blocks.initialize();
         ModBlockEntities.initialize();
         ModMenuTypes.initialize();
         AbilityAttachments.initialize();
