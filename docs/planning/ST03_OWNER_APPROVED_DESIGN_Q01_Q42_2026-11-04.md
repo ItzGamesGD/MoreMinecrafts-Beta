@@ -200,3 +200,11 @@ Design/process decisions only. They do not certify built geometry, worldgen, spa
 - Additional mob generation and design suited to the pillager headquarters (beyond the Q106–Q108 garrison rules and the unchanged 1 commander / 2 ravagers / 35–45 pillagers) is **follow-up work**, not decided here. Q96 ("real spawn and gameplay integration phase" scope/order) therefore remains an open design question to be re-asked as needed.
 - Related status (2026-11-14, from the owner): ST-03 pillager headquarters has passed through structures to the walls, towers, main gate and ground road (Draft PR #55; see `docs/integration/FEATURE_STATUS_REGISTRY_20261112.md`). Design approval only; not certified here.
 
+
+## Owner-approved decisions — natural frequency and support plane (2026-11-20)
+
+- **Frequency target (accepted by owner):** natural placement density of about **9.7 per 64 km²** is accepted as the ST-03 frequency target. Basis: 10 seeds, village-excluded, 4,412 valid starts (measured 9.73 per 64 km²; baseline before this work 4.22). The earlier reference value of 10.62 was never a recorded target and is superseded by this decision. The owner accepted the roughly 8% shortfall against 10.62.
+- **Village overlap:** a candidate is rejected at generation time when its 112×112 headquarters footprint box, spanning y−16 to y+30 around the foundation, intersects a village start's bounding box.
+- **Lava in the support plane:** lava inside the footprint and in the outer 1-block ring is replaced with solid blocks up to the base level. Lava presence alone is not a rejection reason. Implementation status: **pending** (not yet in code).
+- **Cave air in the support plane:** no owner decision. The natural probe records occurrences only; no filtering rule is set.
+- **Authority status:** whether this ledger is the current ST-03 authority remains for the owner to confirm (unchanged from the entries above).
