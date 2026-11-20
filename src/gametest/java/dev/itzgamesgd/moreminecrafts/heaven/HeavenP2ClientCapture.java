@@ -53,10 +53,13 @@ public final class HeavenP2ClientCapture implements FabricClientGameTest {
              TestDedicatedServerConnection connection = server.connect()) {
             context.waitFor(c -> c.player != null && c.level != null);
             context.runOnClient(c -> { if (!c.gui.hud.isHidden()) c.gui.hud.toggle(); });
+            // Setup is split into short server tasks: one long task blocks the server thread past the client keep-alive.
+            server.runOnServer(s -> place(s.overworld(), "moreminecrafts:heaven_prototype/plain_medium_d_v5", P1_AT));
+            context.waitTicks(40);
+            server.runOnServer(s -> place(s.overworld(), "moreminecrafts:heaven_prototype/plain_medium_d_v5_p2", P2_AT));
+            context.waitTicks(40);
             server.runOnServer(s -> {
                 ServerLevel level = s.overworld();
-                place(level, "moreminecrafts:heaven_prototype/plain_medium_d_v5", P1_AT);
-                place(level, "moreminecrafts:heaven_prototype/plain_medium_d_v5_p2", P2_AT);
                 Block concrete = BuiltInRegistries.BLOCK.getValue(Identifier.parse("minecraft:white_concrete"));
                 if (concrete == Blocks.AIR) throw new AssertionError("minecraft:white_concrete not found");
                 // control plates in open sky: 9x9 heaven cream stone and 9x9 white concrete, 4 blocks apart, nothing above
@@ -67,6 +70,7 @@ public final class HeavenP2ClientCapture implements FabricClientGameTest {
                 cmd(s, "weather clear"); cmd(s, "time set noon");
                 s.getPlayerList().getPlayers().getFirst().setGameMode(GameType.SPECTATOR);
             });
+            context.waitTicks(20);
             for (String island : new String[]{"p1", "p2"}) {
                 BlockPos at = island.equals("p1") ? P1_AT : P2_AT;
                 for (View v : VIEWS) {
@@ -97,8 +101,8 @@ public final class HeavenP2ClientCapture implements FabricClientGameTest {
     }
 
     private static void place(ServerLevel level, String id, BlockPos at) {
-        for (int cx = (at.getX() >> 4) - 1; cx <= (at.getX() >> 4) + 4; cx++)
-            for (int cz = (at.getZ() >> 4) - 1; cz <= (at.getZ() >> 4) + 4; cz++) level.getChunk(cx, cz);
+        for (int cx = at.getX() >> 4; cx <= (at.getX() + 44) >> 4; cx++)          // only the island footprint (45 x 37)
+            for (int cz = at.getZ() >> 4; cz <= (at.getZ() + 36) >> 4; cz++) level.getChunk(cx, cz);
         var t = level.getStructureTemplateManager().get(Identifier.parse(id)).orElseThrow(() -> new AssertionError("missing " + id));
         if (!t.placeInWorld(level, at, at, new StructurePlaceSettings(), level.getRandom(), Block.UPDATE_CLIENTS))
             throw new AssertionError("placeInWorld failed for " + id);
