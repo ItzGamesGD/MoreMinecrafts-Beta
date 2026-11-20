@@ -15,12 +15,12 @@ import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
 
 /**
- * Keeps non-solid blocks (lava, fluids, plants) out of the ST-03 support band after structure placement.
+ * Keeps non-solid blocks (lava, fluids, plants) and cave air out of the ST-03 support band after structure placement.
  *
  * <p>Such blocks in the footprint's support band (y from foundation-16 up to foundation-1, inside the 112x112 footprint)
  * can be written by features that run after the terrain correction piece, including features decorated in neighbouring
- * chunks. Each write is replaced by cobblestone, so the support band stays solid. Air (including cave air), blocks outside
- * the footprint and the foundation level and above are not touched.
+ * chunks. Each write is replaced by cobblestone, so the support band stays solid. Ordinary air, blocks outside the
+ * footprint and the foundation level and above are not touched.
  *
  * <p>Lookups use only the chunk's own structure references and the starts the region already holds (STRUCTURE_STARTS);
  * no chunk is loaded or generated.
@@ -32,11 +32,11 @@ public final class St03SupportLavaGuard {
     private static final int BAND_DEPTH = St03PlacementConfig.MAX_FOOTING_FILL;
 
     /**
-     * Whether a feature write at {@code pos} through {@code region} must be replaced with cobblestone: a non-solid,
-     * non-air block (lava, fluid, plant) inside the footprint's support band. Air, including cave air, is not replaced.
+     * Whether a feature write at {@code pos} through {@code region} must be replaced with cobblestone: a non-solid
+     * block (lava, fluid, plant) or cave air inside the footprint's support band. Ordinary air is not replaced.
      */
     public static boolean replacesNonSolidSupport(WorldGenRegion region, BlockPos pos, BlockState state) {
-        if (state.isSolidRender() || state.isAir() || !region.isWithinWriteZone(pos)) return false;
+        if (state.isSolidRender() || (state.isAir() && !state.is(Blocks.CAVE_AIR)) || !region.isWithinWriteZone(pos)) return false;
         ChunkAccess chunk = region.getChunk(pos.getX() >> 4, pos.getZ() >> 4);
         Map<Structure, LongSet> references = chunk.getAllReferences();
         if (references.isEmpty()) return false;

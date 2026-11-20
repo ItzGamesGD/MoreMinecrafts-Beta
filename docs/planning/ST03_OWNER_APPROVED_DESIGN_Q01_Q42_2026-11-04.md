@@ -215,3 +215,9 @@ Design/process decisions only. They do not certify built geometry, worldgen, spa
 - **Not touched:** air, including cave air; blocks at or above the foundation level; blocks outside the footprint. The outer 1-block ring is measured, not changed (no ring lava was observed).
 - **Verification (CI run 44693952462, commit `e95cf912`):** 10 seeds, 120 full checks, all PASS; zero non-solid support-band blocks; one cave-air-only case (seed 10079), recorded and not filtered.
 - **Still open, not decided here:** whether cave-air support intersections are filtered. No owner decision yet.
+
+## Owner decision — cave air in the support band is filled, not filtered (2026-11-20)
+
+- Cave air written into the support band (inside the 112×112 footprint, foundation−16 up to foundation−1) is replaced with cobblestone, like the other non-solid blocks. Candidates are not rejected for cave-air support intersections, so the frequency target (about 9.7 per 64 km²) is unchanged.
+- Ordinary air, blocks outside the footprint, and the foundation level and above are not touched.
+- This resolves the "still open" cave-air item in the previous entry. Implementation status: pending CI verification.
