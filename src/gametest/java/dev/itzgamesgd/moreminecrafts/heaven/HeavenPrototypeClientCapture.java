@@ -74,7 +74,8 @@ public final class HeavenPrototypeClientCapture implements FabricClientGameTest 
             look(context, server, connection, 31.5, 14 + 1.62, 30.5, 18, 17, 12, 120);
             fps(context, "walk");
             snap(context, shot, "walk-eye-level");
-            orbit(context, server, connection, CX, CY, CZ, 35, 10, 120, 200);
+            // 68 blocks: the test client renders roughly 70 blocks (see SkyIslandsClientCapture), 120 showed empty sky.
+            orbit(context, server, connection, CX, CY, CZ, 35, 10, 68, 200);
             fps(context, "far");
             snap(context, shot, "far-readability");
             System.out.println("HEAVEN_CAPTURE_COMPLETE " + shot[0]);
