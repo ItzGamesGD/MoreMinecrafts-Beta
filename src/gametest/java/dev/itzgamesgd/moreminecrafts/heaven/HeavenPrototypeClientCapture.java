@@ -54,17 +54,18 @@ public final class HeavenPrototypeClientCapture implements FabricClientGameTest 
                 p.setGameMode(GameType.SPECTATOR);
                 System.out.println("HEAVEN_CAPTURE_PLACED " + TEMPLATE + " at " + ORIGIN);
             });
+            // Camera positions were checked against the V5 layout so no camera sits inside a canopy.
             // Design-review angles (yaw 35 deg from +x+z, as in the offline renders), then gameplay views.
-            orbit(context, server, connection, CX, CY, CZ, 35, 14, 62, 300);
+            orbit(context, server, connection, CX, CY, CZ, 35, 14, 44, 300);
             fps(context, "full");
             snap(context, shot, "full-design-angle");
-            orbit(context, server, connection, CX, CY, CZ, 215, 18, 62, 120);
+            orbit(context, server, connection, CX, CY, CZ, 215, 18, 44, 120);
             snap(context, shot, "full-opposite");
             orbit(context, server, connection, 29, 9.5, 31, 35, 10, 15, 120);
             snap(context, shot, "edge-grass-loam-rock");
             orbit(context, server, connection, 24, 5, 22, 35, -30, 34, 160);
             snap(context, shot, "underside");
-            orbit(context, server, connection, 27, 19, 10, 40, 6, 17, 120);
+            orbit(context, server, connection, 27, 19, 10, 160, 6, 17, 120);
             snap(context, shot, "giant-starlotus");
             orbit(context, server, connection, 16, 19, 11, 200, 6, 18, 120);
             snap(context, shot, "giant-lily");
