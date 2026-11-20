@@ -64,6 +64,7 @@
       "dev.itzgamesgd.moreminecrafts.worldgen.SkyIslandsGameTests",
       "dev.itzgamesgd.moreminecrafts.heaven.HeavenPrototypeGameTests",
       "dev.itzgamesgd.moreminecrafts.heaven.HeavenP2GameTests",
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP25PolicyProbes",
       "dev.itzgamesgd.moreminecrafts.bounty.ContractGameTests",
       "dev.itzgamesgd.moreminecrafts.bounty.ContractCatalogGameTests",
       "dev.itzgamesgd.moreminecrafts.bounty.ContractIntegrationGameTests",
