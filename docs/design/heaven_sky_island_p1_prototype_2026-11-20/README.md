@@ -183,7 +183,37 @@ ID는 모두 **PROVISIONAL**이다. 월드에 저장되면 바꾸기 어려우�
 
 ## 9. 실게임 검증
 
-CLIENT_SECTION_PLACEHOLDER
+**실행:** 실제 Minecraft 26.3 클라이언트에서 확인했다.
+* 방식: Fabric client GameTest `HeavenPrototypeClientCapture`, `-Dmoreminecrafts.heaven.capture=true`일 때만 동작
+* 환경: Xvfb 가상 디스플레이 + Mesa **llvmpipe 소프트웨어 렌더러**
+  * OpenGL은 GLX visual을 찾지 못해 실패했고, 게임이 자동으로 **Vulkan(lavapipe)** 백엔드로 전환했다.
+* 절차: 저장소 CI 워크플로(`sky-island-sizes.yml`)와 같은 방식으로 캡처 엔트리포인트 하나만 격리했다(작업 사본에서만, 커밋하지 않음).
+* 배치: 일반 월드 y=230에 프로토타입을 놓고 정오·맑음에서 촬영했다.
+
+![client](images/client_contact_sheet.png)
+
+| 확인 항목 | 관찰 (실제 클라이언트 화면) | 판정 |
+|---|---|---|
+| 전체 섬 시각 품질 | V5 렌더와 같은 구성이다: 거대 꽃 3개, 벚꽃·흰꽃 나무, 꽃밭, 연못, 등나무. 디자인 렌더와의 차이는 원근 투영과 실제 조명 정도다 | 재현됨 |
+| 잔디·흙 이음매 | `02-edge`: A 술과 B 흙 측면이 끊김 없이 이어진다. 측면 흙 행 = 흙 블록(텍스처 차이 0) | 이음매 없음 |
+| 암석 질감 | 밝은 면 상위 10%는 L\* 51 / b\* +13.1로 크림 색조가 유지된다(텍스처 b\* +12.5). **섬 하부 평균은 L\* 26.5 / b\* +2.8**로 회색에 가깝게 보인다. 바닥면 음영과 섬 아래의 하늘빛 감소 때문이다. B2 라운드 렌더러는 하늘빛 차단을 계산하지 않아 하부를 실제보다 밝게 표현했다 | **주의 (§11-8)** |
+| 거대 꽃 디테일 | 별연꽃 2단 꽃잎·그라데이션·수정 심지, 백합 수술·꽃밥·젖힌 꽃잎·곁봉오리, 수선화 부관·숙인 목이 모두 보인다(`04`–`06`) | 재현됨 |
+| 꽃·나무 배치 | V5 좌표 그대로. 나무 수관과 거대 꽃이 겹치지 않는다 | 재현됨 |
+| 플레이어 이동 | 관전자 시점 촬영이라 실제 보행은 하지 않았다. NBT·서버 기준 지표 97.9%가 막히지 않고, 줄기·원목만 충돌하며 꽃잎·풀은 통과한다(GameTest로 충돌 형상 확인) | **사람이 직접 걸어보는 확인은 미완료** |
+| 원거리 가독성 | 68블록(`08`): 섬 실루엣·거대 꽃·나무가 구분된다. 가장 먼 백합은 안개로 흐려진다. 120블록에서는 테스트 클라이언트의 렌더 거리 밖이라 아무것도 그려지지 않았다(환경 한계) | 부분 확인 |
+| 렌더링 성능 | 클라이언트 FPS: 전체 9–13, 보행 13–15, 원거리 24–30 | **판단 불가.** CPU 소프트웨어 렌더러 수치라 실제 GPU 성능을 대표하지 않는다 |
+
+**실게임 검증 상태**
+* 실제 클라이언트에서 화면 재현은 **완료**했다(자동 캡처 9장).
+* 다음은 **미완료**다(LIVE VALIDATION PENDING):
+  * 사람이 직접 플레이하는 이동·충돌 체감
+  * GPU 환경 성능
+  * 시간대·날씨·셰이더에 따른 외관
+  * 밉맵 원거리 품질
+* GameTest 통과를 시각 품질 검증으로 대신하지 않았다.
+
+**재현:** §13의 명령으로 `build/run/clientGameTest/screenshots/`에 생성된다. 커밋한 사본은 `images/client/`에 있다.
+
 
 ## 10. 기존 시스템 영향
 
@@ -207,6 +237,7 @@ CLIENT_SECTION_PLACEHOLDER
 5. 나무는 바닐라 컷아웃 잎 + 신규 흰꽃 잎으로 전환할지 (§3 측정 근거)
 6. 식생 충돌 정책: 줄기·원목만 충돌하는 현재 규칙을 유지할지
 7. 위성섬 jigsaw: 프로토타입에서 제거한 연결점을 19개 템플릿 확장 시 어떻게 처리할지
+8. **실게임 하부 명도:** 실제 클라이언트에서 B2 암석 하부는 회색에 가깝게 보인다(평균 L\* 26.5, b\* +2.8). 확정 팔레트를 유지할지, 하부 전용 대응(더 밝은 하부 텍스처, 광원, 하부 노출 블록 변경 등)을 검토할지 결정해야 한다. 이번 작업에서는 확정 디자인을 변경하지 않았다.
 
 ## 12. 19개 템플릿 확장 시 고려 사항
 
@@ -224,6 +255,8 @@ python3 tools/heaven-prototype/build_prototype.py    # 리소스·템플릿 생�
 python3 tools/heaven-prototype/spec_metrics.py       # 명세 수치·텍스처 시트
 ./gradlew test --tests 'dev.itzgamesgd.moreminecrafts.heaven.*'
 ./gradlew runGameTest                                 # 서버 GameTest 전체 (이전 실행 월드가 있으면 build/run/gameTest/world 삭제)
+# 헤드리스 환경: CI와 동일하게 LIBGL_ALWAYS_SOFTWARE=1 MESA_LOADER_DRIVER_OVERRIDE=llvmpipe, VK_ICD_FILENAMES=<lvp_icd.json>,
+# fabric.mod.json의 fabric-client-gametest 엔트리를 HeavenPrototypeClientCapture 하나로 임시 격리(커밋 금지)
 JAVA_TOOL_OPTIONS="$JAVA_TOOL_OPTIONS -Dmoreminecrafts.heaven.capture=true" \
   xvfb-run -a -s "-screen 0 1920x1080x24 +extension GLX +render -noreset" \
   ./gradlew runClientGameTest --args="--width 1600 --height 1000"
