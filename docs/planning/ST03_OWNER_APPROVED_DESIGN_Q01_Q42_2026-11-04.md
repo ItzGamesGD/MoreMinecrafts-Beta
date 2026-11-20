@@ -208,3 +208,10 @@ Design/process decisions only. They do not certify built geometry, worldgen, spa
 - **Lava in the support plane:** lava inside the footprint and in the outer 1-block ring is replaced with solid blocks up to the base level. Lava presence alone is not a rejection reason. Implementation status: **pending** (not yet in code).
 - **Cave air in the support plane:** no owner decision. The natural probe records occurrences only; no filtering rule is set.
 - **Authority status:** whether this ledger is the current ST-03 authority remains for the owner to confirm (unchanged from the entries above).
+
+## Owner-approved support-band rule — extension to non-solid blocks (2026-11-20)
+
+- **Support band:** inside the 112×112 footprint, the support band is the layer from foundation−16 up to foundation−1. Any non-solid, non-air block written there during world generation (lava, other fluids, plants) is replaced with cobblestone, so the band stays solid. This extends the approved lava rule to the other non-solid blocks observed in measurement (a bamboo case, seed 10039).
+- **Not touched:** air, including cave air; blocks at or above the foundation level; blocks outside the footprint. The outer 1-block ring is measured, not changed (no ring lava was observed).
+- **Verification (CI run 44693952462, commit `e95cf912`):** 10 seeds, 120 full checks, all PASS; zero non-solid support-band blocks; one cave-air-only case (seed 10079), recorded and not filtered.
+- **Still open, not decided here:** whether cave-air support intersections are filtered. No owner decision yet.
