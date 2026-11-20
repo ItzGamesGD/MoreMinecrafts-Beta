@@ -12,6 +12,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
@@ -64,6 +65,12 @@ public final class St03HeadquartersStructure extends Structure {
         if (selected.isEmpty()) return Optional.empty();
         var site = selected.get();
         if (terrain.hasBoundaryWaterCutContact(site.originX(), site.originZ(), site.result().foundationY())) {
+            return Optional.empty();
+        }
+        int foundationY = site.result().foundationY();
+        BoundingBox headquartersBox = new BoundingBox(site.originX(), foundationY - 16, site.originZ(),
+                site.originX() + 111, foundationY + 30, site.originZ() + 111);
+        if (St03VillageOverlap.overlapsVillage(context, headquartersBox)) {
             return Optional.empty();
         }
         VERDICT_COUNTS.get(site.result().verdict()).incrementAndGet();

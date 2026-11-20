@@ -200,3 +200,24 @@ Design/process decisions only. They do not certify built geometry, worldgen, spa
 - Additional mob generation and design suited to the pillager headquarters (beyond the Q106–Q108 garrison rules and the unchanged 1 commander / 2 ravagers / 35–45 pillagers) is **follow-up work**, not decided here. Q96 ("real spawn and gameplay integration phase" scope/order) therefore remains an open design question to be re-asked as needed.
 - Related status (2026-11-14, from the owner): ST-03 pillager headquarters has passed through structures to the walls, towers, main gate and ground road (Draft PR #55; see `docs/integration/FEATURE_STATUS_REGISTRY_20261112.md`). Design approval only; not certified here.
 
+
+## Owner-approved decisions — natural frequency and support plane (2026-11-20)
+
+- **Frequency target (accepted by owner):** natural placement density of about **9.7 per 64 km²** is accepted as the ST-03 frequency target. Basis: 10 seeds, village-excluded, 4,412 valid starts (measured 9.73 per 64 km²; baseline before this work 4.22). The earlier reference value of 10.62 was never a recorded target and is superseded by this decision. The owner accepted the roughly 8% shortfall against 10.62.
+- **Village overlap:** a candidate is rejected at generation time when its 112×112 headquarters footprint box, spanning y−16 to y+30 around the foundation, intersects a village start's bounding box.
+- **Lava in the support plane:** lava inside the footprint and in the outer 1-block ring is replaced with solid blocks up to the base level. Lava presence alone is not a rejection reason. Implementation status: **pending** (not yet in code).
+- **Cave air in the support plane:** no owner decision. The natural probe records occurrences only; no filtering rule is set.
+- **Authority status:** whether this ledger is the current ST-03 authority remains for the owner to confirm (unchanged from the entries above).
+
+## Owner-approved support-band rule — extension to non-solid blocks (2026-11-20)
+
+- **Support band:** inside the 112×112 footprint, the support band is the layer from foundation−16 up to foundation−1. Any non-solid, non-air block written there during world generation (lava, other fluids, plants) is replaced with cobblestone, so the band stays solid. This extends the approved lava rule to the other non-solid blocks observed in measurement (a bamboo case, seed 10039).
+- **Not touched:** air, including cave air; blocks at or above the foundation level; blocks outside the footprint. The outer 1-block ring is measured, not changed (no ring lava was observed).
+- **Verification (CI run 44693952462, commit `e95cf912`):** 10 seeds, 120 full checks, all PASS; zero non-solid support-band blocks; one cave-air-only case (seed 10079), recorded and not filtered.
+- **Still open, not decided here:** whether cave-air support intersections are filtered. No owner decision yet.
+
+## Owner decision — cave air in the support band is filled, not filtered (2026-11-20)
+
+- Cave air written into the support band (inside the 112×112 footprint, foundation−16 up to foundation−1) is replaced with cobblestone, like the other non-solid blocks. Candidates are not rejected for cave-air support intersections, so the frequency target (about 9.7 per 64 km²) is unchanged.
+- Ordinary air, blocks outside the footprint, and the foundation level and above are not touched.
+- This resolves the "still open" cave-air item in the previous entry. Implementation status: pending CI verification.

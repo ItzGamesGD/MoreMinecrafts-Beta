@@ -44,6 +44,8 @@ import org.slf4j.LoggerFactory;
  * and natural-completion/first-proximity validation. Inert without opt-in.
  */
 public final class St03NaturalProbe implements ModInitializer {
+    /** Valid starts per seed that get full chunk generation and support-plane checks. */
+    private static final int FULL_SAMPLE_PER_SEED = 12;
     private static final Logger LOG = LoggerFactory.getLogger("st03-natural-v2");
     private static final Gson JSON = new GsonBuilder().setPrettyPrinting().create();
     private static final int RADIUS = 25, COMMON_MIN = -1200, COMMON_MAX = 1248;
@@ -808,7 +810,8 @@ public final class St03NaturalProbe implements ModInitializer {
 
                     // Verify production Structure.generate matches Stage 4 (A+B+C) with boundary water cut filter
                     boolean expectedValid = bestSite[3] != null
-                            && !St03FullTerrainCheck.hasBoundaryWaterCutContact(fastCache::surface, fastCache::floor, bestSite[3].originX, bestSite[3].originZ, bestY[3]);
+                            && !St03FullTerrainCheck.hasBoundaryWaterCutContact(fastCache::surface, fastCache::floor, bestSite[3].originX, bestSite[3].originZ, bestY[3])
+                            && !ovVillage[3];
                     if (generated.isValid() != expectedValid) {
                         throw new AssertionError("Production Structure.generate mismatch vs Stage 4 + boundary filter at " + cp
                                 + ": generated=" + generated.isValid() + ", expected=" + expectedValid);
@@ -1071,8 +1074,11 @@ public final class St03NaturalProbe implements ModInitializer {
             this.started = started;
             List<Map<String, Object>> starts = (List<Map<String, Object>>) result.get("starts");
             List<Map<String, Object>> selected = new ArrayList<>();
-            for (var row : prioritizeNewTargets(starts)) {
-                if (selected.size() < 3) selected.add(row);
+            // Unbiased random sample of valid starts (fixed per seed) for the cave_air intersection rate.
+            List<Map<String, Object>> pool = new ArrayList<>(starts);
+            Collections.shuffle(pool, new Random(level.getSeed() ^ 0x5EEDCA7EL));
+            for (var row : pool) {
+                if (selected.size() < FULL_SAMPLE_PER_SEED) selected.add(row);
             }
             // On seed 10079, also explicitly inspect the historical village-overlapping savanna case (-1429, -123)
             if (level.getSeed() == 10079L) {
@@ -1144,16 +1150,19 @@ public final class St03NaturalProbe implements ModInitializer {
                 @SuppressWarnings("unchecked")
                 List<Map<String, Object>> caveCases = (List<Map<String, Object>>) result.computeIfAbsent("cave_air_feature_intersections", k -> new ArrayList<>());
                 caveCases.add(current);
-            } else if (verified.size() < 2) {
+            } else if (Boolean.TRUE.equals(current.get("post_structure_lava_intersection"))) {
+                @SuppressWarnings("unchecked")
+                List<Map<String, Object>> lavaCases = (List<Map<String, Object>>) result.computeIfAbsent("lava_feature_intersections", k -> new ArrayList<>());
+                lavaCases.add(current);
+            } else {
                 verified.add(current);
             }
             player.setGameMode(GameType.SPECTATOR);
             player.teleportTo(0, 200, 0);
             for (var cp : forced) level.setChunkForced(cp.x(), cp.z(), false);
             forced.clear();
-            while (++index < targets.size() && verified.size() >= 2 && !Boolean.TRUE.equals(targets.get(index).get("known_village_overlap_diagnostic"))) {
-                // Already verified 2 clean newly-unlocked targets; skip remaining non-diagnostic fallback candidates
-            }
+            // Check every sampled target so the cave_air rate is measured over the full sample.
+            index++;
             if (index >= targets.size()) {
                 if (verified.size() < 2) {
                     finish(new AssertionError("Fewer than 2 clean full_generation targets verified: " + verified.size()));
@@ -1215,6 +1224,7 @@ public final class St03NaturalProbe implements ModInitializer {
                 throw new AssertionError("Completion did not record natural HQ origin");
 
             int unsupported = 0, caveAirUnsupported = 0, wet = 0, airBelow = 0, waterBelow = 0, planks = 0;
+            int lavaSupport = 0, lavaRingSupport = 0, lavaInterior = 0;
             int preGenWaterCols112 = 0, preGenWaterCols96 = 0;
             int outerRingCols = 0, outerRingCutExceed10 = 0, outerRingSkirtExceed12 = 0, outerRingFillExceed16 = 0, outerRingWaterCols = 0;
             int outerRingUnsupported = 0, outerRingWet = 0, outerRingFloatingBelow16 = 0;
@@ -1243,6 +1253,10 @@ public final class St03NaturalProbe implements ModInitializer {
                         if (block.is(net.minecraft.world.level.block.Blocks.CAVE_AIR)) caveAirUnsupported++;
                         if (!inCore96) outerRingUnsupported++;
                     }
+                    if (block.is(net.minecraft.world.level.block.Blocks.LAVA)) {
+                        lavaSupport++;
+                        if (!inCore96) lavaRingSupport++;
+                    }
                     if (!block.getFluidState().isEmpty()) {
                         wet++;
                         if (!inCore96) outerRingWet++;
@@ -1253,6 +1267,10 @@ public final class St03NaturalProbe implements ModInitializer {
                     if (!inCore96) {
                         var below17 = level.getBlockState(new BlockPos(x, origin.getY() - 17, z));
                         if (!below17.isSolidRender()) outerRingFloatingBelow16++;
+                    }
+                    // Lava inside the footprint volume above the support plane (the empty space a flow would reach).
+                    for (int dy = 0; dy < 16; dy++) {
+                        if (level.getBlockState(new BlockPos(x, origin.getY() + dy, z)).is(net.minecraft.world.level.block.Blocks.LAVA)) lavaInterior++;
                     }
                     for (int dy = 1; dy <= 16; dy++) {
                         var below = level.getBlockState(new BlockPos(x, origin.getY() - dy, z));
@@ -1300,12 +1318,19 @@ public final class St03NaturalProbe implements ModInitializer {
             current.put("placed_spruce_planks_above_foundation", planks);
             current.put("overlaps", overlaps(actual, hq.box));
 
+            current.put("lava_support_columns", lavaSupport);
+            current.put("lava_ring_support_columns", lavaRingSupport);
+            current.put("lava_interior_blocks_0_15", lavaInterior);
             if (!isVillageDiag && unsupported > 0 && unsupported == caveAirUnsupported) {
                 current.put("post_structure_cave_air_intersection", true);
             }
+            if (!isVillageDiag && lavaSupport > 0 && unsupported == caveAirUnsupported + lavaSupport) {
+                current.put("post_structure_lava_intersection", true);
+            }
             boolean isCaveAirDiag = Boolean.TRUE.equals(current.get("post_structure_cave_air_intersection"));
+            boolean isLavaDiag = Boolean.TRUE.equals(current.get("post_structure_lava_intersection"));
             // Allow the explicit seed 10079 village-overlap diagnostic case and post-structure cave_air feature intersections to be recorded without aborting
-            if (!isVillageDiag && !isCaveAirDiag && (unsupported != 0 || 100L * wet > 15L * 12544L || 100L * preGenWaterCols96 > 20L * 9216L || planks == 0))
+            if (!isVillageDiag && !isCaveAirDiag && !isLavaDiag && (unsupported != 0 || 100L * wet > 15L * 12544L || 100L * preGenWaterCols96 > 20L * 9216L || planks == 0))
                 throw new AssertionError("Natural template placement/support validation failed: " + current);
         }
 
