@@ -63,6 +63,7 @@
       "dev.itzgamesgd.moreminecrafts.k5probe.K5NaturalTreeProbeGameTests",
       "dev.itzgamesgd.moreminecrafts.worldgen.SkyIslandsGameTests",
       "dev.itzgamesgd.moreminecrafts.heaven.HeavenPrototypeGameTests",
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP2GameTests",
       "dev.itzgamesgd.moreminecrafts.bounty.ContractGameTests",
       "dev.itzgamesgd.moreminecrafts.bounty.ContractCatalogGameTests",
       "dev.itzgamesgd.moreminecrafts.bounty.ContractIntegrationGameTests",
@@ -146,7 +147,8 @@
       "dev.itzgamesgd.moreminecrafts.boss.TombGuardianClientCapture",
       "dev.itzgamesgd.moreminecrafts.spidercolony.SpiderColonyClientCapture",
       "dev.itzgamesgd.moreminecrafts.mob.sky.SkyIslandsClientCapture",
-      "dev.itzgamesgd.moreminecrafts.heaven.HeavenPrototypeClientCapture"
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenPrototypeClientCapture",
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP2ClientCapture"
     ]
   },
   "mixins": [
