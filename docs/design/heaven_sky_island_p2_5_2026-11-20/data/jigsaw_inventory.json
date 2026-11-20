@@ -1,0 +1,2721 @@
+{
+ "jigsaws": [
+  {
+   "template": "sky_islands/badlands/large_d",
+   "pos": [
+    78,
+    16,
+    64
+   ],
+   "orientation": "up_north",
+   "pool": "moreminecrafts:sky_islands/badlands/tower_top",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:red_sandstone",
+   "final_state_class": "theme_terrain",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/badlands/tower"
+   ]
+  },
+  {
+   "template": "sky_islands/badlands/large_e",
+   "pos": [
+    83,
+    16,
+    68
+   ],
+   "orientation": "up_north",
+   "pool": "moreminecrafts:sky_islands/badlands/tower_top",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:red_sandstone",
+   "final_state_class": "theme_terrain",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/badlands/tower"
+   ]
+  },
+  {
+   "template": "sky_islands/badlands/plain_medium_a",
+   "pos": [
+    0,
+    17,
+    17
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/badlands/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/badlands/satellite_a",
+    "moreminecrafts:sky_islands/badlands/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/badlands/plain_medium_a",
+   "pos": [
+    44,
+    8,
+    17
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/badlands/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/badlands/satellite_a",
+    "moreminecrafts:sky_islands/badlands/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/badlands/plain_medium_b",
+   "pos": [
+    0,
+    17,
+    17
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/badlands/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/badlands/satellite_a",
+    "moreminecrafts:sky_islands/badlands/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/badlands/plain_medium_b",
+   "pos": [
+    42,
+    8,
+    17
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/badlands/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/badlands/satellite_a",
+    "moreminecrafts:sky_islands/badlands/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/badlands/plain_medium_c",
+   "pos": [
+    0,
+    18,
+    16
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/badlands/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/badlands/satellite_a",
+    "moreminecrafts:sky_islands/badlands/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/badlands/plain_medium_c",
+   "pos": [
+    46,
+    9,
+    16
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/badlands/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/badlands/satellite_a",
+    "moreminecrafts:sky_islands/badlands/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/badlands/plain_medium_d",
+   "pos": [
+    0,
+    17,
+    18
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/badlands/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/badlands/satellite_a",
+    "moreminecrafts:sky_islands/badlands/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/badlands/plain_medium_d",
+   "pos": [
+    44,
+    8,
+    18
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/badlands/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/badlands/satellite_a",
+    "moreminecrafts:sky_islands/badlands/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/badlands/plain_medium_e",
+   "pos": [
+    0,
+    16,
+    16
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/badlands/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/badlands/satellite_a",
+    "moreminecrafts:sky_islands/badlands/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/badlands/plain_medium_e",
+   "pos": [
+    42,
+    7,
+    16
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/badlands/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/badlands/satellite_a",
+    "moreminecrafts:sky_islands/badlands/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/badlands/ruins",
+   "pos": [
+    16,
+    11,
+    16
+   ],
+   "orientation": "up_north",
+   "pool": "moreminecrafts:sky_islands/ruins_top",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:red_sand",
+   "final_state_class": "theme_terrain",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/ruins_a",
+    "moreminecrafts:sky_islands/ruins_b",
+    "moreminecrafts:sky_islands/ruins_c",
+    "moreminecrafts:sky_islands/ruins_d"
+   ]
+  },
+  {
+   "template": "sky_islands/badlands/ruins",
+   "pos": [
+    35,
+    8,
+    16
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/badlands/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/badlands/satellite_a",
+    "moreminecrafts:sky_islands/badlands/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/badlands/satellite_a",
+   "pos": [
+    0,
+    8,
+    9
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/badlands/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/badlands/satellite_a",
+    "moreminecrafts:sky_islands/badlands/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/badlands/satellite_a",
+   "pos": [
+    26,
+    8,
+    9
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/badlands/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/badlands/satellite_a",
+    "moreminecrafts:sky_islands/badlands/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/badlands/satellite_b",
+   "pos": [
+    0,
+    3,
+    10
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/badlands/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/badlands/satellite_a",
+    "moreminecrafts:sky_islands/badlands/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/badlands/satellite_b",
+   "pos": [
+    24,
+    10,
+    10
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/badlands/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/badlands/satellite_a",
+    "moreminecrafts:sky_islands/badlands/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/badlands/temple",
+   "pos": [
+    40,
+    19,
+    28
+   ],
+   "orientation": "up_north",
+   "pool": "moreminecrafts:sky_islands/temple_top",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:red_sand",
+   "final_state_class": "theme_terrain",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/temple"
+   ]
+  },
+  {
+   "template": "sky_islands/badlands/tower",
+   "pos": [
+    36,
+    16,
+    24
+   ],
+   "orientation": "down_north",
+   "pool": "minecraft:empty",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:red_sand",
+   "final_state_class": "theme_terrain",
+   "pool_elements": []
+  },
+  {
+   "template": "sky_islands/desert/large_d",
+   "pos": [
+    78,
+    16,
+    64
+   ],
+   "orientation": "up_north",
+   "pool": "moreminecrafts:sky_islands/desert/tower_top",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:sandstone",
+   "final_state_class": "theme_terrain",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/desert/tower"
+   ]
+  },
+  {
+   "template": "sky_islands/desert/large_e",
+   "pos": [
+    83,
+    16,
+    68
+   ],
+   "orientation": "up_north",
+   "pool": "moreminecrafts:sky_islands/desert/tower_top",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:sandstone",
+   "final_state_class": "theme_terrain",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/desert/tower"
+   ]
+  },
+  {
+   "template": "sky_islands/desert/plain_medium_a",
+   "pos": [
+    0,
+    17,
+    17
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/desert/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/desert/satellite_a",
+    "moreminecrafts:sky_islands/desert/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/desert/plain_medium_a",
+   "pos": [
+    44,
+    8,
+    17
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/desert/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/desert/satellite_a",
+    "moreminecrafts:sky_islands/desert/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/desert/plain_medium_b",
+   "pos": [
+    0,
+    17,
+    17
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/desert/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/desert/satellite_a",
+    "moreminecrafts:sky_islands/desert/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/desert/plain_medium_b",
+   "pos": [
+    42,
+    8,
+    17
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/desert/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/desert/satellite_a",
+    "moreminecrafts:sky_islands/desert/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/desert/plain_medium_c",
+   "pos": [
+    0,
+    18,
+    16
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/desert/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/desert/satellite_a",
+    "moreminecrafts:sky_islands/desert/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/desert/plain_medium_c",
+   "pos": [
+    46,
+    9,
+    16
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/desert/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/desert/satellite_a",
+    "moreminecrafts:sky_islands/desert/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/desert/plain_medium_d",
+   "pos": [
+    0,
+    17,
+    18
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/desert/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/desert/satellite_a",
+    "moreminecrafts:sky_islands/desert/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/desert/plain_medium_d",
+   "pos": [
+    44,
+    8,
+    18
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/desert/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/desert/satellite_a",
+    "moreminecrafts:sky_islands/desert/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/desert/plain_medium_e",
+   "pos": [
+    0,
+    16,
+    16
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/desert/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/desert/satellite_a",
+    "moreminecrafts:sky_islands/desert/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/desert/plain_medium_e",
+   "pos": [
+    42,
+    7,
+    16
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/desert/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/desert/satellite_a",
+    "moreminecrafts:sky_islands/desert/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/desert/ruins",
+   "pos": [
+    16,
+    11,
+    16
+   ],
+   "orientation": "up_north",
+   "pool": "moreminecrafts:sky_islands/ruins_top",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:sand",
+   "final_state_class": "theme_terrain",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/ruins_a",
+    "moreminecrafts:sky_islands/ruins_b",
+    "moreminecrafts:sky_islands/ruins_c",
+    "moreminecrafts:sky_islands/ruins_d"
+   ]
+  },
+  {
+   "template": "sky_islands/desert/ruins",
+   "pos": [
+    35,
+    8,
+    16
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/desert/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/desert/satellite_a",
+    "moreminecrafts:sky_islands/desert/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/desert/satellite_a",
+   "pos": [
+    0,
+    8,
+    9
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/desert/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/desert/satellite_a",
+    "moreminecrafts:sky_islands/desert/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/desert/satellite_a",
+   "pos": [
+    26,
+    8,
+    9
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/desert/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/desert/satellite_a",
+    "moreminecrafts:sky_islands/desert/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/desert/satellite_b",
+   "pos": [
+    0,
+    3,
+    10
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/desert/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/desert/satellite_a",
+    "moreminecrafts:sky_islands/desert/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/desert/satellite_b",
+   "pos": [
+    24,
+    10,
+    10
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/desert/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/desert/satellite_a",
+    "moreminecrafts:sky_islands/desert/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/desert/temple",
+   "pos": [
+    40,
+    19,
+    28
+   ],
+   "orientation": "up_north",
+   "pool": "moreminecrafts:sky_islands/temple_top",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:sand",
+   "final_state_class": "theme_terrain",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/temple"
+   ]
+  },
+  {
+   "template": "sky_islands/desert/tower",
+   "pos": [
+    36,
+    16,
+    24
+   ],
+   "orientation": "down_north",
+   "pool": "minecraft:empty",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:sand",
+   "final_state_class": "theme_terrain",
+   "pool_elements": []
+  },
+  {
+   "template": "sky_islands/forest/large_d",
+   "pos": [
+    78,
+    16,
+    64
+   ],
+   "orientation": "up_north",
+   "pool": "moreminecrafts:sky_islands/forest/tower_top",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:dirt",
+   "final_state_class": "theme_terrain",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/forest/tower"
+   ]
+  },
+  {
+   "template": "sky_islands/forest/large_e",
+   "pos": [
+    83,
+    16,
+    68
+   ],
+   "orientation": "up_north",
+   "pool": "moreminecrafts:sky_islands/forest/tower_top",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:dirt",
+   "final_state_class": "theme_terrain",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/forest/tower"
+   ]
+  },
+  {
+   "template": "sky_islands/forest/plain_medium_a",
+   "pos": [
+    0,
+    17,
+    17
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/forest/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/forest/satellite_a",
+    "moreminecrafts:sky_islands/forest/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/forest/plain_medium_a",
+   "pos": [
+    44,
+    8,
+    17
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/forest/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/forest/satellite_a",
+    "moreminecrafts:sky_islands/forest/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/forest/plain_medium_b",
+   "pos": [
+    0,
+    17,
+    17
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/forest/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/forest/satellite_a",
+    "moreminecrafts:sky_islands/forest/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/forest/plain_medium_b",
+   "pos": [
+    42,
+    8,
+    17
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/forest/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/forest/satellite_a",
+    "moreminecrafts:sky_islands/forest/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/forest/plain_medium_c",
+   "pos": [
+    0,
+    18,
+    16
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/forest/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/forest/satellite_a",
+    "moreminecrafts:sky_islands/forest/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/forest/plain_medium_c",
+   "pos": [
+    46,
+    9,
+    16
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/forest/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/forest/satellite_a",
+    "moreminecrafts:sky_islands/forest/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/forest/plain_medium_d",
+   "pos": [
+    0,
+    17,
+    18
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/forest/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/forest/satellite_a",
+    "moreminecrafts:sky_islands/forest/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/forest/plain_medium_d",
+   "pos": [
+    44,
+    8,
+    18
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/forest/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/forest/satellite_a",
+    "moreminecrafts:sky_islands/forest/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/forest/plain_medium_e",
+   "pos": [
+    0,
+    16,
+    16
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/forest/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/forest/satellite_a",
+    "moreminecrafts:sky_islands/forest/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/forest/plain_medium_e",
+   "pos": [
+    42,
+    7,
+    16
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/forest/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/forest/satellite_a",
+    "moreminecrafts:sky_islands/forest/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/forest/ruins",
+   "pos": [
+    16,
+    11,
+    16
+   ],
+   "orientation": "up_north",
+   "pool": "moreminecrafts:sky_islands/ruins_top",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:grass_block",
+   "final_state_class": "theme_terrain",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/ruins_a",
+    "moreminecrafts:sky_islands/ruins_b",
+    "moreminecrafts:sky_islands/ruins_c",
+    "moreminecrafts:sky_islands/ruins_d"
+   ]
+  },
+  {
+   "template": "sky_islands/forest/ruins",
+   "pos": [
+    35,
+    8,
+    16
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/forest/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/forest/satellite_a",
+    "moreminecrafts:sky_islands/forest/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/forest/satellite_a",
+   "pos": [
+    0,
+    8,
+    9
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/forest/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/forest/satellite_a",
+    "moreminecrafts:sky_islands/forest/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/forest/satellite_a",
+   "pos": [
+    26,
+    8,
+    9
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/forest/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/forest/satellite_a",
+    "moreminecrafts:sky_islands/forest/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/forest/satellite_b",
+   "pos": [
+    0,
+    3,
+    10
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/forest/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/forest/satellite_a",
+    "moreminecrafts:sky_islands/forest/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/forest/satellite_b",
+   "pos": [
+    24,
+    10,
+    10
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/forest/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/forest/satellite_a",
+    "moreminecrafts:sky_islands/forest/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/forest/temple",
+   "pos": [
+    40,
+    19,
+    28
+   ],
+   "orientation": "up_north",
+   "pool": "moreminecrafts:sky_islands/temple_top",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:grass_block",
+   "final_state_class": "theme_terrain",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/temple"
+   ]
+  },
+  {
+   "template": "sky_islands/forest/tower",
+   "pos": [
+    36,
+    16,
+    24
+   ],
+   "orientation": "down_north",
+   "pool": "minecraft:empty",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:grass_block",
+   "final_state_class": "theme_terrain",
+   "pool_elements": []
+  },
+  {
+   "template": "sky_islands/meadow/large_d",
+   "pos": [
+    78,
+    16,
+    64
+   ],
+   "orientation": "up_north",
+   "pool": "moreminecrafts:sky_islands/meadow/tower_top",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:dirt",
+   "final_state_class": "theme_terrain",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/meadow/tower"
+   ]
+  },
+  {
+   "template": "sky_islands/meadow/large_e",
+   "pos": [
+    83,
+    16,
+    68
+   ],
+   "orientation": "up_north",
+   "pool": "moreminecrafts:sky_islands/meadow/tower_top",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:dirt",
+   "final_state_class": "theme_terrain",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/meadow/tower"
+   ]
+  },
+  {
+   "template": "sky_islands/meadow/plain_medium_a",
+   "pos": [
+    0,
+    17,
+    17
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/meadow/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/meadow/satellite_a",
+    "moreminecrafts:sky_islands/meadow/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/meadow/plain_medium_a",
+   "pos": [
+    44,
+    8,
+    17
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/meadow/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/meadow/satellite_a",
+    "moreminecrafts:sky_islands/meadow/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/meadow/plain_medium_b",
+   "pos": [
+    0,
+    17,
+    17
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/meadow/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/meadow/satellite_a",
+    "moreminecrafts:sky_islands/meadow/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/meadow/plain_medium_b",
+   "pos": [
+    42,
+    8,
+    17
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/meadow/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/meadow/satellite_a",
+    "moreminecrafts:sky_islands/meadow/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/meadow/plain_medium_c",
+   "pos": [
+    0,
+    18,
+    16
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/meadow/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/meadow/satellite_a",
+    "moreminecrafts:sky_islands/meadow/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/meadow/plain_medium_c",
+   "pos": [
+    46,
+    9,
+    16
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/meadow/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/meadow/satellite_a",
+    "moreminecrafts:sky_islands/meadow/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/meadow/plain_medium_d",
+   "pos": [
+    0,
+    17,
+    18
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/meadow/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/meadow/satellite_a",
+    "moreminecrafts:sky_islands/meadow/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/meadow/plain_medium_d",
+   "pos": [
+    44,
+    8,
+    18
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/meadow/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/meadow/satellite_a",
+    "moreminecrafts:sky_islands/meadow/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/meadow/plain_medium_e",
+   "pos": [
+    0,
+    16,
+    16
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/meadow/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/meadow/satellite_a",
+    "moreminecrafts:sky_islands/meadow/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/meadow/plain_medium_e",
+   "pos": [
+    42,
+    7,
+    16
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/meadow/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/meadow/satellite_a",
+    "moreminecrafts:sky_islands/meadow/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/meadow/ruins",
+   "pos": [
+    16,
+    11,
+    16
+   ],
+   "orientation": "up_north",
+   "pool": "moreminecrafts:sky_islands/ruins_top",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:grass_block",
+   "final_state_class": "theme_terrain",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/ruins_a",
+    "moreminecrafts:sky_islands/ruins_b",
+    "moreminecrafts:sky_islands/ruins_c",
+    "moreminecrafts:sky_islands/ruins_d"
+   ]
+  },
+  {
+   "template": "sky_islands/meadow/ruins",
+   "pos": [
+    35,
+    8,
+    16
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/meadow/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/meadow/satellite_a",
+    "moreminecrafts:sky_islands/meadow/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/meadow/satellite_a",
+   "pos": [
+    0,
+    8,
+    9
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/meadow/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/meadow/satellite_a",
+    "moreminecrafts:sky_islands/meadow/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/meadow/satellite_a",
+   "pos": [
+    26,
+    8,
+    9
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/meadow/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/meadow/satellite_a",
+    "moreminecrafts:sky_islands/meadow/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/meadow/satellite_b",
+   "pos": [
+    0,
+    3,
+    10
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/meadow/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/meadow/satellite_a",
+    "moreminecrafts:sky_islands/meadow/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/meadow/satellite_b",
+   "pos": [
+    24,
+    10,
+    10
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/meadow/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/meadow/satellite_a",
+    "moreminecrafts:sky_islands/meadow/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/meadow/temple",
+   "pos": [
+    40,
+    19,
+    28
+   ],
+   "orientation": "up_north",
+   "pool": "moreminecrafts:sky_islands/temple_top",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:grass_block",
+   "final_state_class": "theme_terrain",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/temple"
+   ]
+  },
+  {
+   "template": "sky_islands/meadow/tower",
+   "pos": [
+    36,
+    16,
+    24
+   ],
+   "orientation": "down_north",
+   "pool": "minecraft:empty",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:grass_block",
+   "final_state_class": "theme_terrain",
+   "pool_elements": []
+  },
+  {
+   "template": "sky_islands/rocky/large_d",
+   "pos": [
+    78,
+    16,
+    64
+   ],
+   "orientation": "up_north",
+   "pool": "moreminecrafts:sky_islands/rocky/tower_top",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:stone",
+   "final_state_class": "theme_terrain",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/rocky/tower"
+   ]
+  },
+  {
+   "template": "sky_islands/rocky/large_e",
+   "pos": [
+    83,
+    16,
+    68
+   ],
+   "orientation": "up_north",
+   "pool": "moreminecrafts:sky_islands/rocky/tower_top",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:stone",
+   "final_state_class": "theme_terrain",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/rocky/tower"
+   ]
+  },
+  {
+   "template": "sky_islands/rocky/plain_medium_a",
+   "pos": [
+    0,
+    17,
+    17
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/rocky/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/rocky/satellite_a",
+    "moreminecrafts:sky_islands/rocky/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/rocky/plain_medium_a",
+   "pos": [
+    44,
+    8,
+    17
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/rocky/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/rocky/satellite_a",
+    "moreminecrafts:sky_islands/rocky/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/rocky/plain_medium_b",
+   "pos": [
+    0,
+    17,
+    17
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/rocky/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/rocky/satellite_a",
+    "moreminecrafts:sky_islands/rocky/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/rocky/plain_medium_b",
+   "pos": [
+    42,
+    8,
+    17
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/rocky/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/rocky/satellite_a",
+    "moreminecrafts:sky_islands/rocky/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/rocky/plain_medium_c",
+   "pos": [
+    0,
+    18,
+    16
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/rocky/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/rocky/satellite_a",
+    "moreminecrafts:sky_islands/rocky/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/rocky/plain_medium_c",
+   "pos": [
+    46,
+    9,
+    16
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/rocky/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/rocky/satellite_a",
+    "moreminecrafts:sky_islands/rocky/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/rocky/plain_medium_d",
+   "pos": [
+    0,
+    17,
+    18
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/rocky/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/rocky/satellite_a",
+    "moreminecrafts:sky_islands/rocky/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/rocky/plain_medium_d",
+   "pos": [
+    44,
+    8,
+    18
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/rocky/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/rocky/satellite_a",
+    "moreminecrafts:sky_islands/rocky/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/rocky/plain_medium_e",
+   "pos": [
+    0,
+    16,
+    16
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/rocky/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/rocky/satellite_a",
+    "moreminecrafts:sky_islands/rocky/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/rocky/plain_medium_e",
+   "pos": [
+    42,
+    7,
+    16
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/rocky/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/rocky/satellite_a",
+    "moreminecrafts:sky_islands/rocky/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/rocky/ruins",
+   "pos": [
+    16,
+    11,
+    16
+   ],
+   "orientation": "up_north",
+   "pool": "moreminecrafts:sky_islands/ruins_top",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:gravel",
+   "final_state_class": "theme_terrain",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/ruins_a",
+    "moreminecrafts:sky_islands/ruins_b",
+    "moreminecrafts:sky_islands/ruins_c",
+    "moreminecrafts:sky_islands/ruins_d"
+   ]
+  },
+  {
+   "template": "sky_islands/rocky/ruins",
+   "pos": [
+    35,
+    8,
+    16
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/rocky/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/rocky/satellite_a",
+    "moreminecrafts:sky_islands/rocky/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/rocky/satellite_a",
+   "pos": [
+    0,
+    8,
+    9
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/rocky/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/rocky/satellite_a",
+    "moreminecrafts:sky_islands/rocky/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/rocky/satellite_a",
+   "pos": [
+    26,
+    8,
+    9
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/rocky/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/rocky/satellite_a",
+    "moreminecrafts:sky_islands/rocky/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/rocky/satellite_b",
+   "pos": [
+    0,
+    3,
+    10
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/rocky/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/rocky/satellite_a",
+    "moreminecrafts:sky_islands/rocky/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/rocky/satellite_b",
+   "pos": [
+    24,
+    10,
+    10
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/rocky/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/rocky/satellite_a",
+    "moreminecrafts:sky_islands/rocky/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/rocky/temple",
+   "pos": [
+    40,
+    19,
+    28
+   ],
+   "orientation": "up_north",
+   "pool": "moreminecrafts:sky_islands/temple_top",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:gravel",
+   "final_state_class": "theme_terrain",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/temple"
+   ]
+  },
+  {
+   "template": "sky_islands/rocky/tower",
+   "pos": [
+    36,
+    16,
+    24
+   ],
+   "orientation": "down_north",
+   "pool": "minecraft:empty",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:gravel",
+   "final_state_class": "theme_terrain",
+   "pool_elements": []
+  },
+  {
+   "template": "sky_islands/ruins_a",
+   "pos": [
+    7,
+    0,
+    7
+   ],
+   "orientation": "down_north",
+   "pool": "minecraft:empty",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:stone_bricks",
+   "final_state_class": "other",
+   "pool_elements": []
+  },
+  {
+   "template": "sky_islands/ruins_b",
+   "pos": [
+    7,
+    0,
+    7
+   ],
+   "orientation": "down_north",
+   "pool": "minecraft:empty",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:stone_bricks",
+   "final_state_class": "other",
+   "pool_elements": []
+  },
+  {
+   "template": "sky_islands/ruins_c",
+   "pos": [
+    7,
+    0,
+    7
+   ],
+   "orientation": "down_north",
+   "pool": "minecraft:empty",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:stone_bricks",
+   "final_state_class": "other",
+   "pool_elements": []
+  },
+  {
+   "template": "sky_islands/ruins_d",
+   "pos": [
+    7,
+    0,
+    7
+   ],
+   "orientation": "down_north",
+   "pool": "minecraft:empty",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:stone_bricks",
+   "final_state_class": "other",
+   "pool_elements": []
+  },
+  {
+   "template": "sky_islands/snowy/large_d",
+   "pos": [
+    78,
+    16,
+    64
+   ],
+   "orientation": "up_north",
+   "pool": "moreminecrafts:sky_islands/snowy/tower_top",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:snow_block",
+   "final_state_class": "theme_terrain",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/snowy/tower"
+   ]
+  },
+  {
+   "template": "sky_islands/snowy/large_e",
+   "pos": [
+    83,
+    16,
+    68
+   ],
+   "orientation": "up_north",
+   "pool": "moreminecrafts:sky_islands/snowy/tower_top",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:snow_block",
+   "final_state_class": "theme_terrain",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/snowy/tower"
+   ]
+  },
+  {
+   "template": "sky_islands/snowy/plain_medium_a",
+   "pos": [
+    0,
+    17,
+    17
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/snowy/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/snowy/satellite_a",
+    "moreminecrafts:sky_islands/snowy/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/snowy/plain_medium_a",
+   "pos": [
+    44,
+    8,
+    17
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/snowy/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/snowy/satellite_a",
+    "moreminecrafts:sky_islands/snowy/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/snowy/plain_medium_b",
+   "pos": [
+    0,
+    17,
+    17
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/snowy/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/snowy/satellite_a",
+    "moreminecrafts:sky_islands/snowy/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/snowy/plain_medium_b",
+   "pos": [
+    42,
+    8,
+    17
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/snowy/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/snowy/satellite_a",
+    "moreminecrafts:sky_islands/snowy/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/snowy/plain_medium_c",
+   "pos": [
+    0,
+    18,
+    16
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/snowy/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/snowy/satellite_a",
+    "moreminecrafts:sky_islands/snowy/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/snowy/plain_medium_c",
+   "pos": [
+    46,
+    9,
+    16
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/snowy/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/snowy/satellite_a",
+    "moreminecrafts:sky_islands/snowy/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/snowy/plain_medium_d",
+   "pos": [
+    0,
+    17,
+    18
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/snowy/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/snowy/satellite_a",
+    "moreminecrafts:sky_islands/snowy/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/snowy/plain_medium_d",
+   "pos": [
+    44,
+    8,
+    18
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/snowy/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/snowy/satellite_a",
+    "moreminecrafts:sky_islands/snowy/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/snowy/plain_medium_e",
+   "pos": [
+    0,
+    16,
+    16
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/snowy/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/snowy/satellite_a",
+    "moreminecrafts:sky_islands/snowy/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/snowy/plain_medium_e",
+   "pos": [
+    42,
+    7,
+    16
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/snowy/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/snowy/satellite_a",
+    "moreminecrafts:sky_islands/snowy/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/snowy/ruins",
+   "pos": [
+    16,
+    11,
+    16
+   ],
+   "orientation": "up_north",
+   "pool": "moreminecrafts:sky_islands/ruins_top",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:snow_block",
+   "final_state_class": "theme_terrain",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/ruins_a",
+    "moreminecrafts:sky_islands/ruins_b",
+    "moreminecrafts:sky_islands/ruins_c",
+    "moreminecrafts:sky_islands/ruins_d"
+   ]
+  },
+  {
+   "template": "sky_islands/snowy/ruins",
+   "pos": [
+    35,
+    8,
+    16
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/snowy/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/snowy/satellite_a",
+    "moreminecrafts:sky_islands/snowy/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/snowy/satellite_a",
+   "pos": [
+    0,
+    8,
+    9
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/snowy/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/snowy/satellite_a",
+    "moreminecrafts:sky_islands/snowy/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/snowy/satellite_a",
+   "pos": [
+    26,
+    8,
+    9
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/snowy/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/snowy/satellite_a",
+    "moreminecrafts:sky_islands/snowy/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/snowy/satellite_b",
+   "pos": [
+    0,
+    3,
+    10
+   ],
+   "orientation": "west_up",
+   "pool": "moreminecrafts:sky_islands/snowy/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/snowy/satellite_a",
+    "moreminecrafts:sky_islands/snowy/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/snowy/satellite_b",
+   "pos": [
+    24,
+    10,
+    10
+   ],
+   "orientation": "east_up",
+   "pool": "moreminecrafts:sky_islands/snowy/satellite",
+   "name": "moreminecrafts:sky_link",
+   "target": "moreminecrafts:sky_link",
+   "joint": "aligned",
+   "final_state": "minecraft:air",
+   "final_state_class": "air",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/snowy/satellite_a",
+    "moreminecrafts:sky_islands/snowy/satellite_b"
+   ]
+  },
+  {
+   "template": "sky_islands/snowy/temple",
+   "pos": [
+    40,
+    19,
+    28
+   ],
+   "orientation": "up_north",
+   "pool": "moreminecrafts:sky_islands/temple_top",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:snow_block",
+   "final_state_class": "theme_terrain",
+   "pool_elements": [
+    "moreminecrafts:sky_islands/temple"
+   ]
+  },
+  {
+   "template": "sky_islands/snowy/tower",
+   "pos": [
+    36,
+    16,
+    24
+   ],
+   "orientation": "down_north",
+   "pool": "minecraft:empty",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:snow_block",
+   "final_state_class": "theme_terrain",
+   "pool_elements": []
+  },
+  {
+   "template": "sky_islands/temple",
+   "pos": [
+    22,
+    0,
+    13
+   ],
+   "orientation": "down_north",
+   "pool": "minecraft:empty",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:smooth_quartz",
+   "final_state_class": "other",
+   "pool_elements": []
+  },
+  {
+   "template": "sky_islands/tower_5",
+   "pos": [
+    9,
+    0,
+    9
+   ],
+   "orientation": "down_north",
+   "pool": "minecraft:empty",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:stone_bricks",
+   "final_state_class": "other",
+   "pool_elements": []
+  },
+  {
+   "template": "sky_islands/tower_6",
+   "pos": [
+    9,
+    0,
+    9
+   ],
+   "orientation": "down_north",
+   "pool": "minecraft:empty",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:stone_bricks",
+   "final_state_class": "other",
+   "pool_elements": []
+  },
+  {
+   "template": "sky_islands/tower_7",
+   "pos": [
+    9,
+    0,
+    9
+   ],
+   "orientation": "down_north",
+   "pool": "minecraft:empty",
+   "name": "moreminecrafts:sky_top",
+   "target": "moreminecrafts:sky_top",
+   "joint": "aligned",
+   "final_state": "minecraft:stone_bricks",
+   "final_state_class": "other",
+   "pool_elements": []
+  }
+ ],
+ "attached_templates": {
+  "moreminecrafts:sky_islands/badlands/satellite_a": {
+   "size": [
+    27,
+    22,
+    19
+   ],
+   "blocks": 916,
+   "vanilla_terrain": {
+    "red_sandstone": 251,
+    "red_sand": 179,
+    "terracotta": 145
+   }
+  },
+  "moreminecrafts:sky_islands/badlands/satellite_b": {
+   "size": [
+    25,
+    21,
+    21
+   ],
+   "blocks": 765,
+   "vanilla_terrain": {
+    "red_sandstone": 238,
+    "red_sand": 177,
+    "terracotta": 129
+   }
+  },
+  "moreminecrafts:sky_islands/badlands/tower": {
+   "size": [
+    58,
+    97,
+    49
+   ],
+   "blocks": 42361,
+   "vanilla_terrain": {
+    "andesite": 3312,
+    "red_sandstone": 1507,
+    "red_sand": 1123,
+    "terracotta": 2187
+   }
+  },
+  "moreminecrafts:sky_islands/desert/satellite_a": {
+   "size": [
+    27,
+    22,
+    19
+   ],
+   "blocks": 917,
+   "vanilla_terrain": {
+    "sandstone": 542,
+    "sand": 179,
+    "smooth_sandstone": 108,
+    "cut_sandstone": 82
+   }
+  },
+  "moreminecrafts:sky_islands/desert/satellite_b": {
+   "size": [
+    25,
+    21,
+    21
+   ],
+   "blocks": 744,
+   "vanilla_terrain": {
+    "sandstone": 455,
+    "sand": 173,
+    "cut_sandstone": 60,
+    "smooth_sandstone": 48
+   }
+  },
+  "moreminecrafts:sky_islands/desert/tower": {
+   "size": [
+    58,
+    97,
+    49
+   ],
+   "blocks": 42638,
+   "vanilla_terrain": {
+    "andesite": 3312,
+    "sandstone": 5641,
+    "sand": 1140,
+    "cut_sandstone": 1734,
+    "smooth_sandstone": 1744
+   }
+  },
+  "moreminecrafts:sky_islands/forest/satellite_a": {
+   "size": [
+    27,
+    22,
+    19
+   ],
+   "blocks": 1025,
+   "vanilla_terrain": {
+    "dirt": 234,
+    "podzol": 110,
+    "grass_block": 172,
+    "andesite": 81,
+    "mossy_cobblestone": 70,
+    "stone": 149
+   }
+  },
+  "moreminecrafts:sky_islands/forest/satellite_b": {
+   "size": [
+    25,
+    21,
+    21
+   ],
+   "blocks": 916,
+   "vanilla_terrain": {
+    "podzol": 107,
+    "dirt": 243,
+    "grass_block": 175,
+    "stone": 130,
+    "mossy_cobblestone": 59,
+    "andesite": 51
+   }
+  },
+  "moreminecrafts:sky_islands/forest/tower": {
+   "size": [
+    58,
+    97,
+    49
+   ],
+   "blocks": 43171,
+   "vanilla_terrain": {
+    "andesite": 5054,
+    "dirt": 1529,
+    "grass_block": 1146,
+    "podzol": 765,
+    "stone": 3457,
+    "mossy_cobblestone": 1689
+   }
+  },
+  "moreminecrafts:sky_islands/meadow/satellite_a": {
+   "size": [
+    27,
+    22,
+    19
+   ],
+   "blocks": 963,
+   "vanilla_terrain": {
+    "coarse_dirt": 125,
+    "dirt": 225,
+    "grass_block": 175,
+    "tuff": 81,
+    "stone": 148,
+    "andesite": 99
+   }
+  },
+  "moreminecrafts:sky_islands/meadow/satellite_b": {
+   "size": [
+    25,
+    21,
+    21
+   ],
+   "blocks": 904,
+   "vanilla_terrain": {
+    "dirt": 240,
+    "coarse_dirt": 116,
+    "grass_block": 178,
+    "andesite": 56,
+    "tuff": 74,
+    "stone": 139
+   }
+  },
+  "moreminecrafts:sky_islands/meadow/tower": {
+   "size": [
+    58,
+    97,
+    49
+   ],
+   "blocks": 42677,
+   "vanilla_terrain": {
+    "andesite": 5023,
+    "coarse_dirt": 797,
+    "dirt": 1499,
+    "grass_block": 1147,
+    "tuff": 1618,
+    "stone": 3406
+   }
+  },
+  "moreminecrafts:sky_islands/rocky/satellite_a": {
+   "size": [
+    27,
+    22,
+    19
+   ],
+   "blocks": 857,
+   "vanilla_terrain": {
+    "stone": 387,
+    "andesite": 155,
+    "gravel": 179,
+    "cobblestone": 66,
+    "tuff": 64,
+    "mossy_cobblestone": 2
+   }
+  },
+  "moreminecrafts:sky_islands/rocky/satellite_b": {
+   "size": [
+    25,
+    21,
+    21
+   ],
+   "blocks": 821,
+   "vanilla_terrain": {
+    "stone": 349,
+    "andesite": 170,
+    "gravel": 176,
+    "cobblestone": 66,
+    "tuff": 56,
+    "mossy_cobblestone": 2
+   }
+  },
+  "moreminecrafts:sky_islands/rocky/tower": {
+   "size": [
+    58,
+    97,
+    49
+   ],
+   "blocks": 42668,
+   "vanilla_terrain": {
+    "andesite": 5437,
+    "stone": 4316,
+    "gravel": 1140,
+    "cobblestone": 1345,
+    "tuff": 1357,
+    "mossy_cobblestone": 1
+   }
+  },
+  "moreminecrafts:sky_islands/ruins_a": {
+   "size": [
+    15,
+    12,
+    15
+   ],
+   "blocks": 279,
+   "vanilla_terrain": {
+    "mossy_cobblestone": 6,
+    "cobblestone": 2
+   }
+  },
+  "moreminecrafts:sky_islands/ruins_b": {
+   "size": [
+    15,
+    12,
+    15
+   ],
+   "blocks": 339,
+   "vanilla_terrain": {
+    "cobblestone": 4,
+    "mossy_cobblestone": 1
+   }
+  },
+  "moreminecrafts:sky_islands/ruins_c": {
+   "size": [
+    15,
+    12,
+    15
+   ],
+   "blocks": 416,
+   "vanilla_terrain": {
+    "cobblestone": 2,
+    "mossy_cobblestone": 3
+   }
+  },
+  "moreminecrafts:sky_islands/ruins_d": {
+   "size": [
+    15,
+    12,
+    15
+   ],
+   "blocks": 365,
+   "vanilla_terrain": {
+    "mossy_cobblestone": 3,
+    "cobblestone": 1
+   }
+  },
+  "moreminecrafts:sky_islands/snowy/satellite_a": {
+   "size": [
+    27,
+    22,
+    19
+   ],
+   "blocks": 976,
+   "vanilla_terrain": {
+    "stone": 370,
+    "snow_block": 293,
+    "cobblestone": 61,
+    "andesite": 75,
+    "packed_ice": 63
+   }
+  },
+  "moreminecrafts:sky_islands/snowy/satellite_b": {
+   "size": [
+    25,
+    21,
+    21
+   ],
+   "blocks": 944,
+   "vanilla_terrain": {
+    "stone": 364,
+    "snow_block": 302,
+    "packed_ice": 60,
+    "cobblestone": 43,
+    "andesite": 59
+   }
+  },
+  "moreminecrafts:sky_islands/snowy/tower": {
+   "size": [
+    58,
+    97,
+    49
+   ],
+   "blocks": 42621,
+   "vanilla_terrain": {
+    "andesite": 4631,
+    "snow_block": 1883,
+    "stone": 4190,
+    "cobblestone": 1315,
+    "packed_ice": 1398
+   }
+  },
+  "moreminecrafts:sky_islands/temple": {
+   "size": [
+    45,
+    22,
+    27
+   ],
+   "blocks": 3897,
+   "vanilla_terrain": {
+    "mossy_cobblestone": 10
+   }
+  }
+ }
+}
