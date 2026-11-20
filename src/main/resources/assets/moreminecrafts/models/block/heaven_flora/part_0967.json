@@ -1,0 +1,1 @@
+{"parent":"minecraft:block/block","textures":{"t0":"moreminecrafts:block/heaven_flora/wt_2","particle":"moreminecrafts:block/heaven_flora/wt_2"},"elements":[{"from":[12,12,4],"to":[16,16,16],"faces":{"north":{"texture":"#t0"},"south":{"texture":"#t0"},"west":{"texture":"#t0"},"east":{"texture":"#t0"},"down":{"texture":"#t0"},"up":{"texture":"#t0"}}}]}

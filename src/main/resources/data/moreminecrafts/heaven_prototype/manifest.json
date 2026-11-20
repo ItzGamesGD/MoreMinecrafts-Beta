@@ -1,0 +1,172 @@
+{
+  "design": "V5 Fantastic Heaven Garden (docs/design/heaven_sky_island_vegetation_2026-11-19)",
+  "template": "moreminecrafts:heaven_prototype/plain_medium_d_v5",
+  "natural_palette": {
+    "grass_block": "heaven_grass_block",
+    "dirt": "heaven_loam",
+    "coarse_dirt": "heaven_loam",
+    "stone": "heaven_cream_stone",
+    "andesite": "heaven_cream_stone_pale",
+    "tuff": "heaven_cream_stone_pale"
+  },
+  "natural": {
+    "textures": {
+      "heaven_grass_block_top": "0e950344dd362734",
+      "heaven_grass_block_side": "47e80c71bf2d2342",
+      "heaven_loam": "6002306c1c641fa6",
+      "heaven_cream_stone": "b0ab9bc8ad7502b6",
+      "heaven_cream_stone_pale": "a16d1671101bf756"
+    },
+    "a_side_soil_vs_loam": 18.285714285714285,
+    "new_side_soil_vs_loam": 0.0
+  },
+  "flora": {
+    "parts": 1241,
+    "cells": 1561,
+    "elements": 13078,
+    "faces": 44126,
+    "materials": 57
+  },
+  "nbt": {
+    "source_sha256": "c2a919e9b028a90e6ababa3b4dd908e51bd01f637e27da22fcd3561f335a9a22",
+    "terrain_blocks": 6272,
+    "dropped_template_blocks": {
+      "jigsaw": 2,
+      "short_grass": 151,
+      "oak_leaves": 288,
+      "tall_grass": 14,
+      "oak_log": 24,
+      "cornflower": 5,
+      "oxeye_daisy": 3,
+      "allium": 5,
+      "azure_bluet": 3,
+      "dandelion": 8,
+      "poppy": 3
+    },
+    "flora_blocks": 1561,
+    "flora_terrain_clash": 0,
+    "palette_entries": 1246,
+    "size": [
+      45,
+      43,
+      37
+    ]
+  },
+  "giants": [
+    {
+      "species": "starlotus",
+      "base": [
+        27,
+        14,
+        10
+      ],
+      "design_height_blocks": 10,
+      "voxel_top_blocks": 9.25,
+      "bbox_blocks": [
+        -3.0,
+        -0.5,
+        -3.25,
+        2.5,
+        9.0,
+        2.5
+      ]
+    },
+    {
+      "species": "lily",
+      "base": [
+        16,
+        14,
+        11
+      ],
+      "design_height_blocks": 10,
+      "voxel_top_blocks": 11.5,
+      "bbox_blocks": [
+        -3.25,
+        -1.0,
+        -2.5,
+        2.5,
+        11.25,
+        3.25
+      ]
+    },
+    {
+      "species": "daffodil",
+      "base": [
+        22,
+        14,
+        29
+      ],
+      "design_height_blocks": 10,
+      "voxel_top_blocks": 10.5,
+      "bbox_blocks": [
+        -4.0,
+        -0.25,
+        -4.5,
+        4.5,
+        10.25,
+        4.5
+      ]
+    }
+  ],
+  "trees": [
+    {
+      "kind": "blossom",
+      "base": [
+        12,
+        14,
+        19
+      ],
+      "H": 8
+    },
+    {
+      "kind": "white",
+      "base": [
+        34,
+        14,
+        24
+      ],
+      "H": 9
+    }
+  ],
+  "design_counts": {
+    "giant:daffodil": 1,
+    "giant:lily": 1,
+    "giant:starlotus": 1,
+    "grass:tuft_short": 79,
+    "grass:tuft_tall": 29,
+    "ground:petals": 12,
+    "medium:hydrangea": 5,
+    "medium:lavender": 8,
+    "medium:phlox": 6,
+    "small:small_blu": 20,
+    "small:small_pnk": 22,
+    "small:small_red": 21,
+    "small:small_vio": 24,
+    "small:small_wht": 16,
+    "small:small_yel": 24,
+    "tree:blossom": 1,
+    "tree:white": 1,
+    "vine:vine": 8,
+    "vine:wisteria": 10,
+    "vine:wisteria_canopy": 18
+  },
+  "design_checks": {
+    "walkable_share": 0.979,
+    "strict_walkable_share": 0.973,
+    "pond_columns_covered_low": "4/52",
+    "clipped_voxels_outside_template": 0
+  },
+  "fine_grid_crc32": 3288601534,
+  "jigsaw_clearance": [
+    [
+      0,
+      17,
+      18
+    ],
+    [
+      44,
+      8,
+      18
+    ]
+  ]
+}

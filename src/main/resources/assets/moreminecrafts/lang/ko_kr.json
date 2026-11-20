@@ -1124,5 +1124,10 @@
   "entity.moreminecrafts.buried_mummy": "매장된 미라",
   "entity.moreminecrafts.crypt_archer": "묘실 궁수",
   "entity.moreminecrafts.funeral_servant": "장례 시종",
-  "entity.moreminecrafts.gilded_mummy": "금장 미라"
+  "entity.moreminecrafts.gilded_mummy": "금장 미라",
+  "block.moreminecrafts.heaven_grass_block": "천국 잔디 블록",
+  "block.moreminecrafts.heaven_loam": "천국 흙",
+  "block.moreminecrafts.heaven_cream_stone": "천국 크림석",
+  "block.moreminecrafts.heaven_cream_stone_pale": "연한 천국 크림석",
+  "block.moreminecrafts.heaven_flora_prototype": "천국 식생 (프로토타입)"
 }

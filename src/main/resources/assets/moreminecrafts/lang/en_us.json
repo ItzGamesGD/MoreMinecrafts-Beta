@@ -1200,5 +1200,10 @@
   "entity.moreminecrafts.buried_mummy": "Buried Mummy",
   "entity.moreminecrafts.crypt_archer": "Crypt Archer",
   "entity.moreminecrafts.funeral_servant": "Funeral Servant",
-  "entity.moreminecrafts.gilded_mummy": "Gilded Mummy"
+  "entity.moreminecrafts.gilded_mummy": "Gilded Mummy",
+  "block.moreminecrafts.heaven_grass_block": "Heaven Grass Block",
+  "block.moreminecrafts.heaven_loam": "Heaven Loam",
+  "block.moreminecrafts.heaven_cream_stone": "Heaven Cream Stone",
+  "block.moreminecrafts.heaven_cream_stone_pale": "Pale Heaven Cream Stone",
+  "block.moreminecrafts.heaven_flora_prototype": "Heaven Flora (Prototype)"
 }
