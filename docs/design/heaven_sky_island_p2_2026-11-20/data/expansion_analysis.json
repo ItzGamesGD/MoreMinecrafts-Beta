@@ -1,0 +1,990 @@
+{
+ "jigsaws": {
+  "large_a": {
+   "size": [
+    97,
+    67,
+    97
+   ],
+   "jigsaws": []
+  },
+  "large_b": {
+   "size": [
+    109,
+    69,
+    99
+   ],
+   "jigsaws": []
+  },
+  "large_c": {
+   "size": [
+    125,
+    71,
+    113
+   ],
+   "jigsaws": []
+  },
+  "large_d": {
+   "size": [
+    145,
+    101,
+    129
+   ],
+   "jigsaws": [
+    {
+     "pos": [
+      78,
+      16,
+      64
+     ],
+     "orientation": "up_north",
+     "face": "inner",
+     "pool": "moreminecrafts:sky_islands/meadow/tower_top",
+     "name": "moreminecrafts:sky_top",
+     "target": "moreminecrafts:sky_top",
+     "joint": "aligned",
+     "final_state": "minecraft:dirt"
+    }
+   ]
+  },
+  "large_e": {
+   "size": [
+    155,
+    101,
+    137
+   ],
+   "jigsaws": [
+    {
+     "pos": [
+      83,
+      16,
+      68
+     ],
+     "orientation": "up_north",
+     "face": "inner",
+     "pool": "moreminecrafts:sky_islands/meadow/tower_top",
+     "name": "moreminecrafts:sky_top",
+     "target": "moreminecrafts:sky_top",
+     "joint": "aligned",
+     "final_state": "minecraft:dirt"
+    }
+   ]
+  },
+  "plain_medium_a": {
+   "size": [
+    45,
+    43,
+    35
+   ],
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      17,
+      17
+     ],
+     "orientation": "west_up",
+     "face": "west",
+     "pool": "moreminecrafts:sky_islands/meadow/satellite",
+     "name": "moreminecrafts:sky_link",
+     "target": "moreminecrafts:sky_link",
+     "joint": "aligned",
+     "final_state": "minecraft:air"
+    },
+    {
+     "pos": [
+      44,
+      8,
+      17
+     ],
+     "orientation": "east_up",
+     "face": "east",
+     "pool": "moreminecrafts:sky_islands/meadow/satellite",
+     "name": "moreminecrafts:sky_link",
+     "target": "moreminecrafts:sky_link",
+     "joint": "aligned",
+     "final_state": "minecraft:air"
+    }
+   ]
+  },
+  "plain_medium_b": {
+   "size": [
+    43,
+    43,
+    35
+   ],
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      17,
+      17
+     ],
+     "orientation": "west_up",
+     "face": "west",
+     "pool": "moreminecrafts:sky_islands/meadow/satellite",
+     "name": "moreminecrafts:sky_link",
+     "target": "moreminecrafts:sky_link",
+     "joint": "aligned",
+     "final_state": "minecraft:air"
+    },
+    {
+     "pos": [
+      42,
+      8,
+      17
+     ],
+     "orientation": "east_up",
+     "face": "east",
+     "pool": "moreminecrafts:sky_islands/meadow/satellite",
+     "name": "moreminecrafts:sky_link",
+     "target": "moreminecrafts:sky_link",
+     "joint": "aligned",
+     "final_state": "minecraft:air"
+    }
+   ]
+  },
+  "plain_medium_c": {
+   "size": [
+    47,
+    44,
+    33
+   ],
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      18,
+      16
+     ],
+     "orientation": "west_up",
+     "face": "west",
+     "pool": "moreminecrafts:sky_islands/meadow/satellite",
+     "name": "moreminecrafts:sky_link",
+     "target": "moreminecrafts:sky_link",
+     "joint": "aligned",
+     "final_state": "minecraft:air"
+    },
+    {
+     "pos": [
+      46,
+      9,
+      16
+     ],
+     "orientation": "east_up",
+     "face": "east",
+     "pool": "moreminecrafts:sky_islands/meadow/satellite",
+     "name": "moreminecrafts:sky_link",
+     "target": "moreminecrafts:sky_link",
+     "joint": "aligned",
+     "final_state": "minecraft:air"
+    }
+   ]
+  },
+  "plain_medium_d": {
+   "size": [
+    45,
+    43,
+    37
+   ],
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      17,
+      18
+     ],
+     "orientation": "west_up",
+     "face": "west",
+     "pool": "moreminecrafts:sky_islands/meadow/satellite",
+     "name": "moreminecrafts:sky_link",
+     "target": "moreminecrafts:sky_link",
+     "joint": "aligned",
+     "final_state": "minecraft:air"
+    },
+    {
+     "pos": [
+      44,
+      8,
+      18
+     ],
+     "orientation": "east_up",
+     "face": "east",
+     "pool": "moreminecrafts:sky_islands/meadow/satellite",
+     "name": "moreminecrafts:sky_link",
+     "target": "moreminecrafts:sky_link",
+     "joint": "aligned",
+     "final_state": "minecraft:air"
+    }
+   ]
+  },
+  "plain_medium_e": {
+   "size": [
+    43,
+    42,
+    33
+   ],
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      16,
+      16
+     ],
+     "orientation": "west_up",
+     "face": "west",
+     "pool": "moreminecrafts:sky_islands/meadow/satellite",
+     "name": "moreminecrafts:sky_link",
+     "target": "moreminecrafts:sky_link",
+     "joint": "aligned",
+     "final_state": "minecraft:air"
+    },
+    {
+     "pos": [
+      42,
+      7,
+      16
+     ],
+     "orientation": "east_up",
+     "face": "east",
+     "pool": "moreminecrafts:sky_islands/meadow/satellite",
+     "name": "moreminecrafts:sky_link",
+     "target": "moreminecrafts:sky_link",
+     "joint": "aligned",
+     "final_state": "minecraft:air"
+    }
+   ]
+  },
+  "plain_small_a": {
+   "size": [
+    25,
+    23,
+    25
+   ],
+   "jigsaws": []
+  },
+  "plain_small_b": {
+   "size": [
+    27,
+    24,
+    23
+   ],
+   "jigsaws": []
+  },
+  "plain_small_c": {
+   "size": [
+    25,
+    23,
+    27
+   ],
+   "jigsaws": []
+  },
+  "plain_small_d": {
+   "size": [
+    27,
+    24,
+    25
+   ],
+   "jigsaws": []
+  },
+  "ruins": {
+   "size": [
+    36,
+    27,
+    33
+   ],
+   "jigsaws": [
+    {
+     "pos": [
+      16,
+      11,
+      16
+     ],
+     "orientation": "up_north",
+     "face": "inner",
+     "pool": "moreminecrafts:sky_islands/ruins_top",
+     "name": "moreminecrafts:sky_top",
+     "target": "moreminecrafts:sky_top",
+     "joint": "aligned",
+     "final_state": "minecraft:grass_block"
+    },
+    {
+     "pos": [
+      35,
+      8,
+      16
+     ],
+     "orientation": "east_up",
+     "face": "east",
+     "pool": "moreminecrafts:sky_islands/meadow/satellite",
+     "name": "moreminecrafts:sky_link",
+     "target": "moreminecrafts:sky_link",
+     "joint": "aligned",
+     "final_state": "minecraft:air"
+    }
+   ]
+  },
+  "satellite_a": {
+   "size": [
+    27,
+    22,
+    19
+   ],
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      8,
+      9
+     ],
+     "orientation": "west_up",
+     "face": "west",
+     "pool": "moreminecrafts:sky_islands/meadow/satellite",
+     "name": "moreminecrafts:sky_link",
+     "target": "moreminecrafts:sky_link",
+     "joint": "aligned",
+     "final_state": "minecraft:air"
+    },
+    {
+     "pos": [
+      26,
+      8,
+      9
+     ],
+     "orientation": "east_up",
+     "face": "east",
+     "pool": "moreminecrafts:sky_islands/meadow/satellite",
+     "name": "moreminecrafts:sky_link",
+     "target": "moreminecrafts:sky_link",
+     "joint": "aligned",
+     "final_state": "minecraft:air"
+    }
+   ]
+  },
+  "satellite_b": {
+   "size": [
+    25,
+    21,
+    21
+   ],
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      3,
+      10
+     ],
+     "orientation": "west_up",
+     "face": "west",
+     "pool": "moreminecrafts:sky_islands/meadow/satellite",
+     "name": "moreminecrafts:sky_link",
+     "target": "moreminecrafts:sky_link",
+     "joint": "aligned",
+     "final_state": "minecraft:air"
+    },
+    {
+     "pos": [
+      24,
+      10,
+      10
+     ],
+     "orientation": "east_up",
+     "face": "east",
+     "pool": "moreminecrafts:sky_islands/meadow/satellite",
+     "name": "moreminecrafts:sky_link",
+     "target": "moreminecrafts:sky_link",
+     "joint": "aligned",
+     "final_state": "minecraft:air"
+    }
+   ]
+  },
+  "temple": {
+   "size": [
+    81,
+    45,
+    57
+   ],
+   "jigsaws": [
+    {
+     "pos": [
+      40,
+      19,
+      28
+     ],
+     "orientation": "up_north",
+     "face": "inner",
+     "pool": "moreminecrafts:sky_islands/temple_top",
+     "name": "moreminecrafts:sky_top",
+     "target": "moreminecrafts:sky_top",
+     "joint": "aligned",
+     "final_state": "minecraft:grass_block"
+    }
+   ]
+  },
+  "tower": {
+   "size": [
+    58,
+    97,
+    49
+   ],
+   "jigsaws": [
+    {
+     "pos": [
+      36,
+      16,
+      24
+     ],
+     "orientation": "down_north",
+     "face": "inner",
+     "pool": "minecraft:empty",
+     "name": "moreminecrafts:sky_top",
+     "target": "moreminecrafts:sky_top",
+     "joint": "aligned",
+     "final_state": "minecraft:grass_block"
+    }
+   ]
+  }
+ },
+ "theme_shape_comparison": {
+  "large_a": {
+   "size": [
+    97,
+    67,
+    97
+   ],
+   "terrain": 90234,
+   "vs": {
+    "forest": {
+     "same_size": true,
+     "iou": 0.857
+    },
+    "snowy": {
+     "same_size": true,
+     "iou": 0.781
+    },
+    "desert": {
+     "same_size": true,
+     "iou": 0.742
+    },
+    "badlands": {
+     "same_size": true,
+     "iou": 0.771
+    },
+    "rocky": {
+     "same_size": true,
+     "iou": 0.832
+    }
+   }
+  },
+  "large_b": {
+   "size": [
+    109,
+    69,
+    99
+   ],
+   "terrain": 113601,
+   "vs": {
+    "forest": {
+     "same_size": true,
+     "iou": 0.814
+    },
+    "snowy": {
+     "same_size": true,
+     "iou": 0.803
+    },
+    "desert": {
+     "same_size": true,
+     "iou": 0.74
+    },
+    "badlands": {
+     "same_size": true,
+     "iou": 0.795
+    },
+    "rocky": {
+     "same_size": true,
+     "iou": 0.821
+    }
+   }
+  },
+  "large_c": {
+   "size": [
+    125,
+    71,
+    113
+   ],
+   "terrain": 160920,
+   "vs": {
+    "forest": {
+     "same_size": true,
+     "iou": 0.898
+    },
+    "snowy": {
+     "same_size": true,
+     "iou": 0.803
+    },
+    "desert": {
+     "same_size": true,
+     "iou": 0.745
+    },
+    "badlands": {
+     "same_size": true,
+     "iou": 0.812
+    },
+    "rocky": {
+     "same_size": true,
+     "iou": 0.826
+    }
+   }
+  },
+  "large_d": {
+   "size": [
+    145,
+    101,
+    129
+   ],
+   "terrain": 116465,
+   "vs": {
+    "forest": {
+     "same_size": true,
+     "iou": 0.803
+    },
+    "snowy": {
+     "same_size": true,
+     "iou": 0.721
+    },
+    "desert": {
+     "same_size": true,
+     "iou": 0.744
+    },
+    "badlands": {
+     "same_size": true,
+     "iou": 0.751
+    },
+    "rocky": {
+     "same_size": true,
+     "iou": 0.747
+    }
+   }
+  },
+  "large_e": {
+   "size": [
+    155,
+    101,
+    137
+   ],
+   "terrain": 133198,
+   "vs": {
+    "forest": {
+     "same_size": true,
+     "iou": 0.766
+    },
+    "snowy": {
+     "same_size": true,
+     "iou": 0.727
+    },
+    "desert": {
+     "same_size": true,
+     "iou": 0.772
+    },
+    "badlands": {
+     "same_size": true,
+     "iou": 0.757
+    },
+    "rocky": {
+     "same_size": true,
+     "iou": 0.75
+    }
+   }
+  },
+  "plain_medium_a": {
+   "size": [
+    45,
+    43,
+    35
+   ],
+   "terrain": 5202,
+   "vs": {
+    "forest": {
+     "same_size": true,
+     "iou": 0.812
+    },
+    "snowy": {
+     "same_size": true,
+     "iou": 0.774
+    },
+    "desert": {
+     "same_size": true,
+     "iou": 0.672
+    },
+    "badlands": {
+     "same_size": true,
+     "iou": 0.745
+    },
+    "rocky": {
+     "same_size": true,
+     "iou": 0.717
+    }
+   }
+  },
+  "plain_medium_b": {
+   "size": [
+    43,
+    43,
+    35
+   ],
+   "terrain": 4915,
+   "vs": {
+    "forest": {
+     "same_size": true,
+     "iou": 0.74
+    },
+    "snowy": {
+     "same_size": true,
+     "iou": 0.718
+    },
+    "desert": {
+     "same_size": true,
+     "iou": 0.684
+    },
+    "badlands": {
+     "same_size": true,
+     "iou": 0.671
+    },
+    "rocky": {
+     "same_size": true,
+     "iou": 0.718
+    }
+   }
+  },
+  "plain_medium_c": {
+   "size": [
+    47,
+    44,
+    33
+   ],
+   "terrain": 5541,
+   "vs": {
+    "forest": {
+     "same_size": true,
+     "iou": 0.831
+    },
+    "snowy": {
+     "same_size": true,
+     "iou": 0.693
+    },
+    "desert": {
+     "same_size": true,
+     "iou": 0.792
+    },
+    "badlands": {
+     "same_size": true,
+     "iou": 0.698
+    },
+    "rocky": {
+     "same_size": true,
+     "iou": 0.669
+    }
+   }
+  },
+  "plain_medium_d": {
+   "size": [
+    45,
+    43,
+    37
+   ],
+   "terrain": 5465,
+   "vs": {
+    "forest": {
+     "same_size": true,
+     "iou": 0.737
+    },
+    "snowy": {
+     "same_size": true,
+     "iou": 0.741
+    },
+    "desert": {
+     "same_size": true,
+     "iou": 0.739
+    },
+    "badlands": {
+     "same_size": true,
+     "iou": 0.756
+    },
+    "rocky": {
+     "same_size": true,
+     "iou": 0.688
+    }
+   }
+  },
+  "plain_medium_e": {
+   "size": [
+    43,
+    42,
+    33
+   ],
+   "terrain": 4017,
+   "vs": {
+    "forest": {
+     "same_size": true,
+     "iou": 0.717
+    },
+    "snowy": {
+     "same_size": true,
+     "iou": 0.708
+    },
+    "desert": {
+     "same_size": true,
+     "iou": 0.689
+    },
+    "badlands": {
+     "same_size": true,
+     "iou": 0.651
+    },
+    "rocky": {
+     "same_size": true,
+     "iou": 0.735
+    }
+   }
+  },
+  "plain_small_a": {
+   "size": [
+    25,
+    23,
+    25
+   ],
+   "terrain": 1384,
+   "vs": {
+    "forest": {
+     "same_size": true,
+     "iou": 0.794
+    },
+    "snowy": {
+     "same_size": true,
+     "iou": 0.603
+    },
+    "desert": {
+     "same_size": true,
+     "iou": 0.689
+    },
+    "badlands": {
+     "same_size": true,
+     "iou": 0.663
+    },
+    "rocky": {
+     "same_size": true,
+     "iou": 0.654
+    }
+   }
+  },
+  "plain_small_b": {
+   "size": [
+    27,
+    24,
+    23
+   ],
+   "terrain": 1556,
+   "vs": {
+    "forest": {
+     "same_size": true,
+     "iou": 0.744
+    },
+    "snowy": {
+     "same_size": true,
+     "iou": 0.676
+    },
+    "desert": {
+     "same_size": true,
+     "iou": 0.684
+    },
+    "badlands": {
+     "same_size": true,
+     "iou": 0.611
+    },
+    "rocky": {
+     "same_size": true,
+     "iou": 0.65
+    }
+   }
+  },
+  "plain_small_c": {
+   "size": [
+    25,
+    23,
+    27
+   ],
+   "terrain": 1453,
+   "vs": {
+    "forest": {
+     "same_size": true,
+     "iou": 0.771
+    },
+    "snowy": {
+     "same_size": true,
+     "iou": 0.702
+    },
+    "desert": {
+     "same_size": true,
+     "iou": 0.592
+    },
+    "badlands": {
+     "same_size": true,
+     "iou": 0.699
+    },
+    "rocky": {
+     "same_size": true,
+     "iou": 0.606
+    }
+   }
+  },
+  "plain_small_d": {
+   "size": [
+    27,
+    24,
+    25
+   ],
+   "terrain": 1716,
+   "vs": {
+    "forest": {
+     "same_size": true,
+     "iou": 0.717
+    },
+    "snowy": {
+     "same_size": true,
+     "iou": 0.614
+    },
+    "desert": {
+     "same_size": true,
+     "iou": 0.724
+    },
+    "badlands": {
+     "same_size": true,
+     "iou": 0.662
+    },
+    "rocky": {
+     "same_size": true,
+     "iou": 0.618
+    }
+   }
+  },
+  "ruins": {
+   "size": [
+    36,
+    27,
+    33
+   ],
+   "terrain": 3431,
+   "vs": {
+    "forest": {
+     "same_size": true,
+     "iou": 0.74
+    },
+    "snowy": {
+     "same_size": true,
+     "iou": 0.675
+    },
+    "desert": {
+     "same_size": true,
+     "iou": 0.669
+    },
+    "badlands": {
+     "same_size": true,
+     "iou": 0.658
+    },
+    "rocky": {
+     "same_size": true,
+     "iou": 0.698
+    }
+   }
+  },
+  "satellite_a": {
+   "size": [
+    27,
+    22,
+    19
+   ],
+   "terrain": 678,
+   "vs": {
+    "forest": {
+     "same_size": true,
+     "iou": 0.71
+    },
+    "snowy": {
+     "same_size": true,
+     "iou": 0.599
+    },
+    "desert": {
+     "same_size": true,
+     "iou": 0.64
+    },
+    "badlands": {
+     "same_size": true,
+     "iou": 0.601
+    },
+    "rocky": {
+     "same_size": true,
+     "iou": 0.638
+    }
+   }
+  },
+  "satellite_b": {
+   "size": [
+    25,
+    21,
+    21
+   ],
+   "terrain": 625,
+   "vs": {
+    "forest": {
+     "same_size": true,
+     "iou": 0.649
+    },
+    "snowy": {
+     "same_size": true,
+     "iou": 0.614
+    },
+    "desert": {
+     "same_size": true,
+     "iou": 0.63
+    },
+    "badlands": {
+     "same_size": true,
+     "iou": 0.539
+    },
+    "rocky": {
+     "same_size": true,
+     "iou": 0.622
+    }
+   }
+  },
+  "temple": {
+   "size": [
+    81,
+    45,
+    57
+   ],
+   "terrain": 29788,
+   "vs": {
+    "forest": {
+     "same_size": true,
+     "iou": 0.822
+    },
+    "snowy": {
+     "same_size": true,
+     "iou": 0.724
+    },
+    "desert": {
+     "same_size": true,
+     "iou": 0.733
+    },
+    "badlands": {
+     "same_size": true,
+     "iou": 0.769
+    },
+    "rocky": {
+     "same_size": true,
+     "iou": 0.722
+    }
+   }
+  }
+ }
+}
