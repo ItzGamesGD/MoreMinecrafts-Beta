@@ -11,8 +11,17 @@ import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -33,10 +42,21 @@ import net.minecraft.world.phys.shapes.VoxelShape;
  *   <li>outline = the part's voxel boxes; collision = only the voxels the table marks as colliding
  *       (giant-flower stems). Every other part is passable.</li>
  * </ul>
- * Gameplay behaviour (survival, growth, drops, bone meal, fire) is deliberately absent: P2 only specifies it
- * (docs/design/heaven_sky_island_p2_2026-11-20/README.md, policy table) pending owner approval.
+ * P3 survival rules (owner-approved F6 / F8, docs/design/heaven_sky_island_p3_2026-11-20/README.md), per {@link Rule}:
+ * <ul>
+ *   <li>{@link Rule#GROUND}: small flowers, grass, petals stand on {@code #moreminecrafts:supports_heaven_vegetation}
+ *       and pop (no drop) when it goes, like vanilla plants;</li>
+ *   <li>{@link Rule#VINE}: cliff vines need a sturdy face behind them ({@code facing}) or the same vine above;</li>
+ *   <li>{@link Rule#WISTERIA}: hangs from a sturdy / leaf block or wisteria above, or clings to a sturdy face behind;
+ *       vines and wisteria are checked one tick later (scheduled), like vanilla sugar cane;</li>
+ *   <li>{@link Rule#MEDIUM}, {@link Rule#GIANT}: whole-plant rules in {@link HeavenPlants} (identified by layout).</li>
+ * </ul>
+ * Not flammable (no FlammableBlockRegistry entry, F8). Drops / items: none (F7 amounts pending).
  */
 public class HeavenPartBlock extends Block {
+    /** Survival rule family. */
+    public enum Rule { GROUND, VINE, WISTERIA, MEDIUM, GIANT }
+
     private record Spec(int count, boolean facing, IntegerProperty[] created) {}
 
     /** Carries the table size into {@link #createBlockStateDefinition}, which runs inside the super constructor. */
@@ -44,6 +64,8 @@ public class HeavenPartBlock extends Block {
     private static final Direction[] ORDER = {Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
 
     private final String family;
+    private final Identifier id;
+    private final Rule rule;
     private final int count;
     private final IntegerProperty part;
     private final boolean facing;
@@ -65,6 +87,8 @@ public class HeavenPartBlock extends Block {
     private HeavenPartBlock(String family, BlockBehaviour.Properties properties, JsonObject table, Spec spec) {
         super(properties);
         this.family = family;
+        this.id = dev.itzgamesgd.moreminecrafts.core.ModIds.id(family);
+        this.rule = ruleOf(family);
         this.count = spec.count();
         this.part = spec.created()[0];
         this.facing = spec.facing();
@@ -132,7 +156,20 @@ public class HeavenPartBlock extends Block {
         return part == null ? 0 : state.getValue(part);
     }
 
+    static Rule ruleOf(String family) {
+        if (family.startsWith("heaven_giant_")) return Rule.GIANT;
+        return switch (family) {
+            case "heaven_lavender", "heaven_hydrangea", "heaven_phlox" -> Rule.MEDIUM;
+            case "heaven_vine" -> Rule.VINE;
+            case "heaven_wisteria" -> Rule.WISTERIA;
+            default -> Rule.GROUND;
+        };
+    }
+
     public String family() { return family; }
+    public Identifier id() { return id; }
+    public Rule rule() { return rule; }
+    public boolean isGiantStem() { return family.equals("heaven_giant_stem"); }
     public int partCount() { return count; }
     public IntegerProperty partProperty() { return part; }
     public boolean hasFacing() { return facing; }
@@ -151,5 +188,70 @@ public class HeavenPartBlock extends Block {
     @Override
     protected boolean propagatesSkylightDown(BlockState state) {
         return true;
+    }
+
+    // ---------------------------------------------------------------- P3 survival rules
+
+    @Override
+    protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+        return switch (rule) {
+            case GROUND -> level.getBlockState(pos.below()).is(HeavenPlants.SUPPORTS);
+            case VINE -> attached(state, level, pos) || level.getBlockState(pos.above()).is(this);
+            case WISTERIA -> attached(state, level, pos) || hangsFrom(level, pos.above());
+            case MEDIUM, GIANT -> true;                    // whole-plant rules: HeavenPlants
+        };
+    }
+
+    private boolean attached(BlockState state, LevelReader level, BlockPos pos) {
+        if (!facing) return false;
+        Direction d = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
+        BlockPos behind = pos.relative(d);
+        return level.getBlockState(behind).isFaceSturdy(level, behind, d.getOpposite());
+    }
+
+    private boolean hangsFrom(LevelReader level, BlockPos above) {
+        BlockState s = level.getBlockState(above);
+        // leaves have an empty support shape in vanilla; heaven_white_blossom_leaves is not in #minecraft:leaves
+        return s.is(this) || s.is(BlockTags.LEAVES) || s.getBlock() instanceof net.minecraft.world.level.block.LeavesBlock
+                || s.isFaceSturdy(level, above, Direction.DOWN);
+    }
+
+    @Override
+    protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess ticks, BlockPos pos, Direction direction,
+                                     BlockPos neighbourPos, BlockState neighbour, RandomSource random) {
+        if (rule == Rule.MEDIUM || rule == Rule.GIANT) {
+            if (direction == Direction.DOWN && !(neighbour.getBlock() instanceof HeavenPartBlock)) ticks.scheduleTick(pos, this, 1);
+            return state;
+        }
+        if (rule == Rule.VINE || rule == Rule.WISTERIA) {
+            // deferred like vanilla sugar cane / bamboo: a strand is placed tip-first by structure placement, so its
+            // upper segment may not exist yet when the tip receives its first shape update
+            if (!canSurvive(state, level, pos)) ticks.scheduleTick(pos, this, 1);
+            return state;
+        }
+        return canSurvive(state, level, pos) ? state : Blocks.AIR.defaultBlockState();
+    }
+
+    @Override
+    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        if (rule == Rule.MEDIUM || rule == Rule.GIANT) HeavenPlants.checkSupport(level, pos, state);
+        else if ((rule == Rule.VINE || rule == Rule.WISTERIA) && !canSurvive(state, level, pos)) level.destroyBlock(pos, true);
+    }
+
+    @Override
+    protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston) {
+        super.affectNeighborsAfterRemoval(state, level, pos, movedByPiston);
+        if (rule == Rule.MEDIUM || rule == Rule.GIANT) HeavenPlants.onCellRemoved(level, pos, state);
+    }
+
+    /** Facing families follow structure rotation / mirroring (P3 templates may be placed rotated). Giants have no facing. */
+    @Override
+    protected BlockState rotate(BlockState state, Rotation rotation) {
+        return facing ? state.setValue(BlockStateProperties.HORIZONTAL_FACING, rotation.rotate(state.getValue(BlockStateProperties.HORIZONTAL_FACING))) : state;
+    }
+
+    @Override
+    protected BlockState mirror(BlockState state, Mirror mirror) {
+        return facing ? state.rotate(mirror.getRotation(state.getValue(BlockStateProperties.HORIZONTAL_FACING))) : state;
     }
 }

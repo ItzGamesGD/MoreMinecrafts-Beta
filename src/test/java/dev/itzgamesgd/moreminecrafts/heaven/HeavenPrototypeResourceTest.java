@@ -121,8 +121,10 @@ class HeavenPrototypeResourceTest {
     void naturalBlockResourcesAreComplete() throws IOException {
         for (String id : NATURAL) {
             JsonObject bs = json("assets/moreminecrafts/blockstates/" + id + ".json");
-            String model = bs.getAsJsonObject("variants").getAsJsonObject("").get("model").getAsString();
-            assertEquals(NS + ":block/" + id, model);
+            // P3 (F1): heaven grass gained the vanilla `snowy` state; both variants keep the one P1 model
+            JsonObject variants = bs.getAsJsonObject("variants");
+            assertEquals(id.equals("heaven_grass_block") ? java.util.Set.of("snowy=false", "snowy=true") : java.util.Set.of(""), variants.keySet(), id + " variants");
+            for (var v : variants.entrySet()) assertEquals(NS + ":block/" + id, v.getValue().getAsJsonObject().get("model").getAsString());
             JsonObject m = json("assets/moreminecrafts/models/block/" + id + ".json");
             for (var e : m.getAsJsonObject("textures").entrySet()) {
                 String tex = e.getValue().getAsString();

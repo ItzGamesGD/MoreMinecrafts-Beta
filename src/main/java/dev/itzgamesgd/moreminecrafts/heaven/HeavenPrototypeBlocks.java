@@ -22,13 +22,14 @@ import net.minecraft.world.level.material.PushReaction;
  * placed by world generation: they only appear through the prototype template
  * {@code moreminecrafts:heaven_prototype/plain_medium_d_v5} placed with {@code /place template}.
  *
- * <p>Deliberately NOT implemented (owner policy pending): grass spreading, grass-to-loam decay,
- * shovel path / hoe tilling, plant-survival tags ({@code #minecraft:dirt}), snow-covered grass.
+ * <p>P3 (owner-approved F1-F4, F9, F11): heaven grass spreads onto / decays into heaven loam and takes bone meal
+ * ({@link HeavenGrassBlock}); shovel path, hoe farmland and vanilla plant survival are individual vanilla tags
+ * (never {@code #minecraft:dirt}); IDs unchanged; cream stone drops itself.
  */
 public final class HeavenPrototypeBlocks {
-    /** A-grass top, A fringe on B-loam side, B-loam bottom. Behaves as a plain block (no spreading). */
+    /** A-grass top, A fringe on B-loam side, B-loam bottom. P3 (F1/F4): spreads onto heaven loam, decays to it, bone meal. */
     public static final Block HEAVEN_GRASS_BLOCK = natural("heaven_grass_block",
-            BlockBehaviour.Properties.of().mapColor(MapColor.GRASS).strength(0.6F).sound(SoundType.GRASS));
+            BlockBehaviour.Properties.of().mapColor(MapColor.GRASS).randomTicks().strength(0.6F).sound(SoundType.GRASS), HeavenGrassBlock::new);
     /** B loam (subsurface; replaces dirt and coarse dirt). */
     public static final Block HEAVEN_LOAM = natural("heaven_loam",
             BlockBehaviour.Properties.of().mapColor(MapColor.DIRT).strength(0.5F).sound(SoundType.GRAVEL));
@@ -44,8 +45,12 @@ public final class HeavenPrototypeBlocks {
     private HeavenPrototypeBlocks() {}
 
     private static Block natural(String path, BlockBehaviour.Properties properties) {
+        return natural(path, properties, Block::new);
+    }
+
+    private static Block natural(String path, BlockBehaviour.Properties properties, java.util.function.Function<BlockBehaviour.Properties, Block> factory) {
         ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, ModIds.id(path));
-        Block block = Registry.register(BuiltInRegistries.BLOCK, key, new Block(properties.setId(key)));
+        Block block = Registry.register(BuiltInRegistries.BLOCK, key, factory.apply(properties.setId(key)));
         ResourceKey<Item> itemKey = ResourceKey.create(Registries.ITEM, ModIds.id(path));
         Registry.register(BuiltInRegistries.ITEM, itemKey, new BlockItem(block, new Item.Properties().setId(itemKey)));
         return block;
