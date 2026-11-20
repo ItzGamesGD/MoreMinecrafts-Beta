@@ -18,7 +18,7 @@ abstract class St03WorldGenRegionLavaGuardMixin {
     private void moreminecrafts$replaceSt03SupportLava(BlockPos pos, BlockState state, int updateFlags, int updateLimit,
             CallbackInfoReturnable<Boolean> cir) {
         WorldGenRegion region = (WorldGenRegion) (Object) this;
-        if (St03SupportLavaGuard.replacesLava(region, pos, state)) {
+        if (St03SupportLavaGuard.replacesNonSolidSupport(region, pos, state)) {
             // Re-enters this hook with cobblestone, which is not lava, so the write goes through normally.
             cir.setReturnValue(region.setBlock(pos, Blocks.COBBLESTONE.defaultBlockState(), updateFlags, updateLimit));
         }

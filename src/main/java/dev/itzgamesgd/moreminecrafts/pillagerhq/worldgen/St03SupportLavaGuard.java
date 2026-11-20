@@ -15,12 +15,12 @@ import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
 
 /**
- * Keeps lava out of the ST-03 support band after structure placement.
+ * Keeps non-solid blocks (lava, fluids, plants) out of the ST-03 support band after structure placement.
  *
- * <p>Lava in the footprint's support band (y from foundation-16 to foundation, inside the 112x112 footprint) can be written
- * by features that run after the terrain correction piece, including features decorated in neighbouring chunks. Such a
- * write is replaced by cobblestone, so the support band is solid up to the foundation level. Lava outside the footprint
- * and above the foundation is not touched.
+ * <p>Such blocks in the footprint's support band (y from foundation-16 up to foundation-1, inside the 112x112 footprint)
+ * can be written by features that run after the terrain correction piece, including features decorated in neighbouring
+ * chunks. Each write is replaced by cobblestone, so the support band stays solid. Air (including cave air), blocks outside
+ * the footprint and the foundation level and above are not touched.
  *
  * <p>Lookups use only the chunk's own structure references and the starts the region already holds (STRUCTURE_STARTS);
  * no chunk is loaded or generated.
@@ -31,9 +31,12 @@ public final class St03SupportLavaGuard {
     /** Depth of support band below the foundation level that is replaced (matches the terrain fill depth). */
     private static final int BAND_DEPTH = St03PlacementConfig.MAX_FOOTING_FILL;
 
-    /** Whether a lava write at {@code pos} through {@code region} must be replaced with cobblestone. */
-    public static boolean replacesLava(WorldGenRegion region, BlockPos pos, BlockState state) {
-        if (!state.is(Blocks.LAVA) || !region.isWithinWriteZone(pos)) return false;
+    /**
+     * Whether a feature write at {@code pos} through {@code region} must be replaced with cobblestone: a non-solid,
+     * non-air block (lava, fluid, plant) inside the footprint's support band. Air, including cave air, is not replaced.
+     */
+    public static boolean replacesNonSolidSupport(WorldGenRegion region, BlockPos pos, BlockState state) {
+        if (state.isSolidRender() || state.isAir() || !region.isWithinWriteZone(pos)) return false;
         ChunkAccess chunk = region.getChunk(pos.getX() >> 4, pos.getZ() >> 4);
         Map<Structure, LongSet> references = chunk.getAllReferences();
         if (references.isEmpty()) return false;
@@ -58,7 +61,7 @@ public final class St03SupportLavaGuard {
             int fy = origin.getY();
             return pos.getX() >= origin.getX() && pos.getX() <= origin.getX() + 111
                     && pos.getZ() >= origin.getZ() && pos.getZ() <= origin.getZ() + 111
-                    && pos.getY() <= fy && pos.getY() >= fy - BAND_DEPTH;
+                    && pos.getY() < fy && pos.getY() >= fy - BAND_DEPTH;
         }
         return false;
     }
