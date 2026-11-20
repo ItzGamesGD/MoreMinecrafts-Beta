@@ -29,7 +29,7 @@ public final class HeavenP2Blocks {
             "heaven_giant_stem", "heaven_giant_leaf", "heaven_giant_bloom",
             "heaven_lavender", "heaven_hydrangea", "heaven_phlox",
             "heaven_flower_red", "heaven_flower_yellow", "heaven_flower_white", "heaven_flower_pink", "heaven_flower_blue", "heaven_flower_violet",
-            "heaven_short_grass", "heaven_tall_grass", "heaven_vine", "heaven_wisteria");
+            "heaven_short_grass", "heaven_tall_grass", "heaven_vine", "heaven_wisteria", "heaven_petals");
     private static final List<Block> PART_BLOCKS = new ArrayList<>();
     /** White canopy of the V5 white-blossom tree: vanilla leaves behaviour, cutout texture, no falling particles. */
     public static final Block HEAVEN_WHITE_BLOSSOM_LEAVES;

@@ -13,7 +13,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.FlowerBedBlock;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
@@ -22,6 +21,8 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 /** Heaven sky island P2 in the real server: registration, the P2 island and the reusable species structures. */
 public final class HeavenP2GameTests implements CustomTestMethodInvoker {
     private static final Identifier P2 = Identifier.parse("moreminecrafts:heaven_prototype/plain_medium_d_v5_p2");
+    /** Vegetation blocks in the P2 template (manifest_p2.json p2.vegetation_blocks); every one must survive placement. */
+    private static final int EXPECTED_VEGETATION = 1232;
 
     private static Block block(String id) {
         Block b = BuiltInRegistries.BLOCK.getValue(Identifier.parse(id));
@@ -54,13 +55,12 @@ public final class HeavenP2GameTests implements CustomTestMethodInvoker {
         BlockPos origin = ctx.absolutePos(BlockPos.ZERO).atY(200);
         ctx.assertTrue(template.placeInWorld(level, origin, origin, new StructurePlaceSettings(), level.getRandom(), Block.UPDATE_CLIENTS), "placeInWorld");
         Map<String, Integer> counts = new HashMap<>();
-        int collidingStems = 0, petalsAboveOne = 0, nonPersistentLeaves = 0;
+        int collidingStems = 0, nonPersistentLeaves = 0;
         for (BlockPos p : BlockPos.betweenClosed(origin, origin.offset(size.getX() - 1, size.getY() - 1, size.getZ() - 1))) {
             BlockState s = level.getBlockState(p);
             if (s.isAir()) continue;
             counts.merge(BuiltInRegistries.BLOCK.getKey(s.getBlock()).toString(), 1, Integer::sum);
             if (s.getBlock() instanceof HeavenPartBlock hp && hp.family().startsWith("heaven_giant_") && !s.getCollisionShape(level, p).isEmpty()) collidingStems++;
-            if (s.getBlock() instanceof FlowerBedBlock && s.getValue(FlowerBedBlock.AMOUNT) > 1) petalsAboveOne++;
             if (s.getBlock() instanceof LeavesBlock && !s.getValue(LeavesBlock.PERSISTENT)) nonPersistentLeaves++;
         }
         MoreMinecrafts.LOGGER.info("HEAVEN_P2_PLACED {}", counts);
@@ -69,11 +69,10 @@ public final class HeavenP2GameTests implements CustomTestMethodInvoker {
         int total = counts.values().stream().mapToInt(Integer::intValue).sum();
         ctx.assertTrue(natural == 6272, "6272 terrain blocks, got " + natural);
         ctx.assertTrue(counts.getOrDefault("minecraft:water", 0) == 104, "pond kept");
-        ctx.assertTrue(total - natural - 104 == 1232, "1232 vegetation blocks, got " + (total - natural - 104));
+        ctx.assertTrue(total - natural - 104 == EXPECTED_VEGETATION, EXPECTED_VEGETATION + " vegetation blocks (all of the template's), got " + (total - natural - 104));
         ctx.assertTrue(counts.getOrDefault("minecraft:oak_log", 0) > 0 && counts.getOrDefault("minecraft:cherry_leaves", 0) > 0
                 && counts.getOrDefault("moreminecrafts:heaven_white_blossom_leaves", 0) > 0, "converted trees present");
         ctx.assertTrue(nonPersistentLeaves == 0, "tree leaves are persistent (no decay)");
-        ctx.assertTrue(petalsAboveOne > 0, "pink_petals flower_amount property was applied");
         ctx.assertTrue(collidingStems > 0, "giant-flower stems collide");
         // Characterisation for the P2-D policy table: vanilla petals and leaves on heaven grass.
         BlockPos grass = ctx.absolutePos(new BlockPos(1, 1, 1));

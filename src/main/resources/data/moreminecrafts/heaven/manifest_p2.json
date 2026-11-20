@@ -94,22 +94,27 @@
           "family": "vine",
           "facing": true
         },
+        "heaven_petals": {
+          "parts": 3,
+          "family": "ground",
+          "facing": true
+        },
         "heaven_white_blossom_leaves": {
           "parts": 1,
           "family": "tree",
           "facing": false
         }
       },
-      "models": 450,
-      "elements": 2884,
-      "faces": 12034,
-      "textures": 48,
-      "texture_bytes": 7286
+      "models": 453,
+      "elements": 2888,
+      "faces": 12057,
+      "textures": 49,
+      "texture_bytes": 7436
     },
     "terrain_blocks": 6376,
     "vegetation_blocks": 1232,
     "island_palette": 551,
-    "island_bytes": 27474,
+    "island_bytes": 27458,
     "structures": {
       "giant_starlotus": {
         "size": [
@@ -311,7 +316,7 @@
     "ground": {
       "design_voxels": 186,
       "p2_voxels": 296,
-      "iou": 0.113,
+      "iou": 0.121,
       "volume_ratio": 1.59,
       "column_overlap": 0.687,
       "mean_top_height_diff_blocks": 0.0

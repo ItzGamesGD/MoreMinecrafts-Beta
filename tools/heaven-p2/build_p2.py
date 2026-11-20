@@ -166,6 +166,7 @@ def build():
         lib.block(f'heaven_flower_{COLOUR[c[3:]]}', family='small')
     lib.block('heaven_short_grass', facing=True, family='grass'); lib.block('heaven_tall_grass', facing=True, family='grass')
     lib.block('heaven_vine', facing=True, family='vine'); lib.block('heaven_wisteria', facing=True, family='vine')
+    lib.block('heaven_petals', facing=True, family='ground')
 
     placed = {}          # world block pos -> (block_id, props dict, record index, part key for recon)
     recon = {}           # world block pos -> voxel array (4x4x4) representing what P2 renders (for metrics)
@@ -270,11 +271,13 @@ def build():
             part = lib.add(blk, arr, org)
             put((r['bx'], r['by'], r['bz']), f'{NS}:{blk}', {'part': str(part), 'facing': FACINGS[rr]}, cat, (arr, org, rr))
         elif cat == 'ground':
-            # V5 petal patches -> vanilla pink_petals, amount from the design voxel count per cell
+            # V5 petal patches -> heaven_petals (vanilla pink_petals cannot survive on heaven grass without a
+            # plant-support tag, which is an unapproved gameplay policy; see the P2-D table)
             cnt = collections.Counter((fx // R, fy // R + vl.YLO, fz // R) for (fx, fy, fz) in r['voxels'])
             for pos, n in cnt.items():
-                amt = min(4, max(1, (n + 1) // 2)); f = FACINGS[dh('pet', *pos) % 4]
-                put(pos, 'minecraft:pink_petals', {'flower_amount': str(amt), 'facing': f}, cat, petals_recon(amt))
+                amt = min(4, max(1, (n + 1) // 2)); rr = dh('pet', *pos) % 4
+                arr = petals_recon(amt); part = lib.add('heaven_petals', arr)
+                put(pos, f'{NS}:heaven_petals', {'part': str(part), 'facing': FACINGS[rr]}, cat, rot_arr(arr, rr))
         elif cat == 'vine':
             cells = cells_of_record(r)
             if not cells:                                     # every voxel was already taken in V5 too

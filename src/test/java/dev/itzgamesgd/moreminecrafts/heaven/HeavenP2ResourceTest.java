@@ -28,9 +28,9 @@ class HeavenP2ResourceTest {
     private static final List<String> FAMILIES = List.of(
             "heaven_giant_stem", "heaven_giant_leaf", "heaven_giant_bloom", "heaven_lavender", "heaven_hydrangea", "heaven_phlox",
             "heaven_flower_red", "heaven_flower_yellow", "heaven_flower_white", "heaven_flower_pink", "heaven_flower_blue", "heaven_flower_violet",
-            "heaven_short_grass", "heaven_tall_grass", "heaven_vine", "heaven_wisteria");
+            "heaven_short_grass", "heaven_tall_grass", "heaven_vine", "heaven_wisteria", "heaven_petals");
     private static final Set<String> NATURAL = Set.of(NS + ":heaven_grass_block", NS + ":heaven_loam", NS + ":heaven_cream_stone", NS + ":heaven_cream_stone_pale");
-    private static final Set<String> VANILLA_REUSED = Set.of("minecraft:oak_log", "minecraft:cherry_leaves", "minecraft:pink_petals", "minecraft:water");
+    private static final Set<String> VANILLA_REUSED = Set.of("minecraft:oak_log", "minecraft:cherry_leaves", "minecraft:water");
     private static final Set<String> GIANT = Set.of(NS + ":heaven_giant_stem", NS + ":heaven_giant_leaf", NS + ":heaven_giant_bloom");
 
     private static byte[] bytes(String path) throws IOException {
@@ -163,8 +163,8 @@ class HeavenP2ResourceTest {
         }
         // vanilla reuse: leaves never decay, petals carry a real amount
         assertTrue(p2.blocks().values().stream().filter(s -> s.id().endsWith("_leaves")).allMatch(s -> "true".equals(s.props().get("persistent"))));
-        assertTrue(p2.blocks().values().stream().filter(s -> s.id().equals("minecraft:pink_petals"))
-                .allMatch(s -> Set.of("1", "2", "3", "4").contains(s.props().get("flower_amount"))));
+        assertTrue(p2.blocks().values().stream().noneMatch(s -> s.id().equals("minecraft:pink_petals")),
+                "vanilla pink_petals cannot survive on heaven grass (plant-support tag not approved): heaven_petals is used instead");
     }
 
     @Test
