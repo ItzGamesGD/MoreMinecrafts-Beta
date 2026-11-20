@@ -1,0 +1,2022 @@
+{
+ "meadow": {
+  "palette_assumed": {
+   "minecraft:grass_block": "moreminecrafts:heaven_grass_block",
+   "minecraft:dirt": "moreminecrafts:heaven_loam",
+   "minecraft:coarse_dirt": "moreminecrafts:heaven_loam",
+   "minecraft:stone": "moreminecrafts:heaven_cream_stone",
+   "minecraft:andesite": "moreminecrafts:heaven_cream_stone_pale",
+   "minecraft:tuff": "moreminecrafts:heaven_cream_stone_pale"
+  },
+  "templates": {
+   "large_a": {
+    "plantable": 6338,
+    "giant_requested": 23,
+    "giant_placed": 23,
+    "trees": 16,
+    "vegetation_blocks": 10141,
+    "terrain_converted": 96572,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "tree:overhangs_open_air": 1,
+     "medium:cell_collision": 42
+    },
+    "survival_violations": {},
+    "seconds": 1.99
+   },
+   "large_b": {
+    "plantable": 7637,
+    "giant_requested": 28,
+    "giant_placed": 28,
+    "trees": 19,
+    "vegetation_blocks": 12014,
+    "terrain_converted": 121238,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:cell_collision": 1,
+     "tree:cell_collision": 2,
+     "tree:overhangs_open_air": 3,
+     "medium:cell_collision": 44
+    },
+    "survival_violations": {},
+    "seconds": 2.16
+   },
+   "large_c": {
+    "plantable": 9908,
+    "giant_requested": 37,
+    "giant_placed": 37,
+    "trees": 25,
+    "vegetation_blocks": 15543,
+    "terrain_converted": 170828,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:cell_collision": 4,
+     "giant:overhangs_open_air": 2,
+     "tree:cell_collision": 1,
+     "tree:overhangs_open_air": 3,
+     "tree:out_of_template_bounds": 1,
+     "medium:cell_collision": 54
+    },
+    "survival_violations": {},
+    "seconds": 3.31
+   },
+   "large_d": {
+    "plantable": 7642,
+    "giant_requested": 28,
+    "giant_placed": 28,
+    "trees": 19,
+    "vegetation_blocks": 11835,
+    "terrain_converted": 130036,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 1,
+    "unplaced": {
+     "giant:inside_attached_piece": 5,
+     "giant:cell_collision": 3,
+     "giant:overhangs_open_air": 1,
+     "tree:inside_attached_piece": 7,
+     "tree:overhangs_open_air": 1,
+     "medium:cell_collision": 44
+    },
+    "survival_violations": {},
+    "seconds": 2.44
+   },
+   "large_e": {
+    "plantable": 9418,
+    "giant_requested": 35,
+    "giant_placed": 35,
+    "trees": 23,
+    "vegetation_blocks": 14731,
+    "terrain_converted": 148440,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 1,
+    "unplaced": {
+     "giant:inside_attached_piece": 5,
+     "giant:overhangs_open_air": 1,
+     "giant:cell_collision": 2,
+     "tree:inside_attached_piece": 9,
+     "tree:overhangs_open_air": 7,
+     "tree:cell_collision": 4,
+     "medium:cell_collision": 58
+    },
+    "survival_violations": {},
+    "seconds": 3.04
+   },
+   "plain_medium_a": {
+    "plantable": 801,
+    "giant_requested": 3,
+    "giant_placed": 3,
+    "trees": 2,
+    "vegetation_blocks": 1245,
+    "terrain_converted": 6004,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:overhangs_open_air": 1,
+     "medium:cell_collision": 3
+    },
+    "survival_violations": {},
+    "seconds": 0.39
+   },
+   "plain_medium_b": {
+    "plantable": 724,
+    "giant_requested": 3,
+    "giant_placed": 3,
+    "trees": 2,
+    "vegetation_blocks": 1169,
+    "terrain_converted": 5641,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:overhangs_open_air": 1,
+     "medium:cell_collision": 3
+    },
+    "survival_violations": {},
+    "seconds": 0.08
+   },
+   "plain_medium_c": {
+    "plantable": 734,
+    "giant_requested": 3,
+    "giant_placed": 3,
+    "trees": 2,
+    "vegetation_blocks": 1182,
+    "terrain_converted": 6276,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "medium:cell_collision": 5
+    },
+    "survival_violations": {},
+    "seconds": 0.09
+   },
+   "plain_medium_d": {
+    "plantable": 807,
+    "giant_requested": 3,
+    "giant_placed": 3,
+    "trees": 2,
+    "vegetation_blocks": 1155,
+    "terrain_converted": 6272,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "tree:overhangs_open_air": 1,
+     "medium:cell_collision": 9
+    },
+    "survival_violations": {},
+    "seconds": 0.09
+   },
+   "plain_medium_e": {
+    "plantable": 639,
+    "giant_requested": 2,
+    "giant_placed": 2,
+    "trees": 2,
+    "vegetation_blocks": 987,
+    "terrain_converted": 4660,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "medium:cell_collision": 3
+    },
+    "survival_violations": {},
+    "seconds": 0.08
+   },
+   "plain_small_a": {
+    "plantable": 318,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 1,
+    "vegetation_blocks": 479,
+    "terrain_converted": 1702,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "tree:overhangs_open_air": 1
+    },
+    "survival_violations": {},
+    "seconds": 0.03
+   },
+   "plain_small_b": {
+    "plantable": 315,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 1,
+    "vegetation_blocks": 452,
+    "terrain_converted": 1871,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "tree:overhangs_open_air": 1
+    },
+    "survival_violations": {},
+    "seconds": 0.03
+   },
+   "plain_small_c": {
+    "plantable": 347,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 1,
+    "vegetation_blocks": 457,
+    "terrain_converted": 1800,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "seconds": 0.03
+   },
+   "plain_small_d": {
+    "plantable": 348,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 1,
+    "vegetation_blocks": 458,
+    "terrain_converted": 2064,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "tree:overhangs_open_air": 1
+    },
+    "survival_violations": {},
+    "seconds": 0.03
+   },
+   "ruins": {
+    "plantable": 258,
+    "giant_requested": 1,
+    "giant_placed": 0,
+    "trees": 0,
+    "vegetation_blocks": 229,
+    "terrain_converted": 4049,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 1,
+    "unplaced": {
+     "tree:inside_attached_piece": 19,
+     "tree:overhangs_open_air": 15,
+     "medium:cell_collision": 1
+    },
+    "survival_violations": {},
+    "seconds": 0.07
+   },
+   "satellite_a": {
+    "plantable": 175,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 0,
+    "vegetation_blocks": 235,
+    "terrain_converted": 853,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "seconds": 0.02
+   },
+   "satellite_b": {
+    "plantable": 178,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 0,
+    "vegetation_blocks": 231,
+    "terrain_converted": 803,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "seconds": 0.01
+   },
+   "temple": {
+    "plantable": 866,
+    "giant_requested": 3,
+    "giant_placed": 3,
+    "trees": 2,
+    "vegetation_blocks": 1204,
+    "terrain_converted": 32897,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 1,
+    "unplaced": {
+     "giant:inside_attached_piece": 14,
+     "giant:overhangs_open_air": 1,
+     "tree:overhangs_open_air": 2,
+     "medium:cell_collision": 10
+    },
+    "survival_violations": {},
+    "seconds": 0.47
+   },
+   "tower": {
+    "plantable": 87,
+    "giant_requested": 0,
+    "giant_placed": 0,
+    "trees": 0,
+    "vegetation_blocks": 78,
+    "terrain_converted": 10178,
+    "terrain_id_kept_as_structure": 3312,
+    "structure_kept": 29170,
+    "jigsaw_final_state_mapped": 1,
+    "unplaced": {
+     "medium:cell_collision": 1
+    },
+    "survival_violations": {},
+    "seconds": 0.78
+   }
+  },
+  "seconds": 29.8,
+  "totals": {
+   "plantable": 47540,
+   "giants": 174,
+   "giants_requested": 175,
+   "vegetation": 73825
+  }
+ },
+ "forest": {
+  "palette_assumed": {
+   "minecraft:stone": "moreminecrafts:heaven_cream_stone",
+   "minecraft:andesite": "moreminecrafts:heaven_cream_stone",
+   "minecraft:mossy_cobblestone": "moreminecrafts:heaven_cream_stone",
+   "minecraft:dirt": "moreminecrafts:heaven_loam",
+   "minecraft:grass_block": "moreminecrafts:heaven_grass_block",
+   "minecraft:podzol": "moreminecrafts:heaven_loam"
+  },
+  "templates": {
+   "large_a": {
+    "plantable": 6467,
+    "giant_requested": 24,
+    "giant_placed": 24,
+    "trees": 16,
+    "vegetation_blocks": 10199,
+    "terrain_converted": 97893,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:cell_collision": 2,
+     "tree:overhangs_open_air": 1,
+     "medium:cell_collision": 53
+    },
+    "survival_violations": {},
+    "seconds": 1.85
+   },
+   "large_b": {
+    "plantable": 7587,
+    "giant_requested": 28,
+    "giant_placed": 28,
+    "trees": 19,
+    "vegetation_blocks": 11939,
+    "terrain_converted": 120375,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:overhangs_open_air": 1,
+     "giant:cell_collision": 1,
+     "tree:cell_collision": 1,
+     "medium:cell_collision": 48
+    },
+    "survival_violations": {},
+    "seconds": 2.04
+   },
+   "large_c": {
+    "plantable": 9907,
+    "giant_requested": 37,
+    "giant_placed": 37,
+    "trees": 25,
+    "vegetation_blocks": 15638,
+    "terrain_converted": 170598,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:cell_collision": 3,
+     "tree:overhangs_open_air": 3,
+     "tree:cell_collision": 4,
+     "medium:cell_collision": 64
+    },
+    "survival_violations": {},
+    "seconds": 3.17
+   },
+   "large_d": {
+    "plantable": 13445,
+    "giant_requested": 50,
+    "giant_placed": 50,
+    "trees": 33,
+    "vegetation_blocks": 21568,
+    "terrain_converted": 130218,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 1,
+    "unplaced": {
+     "giant:cell_collision": 4,
+     "tree:out_of_template_bounds": 3,
+     "tree:overhangs_open_air": 2,
+     "tree:cell_collision": 4,
+     "medium:cell_collision": 58
+    },
+    "survival_violations": {},
+    "seconds": 2.54
+   },
+   "large_e": {
+    "plantable": 15035,
+    "giant_requested": 56,
+    "giant_placed": 56,
+    "trees": 37,
+    "vegetation_blocks": 23778,
+    "terrain_converted": 147207,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 1,
+    "unplaced": {
+     "giant:cell_collision": 1,
+     "tree:overhangs_open_air": 5,
+     "tree:cell_collision": 5,
+     "medium:cell_collision": 73
+    },
+    "survival_violations": {},
+    "seconds": 2.95
+   },
+   "plain_medium_a": {
+    "plantable": 807,
+    "giant_requested": 3,
+    "giant_placed": 3,
+    "trees": 2,
+    "vegetation_blocks": 1228,
+    "terrain_converted": 5987,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "medium:cell_collision": 5
+    },
+    "survival_violations": {},
+    "seconds": 0.43
+   },
+   "plain_medium_b": {
+    "plantable": 729,
+    "giant_requested": 3,
+    "giant_placed": 3,
+    "trees": 2,
+    "vegetation_blocks": 1175,
+    "terrain_converted": 5626,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:overhangs_open_air": 1,
+     "medium:cell_collision": 3
+    },
+    "survival_violations": {},
+    "seconds": 0.09
+   },
+   "plain_medium_c": {
+    "plantable": 730,
+    "giant_requested": 3,
+    "giant_placed": 3,
+    "trees": 2,
+    "vegetation_blocks": 1120,
+    "terrain_converted": 6282,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "tree:overhangs_open_air": 2,
+     "medium:cell_collision": 2
+    },
+    "survival_violations": {},
+    "seconds": 0.09
+   },
+   "plain_medium_d": {
+    "plantable": 810,
+    "giant_requested": 3,
+    "giant_placed": 3,
+    "trees": 2,
+    "vegetation_blocks": 1246,
+    "terrain_converted": 6275,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "tree:overhangs_open_air": 1,
+     "medium:cell_collision": 9
+    },
+    "survival_violations": {},
+    "seconds": 0.09
+   },
+   "plain_medium_e": {
+    "plantable": 656,
+    "giant_requested": 2,
+    "giant_placed": 2,
+    "trees": 2,
+    "vegetation_blocks": 987,
+    "terrain_converted": 4861,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "medium:cell_collision": 2
+    },
+    "survival_violations": {},
+    "seconds": 0.08
+   },
+   "plain_small_a": {
+    "plantable": 318,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 1,
+    "vegetation_blocks": 509,
+    "terrain_converted": 1732,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "seconds": 0.03
+   },
+   "plain_small_b": {
+    "plantable": 312,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 1,
+    "vegetation_blocks": 444,
+    "terrain_converted": 1842,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "tree:overhangs_open_air": 9,
+     "medium:cell_collision": 1
+    },
+    "survival_violations": {},
+    "seconds": 0.03
+   },
+   "plain_small_c": {
+    "plantable": 345,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 1,
+    "vegetation_blocks": 530,
+    "terrain_converted": 1904,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "seconds": 0.03
+   },
+   "plain_small_d": {
+    "plantable": 344,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 1,
+    "vegetation_blocks": 534,
+    "terrain_converted": 2147,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "seconds": 0.04
+   },
+   "ruins": {
+    "plantable": 260,
+    "giant_requested": 1,
+    "giant_placed": 0,
+    "trees": 0,
+    "vegetation_blocks": 251,
+    "terrain_converted": 3995,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 1,
+    "unplaced": {
+     "tree:inside_attached_piece": 22,
+     "tree:overhangs_open_air": 12
+    },
+    "survival_violations": {},
+    "seconds": 0.08
+   },
+   "satellite_a": {
+    "plantable": 172,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 0,
+    "vegetation_blocks": 247,
+    "terrain_converted": 816,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "seconds": 0.02
+   },
+   "satellite_b": {
+    "plantable": 175,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 0,
+    "vegetation_blocks": 234,
+    "terrain_converted": 765,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "seconds": 0.01
+   },
+   "temple": {
+    "plantable": 832,
+    "giant_requested": 3,
+    "giant_placed": 3,
+    "trees": 2,
+    "vegetation_blocks": 1168,
+    "terrain_converted": 32849,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 1,
+    "unplaced": {
+     "giant:overhangs_open_air": 9,
+     "giant:inside_attached_piece": 24,
+     "tree:inside_attached_piece": 1,
+     "medium:cell_collision": 9
+    },
+    "survival_violations": {},
+    "seconds": 0.48
+   },
+   "tower": {
+    "plantable": 90,
+    "giant_requested": 0,
+    "giant_placed": 0,
+    "trees": 0,
+    "vegetation_blocks": 48,
+    "terrain_converted": 10328,
+    "terrain_id_kept_as_structure": 3312,
+    "structure_kept": 29483,
+    "jigsaw_final_state_mapped": 1,
+    "unplaced": {
+     "medium:cell_collision": 2
+    },
+    "survival_violations": {},
+    "seconds": 0.69
+   }
+  },
+  "seconds": 29.5,
+  "totals": {
+   "plantable": 59021,
+   "giants": 218,
+   "giants_requested": 219,
+   "vegetation": 92843
+  }
+ },
+ "snowy": {
+  "palette_assumed": {
+   "minecraft:stone": "moreminecrafts:heaven_cream_stone",
+   "minecraft:packed_ice": "moreminecrafts:heaven_cream_stone",
+   "minecraft:cobblestone": "moreminecrafts:heaven_cream_stone",
+   "minecraft:andesite": "moreminecrafts:heaven_cream_stone",
+   "minecraft:snow_block": "moreminecrafts:heaven_grass_block"
+  },
+  "templates": {
+   "large_a": {
+    "plantable": 6385,
+    "giant_requested": 24,
+    "giant_placed": 24,
+    "trees": 16,
+    "vegetation_blocks": 10166,
+    "terrain_converted": 96904,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:cell_collision": 1,
+     "tree:cell_collision": 1,
+     "tree:out_of_template_bounds": 1,
+     "tree:overhangs_open_air": 1,
+     "medium:cell_collision": 45
+    },
+    "survival_violations": {},
+    "seconds": 1.74
+   },
+   "large_b": {
+    "plantable": 7603,
+    "giant_requested": 28,
+    "giant_placed": 28,
+    "trees": 19,
+    "vegetation_blocks": 12046,
+    "terrain_converted": 121091,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:cell_collision": 1,
+     "tree:overhangs_open_air": 3,
+     "tree:cell_collision": 1,
+     "medium:cell_collision": 50
+    },
+    "survival_violations": {},
+    "seconds": 1.95
+   },
+   "large_c": {
+    "plantable": 9914,
+    "giant_requested": 37,
+    "giant_placed": 37,
+    "trees": 25,
+    "vegetation_blocks": 15533,
+    "terrain_converted": 172160,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:cell_collision": 1,
+     "tree:overhangs_open_air": 5,
+     "tree:out_of_template_bounds": 1,
+     "medium:cell_collision": 47
+    },
+    "survival_violations": {},
+    "seconds": 3.92
+   },
+   "large_d": {
+    "plantable": 13260,
+    "giant_requested": 49,
+    "giant_placed": 49,
+    "trees": 33,
+    "vegetation_blocks": 21152,
+    "terrain_converted": 129322,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:cell_collision": 3,
+     "giant:overhangs_open_air": 1,
+     "tree:out_of_template_bounds": 2,
+     "tree:cell_collision": 1,
+     "tree:overhangs_open_air": 1,
+     "medium:cell_collision": 61
+    },
+    "survival_violations": {},
+    "seconds": 2.41
+   },
+   "large_e": {
+    "plantable": 14993,
+    "giant_requested": 56,
+    "giant_placed": 56,
+    "trees": 37,
+    "vegetation_blocks": 23998,
+    "terrain_converted": 147744,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:cell_collision": 2,
+     "tree:cell_collision": 1,
+     "tree:overhangs_open_air": 2,
+     "medium:cell_collision": 72
+    },
+    "survival_violations": {},
+    "seconds": 3.04
+   },
+   "plain_medium_a": {
+    "plantable": 798,
+    "giant_requested": 3,
+    "giant_placed": 3,
+    "trees": 2,
+    "vegetation_blocks": 1243,
+    "terrain_converted": 5947,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:overhangs_open_air": 1,
+     "medium:cell_collision": 5
+    },
+    "survival_violations": {},
+    "seconds": 0.12
+   },
+   "plain_medium_b": {
+    "plantable": 720,
+    "giant_requested": 3,
+    "giant_placed": 3,
+    "trees": 2,
+    "vegetation_blocks": 1100,
+    "terrain_converted": 5560,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "tree:overhangs_open_air": 2,
+     "medium:cell_collision": 2
+    },
+    "survival_violations": {},
+    "seconds": 0.08
+   },
+   "plain_medium_c": {
+    "plantable": 741,
+    "giant_requested": 3,
+    "giant_placed": 3,
+    "trees": 2,
+    "vegetation_blocks": 1124,
+    "terrain_converted": 6162,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "seconds": 0.09
+   },
+   "plain_medium_d": {
+    "plantable": 827,
+    "giant_requested": 3,
+    "giant_placed": 3,
+    "trees": 2,
+    "vegetation_blocks": 1252,
+    "terrain_converted": 6474,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "medium:cell_collision": 4
+    },
+    "survival_violations": {},
+    "seconds": 0.13
+   },
+   "plain_medium_e": {
+    "plantable": 647,
+    "giant_requested": 2,
+    "giant_placed": 2,
+    "trees": 2,
+    "vegetation_blocks": 904,
+    "terrain_converted": 4801,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "tree:overhangs_open_air": 2
+    },
+    "survival_violations": {},
+    "seconds": 0.07
+   },
+   "plain_small_a": {
+    "plantable": 320,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 1,
+    "vegetation_blocks": 509,
+    "terrain_converted": 1781,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "tree:overhangs_open_air": 1
+    },
+    "survival_violations": {},
+    "seconds": 0.03
+   },
+   "plain_small_b": {
+    "plantable": 312,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 1,
+    "vegetation_blocks": 458,
+    "terrain_converted": 1924,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "seconds": 0.03
+   },
+   "plain_small_c": {
+    "plantable": 350,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 1,
+    "vegetation_blocks": 517,
+    "terrain_converted": 1960,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "seconds": 0.05
+   },
+   "plain_small_d": {
+    "plantable": 353,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 1,
+    "vegetation_blocks": 493,
+    "terrain_converted": 2093,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "seconds": 0.03
+   },
+   "ruins": {
+    "plantable": 255,
+    "giant_requested": 1,
+    "giant_placed": 0,
+    "trees": 1,
+    "vegetation_blocks": 276,
+    "terrain_converted": 4058,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:inside_attached_piece": 1,
+     "tree:overhangs_open_air": 5,
+     "tree:inside_attached_piece": 6,
+     "medium:cell_collision": 2
+    },
+    "survival_violations": {},
+    "seconds": 0.05
+   },
+   "satellite_a": {
+    "plantable": 172,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 0,
+    "vegetation_blocks": 263,
+    "terrain_converted": 862,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "medium:cell_collision": 1
+    },
+    "survival_violations": {},
+    "seconds": 0.02
+   },
+   "satellite_b": {
+    "plantable": 177,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 0,
+    "vegetation_blocks": 267,
+    "terrain_converted": 828,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "seconds": 0.02
+   },
+   "temple": {
+    "plantable": 833,
+    "giant_requested": 3,
+    "giant_placed": 3,
+    "trees": 1,
+    "vegetation_blocks": 1099,
+    "terrain_converted": 32815,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:inside_attached_piece": 3,
+     "giant:overhangs_open_air": 1,
+     "tree:inside_attached_piece": 37,
+     "tree:overhangs_open_air": 11,
+     "medium:cell_collision": 8
+    },
+    "survival_violations": {},
+    "seconds": 0.53
+   },
+   "tower": {
+    "plantable": 99,
+    "giant_requested": 0,
+    "giant_placed": 0,
+    "trees": 0,
+    "vegetation_blocks": 67,
+    "terrain_converted": 10104,
+    "terrain_id_kept_as_structure": 3313,
+    "structure_kept": 29184,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "medium:cell_collision": 2
+    },
+    "survival_violations": {},
+    "seconds": 0.65
+   }
+  },
+  "seconds": 29.9,
+  "totals": {
+   "plantable": 58759,
+   "giants": 217,
+   "giants_requested": 218,
+   "vegetation": 92467
+  }
+ },
+ "desert": {
+  "palette_assumed": {
+   "minecraft:sandstone": "moreminecrafts:heaven_cream_stone",
+   "minecraft:smooth_sandstone": "moreminecrafts:heaven_cream_stone",
+   "minecraft:cut_sandstone": "moreminecrafts:heaven_cream_stone",
+   "minecraft:sand": "moreminecrafts:heaven_grass_block"
+  },
+  "templates": {
+   "large_a": {
+    "plantable": 6396,
+    "giant_requested": 24,
+    "giant_placed": 24,
+    "trees": 16,
+    "vegetation_blocks": 9863,
+    "terrain_converted": 97879,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:cell_collision": 1,
+     "tree:overhangs_open_air": 3,
+     "medium:cell_collision": 43
+    },
+    "survival_violations": {},
+    "seconds": 1.68
+   },
+   "large_b": {
+    "plantable": 7583,
+    "giant_requested": 28,
+    "giant_placed": 28,
+    "trees": 19,
+    "vegetation_blocks": 11993,
+    "terrain_converted": 120298,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "tree:cell_collision": 1,
+     "tree:out_of_template_bounds": 1,
+     "tree:overhangs_open_air": 3,
+     "medium:cell_collision": 46
+    },
+    "survival_violations": {},
+    "seconds": 2.18
+   },
+   "large_c": {
+    "plantable": 9820,
+    "giant_requested": 36,
+    "giant_placed": 36,
+    "trees": 24,
+    "vegetation_blocks": 15539,
+    "terrain_converted": 170874,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:cell_collision": 2,
+     "tree:cell_collision": 4,
+     "tree:overhangs_open_air": 2,
+     "medium:cell_collision": 55
+    },
+    "survival_violations": {},
+    "seconds": 2.77
+   },
+   "large_d": {
+    "plantable": 13354,
+    "giant_requested": 49,
+    "giant_placed": 49,
+    "trees": 33,
+    "vegetation_blocks": 21313,
+    "terrain_converted": 129015,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:cell_collision": 2,
+     "tree:overhangs_open_air": 1,
+     "tree:cell_collision": 1,
+     "medium:cell_collision": 63
+    },
+    "survival_violations": {},
+    "seconds": 2.24
+   },
+   "large_e": {
+    "plantable": 15113,
+    "giant_requested": 56,
+    "giant_placed": 56,
+    "trees": 37,
+    "vegetation_blocks": 24056,
+    "terrain_converted": 148082,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:cell_collision": 6,
+     "giant:overhangs_open_air": 1,
+     "tree:cell_collision": 4,
+     "tree:overhangs_open_air": 3,
+     "medium:cell_collision": 77
+    },
+    "survival_violations": {},
+    "seconds": 2.49
+   },
+   "plain_medium_a": {
+    "plantable": 814,
+    "giant_requested": 3,
+    "giant_placed": 3,
+    "trees": 2,
+    "vegetation_blocks": 1256,
+    "terrain_converted": 6135,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "tree:overhangs_open_air": 3,
+     "medium:cell_collision": 6
+    },
+    "survival_violations": {},
+    "seconds": 0.12
+   },
+   "plain_medium_b": {
+    "plantable": 695,
+    "giant_requested": 3,
+    "giant_placed": 3,
+    "trees": 2,
+    "vegetation_blocks": 1093,
+    "terrain_converted": 5554,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "medium:cell_collision": 4
+    },
+    "survival_violations": {},
+    "seconds": 0.08
+   },
+   "plain_medium_c": {
+    "plantable": 716,
+    "giant_requested": 3,
+    "giant_placed": 2,
+    "trees": 2,
+    "vegetation_blocks": 1016,
+    "terrain_converted": 6385,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "tree:overhangs_open_air": 1,
+     "medium:cell_collision": 1
+    },
+    "survival_violations": {},
+    "seconds": 0.08
+   },
+   "plain_medium_d": {
+    "plantable": 800,
+    "giant_requested": 3,
+    "giant_placed": 3,
+    "trees": 2,
+    "vegetation_blocks": 1181,
+    "terrain_converted": 6251,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "tree:overhangs_open_air": 3,
+     "medium:cell_collision": 4
+    },
+    "survival_violations": {},
+    "seconds": 0.09
+   },
+   "plain_medium_e": {
+    "plantable": 646,
+    "giant_requested": 2,
+    "giant_placed": 2,
+    "trees": 2,
+    "vegetation_blocks": 956,
+    "terrain_converted": 4939,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "tree:overhangs_open_air": 3,
+     "medium:cell_collision": 1
+    },
+    "survival_violations": {},
+    "seconds": 0.09
+   },
+   "plain_small_a": {
+    "plantable": 310,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 1,
+    "vegetation_blocks": 496,
+    "terrain_converted": 1679,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "seconds": 0.03
+   },
+   "plain_small_b": {
+    "plantable": 313,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 1,
+    "vegetation_blocks": 470,
+    "terrain_converted": 1934,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "seconds": 0.03
+   },
+   "plain_small_c": {
+    "plantable": 350,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 1,
+    "vegetation_blocks": 520,
+    "terrain_converted": 1853,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "seconds": 0.03
+   },
+   "plain_small_d": {
+    "plantable": 347,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 1,
+    "vegetation_blocks": 513,
+    "terrain_converted": 2072,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "medium:cell_collision": 1
+    },
+    "survival_violations": {},
+    "seconds": 0.03
+   },
+   "ruins": {
+    "plantable": 267,
+    "giant_requested": 1,
+    "giant_placed": 0,
+    "trees": 0,
+    "vegetation_blocks": 216,
+    "terrain_converted": 3963,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:inside_attached_piece": 2,
+     "tree:inside_attached_piece": 26,
+     "tree:overhangs_open_air": 11
+    },
+    "survival_violations": {},
+    "seconds": 0.05
+   },
+   "satellite_a": {
+    "plantable": 179,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 0,
+    "vegetation_blocks": 255,
+    "terrain_converted": 911,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "medium:cell_collision": 1
+    },
+    "survival_violations": {},
+    "seconds": 0.02
+   },
+   "satellite_b": {
+    "plantable": 173,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 0,
+    "vegetation_blocks": 268,
+    "terrain_converted": 736,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "seconds": 0.01
+   },
+   "temple": {
+    "plantable": 822,
+    "giant_requested": 3,
+    "giant_placed": 3,
+    "trees": 2,
+    "vegetation_blocks": 1192,
+    "terrain_converted": 33037,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:inside_attached_piece": 14,
+     "tree:inside_attached_piece": 5,
+     "tree:overhangs_open_air": 3,
+     "tree:out_of_template_bounds": 1,
+     "medium:cell_collision": 5
+    },
+    "survival_violations": {},
+    "seconds": 0.48
+   },
+   "tower": {
+    "plantable": 98,
+    "giant_requested": 0,
+    "giant_placed": 0,
+    "trees": 0,
+    "vegetation_blocks": 76,
+    "terrain_converted": 10259,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 32376,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "medium:cell_collision": 2
+    },
+    "survival_violations": {},
+    "seconds": 0.79
+   }
+  },
+  "seconds": 27.8,
+  "totals": {
+   "plantable": 58796,
+   "giants": 215,
+   "giants_requested": 217,
+   "vegetation": 92272
+  }
+ },
+ "badlands": {
+  "palette_assumed": {
+   "minecraft:terracotta": "moreminecrafts:heaven_cream_stone",
+   "minecraft:orange_terracotta": "moreminecrafts:heaven_cream_stone",
+   "minecraft:yellow_terracotta": "moreminecrafts:heaven_cream_stone",
+   "minecraft:white_terracotta": "moreminecrafts:heaven_cream_stone",
+   "minecraft:red_terracotta": "moreminecrafts:heaven_cream_stone",
+   "minecraft:red_sandstone": "moreminecrafts:heaven_loam",
+   "minecraft:red_sand": "moreminecrafts:heaven_grass_block"
+  },
+  "templates": {
+   "large_a": {
+    "plantable": 5494,
+    "giant_requested": 20,
+    "giant_placed": 20,
+    "trees": 14,
+    "vegetation_blocks": 8281,
+    "terrain_converted": 98094,
+    "terrain_id_kept_as_structure": 82,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:cell_collision": 2,
+     "tree:cell_collision": 1,
+     "tree:overhangs_open_air": 1,
+     "medium:cell_collision": 34
+    },
+    "survival_violations": {},
+    "seconds": 1.94
+   },
+   "large_b": {
+    "plantable": 6501,
+    "giant_requested": 24,
+    "giant_placed": 24,
+    "trees": 16,
+    "vegetation_blocks": 9994,
+    "terrain_converted": 120451,
+    "terrain_id_kept_as_structure": 107,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:overhangs_open_air": 2,
+     "giant:cell_collision": 2,
+     "tree:overhangs_open_air": 3,
+     "tree:cell_collision": 2,
+     "medium:cell_collision": 39
+    },
+    "survival_violations": {},
+    "seconds": 2.07
+   },
+   "large_c": {
+    "plantable": 8676,
+    "giant_requested": 32,
+    "giant_placed": 32,
+    "trees": 22,
+    "vegetation_blocks": 13540,
+    "terrain_converted": 170326,
+    "terrain_id_kept_as_structure": 93,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "tree:cell_collision": 1,
+     "tree:overhangs_open_air": 1,
+     "medium:cell_collision": 59
+    },
+    "survival_violations": {},
+    "seconds": 2.99
+   },
+   "large_d": {
+    "plantable": 12263,
+    "giant_requested": 45,
+    "giant_placed": 45,
+    "trees": 30,
+    "vegetation_blocks": 19050,
+    "terrain_converted": 129308,
+    "terrain_id_kept_as_structure": 90,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:overhangs_open_air": 3,
+     "giant:cell_collision": 2,
+     "tree:overhangs_open_air": 5,
+     "tree:cell_collision": 3,
+     "medium:cell_collision": 65
+    },
+    "survival_violations": {},
+    "seconds": 2.26
+   },
+   "large_e": {
+    "plantable": 13457,
+    "giant_requested": 50,
+    "giant_placed": 50,
+    "trees": 33,
+    "vegetation_blocks": 21237,
+    "terrain_converted": 148574,
+    "terrain_id_kept_as_structure": 164,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:cell_collision": 3,
+     "giant:overhangs_open_air": 1,
+     "tree:cell_collision": 2,
+     "tree:overhangs_open_air": 2,
+     "medium:cell_collision": 67
+    },
+    "survival_violations": {},
+    "seconds": 2.33
+   },
+   "plain_medium_a": {
+    "plantable": 724,
+    "giant_requested": 3,
+    "giant_placed": 3,
+    "trees": 2,
+    "vegetation_blocks": 1054,
+    "terrain_converted": 5971,
+    "terrain_id_kept_as_structure": 5,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "tree:overhangs_open_air": 1,
+     "medium:cell_collision": 1
+    },
+    "survival_violations": {},
+    "seconds": 0.12
+   },
+   "plain_medium_b": {
+    "plantable": 668,
+    "giant_requested": 2,
+    "giant_placed": 2,
+    "trees": 2,
+    "vegetation_blocks": 1023,
+    "terrain_converted": 5424,
+    "terrain_id_kept_as_structure": 4,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "tree:overhangs_open_air": 1,
+     "medium:cell_collision": 3
+    },
+    "survival_violations": {},
+    "seconds": 0.07
+   },
+   "plain_medium_c": {
+    "plantable": 603,
+    "giant_requested": 2,
+    "giant_placed": 2,
+    "trees": 1,
+    "vegetation_blocks": 771,
+    "terrain_converted": 6265,
+    "terrain_id_kept_as_structure": 11,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "tree:overhangs_open_air": 1,
+     "medium:cell_collision": 1
+    },
+    "survival_violations": {},
+    "seconds": 0.1
+   },
+   "plain_medium_d": {
+    "plantable": 671,
+    "giant_requested": 2,
+    "giant_placed": 2,
+    "trees": 2,
+    "vegetation_blocks": 1016,
+    "terrain_converted": 6377,
+    "terrain_id_kept_as_structure": 12,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "medium:cell_collision": 1
+    },
+    "survival_violations": {},
+    "seconds": 0.11
+   },
+   "plain_medium_e": {
+    "plantable": 607,
+    "giant_requested": 2,
+    "giant_placed": 2,
+    "trees": 2,
+    "vegetation_blocks": 928,
+    "terrain_converted": 4747,
+    "terrain_id_kept_as_structure": 5,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "medium:cell_collision": 1
+    },
+    "survival_violations": {},
+    "seconds": 0.07
+   },
+   "plain_small_a": {
+    "plantable": 232,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 1,
+    "vegetation_blocks": 349,
+    "terrain_converted": 1720,
+    "terrain_id_kept_as_structure": 11,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "seconds": 0.02
+   },
+   "plain_small_b": {
+    "plantable": 260,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 1,
+    "vegetation_blocks": 466,
+    "terrain_converted": 1778,
+    "terrain_id_kept_as_structure": 5,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "tree:overhangs_open_air": 2
+    },
+    "survival_violations": {},
+    "seconds": 0.02
+   },
+   "plain_small_c": {
+    "plantable": 297,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 1,
+    "vegetation_blocks": 425,
+    "terrain_converted": 1870,
+    "terrain_id_kept_as_structure": 2,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "seconds": 0.02
+   },
+   "plain_small_d": {
+    "plantable": 300,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 1,
+    "vegetation_blocks": 459,
+    "terrain_converted": 2078,
+    "terrain_id_kept_as_structure": 5,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "seconds": 0.03
+   },
+   "ruins": {
+    "plantable": 258,
+    "giant_requested": 1,
+    "giant_placed": 0,
+    "trees": 0,
+    "vegetation_blocks": 186,
+    "terrain_converted": 3974,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "tree:inside_attached_piece": 24,
+     "tree:overhangs_open_air": 5,
+     "medium:cell_collision": 1
+    },
+    "survival_violations": {},
+    "seconds": 0.05
+   },
+   "satellite_a": {
+    "plantable": 158,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 0,
+    "vegetation_blocks": 229,
+    "terrain_converted": 908,
+    "terrain_id_kept_as_structure": 1,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "seconds": 0.01
+   },
+   "satellite_b": {
+    "plantable": 94,
+    "giant_requested": 0,
+    "giant_placed": 0,
+    "trees": 0,
+    "vegetation_blocks": 56,
+    "terrain_converted": 749,
+    "terrain_id_kept_as_structure": 8,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "seconds": 0.01
+   },
+   "temple": {
+    "plantable": 782,
+    "giant_requested": 3,
+    "giant_placed": 3,
+    "trees": 2,
+    "vegetation_blocks": 1090,
+    "terrain_converted": 33476,
+    "terrain_id_kept_as_structure": 10,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:inside_attached_piece": 1,
+     "tree:inside_attached_piece": 9,
+     "tree:overhangs_open_air": 8,
+     "medium:cell_collision": 8
+    },
+    "survival_violations": {},
+    "seconds": 0.44
+   },
+   "tower": {
+    "plantable": 95,
+    "giant_requested": 0,
+    "giant_placed": 0,
+    "trees": 0,
+    "vegetation_blocks": 68,
+    "terrain_converted": 9983,
+    "terrain_id_kept_as_structure": 0,
+    "structure_kept": 32377,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "seconds": 0.65
+   }
+  },
+  "seconds": 27.2,
+  "totals": {
+   "plantable": 52140,
+   "giants": 190,
+   "giants_requested": 191,
+   "vegetation": 80222
+  }
+ },
+ "rocky": {
+  "palette_assumed": {
+   "minecraft:stone": "moreminecrafts:heaven_cream_stone",
+   "minecraft:andesite": "moreminecrafts:heaven_cream_stone",
+   "minecraft:cobblestone": "moreminecrafts:heaven_cream_stone",
+   "minecraft:tuff": "moreminecrafts:heaven_cream_stone",
+   "minecraft:gravel": "moreminecrafts:heaven_grass_block"
+  },
+  "templates": {
+   "large_a": {
+    "plantable": 1951,
+    "giant_requested": 7,
+    "giant_placed": 7,
+    "trees": 5,
+    "vegetation_blocks": 2641,
+    "terrain_converted": 97337,
+    "terrain_id_kept_as_structure": 233,
+    "structure_kept": 129,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:cell_collision": 4,
+     "giant:overhangs_open_air": 5,
+     "tree:overhangs_open_air": 8,
+     "tree:out_of_template_bounds": 2,
+     "tree:cell_collision": 3,
+     "medium:cell_collision": 17
+    },
+    "survival_violations": {},
+    "seconds": 1.61
+   },
+   "large_b": {
+    "plantable": 2366,
+    "giant_requested": 9,
+    "giant_placed": 9,
+    "trees": 6,
+    "vegetation_blocks": 3290,
+    "terrain_converted": 120696,
+    "terrain_id_kept_as_structure": 300,
+    "structure_kept": 147,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:cell_collision": 1,
+     "tree:cell_collision": 1,
+     "tree:overhangs_open_air": 1,
+     "medium:cell_collision": 17
+    },
+    "survival_violations": {},
+    "seconds": 1.76
+   },
+   "large_c": {
+    "plantable": 3045,
+    "giant_requested": 11,
+    "giant_placed": 11,
+    "trees": 8,
+    "vegetation_blocks": 4217,
+    "terrain_converted": 171991,
+    "terrain_id_kept_as_structure": 409,
+    "structure_kept": 182,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:cell_collision": 3,
+     "giant:overhangs_open_air": 1,
+     "tree:overhangs_open_air": 3,
+     "tree:out_of_template_bounds": 1,
+     "medium:cell_collision": 22
+    },
+    "survival_violations": {},
+    "seconds": 3.07
+   },
+   "large_d": {
+    "plantable": 6647,
+    "giant_requested": 25,
+    "giant_placed": 25,
+    "trees": 16,
+    "vegetation_blocks": 9840,
+    "terrain_converted": 130279,
+    "terrain_id_kept_as_structure": 365,
+    "structure_kept": 184,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:overhangs_open_air": 2,
+     "giant:cell_collision": 2,
+     "tree:overhangs_open_air": 8,
+     "tree:cell_collision": 1,
+     "tree:out_of_template_bounds": 1,
+     "medium:cell_collision": 43
+    },
+    "survival_violations": {},
+    "seconds": 2.43
+   },
+   "large_e": {
+    "plantable": 7533,
+    "giant_requested": 28,
+    "giant_placed": 28,
+    "trees": 19,
+    "vegetation_blocks": 11211,
+    "terrain_converted": 147785,
+    "terrain_id_kept_as_structure": 420,
+    "structure_kept": 206,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:cell_collision": 7,
+     "giant:overhangs_open_air": 1,
+     "tree:out_of_template_bounds": 2,
+     "medium:cell_collision": 39
+    },
+    "survival_violations": {},
+    "seconds": 2.9
+   },
+   "plain_medium_a": {
+    "plantable": 214,
+    "giant_requested": 1,
+    "giant_placed": 0,
+    "trees": 1,
+    "vegetation_blocks": 231,
+    "terrain_converted": 6016,
+    "terrain_id_kept_as_structure": 41,
+    "structure_kept": 20,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "medium:cell_collision": 1
+    },
+    "survival_violations": {},
+    "seconds": 0.11
+   },
+   "plain_medium_b": {
+    "plantable": 180,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 0,
+    "vegetation_blocks": 195,
+    "terrain_converted": 5494,
+    "terrain_id_kept_as_structure": 24,
+    "structure_kept": 21,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "seconds": 0.07
+   },
+   "plain_medium_c": {
+    "plantable": 245,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 1,
+    "vegetation_blocks": 339,
+    "terrain_converted": 6150,
+    "terrain_id_kept_as_structure": 22,
+    "structure_kept": 14,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "medium:cell_collision": 1
+    },
+    "survival_violations": {},
+    "seconds": 0.08
+   },
+   "plain_medium_d": {
+    "plantable": 183,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 0,
+    "vegetation_blocks": 232,
+    "terrain_converted": 6259,
+    "terrain_id_kept_as_structure": 35,
+    "structure_kept": 19,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "seconds": 0.12
+   },
+   "plain_medium_e": {
+    "plantable": 113,
+    "giant_requested": 0,
+    "giant_placed": 0,
+    "trees": 0,
+    "vegetation_blocks": 59,
+    "terrain_converted": 4763,
+    "terrain_id_kept_as_structure": 29,
+    "structure_kept": 17,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "seconds": 0.06
+   },
+   "plain_small_a": {
+    "plantable": 92,
+    "giant_requested": 0,
+    "giant_placed": 0,
+    "trees": 0,
+    "vegetation_blocks": 69,
+    "terrain_converted": 1784,
+    "terrain_id_kept_as_structure": 10,
+    "structure_kept": 6,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "seconds": 0.02
+   },
+   "plain_small_b": {
+    "plantable": 128,
+    "giant_requested": 0,
+    "giant_placed": 0,
+    "trees": 0,
+    "vegetation_blocks": 92,
+    "terrain_converted": 1855,
+    "terrain_id_kept_as_structure": 9,
+    "structure_kept": 4,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "seconds": 0.02
+   },
+   "plain_small_c": {
+    "plantable": 69,
+    "giant_requested": 0,
+    "giant_placed": 0,
+    "trees": 0,
+    "vegetation_blocks": 50,
+    "terrain_converted": 1930,
+    "terrain_id_kept_as_structure": 10,
+    "structure_kept": 12,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "seconds": 0.03
+   },
+   "plain_small_d": {
+    "plantable": 199,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 0,
+    "vegetation_blocks": 259,
+    "terrain_converted": 2085,
+    "terrain_id_kept_as_structure": 8,
+    "structure_kept": 0,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "medium:cell_collision": 1
+    },
+    "survival_violations": {},
+    "seconds": 0.04
+   },
+   "ruins": {
+    "plantable": 82,
+    "giant_requested": 0,
+    "giant_placed": 0,
+    "trees": 0,
+    "vegetation_blocks": 40,
+    "terrain_converted": 3943,
+    "terrain_id_kept_as_structure": 13,
+    "structure_kept": 7,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "seconds": 0.07
+   },
+   "satellite_a": {
+    "plantable": 32,
+    "giant_requested": 0,
+    "giant_placed": 0,
+    "trees": 0,
+    "vegetation_blocks": 16,
+    "terrain_converted": 838,
+    "terrain_id_kept_as_structure": 13,
+    "structure_kept": 4,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "seconds": 0.01
+   },
+   "satellite_b": {
+    "plantable": 60,
+    "giant_requested": 0,
+    "giant_placed": 0,
+    "trees": 0,
+    "vegetation_blocks": 31,
+    "terrain_converted": 810,
+    "terrain_id_kept_as_structure": 7,
+    "structure_kept": 2,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "seconds": 0.01
+   },
+   "temple": {
+    "plantable": 454,
+    "giant_requested": 2,
+    "giant_placed": 2,
+    "trees": 1,
+    "vegetation_blocks": 598,
+    "terrain_converted": 32927,
+    "terrain_id_kept_as_structure": 43,
+    "structure_kept": 29,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "tree:out_of_template_bounds": 1,
+     "medium:cell_collision": 3
+    },
+    "survival_violations": {},
+    "seconds": 0.51
+   },
+   "tower": {
+    "plantable": 75,
+    "giant_requested": 0,
+    "giant_placed": 0,
+    "trees": 0,
+    "vegetation_blocks": 48,
+    "terrain_converted": 10281,
+    "terrain_id_kept_as_structure": 3314,
+    "structure_kept": 29072,
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "medium:cell_collision": 1
+    },
+    "survival_violations": {},
+    "seconds": 0.77
+   }
+  },
+  "seconds": 28.4,
+  "totals": {
+   "plantable": 23668,
+   "giants": 86,
+   "giants_requested": 87,
+   "vegetation": 33458
+  }
+ }
+}

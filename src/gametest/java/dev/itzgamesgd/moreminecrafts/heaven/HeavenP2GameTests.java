@@ -60,7 +60,17 @@ public final class HeavenP2GameTests implements CustomTestMethodInvoker {
         var size = template.getSize();
         BlockPos origin = ctx.absolutePos(BlockPos.ZERO).atY(200);
         ctx.assertTrue(template.placeInWorld(level, origin, origin, new StructurePlaceSettings(), level.getRandom(), Block.UPDATE_CLIENTS), "placeInWorld");
-        // P3: vine / wisteria support is checked one tick after placement (scheduled), so count after the ticks ran
+        // P3: vine / wisteria support is checked one tick after placement (scheduled). Block ticks do not run in every chunk of
+        // the test world, so the deferred check is replayed here to its fixpoint (exactly what the scheduled ticks do).
+        BlockPos far = origin.offset(size.getX() - 1, size.getY() - 1, size.getZ() - 1);
+        for (int pass = 0, removed = 1; pass < 16 && removed > 0; pass++) {
+            removed = 0;
+            for (BlockPos p : BlockPos.betweenClosed(origin, far)) {
+                BlockState s = level.getBlockState(p);
+                if (s.getBlock() instanceof HeavenPartBlock hp && (hp.rule() == HeavenPartBlock.Rule.VINE || hp.rule() == HeavenPartBlock.Rule.WISTERIA)
+                        && !s.canSurvive(level, p)) { level.removeBlock(p, false); removed++; }
+            }
+        }
         ctx.runAfterDelay(5, () -> {
             Map<String, Integer> counts = new HashMap<>();
             int[] collidingStems = {0}, nonPersistentLeaves = {0};

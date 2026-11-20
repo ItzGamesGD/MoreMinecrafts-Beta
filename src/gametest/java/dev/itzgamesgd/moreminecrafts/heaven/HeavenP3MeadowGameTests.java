@@ -88,6 +88,22 @@ public final class HeavenP3MeadowGameTests implements CustomTestMethodInvoker {
                         }
                     }
                 }
+                // the P3 rules evaluated directly (block ticks may not run in these far chunks): every vine / wisteria / ground plant
+                // can survive where it stands and every multi-cell plant is identified and supported
+                int unsupported = 0;
+                for (Expected ex : e.getValue()) {
+                    if (!(ex.state().getBlock() instanceof HeavenPartBlock hp)) continue;
+                    BlockState now = level.getBlockState(ex.pos());
+                    if (!now.equals(ex.state())) continue;
+                    boolean ok = switch (hp.rule()) {
+                        case GROUND, VINE, WISTERIA -> now.canSurvive(level, ex.pos());
+                        case MEDIUM, GIANT -> {
+                            var inst = HeavenPlants.find(level, ex.pos(), now, true, level::isLoaded);
+                            yield inst != null && HeavenPlants.supported(level, inst);
+                        }
+                    };
+                    if (!ok) { unsupported++; missing.merge("unsupported_" + BuiltInRegistries.BLOCK.getKey(hp).getPath(), 1, Integer::sum); }
+                }
                 bad += missing.values().stream().mapToInt(Integer::intValue).sum();
                 out.put(e.getKey(), "blocks=" + e.getValue().size() + " vegetation=" + veg + " missing=" + missing + " place_us=" + placeMicros.get(e.getKey()));
             }

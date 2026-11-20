@@ -1,0 +1,548 @@
+{
+ "meadow": {
+  "protected_block_ids": [
+   "minecraft:andesite",
+   "minecraft:chiseled_stone_bricks",
+   "minecraft:oxidized_cut_copper",
+   "minecraft:polished_andesite",
+   "minecraft:polished_deepslate",
+   "minecraft:sea_lantern",
+   "minecraft:smooth_stone",
+   "minecraft:stone_brick_slab",
+   "minecraft:stone_brick_wall",
+   "minecraft:stone_bricks",
+   "minecraft:trial_spawner",
+   "minecraft:vault"
+  ],
+  "templates_with_buildings": {
+   "tower": {
+    "building_blocks": 29056,
+    "terrain_id_in_building": {
+     "minecraft:andesite": 3312
+    },
+    "top": {
+     "minecraft:stone_bricks": 11895,
+     "minecraft:polished_andesite": 6450,
+     "minecraft:smooth_stone": 5537,
+     "minecraft:stone_brick_slab": 2799,
+     "minecraft:chiseled_stone_bricks": 1274,
+     "minecraft:polished_deepslate": 1000,
+     "minecraft:oxidized_cut_copper": 42,
+     "minecraft:sea_lantern": 29
+    }
+   }
+  }
+ },
+ "forest": {
+  "protected_block_ids": [
+   "minecraft:andesite",
+   "minecraft:chiseled_stone_bricks",
+   "minecraft:oxidized_cut_copper",
+   "minecraft:polished_andesite",
+   "minecraft:polished_deepslate",
+   "minecraft:sea_lantern",
+   "minecraft:smooth_stone",
+   "minecraft:stone_brick_slab",
+   "minecraft:stone_brick_wall",
+   "minecraft:stone_bricks",
+   "minecraft:trial_spawner",
+   "minecraft:vault"
+  ],
+  "templates_with_buildings": {
+   "tower": {
+    "building_blocks": 29058,
+    "terrain_id_in_building": {
+     "minecraft:andesite": 3312
+    },
+    "top": {
+     "minecraft:stone_bricks": 11897,
+     "minecraft:polished_andesite": 6450,
+     "minecraft:smooth_stone": 5537,
+     "minecraft:stone_brick_slab": 2799,
+     "minecraft:chiseled_stone_bricks": 1274,
+     "minecraft:polished_deepslate": 1000,
+     "minecraft:oxidized_cut_copper": 42,
+     "minecraft:sea_lantern": 29
+    }
+   }
+  }
+ },
+ "snowy": {
+  "protected_block_ids": [
+   "minecraft:andesite",
+   "minecraft:chiseled_stone_bricks",
+   "minecraft:oxidized_cut_copper",
+   "minecraft:polished_andesite",
+   "minecraft:polished_deepslate",
+   "minecraft:sea_lantern",
+   "minecraft:smooth_stone",
+   "minecraft:stone",
+   "minecraft:stone_brick_slab",
+   "minecraft:stone_brick_wall",
+   "minecraft:stone_bricks",
+   "minecraft:trial_spawner",
+   "minecraft:vault"
+  ],
+  "templates_with_buildings": {
+   "tower": {
+    "building_blocks": 29060,
+    "terrain_id_in_building": {
+     "minecraft:andesite": 3312,
+     "minecraft:stone": 1
+    },
+    "top": {
+     "minecraft:stone_bricks": 11899,
+     "minecraft:polished_andesite": 6450,
+     "minecraft:smooth_stone": 5537,
+     "minecraft:stone_brick_slab": 2799,
+     "minecraft:chiseled_stone_bricks": 1274,
+     "minecraft:polished_deepslate": 1000,
+     "minecraft:oxidized_cut_copper": 42,
+     "minecraft:sea_lantern": 29
+    }
+   }
+  }
+ },
+ "desert": {
+  "protected_block_ids": [
+   "minecraft:andesite",
+   "minecraft:chiseled_stone_bricks",
+   "minecraft:oxidized_cut_copper",
+   "minecraft:polished_andesite",
+   "minecraft:polished_deepslate",
+   "minecraft:sea_lantern",
+   "minecraft:smooth_stone",
+   "minecraft:stone_brick_slab",
+   "minecraft:stone_brick_wall",
+   "minecraft:stone_bricks",
+   "minecraft:trial_spawner",
+   "minecraft:vault"
+  ],
+  "templates_with_buildings": {
+   "tower": {
+    "building_blocks": 32369,
+    "terrain_id_in_building": {},
+    "top": {
+     "minecraft:stone_bricks": 11896,
+     "minecraft:polished_andesite": 6450,
+     "minecraft:smooth_stone": 5537,
+     "minecraft:andesite": 3312,
+     "minecraft:stone_brick_slab": 2799,
+     "minecraft:chiseled_stone_bricks": 1274,
+     "minecraft:polished_deepslate": 1000,
+     "minecraft:oxidized_cut_copper": 42
+    }
+   }
+  }
+ },
+ "badlands": {
+  "protected_block_ids": [
+   "minecraft:andesite",
+   "minecraft:chiseled_stone_bricks",
+   "minecraft:orange_terracotta",
+   "minecraft:oxidized_cut_copper",
+   "minecraft:polished_andesite",
+   "minecraft:polished_deepslate",
+   "minecraft:sea_lantern",
+   "minecraft:smooth_stone",
+   "minecraft:stone_brick_slab",
+   "minecraft:stone_brick_wall",
+   "minecraft:stone_bricks",
+   "minecraft:terracotta",
+   "minecraft:trial_spawner",
+   "minecraft:vault"
+  ],
+  "templates_with_buildings": {
+   "large_a": {
+    "building_blocks": 0,
+    "terrain_id_in_building": {
+     "minecraft:orange_terracotta": 39,
+     "minecraft:terracotta": 43
+    },
+    "top": {}
+   },
+   "large_b": {
+    "building_blocks": 0,
+    "terrain_id_in_building": {
+     "minecraft:orange_terracotta": 60,
+     "minecraft:terracotta": 47
+    },
+    "top": {}
+   },
+   "large_c": {
+    "building_blocks": 0,
+    "terrain_id_in_building": {
+     "minecraft:orange_terracotta": 44,
+     "minecraft:terracotta": 49
+    },
+    "top": {}
+   },
+   "large_d": {
+    "building_blocks": 0,
+    "terrain_id_in_building": {
+     "minecraft:orange_terracotta": 41,
+     "minecraft:terracotta": 49
+    },
+    "top": {}
+   },
+   "large_e": {
+    "building_blocks": 0,
+    "terrain_id_in_building": {
+     "minecraft:orange_terracotta": 73,
+     "minecraft:terracotta": 91
+    },
+    "top": {}
+   },
+   "plain_medium_a": {
+    "building_blocks": 0,
+    "terrain_id_in_building": {
+     "minecraft:terracotta": 2,
+     "minecraft:orange_terracotta": 3
+    },
+    "top": {}
+   },
+   "plain_medium_b": {
+    "building_blocks": 0,
+    "terrain_id_in_building": {
+     "minecraft:orange_terracotta": 2,
+     "minecraft:terracotta": 2
+    },
+    "top": {}
+   },
+   "plain_medium_c": {
+    "building_blocks": 0,
+    "terrain_id_in_building": {
+     "minecraft:terracotta": 4,
+     "minecraft:orange_terracotta": 7
+    },
+    "top": {}
+   },
+   "plain_medium_d": {
+    "building_blocks": 0,
+    "terrain_id_in_building": {
+     "minecraft:terracotta": 6,
+     "minecraft:orange_terracotta": 6
+    },
+    "top": {}
+   },
+   "plain_medium_e": {
+    "building_blocks": 0,
+    "terrain_id_in_building": {
+     "minecraft:terracotta": 3,
+     "minecraft:orange_terracotta": 2
+    },
+    "top": {}
+   },
+   "plain_small_a": {
+    "building_blocks": 0,
+    "terrain_id_in_building": {
+     "minecraft:orange_terracotta": 7,
+     "minecraft:terracotta": 4
+    },
+    "top": {}
+   },
+   "plain_small_b": {
+    "building_blocks": 0,
+    "terrain_id_in_building": {
+     "minecraft:orange_terracotta": 4,
+     "minecraft:terracotta": 1
+    },
+    "top": {}
+   },
+   "plain_small_c": {
+    "building_blocks": 0,
+    "terrain_id_in_building": {
+     "minecraft:terracotta": 1,
+     "minecraft:orange_terracotta": 1
+    },
+    "top": {}
+   },
+   "plain_small_d": {
+    "building_blocks": 0,
+    "terrain_id_in_building": {
+     "minecraft:orange_terracotta": 5
+    },
+    "top": {}
+   },
+   "satellite_a": {
+    "building_blocks": 0,
+    "terrain_id_in_building": {
+     "minecraft:terracotta": 1
+    },
+    "top": {}
+   },
+   "satellite_b": {
+    "building_blocks": 0,
+    "terrain_id_in_building": {
+     "minecraft:orange_terracotta": 4,
+     "minecraft:terracotta": 4
+    },
+    "top": {}
+   },
+   "temple": {
+    "building_blocks": 0,
+    "terrain_id_in_building": {
+     "minecraft:terracotta": 6,
+     "minecraft:orange_terracotta": 4
+    },
+    "top": {}
+   },
+   "tower": {
+    "building_blocks": 32370,
+    "terrain_id_in_building": {},
+    "top": {
+     "minecraft:stone_bricks": 11897,
+     "minecraft:polished_andesite": 6450,
+     "minecraft:smooth_stone": 5537,
+     "minecraft:andesite": 3312,
+     "minecraft:stone_brick_slab": 2799,
+     "minecraft:chiseled_stone_bricks": 1274,
+     "minecraft:polished_deepslate": 1000,
+     "minecraft:oxidized_cut_copper": 42
+    }
+   }
+  }
+ },
+ "rocky": {
+  "protected_block_ids": [
+   "minecraft:andesite",
+   "minecraft:chiseled_stone_bricks",
+   "minecraft:cobblestone",
+   "minecraft:moss_block",
+   "minecraft:mossy_cobblestone",
+   "minecraft:oxidized_cut_copper",
+   "minecraft:polished_andesite",
+   "minecraft:polished_deepslate",
+   "minecraft:sea_lantern",
+   "minecraft:smooth_stone",
+   "minecraft:stone_brick_slab",
+   "minecraft:stone_brick_wall",
+   "minecraft:stone_bricks",
+   "minecraft:trial_spawner",
+   "minecraft:vault"
+  ],
+  "templates_with_buildings": {
+   "large_a": {
+    "building_blocks": 129,
+    "terrain_id_in_building": {
+     "minecraft:cobblestone": 233
+    },
+    "top": {
+     "minecraft:mossy_cobblestone": 98,
+     "minecraft:moss_block": 31
+    }
+   },
+   "large_b": {
+    "building_blocks": 147,
+    "terrain_id_in_building": {
+     "minecraft:cobblestone": 300
+    },
+    "top": {
+     "minecraft:mossy_cobblestone": 117,
+     "minecraft:moss_block": 30
+    }
+   },
+   "large_c": {
+    "building_blocks": 182,
+    "terrain_id_in_building": {
+     "minecraft:cobblestone": 409
+    },
+    "top": {
+     "minecraft:mossy_cobblestone": 143,
+     "minecraft:moss_block": 39
+    }
+   },
+   "large_d": {
+    "building_blocks": 184,
+    "terrain_id_in_building": {
+     "minecraft:cobblestone": 365
+    },
+    "top": {
+     "minecraft:mossy_cobblestone": 144,
+     "minecraft:moss_block": 40
+    }
+   },
+   "large_e": {
+    "building_blocks": 206,
+    "terrain_id_in_building": {
+     "minecraft:cobblestone": 420
+    },
+    "top": {
+     "minecraft:mossy_cobblestone": 161,
+     "minecraft:moss_block": 45
+    }
+   },
+   "plain_medium_a": {
+    "building_blocks": 20,
+    "terrain_id_in_building": {
+     "minecraft:cobblestone": 41
+    },
+    "top": {
+     "minecraft:mossy_cobblestone": 14,
+     "minecraft:moss_block": 6
+    }
+   },
+   "plain_medium_b": {
+    "building_blocks": 21,
+    "terrain_id_in_building": {
+     "minecraft:cobblestone": 24
+    },
+    "top": {
+     "minecraft:mossy_cobblestone": 17,
+     "minecraft:moss_block": 4
+    }
+   },
+   "plain_medium_c": {
+    "building_blocks": 14,
+    "terrain_id_in_building": {
+     "minecraft:cobblestone": 22
+    },
+    "top": {
+     "minecraft:mossy_cobblestone": 13,
+     "minecraft:moss_block": 1
+    }
+   },
+   "plain_medium_d": {
+    "building_blocks": 19,
+    "terrain_id_in_building": {
+     "minecraft:cobblestone": 35
+    },
+    "top": {
+     "minecraft:mossy_cobblestone": 13,
+     "minecraft:moss_block": 6
+    }
+   },
+   "plain_medium_e": {
+    "building_blocks": 17,
+    "terrain_id_in_building": {
+     "minecraft:cobblestone": 29
+    },
+    "top": {
+     "minecraft:mossy_cobblestone": 15,
+     "minecraft:moss_block": 2
+    }
+   },
+   "plain_small_a": {
+    "building_blocks": 6,
+    "terrain_id_in_building": {
+     "minecraft:cobblestone": 10
+    },
+    "top": {
+     "minecraft:mossy_cobblestone": 4,
+     "minecraft:moss_block": 2
+    }
+   },
+   "plain_small_b": {
+    "building_blocks": 4,
+    "terrain_id_in_building": {
+     "minecraft:cobblestone": 9
+    },
+    "top": {
+     "minecraft:mossy_cobblestone": 4
+    }
+   },
+   "plain_small_c": {
+    "building_blocks": 12,
+    "terrain_id_in_building": {
+     "minecraft:cobblestone": 10
+    },
+    "top": {
+     "minecraft:mossy_cobblestone": 11,
+     "minecraft:moss_block": 1
+    }
+   },
+   "plain_small_d": {
+    "building_blocks": 0,
+    "terrain_id_in_building": {
+     "minecraft:cobblestone": 8
+    },
+    "top": {}
+   },
+   "ruins": {
+    "building_blocks": 7,
+    "terrain_id_in_building": {
+     "minecraft:cobblestone": 13
+    },
+    "top": {
+     "minecraft:mossy_cobblestone": 6,
+     "minecraft:moss_block": 1
+    }
+   },
+   "satellite_a": {
+    "building_blocks": 4,
+    "terrain_id_in_building": {
+     "minecraft:cobblestone": 13
+    },
+    "top": {
+     "minecraft:moss_block": 2,
+     "minecraft:mossy_cobblestone": 2
+    }
+   },
+   "satellite_b": {
+    "building_blocks": 2,
+    "terrain_id_in_building": {
+     "minecraft:cobblestone": 7
+    },
+    "top": {
+     "minecraft:mossy_cobblestone": 2
+    }
+   },
+   "temple": {
+    "building_blocks": 29,
+    "terrain_id_in_building": {
+     "minecraft:cobblestone": 43
+    },
+    "top": {
+     "minecraft:mossy_cobblestone": 22,
+     "minecraft:moss_block": 7
+    }
+   },
+   "tower": {
+    "building_blocks": 29062,
+    "terrain_id_in_building": {
+     "minecraft:andesite": 3312,
+     "minecraft:cobblestone": 2
+    },
+    "top": {
+     "minecraft:stone_bricks": 11900,
+     "minecraft:polished_andesite": 6450,
+     "minecraft:smooth_stone": 5537,
+     "minecraft:stone_brick_slab": 2799,
+     "minecraft:chiseled_stone_bricks": 1274,
+     "minecraft:polished_deepslate": 1000,
+     "minecraft:oxidized_cut_copper": 42,
+     "minecraft:sea_lantern": 29
+    }
+   }
+  }
+ },
+ "attached_pieces_all_themes": {
+  "blocks": {
+   "minecraft:stone_bricks": 6011,
+   "minecraft:mossy_stone_bricks": 4360,
+   "minecraft:cracked_stone_bricks": 2468,
+   "minecraft:smooth_quartz": 1340,
+   "minecraft:polished_andesite": 1162,
+   "minecraft:calcite": 473,
+   "minecraft:quartz_block": 472,
+   "minecraft:polished_diorite": 300,
+   "minecraft:stone_brick_stairs": 290,
+   "minecraft:smooth_quartz_stairs": 276,
+   "minecraft:quartz_pillar": 250,
+   "minecraft:smooth_stone": 146,
+   "minecraft:stone_brick_slab": 110,
+   "minecraft:smooth_quartz_slab": 88,
+   "minecraft:chiseled_stone_bricks": 73,
+   "minecraft:chiseled_quartz_block": 66,
+   "minecraft:chest": 54,
+   "minecraft:quartz_bricks": 38,
+   "minecraft:mossy_cobblestone": 30,
+   "minecraft:vault": 30,
+   "minecraft:trial_spawner": 30,
+   "minecraft:moss_block": 19,
+   "minecraft:cobblestone": 9,
+   "minecraft:cobweb": 6
+  },
+  "note": "ruins_a-d, temple and tower_5-7 are shared by all themes and attached by jigsaw; P2.5 surveyed only the island templates, so meadow/ruins and meadow/temple (terrain only) showed 0 structure blocks. They are not converted and are protected by the attached-piece footprint mask."
+ }
+}
