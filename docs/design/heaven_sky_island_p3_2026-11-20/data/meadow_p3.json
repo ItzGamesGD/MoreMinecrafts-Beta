@@ -1,0 +1,2559 @@
+{
+ "large_a": {
+  "size": [
+   97,
+   67,
+   97
+  ],
+  "source_sha256": "8d49830b59fce9fc41f077e269f5e666315320971be7580f19a7461f95e870fb",
+  "output": "src/main/resources/data/moreminecrafts/structure/heaven_p3/meadow/large_a.nbt",
+  "output_bytes": 315364,
+  "palette": 753,
+  "conversion": {
+   "terrain_converted": 96572,
+   "vanilla_vegetation_removed": 3394,
+   "water": 208,
+   "wisteria_strands": 79,
+   "wisteria_requested": 79,
+   "vine_strands": 63,
+   "vine_requested": 63
+  },
+  "grass_columns": 6338,
+  "plantable_columns": 6338,
+  "masked_grass_columns": 0,
+  "attached_piece_columns": 0,
+  "attached_piece_reach": null,
+  "giants": {
+   "trial_formula_requested": 23,
+   "feasible_positions": 1026,
+   "placed": 23,
+   "species": {
+    "giant_starlotus": 8,
+    "giant_lily": 8,
+    "giant_daffodil": 7
+   },
+   "positions": [
+    [
+     39,
+     28,
+     44
+    ],
+    [
+     85,
+     28,
+     56
+    ],
+    [
+     59,
+     28,
+     44
+    ],
+    [
+     53,
+     28,
+     24
+    ],
+    [
+     11,
+     28,
+     35
+    ],
+    [
+     18,
+     28,
+     46
+    ],
+    [
+     67,
+     28,
+     57
+    ],
+    [
+     56,
+     28,
+     78
+    ],
+    [
+     65,
+     28,
+     14
+    ],
+    [
+     50,
+     28,
+     51
+    ],
+    [
+     34,
+     28,
+     77
+    ],
+    [
+     65,
+     28,
+     76
+    ],
+    [
+     69,
+     28,
+     45
+    ],
+    [
+     35,
+     28,
+     28
+    ],
+    [
+     82,
+     28,
+     21
+    ],
+    [
+     37,
+     28,
+     15
+    ],
+    [
+     56,
+     28,
+     63
+    ],
+    [
+     76,
+     28,
+     38
+    ],
+    [
+     86,
+     28,
+     72
+    ],
+    [
+     55,
+     28,
+     11
+    ],
+    [
+     8,
+     28,
+     48
+    ],
+    [
+     20,
+     28,
+     67
+    ],
+    [
+     38,
+     28,
+     54
+    ]
+   ]
+  },
+  "trees": {
+   "requested": 16,
+   "placed": 16,
+   "kinds": {
+    "tree_blossom": 8,
+    "tree_white": 8
+   }
+  },
+  "unplaced_reasons": {
+   "tree:overhangs_open_air": 1,
+   "medium:cell_collision": 42
+  },
+  "vegetation_blocks": 10141,
+  "by_family": {
+   "giant": 2623,
+   "tree": 1800,
+   "drape": 192,
+   "medium": 3429,
+   "small": 990,
+   "grass": 657,
+   "ground": 248,
+   "wisteria": 107,
+   "vine": 95
+  },
+  "by_block": {
+   "cherry_leaves": 576,
+   "heaven_flower_blue": 169,
+   "heaven_flower_pink": 177,
+   "heaven_flower_red": 154,
+   "heaven_flower_violet": 166,
+   "heaven_flower_white": 170,
+   "heaven_flower_yellow": 154,
+   "heaven_giant_bloom": 1357,
+   "heaven_giant_leaf": 810,
+   "heaven_giant_stem": 456,
+   "heaven_hydrangea": 1020,
+   "heaven_lavender": 905,
+   "heaven_petals": 248,
+   "heaven_phlox": 1504,
+   "heaven_short_grass": 485,
+   "heaven_tall_grass": 172,
+   "heaven_vine": 95,
+   "heaven_white_blossom_leaves": 960,
+   "heaven_wisteria": 299,
+   "oak_log": 264
+  },
+  "distinct_families": 18,
+  "vegetation_per_plantable_column": 1.6,
+  "walkability": {
+   "grass_columns": 6338,
+   "walkable_share": 0.9789,
+   "largest_region_before": 6338,
+   "largest_region_after": 6204
+  },
+  "survival_violations": {},
+  "seconds": 3.45
+ },
+ "large_b": {
+  "size": [
+   109,
+   69,
+   99
+  ],
+  "source_sha256": "b48efbc83c70b10e0b8c3770861b185fb246ae9f34b43f4eec8c40e405b6b83f",
+  "output": "src/main/resources/data/moreminecrafts/structure/heaven_p3/meadow/large_b.nbt",
+  "output_bytes": 393840,
+  "palette": 753,
+  "conversion": {
+   "terrain_converted": 121238,
+   "vanilla_vegetation_removed": 3612,
+   "water": 108,
+   "wisteria_strands": 95,
+   "wisteria_requested": 95,
+   "vine_strands": 76,
+   "vine_requested": 76
+  },
+  "grass_columns": 7637,
+  "plantable_columns": 7637,
+  "masked_grass_columns": 0,
+  "attached_piece_columns": 0,
+  "attached_piece_reach": null,
+  "giants": {
+   "trial_formula_requested": 28,
+   "feasible_positions": 1417,
+   "placed": 28,
+   "species": {
+    "giant_starlotus": 10,
+    "giant_lily": 9,
+    "giant_daffodil": 9
+   },
+   "positions": [
+    [
+     50,
+     30,
+     81
+    ],
+    [
+     32,
+     30,
+     45
+    ],
+    [
+     75,
+     30,
+     59
+    ],
+    [
+     47,
+     30,
+     54
+    ],
+    [
+     31,
+     30,
+     15
+    ],
+    [
+     78,
+     30,
+     48
+    ],
+    [
+     25,
+     30,
+     29
+    ],
+    [
+     33,
+     30,
+     57
+    ],
+    [
+     17,
+     30,
+     61
+    ],
+    [
+     58,
+     30,
+     12
+    ],
+    [
+     96,
+     30,
+     48
+    ],
+    [
+     43,
+     30,
+     12
+    ],
+    [
+     96,
+     30,
+     66
+    ],
+    [
+     15,
+     30,
+     75
+    ],
+    [
+     78,
+     30,
+     25
+    ],
+    [
+     59,
+     30,
+     86
+    ],
+    [
+     68,
+     30,
+     85
+    ],
+    [
+     23,
+     30,
+     70
+    ],
+    [
+     6,
+     30,
+     58
+    ],
+    [
+     80,
+     30,
+     71
+    ],
+    [
+     20,
+     30,
+     40
+    ],
+    [
+     59,
+     30,
+     34
+    ],
+    [
+     86,
+     30,
+     39
+    ],
+    [
+     10,
+     30,
+     67
+    ],
+    [
+     43,
+     30,
+     75
+    ],
+    [
+     73,
+     30,
+     37
+    ],
+    [
+     82,
+     29,
+     12
+    ],
+    [
+     41,
+     30,
+     35
+    ]
+   ]
+  },
+  "trees": {
+   "requested": 19,
+   "placed": 19,
+   "kinds": {
+    "tree_blossom": 10,
+    "tree_white": 9
+   }
+  },
+  "unplaced_reasons": {
+   "giant:cell_collision": 1,
+   "tree:cell_collision": 2,
+   "tree:overhangs_open_air": 3,
+   "medium:cell_collision": 44
+  },
+  "vegetation_blocks": 12014,
+  "by_family": {
+   "giant": 3190,
+   "tree": 2115,
+   "drape": 237,
+   "medium": 3954,
+   "small": 1110,
+   "grass": 815,
+   "ground": 338,
+   "wisteria": 140,
+   "vine": 115
+  },
+  "by_block": {
+   "cherry_leaves": 720,
+   "heaven_flower_blue": 168,
+   "heaven_flower_pink": 191,
+   "heaven_flower_red": 188,
+   "heaven_flower_violet": 160,
+   "heaven_flower_white": 205,
+   "heaven_flower_yellow": 198,
+   "heaven_giant_bloom": 1637,
+   "heaven_giant_leaf": 998,
+   "heaven_giant_stem": 555,
+   "heaven_hydrangea": 1020,
+   "heaven_lavender": 1170,
+   "heaven_petals": 338,
+   "heaven_phlox": 1764,
+   "heaven_short_grass": 596,
+   "heaven_tall_grass": 219,
+   "heaven_vine": 115,
+   "heaven_white_blossom_leaves": 1080,
+   "heaven_wisteria": 377,
+   "oak_log": 315
+  },
+  "distinct_families": 18,
+  "vegetation_per_plantable_column": 1.573,
+  "walkability": {
+   "grass_columns": 7637,
+   "walkable_share": 0.9788,
+   "largest_region_before": 7637,
+   "largest_region_after": 7475
+  },
+  "survival_violations": {},
+  "seconds": 4.8
+ },
+ "large_c": {
+  "size": [
+   125,
+   71,
+   113
+  ],
+  "source_sha256": "b6a9d1842ba00f3528b9f94f800a913f7711334b160a411cbb1f49e7a75e6bcb",
+  "output": "src/main/resources/data/moreminecrafts/structure/heaven_p3/meadow/large_c.nbt",
+  "output_bytes": 550410,
+  "palette": 753,
+  "conversion": {
+   "terrain_converted": 170828,
+   "vanilla_vegetation_removed": 4717,
+   "water": 259,
+   "wisteria_strands": 123,
+   "wisteria_requested": 123,
+   "vine_strands": 98,
+   "vine_requested": 98
+  },
+  "grass_columns": 9908,
+  "plantable_columns": 9908,
+  "masked_grass_columns": 0,
+  "attached_piece_columns": 0,
+  "attached_piece_reach": null,
+  "giants": {
+   "trial_formula_requested": 37,
+   "feasible_positions": 1660,
+   "placed": 37,
+   "species": {
+    "giant_starlotus": 13,
+    "giant_lily": 12,
+    "giant_daffodil": 12
+   },
+   "positions": [
+    [
+     66,
+     32,
+     74
+    ],
+    [
+     24,
+     32,
+     56
+    ],
+    [
+     91,
+     32,
+     101
+    ],
+    [
+     84,
+     32,
+     44
+    ],
+    [
+     61,
+     32,
+     93
+    ],
+    [
+     38,
+     32,
+     93
+    ],
+    [
+     95,
+     32,
+     85
+    ],
+    [
+     80,
+     32,
+     91
+    ],
+    [
+     34,
+     32,
+     59
+    ],
+    [
+     71,
+     32,
+     20
+    ],
+    [
+     51,
+     32,
+     59
+    ],
+    [
+     40,
+     32,
+     42
+    ],
+    [
+     107,
+     31,
+     71
+    ],
+    [
+     54,
+     32,
+     48
+    ],
+    [
+     111,
+     32,
+     51
+    ],
+    [
+     11,
+     32,
+     54
+    ],
+    [
+     98,
+     32,
+     69
+    ],
+    [
+     32,
+     32,
+     78
+    ],
+    [
+     92,
+     32,
+     23
+    ],
+    [
+     70,
+     32,
+     60
+    ],
+    [
+     52,
+     32,
+     68
+    ],
+    [
+     27,
+     32,
+     40
+    ],
+    [
+     67,
+     32,
+     40
+    ],
+    [
+     117,
+     31,
+     37
+    ],
+    [
+     54,
+     32,
+     37
+    ],
+    [
+     102,
+     32,
+     26
+    ],
+    [
+     9,
+     32,
+     40
+    ],
+    [
+     52,
+     32,
+     27
+    ],
+    [
+     90,
+     32,
+     76
+    ],
+    [
+     50,
+     32,
+     17
+    ],
+    [
+     70,
+     32,
+     93
+    ],
+    [
+     76,
+     32,
+     102
+    ],
+    [
+     79,
+     32,
+     27
+    ],
+    [
+     95,
+     32,
+     33
+    ],
+    [
+     79,
+     32,
+     9
+    ],
+    [
+     75,
+     32,
+     70
+    ],
+    [
+     69,
+     32,
+     30
+    ]
+   ]
+  },
+  "trees": {
+   "requested": 25,
+   "placed": 25,
+   "kinds": {
+    "tree_blossom": 13,
+    "tree_white": 12
+   }
+  },
+  "unplaced_reasons": {
+   "giant:cell_collision": 4,
+   "giant:overhangs_open_air": 2,
+   "tree:cell_collision": 1,
+   "tree:overhangs_open_air": 3,
+   "tree:out_of_template_bounds": 1,
+   "medium:cell_collision": 54
+  },
+  "vegetation_blocks": 15543,
+  "by_family": {
+   "giant": 4213,
+   "tree": 2790,
+   "drape": 294,
+   "medium": 4899,
+   "small": 1594,
+   "grass": 1016,
+   "ground": 420,
+   "wisteria": 174,
+   "vine": 143
+  },
+  "by_block": {
+   "cherry_leaves": 936,
+   "heaven_flower_blue": 240,
+   "heaven_flower_pink": 251,
+   "heaven_flower_red": 240,
+   "heaven_flower_violet": 271,
+   "heaven_flower_white": 298,
+   "heaven_flower_yellow": 294,
+   "heaven_giant_bloom": 2159,
+   "heaven_giant_leaf": 1322,
+   "heaven_giant_stem": 732,
+   "heaven_hydrangea": 1410,
+   "heaven_lavender": 1751,
+   "heaven_petals": 420,
+   "heaven_phlox": 1738,
+   "heaven_short_grass": 755,
+   "heaven_tall_grass": 261,
+   "heaven_vine": 143,
+   "heaven_white_blossom_leaves": 1440,
+   "heaven_wisteria": 468,
+   "oak_log": 414
+  },
+  "distinct_families": 18,
+  "vegetation_per_plantable_column": 1.569,
+  "walkability": {
+   "grass_columns": 9908,
+   "walkable_share": 0.9785,
+   "largest_region_before": 9908,
+   "largest_region_after": 9695
+  },
+  "survival_violations": {},
+  "seconds": 7.28
+ },
+ "large_d": {
+  "size": [
+   145,
+   101,
+   129
+  ],
+  "source_sha256": "4cbd2f1b5b7982c00faa300a12dc01afe84b484edd3d6e887b3a5cc778d5d4c6",
+  "output": "src/main/resources/data/moreminecrafts/structure/heaven_p3/meadow/large_d.nbt",
+  "output_bytes": 395427,
+  "palette": 753,
+  "conversion": {
+   "terrain_converted": 130036,
+   "vanilla_vegetation_removed": 4810,
+   "jigsaw_final_state_mapped": 1,
+   "wisteria_strands": 95,
+   "wisteria_requested": 95,
+   "vine_strands": 76,
+   "vine_requested": 76
+  },
+  "grass_columns": 13571,
+  "plantable_columns": 7642,
+  "masked_grass_columns": 5929,
+  "attached_piece_columns": 5929,
+  "attached_piece_reach": 38,
+  "giants": {
+   "trial_formula_requested": 28,
+   "feasible_positions": 1062,
+   "placed": 28,
+   "species": {
+    "giant_starlotus": 10,
+    "giant_lily": 9,
+    "giant_daffodil": 9
+   },
+   "positions": [
+    [
+     35,
+     18,
+     68
+    ],
+    [
+     30,
+     18,
+     95
+    ],
+    [
+     59,
+     18,
+     11
+    ],
+    [
+     137,
+     18,
+     67
+    ],
+    [
+     24,
+     18,
+     65
+    ],
+    [
+     20,
+     18,
+     43
+    ],
+    [
+     65,
+     18,
+     113
+    ],
+    [
+     15,
+     18,
+     62
+    ],
+    [
+     121,
+     18,
+     95
+    ],
+    [
+     132,
+     18,
+     50
+    ],
+    [
+     73,
+     18,
+     16
+    ],
+    [
+     85,
+     17,
+     12
+    ],
+    [
+     50,
+     18,
+     117
+    ],
+    [
+     124,
+     18,
+     81
+    ],
+    [
+     121,
+     18,
+     71
+    ],
+    [
+     90,
+     18,
+     107
+    ],
+    [
+     21,
+     18,
+     55
+    ],
+    [
+     31,
+     18,
+     30
+    ],
+    [
+     43,
+     17,
+     123
+    ],
+    [
+     50,
+     18,
+     107
+    ],
+    [
+     34,
+     18,
+     21
+    ],
+    [
+     34,
+     18,
+     40
+    ],
+    [
+     18,
+     18,
+     78
+    ],
+    [
+     43,
+     17,
+     6
+    ],
+    [
+     73,
+     18,
+     7
+    ],
+    [
+     124,
+     18,
+     43
+    ],
+    [
+     29,
+     18,
+     110
+    ],
+    [
+     49,
+     18,
+     18
+    ]
+   ]
+  },
+  "trees": {
+   "requested": 19,
+   "placed": 19,
+   "kinds": {
+    "tree_blossom": 10,
+    "tree_white": 9
+   }
+  },
+  "unplaced_reasons": {
+   "giant:inside_attached_piece": 5,
+   "giant:cell_collision": 3,
+   "giant:overhangs_open_air": 1,
+   "tree:inside_attached_piece": 7,
+   "tree:overhangs_open_air": 1,
+   "medium:cell_collision": 44
+  },
+  "vegetation_blocks": 11835,
+  "by_family": {
+   "giant": 3190,
+   "tree": 2115,
+   "drape": 224,
+   "medium": 3627,
+   "small": 1259,
+   "grass": 825,
+   "ground": 340,
+   "wisteria": 141,
+   "vine": 114
+  },
+  "by_block": {
+   "cherry_leaves": 720,
+   "heaven_flower_blue": 175,
+   "heaven_flower_pink": 224,
+   "heaven_flower_red": 239,
+   "heaven_flower_violet": 224,
+   "heaven_flower_white": 196,
+   "heaven_flower_yellow": 201,
+   "heaven_giant_bloom": 1637,
+   "heaven_giant_leaf": 998,
+   "heaven_giant_stem": 555,
+   "heaven_hydrangea": 990,
+   "heaven_lavender": 1105,
+   "heaven_petals": 340,
+   "heaven_phlox": 1532,
+   "heaven_short_grass": 611,
+   "heaven_tall_grass": 214,
+   "heaven_vine": 114,
+   "heaven_white_blossom_leaves": 1080,
+   "heaven_wisteria": 365,
+   "oak_log": 315
+  },
+  "distinct_families": 18,
+  "vegetation_per_plantable_column": 1.549,
+  "walkability": {
+   "grass_columns": 13571,
+   "walkable_share": 0.9881,
+   "largest_region_before": 13570,
+   "largest_region_after": 13408
+  },
+  "survival_violations": {},
+  "seconds": 5.17
+ },
+ "large_e": {
+  "size": [
+   155,
+   101,
+   137
+  ],
+  "source_sha256": "80c75df123ef44807b1e91f077387d275797b5e6b2fff9c69f5b8ac9ff35f554",
+  "output": "src/main/resources/data/moreminecrafts/structure/heaven_p3/meadow/large_e.nbt",
+  "output_bytes": 458361,
+  "palette": 754,
+  "conversion": {
+   "terrain_converted": 148440,
+   "vanilla_vegetation_removed": 5479,
+   "water": 154,
+   "jigsaw_final_state_mapped": 1,
+   "wisteria_strands": 117,
+   "wisteria_requested": 117,
+   "vine_strands": 93,
+   "vine_requested": 93
+  },
+  "grass_columns": 15242,
+  "plantable_columns": 9418,
+  "masked_grass_columns": 5824,
+  "attached_piece_columns": 5824,
+  "attached_piece_reach": 38,
+  "giants": {
+   "trial_formula_requested": 35,
+   "feasible_positions": 1281,
+   "placed": 35,
+   "species": {
+    "giant_starlotus": 12,
+    "giant_lily": 12,
+    "giant_daffodil": 11
+   },
+   "positions": [
+    [
+     125,
+     18,
+     91
+    ],
+    [
+     57,
+     18,
+     22
+    ],
+    [
+     34,
+     18,
+     17
+    ],
+    [
+     30,
+     18,
+     104
+    ],
+    [
+     132,
+     18,
+     61
+    ],
+    [
+     14,
+     18,
+     33
+    ],
+    [
+     137,
+     17,
+     89
+    ],
+    [
+     145,
+     18,
+     71
+    ],
+    [
+     131,
+     17,
+     29
+    ],
+    [
+     73,
+     18,
+     20
+    ],
+    [
+     138,
+     18,
+     50
+    ],
+    [
+     39,
+     18,
+     107
+    ],
+    [
+     69,
+     18,
+     111
+    ],
+    [
+     127,
+     18,
+     76
+    ],
+    [
+     75,
+     18,
+     130
+    ],
+    [
+     23,
+     18,
+     46
+    ],
+    [
+     128,
+     18,
+     42
+    ],
+    [
+     92,
+     18,
+     120
+    ],
+    [
+     118,
+     18,
+     23
+    ],
+    [
+     38,
+     18,
+     72
+    ],
+    [
+     53,
+     18,
+     119
+    ],
+    [
+     65,
+     18,
+     121
+    ],
+    [
+     40,
+     18,
+     38
+    ],
+    [
+     21,
+     18,
+     74
+    ],
+    [
+     29,
+     18,
+     58
+    ],
+    [
+     92,
+     18,
+     19
+    ],
+    [
+     25,
+     18,
+     36
+    ],
+    [
+     141,
+     18,
+     80
+    ],
+    [
+     46,
+     18,
+     17
+    ],
+    [
+     143,
+     18,
+     61
+    ],
+    [
+     34,
+     18,
+     26
+    ],
+    [
+     102,
+     18,
+     18
+    ],
+    [
+     38,
+     17,
+     117
+    ],
+    [
+     22,
+     18,
+     85
+    ],
+    [
+     36,
+     18,
+     94
+    ]
+   ]
+  },
+  "trees": {
+   "requested": 23,
+   "placed": 23,
+   "kinds": {
+    "tree_blossom": 12,
+    "tree_white": 11
+   }
+  },
+  "unplaced_reasons": {
+   "giant:inside_attached_piece": 5,
+   "giant:overhangs_open_air": 1,
+   "giant:cell_collision": 2,
+   "tree:inside_attached_piece": 9,
+   "tree:overhangs_open_air": 7,
+   "tree:cell_collision": 4,
+   "medium:cell_collision": 58
+  },
+  "vegetation_blocks": 14731,
+  "by_family": {
+   "giant": 3987,
+   "tree": 2565,
+   "drape": 280,
+   "medium": 4773,
+   "small": 1414,
+   "grass": 1025,
+   "ground": 379,
+   "wisteria": 161,
+   "vine": 147
+  },
+  "by_block": {
+   "cherry_leaves": 864,
+   "heaven_flower_blue": 216,
+   "heaven_flower_pink": 223,
+   "heaven_flower_red": 251,
+   "heaven_flower_violet": 260,
+   "heaven_flower_white": 234,
+   "heaven_flower_yellow": 230,
+   "heaven_giant_bloom": 2053,
+   "heaven_giant_leaf": 1242,
+   "heaven_giant_stem": 692,
+   "heaven_hydrangea": 1320,
+   "heaven_lavender": 1516,
+   "heaven_petals": 379,
+   "heaven_phlox": 1937,
+   "heaven_short_grass": 769,
+   "heaven_tall_grass": 256,
+   "heaven_vine": 147,
+   "heaven_white_blossom_leaves": 1320,
+   "heaven_wisteria": 441,
+   "oak_log": 381
+  },
+  "distinct_families": 18,
+  "vegetation_per_plantable_column": 1.564,
+  "walkability": {
+   "grass_columns": 15242,
+   "walkable_share": 0.987,
+   "largest_region_before": 15242,
+   "largest_region_after": 15044
+  },
+  "survival_violations": {},
+  "seconds": 6.05
+ },
+ "plain_medium_a": {
+  "size": [
+   45,
+   43,
+   35
+  ],
+  "source_sha256": "e6eb15ffd4acd0b3fe4a424f2305142f9375cd4a97e2742c1a07c065f0f3fa99",
+  "output": "src/main/resources/data/moreminecrafts/structure/heaven_p3/meadow/plain_medium_a.nbt",
+  "output_bytes": 27694,
+  "palette": 629,
+  "conversion": {
+   "terrain_converted": 6004,
+   "vanilla_vegetation_removed": 417,
+   "wisteria_strands": 10,
+   "wisteria_requested": 10,
+   "vine_strands": 8,
+   "vine_requested": 8
+  },
+  "grass_columns": 802,
+  "plantable_columns": 801,
+  "masked_grass_columns": 1,
+  "attached_piece_columns": 0,
+  "attached_piece_reach": null,
+  "giants": {
+   "trial_formula_requested": 3,
+   "feasible_positions": 99,
+   "placed": 3,
+   "species": {
+    "giant_starlotus": 1,
+    "giant_lily": 1,
+    "giant_daffodil": 1
+   },
+   "positions": [
+    [
+     10,
+     14,
+     13
+    ],
+    [
+     22,
+     14,
+     28
+    ],
+    [
+     20,
+     14,
+     18
+    ]
+   ]
+  },
+  "trees": {
+   "requested": 2,
+   "placed": 2,
+   "kinds": {
+    "tree_blossom": 1,
+    "tree_white": 1
+   }
+  },
+  "unplaced_reasons": {
+   "giant:overhangs_open_air": 1,
+   "medium:cell_collision": 3
+  },
+  "vegetation_blocks": 1245,
+  "by_family": {
+   "giant": 341,
+   "tree": 225,
+   "drape": 24,
+   "medium": 387,
+   "small": 123,
+   "grass": 85,
+   "ground": 31,
+   "wisteria": 19,
+   "vine": 10
+  },
+  "by_block": {
+   "cherry_leaves": 72,
+   "heaven_flower_blue": 20,
+   "heaven_flower_pink": 16,
+   "heaven_flower_red": 14,
+   "heaven_flower_violet": 15,
+   "heaven_flower_white": 32,
+   "heaven_flower_yellow": 26,
+   "heaven_giant_bloom": 174,
+   "heaven_giant_leaf": 108,
+   "heaven_giant_stem": 59,
+   "heaven_hydrangea": 90,
+   "heaven_lavender": 101,
+   "heaven_petals": 31,
+   "heaven_phlox": 196,
+   "heaven_short_grass": 62,
+   "heaven_tall_grass": 23,
+   "heaven_vine": 10,
+   "heaven_white_blossom_leaves": 120,
+   "heaven_wisteria": 43,
+   "oak_log": 33
+  },
+  "distinct_families": 18,
+  "vegetation_per_plantable_column": 1.554,
+  "walkability": {
+   "grass_columns": 802,
+   "walkable_share": 0.9788,
+   "largest_region_before": 802,
+   "largest_region_after": 785
+  },
+  "survival_violations": {},
+  "seconds": 0.24
+ },
+ "plain_medium_b": {
+  "size": [
+   43,
+   43,
+   35
+  ],
+  "source_sha256": "8fdb84168f104da10c8ae5a2c42fd78ecdd0b5a3ec485007c034d6f293b5b478",
+  "output": "src/main/resources/data/moreminecrafts/structure/heaven_p3/meadow/plain_medium_b.nbt",
+  "output_bytes": 26419,
+  "palette": 606,
+  "conversion": {
+   "terrain_converted": 5641,
+   "vanilla_vegetation_removed": 278,
+   "water": 60,
+   "wisteria_strands": 9,
+   "wisteria_requested": 9,
+   "vine_strands": 7,
+   "vine_requested": 7
+  },
+  "grass_columns": 726,
+  "plantable_columns": 724,
+  "masked_grass_columns": 2,
+  "attached_piece_columns": 0,
+  "attached_piece_reach": null,
+  "giants": {
+   "trial_formula_requested": 3,
+   "feasible_positions": 26,
+   "placed": 3,
+   "species": {
+    "giant_starlotus": 1,
+    "giant_lily": 1,
+    "giant_daffodil": 1
+   },
+   "positions": [
+    [
+     24,
+     14,
+     11
+    ],
+    [
+     14,
+     14,
+     23
+    ],
+    [
+     25,
+     14,
+     25
+    ]
+   ]
+  },
+  "trees": {
+   "requested": 2,
+   "placed": 2,
+   "kinds": {
+    "tree_blossom": 1,
+    "tree_white": 1
+   }
+  },
+  "unplaced_reasons": {
+   "giant:overhangs_open_air": 1,
+   "medium:cell_collision": 3
+  },
+  "vegetation_blocks": 1169,
+  "by_family": {
+   "giant": 341,
+   "tree": 225,
+   "drape": 21,
+   "medium": 335,
+   "small": 97,
+   "grass": 85,
+   "ground": 37,
+   "wisteria": 16,
+   "vine": 12
+  },
+  "by_block": {
+   "cherry_leaves": 72,
+   "heaven_flower_blue": 18,
+   "heaven_flower_pink": 16,
+   "heaven_flower_red": 13,
+   "heaven_flower_violet": 16,
+   "heaven_flower_white": 18,
+   "heaven_flower_yellow": 16,
+   "heaven_giant_bloom": 174,
+   "heaven_giant_leaf": 108,
+   "heaven_giant_stem": 59,
+   "heaven_hydrangea": 90,
+   "heaven_lavender": 93,
+   "heaven_petals": 37,
+   "heaven_phlox": 152,
+   "heaven_short_grass": 65,
+   "heaven_tall_grass": 20,
+   "heaven_vine": 12,
+   "heaven_white_blossom_leaves": 120,
+   "heaven_wisteria": 37,
+   "oak_log": 33
+  },
+  "distinct_families": 18,
+  "vegetation_per_plantable_column": 1.615,
+  "walkability": {
+   "grass_columns": 726,
+   "walkable_share": 0.9766,
+   "largest_region_before": 726,
+   "largest_region_after": 709
+  },
+  "survival_violations": {},
+  "seconds": 0.2
+ },
+ "plain_medium_c": {
+  "size": [
+   47,
+   44,
+   33
+  ],
+  "source_sha256": "4a3b004d37731afa77577b61ff75a2d7a018fb0f5b62c2189b8c8625adbcf9cd",
+  "output": "src/main/resources/data/moreminecrafts/structure/heaven_p3/meadow/plain_medium_c.nbt",
+  "output_bytes": 27760,
+  "palette": 574,
+  "conversion": {
+   "terrain_converted": 6276,
+   "vanilla_vegetation_removed": 358,
+   "water": 68,
+   "wisteria_strands": 9,
+   "wisteria_requested": 9,
+   "vine_strands": 7,
+   "vine_requested": 7
+  },
+  "grass_columns": 735,
+  "plantable_columns": 734,
+  "masked_grass_columns": 1,
+  "attached_piece_columns": 0,
+  "attached_piece_reach": null,
+  "giants": {
+   "trial_formula_requested": 3,
+   "feasible_positions": 7,
+   "placed": 3,
+   "species": {
+    "giant_starlotus": 1,
+    "giant_lily": 1,
+    "giant_daffodil": 1
+   },
+   "positions": [
+    [
+     26,
+     15,
+     14
+    ],
+    [
+     12,
+     15,
+     16
+    ],
+    [
+     17,
+     15,
+     24
+    ]
+   ]
+  },
+  "trees": {
+   "requested": 2,
+   "placed": 2,
+   "kinds": {
+    "tree_blossom": 1,
+    "tree_white": 1
+   }
+  },
+  "unplaced_reasons": {
+   "medium:cell_collision": 5
+  },
+  "vegetation_blocks": 1182,
+  "by_family": {
+   "giant": 341,
+   "tree": 225,
+   "drape": 24,
+   "medium": 311,
+   "small": 143,
+   "grass": 90,
+   "ground": 24,
+   "wisteria": 12,
+   "vine": 12
+  },
+  "by_block": {
+   "cherry_leaves": 72,
+   "heaven_flower_blue": 23,
+   "heaven_flower_pink": 26,
+   "heaven_flower_red": 24,
+   "heaven_flower_violet": 21,
+   "heaven_flower_white": 30,
+   "heaven_flower_yellow": 19,
+   "heaven_giant_bloom": 174,
+   "heaven_giant_leaf": 108,
+   "heaven_giant_stem": 59,
+   "heaven_hydrangea": 60,
+   "heaven_lavender": 144,
+   "heaven_petals": 24,
+   "heaven_phlox": 107,
+   "heaven_short_grass": 71,
+   "heaven_tall_grass": 19,
+   "heaven_vine": 12,
+   "heaven_white_blossom_leaves": 120,
+   "heaven_wisteria": 36,
+   "oak_log": 33
+  },
+  "distinct_families": 18,
+  "vegetation_per_plantable_column": 1.61,
+  "walkability": {
+   "grass_columns": 735,
+   "walkable_share": 0.9769,
+   "largest_region_before": 735,
+   "largest_region_after": 718
+  },
+  "survival_violations": {},
+  "seconds": 0.21
+ },
+ "plain_medium_d": {
+  "size": [
+   45,
+   43,
+   37
+  ],
+  "source_sha256": "c2a919e9b028a90e6ababa3b4dd908e51bd01f637e27da22fcd3561f335a9a22",
+  "output": "src/main/resources/data/moreminecrafts/structure/heaven_p3/meadow/plain_medium_d.nbt",
+  "output_bytes": 27334,
+  "palette": 562,
+  "conversion": {
+   "terrain_converted": 6272,
+   "vanilla_vegetation_removed": 504,
+   "water": 104,
+   "wisteria_strands": 10,
+   "wisteria_requested": 10,
+   "vine_strands": 8,
+   "vine_requested": 8
+  },
+  "grass_columns": 807,
+  "plantable_columns": 807,
+  "masked_grass_columns": 0,
+  "attached_piece_columns": 0,
+  "attached_piece_reach": null,
+  "giants": {
+   "trial_formula_requested": 3,
+   "feasible_positions": 45,
+   "placed": 3,
+   "species": {
+    "giant_starlotus": 1,
+    "giant_lily": 1,
+    "giant_daffodil": 1
+   },
+   "positions": [
+    [
+     31,
+     14,
+     24
+    ],
+    [
+     10,
+     14,
+     17
+    ],
+    [
+     28,
+     14,
+     9
+    ]
+   ]
+  },
+  "trees": {
+   "requested": 2,
+   "placed": 2,
+   "kinds": {
+    "tree_blossom": 1,
+    "tree_white": 1
+   }
+  },
+  "unplaced_reasons": {
+   "tree:overhangs_open_air": 1,
+   "medium:cell_collision": 9
+  },
+  "vegetation_blocks": 1155,
+  "by_family": {
+   "giant": 341,
+   "tree": 225,
+   "drape": 22,
+   "medium": 294,
+   "small": 152,
+   "grass": 90,
+   "ground": 9,
+   "wisteria": 10,
+   "vine": 12
+  },
+  "by_block": {
+   "cherry_leaves": 72,
+   "heaven_flower_blue": 32,
+   "heaven_flower_pink": 26,
+   "heaven_flower_red": 24,
+   "heaven_flower_violet": 26,
+   "heaven_flower_white": 23,
+   "heaven_flower_yellow": 21,
+   "heaven_giant_bloom": 174,
+   "heaven_giant_leaf": 108,
+   "heaven_giant_stem": 59,
+   "heaven_hydrangea": 90,
+   "heaven_lavender": 96,
+   "heaven_petals": 9,
+   "heaven_phlox": 108,
+   "heaven_short_grass": 67,
+   "heaven_tall_grass": 23,
+   "heaven_vine": 12,
+   "heaven_white_blossom_leaves": 120,
+   "heaven_wisteria": 32,
+   "oak_log": 33
+  },
+  "distinct_families": 18,
+  "vegetation_per_plantable_column": 1.431,
+  "walkability": {
+   "grass_columns": 807,
+   "walkable_share": 0.9789,
+   "largest_region_before": 807,
+   "largest_region_after": 790
+  },
+  "survival_violations": {},
+  "seconds": 0.22
+ },
+ "plain_medium_e": {
+  "size": [
+   43,
+   42,
+   33
+  ],
+  "source_sha256": "ec2463b771ce6e9d8ea80c0366d1b589e601333bb016df39f14a0ee1ebb483b0",
+  "output": "src/main/resources/data/moreminecrafts/structure/heaven_p3/meadow/plain_medium_e.nbt",
+  "output_bytes": 21781,
+  "palette": 506,
+  "conversion": {
+   "terrain_converted": 4660,
+   "vanilla_vegetation_removed": 257,
+   "water": 59,
+   "wisteria_strands": 8,
+   "wisteria_requested": 8,
+   "vine_strands": 6,
+   "vine_requested": 6
+  },
+  "grass_columns": 643,
+  "plantable_columns": 639,
+  "masked_grass_columns": 4,
+  "attached_piece_columns": 0,
+  "attached_piece_reach": null,
+  "giants": {
+   "trial_formula_requested": 2,
+   "feasible_positions": 4,
+   "placed": 2,
+   "species": {
+    "giant_starlotus": 1,
+    "giant_lily": 1
+   },
+   "positions": [
+    [
+     28,
+     13,
+     17
+    ],
+    [
+     28,
+     13,
+     8
+    ]
+   ]
+  },
+  "trees": {
+   "requested": 2,
+   "placed": 2,
+   "kinds": {
+    "tree_blossom": 1,
+    "tree_white": 1
+   }
+  },
+  "unplaced_reasons": {
+   "medium:cell_collision": 3
+  },
+  "vegetation_blocks": 987,
+  "by_family": {
+   "giant": 236,
+   "tree": 225,
+   "drape": 25,
+   "medium": 271,
+   "small": 122,
+   "grass": 55,
+   "ground": 31,
+   "wisteria": 13,
+   "vine": 9
+  },
+  "by_block": {
+   "cherry_leaves": 72,
+   "heaven_flower_blue": 13,
+   "heaven_flower_pink": 13,
+   "heaven_flower_red": 20,
+   "heaven_flower_violet": 29,
+   "heaven_flower_white": 22,
+   "heaven_flower_yellow": 25,
+   "heaven_giant_bloom": 139,
+   "heaven_giant_leaf": 54,
+   "heaven_giant_stem": 43,
+   "heaven_hydrangea": 60,
+   "heaven_lavender": 82,
+   "heaven_petals": 31,
+   "heaven_phlox": 129,
+   "heaven_short_grass": 48,
+   "heaven_tall_grass": 7,
+   "heaven_vine": 9,
+   "heaven_white_blossom_leaves": 120,
+   "heaven_wisteria": 38,
+   "oak_log": 33
+  },
+  "distinct_families": 18,
+  "vegetation_per_plantable_column": 1.545,
+  "walkability": {
+   "grass_columns": 643,
+   "walkable_share": 0.9767,
+   "largest_region_before": 643,
+   "largest_region_after": 628
+  },
+  "survival_violations": {},
+  "seconds": 0.18
+ },
+ "plain_small_a": {
+  "size": [
+   25,
+   23,
+   25
+  ],
+  "source_sha256": "6a5f79c519e58d52329d12b43313c8ee3324fd996ffa870347d4f6f8201a9633",
+  "output": "src/main/resources/data/moreminecrafts/structure/heaven_p3/meadow/plain_small_a.nbt",
+  "output_bytes": 9197,
+  "palette": 295,
+  "conversion": {
+   "terrain_converted": 1702,
+   "vanilla_vegetation_removed": 128,
+   "wisteria_strands": 4,
+   "wisteria_requested": 4,
+   "vine_strands": 3,
+   "vine_requested": 3
+  },
+  "grass_columns": 318,
+  "plantable_columns": 318,
+  "masked_grass_columns": 0,
+  "attached_piece_columns": 0,
+  "attached_piece_reach": null,
+  "giants": {
+   "trial_formula_requested": 1,
+   "feasible_positions": 1,
+   "placed": 1,
+   "species": {
+    "giant_starlotus": 1
+   },
+   "positions": [
+    [
+     12,
+     10,
+     13
+    ]
+   ]
+  },
+  "trees": {
+   "requested": 1,
+   "placed": 1,
+   "kinds": {
+    "tree_blossom": 1
+   }
+  },
+  "unplaced_reasons": {
+   "tree:overhangs_open_air": 1
+  },
+  "vegetation_blocks": 479,
+  "by_family": {
+   "giant": 121,
+   "tree": 90,
+   "drape": 14,
+   "medium": 150,
+   "small": 52,
+   "grass": 34,
+   "ground": 9,
+   "wisteria": 6,
+   "vine": 3
+  },
+  "by_block": {
+   "cherry_leaves": 72,
+   "heaven_flower_blue": 8,
+   "heaven_flower_pink": 9,
+   "heaven_flower_red": 12,
+   "heaven_flower_violet": 8,
+   "heaven_flower_white": 7,
+   "heaven_flower_yellow": 8,
+   "heaven_giant_bloom": 71,
+   "heaven_giant_leaf": 26,
+   "heaven_giant_stem": 24,
+   "heaven_lavender": 65,
+   "heaven_petals": 9,
+   "heaven_phlox": 85,
+   "heaven_short_grass": 23,
+   "heaven_tall_grass": 11,
+   "heaven_vine": 3,
+   "heaven_wisteria": 20,
+   "oak_log": 18
+  },
+  "distinct_families": 16,
+  "vegetation_per_plantable_column": 1.506,
+  "walkability": {
+   "grass_columns": 318,
+   "walkable_share": 0.9717,
+   "largest_region_before": 318,
+   "largest_region_after": 309
+  },
+  "survival_violations": {},
+  "seconds": 0.06
+ },
+ "plain_small_b": {
+  "size": [
+   27,
+   24,
+   23
+  ],
+  "source_sha256": "33cf7654f946adc049401054417375e9a508f9795a225743ded9296122d2e5ca",
+  "output": "src/main/resources/data/moreminecrafts/structure/heaven_p3/meadow/plain_small_b.nbt",
+  "output_bytes": 9434,
+  "palette": 271,
+  "conversion": {
+   "terrain_converted": 1871,
+   "vanilla_vegetation_removed": 129,
+   "wisteria_strands": 4,
+   "wisteria_requested": 4,
+   "vine_strands": 3,
+   "vine_requested": 3
+  },
+  "grass_columns": 315,
+  "plantable_columns": 315,
+  "masked_grass_columns": 0,
+  "attached_piece_columns": 0,
+  "attached_piece_reach": null,
+  "giants": {
+   "trial_formula_requested": 1,
+   "feasible_positions": 3,
+   "placed": 1,
+   "species": {
+    "giant_starlotus": 1
+   },
+   "positions": [
+    [
+     16,
+     11,
+     9
+    ]
+   ]
+  },
+  "trees": {
+   "requested": 1,
+   "placed": 1,
+   "kinds": {
+    "tree_blossom": 1
+   }
+  },
+  "unplaced_reasons": {
+   "tree:overhangs_open_air": 1
+  },
+  "vegetation_blocks": 452,
+  "by_family": {
+   "giant": 121,
+   "tree": 90,
+   "drape": 11,
+   "medium": 119,
+   "small": 42,
+   "grass": 35,
+   "ground": 19,
+   "wisteria": 8,
+   "vine": 7
+  },
+  "by_block": {
+   "cherry_leaves": 72,
+   "heaven_flower_blue": 5,
+   "heaven_flower_pink": 7,
+   "heaven_flower_red": 6,
+   "heaven_flower_violet": 4,
+   "heaven_flower_white": 10,
+   "heaven_flower_yellow": 10,
+   "heaven_giant_bloom": 71,
+   "heaven_giant_leaf": 26,
+   "heaven_giant_stem": 24,
+   "heaven_hydrangea": 30,
+   "heaven_lavender": 45,
+   "heaven_petals": 19,
+   "heaven_phlox": 44,
+   "heaven_short_grass": 26,
+   "heaven_tall_grass": 9,
+   "heaven_vine": 7,
+   "heaven_wisteria": 19,
+   "oak_log": 18
+  },
+  "distinct_families": 17,
+  "vegetation_per_plantable_column": 1.435,
+  "walkability": {
+   "grass_columns": 315,
+   "walkable_share": 0.9714,
+   "largest_region_before": 315,
+   "largest_region_after": 306
+  },
+  "survival_violations": {},
+  "seconds": 0.06
+ },
+ "plain_small_c": {
+  "size": [
+   25,
+   23,
+   27
+  ],
+  "source_sha256": "f9b934cd52a67b35623246bf5d2a98ae33936a6fd3d5f250999c016e5dff1afd",
+  "output": "src/main/resources/data/moreminecrafts/structure/heaven_p3/meadow/plain_small_c.nbt",
+  "output_bytes": 9100,
+  "palette": 262,
+  "conversion": {
+   "terrain_converted": 1800,
+   "vanilla_vegetation_removed": 197,
+   "wisteria_strands": 4,
+   "wisteria_requested": 4,
+   "vine_strands": 3,
+   "vine_requested": 3
+  },
+  "grass_columns": 347,
+  "plantable_columns": 347,
+  "masked_grass_columns": 0,
+  "attached_piece_columns": 0,
+  "attached_piece_reach": null,
+  "giants": {
+   "trial_formula_requested": 1,
+   "feasible_positions": 14,
+   "placed": 1,
+   "species": {
+    "giant_starlotus": 1
+   },
+   "positions": [
+    [
+     16,
+     10,
+     10
+    ]
+   ]
+  },
+  "trees": {
+   "requested": 1,
+   "placed": 1,
+   "kinds": {
+    "tree_blossom": 1
+   }
+  },
+  "unplaced_reasons": {},
+  "vegetation_blocks": 457,
+  "by_family": {
+   "giant": 121,
+   "tree": 90,
+   "drape": 11,
+   "medium": 92,
+   "small": 63,
+   "grass": 47,
+   "ground": 23,
+   "wisteria": 5,
+   "vine": 5
+  },
+  "by_block": {
+   "cherry_leaves": 72,
+   "heaven_flower_blue": 14,
+   "heaven_flower_pink": 8,
+   "heaven_flower_red": 5,
+   "heaven_flower_violet": 13,
+   "heaven_flower_white": 9,
+   "heaven_flower_yellow": 14,
+   "heaven_giant_bloom": 71,
+   "heaven_giant_leaf": 26,
+   "heaven_giant_stem": 24,
+   "heaven_hydrangea": 15,
+   "heaven_lavender": 34,
+   "heaven_petals": 23,
+   "heaven_phlox": 43,
+   "heaven_short_grass": 41,
+   "heaven_tall_grass": 6,
+   "heaven_vine": 5,
+   "heaven_wisteria": 16,
+   "oak_log": 18
+  },
+  "distinct_families": 17,
+  "vegetation_per_plantable_column": 1.317,
+  "walkability": {
+   "grass_columns": 347,
+   "walkable_share": 0.9741,
+   "largest_region_before": 347,
+   "largest_region_after": 338
+  },
+  "survival_violations": {},
+  "seconds": 0.06
+ },
+ "plain_small_d": {
+  "size": [
+   27,
+   24,
+   25
+  ],
+  "source_sha256": "2da7d78e2ea45fdcc5d13f286919c85886bc42a1d1ecc32754ca54572d23e321",
+  "output": "src/main/resources/data/moreminecrafts/structure/heaven_p3/meadow/plain_small_d.nbt",
+  "output_bytes": 10106,
+  "palette": 268,
+  "conversion": {
+   "terrain_converted": 2064,
+   "vanilla_vegetation_removed": 70,
+   "wisteria_strands": 4,
+   "wisteria_requested": 4,
+   "vine_strands": 3,
+   "vine_requested": 3
+  },
+  "grass_columns": 348,
+  "plantable_columns": 348,
+  "masked_grass_columns": 0,
+  "attached_piece_columns": 0,
+  "attached_piece_reach": null,
+  "giants": {
+   "trial_formula_requested": 1,
+   "feasible_positions": 6,
+   "placed": 1,
+   "species": {
+    "giant_starlotus": 1
+   },
+   "positions": [
+    [
+     13,
+     11,
+     8
+    ]
+   ]
+  },
+  "trees": {
+   "requested": 1,
+   "placed": 1,
+   "kinds": {
+    "tree_blossom": 1
+   }
+  },
+  "unplaced_reasons": {
+   "tree:overhangs_open_air": 1
+  },
+  "vegetation_blocks": 458,
+  "by_family": {
+   "giant": 121,
+   "tree": 90,
+   "drape": 12,
+   "medium": 119,
+   "small": 63,
+   "grass": 30,
+   "ground": 11,
+   "wisteria": 9,
+   "vine": 3
+  },
+  "by_block": {
+   "cherry_leaves": 72,
+   "heaven_flower_blue": 8,
+   "heaven_flower_pink": 11,
+   "heaven_flower_red": 15,
+   "heaven_flower_violet": 12,
+   "heaven_flower_white": 7,
+   "heaven_flower_yellow": 10,
+   "heaven_giant_bloom": 71,
+   "heaven_giant_leaf": 26,
+   "heaven_giant_stem": 24,
+   "heaven_hydrangea": 45,
+   "heaven_lavender": 31,
+   "heaven_petals": 11,
+   "heaven_phlox": 43,
+   "heaven_short_grass": 19,
+   "heaven_tall_grass": 11,
+   "heaven_vine": 3,
+   "heaven_wisteria": 21,
+   "oak_log": 18
+  },
+  "distinct_families": 17,
+  "vegetation_per_plantable_column": 1.316,
+  "walkability": {
+   "grass_columns": 348,
+   "walkable_share": 0.9741,
+   "largest_region_before": 348,
+   "largest_region_after": 339
+  },
+  "survival_violations": {},
+  "seconds": 0.08
+ },
+ "ruins": {
+  "size": [
+   36,
+   27,
+   33
+  ],
+  "source_sha256": "b08d0599192e18959633c82726664519316f1bf7268422dbaf30d0dfccf2d0f1",
+  "output": "src/main/resources/data/moreminecrafts/structure/heaven_p3/meadow/ruins.nbt",
+  "output_bytes": 14581,
+  "palette": 136,
+  "conversion": {
+   "terrain_converted": 4049,
+   "vanilla_vegetation_removed": 179,
+   "jigsaw_final_state_mapped": 1,
+   "wisteria_strands": 3,
+   "wisteria_requested": 3,
+   "vine_strands": 3,
+   "vine_requested": 3
+  },
+  "grass_columns": 618,
+  "plantable_columns": 258,
+  "masked_grass_columns": 360,
+  "attached_piece_columns": 360,
+  "attached_piece_reach": 9,
+  "giants": {
+   "trial_formula_requested": 1,
+   "feasible_positions": 0,
+   "placed": 0,
+   "species": {},
+   "positions": []
+  },
+  "trees": {
+   "requested": 1,
+   "placed": 0,
+   "kinds": {}
+  },
+  "unplaced_reasons": {
+   "tree:inside_attached_piece": 19,
+   "tree:overhangs_open_air": 15,
+   "medium:cell_collision": 1
+  },
+  "vegetation_blocks": 229,
+  "by_family": {
+   "medium": 86,
+   "small": 50,
+   "grass": 47,
+   "ground": 33,
+   "wisteria": 6,
+   "vine": 7
+  },
+  "by_block": {
+   "heaven_flower_blue": 8,
+   "heaven_flower_pink": 9,
+   "heaven_flower_red": 6,
+   "heaven_flower_violet": 8,
+   "heaven_flower_white": 11,
+   "heaven_flower_yellow": 8,
+   "heaven_hydrangea": 30,
+   "heaven_lavender": 14,
+   "heaven_petals": 33,
+   "heaven_phlox": 42,
+   "heaven_short_grass": 43,
+   "heaven_tall_grass": 4,
+   "heaven_vine": 7,
+   "heaven_wisteria": 6
+  },
+  "distinct_families": 14,
+  "vegetation_per_plantable_column": 0.888,
+  "walkability": {
+   "grass_columns": 618,
+   "walkable_share": 1.0,
+   "largest_region_before": 618,
+   "largest_region_after": 618
+  },
+  "survival_violations": {},
+  "seconds": 0.11
+ },
+ "satellite_a": {
+  "size": [
+   27,
+   22,
+   19
+  ],
+  "source_sha256": "808bf4b98943f7b74eb4f925e4acae9a95df1698499e7d9a2ce6d164e7e3e6ea",
+  "output": "src/main/resources/data/moreminecrafts/structure/heaven_p3/meadow/satellite_a.nbt",
+  "output_bytes": 5340,
+  "palette": 197,
+  "conversion": {
+   "terrain_converted": 853,
+   "vanilla_vegetation_removed": 108,
+   "wisteria_strands": 2,
+   "wisteria_requested": 2,
+   "vine_strands": 2,
+   "vine_requested": 2
+  },
+  "grass_columns": 175,
+  "plantable_columns": 175,
+  "masked_grass_columns": 0,
+  "attached_piece_columns": 0,
+  "attached_piece_reach": null,
+  "giants": {
+   "trial_formula_requested": 1,
+   "feasible_positions": 1,
+   "placed": 1,
+   "species": {
+    "giant_starlotus": 1
+   },
+   "positions": [
+    [
+     16,
+     9,
+     8
+    ]
+   ]
+  },
+  "trees": {
+   "requested": 0,
+   "placed": 0,
+   "kinds": {}
+  },
+  "unplaced_reasons": {},
+  "vegetation_blocks": 235,
+  "by_family": {
+   "giant": 121,
+   "medium": 47,
+   "small": 33,
+   "grass": 25,
+   "ground": 4,
+   "wisteria": 3,
+   "vine": 2
+  },
+  "by_block": {
+   "heaven_flower_blue": 6,
+   "heaven_flower_pink": 5,
+   "heaven_flower_red": 6,
+   "heaven_flower_violet": 6,
+   "heaven_flower_white": 6,
+   "heaven_flower_yellow": 4,
+   "heaven_giant_bloom": 71,
+   "heaven_giant_leaf": 26,
+   "heaven_giant_stem": 24,
+   "heaven_hydrangea": 30,
+   "heaven_lavender": 17,
+   "heaven_petals": 4,
+   "heaven_short_grass": 22,
+   "heaven_tall_grass": 3,
+   "heaven_vine": 2,
+   "heaven_wisteria": 3
+  },
+  "distinct_families": 16,
+  "vegetation_per_plantable_column": 1.343,
+  "walkability": {
+   "grass_columns": 175,
+   "walkable_share": 0.9657,
+   "largest_region_before": 175,
+   "largest_region_after": 169
+  },
+  "survival_violations": {},
+  "seconds": 0.03
+ },
+ "satellite_b": {
+  "size": [
+   25,
+   21,
+   21
+  ],
+  "source_sha256": "d80b1c716ad9bd6bc24d2f33085ec990ac9f8937cacb1d2dd03479a09cc16706",
+  "output": "src/main/resources/data/moreminecrafts/structure/heaven_p3/meadow/satellite_b.nbt",
+  "output_bytes": 5046,
+  "palette": 185,
+  "conversion": {
+   "terrain_converted": 803,
+   "vanilla_vegetation_removed": 99,
+   "wisteria_strands": 2,
+   "wisteria_requested": 2,
+   "vine_strands": 2,
+   "vine_requested": 2
+  },
+  "grass_columns": 178,
+  "plantable_columns": 178,
+  "masked_grass_columns": 0,
+  "attached_piece_columns": 0,
+  "attached_piece_reach": null,
+  "giants": {
+   "trial_formula_requested": 1,
+   "feasible_positions": 1,
+   "placed": 1,
+   "species": {
+    "giant_starlotus": 1
+   },
+   "positions": [
+    [
+     13,
+     8,
+     8
+    ]
+   ]
+  },
+  "trees": {
+   "requested": 0,
+   "placed": 0,
+   "kinds": {}
+  },
+  "unplaced_reasons": {},
+  "vegetation_blocks": 231,
+  "by_family": {
+   "giant": 121,
+   "medium": 30,
+   "small": 40,
+   "grass": 32,
+   "wisteria": 2,
+   "vine": 6
+  },
+  "by_block": {
+   "heaven_flower_blue": 9,
+   "heaven_flower_pink": 3,
+   "heaven_flower_red": 6,
+   "heaven_flower_violet": 9,
+   "heaven_flower_white": 7,
+   "heaven_flower_yellow": 6,
+   "heaven_giant_bloom": 71,
+   "heaven_giant_leaf": 26,
+   "heaven_giant_stem": 24,
+   "heaven_hydrangea": 30,
+   "heaven_short_grass": 21,
+   "heaven_tall_grass": 11,
+   "heaven_vine": 6,
+   "heaven_wisteria": 2
+  },
+  "distinct_families": 14,
+  "vegetation_per_plantable_column": 1.298,
+  "walkability": {
+   "grass_columns": 178,
+   "walkable_share": 0.9663,
+   "largest_region_before": 178,
+   "largest_region_after": 172
+  },
+  "survival_violations": {},
+  "seconds": 0.02
+ },
+ "temple": {
+  "size": [
+   81,
+   45,
+   57
+  ],
+  "source_sha256": "bc1dfb723e10612f645910e568ef47643266e61e239f475bcceddb8554df8aea",
+  "output": "src/main/resources/data/moreminecrafts/structure/heaven_p3/meadow/temple.nbt",
+  "output_bytes": 101069,
+  "palette": 577,
+  "conversion": {
+   "terrain_converted": 32897,
+   "vanilla_vegetation_removed": 483,
+   "jigsaw_final_state_mapped": 1,
+   "wisteria_strands": 11,
+   "wisteria_requested": 11,
+   "vine_strands": 9,
+   "vine_requested": 9
+  },
+  "grass_columns": 3109,
+  "plantable_columns": 866,
+  "masked_grass_columns": 2243,
+  "attached_piece_columns": 2243,
+  "attached_piece_reach": 24,
+  "giants": {
+   "trial_formula_requested": 3,
+   "feasible_positions": 60,
+   "placed": 3,
+   "species": {
+    "giant_starlotus": 1,
+    "giant_lily": 1,
+    "giant_daffodil": 1
+   },
+   "positions": [
+    [
+     69,
+     20,
+     20
+    ],
+    [
+     73,
+     20,
+     29
+    ],
+    [
+     10,
+     20,
+     30
+    ]
+   ]
+  },
+  "trees": {
+   "requested": 2,
+   "placed": 2,
+   "kinds": {
+    "tree_blossom": 1,
+    "tree_white": 1
+   }
+  },
+  "unplaced_reasons": {
+   "giant:inside_attached_piece": 14,
+   "giant:overhangs_open_air": 1,
+   "tree:overhangs_open_air": 2,
+   "medium:cell_collision": 10
+  },
+  "vegetation_blocks": 1204,
+  "by_family": {
+   "giant": 341,
+   "tree": 225,
+   "drape": 20,
+   "medium": 270,
+   "small": 177,
+   "grass": 98,
+   "ground": 40,
+   "wisteria": 17,
+   "vine": 16
+  },
+  "by_block": {
+   "cherry_leaves": 72,
+   "heaven_flower_blue": 26,
+   "heaven_flower_pink": 34,
+   "heaven_flower_red": 30,
+   "heaven_flower_violet": 38,
+   "heaven_flower_white": 27,
+   "heaven_flower_yellow": 22,
+   "heaven_giant_bloom": 174,
+   "heaven_giant_leaf": 108,
+   "heaven_giant_stem": 59,
+   "heaven_hydrangea": 120,
+   "heaven_lavender": 42,
+   "heaven_petals": 40,
+   "heaven_phlox": 108,
+   "heaven_short_grass": 74,
+   "heaven_tall_grass": 24,
+   "heaven_vine": 16,
+   "heaven_white_blossom_leaves": 120,
+   "heaven_wisteria": 37,
+   "oak_log": 33
+  },
+  "distinct_families": 18,
+  "vegetation_per_plantable_column": 1.39,
+  "walkability": {
+   "grass_columns": 3109,
+   "walkable_share": 0.9945,
+   "largest_region_before": 3109,
+   "largest_region_after": 3092
+  },
+  "survival_violations": {},
+  "seconds": 1.07
+ },
+ "tower": {
+  "size": [
+   58,
+   97,
+   49
+  ],
+  "source_sha256": "1fe9705c2efc9ef05e0764cae7dacc5f04a6a357cacd959b2f960bf3f8c64a77",
+  "output": "src/main/resources/data/moreminecrafts/structure/heaven_p3/meadow/tower.nbt",
+  "output_bytes": 129652,
+  "palette": 64,
+  "conversion": {
+   "structure_kept": 29170,
+   "terrain_id_kept_as_structure": 3312,
+   "terrain_converted": 10178,
+   "jigsaw_final_state_mapped": 1,
+   "vanilla_vegetation_removed": 16,
+   "wisteria_strands": 1,
+   "wisteria_requested": 1,
+   "vine_strands": 1,
+   "vine_requested": 1
+  },
+  "grass_columns": 229,
+  "plantable_columns": 87,
+  "masked_grass_columns": 142,
+  "attached_piece_columns": 0,
+  "attached_piece_reach": null,
+  "giants": {
+   "trial_formula_requested": 0,
+   "feasible_positions": 1,
+   "placed": 0,
+   "species": {},
+   "positions": []
+  },
+  "trees": {
+   "requested": 0,
+   "placed": 0,
+   "kinds": {}
+  },
+  "unplaced_reasons": {
+   "medium:cell_collision": 1
+  },
+  "vegetation_blocks": 78,
+  "by_family": {
+   "medium": 21,
+   "small": 31,
+   "grass": 16,
+   "ground": 8,
+   "wisteria": 1,
+   "vine": 1
+  },
+  "by_block": {
+   "heaven_flower_blue": 8,
+   "heaven_flower_pink": 5,
+   "heaven_flower_red": 2,
+   "heaven_flower_violet": 7,
+   "heaven_flower_white": 5,
+   "heaven_flower_yellow": 4,
+   "heaven_petals": 8,
+   "heaven_phlox": 21,
+   "heaven_short_grass": 13,
+   "heaven_tall_grass": 3,
+   "heaven_vine": 1,
+   "heaven_wisteria": 1
+  },
+  "distinct_families": 12,
+  "vegetation_per_plantable_column": 0.897,
+  "walkability": {
+   "grass_columns": 229,
+   "walkable_share": 1.0,
+   "largest_region_before": 214,
+   "largest_region_after": 214
+  },
+  "survival_violations": {},
+  "seconds": 1.4
+ }
+}
