@@ -121,7 +121,7 @@ def catalog():
     rows.append(lineup(Mm, 1800, 'Medium flowers (H 1.75-2.5) and trees (H 8-9) | ruler 9 blocks', 9, 7.0, 0.031))
     Sm = [(vm.small_flower(c, i), 2, c) for i, c in enumerate(vm.SMALL_COLORS)] + [(vm.tuft(1), 2, 'tuft'), (vm.tuft(2, True), 2, 'tall tuft'),
           (vm.bush(3), 3, 'leaf bush'), (vm.bush(4, ['sm_pnk', 'sm_wht']), 3, 'flower bush'), (vm.big_leaf_plant(), 4, 'big leaf'), (vm.petals_patch(5, 5, 0.25), 3, 'petals')]
-    rows.append(lineup(Sm, 1800, 'Small flowers (H~1, cross-sprite equivalents), grass, bushes, ground decoration | ruler 3 blocks', 3, 2.6, 0.0125, yaw=25))
+    rows.append(lineup(Sm, 1800, 'Small flowers (H~1, cross-sprite equivalents), grass, bushes, ground decoration | ruler 3 blocks', 3, 2.4, 0.0215, yaw=20))
     sheet = Image.new('RGB', (1800, sum(r.height for r in rows) + 30), (255, 255, 255)); y = 0
     for r in rows: sheet.paste(r, (0, y)); y += r.height
     ImageDraw.Draw(sheet).text((10, sheet.height - 22), TAG_SHOW, font=F(13), fill=(60, 60, 60))
@@ -165,7 +165,10 @@ def species_model(key):
     if cat == 'grass': return vm.tuft(1, sp == 'tuft_tall')
     if cat == 'bush': return vm.bush(3, ['sm_pnk', 'sm_wht'] if sp == 'flowerbush' else None)
     if cat == 'ground': return vm.big_leaf_plant() if sp == 'bigleaf' else vm.petals_patch(5, 5, 0.25)
-    if cat == 'vine': return vm.vine(10, 1, wis=sp.startswith('wisteria'))
+    if cat == 'vine':   # hanging plant shown below a short anchor bar (thumbnail only)
+        V = vm.vine(10, 1, wis=sp.startswith('wisteria')); M = vm.Model({(x, y + 11, z): m for (x, y, z), m in V.items()})
+        for x in range(-3, 4): M[(x, 11, 0)] = 'bark'
+        return M
     return None
 
 
@@ -213,6 +216,18 @@ def board():
     d.text((x0 + 10, y0 + 120), 'Terrain: NBT-BASED render of\nsky_islands/meadow/plain_medium_d\n(A grass / B loam / B2 rock, fixed).\n\nVegetation: DESIGN PROTOTYPE voxel\nmodels (1/4 block) placed on the\nNBT surface; not in-game, not\nwritten to any game NBT.', font=F(16), fill=(60, 60, 70))
     B.save(f'{OUT}/comparison_board.png', optimize=True)
 
+
+def sheets_only():
+    data = json.load(open(f'{OUT}/../render/results.json')); res = data['variants']
+    catalog()
+    keys = sorted({k for v in res.values() for k in v['counts']})
+    thumbs = {k: thumb(species_model(k)) for k in keys if species_model(k) is not None}
+    for v in VARIANTS:
+        palette_sheet(v, res[v], data['costs'][v]['per_category'], data['costs'][v]['total'], thumbs)
+
+
+if __name__ == '__main__' and '--sheets-only' in sys.argv:
+    sheets_only(); sys.exit(0)
 
 if __name__ == '__main__':
     t0 = time.time()

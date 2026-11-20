@@ -1,0 +1,684 @@
+{
+ "variants": {
+  "V1": {
+   "clipped_voxels_outside_template": 0,
+   "voxels_skipped_inside_terrain": 283,
+   "giants": [
+    {
+     "species": "tulip",
+     "pos": [
+      16,
+      14,
+      19
+     ],
+     "H": 10,
+     "edge_margin_blocks": 8.2,
+     "pond_margin_blocks": 1.8
+    },
+    {
+     "species": "lily",
+     "pos": [
+      25,
+      14,
+      8
+     ],
+     "H": 10,
+     "edge_margin_blocks": 4.4,
+     "pond_margin_blocks": 4.4
+    },
+    {
+     "species": "peony",
+     "pos": [
+      29,
+      14,
+      26
+     ],
+     "H": 10,
+     "edge_margin_blocks": 4.1,
+     "pond_margin_blocks": 3.5
+    }
+   ],
+   "min_giant_tree_spacing": 9.0,
+   "pond_columns_covered_low": "1/52",
+   "walkable_share": 0.98,
+   "largest_walkable_region_share": 0.98,
+   "strict_walkable_share": 0.971,
+   "strict_largest_region_share": 0.971,
+   "counts": {
+    "giant:lily": 1,
+    "giant:peony": 1,
+    "giant:tulip": 1,
+    "grass:tuft_short": 93,
+    "grass:tuft_tall": 19,
+    "ground:petals": 4,
+    "medium:bells": 7,
+    "medium:hydrangea": 5,
+    "medium:lavender": 5,
+    "medium:phlox": 5,
+    "medium:yellowcluster": 4,
+    "small:small_blu": 19,
+    "small:small_pnk": 15,
+    "small:small_red": 18,
+    "small:small_vio": 18,
+    "small:small_wht": 15,
+    "small:small_yel": 14,
+    "tree:blossom": 1,
+    "tree:heaven": 1,
+    "vine:vine": 10
+   },
+   "veg_voxels": 24486,
+   "hero_giant": "tulip",
+   "field_center": [
+    25,
+    31
+   ],
+   "fine_grid_crc32": 215691996
+  },
+  "V2": {
+   "clipped_voxels_outside_template": 0,
+   "voxels_skipped_inside_terrain": 125,
+   "giants": [
+    {
+     "species": "tulip",
+     "pos": [
+      30,
+      14,
+      24
+     ],
+     "H": 10,
+     "edge_margin_blocks": 4.9,
+     "pond_margin_blocks": 2.3
+    },
+    {
+     "species": "lily",
+     "pos": [
+      10,
+      14,
+      18
+     ],
+     "H": 10,
+     "edge_margin_blocks": 2.8,
+     "pond_margin_blocks": 7.4
+    },
+    {
+     "species": "daffodil",
+     "pos": [
+      31,
+      14,
+      10
+     ],
+     "H": 10,
+     "edge_margin_blocks": 1.6,
+     "pond_margin_blocks": 4.3
+    },
+    {
+     "species": "peony",
+     "pos": [
+      14,
+      14,
+      25
+     ],
+     "H": 10,
+     "edge_margin_blocks": 1.8,
+     "pond_margin_blocks": 6.2
+    },
+    {
+     "species": "starlotus",
+     "pos": [
+      22,
+      14,
+      7
+     ],
+     "H": 10,
+     "edge_margin_blocks": 2.2,
+     "pond_margin_blocks": 4.8
+    }
+   ],
+   "min_giant_tree_spacing": 8.1,
+   "pond_columns_covered_low": "1/52",
+   "walkable_share": 0.978,
+   "largest_walkable_region_share": 0.978,
+   "strict_walkable_share": 0.965,
+   "strict_largest_region_share": 0.965,
+   "counts": {
+    "giant:daffodil": 1,
+    "giant:lily": 1,
+    "giant:peony": 1,
+    "giant:starlotus": 1,
+    "giant:tulip": 1,
+    "grass:tuft_short": 108,
+    "grass:tuft_tall": 32,
+    "medium:bells": 5,
+    "medium:hydrangea": 7,
+    "medium:lavender": 8,
+    "medium:phlox": 3,
+    "small:small_blu": 3,
+    "small:small_pnk": 2,
+    "small:small_red": 6,
+    "small:small_vio": 10,
+    "small:small_wht": 9,
+    "small:small_yel": 5,
+    "vine:vine": 6
+   },
+   "veg_voxels": 16709,
+   "hero_giant": "tulip",
+   "field_center": [
+    16,
+    13
+   ],
+   "fine_grid_crc32": 2072689809
+  },
+  "V3": {
+   "clipped_voxels_outside_template": 0,
+   "voxels_skipped_inside_terrain": 349,
+   "giants": [
+    {
+     "species": "peony",
+     "pos": [
+      29,
+      14,
+      12
+     ],
+     "H": 10,
+     "edge_margin_blocks": 4.0,
+     "pond_margin_blocks": 1.8
+    }
+   ],
+   "min_giant_tree_spacing": 13.0,
+   "pond_columns_covered_low": "3/52",
+   "walkable_share": 0.993,
+   "largest_walkable_region_share": 0.993,
+   "strict_walkable_share": 0.988,
+   "strict_largest_region_share": 0.988,
+   "counts": {
+    "giant:peony": 1,
+    "grass:tuft_short": 16,
+    "ground:petals": 3,
+    "medium:hydrangea": 9,
+    "medium:lavender": 10,
+    "medium:phlox": 7,
+    "medium:yellowcluster": 13,
+    "small:small_blu": 50,
+    "small:small_pnk": 62,
+    "small:small_red": 65,
+    "small:small_vio": 59,
+    "small:small_wht": 60,
+    "small:small_yel": 46,
+    "tree:white": 1,
+    "vine:vine": 6
+   },
+   "veg_voxels": 20686,
+   "hero_giant": "peony",
+   "field_center": [
+    35,
+    18
+   ],
+   "fine_grid_crc32": 2616870397
+  },
+  "V4": {
+   "clipped_voxels_outside_template": 0,
+   "voxels_skipped_inside_terrain": 413,
+   "giants": [
+    {
+     "species": "tulip",
+     "pos": [
+      35,
+      14,
+      22
+     ],
+     "H": 10,
+     "edge_margin_blocks": 2.8,
+     "pond_margin_blocks": 5.1
+    },
+    {
+     "species": "daffodil",
+     "pos": [
+      27,
+      14,
+      30
+     ],
+     "H": 10,
+     "edge_margin_blocks": 2.6,
+     "pond_margin_blocks": 6.7
+    }
+   ],
+   "min_giant_tree_spacing": 6.0,
+   "pond_columns_covered_low": "3/52",
+   "walkable_share": 0.98,
+   "largest_walkable_region_share": 0.98,
+   "strict_walkable_share": 0.914,
+   "strict_largest_region_share": 0.911,
+   "counts": {
+    "bush:flowerbush": 4,
+    "bush:leafbush": 15,
+    "giant:daffodil": 1,
+    "giant:tulip": 1,
+    "grass:tuft_short": 88,
+    "grass:tuft_tall": 66,
+    "ground:bigleaf": 25,
+    "medium:bells": 8,
+    "medium:lavender": 2,
+    "medium:phlox": 4,
+    "small:small_blu": 24,
+    "small:small_pnk": 28,
+    "small:small_red": 24,
+    "small:small_vio": 19,
+    "small:small_wht": 16,
+    "small:small_yel": 17,
+    "tree:blossom": 1,
+    "tree:heaven": 2,
+    "vine:vine": 12
+   },
+   "veg_voxels": 28331,
+   "hero_giant": "tulip",
+   "field_center": [
+    8,
+    25
+   ],
+   "fine_grid_crc32": 4100506101
+  },
+  "V5": {
+   "clipped_voxels_outside_template": 0,
+   "voxels_skipped_inside_terrain": 327,
+   "giants": [
+    {
+     "species": "starlotus",
+     "pos": [
+      27,
+      14,
+      10
+     ],
+     "H": 10,
+     "edge_margin_blocks": 4.8,
+     "pond_margin_blocks": 1.9
+    },
+    {
+     "species": "lily",
+     "pos": [
+      16,
+      14,
+      11
+     ],
+     "H": 10,
+     "edge_margin_blocks": 3.8,
+     "pond_margin_blocks": 4.5
+    },
+    {
+     "species": "daffodil",
+     "pos": [
+      22,
+      14,
+      29
+     ],
+     "H": 10,
+     "edge_margin_blocks": 2.6,
+     "pond_margin_blocks": 5.6
+    }
+   ],
+   "min_giant_tree_spacing": 8.9,
+   "pond_columns_covered_low": "4/52",
+   "walkable_share": 0.979,
+   "largest_walkable_region_share": 0.979,
+   "strict_walkable_share": 0.973,
+   "strict_largest_region_share": 0.973,
+   "counts": {
+    "giant:daffodil": 1,
+    "giant:lily": 1,
+    "giant:starlotus": 1,
+    "grass:tuft_short": 79,
+    "grass:tuft_tall": 29,
+    "ground:petals": 12,
+    "medium:hydrangea": 5,
+    "medium:lavender": 8,
+    "medium:phlox": 6,
+    "small:small_blu": 20,
+    "small:small_pnk": 22,
+    "small:small_red": 21,
+    "small:small_vio": 24,
+    "small:small_wht": 16,
+    "small:small_yel": 24,
+    "tree:blossom": 1,
+    "tree:white": 1,
+    "vine:vine": 8,
+    "vine:wisteria": 10,
+    "vine:wisteria_canopy": 18
+   },
+   "veg_voxels": 25239,
+   "hero_giant": "starlotus",
+   "field_center": [
+    17,
+    6
+   ],
+   "fine_grid_crc32": 3288601534
+  }
+ },
+ "giant_detail": {
+  "tulip": {
+   "voxels_quarter": 2497,
+   "exposed_faces_quarter": 3324,
+   "half_cells": 469,
+   "exposed_faces_half": 904,
+   "full_blocks": 64,
+   "exposed_faces_full": 192,
+   "materials": 9
+  },
+  "lily": {
+   "voxels_quarter": 1351,
+   "exposed_faces_quarter": 2712,
+   "half_cells": 313,
+   "exposed_faces_half": 774,
+   "full_blocks": 30,
+   "exposed_faces_full": 116,
+   "materials": 10
+  },
+  "daffodil": {
+   "voxels_quarter": 1212,
+   "exposed_faces_quarter": 3038,
+   "half_cells": 270,
+   "exposed_faces_half": 708,
+   "full_blocks": 24,
+   "exposed_faces_full": 90,
+   "materials": 9
+  },
+  "peony": {
+   "voxels_quarter": 2461,
+   "exposed_faces_quarter": 4398,
+   "half_cells": 493,
+   "exposed_faces_half": 740,
+   "full_blocks": 59,
+   "exposed_faces_full": 156,
+   "materials": 12
+  },
+  "starlotus": {
+   "voxels_quarter": 1686,
+   "exposed_faces_quarter": 2952,
+   "half_cells": 342,
+   "exposed_faces_half": 830,
+   "full_blocks": 44,
+   "exposed_faces_full": 154,
+   "materials": 13
+  }
+ },
+ "height_study": {
+  "S: giant 7 / tree 6 / medium 1.5": {
+   "giant_to_island_width": 0.16,
+   "giant_over_surface_top": 7,
+   "giant_to_tree": 1.17,
+   "giant_to_player": 3.9,
+   "medium_to_player": 0.83,
+   "clipped": 0
+  },
+  "M: giant 10 / tree 8 / medium 2.5": {
+   "giant_to_island_width": 0.22,
+   "giant_over_surface_top": 10,
+   "giant_to_tree": 1.25,
+   "giant_to_player": 5.6,
+   "medium_to_player": 1.39,
+   "clipped": 0
+  },
+  "L: giant 13 / tree 10 / medium 4": {
+   "giant_to_island_width": 0.29,
+   "giant_over_surface_top": 13,
+   "giant_to_tree": 1.3,
+   "giant_to_player": 7.2,
+   "medium_to_player": 2.22,
+   "clipped": 0
+  }
+ },
+ "costs": {
+  "V1": {
+   "per_category": {
+    "giant": [
+     12,
+     14,
+     23,
+     3
+    ],
+    "grass": [
+     2,
+     3,
+     3,
+     0
+    ],
+    "ground": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "medium": [
+     5,
+     10,
+     9,
+     0
+    ],
+    "small": [
+     6,
+     6,
+     6,
+     0
+    ],
+    "tree": [
+     1,
+     1,
+     1,
+     4
+    ],
+    "vine": [
+     1,
+     1,
+     1,
+     0
+    ]
+   },
+   "total": [
+    27,
+    35,
+    43,
+    7
+   ]
+  },
+  "V2": {
+   "per_category": {
+    "giant": [
+     19,
+     22,
+     36,
+     5
+    ],
+    "grass": [
+     2,
+     3,
+     3,
+     0
+    ],
+    "medium": [
+     4,
+     9,
+     9,
+     0
+    ],
+    "small": [
+     6,
+     6,
+     6,
+     0
+    ],
+    "vine": [
+     1,
+     1,
+     1,
+     0
+    ]
+   },
+   "total": [
+    32,
+    41,
+    55,
+    5
+   ]
+  },
+  "V3": {
+   "per_category": {
+    "giant": [
+     5,
+     7,
+     12,
+     1
+    ],
+    "grass": [
+     1,
+     1,
+     1,
+     0
+    ],
+    "ground": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "medium": [
+     4,
+     8,
+     7,
+     0
+    ],
+    "small": [
+     6,
+     6,
+     6,
+     0
+    ],
+    "tree": [
+     1,
+     1,
+     1,
+     2
+    ],
+    "vine": [
+     1,
+     1,
+     1,
+     0
+    ]
+   },
+   "total": [
+    18,
+    24,
+    28,
+    3
+   ]
+  },
+  "V4": {
+   "per_category": {
+    "bush": [
+     1,
+     2,
+     1,
+     0
+    ],
+    "giant": [
+     8,
+     9,
+     17,
+     2
+    ],
+    "grass": [
+     2,
+     3,
+     3,
+     0
+    ],
+    "ground": [
+     1,
+     1,
+     1,
+     0
+    ],
+    "medium": [
+     3,
+     7,
+     7,
+     0
+    ],
+    "small": [
+     6,
+     6,
+     6,
+     0
+    ],
+    "tree": [
+     1,
+     1,
+     1,
+     4
+    ],
+    "vine": [
+     1,
+     1,
+     1,
+     0
+    ]
+   },
+   "total": [
+    23,
+    30,
+    37,
+    6
+   ]
+  },
+  "V5": {
+   "per_category": {
+    "giant": [
+     13,
+     15,
+     25,
+     3
+    ],
+    "grass": [
+     2,
+     3,
+     3,
+     0
+    ],
+    "ground": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "medium": [
+     3,
+     7,
+     7,
+     0
+    ],
+    "small": [
+     6,
+     6,
+     6,
+     0
+    ],
+    "tree": [
+     1,
+     1,
+     1,
+     4
+    ],
+    "vine": [
+     3,
+     3,
+     3,
+     0
+    ]
+   },
+   "total": [
+    28,
+    35,
+    45,
+    7
+   ]
+  }
+ }
+}
