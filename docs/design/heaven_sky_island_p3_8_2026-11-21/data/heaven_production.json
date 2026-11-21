@@ -1,0 +1,2390 @@
+{
+ "meadow": {
+  "large_a": {
+   "size": [
+    97,
+    67,
+    97
+   ],
+   "source_sha256": "8d49830b59fce9fc41f077e269f5e666315320971be7580f19a7461f95e870fb",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/meadow/large_a.nbt",
+   "output_sha256": "87ecd13619dcc6e097d70a0ac6fb9b44017be94f2a8ad5f824d5af14cde524b9",
+   "output_bytes": 315364,
+   "palette": 753,
+   "plantable": 6338,
+   "grass": 6338,
+   "giants": {
+    "requested": 23,
+    "placed": 23
+   },
+   "trees": {
+    "requested": 16,
+    "placed": 16
+   },
+   "vegetation": 10141,
+   "by_family": {
+    "giant": 2623,
+    "tree": 1800,
+    "drape": 192,
+    "medium": 3429,
+    "small": 990,
+    "grass": 657,
+    "ground": 248,
+    "wisteria": 107,
+    "vine": 95
+   },
+   "unplaced": {
+    "tree:overhangs_open_air": 1,
+    "medium:cell_collision": 42
+   },
+   "survival_violations": {},
+   "walkable": 0.9789,
+   "conversion": {
+    "terrain_converted": 96572,
+    "vanilla_vegetation_removed": 3394,
+    "water": 208,
+    "wisteria_strands": 79,
+    "wisteria_requested": 79,
+    "vine_strands": 63,
+    "vine_requested": 63
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [],
+   "seconds": 5.81
+  },
+  "large_b": {
+   "size": [
+    109,
+    69,
+    99
+   ],
+   "source_sha256": "b48efbc83c70b10e0b8c3770861b185fb246ae9f34b43f4eec8c40e405b6b83f",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/meadow/large_b.nbt",
+   "output_sha256": "c490fdc1baa29ffd365f4e086c897a70c29a6ed1cffdf287f17d4a3a166cd782",
+   "output_bytes": 393840,
+   "palette": 753,
+   "plantable": 7637,
+   "grass": 7637,
+   "giants": {
+    "requested": 28,
+    "placed": 28
+   },
+   "trees": {
+    "requested": 19,
+    "placed": 19
+   },
+   "vegetation": 12014,
+   "by_family": {
+    "giant": 3190,
+    "tree": 2115,
+    "drape": 237,
+    "medium": 3954,
+    "small": 1110,
+    "grass": 815,
+    "ground": 338,
+    "wisteria": 140,
+    "vine": 115
+   },
+   "unplaced": {
+    "giant:cell_collision": 1,
+    "tree:cell_collision": 2,
+    "tree:overhangs_open_air": 3,
+    "medium:cell_collision": 44
+   },
+   "survival_violations": {},
+   "walkable": 0.9788,
+   "conversion": {
+    "terrain_converted": 121238,
+    "vanilla_vegetation_removed": 3612,
+    "water": 108,
+    "wisteria_strands": 95,
+    "wisteria_requested": 95,
+    "vine_strands": 76,
+    "vine_requested": 76
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [],
+   "seconds": 7.0
+  },
+  "large_c": {
+   "size": [
+    125,
+    71,
+    113
+   ],
+   "source_sha256": "b6a9d1842ba00f3528b9f94f800a913f7711334b160a411cbb1f49e7a75e6bcb",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/meadow/large_c.nbt",
+   "output_sha256": "aa21d78bcbc061c1c1b1f99cebbcfdc0d0ce3b832579606f87362116ee60ef52",
+   "output_bytes": 550410,
+   "palette": 753,
+   "plantable": 9908,
+   "grass": 9908,
+   "giants": {
+    "requested": 37,
+    "placed": 37
+   },
+   "trees": {
+    "requested": 25,
+    "placed": 25
+   },
+   "vegetation": 15543,
+   "by_family": {
+    "giant": 4213,
+    "tree": 2790,
+    "drape": 294,
+    "medium": 4899,
+    "small": 1594,
+    "grass": 1016,
+    "ground": 420,
+    "wisteria": 174,
+    "vine": 143
+   },
+   "unplaced": {
+    "giant:cell_collision": 4,
+    "giant:overhangs_open_air": 2,
+    "tree:cell_collision": 1,
+    "tree:overhangs_open_air": 3,
+    "tree:out_of_template_bounds": 1,
+    "medium:cell_collision": 54
+   },
+   "survival_violations": {},
+   "walkable": 0.9785,
+   "conversion": {
+    "terrain_converted": 170828,
+    "vanilla_vegetation_removed": 4717,
+    "water": 259,
+    "wisteria_strands": 123,
+    "wisteria_requested": 123,
+    "vine_strands": 98,
+    "vine_requested": 98
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [],
+   "seconds": 9.48
+  },
+  "large_d": {
+   "size": [
+    145,
+    101,
+    129
+   ],
+   "source_sha256": "4cbd2f1b5b7982c00faa300a12dc01afe84b484edd3d6e887b3a5cc778d5d4c6",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/meadow/large_d.nbt",
+   "output_sha256": "6abab511512ece39762b417bf750c8af3fa5b0c6e05d25c8176d4439dfbbc295",
+   "output_bytes": 395427,
+   "palette": 753,
+   "plantable": 7642,
+   "grass": 13571,
+   "giants": {
+    "requested": 28,
+    "placed": 28
+   },
+   "trees": {
+    "requested": 19,
+    "placed": 19
+   },
+   "vegetation": 11835,
+   "by_family": {
+    "giant": 3190,
+    "tree": 2115,
+    "drape": 224,
+    "medium": 3627,
+    "small": 1259,
+    "grass": 825,
+    "ground": 340,
+    "wisteria": 141,
+    "vine": 114
+   },
+   "unplaced": {
+    "giant:inside_attached_piece": 5,
+    "giant:cell_collision": 3,
+    "giant:overhangs_open_air": 1,
+    "tree:inside_attached_piece": 7,
+    "tree:overhangs_open_air": 1,
+    "medium:cell_collision": 44
+   },
+   "survival_violations": {},
+   "walkable": 0.9881,
+   "conversion": {
+    "terrain_converted": 130036,
+    "vanilla_vegetation_removed": 4810,
+    "jigsaw_final_state_mapped": 1,
+    "wisteria_strands": 95,
+    "wisteria_requested": 95,
+    "vine_strands": 76,
+    "vine_requested": 76
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [
+    {
+     "pos": [
+      78,
+      16,
+      64
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/tower_top",
+     "final_state": "moreminecrafts:heaven_loam"
+    }
+   ],
+   "seconds": 7.37
+  },
+  "large_e": {
+   "size": [
+    155,
+    101,
+    137
+   ],
+   "source_sha256": "80c75df123ef44807b1e91f077387d275797b5e6b2fff9c69f5b8ac9ff35f554",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/meadow/large_e.nbt",
+   "output_sha256": "a287f2e1a7a36e01817ed887aac3dec8e43bb36af6c644f0bc16ffa3b7aaf488",
+   "output_bytes": 458361,
+   "palette": 754,
+   "plantable": 9418,
+   "grass": 15242,
+   "giants": {
+    "requested": 35,
+    "placed": 35
+   },
+   "trees": {
+    "requested": 23,
+    "placed": 23
+   },
+   "vegetation": 14731,
+   "by_family": {
+    "giant": 3987,
+    "tree": 2565,
+    "drape": 280,
+    "medium": 4773,
+    "small": 1414,
+    "grass": 1025,
+    "ground": 379,
+    "wisteria": 161,
+    "vine": 147
+   },
+   "unplaced": {
+    "giant:inside_attached_piece": 5,
+    "giant:overhangs_open_air": 1,
+    "giant:cell_collision": 2,
+    "tree:inside_attached_piece": 9,
+    "tree:overhangs_open_air": 7,
+    "tree:cell_collision": 4,
+    "medium:cell_collision": 58
+   },
+   "survival_violations": {},
+   "walkable": 0.987,
+   "conversion": {
+    "terrain_converted": 148440,
+    "vanilla_vegetation_removed": 5479,
+    "water": 154,
+    "jigsaw_final_state_mapped": 1,
+    "wisteria_strands": 117,
+    "wisteria_requested": 117,
+    "vine_strands": 93,
+    "vine_requested": 93
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [
+    {
+     "pos": [
+      83,
+      16,
+      68
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/tower_top",
+     "final_state": "moreminecrafts:heaven_loam"
+    }
+   ],
+   "seconds": 8.35
+  },
+  "plain_medium_a": {
+   "size": [
+    45,
+    43,
+    35
+   ],
+   "source_sha256": "e6eb15ffd4acd0b3fe4a424f2305142f9375cd4a97e2742c1a07c065f0f3fa99",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/meadow/plain_medium_a.nbt",
+   "output_sha256": "600357d9baafce9cceab477d17ef40a13520fc754cf9b94a2d7c4ada1e361ca1",
+   "output_bytes": 27694,
+   "palette": 629,
+   "plantable": 801,
+   "grass": 802,
+   "giants": {
+    "requested": 3,
+    "placed": 3
+   },
+   "trees": {
+    "requested": 2,
+    "placed": 2
+   },
+   "vegetation": 1245,
+   "by_family": {
+    "giant": 341,
+    "tree": 225,
+    "drape": 24,
+    "medium": 387,
+    "small": 123,
+    "grass": 85,
+    "ground": 31,
+    "wisteria": 19,
+    "vine": 10
+   },
+   "unplaced": {
+    "giant:overhangs_open_air": 1,
+    "medium:cell_collision": 3
+   },
+   "survival_violations": {},
+   "walkable": 0.9788,
+   "conversion": {
+    "terrain_converted": 6004,
+    "vanilla_vegetation_removed": 417,
+    "wisteria_strands": 10,
+    "wisteria_requested": 10,
+    "vine_strands": 8,
+    "vine_requested": 8
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      17,
+      17
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/satellite",
+     "final_state": "minecraft:air"
+    },
+    {
+     "pos": [
+      44,
+      8,
+      17
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/satellite",
+     "final_state": "minecraft:air"
+    }
+   ],
+   "seconds": 0.37
+  },
+  "plain_medium_b": {
+   "size": [
+    43,
+    43,
+    35
+   ],
+   "source_sha256": "8fdb84168f104da10c8ae5a2c42fd78ecdd0b5a3ec485007c034d6f293b5b478",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/meadow/plain_medium_b.nbt",
+   "output_sha256": "c5abc54f6d5416272962a7a6e3521bee2ea76e1b9a4c99fdbc97a999557a6d86",
+   "output_bytes": 26419,
+   "palette": 606,
+   "plantable": 724,
+   "grass": 726,
+   "giants": {
+    "requested": 3,
+    "placed": 3
+   },
+   "trees": {
+    "requested": 2,
+    "placed": 2
+   },
+   "vegetation": 1169,
+   "by_family": {
+    "giant": 341,
+    "tree": 225,
+    "drape": 21,
+    "medium": 335,
+    "small": 97,
+    "grass": 85,
+    "ground": 37,
+    "wisteria": 16,
+    "vine": 12
+   },
+   "unplaced": {
+    "giant:overhangs_open_air": 1,
+    "medium:cell_collision": 3
+   },
+   "survival_violations": {},
+   "walkable": 0.9766,
+   "conversion": {
+    "terrain_converted": 5641,
+    "vanilla_vegetation_removed": 278,
+    "water": 60,
+    "wisteria_strands": 9,
+    "wisteria_requested": 9,
+    "vine_strands": 7,
+    "vine_requested": 7
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      17,
+      17
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/satellite",
+     "final_state": "minecraft:air"
+    },
+    {
+     "pos": [
+      42,
+      8,
+      17
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/satellite",
+     "final_state": "minecraft:air"
+    }
+   ],
+   "seconds": 0.3
+  },
+  "plain_medium_c": {
+   "size": [
+    47,
+    44,
+    33
+   ],
+   "source_sha256": "4a3b004d37731afa77577b61ff75a2d7a018fb0f5b62c2189b8c8625adbcf9cd",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/meadow/plain_medium_c.nbt",
+   "output_sha256": "f4cf55ef53f028d67f875c719b840d15902250f11f3996cda4e1301655c38c95",
+   "output_bytes": 27760,
+   "palette": 574,
+   "plantable": 734,
+   "grass": 735,
+   "giants": {
+    "requested": 3,
+    "placed": 3
+   },
+   "trees": {
+    "requested": 2,
+    "placed": 2
+   },
+   "vegetation": 1182,
+   "by_family": {
+    "giant": 341,
+    "tree": 225,
+    "drape": 24,
+    "medium": 311,
+    "small": 143,
+    "grass": 90,
+    "ground": 24,
+    "wisteria": 12,
+    "vine": 12
+   },
+   "unplaced": {
+    "medium:cell_collision": 5
+   },
+   "survival_violations": {},
+   "walkable": 0.9769,
+   "conversion": {
+    "terrain_converted": 6276,
+    "vanilla_vegetation_removed": 358,
+    "water": 68,
+    "wisteria_strands": 9,
+    "wisteria_requested": 9,
+    "vine_strands": 7,
+    "vine_requested": 7
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      18,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/satellite",
+     "final_state": "minecraft:air"
+    },
+    {
+     "pos": [
+      46,
+      9,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/satellite",
+     "final_state": "minecraft:air"
+    }
+   ],
+   "seconds": 0.3
+  },
+  "plain_medium_d": {
+   "size": [
+    45,
+    43,
+    37
+   ],
+   "source_sha256": "c2a919e9b028a90e6ababa3b4dd908e51bd01f637e27da22fcd3561f335a9a22",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/meadow/plain_medium_d.nbt",
+   "output_sha256": "95a279c8cf115518b06f34a3a88b39d0e985494a96719d356657da669ce0f375",
+   "output_bytes": 27334,
+   "palette": 562,
+   "plantable": 807,
+   "grass": 807,
+   "giants": {
+    "requested": 3,
+    "placed": 3
+   },
+   "trees": {
+    "requested": 2,
+    "placed": 2
+   },
+   "vegetation": 1155,
+   "by_family": {
+    "giant": 341,
+    "tree": 225,
+    "drape": 22,
+    "medium": 294,
+    "small": 152,
+    "grass": 90,
+    "ground": 9,
+    "wisteria": 10,
+    "vine": 12
+   },
+   "unplaced": {
+    "tree:overhangs_open_air": 1,
+    "medium:cell_collision": 9
+   },
+   "survival_violations": {},
+   "walkable": 0.9789,
+   "conversion": {
+    "terrain_converted": 6272,
+    "vanilla_vegetation_removed": 504,
+    "water": 104,
+    "wisteria_strands": 10,
+    "wisteria_requested": 10,
+    "vine_strands": 8,
+    "vine_requested": 8
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      17,
+      18
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/satellite",
+     "final_state": "minecraft:air"
+    },
+    {
+     "pos": [
+      44,
+      8,
+      18
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/satellite",
+     "final_state": "minecraft:air"
+    }
+   ],
+   "seconds": 0.3
+  },
+  "plain_medium_e": {
+   "size": [
+    43,
+    42,
+    33
+   ],
+   "source_sha256": "ec2463b771ce6e9d8ea80c0366d1b589e601333bb016df39f14a0ee1ebb483b0",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/meadow/plain_medium_e.nbt",
+   "output_sha256": "97876b0e3e896f61d2418dbaffed92b0ada179b33f711176a5e3fb2f2697968d",
+   "output_bytes": 21781,
+   "palette": 506,
+   "plantable": 639,
+   "grass": 643,
+   "giants": {
+    "requested": 2,
+    "placed": 2
+   },
+   "trees": {
+    "requested": 2,
+    "placed": 2
+   },
+   "vegetation": 987,
+   "by_family": {
+    "giant": 236,
+    "tree": 225,
+    "drape": 25,
+    "medium": 271,
+    "small": 122,
+    "grass": 55,
+    "ground": 31,
+    "wisteria": 13,
+    "vine": 9
+   },
+   "unplaced": {
+    "medium:cell_collision": 3
+   },
+   "survival_violations": {},
+   "walkable": 0.9767,
+   "conversion": {
+    "terrain_converted": 4660,
+    "vanilla_vegetation_removed": 257,
+    "water": 59,
+    "wisteria_strands": 8,
+    "wisteria_requested": 8,
+    "vine_strands": 6,
+    "vine_requested": 6
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      16,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/satellite",
+     "final_state": "minecraft:air"
+    },
+    {
+     "pos": [
+      42,
+      7,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/satellite",
+     "final_state": "minecraft:air"
+    }
+   ],
+   "seconds": 0.21
+  },
+  "plain_small_a": {
+   "size": [
+    25,
+    23,
+    25
+   ],
+   "source_sha256": "6a5f79c519e58d52329d12b43313c8ee3324fd996ffa870347d4f6f8201a9633",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/meadow/plain_small_a.nbt",
+   "output_sha256": "a47ae55aad3e2c575abbef0d42726b19043cb7f4687ddfec683130f782d3dd3d",
+   "output_bytes": 9197,
+   "palette": 295,
+   "plantable": 318,
+   "grass": 318,
+   "giants": {
+    "requested": 1,
+    "placed": 1
+   },
+   "trees": {
+    "requested": 1,
+    "placed": 1
+   },
+   "vegetation": 479,
+   "by_family": {
+    "giant": 121,
+    "tree": 90,
+    "drape": 14,
+    "medium": 150,
+    "small": 52,
+    "grass": 34,
+    "ground": 9,
+    "wisteria": 6,
+    "vine": 3
+   },
+   "unplaced": {
+    "tree:overhangs_open_air": 1
+   },
+   "survival_violations": {},
+   "walkable": 0.9717,
+   "conversion": {
+    "terrain_converted": 1702,
+    "vanilla_vegetation_removed": 128,
+    "wisteria_strands": 4,
+    "wisteria_requested": 4,
+    "vine_strands": 3,
+    "vine_requested": 3
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [],
+   "seconds": 0.11
+  },
+  "plain_small_b": {
+   "size": [
+    27,
+    24,
+    23
+   ],
+   "source_sha256": "33cf7654f946adc049401054417375e9a508f9795a225743ded9296122d2e5ca",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/meadow/plain_small_b.nbt",
+   "output_sha256": "ee30d0fc6d84c1a34318d5099ef021a61ea900c7093dad47eea369cf389b2301",
+   "output_bytes": 9434,
+   "palette": 271,
+   "plantable": 315,
+   "grass": 315,
+   "giants": {
+    "requested": 1,
+    "placed": 1
+   },
+   "trees": {
+    "requested": 1,
+    "placed": 1
+   },
+   "vegetation": 452,
+   "by_family": {
+    "giant": 121,
+    "tree": 90,
+    "drape": 11,
+    "medium": 119,
+    "small": 42,
+    "grass": 35,
+    "ground": 19,
+    "wisteria": 8,
+    "vine": 7
+   },
+   "unplaced": {
+    "tree:overhangs_open_air": 1
+   },
+   "survival_violations": {},
+   "walkable": 0.9714,
+   "conversion": {
+    "terrain_converted": 1871,
+    "vanilla_vegetation_removed": 129,
+    "wisteria_strands": 4,
+    "wisteria_requested": 4,
+    "vine_strands": 3,
+    "vine_requested": 3
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [],
+   "seconds": 0.09
+  },
+  "plain_small_c": {
+   "size": [
+    25,
+    23,
+    27
+   ],
+   "source_sha256": "f9b934cd52a67b35623246bf5d2a98ae33936a6fd3d5f250999c016e5dff1afd",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/meadow/plain_small_c.nbt",
+   "output_sha256": "8505f30ab2d5a8e7256bd4256ca9c87a6033d532b2ca713ca62afaa3b203503b",
+   "output_bytes": 9100,
+   "palette": 262,
+   "plantable": 347,
+   "grass": 347,
+   "giants": {
+    "requested": 1,
+    "placed": 1
+   },
+   "trees": {
+    "requested": 1,
+    "placed": 1
+   },
+   "vegetation": 457,
+   "by_family": {
+    "giant": 121,
+    "tree": 90,
+    "drape": 11,
+    "medium": 92,
+    "small": 63,
+    "grass": 47,
+    "ground": 23,
+    "wisteria": 5,
+    "vine": 5
+   },
+   "unplaced": {},
+   "survival_violations": {},
+   "walkable": 0.9741,
+   "conversion": {
+    "terrain_converted": 1800,
+    "vanilla_vegetation_removed": 197,
+    "wisteria_strands": 4,
+    "wisteria_requested": 4,
+    "vine_strands": 3,
+    "vine_requested": 3
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [],
+   "seconds": 0.1
+  },
+  "plain_small_d": {
+   "size": [
+    27,
+    24,
+    25
+   ],
+   "source_sha256": "2da7d78e2ea45fdcc5d13f286919c85886bc42a1d1ecc32754ca54572d23e321",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/meadow/plain_small_d.nbt",
+   "output_sha256": "10aff1ee6adfc708cdf8bf32a2ac77b935801f685f32fbf52d94ce4ef2c27e16",
+   "output_bytes": 10106,
+   "palette": 268,
+   "plantable": 348,
+   "grass": 348,
+   "giants": {
+    "requested": 1,
+    "placed": 1
+   },
+   "trees": {
+    "requested": 1,
+    "placed": 1
+   },
+   "vegetation": 458,
+   "by_family": {
+    "giant": 121,
+    "tree": 90,
+    "drape": 12,
+    "medium": 119,
+    "small": 63,
+    "grass": 30,
+    "ground": 11,
+    "wisteria": 9,
+    "vine": 3
+   },
+   "unplaced": {
+    "tree:overhangs_open_air": 1
+   },
+   "survival_violations": {},
+   "walkable": 0.9741,
+   "conversion": {
+    "terrain_converted": 2064,
+    "vanilla_vegetation_removed": 70,
+    "wisteria_strands": 4,
+    "wisteria_requested": 4,
+    "vine_strands": 3,
+    "vine_requested": 3
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [],
+   "seconds": 0.1
+  },
+  "ruins": {
+   "size": [
+    36,
+    27,
+    33
+   ],
+   "source_sha256": "b08d0599192e18959633c82726664519316f1bf7268422dbaf30d0dfccf2d0f1",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/meadow/ruins.nbt",
+   "output_sha256": "b70906b80d2f4656d57168c393b327feeb50e6ada95103d2ab40ac42faeaa4ae",
+   "output_bytes": 14581,
+   "palette": 136,
+   "plantable": 258,
+   "grass": 618,
+   "giants": {
+    "requested": 1,
+    "placed": 0
+   },
+   "trees": {
+    "requested": 1,
+    "placed": 0
+   },
+   "vegetation": 229,
+   "by_family": {
+    "medium": 86,
+    "small": 50,
+    "grass": 47,
+    "ground": 33,
+    "wisteria": 6,
+    "vine": 7
+   },
+   "unplaced": {
+    "tree:inside_attached_piece": 19,
+    "tree:overhangs_open_air": 15,
+    "medium:cell_collision": 1
+   },
+   "survival_violations": {},
+   "walkable": 1.0,
+   "conversion": {
+    "terrain_converted": 4049,
+    "vanilla_vegetation_removed": 179,
+    "jigsaw_final_state_mapped": 1,
+    "wisteria_strands": 3,
+    "wisteria_requested": 3,
+    "vine_strands": 3,
+    "vine_requested": 3
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [
+    {
+     "pos": [
+      16,
+      11,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/ruins_top",
+     "final_state": "moreminecrafts:heaven_grass_block"
+    },
+    {
+     "pos": [
+      35,
+      8,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/satellite",
+     "final_state": "minecraft:air"
+    }
+   ],
+   "seconds": 0.18
+  },
+  "satellite_a": {
+   "size": [
+    27,
+    22,
+    19
+   ],
+   "source_sha256": "808bf4b98943f7b74eb4f925e4acae9a95df1698499e7d9a2ce6d164e7e3e6ea",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/meadow/satellite_a.nbt",
+   "output_sha256": "3c45c5c56494b08316bd81847d54eb3df0d4653ffa13cb6178fda076cd839b31",
+   "output_bytes": 5340,
+   "palette": 197,
+   "plantable": 175,
+   "grass": 175,
+   "giants": {
+    "requested": 1,
+    "placed": 1
+   },
+   "trees": {
+    "requested": 0,
+    "placed": 0
+   },
+   "vegetation": 235,
+   "by_family": {
+    "giant": 121,
+    "medium": 47,
+    "small": 33,
+    "grass": 25,
+    "ground": 4,
+    "wisteria": 3,
+    "vine": 2
+   },
+   "unplaced": {},
+   "survival_violations": {},
+   "walkable": 0.9657,
+   "conversion": {
+    "terrain_converted": 853,
+    "vanilla_vegetation_removed": 108,
+    "wisteria_strands": 2,
+    "wisteria_requested": 2,
+    "vine_strands": 2,
+    "vine_requested": 2
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      8,
+      9
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/satellite",
+     "final_state": "minecraft:air"
+    },
+    {
+     "pos": [
+      26,
+      8,
+      9
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/satellite",
+     "final_state": "minecraft:air"
+    }
+   ],
+   "seconds": 0.07
+  },
+  "satellite_b": {
+   "size": [
+    25,
+    21,
+    21
+   ],
+   "source_sha256": "d80b1c716ad9bd6bc24d2f33085ec990ac9f8937cacb1d2dd03479a09cc16706",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/meadow/satellite_b.nbt",
+   "output_sha256": "248a4eaec642bbfddea3454a52c9dec9dec630106a9b7e860162f68f56bc5ffe",
+   "output_bytes": 5046,
+   "palette": 185,
+   "plantable": 178,
+   "grass": 178,
+   "giants": {
+    "requested": 1,
+    "placed": 1
+   },
+   "trees": {
+    "requested": 0,
+    "placed": 0
+   },
+   "vegetation": 231,
+   "by_family": {
+    "giant": 121,
+    "medium": 30,
+    "small": 40,
+    "grass": 32,
+    "wisteria": 2,
+    "vine": 6
+   },
+   "unplaced": {},
+   "survival_violations": {},
+   "walkable": 0.9663,
+   "conversion": {
+    "terrain_converted": 803,
+    "vanilla_vegetation_removed": 99,
+    "wisteria_strands": 2,
+    "wisteria_requested": 2,
+    "vine_strands": 2,
+    "vine_requested": 2
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      3,
+      10
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/satellite",
+     "final_state": "minecraft:air"
+    },
+    {
+     "pos": [
+      24,
+      10,
+      10
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/satellite",
+     "final_state": "minecraft:air"
+    }
+   ],
+   "seconds": 0.03
+  },
+  "temple": {
+   "size": [
+    81,
+    45,
+    57
+   ],
+   "source_sha256": "bc1dfb723e10612f645910e568ef47643266e61e239f475bcceddb8554df8aea",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/meadow/temple.nbt",
+   "output_sha256": "05877633fd4d4ccb151c1338aedb7d2585e2fb188cbe7965c68a8288bae682cb",
+   "output_bytes": 101069,
+   "palette": 577,
+   "plantable": 866,
+   "grass": 3109,
+   "giants": {
+    "requested": 3,
+    "placed": 3
+   },
+   "trees": {
+    "requested": 2,
+    "placed": 2
+   },
+   "vegetation": 1204,
+   "by_family": {
+    "giant": 341,
+    "tree": 225,
+    "drape": 20,
+    "medium": 270,
+    "small": 177,
+    "grass": 98,
+    "ground": 40,
+    "wisteria": 17,
+    "vine": 16
+   },
+   "unplaced": {
+    "giant:inside_attached_piece": 14,
+    "giant:overhangs_open_air": 1,
+    "tree:overhangs_open_air": 2,
+    "medium:cell_collision": 10
+   },
+   "survival_violations": {},
+   "walkable": 0.9945,
+   "conversion": {
+    "terrain_converted": 32897,
+    "vanilla_vegetation_removed": 483,
+    "jigsaw_final_state_mapped": 1,
+    "wisteria_strands": 11,
+    "wisteria_requested": 11,
+    "vine_strands": 9,
+    "vine_requested": 9
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [
+    {
+     "pos": [
+      40,
+      19,
+      28
+     ],
+     "pool": "moreminecrafts:sky_islands/temple_top",
+     "final_state": "moreminecrafts:heaven_grass_block"
+    }
+   ],
+   "seconds": 2.23
+  },
+  "tower": {
+   "size": [
+    58,
+    97,
+    49
+   ],
+   "source_sha256": "1fe9705c2efc9ef05e0764cae7dacc5f04a6a357cacd959b2f960bf3f8c64a77",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/meadow/tower.nbt",
+   "output_sha256": "d4c877f69800e58e1ed1a9334a98c1a722c90773a9a1bb4b24d3774dcfd089a0",
+   "output_bytes": 129652,
+   "palette": 64,
+   "plantable": 87,
+   "grass": 229,
+   "giants": {
+    "requested": 0,
+    "placed": 0
+   },
+   "trees": {
+    "requested": 0,
+    "placed": 0
+   },
+   "vegetation": 78,
+   "by_family": {
+    "medium": 21,
+    "small": 31,
+    "grass": 16,
+    "ground": 8,
+    "wisteria": 1,
+    "vine": 1
+   },
+   "unplaced": {
+    "medium:cell_collision": 1
+   },
+   "survival_violations": {},
+   "walkable": 1.0,
+   "conversion": {
+    "structure_kept": 29170,
+    "terrain_id_kept_as_structure": 3312,
+    "terrain_converted": 10178,
+    "jigsaw_final_state_mapped": 1,
+    "vanilla_vegetation_removed": 16,
+    "wisteria_strands": 1,
+    "wisteria_requested": 1,
+    "vine_strands": 1,
+    "vine_requested": 1
+   },
+   "vanilla_blocks_left": {
+    "minecraft:stone_bricks": 11895,
+    "minecraft:polished_andesite": 6450,
+    "minecraft:smooth_stone": 5537,
+    "minecraft:andesite": 3312,
+    "minecraft:stone_brick_slab": 2799,
+    "minecraft:chiseled_stone_bricks": 1274,
+    "minecraft:polished_deepslate": 1000,
+    "minecraft:oxidized_cut_copper": 42,
+    "minecraft:sea_lantern": 29,
+    "minecraft:trial_spawner": 16
+   },
+   "jigsaws": [
+    {
+     "pos": [
+      36,
+      16,
+      24
+     ],
+     "pool": "minecraft:empty",
+     "final_state": "moreminecrafts:heaven_grass_block"
+    }
+   ],
+   "seconds": 2.14
+  }
+ },
+ "forest": {
+  "large_a": {
+   "size": [
+    97,
+    67,
+    97
+   ],
+   "source_sha256": "3e57d33acf34ba6481385e625950db06233ebd3b44c90b46c069e0f80c0f35af",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/forest/large_a.nbt",
+   "output_sha256": "7326a01d5f18fb9e4aa8ea50ae46b83793922fcb04dbbcc5c5bfffd764ffea25",
+   "output_bytes": 324676,
+   "palette": 753,
+   "plantable": 6467,
+   "grass": 6467,
+   "giants": {
+    "requested": 24,
+    "placed": 24
+   },
+   "trees": {
+    "requested": 48,
+    "placed": 47
+   },
+   "vegetation": 12784,
+   "by_family": {
+    "giant": 2728,
+    "tree": 5265,
+    "drape": 556,
+    "medium": 2221,
+    "small": 944,
+    "grass": 608,
+    "ground": 263,
+    "wisteria": 109,
+    "vine": 90
+   },
+   "unplaced": {
+    "giant:cell_collision": 2,
+    "tree:overhangs_open_air": 26,
+    "tree:cell_collision": 318,
+    "tree:out_of_template_bounds": 9,
+    "medium:cell_collision": 39
+   },
+   "survival_violations": {},
+   "walkable": 0.9647,
+   "conversion": {
+    "terrain_converted": 97893,
+    "vanilla_vegetation_removed": 7098,
+    "water": 164,
+    "wisteria_strands": 80,
+    "wisteria_requested": 80,
+    "vine_strands": 64,
+    "vine_requested": 64
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [],
+   "seconds": 6.06
+  },
+  "large_b": {
+   "size": [
+    109,
+    69,
+    99
+   ],
+   "source_sha256": "d3e96fd881c649207f5e499b6c13b1009802f8b8930e7b91c1833def84379334",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/forest/large_b.nbt",
+   "output_sha256": "a1ce2ef5c4729f44d5b4c936a4bde6b0b29058f2923ebe0544cd6edd73703793",
+   "output_bytes": 400397,
+   "palette": 753,
+   "plantable": 7587,
+   "grass": 7587,
+   "giants": {
+    "requested": 28,
+    "placed": 28
+   },
+   "trees": {
+    "requested": 56,
+    "placed": 56
+   },
+   "vegetation": 15278,
+   "by_family": {
+    "giant": 3190,
+    "tree": 6300,
+    "drape": 643,
+    "medium": 2815,
+    "small": 1076,
+    "grass": 711,
+    "ground": 298,
+    "wisteria": 131,
+    "vine": 114
+   },
+   "unplaced": {
+    "giant:overhangs_open_air": 1,
+    "giant:cell_collision": 1,
+    "tree:overhangs_open_air": 25,
+    "tree:cell_collision": 156,
+    "tree:out_of_template_bounds": 2,
+    "medium:cell_collision": 35
+   },
+   "survival_violations": {},
+   "walkable": 0.964,
+   "conversion": {
+    "terrain_converted": 120375,
+    "vanilla_vegetation_removed": 8188,
+    "water": 64,
+    "wisteria_strands": 94,
+    "wisteria_requested": 94,
+    "vine_strands": 75,
+    "vine_requested": 75
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [],
+   "seconds": 7.83
+  },
+  "large_c": {
+   "size": [
+    125,
+    71,
+    113
+   ],
+   "source_sha256": "d4746123a05f1796cafeb601db37b125102cc93b14e627111eac38cdc0a3a1e4",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/forest/large_c.nbt",
+   "output_sha256": "97e969d72706be99312d145238c021834ffa917f768ade4f12542836b8cb1ef7",
+   "output_bytes": 555616,
+   "palette": 753,
+   "plantable": 9907,
+   "grass": 9907,
+   "giants": {
+    "requested": 37,
+    "placed": 37
+   },
+   "trees": {
+    "requested": 74,
+    "placed": 74
+   },
+   "vegetation": 19952,
+   "by_family": {
+    "giant": 4213,
+    "tree": 8325,
+    "drape": 866,
+    "medium": 3434,
+    "small": 1452,
+    "grass": 963,
+    "ground": 387,
+    "wisteria": 167,
+    "vine": 145
+   },
+   "unplaced": {
+    "giant:cell_collision": 3,
+    "tree:overhangs_open_air": 23,
+    "tree:cell_collision": 165,
+    "tree:out_of_template_bounds": 1,
+    "medium:cell_collision": 44
+   },
+   "survival_violations": {},
+   "walkable": 0.9638,
+   "conversion": {
+    "terrain_converted": 170598,
+    "vanilla_vegetation_removed": 10563,
+    "water": 284,
+    "wisteria_strands": 123,
+    "wisteria_requested": 123,
+    "vine_strands": 98,
+    "vine_requested": 98
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [],
+   "seconds": 10.07
+  },
+  "large_d": {
+   "size": [
+    145,
+    101,
+    129
+   ],
+   "source_sha256": "5361a3f9c56ccd9fbcea184d79d2d5b89d9426ce76c347676e09403181c75e75",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/forest/large_d.nbt",
+   "output_sha256": "3184246303318006263a9e5a30a8327e98ec177795bccbec0f6301e5e4a608e4",
+   "output_bytes": 402981,
+   "palette": 754,
+   "plantable": 7661,
+   "grass": 13558,
+   "giants": {
+    "requested": 28,
+    "placed": 28
+   },
+   "trees": {
+    "requested": 57,
+    "placed": 57
+   },
+   "vegetation": 15090,
+   "by_family": {
+    "giant": 3190,
+    "tree": 6390,
+    "drape": 662,
+    "medium": 2384,
+    "small": 1092,
+    "grass": 810,
+    "ground": 307,
+    "wisteria": 138,
+    "vine": 117
+   },
+   "unplaced": {
+    "giant:cell_collision": 4,
+    "giant:inside_attached_piece": 14,
+    "giant:overhangs_open_air": 2,
+    "tree:out_of_template_bounds": 4,
+    "tree:overhangs_open_air": 37,
+    "tree:cell_collision": 178,
+    "tree:inside_attached_piece": 96,
+    "medium:cell_collision": 35
+   },
+   "survival_violations": {},
+   "walkable": 0.9796,
+   "conversion": {
+    "terrain_converted": 130218,
+    "vanilla_vegetation_removed": 11180,
+    "water": 64,
+    "jigsaw_final_state_mapped": 1,
+    "wisteria_strands": 95,
+    "wisteria_requested": 95,
+    "vine_strands": 76,
+    "vine_requested": 76
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [
+    {
+     "pos": [
+      78,
+      16,
+      64
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/tower_top",
+     "final_state": "moreminecrafts:heaven_loam"
+    }
+   ],
+   "seconds": 7.58
+  },
+  "large_e": {
+   "size": [
+    155,
+    101,
+    137
+   ],
+   "source_sha256": "f9a30ce8ce218d8dc7332c7fe6205ac14fa2399e1aa383ee16254c1f6ea42756",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/forest/large_e.nbt",
+   "output_sha256": "479870ac79e005012e7c94fc1ae45a18eba84e964bafb7a0419f9fe98635d9fb",
+   "output_bytes": 462626,
+   "palette": 754,
+   "plantable": 9575,
+   "grass": 15148,
+   "giants": {
+    "requested": 35,
+    "placed": 35
+   },
+   "trees": {
+    "requested": 71,
+    "placed": 71
+   },
+   "vegetation": 19056,
+   "by_family": {
+    "giant": 3987,
+    "tree": 7965,
+    "drape": 824,
+    "medium": 3273,
+    "small": 1367,
+    "grass": 949,
+    "ground": 374,
+    "wisteria": 175,
+    "vine": 142
+   },
+   "unplaced": {
+    "giant:inside_attached_piece": 10,
+    "giant:cell_collision": 3,
+    "tree:overhangs_open_air": 35,
+    "tree:inside_attached_piece": 59,
+    "tree:cell_collision": 281,
+    "tree:out_of_template_bounds": 4,
+    "medium:cell_collision": 68
+   },
+   "survival_violations": {},
+   "walkable": 0.9774,
+   "conversion": {
+    "terrain_converted": 147207,
+    "vanilla_vegetation_removed": 12627,
+    "water": 383,
+    "jigsaw_final_state_mapped": 1,
+    "wisteria_strands": 119,
+    "wisteria_requested": 119,
+    "vine_strands": 95,
+    "vine_requested": 95
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [
+    {
+     "pos": [
+      83,
+      16,
+      68
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/tower_top",
+     "final_state": "moreminecrafts:heaven_loam"
+    }
+   ],
+   "seconds": 9.04
+  },
+  "plain_medium_a": {
+   "size": [
+    45,
+    43,
+    35
+   ],
+   "source_sha256": "5c45b0f4cec7eaa89f37429f284a42acc3e56a39c0eb4712464e46b57cc99208",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/forest/plain_medium_a.nbt",
+   "output_sha256": "88eb912dd40df1a79aeec47854f28ba8e47fa2f1da012002ecf2780d8706ab27",
+   "output_bytes": 27869,
+   "palette": 590,
+   "plantable": 807,
+   "grass": 812,
+   "giants": {
+    "requested": 3,
+    "placed": 3
+   },
+   "trees": {
+    "requested": 6,
+    "placed": 5
+   },
+   "vegetation": 1513,
+   "by_family": {
+    "giant": 341,
+    "tree": 540,
+    "drape": 61,
+    "medium": 309,
+    "small": 110,
+    "grass": 86,
+    "ground": 33,
+    "wisteria": 13,
+    "vine": 20
+   },
+   "unplaced": {
+    "tree:cell_collision": 22,
+    "tree:overhangs_open_air": 3,
+    "medium:cell_collision": 4
+   },
+   "survival_violations": {},
+   "walkable": 0.968,
+   "conversion": {
+    "terrain_converted": 5987,
+    "vanilla_vegetation_removed": 822,
+    "wisteria_strands": 10,
+    "wisteria_requested": 10,
+    "vine_strands": 8,
+    "vine_requested": 8
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      17,
+      17
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/satellite",
+     "final_state": "minecraft:air"
+    },
+    {
+     "pos": [
+      44,
+      8,
+      17
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/satellite",
+     "final_state": "minecraft:air"
+    }
+   ],
+   "seconds": 0.38
+  },
+  "plain_medium_b": {
+   "size": [
+    43,
+    43,
+    35
+   ],
+   "source_sha256": "110d3928e5505f6eb669cd6a4444ac5740e96437f05deaa4eb1edabd5c6c6248",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/forest/plain_medium_b.nbt",
+   "output_sha256": "9418c87c849836783583c60a7bbd0b960aa91a51af97a191df1b72e331bdf02e",
+   "output_bytes": 25801,
+   "palette": 537,
+   "plantable": 729,
+   "grass": 729,
+   "giants": {
+    "requested": 3,
+    "placed": 3
+   },
+   "trees": {
+    "requested": 5,
+    "placed": 5
+   },
+   "vegetation": 1378,
+   "by_family": {
+    "giant": 341,
+    "tree": 540,
+    "drape": 60,
+    "medium": 184,
+    "small": 122,
+    "grass": 75,
+    "ground": 38,
+    "wisteria": 10,
+    "vine": 8
+   },
+   "unplaced": {
+    "giant:overhangs_open_air": 1,
+    "tree:overhangs_open_air": 5,
+    "tree:cell_collision": 11,
+    "medium:cell_collision": 2
+   },
+   "survival_violations": {},
+   "walkable": 0.9643,
+   "conversion": {
+    "terrain_converted": 5626,
+    "vanilla_vegetation_removed": 973,
+    "water": 66,
+    "wisteria_strands": 9,
+    "wisteria_requested": 9,
+    "vine_strands": 7,
+    "vine_requested": 7
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      17,
+      17
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/satellite",
+     "final_state": "minecraft:air"
+    },
+    {
+     "pos": [
+      42,
+      8,
+      17
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/satellite",
+     "final_state": "minecraft:air"
+    }
+   ],
+   "seconds": 0.27
+  },
+  "plain_medium_c": {
+   "size": [
+    47,
+    44,
+    33
+   ],
+   "source_sha256": "66e3c718714f0a07ca3c685074227c636fd1645ca367cbf81b03a8b1fcafb2b1",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/forest/plain_medium_c.nbt",
+   "output_sha256": "eb171cdce3c22573732f82fea44c3fbce91ceb95eb4b9057a90f4f45da60c0ba",
+   "output_bytes": 27409,
+   "palette": 573,
+   "plantable": 730,
+   "grass": 730,
+   "giants": {
+    "requested": 3,
+    "placed": 3
+   },
+   "trees": {
+    "requested": 5,
+    "placed": 3
+   },
+   "vegetation": 1181,
+   "by_family": {
+    "giant": 341,
+    "tree": 315,
+    "drape": 34,
+    "medium": 220,
+    "small": 128,
+    "grass": 74,
+    "ground": 47,
+    "wisteria": 11,
+    "vine": 11
+   },
+   "unplaced": {
+    "tree:overhangs_open_air": 10,
+    "tree:cell_collision": 3,
+    "medium:cell_collision": 3
+   },
+   "survival_violations": {},
+   "walkable": 0.9726,
+   "conversion": {
+    "terrain_converted": 6282,
+    "vanilla_vegetation_removed": 781,
+    "water": 61,
+    "wisteria_strands": 9,
+    "wisteria_requested": 9,
+    "vine_strands": 7,
+    "vine_requested": 7
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      18,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/satellite",
+     "final_state": "minecraft:air"
+    },
+    {
+     "pos": [
+      46,
+      9,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/satellite",
+     "final_state": "minecraft:air"
+    }
+   ],
+   "seconds": 0.29
+  },
+  "plain_medium_d": {
+   "size": [
+    45,
+    43,
+    37
+   ],
+   "source_sha256": "d403e179001d17d3e8a548ecdde8fe6b00a7af6b8e35de6da785debebb5c2a26",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/forest/plain_medium_d.nbt",
+   "output_sha256": "d2d759b9bcd532c9f83e6ec4defb7771537018e949a21dde49cadc42a5dd8b79",
+   "output_bytes": 28050,
+   "palette": 526,
+   "plantable": 810,
+   "grass": 810,
+   "giants": {
+    "requested": 3,
+    "placed": 3
+   },
+   "trees": {
+    "requested": 6,
+    "placed": 5
+   },
+   "vegetation": 1407,
+   "by_family": {
+    "giant": 341,
+    "tree": 540,
+    "drape": 60,
+    "medium": 172,
+    "small": 130,
+    "grass": 100,
+    "ground": 38,
+    "wisteria": 13,
+    "vine": 13
+   },
+   "unplaced": {
+    "tree:overhangs_open_air": 5,
+    "tree:cell_collision": 14,
+    "medium:cell_collision": 7
+   },
+   "survival_violations": {},
+   "walkable": 0.9679,
+   "conversion": {
+    "terrain_converted": 6275,
+    "vanilla_vegetation_removed": 912,
+    "water": 108,
+    "wisteria_strands": 10,
+    "wisteria_requested": 10,
+    "vine_strands": 8,
+    "vine_requested": 8
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      17,
+      18
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/satellite",
+     "final_state": "minecraft:air"
+    },
+    {
+     "pos": [
+      44,
+      8,
+      18
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/satellite",
+     "final_state": "minecraft:air"
+    }
+   ],
+   "seconds": 0.39
+  },
+  "plain_medium_e": {
+   "size": [
+    43,
+    42,
+    33
+   ],
+   "source_sha256": "9abbecc188b66b70a15e7f55e1b2c89337852a8d48c32a7aa8a2fda895db95b6",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/forest/plain_medium_e.nbt",
+   "output_sha256": "24df551ab837635b64c9c7f4d741368907d3d373f6a795c28835497dfd721937",
+   "output_bytes": 22910,
+   "palette": 431,
+   "plantable": 656,
+   "grass": 656,
+   "giants": {
+    "requested": 2,
+    "placed": 2
+   },
+   "trees": {
+    "requested": 5,
+    "placed": 5
+   },
+   "vegetation": 1237,
+   "by_family": {
+    "giant": 236,
+    "tree": 540,
+    "drape": 56,
+    "medium": 182,
+    "small": 113,
+    "grass": 69,
+    "ground": 17,
+    "wisteria": 13,
+    "vine": 11
+   },
+   "unplaced": {
+    "tree:cell_collision": 2,
+    "tree:overhangs_open_air": 5,
+    "medium:cell_collision": 2
+   },
+   "survival_violations": {},
+   "walkable": 0.9634,
+   "conversion": {
+    "terrain_converted": 4861,
+    "vanilla_vegetation_removed": 978,
+    "water": 54,
+    "wisteria_strands": 8,
+    "wisteria_requested": 8,
+    "vine_strands": 7,
+    "vine_requested": 7
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      16,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/satellite",
+     "final_state": "minecraft:air"
+    },
+    {
+     "pos": [
+      42,
+      7,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/satellite",
+     "final_state": "minecraft:air"
+    }
+   ],
+   "seconds": 0.37
+  },
+  "plain_small_a": {
+   "size": [
+    25,
+    23,
+    25
+   ],
+   "source_sha256": "f08113e0dd1ee0a37cd4aa220aa5f11db760c25eae043451014ba5f0e1d6ba7d",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/forest/plain_small_a.nbt",
+   "output_sha256": "07c99819af0ae5c3a3e9c7f5481ddd0f85541d8dd75b50332d334bc509e65b8d",
+   "output_bytes": 9425,
+   "palette": 274,
+   "plantable": 318,
+   "grass": 318,
+   "giants": {
+    "requested": 1,
+    "placed": 1
+   },
+   "trees": {
+    "requested": 2,
+    "placed": 2
+   },
+   "vegetation": 580,
+   "by_family": {
+    "giant": 121,
+    "tree": 225,
+    "drape": 21,
+    "medium": 105,
+    "small": 44,
+    "grass": 40,
+    "ground": 12,
+    "wisteria": 7,
+    "vine": 5
+   },
+   "unplaced": {
+    "tree:overhangs_open_air": 3,
+    "tree:cell_collision": 3
+   },
+   "survival_violations": {},
+   "walkable": 0.9623,
+   "conversion": {
+    "terrain_converted": 1732,
+    "vanilla_vegetation_removed": 290,
+    "wisteria_strands": 4,
+    "wisteria_requested": 4,
+    "vine_strands": 3,
+    "vine_requested": 3
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [],
+   "seconds": 0.09
+  },
+  "plain_small_b": {
+   "size": [
+    27,
+    24,
+    23
+   ],
+   "source_sha256": "aa4a05b0ff4ded0ee0f2dbbfe581c627526d1df9adfc3b7348c532acc96c8c2c",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/forest/plain_small_b.nbt",
+   "output_sha256": "408b1aadb9c2a965dddc187330312e83327656dc9ddf867f98dd6264b7932635",
+   "output_bytes": 9514,
+   "palette": 281,
+   "plantable": 312,
+   "grass": 312,
+   "giants": {
+    "requested": 1,
+    "placed": 1
+   },
+   "trees": {
+    "requested": 2,
+    "placed": 1
+   },
+   "vegetation": 444,
+   "by_family": {
+    "giant": 121,
+    "tree": 90,
+    "drape": 11,
+    "medium": 124,
+    "small": 37,
+    "grass": 39,
+    "ground": 10,
+    "wisteria": 7,
+    "vine": 5
+   },
+   "unplaced": {
+    "tree:overhangs_open_air": 15,
+    "tree:cell_collision": 1,
+    "medium:cell_collision": 1
+   },
+   "survival_violations": {},
+   "walkable": 0.9712,
+   "conversion": {
+    "terrain_converted": 1842,
+    "vanilla_vegetation_removed": 431,
+    "wisteria_strands": 4,
+    "wisteria_requested": 4,
+    "vine_strands": 3,
+    "vine_requested": 3
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [],
+   "seconds": 0.1
+  },
+  "plain_small_c": {
+   "size": [
+    25,
+    23,
+    27
+   ],
+   "source_sha256": "18674e8a001cb1339fc784ca97e781cfd100025ca3e3632cca7c789eb1503f62",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/forest/plain_small_c.nbt",
+   "output_sha256": "5e90688732a68792e124cec48016cf14afa4a1246df392c91ec939a0fdda3c73",
+   "output_bytes": 10047,
+   "palette": 240,
+   "plantable": 345,
+   "grass": 345,
+   "giants": {
+    "requested": 1,
+    "placed": 1
+   },
+   "trees": {
+    "requested": 3,
+    "placed": 3
+   },
+   "vegetation": 666,
+   "by_family": {
+    "giant": 121,
+    "tree": 315,
+    "drape": 33,
+    "medium": 80,
+    "small": 43,
+    "grass": 47,
+    "ground": 14,
+    "wisteria": 8,
+    "vine": 5
+   },
+   "unplaced": {
+    "tree:cell_collision": 7,
+    "tree:overhangs_open_air": 2,
+    "medium:cell_collision": 1
+   },
+   "survival_violations": {},
+   "walkable": 0.9565,
+   "conversion": {
+    "vanilla_vegetation_removed": 313,
+    "terrain_converted": 1904,
+    "wisteria_strands": 4,
+    "wisteria_requested": 4,
+    "vine_strands": 3,
+    "vine_requested": 3
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [],
+   "seconds": 0.11
+  },
+  "plain_small_d": {
+   "size": [
+    27,
+    24,
+    25
+   ],
+   "source_sha256": "37d5cad63e3aefe70f40e5d5fbe565a920659cbb799f7c0a8248587327f937f5",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/forest/plain_small_d.nbt",
+   "output_sha256": "818ecf224430b8e5575fdbfa3da5f0f72aad6ae4fe2a80763899ccabd63a0bbe",
+   "output_bytes": 11247,
+   "palette": 295,
+   "plantable": 344,
+   "grass": 344,
+   "giants": {
+    "requested": 1,
+    "placed": 1
+   },
+   "trees": {
+    "requested": 3,
+    "placed": 2
+   },
+   "vegetation": 629,
+   "by_family": {
+    "giant": 121,
+    "tree": 225,
+    "drape": 24,
+    "medium": 160,
+    "small": 45,
+    "grass": 35,
+    "ground": 10,
+    "wisteria": 4,
+    "vine": 5
+   },
+   "unplaced": {
+    "tree:overhangs_open_air": 2,
+    "tree:cell_collision": 8,
+    "medium:cell_collision": 1
+   },
+   "survival_violations": {},
+   "walkable": 0.9651,
+   "conversion": {
+    "terrain_converted": 2147,
+    "vanilla_vegetation_removed": 358,
+    "wisteria_strands": 4,
+    "wisteria_requested": 4,
+    "vine_strands": 3,
+    "vine_requested": 3
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [],
+   "seconds": 0.13
+  },
+  "ruins": {
+   "size": [
+    36,
+    27,
+    33
+   ],
+   "source_sha256": "51344631b9bc36c4734e1241a5edd7b14d76e1e94833527dc09991c5fa2217e6",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/forest/ruins.nbt",
+   "output_sha256": "02ecb6785b5afcd2fdc9f0bcf3fad5063af5400d31209edfe4f15b17b959637c",
+   "output_bytes": 14857,
+   "palette": 158,
+   "plantable": 260,
+   "grass": 620,
+   "giants": {
+    "requested": 1,
+    "placed": 0
+   },
+   "trees": {
+    "requested": 2,
+    "placed": 0
+   },
+   "vegetation": 251,
+   "by_family": {
+    "medium": 130,
+    "small": 54,
+    "grass": 49,
+    "ground": 9,
+    "wisteria": 4,
+    "vine": 5
+   },
+   "unplaced": {
+    "tree:inside_attached_piece": 22,
+    "tree:overhangs_open_air": 12
+   },
+   "survival_violations": {},
+   "walkable": 1.0,
+   "conversion": {
+    "terrain_converted": 3995,
+    "vanilla_vegetation_removed": 296,
+    "jigsaw_final_state_mapped": 1,
+    "wisteria_strands": 3,
+    "wisteria_requested": 3,
+    "vine_strands": 3,
+    "vine_requested": 3
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [
+    {
+     "pos": [
+      16,
+      11,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/ruins_top",
+     "final_state": "moreminecrafts:heaven_grass_block"
+    },
+    {
+     "pos": [
+      35,
+      8,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/satellite",
+     "final_state": "minecraft:air"
+    }
+   ],
+   "seconds": 0.26
+  },
+  "satellite_a": {
+   "size": [
+    27,
+    22,
+    19
+   ],
+   "source_sha256": "e554abcf9804fc9df3acd6fd2cc793438b89dc62ef935fadba6b6c6a17bb88f3",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/forest/satellite_a.nbt",
+   "output_sha256": "03b98053f8faf26cb2e1b421da08919b9896757994c234a4f69302c30c8877c3",
+   "output_bytes": 5420,
+   "palette": 221,
+   "plantable": 172,
+   "grass": 172,
+   "giants": {
+    "requested": 1,
+    "placed": 1
+   },
+   "trees": {
+    "requested": 1,
+    "placed": 0
+   },
+   "vegetation": 247,
+   "by_family": {
+    "giant": 121,
+    "medium": 66,
+    "small": 26,
+    "grass": 18,
+    "ground": 11,
+    "wisteria": 2,
+    "vine": 3
+   },
+   "unplaced": {},
+   "survival_violations": {},
+   "walkable": 0.9651,
+   "conversion": {
+    "terrain_converted": 816,
+    "vanilla_vegetation_removed": 207,
+    "wisteria_strands": 2,
+    "wisteria_requested": 2,
+    "vine_strands": 2,
+    "vine_requested": 2
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      8,
+      9
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/satellite",
+     "final_state": "minecraft:air"
+    },
+    {
+     "pos": [
+      26,
+      8,
+      9
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/satellite",
+     "final_state": "minecraft:air"
+    }
+   ],
+   "seconds": 0.05
+  },
+  "satellite_b": {
+   "size": [
+    25,
+    21,
+    21
+   ],
+   "source_sha256": "64c5cb4edb12a6f9310061aa5fe69ad322b2243b416f86e4c58987213f557266",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/forest/satellite_b.nbt",
+   "output_sha256": "ca9ae3feb672bbd00fdde2b54cb4e2a1d4095e717efeab5b8661166b856500ea",
+   "output_bytes": 5063,
+   "palette": 205,
+   "plantable": 175,
+   "grass": 175,
+   "giants": {
+    "requested": 1,
+    "placed": 1
+   },
+   "trees": {
+    "requested": 1,
+    "placed": 0
+   },
+   "vegetation": 234,
+   "by_family": {
+    "giant": 121,
+    "medium": 46,
+    "small": 25,
+    "grass": 26,
+    "ground": 10,
+    "wisteria": 2,
+    "vine": 4
+   },
+   "unplaced": {},
+   "survival_violations": {},
+   "walkable": 0.9657,
+   "conversion": {
+    "terrain_converted": 765,
+    "vanilla_vegetation_removed": 149,
+    "wisteria_strands": 2,
+    "wisteria_requested": 2,
+    "vine_strands": 2,
+    "vine_requested": 2
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      3,
+      10
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/satellite",
+     "final_state": "minecraft:air"
+    },
+    {
+     "pos": [
+      24,
+      10,
+      10
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/satellite",
+     "final_state": "minecraft:air"
+    }
+   ],
+   "seconds": 0.04
+  },
+  "temple": {
+   "size": [
+    81,
+    45,
+    57
+   ],
+   "source_sha256": "809229ac086e49d89de13afcec0ce4728f426d9357823b6e3317929c21ec20f0",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/forest/temple.nbt",
+   "output_sha256": "7b79a70c7fbf7a590219e7d62ac0bed2a66b4e3f6bcdd14fc094d25ce5c3eb97",
+   "output_bytes": 101311,
+   "palette": 568,
+   "plantable": 832,
+   "grass": 3103,
+   "giants": {
+    "requested": 3,
+    "placed": 3
+   },
+   "trees": {
+    "requested": 6,
+    "placed": 5
+   },
+   "vegetation": 1453,
+   "by_family": {
+    "giant": 341,
+    "tree": 540,
+    "drape": 64,
+    "medium": 207,
+    "small": 139,
+    "grass": 95,
+    "ground": 41,
+    "wisteria": 13,
+    "vine": 13
+   },
+   "unplaced": {
+    "giant:overhangs_open_air": 9,
+    "giant:inside_attached_piece": 24,
+    "tree:inside_attached_piece": 12,
+    "tree:cell_collision": 8,
+    "tree:out_of_template_bounds": 2,
+    "tree:overhangs_open_air": 8,
+    "medium:cell_collision": 5
+   },
+   "survival_violations": {},
+   "walkable": 0.9916,
+   "conversion": {
+    "terrain_converted": 32849,
+    "vanilla_vegetation_removed": 1409,
+    "jigsaw_final_state_mapped": 1,
+    "wisteria_strands": 10,
+    "wisteria_requested": 10,
+    "vine_strands": 8,
+    "vine_requested": 8
+   },
+   "vanilla_blocks_left": {},
+   "jigsaws": [
+    {
+     "pos": [
+      40,
+      19,
+      28
+     ],
+     "pool": "moreminecrafts:sky_islands/temple_top",
+     "final_state": "moreminecrafts:heaven_grass_block"
+    }
+   ],
+   "seconds": 1.88
+  },
+  "tower": {
+   "size": [
+    58,
+    97,
+    49
+   ],
+   "source_sha256": "10bf1b7a94624b2cab4383e3b983b7c0647792c2a8cbc80dc9e52ed513d2704b",
+   "output": "src/main/resources/data/moreminecrafts/structure/sky_islands/heaven/forest/tower.nbt",
+   "output_sha256": "fa159357e1dad9821a27473915379b19b38a72285f89a19896bbadada05e9f0a",
+   "output_bytes": 130512,
+   "palette": 49,
+   "plantable": 90,
+   "grass": 239,
+   "giants": {
+    "requested": 0,
+    "placed": 0
+   },
+   "trees": {
+    "requested": 1,
+    "placed": 1
+   },
+   "vegetation": 147,
+   "by_family": {
+    "tree": 90,
+    "drape": 13,
+    "small": 23,
+    "grass": 11,
+    "ground": 5,
+    "wisteria": 2,
+    "vine": 3
+   },
+   "unplaced": {},
+   "survival_violations": {},
+   "walkable": 0.9874,
+   "conversion": {
+    "structure_kept": 29483,
+    "terrain_id_kept_as_structure": 3312,
+    "terrain_converted": 10328,
+    "jigsaw_final_state_mapped": 1,
+    "vanilla_vegetation_removed": 47,
+    "wisteria_strands": 1,
+    "wisteria_requested": 1,
+    "vine_strands": 1,
+    "vine_requested": 1
+   },
+   "vanilla_blocks_left": {
+    "minecraft:stone_bricks": 11897,
+    "minecraft:polished_andesite": 6450,
+    "minecraft:smooth_stone": 5537,
+    "minecraft:andesite": 3312,
+    "minecraft:stone_brick_slab": 2799,
+    "minecraft:chiseled_stone_bricks": 1274,
+    "minecraft:polished_deepslate": 1000,
+    "minecraft:oxidized_cut_copper": 42,
+    "minecraft:sea_lantern": 29,
+    "minecraft:trial_spawner": 16
+   },
+   "jigsaws": [
+    {
+     "pos": [
+      36,
+      16,
+      24
+     ],
+     "pool": "minecraft:empty",
+     "final_state": "moreminecrafts:heaven_grass_block"
+    }
+   ],
+   "seconds": 2.43
+  }
+ }
+}
