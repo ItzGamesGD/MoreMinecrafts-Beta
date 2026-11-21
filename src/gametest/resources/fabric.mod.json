@@ -67,6 +67,7 @@
       "dev.itzgamesgd.moreminecrafts.heaven.HeavenP25PolicyProbes",
       "dev.itzgamesgd.moreminecrafts.heaven.HeavenP3PolicyGameTests",
       "dev.itzgamesgd.moreminecrafts.heaven.HeavenP3MeadowGameTests",
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP35GameTests",
       "dev.itzgamesgd.moreminecrafts.bounty.ContractGameTests",
       "dev.itzgamesgd.moreminecrafts.bounty.ContractCatalogGameTests",
       "dev.itzgamesgd.moreminecrafts.bounty.ContractIntegrationGameTests",

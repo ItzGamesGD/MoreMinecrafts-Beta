@@ -10,6 +10,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
@@ -21,8 +22,8 @@ import net.minecraft.world.level.material.PushReaction;
 
 /**
  * Heaven sky island P2 vegetation blocks: reusable model families generated from the V5 design
- * ({@code tools/heaven-p2/build_p2.py}). IDs, strengths and sounds are PROVISIONAL; there are no items,
- * drops, survival rules or growth yet (owner policy pending). Nothing here is placed by world generation.
+ * ({@code tools/heaven-p2/build_p2.py}). P3 survival / breaking rules live in {@link HeavenPartBlock} and
+ * {@link HeavenPlants}; there are still no items or drops (F7 pending). Nothing here is placed by world generation.
  */
 public final class HeavenP2Blocks {
     private static final List<String> FAMILIES = List.of(
@@ -37,9 +38,14 @@ public final class HeavenP2Blocks {
     static {
         for (String name : FAMILIES) PART_BLOCKS.add(part(name));
         ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, ModIds.id("heaven_white_blossom_leaves"));
+        // P3.5 (G5, owner-approved): vanilla leaves properties (Blocks.leavesProperties with cherry sound) WITHOUT
+        // ignitedByLava, so lava never lights fire next to the heaven canopy; it was never flammable (no fire registry entry).
         HEAVEN_WHITE_BLOSSOM_LEAVES = Registry.register(BuiltInRegistries.BLOCK, key, new UntintedParticleLeavesBlock(0.0F,
                 ParticleTypes.CHERRY_LEAVES, AmbientLeavesBlockSoundPlayer.noAmbientSound(),
-                BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_LEAVES).mapColor(MapColor.SNOW).setId(key)));
+                BlockBehaviour.Properties.of().mapColor(MapColor.SNOW).strength(0.2F).randomTicks().sound(SoundType.CHERRY_LEAVES)
+                        .noOcclusion().isValidSpawn((s, l, p, t) -> t == EntityTypes.OCELOT || t == EntityTypes.PARROT)
+                        .isSuffocating((s, l, p) -> false).pushReaction(PushReaction.POPPED).isRedstoneConductor((s, l, p) -> false)
+                        .setId(key)));
     }
 
     private HeavenP2Blocks() {}

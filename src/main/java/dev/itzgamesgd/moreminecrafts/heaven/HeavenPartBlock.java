@@ -244,7 +244,7 @@ public class HeavenPartBlock extends Block {
         if (rule == Rule.MEDIUM || rule == Rule.GIANT) HeavenPlants.onCellRemoved(level, pos, state);
     }
 
-    /** Facing families follow structure rotation / mirroring (P3 templates may be placed rotated). Giants have no facing. */
+    /** Facing families follow structure rotation / mirroring. P3.5: giant parts have facing too (tools/heaven-p35/giant_rotation.py). */
     @Override
     protected BlockState rotate(BlockState state, Rotation rotation) {
         return facing ? state.setValue(BlockStateProperties.HORIZONTAL_FACING, rotation.rotate(state.getValue(BlockStateProperties.HORIZONTAL_FACING))) : state;

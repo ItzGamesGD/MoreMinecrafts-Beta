@@ -82,6 +82,12 @@ public final class HeavenP3PolicyGameTests implements CustomTestMethodInvoker {
         return out;
     }
 
+    /** Block ticks only run in ticking chunks; force-load the area a tick-dependent test uses (released on success). */
+    static void forceChunks(ServerLevel level, BlockPos from, BlockPos to, boolean on) {
+        for (int cx = Math.min(from.getX(), to.getX()) >> 4; cx <= Math.max(from.getX(), to.getX()) >> 4; cx++)
+            for (int cz = Math.min(from.getZ(), to.getZ()) >> 4; cz <= Math.max(from.getZ(), to.getZ()) >> 4; cz++) level.setChunkForced(cx, cz, on);
+    }
+
     private static int countItems(ServerLevel level, BlockPos center, int r) {
         return level.getEntitiesOfClass(ItemEntity.class, new AABB(center).inflate(r)).size();
     }
@@ -257,6 +263,7 @@ public final class HeavenP3PolicyGameTests implements CustomTestMethodInvoker {
     public void f8HeavenVegetationNeedsSupport(GameTestHelper ctx) {
         ServerLevel level = ctx.getLevel();
         BlockPos g = high(ctx, 176);
+        forceChunks(level, g.offset(-2, 0, -2), g.offset(4, 0, 12), true);
         Map<String, Object> out = new LinkedHashMap<>();
         for (String f : new String[]{"heaven_flower_red", "heaven_short_grass", "heaven_tall_grass", "heaven_petals"}) {
             BlockState s = b(f).defaultBlockState();
@@ -317,6 +324,7 @@ public final class HeavenP3PolicyGameTests implements CustomTestMethodInvoker {
             ctx.assertTrue(out.get("wisteria.after_leaves_removed").equals("minecraft:air"), "wisteria goes with its canopy (next tick) " + out);
             ctx.assertTrue((Boolean) out.get("wisteria.survives_under_white_blossom"), "wisteria hangs from white blossom leaves " + out);
             ctx.assertFalse((Boolean) out.get("wisteria.survives_under_air"), "wisteria never floats " + out);
+            forceChunks(level, g.offset(-2, 0, -2), g.offset(4, 0, 12), false);
             ctx.succeed();
         });
     }
@@ -373,6 +381,7 @@ public final class HeavenP3PolicyGameTests implements CustomTestMethodInvoker {
     public void f6EveryGiantSpeciesAndRemovalCause(GameTestHelper ctx) {
         ServerLevel level = ctx.getLevel();
         BlockPos corner = high(ctx, 100);
+        forceChunks(level, corner, corner.offset(40, 0, 40), true);
         floor(level, corner, 40, 14);
         Map<String, Object> out = new LinkedHashMap<>();
         String[] species = {"giant_starlotus", "giant_lily", "giant_daffodil"};
@@ -402,6 +411,7 @@ public final class HeavenP3PolicyGameTests implements CustomTestMethodInvoker {
                 ctx.assertTrue(((Long) out.get(s + ".stem_replaced.left")) == 0, s + " removed when a stem goes " + out);
                 ctx.assertTrue(((Long) out.get(s + ".support_removed.left")) == 0, s + " removed when its ground goes " + out);
             }
+            forceChunks(level, corner, corner.offset(40, 0, 40), false);
             ctx.succeed();
         });
     }
