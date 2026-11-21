@@ -155,7 +155,8 @@
       "dev.itzgamesgd.moreminecrafts.heaven.HeavenPrototypeClientCapture",
       "dev.itzgamesgd.moreminecrafts.heaven.HeavenP2ClientCapture",
       "dev.itzgamesgd.moreminecrafts.heaven.HeavenP3ClientCapture",
-      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP35ClientCapture"
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP35ClientCapture",
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP36ClientCapture"
     ]
   },
   "mixins": [
