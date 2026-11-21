@@ -1,0 +1,85 @@
+{
+  "label": "both_packs",
+  "seed": 42,
+  "mode": "all",
+  "islands": {
+    "meadow": {
+      "start_chunk": "32,-24",
+      "locate_ms": 0,
+      "generate_ms": 811,
+      "generated_chunks": 6,
+      "box": "27x23x25",
+      "mid_chunk_x": 31,
+      "templates": [
+        "sky_islands/heaven/meadow/plain_small_c"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true,
+      "fingerprint": "3ed9c208424e08e6",
+      "blocks": 2257,
+      "vanilla_theme_blocks": 0,
+      "heaven_blocks": 2167,
+      "jigsaw_left": 0,
+      "vault": 0,
+      "trial_spawner": 0,
+      "fingerprint_equal_to_compare": true,
+      "standable_columns": 86,
+      "habitat_support": 86,
+      "natural_spawn_gate_open": 86,
+      "spawn_cells": 86,
+      "natural_spawn_rule_pass_by_type": {}
+    },
+    "forest": {
+      "start_chunk": "-22,-14",
+      "locate_ms": 0,
+      "generate_ms": 545,
+      "generated_chunks": 6,
+      "box": "25x24x27",
+      "mid_chunk_x": -22,
+      "templates": [
+        "sky_islands/heaven/forest/plain_small_d"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true,
+      "fingerprint": "1808708cb5190225",
+      "blocks": 2776,
+      "vanilla_theme_blocks": 0,
+      "heaven_blocks": 2671,
+      "jigsaw_left": 0,
+      "vault": 0,
+      "trial_spawner": 0,
+      "fingerprint_equal_to_compare": true,
+      "standable_columns": 84,
+      "habitat_support": 84,
+      "natural_spawn_gate_open": 84,
+      "spawn_cells": 84,
+      "natural_spawn_rule_pass_by_type": {}
+    },
+    "mountain_meadow": {
+      "start_chunk": "-118,47",
+      "locate_ms": 0,
+      "generate_ms": 563,
+      "generated_chunks": 6,
+      "box": "23x24x27",
+      "mid_chunk_x": -118,
+      "templates": [
+        "sky_islands/heaven/meadow/plain_small_b"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true,
+      "fingerprint": "8e78625f6bd07cb",
+      "blocks": 2323,
+      "vanilla_theme_blocks": 0,
+      "heaven_blocks": 2233,
+      "jigsaw_left": 0,
+      "vault": 0,
+      "trial_spawner": 0,
+      "fingerprint_equal_to_compare": true,
+      "standable_columns": 78,
+      "habitat_support": 78,
+      "natural_spawn_gate_open": 78,
+      "spawn_cells": 78,
+      "natural_spawn_rule_pass_by_type": {}
+    }
+  }
+}

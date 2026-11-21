@@ -15,7 +15,7 @@ HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.jo
 import build_meadow as bm          # noqa: E402
 
 ROOT = bm.ROOT; D = bm.D
-LIVE = f'{D}/worldgen/template_pool/sky_islands'
+LIVE = os.environ.get('HEAVEN_P38_LIVE') or f'{D}/worldgen/template_pool/sky_islands'   # P3.9: override so apply/revert can be rehearsed on a copy
 PENDING = os.path.join(ROOT, 'src/main/resources/heaven_worldgen_pending/data/moreminecrafts/worldgen/template_pool/sky_islands')
 GT_NS = 'moreminecrafts-gametest'; GT = os.path.join(ROOT, f'src/gametest/resources/data/{GT_NS}')
 THEMES = ('meadow', 'forest'); POOLS = ('start', 'satellite', 'tower_top')

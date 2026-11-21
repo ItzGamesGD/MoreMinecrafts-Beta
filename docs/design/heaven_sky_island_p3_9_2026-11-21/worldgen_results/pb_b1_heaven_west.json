@@ -1,0 +1,46 @@
+{
+  "label": "b1_heaven_west",
+  "seed": 42,
+  "mode": "west",
+  "islands": {
+    "meadow": {
+      "start_chunk": "32,-24",
+      "locate_ms": 1,
+      "generate_ms": 460,
+      "generated_chunks": 4,
+      "box": "27x23x25",
+      "mid_chunk_x": 31,
+      "templates": [
+        "sky_islands/heaven/meadow/plain_small_c"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true
+    },
+    "forest": {
+      "start_chunk": "-22,-14",
+      "locate_ms": 0,
+      "generate_ms": 305,
+      "generated_chunks": 3,
+      "box": "25x24x27",
+      "mid_chunk_x": -22,
+      "templates": [
+        "sky_islands/heaven/forest/plain_small_d"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true
+    },
+    "mountain_meadow": {
+      "start_chunk": "-118,47",
+      "locate_ms": 0,
+      "generate_ms": 252,
+      "generated_chunks": 3,
+      "box": "23x24x27",
+      "mid_chunk_x": -118,
+      "templates": [
+        "sky_islands/heaven/meadow/plain_small_b"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true
+    }
+  }
+}

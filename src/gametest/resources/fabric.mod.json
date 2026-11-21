@@ -21,7 +21,8 @@
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01d3.St01D8MapTradeBench",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyTowerPhase2Probe",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.SpiderColonyProbe",
-      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP35TexturePacks"
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP35TexturePacks",
+      "dev.itzgamesgd.moreminecrafts.worldgenprobe.HeavenWorldgenProbe"
     ],
     "fabric-gametest": [
       "dev.itzgamesgd.moreminecrafts.spidercolony.SpiderColonyGameTests",
@@ -132,7 +133,9 @@
       "dev.itzgamesgd.moreminecrafts.mob.pyramid.PyramidMobGameTests",
       "dev.itzgamesgd.moreminecrafts.heaven.HeavenP37GameTests",
       "dev.itzgamesgd.moreminecrafts.heaven.HeavenP38GameTests",
-      "dev.itzgamesgd.moreminecrafts.mob.sky.HeavenHabitatGameTests"
+      "dev.itzgamesgd.moreminecrafts.mob.sky.HeavenHabitatGameTests",
+      "dev.itzgamesgd.moreminecrafts.mob.sky.HabitatPerfInstrumentation",
+      "dev.itzgamesgd.moreminecrafts.mob.sky.HabitatMaskGameTests"
     ],
     "fabric-client-gametest": [
       "dev.itzgamesgd.moreminecrafts.colosseum.St05Stage1dClientScenario",
