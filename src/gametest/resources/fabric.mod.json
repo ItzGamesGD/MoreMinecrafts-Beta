@@ -130,7 +130,9 @@
       "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryRestartGameTests",
       "dev.itzgamesgd.moreminecrafts.mob.sky.SkyVariantMobGameTests",
       "dev.itzgamesgd.moreminecrafts.mob.pyramid.PyramidMobGameTests",
-      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP37GameTests"
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP37GameTests",
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP38GameTests",
+      "dev.itzgamesgd.moreminecrafts.mob.sky.HeavenHabitatGameTests"
     ],
     "fabric-client-gametest": [
       "dev.itzgamesgd.moreminecrafts.colosseum.St05Stage1dClientScenario",
@@ -158,7 +160,8 @@
       "dev.itzgamesgd.moreminecrafts.heaven.HeavenP3ClientCapture",
       "dev.itzgamesgd.moreminecrafts.heaven.HeavenP35ClientCapture",
       "dev.itzgamesgd.moreminecrafts.heaven.HeavenP36ClientCapture",
-      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP37ClientCapture"
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP37ClientCapture",
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP38ClientCapture"
     ]
   },
   "mixins": [

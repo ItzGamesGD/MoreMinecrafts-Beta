@@ -57,10 +57,10 @@ public final class HeavenP38ClientCapture implements FabricClientGameTest {
             // ---- 1) six heaven islands, chunk by chunk like world generation
             server.runOnServer(s -> { for (Site site : SITES) starts.add(HeavenP38GameTests.assemble(s.overworld(), site.theme(), site.name(), site.at()).start()); });
             context.waitTicks(60);
-            for (int i = 0; i < SITES.size(); i++) { orbit(context, server, starts.get(i).getBoundingBox(), 200); snap(context, shot, SITES.get(i).theme() + "-" + SITES.get(i).name() + "-day"); }
+            for (int i = 0; i < SITES.size(); i++) { orbit(context, server, starts.get(i).getPieces().getFirst().getBoundingBox(), 200); snap(context, shot, SITES.get(i).theme() + "-" + SITES.get(i).name() + "-day"); }
             for (int i : new int[]{1, 5}) {
                 server.runOnServer(s -> cmd(s, "time set midnight"));
-                orbit(context, server, starts.get(i).getBoundingBox(), 160); snap(context, shot, SITES.get(i).theme() + "-" + SITES.get(i).name() + "-night");
+                orbit(context, server, starts.get(i).getPieces().getFirst().getBoundingBox(), 160); snap(context, shot, SITES.get(i).theme() + "-" + SITES.get(i).name() + "-night");
                 server.runOnServer(s -> cmd(s, "time set noon"));
             }
             for (int i = 0; i < SITES.size(); i++) { BoundingBox b = starts.get(i).getBoundingBox(); before.add(server.computeOnServer(s -> HeavenP38GameTests.scan(s.overworld(), b).hash() + "")); beforeCounts.add(server.computeOnServer(s -> HeavenP38GameTests.scan(s.overworld(), b).counts())); }
@@ -136,7 +136,7 @@ public final class HeavenP38ClientCapture implements FabricClientGameTest {
             }));
             look(context, server, new BlockPos(PARTIAL.getX() + 40, 230, PARTIAL.getZ() - 60), new BlockPos(PARTIAL.getX() + 50, 170, PARTIAL.getZ() + 50), 200);
             snap(context, shot, "partial-A-overwrite-seam");
-            for (int i = 0; i < SITES.size(); i++) { orbit(context, server, starts.get(i).getBoundingBox(), 120); if (i == 1 || i == 3) snap(context, shot, SITES.get(i).theme() + "-" + SITES.get(i).name() + "-after-reload"); }
+            for (int i = 0; i < SITES.size(); i++) { orbit(context, server, starts.get(i).getPieces().getFirst().getBoundingBox(), 120); if (i == 1 || i == 3) snap(context, shot, SITES.get(i).theme() + "-" + SITES.get(i).name() + "-after-reload"); }
         }
         System.out.println("HEAVEN_P38_CLIENT " + report);
         System.out.println("HEAVEN_P38_CAPTURE_COMPLETE " + shot[0]);
@@ -152,8 +152,8 @@ public final class HeavenP38ClientCapture implements FabricClientGameTest {
     private static int diff(int[] a, int[] b) { int n = 0; for (int i = 0; i < a.length; i++) if (a[i] != b[i]) n++; return n; }
 
     private static void orbit(ClientGameTestContext context, TestServerContext server, BoundingBox b, int wait) {
-        double cx = (b.minX() + b.maxX()) / 2.0, cy = (b.minY() + b.maxY()) / 2.0, cz = (b.minZ() + b.maxZ()) / 2.0, d = Math.max(b.getXSpan(), b.getZSpan()) * 0.9 + 25;
-        look(context, server, new BlockPos((int) (cx - d * 0.45), (int) (cy + d * 0.55), (int) (cz - d * 0.9)), new BlockPos((int) cx, (int) (cy - 4), (int) cz), wait);
+        double cx = (b.minX() + b.maxX()) / 2.0, cy = (b.minY() + b.maxY()) / 2.0, cz = (b.minZ() + b.maxZ()) / 2.0, d = Math.max(b.getXSpan(), b.getZSpan()) * 0.8 + 18;
+        look(context, server, new BlockPos((int) (cx - d * 0.5), (int) (cy + d * 0.45), (int) (cz - d * 0.9)), new BlockPos((int) cx, (int) (cy - b.getYSpan() * 0.2), (int) cz), wait);
     }
 
     private static void setup(ClientGameTestContext context, TestServerContext server) {
