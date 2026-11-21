@@ -1,0 +1,44 @@
+{
+ "start_pool": "moreminecrafts:sky_islands/meadow/start",
+ "pools_visited": [
+  "moreminecrafts:sky_islands/meadow/satellite",
+  "moreminecrafts:sky_islands/meadow/start",
+  "moreminecrafts:sky_islands/meadow/tower_top",
+  "moreminecrafts:sky_islands/ruins_top",
+  "moreminecrafts:sky_islands/temple_top"
+ ],
+ "reachable_heaven_templates": 19,
+ "reachable_vanilla_meadow_island_templates": [],
+ "shared_functional_pieces": [
+  "moreminecrafts:sky_islands/ruins_a",
+  "moreminecrafts:sky_islands/ruins_b",
+  "moreminecrafts:sky_islands/ruins_c",
+  "moreminecrafts:sky_islands/ruins_d",
+  "moreminecrafts:sky_islands/temple"
+ ],
+ "unresolved_jigsaw_pools": [],
+ "files_touched": {
+  "A_overwrite_in_place": {
+   "nbt": 114,
+   "pool_json": 0,
+   "structure_json": 0,
+   "structure_set": 0,
+   "java": 0
+  },
+  "B_coexist_new_structures": {
+   "nbt": 114,
+   "pool_json": 26,
+   "structure_json": 8,
+   "structure_set": 2,
+   "biome_tag": 8,
+   "java": "SkyIslandHabitat IDS (+8), tests"
+  },
+  "D_repoint_pools": {
+   "nbt": 114,
+   "pool_json": 18,
+   "structure_json": 0,
+   "structure_set": 0,
+   "java": 0
+  }
+ }
+}

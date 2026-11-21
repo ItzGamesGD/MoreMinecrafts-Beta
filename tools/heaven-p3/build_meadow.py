@@ -239,7 +239,8 @@ class Island:
         return c
 
     # ---------------------------------------------------------------- V5 recipe
-    def build(self):
+    def build(self, tree_rate=2.0, tree_spacing=8):
+        """tree_rate = trees per 807 plantable columns (V5: 2); tree_spacing = minimum tree-tree distance (V5: 8)."""
         area = int(self.plant.sum())
         # giants (F10 trial)
         req = 0 if area < 150 else max(1, round(area / GIANT_AREA))
@@ -257,13 +258,14 @@ class Island:
             self.giants.append((x, z, kind)); self.occ[x, z] = 2; self.mark(x, z, 2, 1)
         self.giant_req = req; self.giant_feasible = feasible
         # trees (V5: 2 per 807 columns, spacing 8 incl. giants)
-        treq = round(area * 2 / V5_COLUMNS)
+        treq = round(area * tree_rate / V5_COLUMNS)
         self.trees = []
         kinds = ['tree_blossom', 'tree_white']
         for (x, z) in self.candidates(3, 3):
             if len(self.trees) >= treq: break
             if not self.free(x, z, 1): continue
-            if any((x - a) ** 2 + (z - b) ** 2 < 64 for a, b, _ in self.giants + self.trees): continue
+            if any((x - a) ** 2 + (z - b) ** 2 < 64 for a, b, _ in self.giants): continue
+            if any((x - a) ** 2 + (z - b) ** 2 < tree_spacing ** 2 for a, b, _ in self.trees): continue
             kind = kinds[len(self.trees) % 2]
             why = self.try_plant(kind, 'tree', x, z)
             if why: self.reasons['tree:' + why] += 1; continue
