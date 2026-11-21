@@ -1,0 +1,432 @@
+{
+ "lil_out": {
+  "P3": {
+   "colours": 13,
+   "mean": [
+    240.6,
+    138.4,
+    30.1
+   ],
+   "std": 4.3,
+   "colours_per_4x4_tile": 1.0
+  },
+  "v5_colour": "#f08a1e",
+  "T1": {
+   "colours": 58,
+   "mean": [
+    239.8,
+    138.0,
+    30.0
+   ],
+   "std": 5.5,
+   "colours_per_4x4_tile": 12.62
+  },
+  "T2": {
+   "colours": 101,
+   "mean": [
+    237.6,
+    138.0,
+    30.0
+   ],
+   "std": 12.0,
+   "colours_per_4x4_tile": 14.12
+  },
+  "T3": {
+   "colours": 131,
+   "mean": [
+    236.5,
+    138.0,
+    30.0
+   ],
+   "std": 20.4,
+   "colours_per_4x4_tile": 14.38
+  }
+ },
+ "lil_in": {
+  "P3": {
+   "colours": 12,
+   "mean": [
+    251.8,
+    175.2,
+    58.3
+   ],
+   "std": 4.6,
+   "colours_per_4x4_tile": 1.0
+  },
+  "v5_colour": "#ffae3a",
+  "T1": {
+   "colours": 52,
+   "mean": [
+    250.9,
+    174.0,
+    58.0
+   ],
+   "std": 5.0,
+   "colours_per_4x4_tile": 12.69
+  },
+  "T2": {
+   "colours": 84,
+   "mean": [
+    245.0,
+    174.0,
+    58.0
+   ],
+   "std": 12.5,
+   "colours_per_4x4_tile": 13.75
+  },
+  "T3": {
+   "colours": 133,
+   "mean": [
+    246.1,
+    174.0,
+    58.0
+   ],
+   "std": 19.8,
+   "colours_per_4x4_tile": 14.69
+  }
+ },
+ "lil_spot": {
+  "P3": {
+   "colours": 9,
+   "mean": [
+    185.9,
+    69.8,
+    26.6
+   ],
+   "std": 2.9,
+   "colours_per_4x4_tile": 1.0
+  },
+  "v5_colour": "#b5441a",
+  "T1": {
+   "colours": 47,
+   "mean": [
+    181.0,
+    68.0,
+    26.0
+   ],
+   "std": 3.8,
+   "colours_per_4x4_tile": 12.0
+  },
+  "T2": {
+   "colours": 81,
+   "mean": [
+    181.0,
+    68.0,
+    26.0
+   ],
+   "std": 8.9,
+   "colours_per_4x4_tile": 13.75
+  },
+  "T3": {
+   "colours": 121,
+   "mean": [
+    181.0,
+    68.0,
+    26.0
+   ],
+   "std": 19.4,
+   "colours_per_4x4_tile": 14.5
+  }
+ },
+ "leaf": {
+  "P3": {
+   "colours": 12,
+   "mean": [
+    78.9,
+    173.8,
+    56.0
+   ],
+   "std": 4.2,
+   "colours_per_4x4_tile": 1.0
+  },
+  "v5_colour": "#4fae38",
+  "T1": {
+   "colours": 51,
+   "mean": [
+    79.0,
+    174.0,
+    56.0
+   ],
+   "std": 4.1,
+   "colours_per_4x4_tile": 12.56
+  },
+  "T2": {
+   "colours": 77,
+   "mean": [
+    79.0,
+    174.0,
+    56.0
+   ],
+   "std": 7.8,
+   "colours_per_4x4_tile": 13.81
+  },
+  "T3": {
+   "colours": 78,
+   "mean": [
+    79.0,
+    174.0,
+    56.0
+   ],
+   "std": 17.4,
+   "colours_per_4x4_tile": 13.31
+  }
+ },
+ "leaf_lt": {
+  "P3": {
+   "colours": 14,
+   "mean": [
+    106.5,
+    193.4,
+    73.1
+   ],
+   "std": 4.7,
+   "colours_per_4x4_tile": 1.0
+  },
+  "v5_colour": "#6cc44a",
+  "T1": {
+   "colours": 61,
+   "mean": [
+    108.0,
+    196.0,
+    74.0
+   ],
+   "std": 5.0,
+   "colours_per_4x4_tile": 13.12
+  },
+  "T2": {
+   "colours": 89,
+   "mean": [
+    108.0,
+    196.0,
+    74.0
+   ],
+   "std": 9.5,
+   "colours_per_4x4_tile": 13.81
+  },
+  "T3": {
+   "colours": 100,
+   "mean": [
+    108.0,
+    196.0,
+    74.0
+   ],
+   "std": 18.1,
+   "colours_per_4x4_tile": 13.62
+  }
+ },
+ "vein": {
+  "P3": {
+   "colours": 13,
+   "mean": [
+    145.4,
+    217.4,
+    102.5
+   ],
+   "std": 5.1,
+   "colours_per_4x4_tile": 1.0
+  },
+  "v5_colour": "#8fd665",
+  "T1": {
+   "colours": 64,
+   "mean": [
+    143.0,
+    214.0,
+    101.0
+   ],
+   "std": 5.9,
+   "colours_per_4x4_tile": 13.19
+  },
+  "T2": {
+   "colours": 101,
+   "mean": [
+    143.0,
+    214.0,
+    101.0
+   ],
+   "std": 11.6,
+   "colours_per_4x4_tile": 13.88
+  },
+  "T3": {
+   "colours": 113,
+   "mean": [
+    143.0,
+    213.9,
+    101.0
+   ],
+   "std": 17.3,
+   "colours_per_4x4_tile": 14.12
+  }
+ },
+ "stem": {
+  "P3": {
+   "colours": 13,
+   "mean": [
+    78.0,
+    151.9,
+    50.2
+   ],
+   "std": 4.0,
+   "colours_per_4x4_tile": 1.0
+  },
+  "v5_colour": "#4f9a33",
+  "T1": {
+   "colours": 42,
+   "mean": [
+    79.0,
+    154.0,
+    51.0
+   ],
+   "std": 3.8,
+   "colours_per_4x4_tile": 13.06
+  },
+  "T2": {
+   "colours": 67,
+   "mean": [
+    79.0,
+    154.0,
+    51.0
+   ],
+   "std": 8.1,
+   "colours_per_4x4_tile": 14.25
+  },
+  "T3": {
+   "colours": 89,
+   "mean": [
+    79.0,
+    154.0,
+    51.0
+   ],
+   "std": 10.0,
+   "colours_per_4x4_tile": 14.69
+  }
+ },
+ "stem_dk": {
+  "P3": {
+   "colours": 14,
+   "mean": [
+    60.8,
+    126.2,
+    38.8
+   ],
+   "std": 3.8,
+   "colours_per_4x4_tile": 1.0
+  },
+  "v5_colour": "#3d7f27",
+  "T1": {
+   "colours": 41,
+   "mean": [
+    61.0,
+    127.0,
+    39.0
+   ],
+   "std": 3.1,
+   "colours_per_4x4_tile": 11.94
+  },
+  "T2": {
+   "colours": 76,
+   "mean": [
+    61.0,
+    127.0,
+    39.0
+   ],
+   "std": 6.9,
+   "colours_per_4x4_tile": 13.88
+  },
+  "T3": {
+   "colours": 82,
+   "mean": [
+    61.0,
+    127.0,
+    39.0
+   ],
+   "std": 8.5,
+   "colours_per_4x4_tile": 14.25
+  }
+ },
+ "fil": {
+  "P3": {
+   "colours": 14,
+   "mean": [
+    217.2,
+    231.5,
+    161.1
+   ],
+   "std": 7.4,
+   "colours_per_4x4_tile": 1.0
+  },
+  "v5_colour": "#d8e6a0",
+  "T1": {
+   "colours": 73,
+   "mean": [
+    216.0,
+    230.0,
+    160.0
+   ],
+   "std": 8.2,
+   "colours_per_4x4_tile": 13.81
+  },
+  "T2": {
+   "colours": 100,
+   "mean": [
+    216.0,
+    229.8,
+    160.0
+   ],
+   "std": 13.3,
+   "colours_per_4x4_tile": 15.31
+  },
+  "T3": {
+   "colours": 120,
+   "mean": [
+    216.0,
+    230.1,
+    160.0
+   ],
+   "std": 16.0,
+   "colours_per_4x4_tile": 14.94
+  }
+ },
+ "anther": {
+  "P3": {
+   "colours": 12,
+   "mean": [
+    122.3,
+    58.1,
+    18.0
+   ],
+   "std": 2.5,
+   "colours_per_4x4_tile": 1.0
+  },
+  "v5_colour": "#7a3a12",
+  "T1": {
+   "colours": 36,
+   "mean": [
+    122.0,
+    58.0,
+    18.0
+   ],
+   "std": 2.9,
+   "colours_per_4x4_tile": 10.69
+  },
+  "T2": {
+   "colours": 70,
+   "mean": [
+    122.0,
+    58.0,
+    18.0
+   ],
+   "std": 18.0,
+   "colours_per_4x4_tile": 13.38
+  },
+  "T3": {
+   "colours": 38,
+   "mean": [
+    122.0,
+    58.0,
+    17.9
+   ],
+   "std": 27.9,
+   "colours_per_4x4_tile": 10.62
+  }
+ }
+}

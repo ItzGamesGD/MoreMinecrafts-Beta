@@ -93,7 +93,8 @@ def noise2(shape, seed, cells=6):
 def attached_footprints():
     """Pool -> list of (template size, jigsaw pos inside it) of every piece the pool can attach."""
     pools = {}
-    for f in ('ruins_top', 'temple_top', 'meadow/tower_top', 'meadow/satellite'):
+    for f in ('ruins_top', 'temple_top') + tuple(f'{t}/{k}' for t in ('meadow', 'forest', 'snowy', 'desert', 'badlands', 'rocky')
+                                                 for k in ('tower_top', 'satellite')):
         j = json.load(open(f'{D}/worldgen/template_pool/sky_islands/{f}.json'))
         pieces = []
         for e in j['elements']:
@@ -112,6 +113,7 @@ class Island:
         self.name = name; self.theme = theme
         SLOT = slot or globals()['SLOT']; VANILLA_VEG = veg or globals()['VANILLA_VEG']
         self.slot = SLOT
+        self.terrain_out = set(SLOT.values())     # terrain after conversion (a slot may keep a vanilla id: still terrain)
         self.nbt, self.src = load(f'{SRC}/{theme}/{name}.nbt')
         self.size = [int(v) for v in self.nbt['size']]
         X, Y, Z = self.size
@@ -156,7 +158,7 @@ class Island:
             if p[1] > self.top[p[0], p[2]]: self.top[p[0], p[2]] = p[1]; self.topb[(p[0], p[2])] = bid
         self.foot = np.zeros((X, Z), bool)
         for p, (bid, _, _) in self.world.items():
-            if bid in TERRAIN_OUT: self.foot[p[0], p[2]] = True
+            if bid in self.terrain_out: self.foot[p[0], p[2]] = True
         self.grass = np.zeros((X, Z), bool); self.water = np.zeros((X, Z), bool)
         for (x, z), bid in self.topb.items():
             if bid == GRASS and self.top[x, z] + 2 < Y: self.grass[x, z] = True
@@ -167,7 +169,7 @@ class Island:
         xs, zs = np.ogrid[:X, :Z]
         self.mask = np.zeros((X, Z), bool); self.attach = np.zeros((X, Z), bool)
         for p, (bid, _, _) in self.world.items():
-            if bid not in TERRAIN_OUT and bid not in ('minecraft:water', 'minecraft:jigsaw', 'minecraft:air'):
+            if bid not in self.terrain_out and bid not in ('minecraft:water', 'minecraft:jigsaw', 'minecraft:air'):
                 self.mask[max(0, p[0] - 2):p[0] + 3, max(0, p[2] - 2):p[2] + 3] = True
         self.mask_parts = collections.Counter()
         for p, props, nn in self.jigsaws:
@@ -338,7 +340,7 @@ class Island:
             run = []
             for i in range(want):
                 q = (a, y - i, b); behind = (x, y - i, z)
-                if not self.air(q) or self.world.get(behind, ('',))[0] not in TERRAIN_OUT: break
+                if not self.air(q) or self.world.get(behind, ('',))[0] not in self.terrain_out: break
                 run.append(q)
             if not run: continue
             seg = canon[:len(run) - 1] + canon[-1:]                     # P2: last segment is always the tip
@@ -353,7 +355,7 @@ class Island:
             if p in self.veg: return self.veg[p][0]
             return self.world.get(p, ('minecraft:air',))[0]
         DIR = {'north': (0, 0, -1), 'south': (0, 0, 1), 'east': (1, 0, 0), 'west': (-1, 0, 0)}
-        sturdy = TERRAIN_OUT | {'minecraft:oak_log', 'minecraft:cherry_leaves', f'{NS}:heaven_white_blossom_leaves'}
+        sturdy = self.terrain_out | {'minecraft:oak_log', 'minecraft:cherry_leaves', f'{NS}:heaven_white_blossom_leaves'}
         bad = collections.Counter()
         for p, (bid, pr, fam) in self.veg.items():
             below = at((p[0], p[1] - 1, p[2])); above = at((p[0], p[1] + 1, p[2]))
@@ -361,10 +363,10 @@ class Island:
                 if below not in (GRASS, f'{NS}:heaven_loam'): bad[fam] += 1
             elif bid.endswith('heaven_vine'):
                 d = DIR[pr['facing']]
-                if at((p[0] + d[0], p[1], p[2] + d[2])) not in TERRAIN_OUT and above != bid: bad['vine'] += 1
+                if at((p[0] + d[0], p[1], p[2] + d[2])) not in self.terrain_out and above != bid: bad['vine'] += 1
             elif bid.endswith('heaven_wisteria'):
                 d = DIR[pr['facing']]
-                if at((p[0] + d[0], p[1], p[2] + d[2])) not in TERRAIN_OUT and above != bid and above not in sturdy: bad['wisteria'] += 1
+                if at((p[0] + d[0], p[1], p[2] + d[2])) not in self.terrain_out and above != bid and above not in sturdy: bad['wisteria'] += 1
         for (x, z, kind) in self.giants:
             if at((x, int(self.top[x, z]), z)) != GRASS: bad['giant_root'] += 1
         return dict(bad)
