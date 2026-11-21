@@ -16,7 +16,7 @@
 | 저장 오류 | **다른 MoreMinecrafts 시스템(ST05 콜로세움) 관련.** 경기장 상태 JSON이 NBT 문자열 한도 65,535바이트를 넘는다. 천국 하늘섬과는 무관하며 근거는 §4에 있다 |
 | 꽃 텍스처 | 단색 원인 확정: 4×4픽셀 칸마다 한 색인 텍스처를 4픽셀 복셀 면이 정확히 한 칸씩 표시한다. T1·T2·T3 시안을 대표 꽃(거대 백합) 재질 10종으로 만들고 실제 클라이언트에서 비교했다(격리 리소스팩) |
 | forest 준비 | 19개 조사 완료. **meadow와 형상이 다름**(겹침 67–95%). 생성기 재사용 가능. 팔레트(포드졸·이끼 조약돌)는 오너 결정 필요 |
-| 회귀 | §7 |
+| 회귀 | GameTest 739/739, JUnit 802/802, BUILD SUCCESSFUL |
 
 ---
 
@@ -288,7 +288,10 @@
 
 ### 7.1 자동 테스트
 
-REGRESSION_PLACEHOLDER
+| 실행 | 결과 |
+|---|---|
+| `./gradlew test build` (GameTest 월드 삭제 후, 최종 코드) | **GameTest 739/739** (P3 736 + 신규 3), **JUnit 802/802** (P3 797 + 신규 5), BUILD SUCCESSFUL |
+| 실제 클라이언트 `HeavenP35ClientCapture` | BUILD SUCCESSFUL, 스크린샷 40장 |
 
 신규 테스트:
 
@@ -297,7 +300,7 @@ REGRESSION_PLACEHOLDER
 | GameTest `giantFlowersKeepShapeAndBreakInEveryRotation` | 3종 × 4방향: 칸·방향·실루엣·높이·연쇄·인접 보호·드롭 1회 |
 | GameTest `heavenPoolsAssembleOnlyHeavenPiecesAndKeepFunctionalStructures` | 천국판 조립 4사례 + 대조군 |
 | GameTest `g4SmallPlantsWashAwayAndG5FlammabilityScope` | 바닐라 대조군과 함께 물(실제 물 흐름), 흰꽃 잎·벚꽃잎·원목 가연성 범위 |
-| JUnit `HeavenP35ResourceTest` (6) | 거대 blockstate 회전 규약, G4 태그 정확성, 연결용 템플릿이 pool 외 동일, 테스트 리소스가 프로덕션에서 격리, 시안 평균색 유지, 권위 문서 기록 |
+| JUnit `HeavenP35ResourceTest` (5) | 거대 blockstate 회전 규약, G4 태그 정확성, 연결용 템플릿이 pool 외 동일, 테스트 리소스가 프로덕션에서 격리, 시안 평균색 유지, 권위 문서 기록 |
 
 기존 P3 테스트 중 블록 틱에 의존하는 2개(`f6EveryGiantSpecies…`, `f8HeavenVegetationNeedsSupport`)는 사용하는 청크를 강제 로드하도록 고쳤다. P3.5 1차 실행에서 틱이 돌지 않는 청크 때문에 실패했었다.
 
