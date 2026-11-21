@@ -130,7 +130,7 @@ public final class HeavenWorldgenProbe implements ModInitializer {
                 int vanilla = 0; for (String f : FORBIDDEN) vanilla += counts.getOrDefault(f, 0);
                 int heaven = 0; for (var e : counts.entrySet()) if (e.getKey().startsWith("heaven_")) heaven += e.getValue();
                 row.put("fingerprint", Long.toHexString(h)); row.put("blocks", counts.values().stream().mapToInt(Integer::intValue).sum());
-                row.put("vanilla_theme_blocks", vanilla); row.put("heaven_blocks", heaven); row.put("jigsaw_left", counts.getOrDefault("jigsaw", 0));
+                row.put("vanilla_theme_blocks", vanilla); Map<String, Integer> vd = new TreeMap<>(); for (String f : FORBIDDEN) if (counts.containsKey(f)) vd.put(f, counts.get(f)); row.put("vanilla_theme_detail", vd); row.put("heaven_blocks", heaven); row.put("jigsaw_left", counts.getOrDefault("jigsaw", 0));
                 row.put("vault", counts.getOrDefault("vault", 0)); row.put("trial_spawner", counts.getOrDefault("trial_spawner", 0));
                 if (compare != null && compare.has(target)) {
                     var c = compare.getAsJsonObject(target);
