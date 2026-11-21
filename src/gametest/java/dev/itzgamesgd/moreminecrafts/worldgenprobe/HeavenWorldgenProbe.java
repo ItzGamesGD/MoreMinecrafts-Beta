@@ -75,14 +75,22 @@ public final class HeavenWorldgenProbe implements ModInitializer {
         var registry = level.registryAccess().lookupOrThrow(Registries.STRUCTURE);
         var gen = level.getChunkSource().getGenerator();
         Map<String, Object> islands = new LinkedHashMap<>(); doc.put("islands", islands);
-        for (String target : System.getProperty("mm.heaven.targets", "meadow,forest").split(",")) {
-            Identifier sid = Identifier.parse("moreminecrafts:sky_island_" + target);
+        int siteCount = Integer.getInteger("mm.heaven.sites", 1);
+        List<String[]> work = new ArrayList<>();
+        for (String t : System.getProperty("mm.heaven.targets", "meadow,forest").split(",")) for (int k = 0; k < siteCount; k++) work.add(new String[]{t, String.valueOf(k)});
+        for (String[] w : work) {
+            String base = w[0]; int k = Integer.parseInt(w[1]); String target = k == 0 ? base : base + "#" + k;
+            Identifier sid = Identifier.parse("moreminecrafts:sky_island_" + base);
             long t0 = System.currentTimeMillis();
             if (!sites.has(target)) {
                 var holder = registry.get(sid).orElseThrow();
-                var found = gen.findNearestMapStructure(level, HolderSet.direct(holder), BlockPos.ZERO, radius, false);
+                double ang = k * 2.399963, rr = 900.0 * Math.sqrt(k);   // golden-angle spiral of search origins -> distinct nearby starts
+                var found = gen.findNearestMapStructure(level, HolderSet.direct(holder), new BlockPos((int) (Math.cos(ang) * rr), 0, (int) (Math.sin(ang) * rr)), radius, false);
                 if (found == null) { islands.put(target, "no start within " + radius + " chunks"); continue; }
-                sites.addProperty(target, found.getFirst().getX() + "," + found.getFirst().getZ());
+                String key = found.getFirst().getX() + "," + found.getFirst().getZ(); boolean dup = false;
+                for (var e : sites.entrySet()) if (e.getKey().equals(base) || e.getKey().startsWith(base + "#")) dup |= e.getValue().getAsString().equals(key);
+                if (dup) { islands.put(target, "duplicate of an earlier site"); continue; }
+                sites.addProperty(target, key);
             }
             String[] xz = sites.get(target).getAsString().split(","); ChunkPos sc = new ChunkPos(Integer.parseInt(xz[0]) >> 4, Integer.parseInt(xz[1]) >> 4);
             Map<String, Object> row = new LinkedHashMap<>(); islands.put(target, row);
@@ -110,8 +118,13 @@ public final class HeavenWorldgenProbe implements ModInitializer {
             boolean complete = !mode.equals("west") && !mode.equals("none");
             if (complete || mode.equals("none")) {
                 Map<String, Integer> counts = new TreeMap<>(); long h = 1125899906842597L;
-                for (BlockPos p : BlockPos.betweenClosed(box.minX(), box.minY(), box.minZ(), box.maxX(), box.maxY(), box.maxZ())) {
-                    var s = level.getBlockState(p); if (s.isAir()) continue;
+                // only cells inside this start's own piece boxes (the start box can also contain natural terrain), each cell once
+                java.util.Set<Long> seen = new java.util.HashSet<>(); java.util.List<Long> order = new ArrayList<>();
+                for (var piece : start.getPieces()) { BoundingBox pb = piece.getBoundingBox();
+                    for (BlockPos p : BlockPos.betweenClosed(pb.minX(), pb.minY(), pb.minZ(), pb.maxX(), pb.maxY(), pb.maxZ())) if (seen.add(p.asLong())) order.add(p.asLong()); }
+                java.util.Collections.sort(order);
+                for (long pl : order) {
+                    BlockPos p = BlockPos.of(pl); var s = level.getBlockState(p); if (s.isAir()) continue;
                     counts.merge(BuiltInRegistries.BLOCK.getKey(s.getBlock()).getPath(), 1, Integer::sum); h = 31 * h + p.asLong() * 17L + s.toString().hashCode();
                 }
                 int vanilla = 0; for (String f : FORBIDDEN) vanilla += counts.getOrDefault(f, 0);
@@ -124,7 +137,14 @@ public final class HeavenWorldgenProbe implements ModInitializer {
                     row.put("fingerprint_equal_to_" + System.getProperty("mm.heaven.compareName", "compare"), c.has("fingerprint") && c.get("fingerprint").getAsString().equals(Long.toHexString(h)));
                 }
                 // Habitat on standable cells (below solid, feet and head free)
-                int standable = 0, support = 0, regionOk = 0;
+                Map<String, Integer> be = new TreeMap<>(); int lootContainers = 0;
+                for (ChunkPos cp : generated) for (var e : level.getChunk(cp.x(), cp.z()).getBlockEntities().entrySet()) {
+                    BlockPos bp = e.getKey(); if (!box.isInside(bp)) continue;
+                    String id = BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(e.getValue().getType()).getPath(); be.merge(id, 1, Integer::sum);
+                    if (e.getValue() instanceof net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity rc && rc.getLootTable() != null) lootContainers++;
+                }
+                row.put("block_entities", be); row.put("loot_table_containers", lootContainers);
+                int standable = 0, support = 0, regionOk = 0; long habFirstNs = -1, habMaxNs = 0;
                 for (int x = box.minX(); x <= box.maxX(); x += 2) for (int z = box.minZ(); z <= box.maxZ(); z += 2) {
                     for (int y = box.maxY(); y >= box.minY() + 1; y--) {
                         BlockPos feet = new BlockPos(x, y, z);
@@ -132,11 +152,13 @@ public final class HeavenWorldgenProbe implements ModInitializer {
                         if (!below.isSolid() || !level.getBlockState(feet).getCollisionShape(level, feet).isEmpty() || !level.getFluidState(feet).isEmpty()
                                 || !level.getBlockState(feet.above()).getCollisionShape(level, feet.above()).isEmpty()) continue;
                         standable++;
-                        if (SkyIslandHabitat.find(level, feet).isPresent()) { support++; if (SkySpawnRules.allows(level, feet, EntitySpawnReason.NATURAL)) regionOk++; }
+                        long hn = System.nanoTime(); boolean hab = SkyIslandHabitat.find(level, feet).isPresent(); hn = System.nanoTime() - hn;
+                        if (habFirstNs < 0) habFirstNs = hn; habMaxNs = Math.max(habMaxNs, hn);
+                        if (hab) { support++; if (SkySpawnRules.allows(level, feet, EntitySpawnReason.NATURAL)) regionOk++; }
                         break;
                     }
                 }
-                row.put("standable_columns", standable); row.put("habitat_support", support); row.put("natural_spawn_gate_open", regionOk);
+                row.put("standable_columns", standable); row.put("habitat_support", support); row.put("habitat_first_call_ms", habFirstNs / 1e6); row.put("habitat_max_call_ms", habMaxNs / 1e6); row.put("natural_spawn_gate_open", regionOk);
             }
             if (spawn > 0 && complete) {
                 // No player exists on this dedicated probe, so NaturalSpawner's player-distance gate can never pass; the per-position natural

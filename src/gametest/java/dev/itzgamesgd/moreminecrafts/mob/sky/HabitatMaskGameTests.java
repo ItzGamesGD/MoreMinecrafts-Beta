@@ -32,7 +32,7 @@ public final class HabitatMaskGameTests implements CustomTestMethodInvoker {
             "plain_medium_e", "plain_small_a", "plain_small_b", "plain_small_c", "plain_small_d", "ruins", "satellite_a", "satellite_b", "temple", "tower");
 
     /** The pre-P3.9 algorithm, membership only (a HashSet; the immutable copy was only a performance wrapper). */
-    private static Set<BlockPos> reference(ServerLevel level, StructureTemplate key) {
+    static Set<BlockPos> reference(ServerLevel level, StructureTemplate key) {
         CompoundTag tag = key.save(new CompoundTag());
         var palette = tag.getListOrEmpty("palette");
         boolean[] solid = new boolean[palette.size()], connector = new boolean[palette.size()];

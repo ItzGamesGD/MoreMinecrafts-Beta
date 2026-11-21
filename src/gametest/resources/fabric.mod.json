@@ -22,6 +22,7 @@
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyTowerPhase2Probe",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.SpiderColonyProbe",
       "dev.itzgamesgd.moreminecrafts.heaven.HeavenP35TexturePacks",
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP310Packs",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.HeavenWorldgenProbe"
     ],
     "fabric-gametest": [
@@ -135,7 +136,8 @@
       "dev.itzgamesgd.moreminecrafts.heaven.HeavenP38GameTests",
       "dev.itzgamesgd.moreminecrafts.mob.sky.HeavenHabitatGameTests",
       "dev.itzgamesgd.moreminecrafts.mob.sky.HabitatPerfInstrumentation",
-      "dev.itzgamesgd.moreminecrafts.mob.sky.HabitatMaskGameTests"
+      "dev.itzgamesgd.moreminecrafts.mob.sky.HabitatMaskGameTests",
+      "dev.itzgamesgd.moreminecrafts.mob.sky.HabitatBeforeAfterGameTests"
     ],
     "fabric-client-gametest": [
       "dev.itzgamesgd.moreminecrafts.colosseum.St05Stage1dClientScenario",
@@ -164,7 +166,8 @@
       "dev.itzgamesgd.moreminecrafts.heaven.HeavenP35ClientCapture",
       "dev.itzgamesgd.moreminecrafts.heaven.HeavenP36ClientCapture",
       "dev.itzgamesgd.moreminecrafts.heaven.HeavenP37ClientCapture",
-      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP38ClientCapture"
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP38ClientCapture",
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP310RealPlayerSpawn"
     ]
   },
   "mixins": [
