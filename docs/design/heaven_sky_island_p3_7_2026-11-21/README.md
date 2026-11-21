@@ -178,7 +178,11 @@ forest **원본**에서 생성했다(초원 천국판 복사 아님). 같은 생
 
 ## 3. 검증
 
-REGRESSION_PLACEHOLDER
+| 실행 | 결과 |
+|---|---|
+| `./gradlew test build` (GameTest 월드 삭제 후) | **GameTest 740/740** (P3.6 739 + 신규 1), **JUnit 804/804** (802 + 신규 2), BUILD SUCCESSFUL |
+| 참고 | 첫 전체 실행에서 `spider_colony…unloaded_chunk_keeps_mother_health…` 1건이 실패했다. 해당 계열만 단독 실행하면 16/16 통과, 전체를 다시 실행하면 740/740 통과였다. 부하에 따른 간헐 실패로 보이며 이번 변경과 관련이 없다(원인 조사는 범위 밖) |
+| 실제 클라이언트 `HeavenP37ClientCapture` | BUILD SUCCESSFUL, 스크린샷 20장 (이 중 대형 섬 눈높이 4장은 비교에 쓰지 않음) |
 
 ## 4. 미해결 문제와 승인 요청
 
