@@ -81,14 +81,31 @@ def state():
     return s
 
 
+def targets(selection):
+    """P3.11: theme selection. 'meadow' (mountain_meadow follows it: it shares sky_islands/meadow/start), 'forest' or 'all'."""
+    if selection not in ('meadow', 'forest', 'all'): sys.exit(f"theme must be one of meadow, forest, all (got {selection!r})")
+    return [t for t in THEMES if selection in ('all', t)]
+
+
+def change(mode, themes, dry):
+    """apply/revert for the chosen themes. Refuses (changes nothing) when any target is neither pristine-vanilla nor exactly the pending text."""
+    plan = []
+    for t in themes:
+        for p in POOLS:
+            live = f'{LIVE}/{t}/{p}.json'; pending = open(f'{PENDING}/{t}/{p}.json').read(); vanilla = revert_text(pending, t); cur = open(live).read()
+            if cur not in (pending, vanilla): sys.exit(f'REFUSED: {t}/{p} is neither the vanilla nor the pending pool; nothing changed')
+            want = pending if mode == 'apply' else vanilla
+            plan.append((live, cur, want, f'{t}/{p}'))
+    for live, cur, want, name in plan:
+        print(('would ' if dry else '') + (f'change {name}' if cur != want else f'keep   {name} (already {mode}ed state)'))
+        if not dry and cur != want: open(live, 'w').write(want)
+
+
 if __name__ == '__main__':
     mode = sys.argv[1] if len(sys.argv) > 1 else 'generate'
     if mode == 'generate': generate()
     elif mode == 'status': print(json.dumps(state(), indent=1))
     elif mode in ('apply', 'revert'):
-        for t in THEMES:
-            for p in POOLS:
-                live = f'{LIVE}/{t}/{p}.json'
-                text = open(f'{PENDING}/{t}/{p}.json').read() if mode == 'apply' else revert_text(open(live).read(), t)
-                open(live, 'w').write(text)
+        if len(sys.argv) < 3: sys.exit(f'usage: pending_pools.py {mode} <meadow|forest|all> [--dry-run]')
+        change(mode, targets(sys.argv[2]), '--dry-run' in sys.argv)
         print(mode, json.dumps(state()))
