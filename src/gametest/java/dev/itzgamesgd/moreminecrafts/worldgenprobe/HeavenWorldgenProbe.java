@@ -145,6 +145,8 @@ public final class HeavenWorldgenProbe implements ModInitializer {
                     if (e.getValue() instanceof net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity rc && rc.getLootTable() != null) lootContainers++;
                 }
                 row.put("block_entities", be); row.put("loot_table_containers", lootContainers);
+                String bedump = System.getProperty("mm.heaven.bedump");      // P3.13: "map" = membership only (no access), "full" = also force/inspect every block entity
+                if (bedump != null) row.put("bedump", dumpBlockEntities(level, box, generated, bedump.equals("full")));
                 if (Boolean.getBoolean("mm.heaven.trace")) { List<String> pos = new ArrayList<>(); for (ChunkPos cp : generated) for (var e : level.getChunk(cp.x(), cp.z()).getBlockEntities().entrySet()) { String id = BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(e.getValue().getType()).getPath(); if (box.isInside(e.getKey()) && (id.equals("vault") || id.equals("trial_spawner") || id.equals("chest"))) pos.add(id + "@" + e.getKey().getX() + "," + e.getKey().getY() + "," + e.getKey().getZ() + " chunkX=" + cp.x()); } java.util.Collections.sort(pos); row.put("block_entity_positions", pos); row.put("mid_chunk_x_used", mid); }
                 int standable = 0, support = 0, regionOk = 0; long habFirstNs = -1, habMaxNs = 0;
                 for (int x = box.minX(); x <= box.maxX(); x += 2) for (int z = box.minZ(); z <= box.maxZ(); z += 2) {
@@ -208,6 +210,34 @@ public final class HeavenWorldgenProbe implements ModInitializer {
             if (samples.size() < 6 && classes.get(cls) <= 2) samples.add(n + "@" + p.getX() + "," + p.getY() + "," + p.getZ() + " " + cls + " surface=" + sh);
         }
         Map<String, Object> out = new LinkedHashMap<>(); out.put("pieces", pieces); out.put("classes", classes); out.put("by_block", byBlock); out.put("y_range", minY + ".." + maxY); out.put("samples", samples);
+        return out;
+    }
+
+    /** P3.13: for every block that has a block entity inside the box: is it in the chunk's block-entity map BEFORE any access, does level.getBlockEntity() (which promotes
+     *  pending NBT or lazily creates a default one) return one, and a hash of its full NBT. Block existence and block-entity data are reported separately. */
+    private static List<String> dumpBlockEntities(ServerLevel level, BoundingBox box, List<ChunkPos> chunks, boolean access) {
+        record Cand(BlockPos p, String blk, boolean inMap, String chunk) {}
+        List<Cand> cands = new ArrayList<>();
+        for (ChunkPos cp : chunks) {
+            var ch = level.getChunk(cp.x(), cp.z()); var map = ch.getBlockEntities();
+            for (int x = Math.max(box.minX(), cp.getMinBlockX()); x <= Math.min(box.maxX(), cp.getMaxBlockX()); x++)
+                for (int z = Math.max(box.minZ(), cp.getMinBlockZ()); z <= Math.min(box.maxZ(), cp.getMaxBlockZ()); z++)
+                    for (int y = box.minY(); y <= box.maxY(); y++) {
+                        BlockPos p = new BlockPos(x, y, z); var st = ch.getBlockState(p);
+                        if (st.hasBlockEntity()) cands.add(new Cand(p, BuiltInRegistries.BLOCK.getKey(st.getBlock()).getPath(), map.containsKey(p), ch.getClass().getSimpleName() + "/" + ch.getPersistedStatus()));
+                    }
+        }
+        List<String> out = new ArrayList<>();
+        for (Cand c : cands) {
+            String created = "-", hash = "-";
+            if (access) {
+                var be = level.getBlockEntity(c.p());
+                created = be != null ? "yes" : "NO";
+                if (be != null) { var tag = be.saveWithFullMetadata(level.registryAccess()); hash = Integer.toHexString(tag.toString().hashCode()) + "/" + tag.toString().length(); }
+            }
+            out.add(c.p().getX() + "," + c.p().getY() + "," + c.p().getZ() + " " + c.blk() + " inMap=" + c.inMap() + " access=" + created + " nbt=" + hash + " " + c.chunk());
+        }
+        java.util.Collections.sort(out);
         return out;
     }
 }
