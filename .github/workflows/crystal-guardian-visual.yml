@@ -1,6 +1,9 @@
 name: Crystal Guardian Visual Capture
 
 on:
+  push:
+    branches:
+      - claude/ancient-crystal-guardian-poc-lkc0ra
   workflow_dispatch:
 
 permissions:
