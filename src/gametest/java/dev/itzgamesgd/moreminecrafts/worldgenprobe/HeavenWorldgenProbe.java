@@ -80,7 +80,7 @@ public final class HeavenWorldgenProbe implements ModInitializer {
         for (String t : System.getProperty("mm.heaven.targets", "meadow,forest").split(",")) for (int k = 0; k < siteCount; k++) work.add(new String[]{t, String.valueOf(k)});
         for (String[] w : work) {
             String base = w[0]; int k = Integer.parseInt(w[1]); String target = k == 0 ? base : base + "#" + k;
-            Identifier sid = Identifier.parse("moreminecrafts:sky_island_" + base);
+            Identifier sid = Identifier.parse(base.contains(":") ? base : "moreminecrafts:sky_island_" + base);
             long t0 = System.currentTimeMillis();
             if (!sites.has(target)) {
                 var holder = registry.get(sid).orElseThrow();
