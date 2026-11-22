@@ -1,0 +1,2 @@
+HEAVEN_P313_NBT vault gametime=0 {components:{},config:{key_item:{count:1,id:"minecraft:trial_key"},loot_table:"moreminecrafts:chests/sky_islands/vault"},id:"minecraft:vault",server_data:{},shared_data:{},x:-2199,y:156,z:1332}
+HEAVEN_P313_NBT trial_spawner gametime=0 {components:{},id:"minecraft:trial_spawner",normal_config:"moreminecrafts:sky_islands/shulker/normal",ominous_config:"moreminecrafts:sky_islands/shulker/ominous",x:-2191,y:155,z:1332}

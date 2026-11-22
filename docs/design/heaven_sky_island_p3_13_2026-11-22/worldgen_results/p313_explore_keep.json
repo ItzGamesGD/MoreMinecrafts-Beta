@@ -1,0 +1,104 @@
+{
+  "sites": {
+    "forest#6": {
+      "box": "81x45x57",
+      "A_west_t40": {
+        "island_chunks": 30,
+        "loaded_island_chunks": 30,
+        "blocks_needing_BE_in_loaded_chunks": 8,
+        "of_which_BE_object_in_chunk_map": 8
+      },
+      "A_west_t340": {
+        "island_chunks": 30,
+        "loaded_island_chunks": 30,
+        "blocks_needing_BE_in_loaded_chunks": 8,
+        "of_which_BE_object_in_chunk_map": 8
+      },
+      "B_reopened_before_moving": {
+        "island_chunks": 30,
+        "loaded_island_chunks": 0,
+        "blocks_needing_BE_in_loaded_chunks": 0,
+        "of_which_BE_object_in_chunk_map": 0
+      },
+      "B_east_t40": {
+        "island_chunks": 30,
+        "loaded_island_chunks": 20,
+        "blocks_needing_BE_in_loaded_chunks": 5,
+        "of_which_BE_object_in_chunk_map": 5
+      },
+      "B_east_t340": {
+        "island_chunks": 30,
+        "loaded_island_chunks": 30,
+        "blocks_needing_BE_in_loaded_chunks": 8,
+        "of_which_BE_object_in_chunk_map": 8
+      },
+      "B_centre_t200": {
+        "island_chunks": 30,
+        "loaded_island_chunks": 30,
+        "blocks_needing_BE_in_loaded_chunks": 8,
+        "of_which_BE_object_in_chunk_map": 8
+      },
+      "final_blocks_with_BE": 8,
+      "reference_blocks_with_BE": 8,
+      "final_all_block_entities_exist": true,
+      "final_equals_reference_position_block_nbt": false,
+      "final_same_positions_and_block_ids": true,
+      "nbt_equal_by_kind": {
+        "chest": 4
+      },
+      "nbt_differs_by_kind": {
+        "trial_spawner": 2,
+        "vault": 2
+      }
+    },
+    "mountain_meadow#9": {
+      "box": "137x101x155",
+      "A_west_t40": {
+        "island_chunks": 100,
+        "loaded_island_chunks": 55,
+        "blocks_needing_BE_in_loaded_chunks": 24,
+        "of_which_BE_object_in_chunk_map": 24
+      },
+      "A_west_t340": {
+        "island_chunks": 100,
+        "loaded_island_chunks": 70,
+        "blocks_needing_BE_in_loaded_chunks": 24,
+        "of_which_BE_object_in_chunk_map": 24
+      },
+      "B_reopened_before_moving": {
+        "island_chunks": 100,
+        "loaded_island_chunks": 0,
+        "blocks_needing_BE_in_loaded_chunks": 0,
+        "of_which_BE_object_in_chunk_map": 0
+      },
+      "B_east_t40": {
+        "island_chunks": 100,
+        "loaded_island_chunks": 80,
+        "blocks_needing_BE_in_loaded_chunks": 24,
+        "of_which_BE_object_in_chunk_map": 24
+      },
+      "B_east_t340": {
+        "island_chunks": 100,
+        "loaded_island_chunks": 80,
+        "blocks_needing_BE_in_loaded_chunks": 24,
+        "of_which_BE_object_in_chunk_map": 24
+      },
+      "B_centre_t200": {
+        "island_chunks": 100,
+        "loaded_island_chunks": 100,
+        "blocks_needing_BE_in_loaded_chunks": 24,
+        "of_which_BE_object_in_chunk_map": 24
+      },
+      "final_blocks_with_BE": 24,
+      "reference_blocks_with_BE": 24,
+      "final_all_block_entities_exist": true,
+      "final_equals_reference_position_block_nbt": false,
+      "final_same_positions_and_block_ids": true,
+      "nbt_equal_by_kind": {},
+      "nbt_differs_by_kind": {
+        "trial_spawner": 16,
+        "vault": 8
+      }
+    }
+  }
+}
