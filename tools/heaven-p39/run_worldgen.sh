@@ -29,10 +29,12 @@ python3 -I - "$root" "$run" "$packs" <<'PY'
 import sys, os, shutil, json
 root, run, packs = sys.argv[1:4]
 dp = os.path.join(run, 'world', 'datapacks', 'heaven_pending'); shutil.rmtree(dp, ignore_errors=True)
-want = {'none': [], 'meadow': ['meadow'], 'forest': ['forest'], 'meadow+forest': ['meadow', 'forest']}[packs]
+old = packs.startswith('old:')   # P3.12: 'old:<themes>' = a data pack that restores the PRE-transition (vanilla) pools of those themes = simulates the old build for existing-world tests
+sel = packs[4:] if old else packs
+want = {'none': [], 'meadow': ['meadow'], 'forest': ['forest'], 'meadow+forest': ['meadow', 'forest']}[sel]
 if want:
     os.makedirs(dp); json.dump({"pack": {"description": "P3.9 isolated heaven pools", "min_format": [121, 0], "max_format": [121, 0]}}, open(dp + '/pack.mcmeta', 'w'))
-    src = os.path.join(root, 'src/main/resources/heaven_worldgen_pending/data/moreminecrafts/worldgen/template_pool/sky_islands')
+    src = os.path.join(root, 'docs/design/heaven_sky_island_p3_12_2026-11-22/backup_pre_p312/template_pool') if old else os.path.join(root, 'src/main/resources/heaven_worldgen_pending/data/moreminecrafts/worldgen/template_pool/sky_islands')
     for t in want: shutil.copytree(f'{src}/{t}', f'{dp}/data/moreminecrafts/worldgen/template_pool/sky_islands/{t}')
     # mountain_meadow shares sky_islands/meadow/* so it follows the meadow pools; nothing extra is written for it
 lv = os.path.join(run, 'world', 'level.dat')
