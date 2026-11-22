@@ -510,3 +510,8 @@ P3.7 검토 결과를 오너가 승인했다. 상세 비교와 검증은 [P3.7](
 **적용 시 함께 바뀌는 것(승인 시 확인 필요):** `sky_island_mountain_meadow`(바이옴 meadow·cherry_grove)가 `meadow/start` 풀을 공유하므로, meadow 풀을 교체하면 그 산악 변형의 섬도 천국판이 된다.
 
 **보류 유지:** F7(거대 꽃 드롭), G2(거대 꽃 최종 밀도), 나머지 4테마의 천국화 여부(§23.3), H7(ST05 콜로세움 저장 버그).
+
+### 23.6 2026-11-22 오너 승인 — 초원(+mountain_meadow)·forest 프로덕션 월드젠 전환 (P3.12)
+
+* 승인: meadow 먼저 전환·검증 후 forest 전환 / mountain_meadow는 `sky_islands/meadow/*` 공유 풀 때문에 meadow와 동반 전환 / 이미 생성된 청크·저장된 StructureStart는 변하지 않으며 롤백은 풀 파일 한정(월드 데이터는 복구되지 않음) / GameTest JVM 힙 6GB 유지 / F7(거대 꽃 드롭)·G2(거대 꽃 최종 밀도) 보류 유지.
+* 적용 내용: `pending_pools.py apply meadow`, `apply forest` — 각 테마 `start`·`satellite`·`tower_top` 3개 풀의 템플릿 위치만 `sky_islands/heaven/<theme>/<n>`으로 교체(풀 ID·가중치·fallback·구조물 ID/세트/확률/바이옴/스폰 규칙 불변). 나머지 4테마는 변경하지 않음. 전환 전 백업과 SHA-256: `docs/design/heaven_sky_island_p3_12_2026-11-22/backup_pre_p312/`.

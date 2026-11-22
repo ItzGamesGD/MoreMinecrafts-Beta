@@ -198,12 +198,14 @@ class HeavenP38ResourceTest {
     }
 
     @Test
-    void habitatPathPrefixAndNoWorldgenReferenceBeforeApproval() throws Exception {
+    void habitatPathPrefixAndWorldgenReferencesOnlyInTheApprovedPools() throws Exception {
         for (String t : THEMES) for (String n : NAMES) assertTrue(Files.exists(heaven(t, n)) && heaven(t, n).toString().replace('\\', '/').contains("structure/sky_islands/heaven/"), "template under sky_islands/");
         try (Stream<Path> files = Files.walk(RES.resolve("data"))) {
             for (Path f : files.filter(p -> p.toString().endsWith(".json")).toList()) {
                 String text = Files.readString(f);
-                assertFalse(text.contains("sky_islands/heaven/") && !f.toString().contains("/heaven/"), "live data references the production heaven templates: " + f);
+                String path = f.toString().replace('\\', '/');
+                boolean approvedPool = TRANSITIONED.stream().anyMatch(t -> path.endsWith("worldgen/template_pool/sky_islands/" + t + "/start.json") || path.endsWith("worldgen/template_pool/sky_islands/" + t + "/satellite.json") || path.endsWith("worldgen/template_pool/sky_islands/" + t + "/tower_top.json"));
+                assertEquals(approvedPool, text.contains("sky_islands/heaven/") && !path.contains("/heaven/"), "only the approved (transitioned) pools reference the production heaven templates: " + f);
             }
         }
     }

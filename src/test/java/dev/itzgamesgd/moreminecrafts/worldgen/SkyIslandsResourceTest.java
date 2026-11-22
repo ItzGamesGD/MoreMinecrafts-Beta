@@ -325,7 +325,9 @@ class SkyIslandsResourceTest {
             assertEquals(SMALL.size() + MEDIUM.size() + LARGE.size() + 2, weights.size(), style);
             JsonObject child = json("data/moreminecrafts/worldgen/template_pool/sky_islands/" + style + "/tower_top.json");
             assertEquals(1, child.getAsJsonArray("elements").size());
-            assertEquals("moreminecrafts:sky_islands/" + style + "/tower",
+            // P3.12: the approved transition repoints meadow / forest to the heaven templates (same names, same pool structure); other themes keep the original tower
+            String towerPath = java.util.Set.of("meadow", "forest").contains(style) ? "sky_islands/heaven/" + style + "/tower" : "sky_islands/" + style + "/tower";
+            assertEquals("moreminecrafts:" + towerPath,
                     child.getAsJsonArray("elements").get(0).getAsJsonObject().getAsJsonObject("element").get("location").getAsString());
         }
     }
