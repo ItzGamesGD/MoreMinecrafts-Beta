@@ -1,0 +1,164 @@
+{
+  "sites": {
+    "meadow": {
+      "box": "27x23x25",
+      "player_present": true,
+      "spawner_attempts_per_chunk": 300,
+      "spawned_total": 22,
+      "spawned_on_habitat": 1,
+      "spawned_by_type": {
+        "cave_bug": 1,
+        "cloud_slime": 1,
+        "creeper": 8,
+        "enderman": 1,
+        "skeleton": 3,
+        "spider": 1,
+        "zombie": 7
+      },
+      "natural_tick_mobs_in_box": 0,
+      "natural_tick_by_type": {}
+    },
+    "meadow#2": {
+      "box": "97x43x35",
+      "player_present": true,
+      "spawner_attempts_per_chunk": 300,
+      "spawned_total": 65,
+      "spawned_on_habitat": 9,
+      "spawned_by_type": {
+        "cloud_slime": 4,
+        "cloud_wraith": 1,
+        "creeper": 14,
+        "skeleton": 21,
+        "skyguard_archer": 2,
+        "spider": 12,
+        "zombie": 11
+      },
+      "natural_tick_mobs_in_box": 0,
+      "natural_tick_by_type": {}
+    },
+    "meadow#3": {
+      "box": "97x67x97",
+      "player_present": true,
+      "spawner_attempts_per_chunk": 300,
+      "spawned_total": 291,
+      "spawned_on_habitat": 22,
+      "spawned_by_type": {
+        "cave_bug": 1,
+        "cloud_slime": 9,
+        "creeper": 81,
+        "crystal_bug": 6,
+        "drowned": 1,
+        "enderman": 1,
+        "fallen_sentinel": 1,
+        "rock_creeper": 1,
+        "rotten_skeleton": 1,
+        "skeleton": 85,
+        "skyguard_archer": 1,
+        "spider": 35,
+        "zombie": 67,
+        "zombie_villager": 1
+      },
+      "natural_tick_mobs_in_box": 8,
+      "natural_tick_by_type": {
+        "cloud_slime": 2,
+        "cloud_wraith": 2,
+        "crystal_bug": 1,
+        "pale_enderman": 1,
+        "skyguard_archer": 1,
+        "spider": 1
+      }
+    },
+    "forest": {
+      "box": "25x24x27",
+      "player_present": true,
+      "spawner_attempts_per_chunk": 300,
+      "spawned_total": 51,
+      "spawned_on_habitat": 2,
+      "spawned_by_type": {
+        "cave_bug": 1,
+        "cave_zombie": 1,
+        "creeper": 15,
+        "enderman": 2,
+        "fallen_sentinel": 1,
+        "skeleton": 9,
+        "skyguard_archer": 1,
+        "spider": 1,
+        "sulfur_cube": 6,
+        "wandering_raider": 1,
+        "witch": 2,
+        "zombie": 11
+      },
+      "natural_tick_mobs_in_box": 0,
+      "natural_tick_by_type": {}
+    },
+    "forest#1": {
+      "box": "25x23x25",
+      "player_present": true,
+      "spawner_attempts_per_chunk": 300,
+      "spawned_total": 57,
+      "spawned_on_habitat": 4,
+      "spawned_by_type": {
+        "cave_skeleton": 2,
+        "cloud_slime": 2,
+        "creeper": 16,
+        "crystal_bug": 1,
+        "enderman": 1,
+        "skeleton": 18,
+        "spider": 8,
+        "zombie": 9
+      },
+      "natural_tick_mobs_in_box": 0,
+      "natural_tick_by_type": {}
+    },
+    "forest#3": {
+      "box": "151x43x35",
+      "player_present": true,
+      "spawner_attempts_per_chunk": 300,
+      "spawned_total": 233,
+      "spawned_on_habitat": 8,
+      "spawned_by_type": {
+        "azure_slime": 1,
+        "cave_zombie": 1,
+        "creeper": 55,
+        "crystal_bug": 3,
+        "enderman": 3,
+        "mossy_zombie": 1,
+        "pale_enderman": 1,
+        "rock_creeper": 1,
+        "rotten_skeleton": 6,
+        "skeleton": 63,
+        "skyguard_archer": 1,
+        "spider": 31,
+        "sulfur_cube": 1,
+        "witch": 1,
+        "zombie": 61,
+        "zombie_villager": 3
+      },
+      "natural_tick_mobs_in_box": 3,
+      "natural_tick_by_type": {
+        "cloud_slime": 1,
+        "cloud_wraith": 1,
+        "crystal_bug": 1
+      }
+    },
+    "mountain_meadow": {
+      "box": "23x24x27",
+      "player_present": true,
+      "spawner_attempts_per_chunk": 300,
+      "spawned_total": 45,
+      "spawned_on_habitat": 2,
+      "spawned_by_type": {
+        "cave_zombie": 1,
+        "cloud_slime": 1,
+        "creeper": 14,
+        "crystal_bug": 1,
+        "skeleton": 11,
+        "spider": 3,
+        "zombie": 14
+      },
+      "natural_tick_mobs_in_box": 0,
+      "natural_tick_by_type": {}
+    }
+  },
+  "packs": ""
+}
