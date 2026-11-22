@@ -145,6 +145,15 @@ public final class HeavenWorldgenProbe implements ModInitializer {
                     if (e.getValue() instanceof net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity rc && rc.getLootTable() != null) lootContainers++;
                 }
                 row.put("block_entities", be); row.put("loot_table_containers", lootContainers);
+                if (Integer.getInteger("mm.heaven.settle", 0) > 0) {   // P3.13: how many of the block entities are in the chunks' maps right after generation, and after the server has ticked
+                    Map<String, Object> over = new LinkedHashMap<>(); int done = 0;
+                    for (int step : new int[]{0, 1, 5, 20, 60}) {
+                        while (done < step) { level.tick(() -> true); done++; }
+                        int in = 0; for (ChunkPos cp : generated) for (var e : level.getChunk(cp.x(), cp.z()).getBlockEntities().entrySet()) if (box.isInside(e.getKey())) in++;
+                        over.put("after_" + step + "_ticks", in);
+                    }
+                    row.put("be_map_entries_over_ticks", over);
+                }
                 String bedump = System.getProperty("mm.heaven.bedump");      // P3.13: "map" = membership only (no access), "full" = also force/inspect every block entity
                 if (bedump != null) row.put("bedump", dumpBlockEntities(level, box, generated, bedump.equals("full")));
                 if (Boolean.getBoolean("mm.heaven.trace")) { List<String> pos = new ArrayList<>(); for (ChunkPos cp : generated) for (var e : level.getChunk(cp.x(), cp.z()).getBlockEntities().entrySet()) { String id = BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(e.getValue().getType()).getPath(); if (box.isInside(e.getKey()) && (id.equals("vault") || id.equals("trial_spawner") || id.equals("chest"))) pos.add(id + "@" + e.getKey().getX() + "," + e.getKey().getY() + "," + e.getKey().getZ() + " chunkX=" + cp.x()); } java.util.Collections.sort(pos); row.put("block_entity_positions", pos); row.put("mid_chunk_x_used", mid); }
