@@ -28,13 +28,15 @@ Reuse vanilla model families, movement, animation and AI with textures/minor sta
 - Royal antechamber / valuable treasure: Gilded Mummy with sparse supporting enemies.
 - **Boss chamber during boss encounter: Tomb Guardian only; no incidental mob waves or unavoidable adds.**
 
-These variants **replace** some of the previously proposed vanilla spawn allocations; do not automatically add their counts on top. The earlier 16–25 underground-mob range is a PROPOSAL, not an approved quota. Exact per-room counts, probabilities, difficulty scaling, spawn persistence and AI combat balance remain OPEN.
+These variants **replace** some of the previously proposed vanilla spawn allocations; do not automatically add their counts on top. The earlier 16–25 underground-mob range is a historical PROPOSAL, superseded by the owner decision below.
+
+**Natural spawning — owner decision (2026-11-21 sync):** No custom per-room spawn manager, quota, or persistence system is used. Like a normal vanilla structure, `st01_pyramid.json` (`spawn_overrides.monster` with `"bounding_box": "piece"`) acts as a **mob-pool filter** for the 8-mob pool (the 4 variants + Husk, Skeleton, Bogged, Spider; excluding Creeper, Camel/Zombie Horseman, etc.), and actual spawning follows **vanilla natural spawn rules**. Only the royal hall (boss room) excludes natural monster spawns (`St01RoyalHallNaturalSpawnMixin`).
 
 ## Loot design boundaries
 For now retain corresponding vanilla baseline drops for the four variants. A shared optional thematic trophy (e.g. old seal fragment) feeding the common Relic Catalyst recipe is a future proposal only; no new item or recipe approved here. No elite signature gear for these ordinary variants by default.
 
 ## Implementation boundary
-DESIGN ONLY: no gameplay code, entity registration, textures, recipes, loot tables, structure NBT, worldgen or tests changed. Prepare a later implementation brief only after owner requests it. Preserve separate release freeze and do not mark PRs Ready or merge.
+Merged into `checkpoint/grand-unified-20261116` (via `claude/pyramid-mummy-variants-fu6ijm`).
 
-## Conversion rule — owner decision 2026-11-14 (documentation sync)
-No water / powder-snow conversion rule is required. The variants are not converted (Husk-based → Zombie, Zombie-based → Drowned, Skeleton-based → Stray); they are left to die naturally. Code check (`origin/claude/pyramid-mummy-variants-fu6ijm`, commit `efce837`): `PyramidHusk.convertsInWater()` returns false, `PyramidZombie` blocks the Drowned conversion, `CryptArcher` extends `AbstractSkeleton` (no powder-snow Stray conversion), with GameTests per blocked conversion — **consistent with this decision**. Discrepancy reported, not fixed (doc-only task): `PyramidMobs` registers `Zombie.createAttributes()` for the Gilded Mummy (vanilla 20 HP); the owner-confirmed 28 HP is not found in that code. No other HP override was found either, which matches 20 HP for the other three.
+## Conversion rule & HP — owner decisions (2026-11-14 / 2026-11-21 sync)
+No water / powder-snow conversion rule is required. The variants are not converted (Husk-based → Zombie, Zombie-based → Drowned, Skeleton-based → Stray); they are left to die naturally. `PyramidHusk.convertsInWater()` returns false, `PyramidZombie` blocks the Drowned conversion, `CryptArcher` extends `AbstractSkeleton` (no powder-snow Stray conversion), with GameTests per blocked conversion. Gilded Mummy max health is 28 HP (`8721b199` in `PyramidMobs.java`); the other three variants keep vanilla 20 HP.
