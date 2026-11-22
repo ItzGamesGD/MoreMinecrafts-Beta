@@ -208,7 +208,9 @@ public final class HeavenP35GameTests implements CustomTestMethodInvoker {
             mixed += scan(level, m, 64, 30, 40).n("minecraft:grass_block");
         }
         out.put("unlinked_contrast_vanilla_grass", mixed);
-        ctx.assertTrue(mixed > 0, "the unlinked P3 template mixes in vanilla satellites (the problem G7 solves): " + out);
+        // P3.12: the approved transition repoints the live meadow satellite pool itself to the heaven templates, so even the unlinked P3 template (which still names
+        // moreminecrafts:sky_islands/meadow/satellite) now links heaven satellites. Before the transition this contrast was > 0 (the problem G7 solved in the test twin).
+        ctx.assertTrue(mixed == 0, "after the production transition the unlinked P3 template no longer mixes in vanilla satellites: " + out);
         // 4) ruins and temple keep their shared functional buildings
         BlockPos ru = base.offset(0, 0, 400);
         boolean okR = assemble(level, "moreminecrafts-gametest:heaven_link/meadow/test/ruins", "moreminecrafts:sky_top", ru, 3);
