@@ -52,6 +52,7 @@ public final class HeavenP313ClientRender implements FabricClientGameTest {
                     BlockPos eye = longX ? new BlockPos((int) cx, (int) (cy + up), (int) (cz - dist)) : new BlockPos((int) (cx - dist), (int) (cy + up), (int) cz);
                     BlockPos eye2 = longX ? new BlockPos((int) cx, (int) (cy + up), (int) (cz + dist)) : new BlockPos((int) (cx + dist), (int) (cy + up), (int) cz);
                     BlockPos look = new BlockPos((int) cx, (int) cy, (int) cz);
+                    System.out.println("HEAVEN_P313_RENDER " + target + " boxMin=" + bb.minX() + "," + bb.minY() + "," + bb.minZ() + " boxMax=" + bb.maxX() + "," + bb.maxY() + "," + bb.maxZ() + " eye=" + eye + " look=" + look);
                     if (target.equals("mountain_meadow#4")) {            // loading comparison: frame right after arrival (renderer not finished) vs after the renderer reports all sections built
                         server.runOnServer(s -> cmd(s, "time set noon"));
                         lookNoWait(ctx, server, eye, look); ctx.waitTicks(25);
@@ -63,6 +64,7 @@ public final class HeavenP313ClientRender implements FabricClientGameTest {
                         server.runOnServer(s -> cmd(s, when.equals("day") ? "time set noon" : "time set midnight"));
                         int waited = look(ctx, server, eye, look);
                         boolean done = ctx.computeOnClient(c -> c.levelRenderer.hasRenderedAllSections());
+                        System.out.println("HEAVEN_P313_RENDER " + target + " clientPlayer=" + ctx.computeOnClient(c -> c.player == null ? "null" : c.player.position() + " yaw=" + c.player.getYRot() + " pitch=" + c.player.getXRot()));
                         ctx.runOnClient(c -> c.gui.toastManager().clear());
                         System.out.println("HEAVEN_P313_RENDER " + target + " " + when + " box=" + bb.getXSpan() + "x" + bb.getYSpan() + "x" + bb.getZSpan() + " renderedAll=" + done + " waitedTicks=" + waited + " "
                                 + ctx.takeScreenshot("heaven-p313-%02d-%s-%s".formatted(shot[0]++, target.replace('#', '_'), when)));
