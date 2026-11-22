@@ -31,3 +31,9 @@ Classification of the P3.12 open items: block-entity "halves" = **probe problem*
 
 ## 4. Remaining limits (not defects)
 Single seed (42); spawn comparison qualitative (P3.10-P3.12); night frames only coarse; software renderer; other mods / datapacks editing sky-island pools untested; the transition itself stays irreversible for already generated chunks (rollback = pool files only).
+
+## 5. Regression
+`rm -rf build/run/gameTest/world && ./gradlew --no-daemon test build` on the final HEAD (6 GB game-test heap): **GameTest 749/749, JUnit green, BUILD SUCCESSFUL (10 min 11 s)**. The 6 production pool files are unchanged from P3.12 (`git diff` of `src/main` against P3.12 is empty).
+
+## 6. Completion
+All three P3.12 open items are explained by observation (probe timing artefact, test camera / chunk-tracking range, satellite design at a distance); no real world-data defect, no product change needed. P3.12 transition can be declared complete (see the verdict table in section 3).
