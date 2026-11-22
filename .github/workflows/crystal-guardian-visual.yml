@@ -1,0 +1,49 @@
+name: Crystal Guardian Visual Capture
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  crystal-guardian-visual:
+    name: crystal-guardian-visual
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Java 25
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "25"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Install Xvfb and Mesa dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers libvulkan1
+
+      - name: Run Client GameTest
+        env:
+          LIBGL_ALWAYS_SOFTWARE: "1"
+        run: |
+          xvfb-run -a -s "-screen 0 1920x1080x24 +extension GLX +render -noreset" \
+            ./gradlew runClientGameTest --args="--width 1920 --height 1080" --no-daemon
+
+      - name: Upload Crystal Guardian captures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: crystal-guardian-captures
+          path: |
+            build/run/clientGameTest/screenshots/
+            build/run/clientGameTest/crystal-guardian-evidence/
+          if-no-files-found: warn
