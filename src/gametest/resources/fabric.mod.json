@@ -169,7 +169,8 @@
       "dev.itzgamesgd.moreminecrafts.heaven.HeavenP38ClientCapture",
       "dev.itzgamesgd.moreminecrafts.heaven.HeavenP310RealPlayerSpawn",
       "dev.itzgamesgd.moreminecrafts.heaven.HeavenP312ClientRender",
-      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP313ClientRender"
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP313ClientRender",
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP313Exploration"
     ]
   },
   "mixins": [

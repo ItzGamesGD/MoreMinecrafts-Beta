@@ -224,7 +224,7 @@ public final class HeavenWorldgenProbe implements ModInitializer {
 
     /** P3.13: for every block that has a block entity inside the box: is it in the chunk's block-entity map BEFORE any access, does level.getBlockEntity() (which promotes
      *  pending NBT or lazily creates a default one) return one, and a hash of its full NBT. Block existence and block-entity data are reported separately. */
-    private static List<String> dumpBlockEntities(ServerLevel level, BoundingBox box, List<ChunkPos> chunks, boolean access) {
+    public static List<String> dumpBlockEntities(ServerLevel level, BoundingBox box, List<ChunkPos> chunks, boolean access) {
         record Cand(BlockPos p, String blk, boolean inMap, String chunk) {}
         List<Cand> cands = new ArrayList<>();
         for (ChunkPos cp : chunks) {
