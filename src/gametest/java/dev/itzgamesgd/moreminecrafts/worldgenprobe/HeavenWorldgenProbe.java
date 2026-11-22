@@ -127,6 +127,7 @@ public final class HeavenWorldgenProbe implements ModInitializer {
                     BlockPos p = BlockPos.of(pl); var s = level.getBlockState(p); if (s.isAir()) continue;
                     counts.merge(BuiltInRegistries.BLOCK.getKey(s.getBlock()).getPath(), 1, Integer::sum); h = 31 * h + p.asLong() * 17L + s.toString().hashCode();
                 }
+                if (Boolean.getBoolean("mm.heaven.trace")) row.put("vanilla_trace", traceVanilla(level, start, order, gen));
                 int vanilla = 0; for (String f : FORBIDDEN) vanilla += counts.getOrDefault(f, 0);
                 int heaven = 0; for (var e : counts.entrySet()) if (e.getKey().startsWith("heaven_")) heaven += e.getValue();
                 row.put("fingerprint", Long.toHexString(h)); row.put("blocks", counts.values().stream().mapToInt(Integer::intValue).sum());
@@ -180,5 +181,32 @@ public final class HeavenWorldgenProbe implements ModInitializer {
             }
         }
         Files.writeString(siteFile, new GsonBuilder().create().toJson(sites));
+    }
+
+    /** P3.11: where do the remaining vanilla-theme blocks come from? Each is classified by (a) is it a block of one of the start's own templates (transformed
+     *  with the piece rotation/position) and (b) is it at or below the natural (noise) terrain surface of its column. */
+    private static Map<String, Object> traceVanilla(ServerLevel level, StructureStart start, List<Long> order, net.minecraft.world.level.chunk.ChunkGenerator gen) {
+        java.util.Set<Long> templateCells = new java.util.HashSet<>(); List<String> pieces = new ArrayList<>();
+        for (var piece : start.getPieces()) if (piece instanceof PoolElementStructurePiece p && p.getElement() instanceof SinglePoolElement single) {
+            var tpl = level.getStructureTemplateManager().getOrCreate(single.getTemplateLocation()); var settings = new net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings().setRotation(p.getRotation());
+            var tag = tpl.save(new net.minecraft.nbt.CompoundTag()); var palette = tag.getListOrEmpty("palette"); BoundingBox pb = p.getBoundingBox();
+            pieces.add(single.getTemplateLocation() + " box=" + pb.minX() + "," + pb.minY() + "," + pb.minZ() + ".." + pb.maxX() + "," + pb.maxY() + "," + pb.maxZ());
+            for (var e : tag.getListOrEmpty("blocks")) if (e instanceof net.minecraft.nbt.CompoundTag b) {
+                int st = b.getIntOr("state", -1); var pos = b.getListOrEmpty("pos"); if (st < 0 || pos.size() != 3) continue;
+                if (palette.getCompoundOrEmpty(st).getStringOr("Name", "").equals("minecraft:air")) continue;
+                templateCells.add(net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.calculateRelativePosition(settings, new BlockPos(pos.getIntOr(0, 0), pos.getIntOr(1, 0), pos.getIntOr(2, 0))).offset(p.getPosition()).asLong());
+            }
+        }
+        var rs = level.getChunkSource().randomState(); Map<String, Integer> classes = new TreeMap<>(); Map<String, Integer> byBlock = new TreeMap<>(); List<String> samples = new ArrayList<>();
+        int minY = Integer.MAX_VALUE, maxY = Integer.MIN_VALUE; Map<Long, Integer> surf = new java.util.HashMap<>();
+        for (long pl : order) {
+            BlockPos p = BlockPos.of(pl); String n = BuiltInRegistries.BLOCK.getKey(level.getBlockState(p).getBlock()).getPath(); if (!FORBIDDEN.contains(n)) continue;
+            int sh = surf.computeIfAbsent(((long) p.getX() << 32) ^ (p.getZ() & 0xffffffffL), k -> gen.getBaseHeight(p.getX(), p.getZ(), net.minecraft.world.level.levelgen.Heightmap.Types.WORLD_SURFACE_WG, level, rs));
+            String cls = (templateCells.contains(pl) ? "in_template" : "not_template") + "/" + (p.getY() < sh ? "below_natural_surface" : "at_or_above_natural_surface");
+            classes.merge(cls, 1, Integer::sum); byBlock.merge(n, 1, Integer::sum); minY = Math.min(minY, p.getY()); maxY = Math.max(maxY, p.getY());
+            if (samples.size() < 6 && classes.get(cls) <= 2) samples.add(n + "@" + p.getX() + "," + p.getY() + "," + p.getZ() + " " + cls + " surface=" + sh);
+        }
+        Map<String, Object> out = new LinkedHashMap<>(); out.put("pieces", pieces); out.put("classes", classes); out.put("by_block", byBlock); out.put("y_range", minY + ".." + maxY); out.put("samples", samples);
+        return out;
     }
 }

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # P3.9 isolated real-worldgen stage runner (NOT production; touches only build/heaven-worldgen/). Needs JAVA_HOME = JDK 25.
-# usage: run_worldgen.sh <world-name> <seed> <packs: none|meadow|meadow+forest> <targets csv> <mode all|west|east|none> <spawn-attempts> <label> [compare-json]
+# usage: run_worldgen.sh <world-name> <seed> <packs: none|meadow|forest|meadow+forest> <targets csv> <mode all|west|east|none> <spawn-attempts> <label> [compare-json]
 # The world's data pack (copy of heaven_worldgen_pending/, i.e. the D-option pool JSONs) is written into <world>/datapacks and enabled in level.dat
 # before the server starts, so worldgen registries load with the pools exactly as a production transition would at the next world load.
 set -euo pipefail
@@ -29,7 +29,7 @@ python3 -I - "$root" "$run" "$packs" <<'PY'
 import sys, os, shutil, json
 root, run, packs = sys.argv[1:4]
 dp = os.path.join(run, 'world', 'datapacks', 'heaven_pending'); shutil.rmtree(dp, ignore_errors=True)
-want = {'none': [], 'meadow': ['meadow'], 'meadow+forest': ['meadow', 'forest']}[packs]
+want = {'none': [], 'meadow': ['meadow'], 'forest': ['forest'], 'meadow+forest': ['meadow', 'forest']}[packs]
 if want:
     os.makedirs(dp); json.dump({"pack": {"description": "P3.9 isolated heaven pools", "min_format": [121, 0], "max_format": [121, 0]}}, open(dp + '/pack.mcmeta', 'w'))
     src = os.path.join(root, 'src/main/resources/heaven_worldgen_pending/data/moreminecrafts/worldgen/template_pool/sky_islands')
