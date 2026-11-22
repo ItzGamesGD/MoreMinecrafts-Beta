@@ -37,9 +37,9 @@ public final class HeavenP313ClientRender implements FabricClientGameTest {
             props.setProperty("spawn-animals", "false"); props.setProperty("spawn-monsters", "false");
             try (TestDedicatedServerContext server = ctx.worldBuilder().setUseConsistentSettings(false).adjustSettings(st -> st.setSeed("42")).createServer(props);
                  var connection = server.connect()) {
-                ctx.runOnClient(c -> { if (!c.gui.hud.isHidden()) c.gui.hud.toggle(); c.options.renderDistance().set(12); });
+                ctx.runOnClient(c -> { if (!c.gui.hud.isHidden()) c.gui.hud.toggle(); c.options.renderDistance().set(16); });
                 server.runOnServer(s -> { for (String c : new String[]{"gamerule doDaylightCycle false", "gamerule doWeatherCycle false", "weather clear", "gamerule randomTickSpeed 0"}) cmd(s, c);
-                    s.getPlayerList().getPlayers().getFirst().setGameMode(GameType.SPECTATOR); });
+                    s.getPlayerList().getPlayers().getFirst().setGameMode(GameType.SPECTATOR); s.getPlayerList().setViewDistance(16); });
                 for (String target : want) {
                     if (!sites.has(target)) { System.out.println("HEAVEN_P313_RENDER " + target + " site missing"); continue; }
                     String[] xz = sites.get(target).getAsString().split(","); int sx = Integer.parseInt(xz[0]), sz = Integer.parseInt(xz[1]); String base = target.split("#")[0];
