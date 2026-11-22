@@ -38,4 +38,10 @@ Scope (unchanged): rollback restores files / future generation only; chunks alre
 Seed 42 only; spawn-rate equivalence qualitative only; the OOM cause is an assessed heap-pressure explanation (histograms, no dominator analysis of the 5.7 GB dump); production switch cannot be undone for already generated chunks; mountain_meadow cannot be switched independently of meadow (shared pool); other mods / datapacks that edit sky-island pools are untested.
 
 ## 6. Full regression
-(see the final section appended after the runs)
+`rm -rf build/run/gameTest/world && ./gradlew --no-daemon test build`, three consecutive complete runs with the 6 GB game-test heap: **749/749 GameTests, JUnit green, BUILD SUCCESSFUL each time** (9 min 4 s with GC logging, 9 min 21 s, 9 min 13 s); no OutOfMemoryError in any of them (before: OOM in 2 of 2 runs with the 3.4 GB default - one failing the build, one non-fatal).
+Three passes are evidence of stability, not proof: the OOM was timing dependent, and the 6 GB limit gives ~2.7 GB headroom over the observed peak live set (~3.3 GB).
+
+## 7. Independent readiness
+* **meadow (+ mountain_meadow): READY, pending owner approval.** P3.10 (11 + 5 natural sites) all checks pass; the meadow#1 residue is natural terrain.
+* **forest: READY, pending owner approval, and independently appliable** - forest-only transition verified on 9 forest sites (heaven 9/9, meadow and mountain_meadow stay vanilla, reload / partial generation / Habitat / real-player spawning checked).
+Approvals needed before applying: (1) which theme(s): `pending_pools.py apply forest|meadow|all`; (2) accept that mountain_meadow cannot be switched without meadow; (3) accept that already generated chunks / saved starts are not converted and that rollback is file-only; (4) accept the OOM explanation as heap pressure (not a leak) and the 6 GB test-JVM setting; (5) F7 / G2 stay deferred; (6) optional: more seeds and a statistical spawn-rate run.
