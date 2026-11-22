@@ -80,3 +80,7 @@ Single seed (42); spawn-rate equivalence unproven statistically; production swit
 * **meadow: READY for production transition, pending owner approval** (11 natural sites, all checks pass; mountain_meadow follows).
 * **forest: READY for production transition, pending owner approval**; it can be applied independently of meadow (forest-only pools were not run alone, but forest pools share no pool with meadow; the meadow-only stage left every forest island vanilla).
 Approvals needed: (1) run `pending_pools.py apply` for the chosen theme(s) (6 files; forest-only/meadow-only application needs the script to take a theme argument, not done yet); (2) accept that mountain_meadow follows meadow; (3) accept that already generated chunks and saved starts stay as they are and cannot be converted; (4) keep F7 / G2 deferred; (5) optionally a statistical spawn-rate run.
+
+## 8. Full regression
+`rm -rf build/run/gameTest/world && ./gradlew --no-daemon test build`: second run **GameTest 749/749 passed, BUILD SUCCESSFUL (11 min 21 s)**, JUnit incl. `HeavenP310ResourceTest` and the P3.8 worldgen-baseline test.
+The first run failed with `java.lang.OutOfMemoryError: Java heap space` inside the game-test JVM during the unrelated xpq mock-player tests (no heaven / Habitat test was running); an identical rerun passed. Reported as an unexplained heap-pressure flake, not investigated further (out of scope; P3.9's regression passed on the same setup).
