@@ -224,6 +224,7 @@ public final class HeavenWorldgenProbe implements ModInitializer {
 
     /** P3.13: for every block that has a block entity inside the box: is it in the chunk's block-entity map BEFORE any access, does level.getBlockEntity() (which promotes
      *  pending NBT or lazily creates a default one) return one, and a hash of its full NBT. Block existence and block-entity data are reported separately. */
+    private static final java.util.Set<String> SAMPLED = new java.util.HashSet<>();
     public static List<String> dumpBlockEntities(ServerLevel level, BoundingBox box, List<ChunkPos> chunks, boolean access) {
         record Cand(BlockPos p, String blk, boolean inMap, String chunk) {}
         List<Cand> cands = new ArrayList<>();
@@ -242,7 +243,7 @@ public final class HeavenWorldgenProbe implements ModInitializer {
             if (access) {
                 var be = level.getBlockEntity(c.p());
                 created = be != null ? "yes" : "NO";
-                if (be != null) { var tag = be.saveWithFullMetadata(level.registryAccess()); hash = Integer.toHexString(tag.toString().hashCode()) + "/" + tag.toString().length(); }
+                if (be != null) { var tag = be.saveWithFullMetadata(level.registryAccess()); if (Boolean.getBoolean("mm.heaven.nbtlog") && (c.blk().equals("trial_spawner") || c.blk().equals("vault")) && SAMPLED.add(c.blk())) System.out.println("HEAVEN_P313_NBT " + c.blk() + " gametime=" + level.getGameTime() + " " + tag); hash = Integer.toHexString(tag.toString().hashCode()) + "/" + tag.toString().length(); }
             }
             out.add(c.p().getX() + "," + c.p().getY() + "," + c.p().getZ() + " " + c.blk() + " inMap=" + c.inMap() + " access=" + created + " nbt=" + hash + " " + c.chunk());
         }
