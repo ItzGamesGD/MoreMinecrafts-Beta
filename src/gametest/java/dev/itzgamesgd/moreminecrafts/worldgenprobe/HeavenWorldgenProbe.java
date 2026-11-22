@@ -145,6 +145,7 @@ public final class HeavenWorldgenProbe implements ModInitializer {
                     if (e.getValue() instanceof net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity rc && rc.getLootTable() != null) lootContainers++;
                 }
                 row.put("block_entities", be); row.put("loot_table_containers", lootContainers);
+                if (Boolean.getBoolean("mm.heaven.trace")) { List<String> pos = new ArrayList<>(); for (ChunkPos cp : generated) for (var e : level.getChunk(cp.x(), cp.z()).getBlockEntities().entrySet()) { String id = BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(e.getValue().getType()).getPath(); if (box.isInside(e.getKey()) && (id.equals("vault") || id.equals("trial_spawner") || id.equals("chest"))) pos.add(id + "@" + e.getKey().getX() + "," + e.getKey().getY() + "," + e.getKey().getZ() + " chunkX=" + cp.x()); } java.util.Collections.sort(pos); row.put("block_entity_positions", pos); row.put("mid_chunk_x_used", mid); }
                 int standable = 0, support = 0, regionOk = 0; long habFirstNs = -1, habMaxNs = 0;
                 for (int x = box.minX(); x <= box.maxX(); x += 2) for (int z = box.minZ(); z <= box.maxZ(); z += 2) {
                     for (int y = box.maxY(); y >= box.minY() + 1; y--) {
