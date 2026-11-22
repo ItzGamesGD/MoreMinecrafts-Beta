@@ -13,6 +13,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
+import java.util.List;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
@@ -67,6 +69,16 @@ public final class HeavenP313ClientRender implements FabricClientGameTest {
                         { final BoundingBox fbb = bb;   // client vs server block census inside the island box (every 3rd cell): is the data on the client at all?
                           int[] cl = ctx.computeOnClient(c -> census(c.level, fbb)); int[] sv = server.computeOnServer(s -> census(s.overworld(), fbb));
                           System.out.println("HEAVEN_P313_RENDER " + target + " census client[nonAir=" + cl[0] + " heavenBlocks=" + cl[1] + " chunksPresent=" + cl[2] + "] server[nonAir=" + sv[0] + " heavenBlocks=" + sv[1] + " chunksPresent=" + sv[2] + "]"); }
+                        if (Boolean.getBoolean("mm.heaven.p313.census") && when.equals("day")) {      // is the island data ever delivered to the client? per-chunk detail + repeated census
+                            for (int r = 0; r < 6; r++) {
+                                ctx.waitTicks(100); int[] cl2 = ctx.computeOnClient(c -> census(c.level, fbb2(bb))); int[] sv2 = server.computeOnServer(s -> census(s.overworld(), fbb2(bb)));
+                                System.out.println("HEAVEN_P313_RENDER " + target + " census+" + (r + 1) * 100 + "ticks client[nonAir=" + cl2[0] + "] server[nonAir=" + sv2[0] + "]");
+                            }
+                            List<String> perChunk = server.computeOnServer(s -> perChunk(s, fbb2(bb)));
+                            List<String> perClient = ctx.computeOnClient(c -> perChunkClient(c.level, fbb2(bb)));
+                            System.out.println("HEAVEN_P313_RENDER " + target + " perChunk(server: chunk nonAir trackedByPlayer status) " + perChunk);
+                            System.out.println("HEAVEN_P313_RENDER " + target + " perChunk(client: chunk nonAir) " + perClient);
+                        }
                         System.out.println("HEAVEN_P313_RENDER " + target + " clientPlayer=" + ctx.computeOnClient(c -> c.player == null ? "null" : c.player.position() + " yaw=" + c.player.getYRot() + " pitch=" + c.player.getXRot()));
                         ctx.runOnClient(c -> c.gui.toastManager().clear());
                         System.out.println("HEAVEN_P313_RENDER " + target + " " + when + " box=" + bb.getXSpan() + "x" + bb.getYSpan() + "x" + bb.getZSpan() + " renderedAll=" + done + " waitedTicks=" + waited + " "
@@ -83,7 +95,7 @@ public final class HeavenP313ClientRender implements FabricClientGameTest {
     }
 
     private static int[] box(MinecraftServer s, String base, int sx, int sz) {
-        var level = s.overworld(); var registry = level.registryAccess().lookupOrThrow(Registries.STRUCTURE); Identifier sid = Identifier.parse("moreminecrafts:sky_island_" + base);
+        var level = s.overworld(); var registry = level.registryAccess().lookupOrThrow(Registries.STRUCTURE); Identifier sid = Identifier.parse(base.contains(":") ? base : "moreminecrafts:sky_island_" + base);
         int cx = sx >> 4, cz = sz >> 4; level.getChunk(cx, cz, ChunkStatus.FULL, true);
         for (var st : level.structureManager().startsForStructure(cx, cz, x -> registry.getKey(x) != null && registry.getKey(x).equals(sid))) {
             BoundingBox b = st.getBoundingBox();
@@ -91,6 +103,28 @@ public final class HeavenP313ClientRender implements FabricClientGameTest {
             return new int[]{b.minX(), b.minY(), b.minZ(), b.maxX(), b.maxY(), b.maxZ()};
         }
         return null;
+    }
+
+    private static BoundingBox fbb2(BoundingBox b) { return b; }
+
+    private static List<String> perChunk(MinecraftServer s, BoundingBox b) {
+        var level = s.overworld(); var player = s.getPlayerList().getPlayers().getFirst(); List<String> out = new java.util.ArrayList<>();
+        for (int cx = b.minX() >> 4; cx <= b.maxX() >> 4; cx++) for (int cz = b.minZ() >> 4; cz <= b.maxZ() >> 4; cz++) {
+            var ch = level.getChunkSource().getChunkNow(cx, cz); int n = 0;
+            if (ch != null) for (int x = cx << 4; x < (cx << 4) + 16; x += 3) for (int z = cz << 4; z < (cz << 4) + 16; z += 3) for (int y = b.minY(); y <= b.maxY(); y += 3) if (!ch.getBlockState(new BlockPos(x, y, z)).isAir()) n++;
+            out.add(cx + "," + cz + " " + (ch == null ? "unloaded" : n) + " tracked=" + player.getChunkTrackingView().contains(new ChunkPos(cx, cz)) + " " + (ch == null ? "-" : ch.getPersistedStatus()));
+        }
+        return out;
+    }
+
+    private static List<String> perChunkClient(net.minecraft.world.level.Level level, BoundingBox b) {
+        List<String> out = new java.util.ArrayList<>();
+        for (int cx = b.minX() >> 4; cx <= b.maxX() >> 4; cx++) for (int cz = b.minZ() >> 4; cz <= b.maxZ() >> 4; cz++) {
+            int n = 0; boolean has = level.hasChunk(cx, cz);
+            if (has) for (int x = cx << 4; x < (cx << 4) + 16; x += 3) for (int z = cz << 4; z < (cz << 4) + 16; z += 3) for (int y = b.minY(); y <= b.maxY(); y += 3) if (!level.getBlockState(new BlockPos(x, y, z)).isAir()) n++;
+            out.add(cx + "," + cz + " " + (has ? n : "absent"));
+        }
+        return out;
     }
 
     private static int[] census(net.minecraft.world.level.Level level, BoundingBox b) {
