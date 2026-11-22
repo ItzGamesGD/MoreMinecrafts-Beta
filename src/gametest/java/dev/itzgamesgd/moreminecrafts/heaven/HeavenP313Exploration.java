@@ -82,6 +82,13 @@ public final class HeavenP313Exploration implements FabricClientGameTest {
                     row.put("final_blocks_with_BE", dump.size()); row.put("reference_blocks_with_BE", exp.size());
                     row.put("final_all_block_entities_exist", dump.stream().noneMatch(x -> x.contains("access=NO")));
                     row.put("final_equals_reference_position_block_nbt", strip(dump).equals(strip(exp)));
+                    // same positions + block ids? and which block kinds differ in NBT (trial spawners / vaults carry game-time fields; chests, barrels, pots do not)
+                    java.util.Set<String> pa = new java.util.TreeSet<>(), pb = new java.util.TreeSet<>(); for (String r : dump) { String[] f = r.split(" "); pa.add(f[0] + " " + f[1]); } for (String r : exp) { String[] f = r.split(" "); pb.add(f[0] + " " + f[1]); }
+                    row.put("final_same_positions_and_block_ids", pa.equals(pb));
+                    Map<String, String> nb = new java.util.HashMap<>(); for (String r : exp) { String[] f = r.split(" "); nb.put(f[0], f[4]); }
+                    Map<String, Integer> diffKinds = new java.util.TreeMap<>(), sameKinds = new java.util.TreeMap<>();
+                    for (String r : dump) { String[] f = r.split(" "); (f[4].equals(nb.get(f[0])) ? sameKinds : diffKinds).merge(f[1], 1, Integer::sum); }
+                    row.put("nbt_equal_by_kind", sameKinds); row.put("nbt_differs_by_kind", diffKinds);
                     System.out.println("HEAVEN_P313_EXPLORE " + want[i] + " " + row);
                 }
             }
