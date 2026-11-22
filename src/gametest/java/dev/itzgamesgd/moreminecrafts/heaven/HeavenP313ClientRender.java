@@ -64,6 +64,9 @@ public final class HeavenP313ClientRender implements FabricClientGameTest {
                         server.runOnServer(s -> cmd(s, when.equals("day") ? "time set noon" : "time set midnight"));
                         int waited = look(ctx, server, eye, look);
                         boolean done = ctx.computeOnClient(c -> c.levelRenderer.hasRenderedAllSections());
+                        { final BoundingBox fbb = bb;   // client vs server block census inside the island box (every 3rd cell): is the data on the client at all?
+                          int[] cl = ctx.computeOnClient(c -> census(c.level, fbb)); int[] sv = server.computeOnServer(s -> census(s.overworld(), fbb));
+                          System.out.println("HEAVEN_P313_RENDER " + target + " census client[nonAir=" + cl[0] + " heavenBlocks=" + cl[1] + " chunksPresent=" + cl[2] + "] server[nonAir=" + sv[0] + " heavenBlocks=" + sv[1] + " chunksPresent=" + sv[2] + "]"); }
                         System.out.println("HEAVEN_P313_RENDER " + target + " clientPlayer=" + ctx.computeOnClient(c -> c.player == null ? "null" : c.player.position() + " yaw=" + c.player.getYRot() + " pitch=" + c.player.getXRot()));
                         ctx.runOnClient(c -> c.gui.toastManager().clear());
                         System.out.println("HEAVEN_P313_RENDER " + target + " " + when + " box=" + bb.getXSpan() + "x" + bb.getYSpan() + "x" + bb.getZSpan() + " renderedAll=" + done + " waitedTicks=" + waited + " "
@@ -88,6 +91,15 @@ public final class HeavenP313ClientRender implements FabricClientGameTest {
             return new int[]{b.minX(), b.minY(), b.minZ(), b.maxX(), b.maxY(), b.maxZ()};
         }
         return null;
+    }
+
+    private static int[] census(net.minecraft.world.level.Level level, BoundingBox b) {
+        int nonAir = 0, heaven = 0, chunks = 0; java.util.Set<Long> seen = new java.util.HashSet<>();
+        for (int x = b.minX(); x <= b.maxX(); x += 3) for (int z = b.minZ(); z <= b.maxZ(); z += 3) {
+            if (level.hasChunkAt(new BlockPos(x, b.minY(), z)) && seen.add(((long) (x >> 4) << 32) ^ ((z >> 4) & 0xffffffffL))) chunks++;
+            for (int y = b.minY(); y <= b.maxY(); y += 3) { var st = level.getBlockState(new BlockPos(x, y, z)); if (!st.isAir()) { nonAir++; if (net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(st.getBlock()).getPath().startsWith("heaven_")) heaven++; } }
+        }
+        return new int[]{nonAir, heaven, chunks};
     }
 
     private static void cmd(MinecraftServer s, String c) { s.getCommands().performPrefixedCommand(s.createCommandSourceStack(), c); }
