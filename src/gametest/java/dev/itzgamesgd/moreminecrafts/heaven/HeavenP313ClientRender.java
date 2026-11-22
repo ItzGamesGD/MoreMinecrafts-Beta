@@ -53,6 +53,11 @@ public final class HeavenP313ClientRender implements FabricClientGameTest {
                     boolean longX = bb.getXSpan() >= bb.getZSpan(); double span = Math.max(bb.getXSpan(), bb.getZSpan()), dist = span * 0.6 + 28, up = bb.getYSpan() * 0.5 + 12;
                     BlockPos eye = longX ? new BlockPos((int) cx, (int) (cy + up), (int) (cz - dist)) : new BlockPos((int) (cx - dist), (int) (cy + up), (int) cz);
                     BlockPos eye2 = longX ? new BlockPos((int) cx, (int) (cy + up), (int) (cz + dist)) : new BlockPos((int) (cx + dist), (int) (cy + up), (int) cz);
+                    if (span > 110) {   // very long islands: the player only receives chunks within its (empirically ~6-chunk) tracking radius, so look from high above the centre instead of from far away
+                        double h = span * 0.6, off = h * 0.3;
+                        eye = longX ? new BlockPos((int) cx, (int) (cy + h), (int) (cz - off)) : new BlockPos((int) (cx - off), (int) (cy + h), (int) cz);
+                        eye2 = longX ? new BlockPos((int) cx, (int) (cy + h), (int) (cz + off)) : new BlockPos((int) (cx + off), (int) (cy + h), (int) cz);
+                    }
                     BlockPos look = new BlockPos((int) cx, (int) cy, (int) cz);
                     System.out.println("HEAVEN_P313_RENDER " + target + " boxMin=" + bb.minX() + "," + bb.minY() + "," + bb.minZ() + " boxMax=" + bb.maxX() + "," + bb.maxY() + "," + bb.maxZ() + " eye=" + eye + " look=" + look);
                     if (target.equals("mountain_meadow#4")) {            // loading comparison: frame right after arrival (renderer not finished) vs after the renderer reports all sections built
