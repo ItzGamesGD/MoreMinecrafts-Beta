@@ -27,6 +27,8 @@ class HeavenP38ResourceTest {
     private static final Path PENDING = RES.resolve("heaven_worldgen_pending/data/moreminecrafts/worldgen/template_pool/sky_islands");
     private static final Path REPORT = Path.of("docs/design/heaven_sky_island_p3_8_2026-11-21/data/heaven_production.json");
     private static final List<String> THEMES = List.of("meadow", "forest");
+    /** P3.12: themes whose 3 live pools are switched to the heaven templates (pending_pools.py apply). Updated step by step with the approved rollout. */
+    static final Set<String> TRANSITIONED = Set.of("meadow");
     private static final List<String> NAMES = List.of("large_a", "large_b", "large_c", "large_d", "large_e", "plain_medium_a", "plain_medium_b", "plain_medium_c",
             "plain_medium_d", "plain_medium_e", "plain_small_a", "plain_small_b", "plain_small_c", "plain_small_d", "ruins", "satellite_a", "satellite_b", "temple", "tower");
     private static final String GRASS = NS + ":heaven_grass_block", LOAM = NS + ":heaven_loam", STONE = NS + ":heaven_cream_stone", PALE = NS + ":heaven_cream_stone_pale";
@@ -95,12 +97,17 @@ class HeavenP38ResourceTest {
         Map<String, String> actual = new TreeMap<>();
         for (Path root : List.of(DATA.resolve("worldgen"), DATA.resolve("tags/worldgen")))
             try (Stream<Path> s = Files.walk(root)) { for (Path p : s.filter(x -> x.toString().endsWith(".json")).toList()) actual.put(p.toString().replace('\\', '/'), sha(p)); }
-        assertEquals(expected, actual, "structure IDs, sets, pools, biome tags (probabilities, mob spawn overrides) unchanged");
+        for (String t : TRANSITIONED) for (String p : List.of("start", "satellite", "tower_top")) {      // the only approved live changes: the 3 pools of each transitioned theme == pending
+            String key = "src/main/resources/data/moreminecrafts/worldgen/template_pool/sky_islands/" + t + "/" + p + ".json";
+            assertNotNull(expected.put(key, sha(PENDING.resolve(t + "/" + p + ".json"))), key + " is in the baseline");
+        }
+        assertEquals(expected, actual, "structure IDs, sets, other pools, biome tags (probabilities, mob spawn overrides) unchanged; only the approved pools switched");
         // the pending change is outside data/, differs from the live pools only by the element locations, and reverts exactly
         for (String t : THEMES) for (String p : List.of("start", "satellite", "tower_top")) {
             String live = Files.readString(DATA.resolve("worldgen/template_pool/sky_islands/" + t + "/" + p + ".json"));
             String pending = Files.readString(PENDING.resolve(t + "/" + p + ".json"));
-            assertFalse(live.contains("heaven"), t + "/" + p + " live pool is not repointed");
+            if (TRANSITIONED.contains(t)) { assertEquals(pending, live, t + "/" + p + " live pool == pending (transitioned)"); live = pending.replace("sky_islands/heaven/" + t + "/", "sky_islands/" + t + "/"); }
+            else assertFalse(live.contains("heaven"), t + "/" + p + " live pool is not repointed");
             assertEquals(live.replace("\"location\": \"moreminecrafts:sky_islands/" + t + "/", "\"location\": \"moreminecrafts:sky_islands/heaven/" + t + "/"), pending, t + "/" + p + " pending = live with repointed locations");
             assertEquals(live, pending.replace("sky_islands/heaven/" + t + "/", "sky_islands/" + t + "/"), t + "/" + p + " reverts exactly");
             JsonArray a = JsonParser.parseString(live).getAsJsonObject().getAsJsonArray("elements"), b = JsonParser.parseString(pending).getAsJsonObject().getAsJsonArray("elements");

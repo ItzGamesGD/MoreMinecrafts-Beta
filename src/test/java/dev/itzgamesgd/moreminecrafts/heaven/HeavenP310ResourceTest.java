@@ -23,8 +23,8 @@ class HeavenP310ResourceTest {
     }
 
     @Test
-    void livePoolsStayVanilla() throws IOException {
+    void livePoolsAreSwitchedExactlyForTheApprovedThemes() throws IOException {
         for (String theme : List.of("meadow", "forest")) for (String pool : List.of("start", "satellite", "tower_top"))
-            assertFalse(Files.readString(LIVE.resolve(theme + "/" + pool + ".json")).contains("sky_islands/heaven/"), theme + "/" + pool + " must not be switched yet");
+            assertEquals(HeavenP38ResourceTest.TRANSITIONED.contains(theme), Files.readString(LIVE.resolve(theme + "/" + pool + ".json")).contains("sky_islands/heaven/"), theme + "/" + pool + " switched exactly when approved");
     }
 }

@@ -16,7 +16,8 @@ def diff(a, b): return sorted(k.split('sky_islands/')[1] for k in a if a[k] != b
 pool = lambda t: sorted(f'{t}/{p}.json' for p in ('satellite', 'start', 'tower_top'))
 fails = []
 def check(name, cond, detail=''): print(('PASS ' if cond else 'FAIL ') + name, detail); cond or fails.append(name)
-orig = snap(); check('copy == baseline (58 files)', orig == {k: v for k, v in BASE.items()})
+# P3.12: the production tree may already be (partly) transitioned; normalise the COPY to the vanilla state first (revert is exact), then rehearse
+run('revert', 'all'); orig = snap(); check('copy reverted to vanilla == baseline (58 files)', orig == {k: v for k, v in BASE.items()})
 check('usage error without theme', run('apply', ok=False).returncode != 0)
 check('bad theme refused', run('apply', 'snowy', ok=False).returncode != 0)
 s0 = snap(); run('apply', 'forest', '--dry-run'); check('dry-run changes nothing', snap() == s0)
@@ -32,5 +33,8 @@ t = f'{tmp}/{rel}/worldgen/template_pool/sky_islands/forest/start.json'; open(t,
 s0 = snap(); r = run('apply', 'all', ok=False); check('tampered pool: apply refused, nothing changed (even for meadow)', snap() == s0 and 'REFUSED' in (r.stderr + r.stdout))
 r = run('revert', 'all', ok=False); check('tampered pool: revert refused, nothing changed', snap() == s0)
 shutil.rmtree(tmp)
-print('production tree == baseline:', all(sha(f'{ROOT}/{k}') == v for k, v in BASE.items()))
+pend = lambda t, p: sha(f'{ROOT}/src/main/resources/heaven_worldgen_pending/data/moreminecrafts/worldgen/template_pool/sky_islands/{t}/{p}.json')
+bad = [k for k, v in BASE.items() if sha(f'{ROOT}/{k}') != v and not any(k.endswith(f'sky_islands/{t}/{p}.json') and sha(f'{ROOT}/{k}') == pend(t, p) for t in ('meadow', 'forest') for p in ('start', 'satellite', 'tower_top'))]
+print('production tree: every file == baseline or (one of the 6 pools) == pending; other deviations:', bad)
+fails += bad
 sys.exit(1 if fails else 0)

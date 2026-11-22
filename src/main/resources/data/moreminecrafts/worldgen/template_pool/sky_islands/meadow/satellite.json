@@ -5,7 +5,7 @@
       "weight": 3,
       "element": {
         "element_type": "minecraft:single_pool_element",
-        "location": "moreminecrafts:sky_islands/meadow/satellite_a",
+        "location": "moreminecrafts:sky_islands/heaven/meadow/satellite_a",
         "processors": "minecraft:empty",
         "projection": "rigid"
       }
@@ -14,7 +14,7 @@
       "weight": 3,
       "element": {
         "element_type": "minecraft:single_pool_element",
-        "location": "moreminecrafts:sky_islands/meadow/satellite_b",
+        "location": "moreminecrafts:sky_islands/heaven/meadow/satellite_b",
         "processors": "minecraft:empty",
         "projection": "rigid"
       }
