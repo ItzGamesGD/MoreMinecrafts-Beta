@@ -26,11 +26,8 @@ public final class RoyalChestRewardModel {
     public static final List<Double> SAP_ROLL_CHANCES = List.of(1.00D, 0.45D);
 
     public static final String SOUL_GLASS_ID = "moreminecrafts:shimmering_soul_glass";
-    /**
-     * PRIMARY only: one independent roll for one Shimmering Soul Glass (a single stack entry). PROVISIONAL: the owner
-     * delegated this value on 2026-11-16 (docs say ST-01 only, with no slot or chance); retunable here.
-     */
-    public static final double SOUL_GLASS_CHANCE = 0.40D;
+    /** PRIMARY only: one independent 50% roll for one Shimmering Soul Glass (owner decision 2026-11-17). */
+    public static final double SOUL_GLASS_CHANCE = 0.50D;
     public static final int SOUL_GLASS_COUNT = 1;
 
     /** One independent item: success probability, then an inclusive uniform quantity. */

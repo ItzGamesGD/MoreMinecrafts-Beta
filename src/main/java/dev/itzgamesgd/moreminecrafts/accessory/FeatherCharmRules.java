@@ -7,7 +7,7 @@ import java.util.List;
  *
  * <p>Owner-decided structure: always-on passive, cooldown 0, fall damage reduction plus one air jump per airtime that
  * is restored on landing (docs/design/SKY_ISLANDS_T2_CONTEXT_2026-10-27.md, Feather Charm entry). The per-level numbers
- * are NOT in any document: every value below is PROVISIONAL and awaits an owner decision.
+ * values below are owner-decided (2026-11-17) and recorded in docs/design/SKY_ISLANDS_T2_CONTEXT_2026-10-27.md section 23.
  */
 public final class FeatherCharmRules {
     private FeatherCharmRules() {}
@@ -16,11 +16,11 @@ public final class FeatherCharmRules {
     public static final String COOLDOWN_STAT = "cooldown_ticks";
 
     /**
-     * PROVISIONAL, levels +0..+10. Copies Ember Ring's "post_fire_hit_damage_reduction_percent" series, the closest
-     * existing T2 damage-reduction percent table (+5 every second level).
+     * Owner-decided (2026-11-17): 40% + 2% per level, levels +0..+10 (40 .. 60). Applies to vanilla fall damage and,
+     * with the 10 second cooldown, to ender pearl / stalagmite / falling stalactite damage.
      */
     public static final List<Double> FALL_DAMAGE_REDUCTION_PERCENT =
-            List.of(40d, 45d, 45d, 50d, 50d, 55d, 55d, 60d, 60d, 65d, 65d);
+            List.of(40d, 42d, 44d, 46d, 48d, 50d, 52d, 54d, 56d, 58d, 60d);
 
     /**
      * Owner-decided (2026-11-17): ender pearl and stalactite/stalagmite damage use the same percent table, but the

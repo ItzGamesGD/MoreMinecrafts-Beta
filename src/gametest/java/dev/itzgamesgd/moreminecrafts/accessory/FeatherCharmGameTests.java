@@ -111,19 +111,22 @@ public final class FeatherCharmGameTests implements CustomTestMethodInvoker {
         player.setInvulnerableTime(0);
         player.hurtServer(ctx.getLevel(), stalagmite, RAW_FALL);
         float first = 20 - player.getHealth();
-        ctx.assertTrue(Math.abs(first - RAW_FALL * 0.35F) < 0.01F, "first stalagmite hit reduced by +10 table: " + first);
+        ctx.assertTrue(Math.abs(first - RAW_FALL * 0.4F) < 0.01F, "first stalagmite hit reduced by +10 table (60%): " + first);
         ctx.assertTrue(AccessoryCooldownRuntime.remaining(player, AccessoryDefinition.FEATHER_CHARM) == 200, "10 second cooldown started");
 
         player.setHealth(20);
         player.setInvulnerableTime(0);
         player.hurtServer(ctx.getLevel(), stalagmite, RAW_FALL);
-        ctx.assertTrue(Math.abs((20 - player.getHealth()) - RAW_FALL) < 0.001F, "second hit inside the cooldown is unreduced");
+        float second = 20 - player.getHealth();
+        ctx.assertTrue(Math.abs(second - RAW_FALL) < 0.001F, "second hit inside the cooldown is unreduced; loss=" + second
+                + " cooldownRemaining=" + AccessoryCooldownRuntime.remaining(player, AccessoryDefinition.FEATHER_CHARM));
 
         for (int i = 0; i < 200; i++) AccessoryCooldownRuntime.tick(player);
         player.setHealth(20);
         player.setInvulnerableTime(0);
         player.hurtServer(ctx.getLevel(), stalagmite, RAW_FALL);
-        ctx.assertTrue(Math.abs((20 - player.getHealth()) - RAW_FALL * 0.35F) < 0.01F, "reduced again after the cooldown");
+        float third = 20 - player.getHealth();
+        ctx.assertTrue(Math.abs(third - RAW_FALL * 0.4F) < 0.01F, "reduced again after the cooldown; loss=" + third);
         ctx.succeed();
     }
 }

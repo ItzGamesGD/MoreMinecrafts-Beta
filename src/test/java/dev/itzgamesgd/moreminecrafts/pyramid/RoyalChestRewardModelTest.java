@@ -327,10 +327,10 @@ class RoyalChestRewardModelTest {
     }
 
     @Test void soulGlassIsOneIndependentFortyPercentRollForOneOnPrimaryOnly() {
-        assertEquals(0.40D, RoyalChestRewardModel.SOUL_GLASS_CHANCE);
+        assertEquals(0.50D, RoyalChestRewardModel.SOUL_GLASS_CHANCE);
         assertEquals(1, RoyalChestRewardModel.SOUL_GLASS_COUNT);
         assertEquals("moreminecrafts:shimmering_soul_glass", RoyalChestRewardModel.SOUL_GLASS_ID);
-        assertEquals(Optional.empty(), RoyalChestRewardModel.rollSoulGlass(new Script(0.40D)));
+        assertEquals(Optional.empty(), RoyalChestRewardModel.rollSoulGlass(new Script(0.50D)));
         assertEquals(1, RoyalChestRewardModel.rollSoulGlass(new Script(0.3999999D)).orElseThrow().count());
         Script s = new Script(0.0D);
         RoyalChestRewardModel.rollSoulGlass(s);
@@ -360,6 +360,6 @@ class RoyalChestRewardModelTest {
             actual.removeIf(r -> r.itemId().equals(RoyalChestRewardModel.SOUL_GLASS_ID));
             assertEquals(expected, actual);
         }
-        assertEquals(0.40D, withGlass / (double) n, 0.02D);
+        assertEquals(0.50D, withGlass / (double) n, 0.02D);
     }
 }

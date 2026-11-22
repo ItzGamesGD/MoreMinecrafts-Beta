@@ -73,7 +73,7 @@ class AccessoryEnhancementCatalogTest {
 
     @Test void featherCharmProvisionalTableComesFromTheSingleRulesConstantAndHasNoCooldown() {
         table(AccessoryDefinition.FEATHER_CHARM, Map.of(
-                "fall_damage_reduction_percent", v(40,45,45,50,50,55,55,60,60,65,65),
+                "fall_damage_reduction_percent", v(40,42,44,46,48,50,52,54,56,58,60),
                 "cooldown_ticks", v(0,0,0,0,0,0,0,0,0,0,0)));
         assertEquals(FeatherCharmRules.FALL_DAMAGE_REDUCTION_PERCENT, AccessoryEnhancementCatalog.table(AccessoryDefinition.FEATHER_CHARM).get("fall_damage_reduction_percent"));
         assertEquals(1, FeatherCharmRules.AIR_JUMPS_PER_AIRTIME);
