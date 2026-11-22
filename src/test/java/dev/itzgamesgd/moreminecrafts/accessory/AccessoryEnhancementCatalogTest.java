@@ -13,8 +13,6 @@ class AccessoryEnhancementCatalogTest {
         assertEquals(List.of(0,1,2,3,4,5,6,7,8,9,10), AccessoryEnhancementCatalog.levels());
         for (AccessoryDefinition accessory : AccessoryDefinition.ALL) {
             if (accessory.isT1()) continue;
-            // Feather Charm: effect numbers/enhancement table are an open owner decision (D15), so it has no table yet.
-            if (accessory == AccessoryDefinition.FEATHER_CHARM) { assertTrue(AccessoryEnhancementCatalog.table(accessory).isEmpty()); continue; }
             assertFalse(AccessoryEnhancementCatalog.table(accessory).isEmpty(), accessory.name());
             for (var series : AccessoryEnhancementCatalog.table(accessory).entrySet()) {
                 assertEquals(11, series.getValue().size(), accessory + ":" + series.getKey());
@@ -71,6 +69,14 @@ class AccessoryEnhancementCatalogTest {
         table(AccessoryDefinition.WHISPER_OF_THE_SEA, Map.of(
                 "fishing_success_zone_expansion_percent", v(10,12,12,14,16,16,18,20,22,24,25),
                 "additional_input_timing_tolerance_seconds", v(0,0,0.05,0.05,0.05,0.10,0.10,0.10,0.10,0.10,0.10)));
+    }
+
+    @Test void featherCharmProvisionalTableComesFromTheSingleRulesConstantAndHasNoCooldown() {
+        table(AccessoryDefinition.FEATHER_CHARM, Map.of(
+                "fall_damage_reduction_percent", v(40,42,44,46,48,50,52,54,56,58,60),
+                "cooldown_ticks", v(0,0,0,0,0,0,0,0,0,0,0)));
+        assertEquals(FeatherCharmRules.FALL_DAMAGE_REDUCTION_PERCENT, AccessoryEnhancementCatalog.table(AccessoryDefinition.FEATHER_CHARM).get("fall_damage_reduction_percent"));
+        assertEquals(1, FeatherCharmRules.AIR_JUMPS_PER_AIRTIME);
     }
 
     @Test void lookupsFailClosedForUnknownStatAndOutOfRangeLevel() {

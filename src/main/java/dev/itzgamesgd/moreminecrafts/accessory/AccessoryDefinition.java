@@ -23,7 +23,7 @@ public enum AccessoryDefinition {
     T1_SUSTAINED_RECOVERY("t1_sustained_recovery", "item.moreminecrafts.t1_sustained_recovery", AccessoryCategory.SUPPORT_RECOVERY),
     T1_SPRINT_ACCELERATION("t1_sprint_acceleration", "item.moreminecrafts.t1_sprint_acceleration", AccessoryCategory.EXPLORATION_MOBILITY),
     T1_DOUBLE_JUMP("t1_double_jump", "item.moreminecrafts.t1_double_jump", AccessoryCategory.EXPLORATION_MOBILITY),
-    /** 13th T2 accessory (owner-decided id). Effect numbers are undefined (D15): registered as an item only, no ability. */
+    /** 13th T2 accessory (owner-decided id). Passive fall reduction + air jump; numbers in {@link FeatherCharmRules} are provisional. */
     FEATHER_CHARM("feather_charm", "item.moreminecrafts.feather_charm", AccessoryCategory.EXPLORATION_MOBILITY);
 
     public static final List<AccessoryDefinition> ALL = List.of(values());

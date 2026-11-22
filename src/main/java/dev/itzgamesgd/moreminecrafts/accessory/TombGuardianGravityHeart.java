@@ -16,7 +16,7 @@ import net.minecraft.world.level.storage.loot.providers.number.ints.ConstantValu
 /**
  * D13-03-I03 (Q21-Q24): Heart of Gravity, 20% x1, as a separate additive pool on the Tomb Guardian's entity loot
  * table. Vanilla evaluates an entity's table once per death into shared world drops (no per-player roll), and the
- * pool has its own random-chance condition, so it is independent of the Ancient Heart 50% pool (both can drop).
+ * pool has its own random-chance condition, so it is independent of the Ancient Heart pool (100%, see the entity loot table JSON); both can drop.
  * The Ancient Heart pool JSON, encounter and combat code are untouched.
  */
 public final class TombGuardianGravityHeart {

@@ -51,7 +51,11 @@ public final class AccessoryEnhancementCatalog {
                     s("cooldown_seconds", 45,45,42,42,39,39,36,36,33,33,30))),
             Map.entry(AccessoryDefinition.WHISPER_OF_THE_SEA, table(
                     s("fishing_success_zone_expansion_percent", 10,12,12,14,16,16,18,20,22,24,25),
-                    s("additional_input_timing_tolerance_seconds", 0,0,0.05,0.05,0.05,0.10,0.10,0.10,0.10,0.10,0.10))));
+                    s("additional_input_timing_tolerance_seconds", 0,0,0.05,0.05,0.05,0.10,0.10,0.10,0.10,0.10,0.10))),
+            // Owner-decided numbers, all defined in FeatherCharmRules.
+            Map.entry(AccessoryDefinition.FEATHER_CHARM, table(
+                    new Series(FeatherCharmRules.FALL_REDUCTION_STAT, FeatherCharmRules.FALL_DAMAGE_REDUCTION_PERCENT),
+                    new Series(FeatherCharmRules.COOLDOWN_STAT, FeatherCharmRules.COOLDOWN_TICKS))));
 
     private AccessoryEnhancementCatalog() {}
 

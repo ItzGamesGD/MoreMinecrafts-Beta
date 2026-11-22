@@ -119,6 +119,7 @@
       "dev.itzgamesgd.moreminecrafts.mob.sky.SkyHabitatGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryPhysicsGameTests",
+      "dev.itzgamesgd.moreminecrafts.accessory.FeatherCharmGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryShockwaveGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryRestartGameTests",
       "dev.itzgamesgd.moreminecrafts.mob.sky.SkyVariantMobGameTests",
