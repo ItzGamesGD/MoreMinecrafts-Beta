@@ -139,6 +139,13 @@ processResources {
     }
 }
 
+// P3.11: the shared GameTest world keeps every chunk its ~750 tests touch (measured: ~4.2M PalettedContainers, ~7-10M cached StructureBlockInfo, mock-player
+// advancements), so the live set reaches ~3.3 GB near the xpq mock-player tests; the default heap (1/4 of RAM = 3.4 GB here) was one allocation from OutOfMemoryError.
+// Give only the game-test server JVM headroom; nothing else (client run, production code) changes.
+tasks.matching { it.name == "runGameTest" }.configureEach { task ->
+    if (task instanceof JavaExec) task.maxHeapSize = "6g"
+}
+
 tasks.withType(JavaCompile).configureEach {
     options.release = 25
 }
