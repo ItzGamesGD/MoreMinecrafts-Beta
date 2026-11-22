@@ -64,6 +64,8 @@ Each probability check is independent; quantities are inclusive discrete uniform
 
 ## Shared special-reward rules
 
+**Shimmering Soul Glass (owner decision 2026-11-17):** PRIMARY only. One independent roll, drawn after the existing PRIMARY sap rolls, success chance **50%**, quantity **1**. It is not part of the PRIMARY rare pool and is not on SECONDARY. Source: [SKY §23](../design/SKY_ISLANDS_T2_CONTEXT_2026-10-27.md#23-2026-11-17-오너-확정--악세서리-t2-결정-깃털-부적영혼-유리재료-보류).
+
 **T2 accessories:** Each of the two chests independently has a **20%** chance of exactly one T2 accessory. On success choose `moreminecrafts:seed_of_life` or `moreminecrafts:ring_of_time` with **50:50** conditional probability. Duplicates across chests are allowed. Joint probability: neither 64%; exactly one chest succeeds 32%; both succeed 4% (same type 2%; distinct types 2%). Do not tie either chest's result to the other.
 
 **Relic Catalyst:** Exactly one **structure-level** 5% success roll per pyramid instance, with at most **one** `moreminecrafts:relic_catalyst`. On success preassign it to PRIMARY or SECONDARY **50:50**, persist that assignment, and deliver it only through the assigned chest when that chest is validly first opened. Marginal assignment probability per chest is 2.5%. Opening order must not change the outcome. This is independent of ordinary minerals, rare pool, and accessories; it does not replace them.
