@@ -28,7 +28,7 @@ class HeavenP38ResourceTest {
     private static final Path REPORT = Path.of("docs/design/heaven_sky_island_p3_8_2026-11-21/data/heaven_production.json");
     private static final List<String> THEMES = List.of("meadow", "forest");
     /** P3.12: themes whose 3 live pools are switched to the heaven templates (pending_pools.py apply). Updated step by step with the approved rollout. */
-    static final Set<String> TRANSITIONED = Set.of("meadow");
+    static final Set<String> TRANSITIONED = Set.of("meadow", "forest");
     private static final List<String> NAMES = List.of("large_a", "large_b", "large_c", "large_d", "large_e", "plain_medium_a", "plain_medium_b", "plain_medium_c",
             "plain_medium_d", "plain_medium_e", "plain_small_a", "plain_small_b", "plain_small_c", "plain_small_d", "ruins", "satellite_a", "satellite_b", "temple", "tower");
     private static final String GRASS = NS + ":heaven_grass_block", LOAM = NS + ":heaven_loam", STONE = NS + ":heaven_cream_stone", PALE = NS + ":heaven_cream_stone_pale";
