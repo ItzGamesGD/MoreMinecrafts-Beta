@@ -4,12 +4,12 @@
 Instrumented (`HabitatPerfInstrumentation`, `-Dmm.habitat.instrument=true`): data size is small (≤ ~6k solid cells/template), GC is 0, no allocation spike.
 The whole time is in `Set.copyOf(HashSet<BlockPos>)` (4–88 s on large templates): `BlockPos.hashCode` is ((y+z*31)*31+x), so a template's cells have only
 ~44–55 % distinct hashes and the open-addressing `ImmutableCollections.SetN` probes linearly through huge clusters; each later lookup also cost ~0.24 ms.
-Fix: `SkyIslandHabitat.solids` builds a dense `BitSet` mask over the template's bounding box (O(1) lookup, 40–72 KB per large template instead of ~100 MB heap).
+Fix: `SkyIslandHabitat.solids` builds a dense `BitSet` mask over the template's bounding box (O(1) lookup, 40–72 KB per large template instead of 2–6 MB heap (measured in P3.10)).
 `HabitatMaskGameTests` compares it with a reference HashSet over 160 templates (6 themes × 19 originals, 38 heaven, ruins a–d, temple, tower 5–7): membership identical (bad = 0).
 
 | | first call (large originals/heaven) | repeat lookup | memory |
 |---|---|---|---|
-| before | 7.0 / 10.9 s (a), 19.6 / 21.5 (b), 75.5 / 69.5 (c), 19.2 / 20.2 (d), 26.2 / 30.8 s (e) | ~0.24 ms | ~100 MB heap transient |
+| before | 7.0 / 10.9 s (a), 19.6 / 21.5 (b), 75.5 / 69.5 (c), 19.2 / 20.2 (d), 26.2 / 30.8 s (e) | ~0.24 ms | 2–6 MB retained (measured P3.10), plus transient garbage |
 | after | max 293 ms over all 160 templates | 200k lookups = 4–18 ms (≈ 0.02–0.09 µs) | 2.65 MB total for all 160 masks |
 
 Habitat decisions and mob spawn rules are unchanged (membership-identical mask; existing Habitat / spawn GameTests in the full regression).
