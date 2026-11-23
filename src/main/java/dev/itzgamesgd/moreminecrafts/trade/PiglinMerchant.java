@@ -29,17 +29,17 @@ public final class PiglinMerchant implements Merchant {
                     .persistent(Codec.unboundedMap(Codec.STRING, Codec.INT)));
 
     private final Piglin piglin;
-    private final Map<Identifier, MerchantOffer> catalog;
-    private final MerchantOffers offers = new MerchantOffers();
+        private final MerchantOffers offers = new MerchantOffers();
     private final java.util.List<Identifier> ids = new java.util.ArrayList<>();
     private Player tradingPlayer;
 
-    public PiglinMerchant(Piglin piglin, Map<Identifier, MerchantOffer> catalog) {
+    public PiglinMerchant(Piglin piglin, Map<Identifier, PiglinTradeEntry> catalog,
+            java.util.function.ToIntFunction<String> researchLevel) {
         this.piglin = piglin;
-        this.catalog = catalog;
         Map<String, Integer> uses = piglin.getAttachedOrCreate(USES);
-        catalog.forEach((id, template) -> {
-            MerchantOffer offer = template.copy();
+        catalog.forEach((id, entry) -> {
+            if (!entry.listedFor(researchLevel)) return;
+            MerchantOffer offer = entry.offer().copy();
             int used = Math.max(0, Math.min(uses.getOrDefault(id.toString(), 0), offer.getMaxUses()));
             for (int i = 0; i < used; i++) offer.increaseUses();
             offers.add(offer);

@@ -29,7 +29,7 @@ public final class PiglinTradeGameTests {
         MerchantOffer offer = new MerchantOffer(new ItemCost(Items.DIRT, 2), new ItemStack(Items.STICK), 2, 0, 0.0f);
         PiglinTradeCatalog.setForTest(new PiglinTradeCatalog.Loaded(
                 new PiglinTradeConfig(withUnlockId ? Optional.of(UNLOCK) : Optional.empty()),
-                Map.of(ModIds.id("test_placeholder"), offer)));
+                Map.of(ModIds.id("test_placeholder"), new PiglinTradeEntry(Optional.empty(), offer))));
     }
 
     private static ServerPlayer player(GameTestHelper ctx, boolean unlocked) {
@@ -145,6 +145,70 @@ public final class PiglinTradeGameTests {
         piglin.setItemInHand(net.minecraft.world.InteractionHand.OFF_HAND, new ItemStack(Items.GOLD_INGOT));
         ctx.assertTrue(PiglinTrading.handleUse(p, piglin) == net.minecraft.world.InteractionResult.SUCCESS_SERVER, "swallowed");
         ctx.assertTrue(!(p.containerMenu instanceof MerchantMenu), "no trade during an ongoing admire sequence");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void shippedOffersLoadFromDatapackAndTierTwoIsResearchGated(GameTestHelper ctx) {
+        PiglinTradeCatalog.setForTest(null);
+        ctx.assertTrue(PiglinTradeCatalog.current(ctx.getLevel().registryAccess()).offers().size() == 23,
+                "the real reload-listener path must yield all 23 offers");
+        PiglinTradeCatalog.Loaded loaded = PiglinTradeCatalog.parse(
+                PiglinTradeCatalog.Listener.load(ctx.getLevel().getServer().getResourceManager()), ctx.getLevel().registryAccess());
+        ctx.assertTrue(loaded.config().requiredResearch().equals(Optional.of("piglin_trading")), "config unlock id");
+        ctx.assertTrue(loaded.offers().size() == 23, "all 23 approved offers must parse, got " + loaded.offers().size());
+        PiglinTradeCatalog.setForTest(loaded);
+        Piglin piglin = ctx.spawnMob(EntityTypes.PIGLIN, 2, 2, 2).spawn();
+
+        ServerPlayer tier1 = ctx.makeMockServerPlayerInLevel();
+        tier1.setAttached(KnowledgeRuntime.STATE, ResearchProgressState.empty().with("research.piglin_trading", 1));
+        ctx.assertTrue(PiglinTrading.tryOpen(tier1, piglin), "tier-1 player opens");
+        ctx.assertTrue(((MerchantMenu) tier1.containerMenu).getOffers().size() == 10, "tier-1 sees 10 offers");
+        tier1.closeContainer();
+
+        ServerPlayer tier2 = ctx.makeMockServerPlayerInLevel();
+        tier2.setAttached(KnowledgeRuntime.STATE, ResearchProgressState.empty()
+                .with("research.piglin_trading", 1).with("research.piglin_trading_2", 1));
+        ctx.assertTrue(PiglinTrading.tryOpen(tier2, piglin), "tier-2 player opens");
+        var offers = ((MerchantMenu) tier2.containerMenu).getOffers();
+        ctx.assertTrue(offers.size() == 23, "tier-2 sees 23 offers, got " + offers.size());
+        boolean adamantium = offers.stream().anyMatch(o -> o.getResult().is(
+                net.minecraft.core.registries.BuiltInRegistries.ITEM.getValue(ModIds.id("adamantium_ingot")))
+                && o.getMaxUses() == 1 && o.getCostA().is(Items.GOLD_BLOCK) && o.getCostA().getCount() == 64
+                && o.getCostB().is(Items.NETHERITE_INGOT) && o.getCostB().getCount() == 2);
+        ctx.assertTrue(adamantium, "adamantium offer: 64 gold blocks + 2 netherite ingots, stock 1");
+        PiglinTradeCatalog.setForTest(null);
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void shippedTwoSlotOffersTradeOnceAndPremiumStockIsOne(GameTestHelper ctx) {
+        PiglinTradeCatalog.setForTest(null);
+        Piglin piglin = ctx.spawnMob(EntityTypes.PIGLIN, 2, 2, 2).spawn();
+        ServerPlayer p = ctx.makeMockServerPlayerInLevel();
+        p.setGameMode(GameType.SURVIVAL);
+        p.setAttached(KnowledgeRuntime.STATE, ResearchProgressState.empty()
+                .with("research.piglin_trading", 1).with("research.piglin_trading_2", 1));
+        p.getInventory().add(new ItemStack(Items.GOLD_BLOCK, 64));
+        p.getInventory().add(new ItemStack(Items.GOLD_BLOCK, 64));
+        p.getInventory().add(new ItemStack(Items.NETHERITE_INGOT, 2));
+        ctx.assertTrue(PiglinTrading.tryOpen(p, piglin), "open");
+        MerchantMenu menu = (MerchantMenu) p.containerMenu;
+        var adam = net.minecraft.core.registries.BuiltInRegistries.ITEM.getValue(ModIds.id("adamantium_ingot"));
+        int index = -1;
+        for (int i = 0; i < menu.getOffers().size(); i++) if (menu.getOffers().get(i).getResult().is(adam)) index = i;
+        ctx.assertTrue(index >= 0, "adamantium offer listed");
+        menu.setSelectionHint(index);
+        menu.tryMoveItems(index);
+        menu.clicked(2, 0, ContainerInput.PICKUP, p);
+        ctx.assertTrue(menu.getCarried().is(adam) && menu.getCarried().getCount() == 1, "one adamantium ingot received");
+        int gold = count(p, Items.GOLD_BLOCK) + menu.getSlot(0).getItem().getCount() + menu.getSlot(1).getItem().getCount();
+        ctx.assertTrue(gold == 128 - 64, "exactly 64 gold blocks consumed, remaining " + gold);
+        menu.setCarried(ItemStack.EMPTY);
+        menu.tryMoveItems(index);
+        menu.updateSellItem();
+        ctx.assertTrue(menu.getSlot(2).getItem().isEmpty(), "stock 1 is exhausted: no second adamantium ingot");
+        PiglinTradeCatalog.setForTest(null);
         ctx.succeed();
     }
 }

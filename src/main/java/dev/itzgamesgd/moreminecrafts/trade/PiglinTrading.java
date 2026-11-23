@@ -45,7 +45,7 @@ public final class PiglinTrading {
     }
 
     static boolean isUnlocked(ServerPlayer player) {
-        return PiglinTradeCatalog.current().config().unlocked(id -> KnowledgeRuntime.state(player).researchLevel(id));
+        return PiglinTradeCatalog.config().unlocked(id -> KnowledgeRuntime.state(player).researchLevel(id));
     }
 
     static boolean isBarterItem(net.minecraft.world.item.ItemStack stack) {
@@ -54,15 +54,15 @@ public final class PiglinTrading {
 
     /** Server-side gate shared by the interaction and tests. */
     public static boolean tryOpen(ServerPlayer player, Piglin piglin) {
-        PiglinTradeCatalog.Loaded loaded = PiglinTradeCatalog.current();
+        PiglinTradeCatalog.Loaded loaded = PiglinTradeCatalog.current(player.level().registryAccess());
         if (loaded.offers().isEmpty() || piglin.isBaby() || !piglin.isAlive()) return false;
         // Never interfere with an in-progress vanilla admire/barter sequence.
         if (isBarterItem(piglin.getOffhandItem())) return false;
-        if (!loaded.config().unlocked(id -> KnowledgeRuntime.state(player).researchLevel(id))) return false;
+        if (!PiglinTradeCatalog.config().unlocked(id -> KnowledgeRuntime.state(player).researchLevel(id))) return false;
         PiglinMerchant active = SESSIONS.get(piglin);
         if (active != null && active.getTradingPlayer() != null && active.getTradingPlayer() != player
                 && !active.getTradingPlayer().isRemoved()) return false;
-        PiglinMerchant merchant = new PiglinMerchant(piglin, loaded.offers());
+        PiglinMerchant merchant = new PiglinMerchant(piglin, loaded.offers(), id -> KnowledgeRuntime.state(player).researchLevel(id));
         SESSIONS.put(piglin, merchant);
         merchant.setTradingPlayer(player);
         merchant.openTradingScreen(player, piglin.getDisplayName(), 1);

@@ -33,6 +33,8 @@ public final class ResearchCatalog {
         add(entries, "fall_roll", "world", 650, any(54), m("minecraft:leather_boots",1), m("minecraft:feather",64));
         addWithResearchPrerequisites(entries, "piglin_trading", "world", "T3", 2400, any(48),
                 Set.of("v3.research.54"), m("minecraft:gold_block",32), m("minecraft:crying_obsidian",16), m("minecraft:emerald",8));
+        addWithResearchPrerequisites(entries, "piglin_trading_2", "world", "T3", 3600, any(48),
+                Set.of("piglin_trading"), m("minecraft:gold_block",48), m("minecraft:crying_obsidian",32), m("minecraft:ender_pearl",16));
         V4 = Map.copyOf(entries);
     }
 

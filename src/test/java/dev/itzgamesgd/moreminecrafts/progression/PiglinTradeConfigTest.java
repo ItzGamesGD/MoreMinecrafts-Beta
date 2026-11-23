@@ -46,13 +46,31 @@ class PiglinTradeConfigTest {
                 == ResearchPurchaseRules.Result.MISSING_KNOWLEDGE);
     }
 
-    @Test void shippedConfigPointsAtARealResearchAndShipsNoOffers() throws Exception {
+    @Test void shippedConfigPointsAtARealResearch() throws Exception {
         try (var in = PiglinTradeConfigTest.class.getResourceAsStream("/data/moreminecrafts/piglin_trade/config.json")) {
             var json = com.google.gson.JsonParser.parseReader(new java.io.InputStreamReader(in)).getAsJsonObject();
-            String id = json.get("required_research").getAsString();
-            assertTrue(ResearchCatalog.byId(id) != null);
+            assertTrue(ResearchCatalog.byId(json.get("required_research").getAsString()) != null);
         }
-        assertTrue(PiglinTradeConfigTest.class.getResource("/data/moreminecrafts/piglin_trade/offers") == null,
-                "no approved offers may ship yet");
+    }
+
+    @Test void shippedOffersReferenceRealResearchAndStayWithinSlotLimits() throws Exception {
+        java.nio.file.Path dir = java.nio.file.Path.of("src/main/resources/data/moreminecrafts/piglin_trade/offers");
+        int tier1 = 0, tier2 = 0;
+        try (var files = java.nio.file.Files.list(dir)) {
+            for (java.nio.file.Path f : files.toList()) {
+                var json = com.google.gson.JsonParser.parseString(java.nio.file.Files.readString(f)).getAsJsonObject();
+                var offer = json.getAsJsonObject("offer");
+                if (json.has("required_research")) {
+                    assertTrue(ResearchCatalog.byId(json.get("required_research").getAsString()) != null, f.toString());
+                    tier2++;
+                } else tier1++;
+                assertTrue(offer.getAsJsonObject("buy").get("count").getAsInt() <= 64, f.toString());
+                if (offer.has("buyB")) assertTrue(offer.getAsJsonObject("buyB").get("count").getAsInt() <= 64, f.toString());
+                assertTrue(offer.get("maxUses").getAsInt() >= 1 && offer.get("xp").getAsInt() == 0
+                        && !offer.get("rewardExp").getAsBoolean(), f.toString());
+            }
+        }
+        org.junit.jupiter.api.Assertions.assertEquals(10, tier1);
+        org.junit.jupiter.api.Assertions.assertEquals(13, tier2);
     }
 }

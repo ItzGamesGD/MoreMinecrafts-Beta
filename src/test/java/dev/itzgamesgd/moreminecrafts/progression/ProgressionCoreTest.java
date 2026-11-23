@@ -24,7 +24,7 @@ final class ProgressionCoreTest {
     }
 
     @Test void v4ResearchCatalogContainsSeventeenApprovedPurchasesAndCaps() {
-        assertEquals(18, ResearchCatalog.v4Additions().size());
+        assertEquals(19, ResearchCatalog.v4Additions().size());
         assertEquals(1, ResearchCatalog.byId("throwable_pickaxe").maximumLevel());
         assertEquals(900, ResearchCatalog.byId("throwable_pickaxe").cost(1).rawXp());
         assertEquals(2800, ResearchCatalog.byId("mob_capture").cost(1).rawXp());
