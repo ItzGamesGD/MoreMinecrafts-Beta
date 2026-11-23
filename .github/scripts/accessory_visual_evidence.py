@@ -43,6 +43,8 @@ def magenta_count(img):
 src = open(os.path.join(root, "src/main/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryDefinition.java")).read()
 ids = re.findall(r'(?m)^\s+[A-Z_]+\("([a-z_]+)",\s*"item\.moreminecrafts\.\1"', src)
 assert len(ids) == 13, ids
+# Every definition (including the digit-named provisional T1 items) occupies a grid slot in the fixture.
+all_count = len(re.findall(r'(?m)^\s+[A-Z0-9_]+\("', src))
 lang = json.load(open(os.path.join(root, "src/main/resources/assets/moreminecrafts/lang/en_us.json")))
 names = {i: lang.get("item.moreminecrafts." + i, i) for i in ids}
 tex_dir = os.path.join(root, "src/main/resources/assets/moreminecrafts/textures/item")
@@ -115,7 +117,7 @@ for s in slots:
             report["icons"][key]["covered_by_recipe_book"] = True
         else:
             failures.append(f"{key}: rendered slot looks empty (inked {inked / (s['size'] ** 2):.2f})")
-    if s["name"].endswith("recipe-closed") and 9 <= s["menu"] < 9 + len(ids):
+    if s["name"].endswith("recipe-closed") and 9 <= s["menu"] < 9 + all_count:
         crops_by_scale[s["scale"]][s["item"]] = crop
 
 for scale, crops in crops_by_scale.items():
