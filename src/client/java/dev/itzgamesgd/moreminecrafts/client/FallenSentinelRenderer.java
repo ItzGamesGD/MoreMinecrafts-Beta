@@ -25,7 +25,8 @@ import net.minecraft.world.item.Items;
  */
 final class FallenSentinelRenderer extends AbstractZombieRenderer<FallenSentinel, ZombieRenderState, ZombieModel<ZombieRenderState>> {
     static final Identifier TEXTURE = ModIds.id("textures/entity/bb_fallen_sentinel.png");
-    private static final ItemStack PLACEHOLDER_SWORD = new ItemStack(Items.IRON_SWORD);
+    /** Created lazily: item components are not bound yet while renderers register. */
+    private ItemStack placeholderSword;
 
     FallenSentinelRenderer(EntityRendererProvider.Context context) {
         super(context, new SentinelModel(), new SentinelModel(),
@@ -45,8 +46,9 @@ final class FallenSentinelRenderer extends AbstractZombieRenderer<FallenSentinel
     public void extractRenderState(FallenSentinel entity, ZombieRenderState state, float partialTick) {
         super.extractRenderState(entity, state, partialTick);
         if (state.rightHandItemState.isEmpty()) {
-            state.rightHandItemStack = PLACEHOLDER_SWORD;
-            itemModelResolver.updateForLiving(state.rightHandItemState, PLACEHOLDER_SWORD,
+            if (placeholderSword == null) placeholderSword = new ItemStack(Items.IRON_SWORD);
+            state.rightHandItemStack = placeholderSword;
+            itemModelResolver.updateForLiving(state.rightHandItemState, placeholderSword,
                     ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, entity);
         }
     }
