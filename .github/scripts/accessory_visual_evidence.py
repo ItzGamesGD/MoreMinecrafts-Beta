@@ -115,7 +115,7 @@ for s in slots:
             report["icons"][key]["covered_by_recipe_book"] = True
         else:
             failures.append(f"{key}: rendered slot looks empty (inked {inked / (s['size'] ** 2):.2f})")
-    if s["name"].endswith("recipe-closed") and s["menu"] >= 9 and s["menu"] <= 20:
+    if s["name"].endswith("recipe-closed") and 9 <= s["menu"] < 9 + len(ids):
         crops_by_scale[s["scale"]][s["item"]] = crop
 
 for scale, crops in crops_by_scale.items():

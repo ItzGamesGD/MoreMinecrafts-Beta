@@ -111,7 +111,7 @@ public final class AccessoryVisualClientGameTest implements FabricClientGameTest
             for (int slot = 0; slot < player.getInventory().getContainerSize(); slot++) {
                 player.getInventory().setItem(slot, ItemStack.EMPTY);
             }
-            // All thirteen accessories as ordinary inventory stacks in the 3x9 main grid (menu slots 9-20).
+            // All thirteen accessories as ordinary inventory stacks in the 3x9 main grid (menu slots 9-21).
             int slot = FIRST_GRID_MENU_SLOT;
             for (AccessoryDefinition definition : AccessoryDefinition.ALL) {
                 player.getInventory().setItem(slot++, stack(definition));
