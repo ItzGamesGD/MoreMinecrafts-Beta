@@ -106,6 +106,9 @@ public final class SkyMobBbModelCapture implements FabricClientGameTest {
             Mob mob = TYPES.get(i).create(level, EntitySpawnReason.COMMAND);
             if (mob == null) continue;
             mob.setPos(x, Y, 0.5);
+            if (mob instanceof SkyguardArcher) {
+                mob.setItemSlot(net.minecraft.world.entity.EquipmentSlot.MAINHAND, new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.BOW));
+            }
             mob.setNoAi(true);
             mob.setPersistenceRequired();
             level.addFreshEntity(mob);
