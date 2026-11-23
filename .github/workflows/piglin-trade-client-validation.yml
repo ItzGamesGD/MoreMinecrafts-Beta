@@ -92,12 +92,15 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          # Same auto-join path as the existing visual harness (quick-play args do not connect on 26.3).
           DISPLAY=:99 LIBGL_ALWAYS_SOFTWARE=1 MESA_LOADER_DRIVER_OVERRIDE=llvmpipe \
+            MOREMINECRAFTS_VISUAL_VALIDATION=1 MOREMINECRAFTS_VISUAL_SERVER_ADDRESS=127.0.0.1:25565 \
             setsid timeout 420s ./gradlew -I scripts/visual_validation/visual-validation.init.gradle runClient \
-            --args="--width 1280 --height 720 --username PiglinTester --quickPlayMultiplayer 127.0.0.1:25565" \
+            --args="--width 1280 --height 720 --username PiglinTester" \
             > visual-validation-results/client.log 2>&1 &
           for attempt in $(seq 1 120); do
-            if grep -Fq "PiglinTester joined the game" visual-validation-results/server.log; then
+            if grep -Fq "VISUAL_VALIDATION_PLAYER_JOINED" visual-validation-results/client.log \
+                && grep -Fq "PiglinTester joined the game" visual-validation-results/server.log; then
               echo "client joined"; exit 0
             fi
             sleep 2
