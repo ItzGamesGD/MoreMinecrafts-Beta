@@ -1,0 +1,19 @@
+{
+  "offer": {
+    "buy": {
+      "id": "minecraft:gold_ingot",
+      "count": 10
+    },
+    "sell": {
+      "id": "minecraft:leather",
+      "count": 4
+    },
+    "maxUses": 8,
+    "uses": 0,
+    "rewardExp": false,
+    "xp": 0,
+    "priceMultiplier": 0.0,
+    "demand": 0,
+    "specialPrice": 0
+  }
+}

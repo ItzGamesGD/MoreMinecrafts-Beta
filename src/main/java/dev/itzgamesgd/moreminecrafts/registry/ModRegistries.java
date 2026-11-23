@@ -41,5 +41,6 @@ public final class ModRegistries {
         EquipmentAttachments.initialize();
         EquipmentRuntime.initialize();
         dev.itzgamesgd.moreminecrafts.equipment.MobCaptureRuntime.initialize();
+        dev.itzgamesgd.moreminecrafts.trade.PiglinTrading.initialize();
     }
 }

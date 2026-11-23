@@ -27,6 +27,8 @@ public final class ResearchRewards {
             Map.entry("weapon_swap_handling", List.of(new Effect("weapon_swap_handling", Kind.OPERATION_IMPROVEMENT, 1.0, 1))),
             Map.entry("mob_aggro_redirection", List.of(new Effect("mob_aggro_redirection", Kind.OPERATION_IMPROVEMENT, 1.0, 1))),
             Map.entry("mob_capture", List.of(new Effect("mob_capture_eligibility", Kind.DEVICE_ELIGIBILITY, 1.0, 1))),
+            Map.entry("piglin_trading", List.of(new Effect("piglin_structured_trade", Kind.DEVICE_ELIGIBILITY, 1.0, 1))),
+            Map.entry("piglin_trading_2", List.of(new Effect("piglin_structured_trade_expansion", Kind.DEVICE_ELIGIBILITY, 1.0, 1))),
             Map.entry("piglin_barter", List.of(new Effect("piglin_barter_improvement", Kind.OPERATION_IMPROVEMENT, 1.0, 1))),
             Map.entry("throwable_pickaxe", List.of(new Effect("throwable_pickaxe", Kind.OPERATION_IMPROVEMENT, 1.0, 1)))
     );
