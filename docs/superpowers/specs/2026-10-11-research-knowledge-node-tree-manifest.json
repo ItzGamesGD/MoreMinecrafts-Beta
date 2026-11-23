@@ -5958,7 +5958,7 @@
       "catalog": "v4",
       "discipline": "world",
       "branch": "trading",
-      "branchOrder": 2,
+      "branchOrder": 3,
       "nodeOrder": 3,
       "center": [
         448,
@@ -6016,7 +6016,7 @@
       "catalog": "v4",
       "discipline": "world",
       "branch": "trading",
-      "branchOrder": 2,
+      "branchOrder": 3,
       "nodeOrder": 4,
       "center": [
         448,

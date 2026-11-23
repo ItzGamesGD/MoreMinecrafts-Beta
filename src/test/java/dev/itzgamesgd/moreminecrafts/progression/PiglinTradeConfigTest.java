@@ -38,11 +38,11 @@ class PiglinTradeConfigTest {
     @Test void purchaseRequiresTheBarterStudyAndKnowledge() {
         ResearchDefinition d = ResearchCatalog.byId("piglin_trading");
         Map<String, Integer> mats = Map.of("minecraft:gold_block", 32, "minecraft:crying_obsidian", 16, "minecraft:emerald", 8);
-        assertTrue(ResearchPurchaseRules.validate(d, 1, 0, Set.of(48), Set.of("v3.research.54"), mats, 2400)
+        assertTrue(ResearchPurchaseRules.validate(d, 1, 0, Set.of(48), Set.of("v3.research.54", "world_root"), mats, 2400)
                 == ResearchPurchaseRules.Result.PURCHASED);
         assertTrue(ResearchPurchaseRules.validate(d, 1, 0, Set.of(48), Set.of(), mats, 2400)
                 == ResearchPurchaseRules.Result.MISSING_PREREQUISITE);
-        assertTrue(ResearchPurchaseRules.validate(d, 1, 0, Set.of(), Set.of("v3.research.54"), mats, 2400)
+        assertTrue(ResearchPurchaseRules.validate(d, 1, 0, Set.of(), Set.of("v3.research.54", "world_root"), mats, 2400)
                 == ResearchPurchaseRules.Result.MISSING_KNOWLEDGE);
     }
 
