@@ -34,7 +34,7 @@ public final class ResearchPurchaseService {
         Set<Integer> knowledge = new HashSet<>();
         for (int i = 1; i <= 70; i++) if (state.hasKnowledge(i)) knowledge.add(i);
         Set<String> purchased = new HashSet<>();
-        for (ResearchDefinition research : ResearchCatalog.v4Additions())
+        for (ResearchDefinition research : ResearchCatalog.allCatalogEntries())
             if (state.researchLevel(research.id()) > 0) purchased.add(research.id());
         Map<String, Integer> inventoryTotals = materialTotals(player);
         int xp = RawXp.available(player);

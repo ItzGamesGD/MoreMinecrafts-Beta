@@ -47,3 +47,9 @@
 - Also read [automation-device-ui-approved-2026-10-10.md](automation-device-ui-approved-2026-10-10.md), which specifies the approved automatic farm, logging device and brewing extension. This document **adds** piglin trading and mob tracker; it does not replace or weaken those requirements.
 - The user's latest brewing clarification means **do not create a second duplicate brewing-control UI**; preserve the already approved left/right inventory extensions of the vanilla brewing stand.
 - Before implementing, audit all active branches and reconcile only after verifying latest SHAs; this main-branch documentation publication does not merge implementation branches.
+
+## 6. Piglin Trading — approved decisions (2026-11-23)
+Approved by the user in conversation; these supersede the "pending" status in §1.5 only for the items below.
+1. **Interaction:** once the research below is purchased, right-clicking a Piglin (including with a gold ingot in hand) opens the villager-style trade and never starts vanilla barter by right-click. Locked players keep vanilla right-click barter. Gold attraction (dropped-item admiring/pickup) is unchanged for everyone.
+2. **Research `piglin_trading`** (display: "Piglin Structured Trading" / "피글린 구조화 거래"): World discipline, trading branch, T3, one level. Prerequisites: research `v3.research.54` purchased AND knowledge 48. Cost: 2400 raw XP, 32 gold blocks, 16 crying obsidian, 8 emeralds.
+3. **Still NOT approved (do not implement):** offers, gold prices, trade items, stock/max uses and restock, XP effects, stock scope (per Piglin vs per player), the second (expansion) research tier, hostile-Piglin handling, and index routing of this document. The shipped offer catalog stays empty until those are approved.

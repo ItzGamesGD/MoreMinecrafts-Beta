@@ -5586,6 +5586,64 @@
       "branchTitleKey": "moreminecrafts.ui.branch.world.trading"
     },
     {
+      "id": "piglin_trading",
+      "catalog": "v4",
+      "discipline": "world",
+      "branch": "trading",
+      "branchOrder": 2,
+      "nodeOrder": 3,
+      "center": [
+        448,
+        280
+      ],
+      "title": "피글린 구조화 거래",
+      "titleKey": "moreminecrafts.research.piglin_trading.title",
+      "descriptionKey": "moreminecrafts.research.piglin_trading.description",
+      "tier": "T3",
+      "levelCap": 1,
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        48
+      ],
+      "researchPrerequisites": [
+        "v3.research.54"
+      ],
+      "prerequisiteSemantics": "any_of_knowledge",
+      "costs": [
+        {
+          "level": 1,
+          "rawXp": 2400,
+          "materials": [
+            {
+              "itemId": "minecraft:gold_block",
+              "count": 32,
+              "compressedUnits": 0
+            },
+            {
+              "itemId": "minecraft:crying_obsidian",
+              "count": 16,
+              "compressedUnits": 0
+            },
+            {
+              "itemId": "minecraft:emerald",
+              "count": 8,
+              "compressedUnits": 0
+            }
+          ]
+        }
+      ],
+      "rewardStatus": "mapped_in_ResearchRewards",
+      "reward": {
+        "effectId": "piglin_structured_trade",
+        "kind": "DEVICE_ELIGIBILITY",
+        "valuePerLevel": 1.0,
+        "maximumLevel": 1
+      },
+      "iconItemId": "minecraft:gold_ingot",
+      "iconRule": "explicit_catalog_topic_mapping",
+      "branchTitleKey": "moreminecrafts.ui.branch.world.trading"
+    },
+    {
       "id": "wall_jump",
       "catalog": "v4",
       "discipline": "world",

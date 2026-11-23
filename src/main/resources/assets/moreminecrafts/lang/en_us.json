@@ -479,6 +479,8 @@
   "moreminecrafts.research.mob_capture.description": "Unlocks the individual mob capture tool.",
   "moreminecrafts.research.piglin_barter.title": "Piglin Bartering",
   "moreminecrafts.research.piglin_barter.description": "Unlocks the approved piglin bartering improvement.",
+  "moreminecrafts.research.piglin_trading.title": "Piglin Structured Trading",
+  "moreminecrafts.research.piglin_trading.description": "Unlocks villager-style trading with piglins. Vanilla gold attraction is unchanged.",
   "moreminecrafts.research.wall_jump.title": "Wall Jump",
   "moreminecrafts.research.wall_jump.description": "Unlocks wall jumping.",
   "moreminecrafts.research.fall_roll.title": "Fall Roll",

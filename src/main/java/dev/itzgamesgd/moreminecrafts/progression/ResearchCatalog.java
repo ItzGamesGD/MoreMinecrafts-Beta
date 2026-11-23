@@ -31,6 +31,8 @@ public final class ResearchCatalog {
         add(entries, "piglin_barter", "world", 2100, any(48), m("minecraft:gold_block",16), m("minecraft:crying_obsidian",16), m("minecraft:emerald",8));
         add(entries, "wall_jump", "world", 900, any(62), m("minecraft:slime_ball",32), m("minecraft:iron_boots",1));
         add(entries, "fall_roll", "world", 650, any(54), m("minecraft:leather_boots",1), m("minecraft:feather",64));
+        addWithResearchPrerequisites(entries, "piglin_trading", "world", "T3", 2400, any(48),
+                Set.of("v3.research.54"), m("minecraft:gold_block",32), m("minecraft:crying_obsidian",16), m("minecraft:emerald",8));
         V4 = Map.copyOf(entries);
     }
 
@@ -45,6 +47,15 @@ public final class ResearchCatalog {
                 "moreminecrafts.research." + id + ".title",
                 "moreminecrafts.research." + id + ".description", 1,
                 knowledge, Set.of(), List.of(new ResearchDefinition.LevelCost(xp, List.of(costs))));
+        if (map.putIfAbsent(id, definition) != null) throw new IllegalStateException("Duplicate research " + id);
+    }
+    private static void addWithResearchPrerequisites(Map<String, ResearchDefinition> map, String id, String discipline,
+                            String tier, int xp, Set<Integer> knowledge, Set<String> research,
+                            ResearchDefinition.MaterialCost... costs) {
+        var definition = new ResearchDefinition(id, discipline,
+                "moreminecrafts.research." + id + ".title",
+                "moreminecrafts.research." + id + ".description", 1,
+                knowledge, research, List.of(new ResearchDefinition.LevelCost(xp, List.of(costs))), "v4", tier, true);
         if (map.putIfAbsent(id, definition) != null) throw new IllegalStateException("Duplicate research " + id);
     }
     public static List<ResearchDefinition> v4Additions() {
