@@ -30,8 +30,7 @@ for n in $(seq 1 180); do
 done
 grep -Fq 'Done (' "$OUT/server.log" || { echo SERVER_READY_TIMEOUT; exit 1; }
 echo SERVER_READY
-python3 scripts/visual_validation/rcon.py 'setworldspawn 0 64 16' 'forceload add -24 -24 24 24' 'time set noon' 'weather clear' \
-  'gamerule mob_griefing false' 'gamerule do_mob_spawning false' | tee "$OUT/scene.log"
+python3 scripts/visual_validation/rcon.py 'setworldspawn 0 64 16' 'forceload add -24 -24 24 24' 'time set noon' 'weather clear' | tee "$OUT/scene.log"
 printf 'guiScale:2\ntutorialStep:none\n' > run/options.txt
 export OUT
 xvfb-run -a -s '-screen 0 1280x720x24 +extension GLX +render -noreset' bash -euo pipefail -c '
