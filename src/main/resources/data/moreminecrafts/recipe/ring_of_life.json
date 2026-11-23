@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "DND",
+    "bSb",
+    "PYP"
+  ],
+  "key": {
+    "D": "minecraft:diamond",
+    "N": "minecraft:totem_of_undying",
+    "P": "minecraft:golden_apple",
+    "S": "moreminecrafts:etherium_shard",
+    "Y": "moreminecrafts:mythril",
+    "b": "moreminecrafts:blazing_relic_core"
+  },
+  "result": {
+    "id": "moreminecrafts:ring_of_life",
+    "count": 1
+  }
+}

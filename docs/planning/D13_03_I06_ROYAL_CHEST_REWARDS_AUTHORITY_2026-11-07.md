@@ -55,11 +55,16 @@ Each probability check is independent; quantities are inclusive discrete uniform
 | `minecraft:lapis_lazuli` | 100% | 64–128 |
 | `minecraft:diamond` | 100% | 10–18 |
 | `moreminecrafts:titanium_ingot` | 75% | 32–64 |
-| `moreminecrafts:tungsten_ingot` | 75% | 32–64 |
 
-**Q33 correction:** titanium and tungsten are **32–64**, not the superseded 4–8. **Q45 B:** give the **ingots**, never `raw_titanium` or `raw_tungsten`. These are ordinary metal-tier materials, not promoted to the PRIMARY rare pool.
+**Q33 correction:** titanium is **32–64**, not the superseded 4–8. **Q45 B:** give the **ingot**, never `raw_titanium`. These are ordinary metal-tier materials, not promoted to the PRIMARY rare pool.
+
+**Owner amendment (2026-11-16):** remove the `tungsten_ingot` SECONDARY reward row with no replacement. The remaining rows retain their existing independent chance and quantity rules.
+
+**Owner amendment (2026-11-16, inventory placement):** after rolling all rewards and splitting each reward at its item's maximum stack size, assign the resulting stacks to randomly selected distinct slots in the 54-slot chest; leave other slots empty. Use the same per-chest `RandomGenerator` stream used for the reward roll, after the reward draws, so both item results and slot positions replay deterministically. Do not truncate any reward. This changes first-generation slot placement only; first valid direct opening after Tomb Guardian defeat still generates once, and the existing shared withdraw-only inventory, access, and persistence rules remain unchanged. Existing saved chest contents keep their persisted slot positions.
 
 ## Shared special-reward rules
+
+**Shimmering Soul Glass (owner decision 2026-11-17):** PRIMARY only. One independent roll, drawn after the existing PRIMARY sap rolls, success chance **50%**, quantity **1**. It is not part of the PRIMARY rare pool and is not on SECONDARY. Source: [SKY §23](../design/SKY_ISLANDS_T2_CONTEXT_2026-10-27.md#23-2026-11-17-오너-확정--악세서리-t2-결정-깃털-부적영혼-유리재료-보류).
 
 **T2 accessories:** Each of the two chests independently has a **20%** chance of exactly one T2 accessory. On success choose `moreminecrafts:seed_of_life` or `moreminecrafts:ring_of_time` with **50:50** conditional probability. Duplicates across chests are allowed. Joint probability: neither 64%; exactly one chest succeeds 32%; both succeed 4% (same type 2%; distinct types 2%). Do not tie either chest's result to the other.
 
@@ -84,7 +89,7 @@ No common monster drops, completed Etherium ingots, elemental cores, unrelated a
 - I06 Q29–Q33: SECONDARY pool; corrected Q33 metal quantities are 32–64.
 - I06 Q06, Q41–Q42: catalyst and independent accessories; no mob drops.
 - I06 Q32 and Q44 A: do not add further materials now; candidate audit deferred.
-- I06 Q45 B: titanium and tungsten **ingots**.
+- I06 Q45 B originally named titanium and tungsten **ingots**. The 2026-11-16 owner amendment removes the tungsten row with no replacement; titanium remains as specified above.
 - Spatial selection: ST-01 P4 **B**, with orientation and final integration authority tracked separately.
 
 **Design synchronized; code implementation, integration, CI, GameTest, and live acceptance are not asserted by this document.**

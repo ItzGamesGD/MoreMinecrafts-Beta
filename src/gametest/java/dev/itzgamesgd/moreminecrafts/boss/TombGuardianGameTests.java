@@ -129,13 +129,17 @@ public final class TombGuardianGameTests {
 
     /** A real survival player (the GameTest mock player always reports creative and is never a combat target). */
     private static ServerPlayer survivalPlayer(GameTestHelper ctx, Vec3 relative) {
+        return mockPlayer(ctx, relative, GameType.SURVIVAL);
+    }
+
+    private static ServerPlayer mockPlayer(GameTestHelper ctx, Vec3 relative, GameType mode) {
         var server = ctx.getLevel().getServer();
         var cookie = CommonListenerCookie.createInitial(new GameProfile(UUID.randomUUID(), "tomb-sight"), false);
         ServerPlayer player = new ServerPlayer(server, ctx.getLevel(), cookie.gameProfile(), cookie.clientInformation());
         Connection connection = new Connection(PacketFlow.SERVERBOUND);
         new EmbeddedChannel(connection);
         server.getPlayerList().placeNewPlayer(connection, player, cookie);
-        player.setGameMode(GameType.SURVIVAL);
+        player.setGameMode(mode);
         Vec3 position = ctx.absoluteVec(relative);
         player.teleportTo(position.x, position.y, position.z);
         return player;
@@ -526,6 +530,10 @@ public final class TombGuardianGameTests {
         floor(ctx, 10);
         TombGuardian guardian = freeGuardian(ctx, new BlockPos(2, 1, 2));
         Villager victim = dummy(ctx, new Vec3(2.5D, 1.0D, 9.5D));
+        // Summons are ordinary monsters: Mob.checkDespawn discards them once the nearest player is over 128 blocks away,
+        // and other parallel tests keep mock players near the origin. A creative player beside this test (ignored by the
+        // guardian's targeting and area hits) keeps the nearest-player distance small, as it is in a real fight.
+        ServerPlayer anchor = mockPlayer(ctx, new Vec3(8.5D, 1.0D, 8.5D), GameType.CREATIVE);
         ctx.assertTrue(guardian.forceAttack(level, TombGuardianCombat.Attack.SUMMON, victim), "summon starts");
         ctx.runAfterDelay(TombGuardianTuning.SUMMON_WINDUP_TICKS + 2, () -> {
             ctx.assertTrue(guardian.aliveSummons(level) == 3, "three summons alive, got " + guardian.aliveSummons(level));
@@ -537,6 +545,7 @@ public final class TombGuardianGameTests {
         });
         ctx.runAfterDelay(TombGuardianTuning.SUMMON_WINDUP_TICKS * 2 + 6, () -> {
             ctx.assertTrue(guardian.aliveSummons(level) == 3, "the living total stays at 3, got " + guardian.aliveSummons(level));
+            level.getServer().getPlayerList().remove(anchor);
             ctx.succeed();
         });
     }
@@ -614,7 +623,7 @@ public final class TombGuardianGameTests {
     // Loot.
 
     @GameTest
-    public void killLootIsAncientHeartOneHundredPercentTimesOneAndNothingElse(GameTestHelper ctx) {
+    public void killLootIsAncientHeartAndAncientWorldTreeSapEachOneHundredPercentTimesOnePlusGravityHeart(GameTestHelper ctx) {
         ServerLevel level = ctx.getLevel();
         TombGuardian guardian = ctx.spawn(TombGuardianEntities.TOMB_GUARDIAN, new BlockPos(1, 1, 1));
         LootTable table = level.getServer().reloadableRegistries().getLootTable(ResourceKey.create(Registries.LOOT_TABLE,
@@ -634,11 +643,16 @@ public final class TombGuardianGameTests {
             List<ItemStack> drops = table.getRandomItems(params, (long) i * 7919L + 17L);
             int stacks = 0;
             int gravityStacks = 0;
+            int sapStacks = 0;
             for (ItemStack stack : drops) {
                 // 2026-11-14 P1-BUG-04: Ancient Heart is 100% x1. Heart of Gravity remains its own independent 20% x1 pool.
                 if (stack.is(ModItems.ANCIENT_HEART)) {
                     ctx.assertTrue(stack.getCount() == 1, "Ancient Heart is exactly one, got " + stack);
                     stacks++;
+                } else if (stack.is(ModItems.ANCIENT_WORLD_TREE_SAP)) {
+                    // 2026-11-16 owner task decision: the document's 100% Ancient World Tree Sap tomb-guardian drop, exactly one.
+                    ctx.assertTrue(stack.getCount() == 1, "Ancient World Tree Sap is exactly one, got " + stack);
+                    sapStacks++;
                 } else {
                     ctx.assertTrue(stack.is(gravityItem) && stack.getCount() == 1,
                             "the only other kill drop is exactly one Heart of Gravity, got " + stack);
@@ -646,6 +660,7 @@ public final class TombGuardianGameTests {
                 }
             }
             ctx.assertTrue(stacks == 1, "exactly one Ancient Heart on every kill, got " + stacks);
+            ctx.assertTrue(sapStacks == 1, "exactly one Ancient World Tree Sap on every kill, got " + sapStacks);
             ctx.assertTrue(gravityStacks <= 1, "never more than one Heart of Gravity per kill");
             hearts += stacks;
             gravity += gravityStacks;

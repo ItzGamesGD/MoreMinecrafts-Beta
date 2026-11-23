@@ -33,7 +33,7 @@ final class BatchAClientRuntimeTest {
                     check(sectors(client).validationVisitAllSectors(),"all Research sectors"); sectors(client).onClose();
                 }
                 case 7 -> selector(client).validationClick("xp_quest");
-                case 8 -> { check(tree(client).validationCanvas().nodes().size() == 75,"75-node production tree"); capture(client,"batch-a-quest-tree.png"); }
+                case 8 -> { check(tree(client).validationCanvas().nodes().size() == 76,"76-node production tree"); capture(client,"batch-a-quest-tree.png"); }
                 case 9 -> {
                     var row = row();
                     if (!row.complete()) {
@@ -61,7 +61,7 @@ final class BatchAClientRuntimeTest {
                     check(ProgressionClientApi.lastActionResult() == dev.itzgamesgd.moreminecrafts.progression.QuestProgressService.ClaimResult.ALREADY_CLAIMED.ordinal(),"server duplicate rejection");
                     tree(client).onClose(); selector(client);
                 }
-                case 14 -> MoreMinecrafts.LOGGER.info("BATCH_A_RUNTIME_PASS input=Screen-callbacks physical=false knowledge_sectors=7 research_sectors=7 quest_nodes=75 xp_before={} reward={} xp_after={} claimed=true repeat_rejected=true",xpBefore,reward,ProgressionClientApi.availableXp());
+                case 14 -> MoreMinecrafts.LOGGER.info("BATCH_A_RUNTIME_PASS input=Screen-callbacks physical=false knowledge_sectors=7 research_sectors=7 quest_nodes=76 xp_before={} reward={} xp_after={} claimed=true repeat_rejected=true",xpBefore,reward,ProgressionClientApi.availableXp());
                 default -> { }
             }
             phase++;

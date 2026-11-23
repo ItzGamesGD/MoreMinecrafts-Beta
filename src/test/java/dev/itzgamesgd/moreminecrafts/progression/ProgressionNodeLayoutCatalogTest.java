@@ -71,11 +71,11 @@ final class ProgressionNodeLayoutCatalogTest {
             (node.get("screen").getAsString().equals("research") ? researchNodes : knowledgeNodes).add(node);
         }
 
-        assertEquals(162, nodes.size());
-        assertEquals(92, researchNodes.size());
+        assertEquals(164, nodes.size());
+        assertEquals(94, researchNodes.size());
         assertEquals(70, knowledgeNodes.size());
         assertEquals(70, researchNodes.stream().filter(n -> n.get("catalog").getAsString().equals("v3")).count());
-        assertEquals(17, researchNodes.stream().filter(n -> n.get("catalog").getAsString().equals("v4")).count());
+        assertEquals(19, researchNodes.stream().filter(n -> n.get("catalog").getAsString().equals("v4")).count());
         assertEquals(5, researchNodes.stream().filter(n -> n.get("catalog").getAsString().equals("stage22")).count());
         assertEquals(researchNodes.size(), researchNodes.stream().map(n -> n.get("id").getAsString()).collect(Collectors.toSet()).size());
         assertEquals(knowledgeNodes.size(), knowledgeNodes.stream().map(n -> n.get("id").getAsString()).collect(Collectors.toSet()).size());
@@ -192,7 +192,7 @@ final class ProgressionNodeLayoutCatalogTest {
             JsonObject node = element.getAsJsonObject();
             approvedById.put(node.get("id").getAsString(), node);
         }
-        assertEquals(162, runtime.size());
+        assertEquals(164, runtime.size());
         assertEquals(approvedById.size(), runtime.size());
         for (var element : runtime) {
             JsonObject node = element.getAsJsonObject();
@@ -209,7 +209,7 @@ final class ProgressionNodeLayoutCatalogTest {
 
     @Test void runtimeResolverFailsClosedOnCatalogMismatchAndReturnsStableBranchOrder() {
         ProgressionNodeLayoutCatalog catalog = ProgressionNodeLayoutCatalog.load();
-        assertEquals(162, catalog.nodes().size());
+        assertEquals(164, catalog.nodes().size());
         assertEquals(8, catalog.nodes("research", "resources").size());
         assertEquals(List.of("geology_and_quarry", "forestry", "field_mobility", "discipline_foundation"),
                 catalog.branches("research", "resources"));

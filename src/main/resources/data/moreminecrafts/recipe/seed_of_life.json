@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "D8D",
+    "aSa",
+    "GYG"
+  ],
+  "key": {
+    "8": "moreminecrafts:ancient_world_tree_sap",
+    "D": "minecraft:diamond",
+    "G": "minecraft:gold_ingot",
+    "S": "moreminecrafts:etherium_shard",
+    "Y": "moreminecrafts:mythril",
+    "a": "moreminecrafts:abyssal_relic_core"
+  },
+  "result": {
+    "id": "moreminecrafts:seed_of_life",
+    "count": 1
+  }
+}

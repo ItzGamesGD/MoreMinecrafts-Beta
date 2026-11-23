@@ -41,7 +41,41 @@ public final class LiveTestCommand {
                                 .then(Commands.literal("bomb").executes(c -> spawnZombie(c.getSource(), ZombieVariant.BOMB)))
                                 .then(Commands.literal("leap").executes(c -> spawnZombie(c.getSource(), ZombieVariant.LEAP)))
                                 .then(Commands.literal("mining_giant").executes(c -> spawnZombie(c.getSource(), ZombieVariant.MINING_GIANT)))
-                                .then(Commands.literal("skeleton_king").executes(c -> spawnSkeletonKing(c.getSource()))))));
+                                .then(Commands.literal("skeleton_king").executes(c -> spawnSkeletonKing(c.getSource()))))
+                        .then(Commands.literal("piglin")
+                                .then(Commands.literal("unlock").executes(c -> piglinUnlock(c.getSource().getPlayerOrException())))
+                                .then(Commands.literal("open").executes(c -> piglinOpen(c.getSource().getPlayerOrException())))
+                                .then(Commands.literal("status").executes(c -> piglinStatus(c.getSource().getServer()))))));
+    }
+
+    /** Live-validation hook: grants both approved structured-trade researches to the executing player. */
+    private static int piglinUnlock(ServerPlayer player) {
+        player.setAttached(dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime.STATE,
+                dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime.state(player)
+                        .with("research.piglin_trading", 1).with("research.piglin_trading_2", 1));
+        dev.itzgamesgd.moreminecrafts.MoreMinecrafts.LOGGER.info("PIGLIN_TRADE_TEST unlocked player={}", player.getName().getString());
+        return 1;
+    }
+
+    /** Live-validation hook: opens the structured trade on the nearest Piglin, using the real server path. */
+    private static int piglinOpen(ServerPlayer player) {
+        var piglins = player.level().getEntitiesOfClass(net.minecraft.world.entity.monster.piglin.Piglin.class,
+                player.getBoundingBox().inflate(16.0));
+        if (piglins.isEmpty()) {
+            dev.itzgamesgd.moreminecrafts.MoreMinecrafts.LOGGER.info("PIGLIN_TRADE_TEST open result=NO_PIGLIN");
+            return 0;
+        }
+        boolean opened = dev.itzgamesgd.moreminecrafts.trade.PiglinTrading.tryOpen(player, piglins.get(0));
+        dev.itzgamesgd.moreminecrafts.MoreMinecrafts.LOGGER.info("PIGLIN_TRADE_TEST open result={} menu={}",
+                opened ? "OPENED" : "REFUSED", player.containerMenu.getClass().getSimpleName());
+        return opened ? 1 : 0;
+    }
+
+    private static int piglinStatus(net.minecraft.server.MinecraftServer server) {
+        var loaded = dev.itzgamesgd.moreminecrafts.trade.PiglinTradeCatalog.current(server.registryAccess());
+        dev.itzgamesgd.moreminecrafts.MoreMinecrafts.LOGGER.info("PIGLIN_TRADE_TEST status offers={} unlock={}",
+                loaded.offers().size(), loaded.config().requiredResearch().orElse("none"));
+        return loaded.offers().size();
     }
 
     private static int giveEnhancement(ServerPlayer player) {
@@ -76,8 +110,6 @@ public final class LiveTestCommand {
     private static int giveMaterials(ServerPlayer player) {
         give(player, ModItems.RAW_TITANIUM, 64);
         give(player, ModItems.TITANIUM_INGOT, 64);
-        give(player, ModItems.RAW_TUNGSTEN, 64);
-        give(player, ModItems.TUNGSTEN_INGOT, 64);
         give(player, ModItems.MYTHRIL, 64);
         give(player, ModItems.ETHERIUM, 64);
         give(player, ModItems.ADAMANTIUM_INGOT, 64);

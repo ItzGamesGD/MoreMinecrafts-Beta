@@ -5,6 +5,6 @@
     "minecraft:coal", "minecraft:diamond", "minecraft:emerald",
     "minecraft:lapis_lazuli", "minecraft:redstone", "minecraft:netherite_scrap",
     "minecraft:quartz", "moreminecrafts:titanium_ingot",
-    "moreminecrafts:tungsten_ingot", "moreminecrafts:adamantium_ingot"
+    "moreminecrafts:adamantium_ingot"
   ]
 }

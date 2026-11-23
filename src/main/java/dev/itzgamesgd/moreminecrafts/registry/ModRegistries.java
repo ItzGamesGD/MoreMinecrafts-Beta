@@ -42,6 +42,7 @@ public final class ModRegistries {
         dev.itzgamesgd.moreminecrafts.progression.ResearchDebugCommands.initialize();
         ModItems.initialize();
         T2CoreAcquisition.initialize();
+        dev.itzgamesgd.moreminecrafts.accessory.ArtifactCoreDrops.initialize();
         ModOreGeneration.initialize();
         FishingChallenges.initialize();
         FishermanFishSale.initialize();
@@ -54,5 +55,6 @@ public final class ModRegistries {
         ContractObjectives.initialize();
         dev.itzgamesgd.moreminecrafts.bounty.ContractLootIntegration.initialize();
         dev.itzgamesgd.moreminecrafts.equipment.MobCaptureRuntime.initialize();
+        dev.itzgamesgd.moreminecrafts.trade.PiglinTrading.initialize();
     }
 }

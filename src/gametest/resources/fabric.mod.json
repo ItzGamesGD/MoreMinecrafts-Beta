@@ -24,6 +24,9 @@
     ],
     "fabric-gametest": [
       "dev.itzgamesgd.moreminecrafts.spidercolony.SpiderColonyGameTests",
+      "dev.itzgamesgd.moreminecrafts.accessory.T2AccessoryGameTests",
+      "dev.itzgamesgd.moreminecrafts.accessory.ArtifactCoreGameTests",
+      "dev.itzgamesgd.moreminecrafts.colosseum.T2GladiatorDropGameTests",
       "dev.itzgamesgd.moreminecrafts.skytower.SkyTowerGameTests",
       "dev.itzgamesgd.moreminecrafts.material.EtheriumFortuneGameTests",
       "dev.itzgamesgd.moreminecrafts.skeleton.SkeletonKingGameTests",
@@ -116,10 +119,12 @@
       "dev.itzgamesgd.moreminecrafts.mob.sky.SkyHabitatGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryPhysicsGameTests",
+      "dev.itzgamesgd.moreminecrafts.accessory.FeatherCharmGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryShockwaveGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryRestartGameTests",
       "dev.itzgamesgd.moreminecrafts.mob.sky.SkyVariantMobGameTests",
-      "dev.itzgamesgd.moreminecrafts.mob.pyramid.PyramidMobGameTests"
+      "dev.itzgamesgd.moreminecrafts.mob.pyramid.PyramidMobGameTests",
+      "dev.itzgamesgd.moreminecrafts.trade.PiglinTradeGameTests"
     ],
     "fabric-client-gametest": [
       "dev.itzgamesgd.moreminecrafts.colosseum.St05Stage1dClientScenario",

@@ -1030,7 +1030,7 @@
     "kind": "distinct_groups",
     "key": "set.natural_ore_mined",
     "entries": [
-     "moreminecrafts:titanium_ore|moreminecrafts:tungsten_ore|moreminecrafts:mythril_ore|moreminecrafts:etherium_ore|moreminecrafts:deepslate_titanium_ore|moreminecrafts:deepslate_tungsten_ore|moreminecrafts:deepslate_mythril_ore|moreminecrafts:deepslate_etherium_ore"
+     "moreminecrafts:titanium_ore|moreminecrafts:mythril_ore|moreminecrafts:etherium_ore|moreminecrafts:deepslate_titanium_ore|moreminecrafts:deepslate_mythril_ore|moreminecrafts:deepslate_etherium_ore"
     ],
     "divisor": 1,
     "seedCondition": null
@@ -1043,13 +1043,12 @@
    "tier": "EARLY_MID",
    "status": "NOW",
    "rewardRawXp": 350,
-   "target": 4,
+   "target": 3,
    "tracker": {
     "kind": "distinct_groups",
     "key": "set.natural_ore_mined",
     "entries": [
      "moreminecrafts:titanium_ore|moreminecrafts:deepslate_titanium_ore",
-     "moreminecrafts:tungsten_ore|moreminecrafts:deepslate_tungsten_ore",
      "moreminecrafts:mythril_ore|moreminecrafts:deepslate_mythril_ore",
      "moreminecrafts:etherium_ore|moreminecrafts:deepslate_etherium_ore"
     ],
@@ -1095,13 +1094,12 @@
    "tier": "MID",
    "status": "NOW",
    "rewardRawXp": 500,
-   "target": 4,
+   "target": 3,
    "tracker": {
     "kind": "distinct_set",
     "key": "set.natural_ore_mined",
     "entries": [
      "moreminecrafts:deepslate_titanium_ore",
-     "moreminecrafts:deepslate_tungsten_ore",
      "moreminecrafts:deepslate_mythril_ore",
      "moreminecrafts:deepslate_etherium_ore"
     ],
@@ -1945,13 +1943,12 @@
    "tier": "ENDGAME",
    "status": "NOW",
    "rewardRawXp": 3150,
-   "target": 5,
+   "target": 4,
    "tracker": {
     "kind": "stat_crafted_distinct",
     "key": "",
     "entries": [
      "moreminecrafts:titanium_block",
-     "moreminecrafts:tungsten_block",
      "moreminecrafts:mythril_block",
      "moreminecrafts:etherium_block",
      "moreminecrafts:adamantium_block"

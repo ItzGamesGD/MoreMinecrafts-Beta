@@ -1,0 +1,15 @@
+PLACEHOLDER TEXTURES - NOT FINAL ART
+The following 32x32 item textures are temporary placeholders (generic gem shape, magenta/black checker marker in the top-left corner).
+Final artwork for these items has not been approved. Replace the PNGs in place; keep the file names.
+skeleton_king_chain.png
+gladiator_blood_crest.png
+ancient_clock_spring.png
+ancient_world_tree_sap.png
+lava_heartstone.png
+permafrost_crystal.png
+abyssal_pearl_core.png
+mermaid_scale.png
+void_star_shard.png
+void_gravity_core.png
+shimmering_soul_glass.png
+feather_charm.png

@@ -123,11 +123,14 @@ public final class T1AccessoryRuntime {
     }
     public static boolean onJump(ServerPlayer player) {
         double cooldown = stat(player, AccessoryDefinition.T1_DOUBLE_JUMP, "cooldown_ticks");
-        if (cooldown <= 0 || !player.isAlive() || player.onGround() || player.isSpectator()
+        // Feather Charm shares this air-jump structure (same once-per-airtime latch, restored on landing) with cooldown 0.
+        boolean timed = cooldown > 0;
+        boolean feather = !timed && !AccessoryAbilities.equipped(player, AccessoryDefinition.FEATHER_CHARM).isEmpty();
+        if ((!timed && !feather) || !player.isAlive() || player.onGround() || player.isSpectator()
                 || player.getAbilities().flying || player.isInWater() || player.isInLava() || player.onClimbable()
                 || player.isPassenger() || player.isFallFlying() || player.isSwimming() || player.isAutoSpinAttack()
                 || player.getAttachedOrElse(EquipmentAttachments.T1_AIR_JUMP_USED, false)) return false;
-        if (!AccessoryCooldownRuntime.start(player, AccessoryDefinition.T1_DOUBLE_JUMP, (long) cooldown)) return false;
+        if (timed && !AccessoryCooldownRuntime.start(player, AccessoryDefinition.T1_DOUBLE_JUMP, (long) cooldown)) return false;
         player.setAttached(EquipmentAttachments.T1_AIR_JUMP_USED, true);
         var movement = player.getDeltaMovement();
         player.setDeltaMovement(movement.x, JUMP_VELOCITY, movement.z);
