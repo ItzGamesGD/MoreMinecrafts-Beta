@@ -56,8 +56,8 @@ final class ResearchV3CatalogTest {
     }
 
     @Test void v4AdditionIdentitiesRemainDistinctAndUnchanged() {
-        assertEquals(17, ResearchCatalog.v4Additions().size());
-        assertEquals(16_910, ResearchCatalog.v4Additions().stream()
+        assertEquals(19, ResearchCatalog.v4Additions().size());
+        assertEquals(22_910, ResearchCatalog.v4Additions().stream()
                 .flatMap(entry -> entry.costs().stream()).mapToInt(ResearchDefinition.LevelCost::rawXp).sum());
         assertTrue(ResearchCatalog.byId("combat_root").catalogVersion().equals("v4"));
         assertTrue(ResearchCatalog.byId("v3.research.01").catalogVersion().equals("v3"));

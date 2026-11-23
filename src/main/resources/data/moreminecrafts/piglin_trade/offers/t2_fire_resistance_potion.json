@@ -1,0 +1,25 @@
+{
+  "offer": {
+    "buy": {
+      "id": "minecraft:gold_ingot",
+      "count": 37
+    },
+    "sell": {
+      "id": "minecraft:potion",
+      "count": 1,
+      "components": {
+        "minecraft:potion_contents": {
+          "potion": "minecraft:fire_resistance"
+        }
+      }
+    },
+    "maxUses": 2,
+    "uses": 0,
+    "rewardExp": false,
+    "xp": 0,
+    "priceMultiplier": 0.0,
+    "demand": 0,
+    "specialPrice": 0
+  },
+  "required_research": "piglin_trading_2"
+}

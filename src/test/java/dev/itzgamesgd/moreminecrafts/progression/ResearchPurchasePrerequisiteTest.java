@@ -70,13 +70,13 @@ final class ResearchPurchasePrerequisiteTest {
 
     @Test void registeredCatalogPreservesIdentitiesAndApprovedTotals() {
         var all = ResearchCatalog.allCatalogEntries();
-        assertEquals(92, all.size());
-        assertEquals(92, all.stream().map(ResearchDefinition::id).distinct().count());
-        assertEquals(200, all.stream().mapToInt(ResearchDefinition::maximumLevel).sum());
-        assertEquals(147_670, all.stream().flatMap(entry -> entry.costs().stream())
+        assertEquals(94, all.size());
+        assertEquals(94, all.stream().map(ResearchDefinition::id).distinct().count());
+        assertEquals(202, all.stream().mapToInt(ResearchDefinition::maximumLevel).sum());
+        assertEquals(153_670, all.stream().flatMap(entry -> entry.costs().stream())
                 .mapToInt(ResearchDefinition.LevelCost::rawXp).sum());
         assertEquals(70, all.stream().filter(entry -> entry.catalogVersion().equals("v3")).count());
-        assertEquals(17, all.stream().filter(entry -> entry.catalogVersion().equals("v4")).count());
+        assertEquals(19, all.stream().filter(entry -> entry.catalogVersion().equals("v4")).count());
         assertEquals(5, all.stream().filter(entry -> entry.catalogVersion().equals("stage22")).count());
         for (ResearchDefinition entry : all) assertSame(entry, ResearchCatalog.byId(entry.id()));
     }

@@ -123,7 +123,8 @@
       "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryShockwaveGameTests",
       "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryRestartGameTests",
       "dev.itzgamesgd.moreminecrafts.mob.sky.SkyVariantMobGameTests",
-      "dev.itzgamesgd.moreminecrafts.mob.pyramid.PyramidMobGameTests"
+      "dev.itzgamesgd.moreminecrafts.mob.pyramid.PyramidMobGameTests",
+      "dev.itzgamesgd.moreminecrafts.trade.PiglinTradeGameTests"
     ],
     "fabric-client-gametest": [
       "dev.itzgamesgd.moreminecrafts.colosseum.St05Stage1dClientScenario",
