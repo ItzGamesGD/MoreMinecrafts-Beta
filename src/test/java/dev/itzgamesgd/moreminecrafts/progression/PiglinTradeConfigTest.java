@@ -27,7 +27,7 @@ class PiglinTradeConfigTest {
         assertTrue(d != null && d.catalogVersion().equals("v4") && d.tier().equals("T3") && d.discipline().equals("world"));
         org.junit.jupiter.api.Assertions.assertEquals(1, d.maximumLevel());
         org.junit.jupiter.api.Assertions.assertEquals(Set.of(48), d.knowledgePrerequisites());
-        org.junit.jupiter.api.Assertions.assertEquals(Set.of("v3.research.54"), d.researchPrerequisites());
+        org.junit.jupiter.api.Assertions.assertEquals(Set.of("v3.research.54", "world_root"), d.researchPrerequisites());
         org.junit.jupiter.api.Assertions.assertEquals(2400, d.cost(1).rawXp());
         org.junit.jupiter.api.Assertions.assertEquals(
                 Map.of("minecraft:gold_block", 32, "minecraft:crying_obsidian", 16, "minecraft:emerald", 8),

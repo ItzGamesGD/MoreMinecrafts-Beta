@@ -5961,7 +5961,7 @@
       "branchOrder": 3,
       "nodeOrder": 3,
       "center": [
-        448,
+        640,
         280
       ],
       "title": "피글린 구조화 거래",
@@ -5974,6 +5974,7 @@
         48
       ],
       "researchPrerequisites": [
+        "world_root",
         "v3.research.54"
       ],
       "prerequisiteSemantics": "any_of_knowledge",
@@ -6019,7 +6020,7 @@
       "branchOrder": 3,
       "nodeOrder": 4,
       "center": [
-        448,
+        640,
         352
       ],
       "title": "피글린 구조화 거래 II",
@@ -6032,6 +6033,7 @@
         48
       ],
       "researchPrerequisites": [
+        "world_root",
         "piglin_trading"
       ],
       "prerequisiteSemantics": "any_of_knowledge",
