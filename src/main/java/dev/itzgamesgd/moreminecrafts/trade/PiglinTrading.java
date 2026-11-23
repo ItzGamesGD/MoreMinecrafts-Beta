@@ -9,7 +9,7 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.monster.piglin.Piglin;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.entity.monster.piglin.PiglinAi;
 
 /**
  * Opens the vanilla merchant screen on a Piglin. Vanilla gold-ingot barter is left untouched
@@ -26,17 +26,25 @@ public final class PiglinTrading {
                 ModIds.id("piglin_trade"), new PiglinTradeCatalog.Listener());
         UseEntityCallback.EVENT.register((player, level, hand, entity, hit) -> {
             if (hand != InteractionHand.MAIN_HAND || !(entity instanceof Piglin piglin)
-                    || player.isSpectator() || player.getItemInHand(hand).is(Items.GOLD_INGOT))
+                    || player.isSpectator() || isBarterInteraction(player.getItemInHand(hand)))
                 return InteractionResult.PASS;
             if (level.isClientSide() || !(player instanceof ServerPlayer serverPlayer)) return InteractionResult.PASS;
             return tryOpen(serverPlayer, piglin) ? InteractionResult.SUCCESS_SERVER : InteractionResult.PASS;
         });
     }
 
+    /** Safeguard: an interaction carrying the vanilla barter item is never routed to structured trading. */
+    static boolean isBarterInteraction(net.minecraft.world.item.ItemStack held) {
+        return held.is(PiglinAi.BARTERING_ITEM);
+    }
+
     /** Server-side gate shared by the interaction and tests. */
     public static boolean tryOpen(ServerPlayer player, Piglin piglin) {
         PiglinTradeCatalog.Loaded loaded = PiglinTradeCatalog.current();
         if (loaded.offers().isEmpty() || piglin.isBaby() || !piglin.isAlive()) return false;
+        // Never interfere with an in-progress vanilla admire/barter sequence.
+        if (isBarterInteraction(piglin.getOffhandItem())) return false;
+        if (isBarterInteraction(player.getMainHandItem())) return false;
         if (!loaded.config().unlocked(id -> KnowledgeRuntime.state(player).researchLevel(id))) return false;
         PiglinMerchant active = SESSIONS.get(piglin);
         if (active != null && active.getTradingPlayer() != null && active.getTradingPlayer() != player

@@ -118,4 +118,21 @@ public final class PiglinTradeGameTests {
         ctx.assertTrue(!PiglinTrading.tryOpen(b, piglin), "second refused while first is trading");
         ctx.succeed();
     }
+
+    @GameTest
+    public void goldIngotInteractionNeverOpensTradeAndVanillaBarterIsUntouched(GameTestHelper ctx) {
+        Piglin piglin = ctx.spawnMob(EntityTypes.PIGLIN, 2, 2, 2).spawn();
+        installCatalog(true);
+        ServerPlayer p = player(ctx, true);
+        p.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, new ItemStack(Items.GOLD_INGOT, 3));
+        ctx.assertTrue(!PiglinTrading.tryOpen(p, piglin), "holding gold ingot must not open trade");
+        ctx.assertTrue(!(p.containerMenu instanceof MerchantMenu), "no merchant menu with gold ingot");
+        ctx.assertTrue(p.getMainHandItem().getCount() == 3, "gold ingot stack untouched by trade path");
+        p.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, ItemStack.EMPTY);
+        piglin.setItemInHand(net.minecraft.world.InteractionHand.OFF_HAND, new ItemStack(Items.GOLD_INGOT));
+        ctx.assertTrue(!PiglinTrading.tryOpen(p, piglin), "mid-barter piglin must not open trade");
+        piglin.setItemInHand(net.minecraft.world.InteractionHand.OFF_HAND, ItemStack.EMPTY);
+        ctx.assertTrue(PiglinTrading.tryOpen(p, piglin), "empty hand still opens");
+        ctx.succeed();
+    }
 }
