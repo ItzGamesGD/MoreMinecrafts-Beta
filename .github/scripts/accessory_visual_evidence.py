@@ -42,7 +42,7 @@ def magenta_count(img):
 
 src = open(os.path.join(root, "src/main/java/dev/itzgamesgd/moreminecrafts/accessory/AccessoryDefinition.java")).read()
 ids = re.findall(r'(?m)^\s+[A-Z_]+\("([a-z_]+)",\s*"item\.moreminecrafts\.\1"', src)
-assert len(ids) == 12, ids
+assert len(ids) == 13, ids
 lang = json.load(open(os.path.join(root, "src/main/resources/assets/moreminecrafts/lang/en_us.json")))
 names = {i: lang.get("item.moreminecrafts." + i, i) for i in ids}
 tex_dir = os.path.join(root, "src/main/resources/assets/moreminecrafts/textures/item")
