@@ -25,7 +25,12 @@ import net.minecraft.world.level.GameType;
 public final class PiglinTradeGameTests {
     private static final String UNLOCK = "test_piglin_unlock";
 
-    private static void installCatalog(boolean withUnlockId) {
+    private static void clearSharedStock(GameTestHelper ctx) {
+        PiglinTradeStock.get(ctx.getLevel().getServer().overworld()).clearForTest();
+    }
+
+    private static void installCatalog(GameTestHelper ctx, boolean withUnlockId) {
+        clearSharedStock(ctx);
         MerchantOffer offer = new MerchantOffer(new ItemCost(Items.DIRT, 2), new ItemStack(Items.STICK), 2, 0, 0.0f);
         PiglinTradeCatalog.setForTest(new PiglinTradeCatalog.Loaded(
                 new PiglinTradeConfig(withUnlockId ? Optional.of(UNLOCK) : Optional.empty()),
@@ -48,9 +53,9 @@ public final class PiglinTradeGameTests {
     @GameTest
     public void closedWithoutConfiguredUnlockOrWithoutResearch(GameTestHelper ctx) {
         Piglin piglin = ctx.spawnMob(EntityTypes.PIGLIN, 2, 2, 2).spawn();
-        installCatalog(false);
+        installCatalog(ctx, false);
         ctx.assertTrue(!PiglinTrading.tryOpen(player(ctx, true), piglin), "no unlock id configured must stay closed");
-        installCatalog(true);
+        installCatalog(ctx, true);
         ctx.assertTrue(!PiglinTrading.tryOpen(player(ctx, false), piglin), "player without research must be refused");
         PiglinTradeCatalog.setForTest(PiglinTradeCatalog.Loaded.EMPTY);
         ctx.assertTrue(!PiglinTrading.tryOpen(player(ctx, true), piglin), "empty catalog must not open");
@@ -60,7 +65,7 @@ public final class PiglinTradeGameTests {
     @GameTest
     public void selectionPreviewConsumesNothingAndResultTakeConsumesOnce(GameTestHelper ctx) {
         Piglin piglin = ctx.spawnMob(EntityTypes.PIGLIN, 2, 2, 2).spawn();
-        installCatalog(true);
+        installCatalog(ctx, true);
         ServerPlayer p = player(ctx, true);
         p.getInventory().add(new ItemStack(Items.DIRT, 5));
         ctx.assertTrue(PiglinTrading.tryOpen(p, piglin), "unlocked player must open the trade");
@@ -71,20 +76,22 @@ public final class PiglinTradeGameTests {
         menu.tryMoveItems(0); // auto-populate payment from inventory: moves items, does not pay
         menu.updateSellItem();
         ctx.assertTrue(menu.getSlot(2).getItem().is(Items.STICK), "preview must show the result");
-        ctx.assertTrue(piglin.getAttachedOrCreate(PiglinMerchant.USES).isEmpty(), "preview must not use stock");
+        ctx.assertTrue(PiglinTradeStock.get(ctx.getLevel().getServer().overworld()).usesOf(
+                "moreminecrafts:test_placeholder") == 0, "preview must not use stock");
         ctx.assertTrue(count(p, Items.DIRT) + menu.getSlot(0).getItem().getCount() == 5, "no payment lost on preview");
 
         menu.clicked(2, 0, ContainerInput.PICKUP, p); // take result = the transaction
         ctx.assertTrue(menu.getCarried().is(Items.STICK) && menu.getCarried().getCount() == 1, "exactly one result awarded to cursor");
         ctx.assertTrue(count(p, Items.DIRT) + menu.getSlot(0).getItem().getCount() == 3, "exactly 2 dirt consumed once");
-        ctx.assertTrue(piglin.getAttachedOrCreate(PiglinMerchant.USES).values().iterator().next() == 1, "stock use recorded once");
+        ctx.assertTrue(PiglinTradeStock.get(ctx.getLevel().getServer().overworld()).usesOf(
+                "moreminecrafts:test_placeholder") == 1, "stock use recorded once");
         ctx.succeed();
     }
 
     @GameTest
     public void insufficientPaymentAndSoldOutAreRejected(GameTestHelper ctx) {
         Piglin piglin = ctx.spawnMob(EntityTypes.PIGLIN, 2, 2, 2).spawn();
-        installCatalog(true);
+        installCatalog(ctx, true);
         ServerPlayer poor = player(ctx, true);
         poor.getInventory().add(new ItemStack(Items.DIRT, 1));
         ctx.assertTrue(PiglinTrading.tryOpen(poor, piglin), "open");
@@ -111,18 +118,19 @@ public final class PiglinTradeGameTests {
     @GameTest
     public void secondPlayerCannotOpenWhileFirstIsTrading(GameTestHelper ctx) {
         Piglin piglin = ctx.spawnMob(EntityTypes.PIGLIN, 2, 2, 2).spawn();
-        installCatalog(true);
+        installCatalog(ctx, true);
         ServerPlayer a = player(ctx, true);
         ServerPlayer b = player(ctx, true);
         ctx.assertTrue(PiglinTrading.tryOpen(a, piglin), "first opens");
         ctx.assertTrue(!PiglinTrading.tryOpen(b, piglin), "second refused while first is trading");
+        ctx.assertTrue(PiglinTradeStock.get(ctx.getLevel().getServer().overworld()) != null, "shared stock exists");
         ctx.succeed();
     }
 
     @GameTest
     public void unlockedGoldIngotRightClickOpensTradeInsteadOfBarter(GameTestHelper ctx) {
         Piglin piglin = ctx.spawnMob(EntityTypes.PIGLIN, 2, 2, 2).spawn();
-        installCatalog(true);
+        installCatalog(ctx, true);
         ServerPlayer p = player(ctx, true);
         p.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, new ItemStack(Items.GOLD_INGOT, 3));
         ctx.assertTrue(PiglinTrading.handleUse(p, piglin) == net.minecraft.world.InteractionResult.SUCCESS_SERVER, "click consumed");
@@ -135,7 +143,7 @@ public final class PiglinTradeGameTests {
     @GameTest
     public void lockedPlayerKeepsVanillaBarterAndUnlockedMidBarterIsSwallowed(GameTestHelper ctx) {
         Piglin piglin = ctx.spawnMob(EntityTypes.PIGLIN, 2, 2, 2).spawn();
-        installCatalog(true);
+        installCatalog(ctx, true);
         ServerPlayer locked = player(ctx, false);
         locked.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, new ItemStack(Items.GOLD_INGOT));
         ctx.assertTrue(PiglinTrading.handleUse(locked, piglin) == net.minecraft.world.InteractionResult.PASS,

@@ -2,6 +2,7 @@ package dev.itzgamesgd.moreminecrafts.trade;
 
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
 import dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime;
+import java.util.Map;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
 import net.minecraft.server.level.ServerPlayer;
@@ -62,7 +63,13 @@ public final class PiglinTrading {
         PiglinMerchant active = SESSIONS.get(piglin);
         if (active != null && active.getTradingPlayer() != null && active.getTradingPlayer() != player
                 && !active.getTradingPlayer().isRemoved()) return false;
-        PiglinMerchant merchant = new PiglinMerchant(piglin, loaded.offers(), id -> KnowledgeRuntime.state(player).researchLevel(id));
+        var overworld = player.level().getServer().overworld();
+        PiglinTradeStock stock = PiglinTradeStock.get(overworld);
+        Map<String, Integer> maxUses = new java.util.HashMap<>();
+        loaded.offers().forEach((id, entry) -> maxUses.put(id.toString(), entry.offer().getMaxUses()));
+        stock.restockIfDue(overworld.getGameTime(), maxUses);
+        PiglinMerchant merchant = new PiglinMerchant(piglin, loaded.offers(),
+                id -> KnowledgeRuntime.state(player).researchLevel(id), stock);
         SESSIONS.put(piglin, merchant);
         merchant.setTradingPlayer(player);
         merchant.openTradingScreen(player, piglin.getDisplayName(), 1);
