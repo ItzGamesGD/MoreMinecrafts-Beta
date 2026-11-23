@@ -219,4 +219,58 @@ public final class PiglinTradeGameTests {
         PiglinTradeCatalog.setForTest(null);
         ctx.succeed();
     }
+
+    @GameTest
+    public void unlockedOffhandClickIsConsumedWithoutSecondMenuOrBarter(GameTestHelper ctx) {
+        Piglin piglin = ctx.spawnMob(EntityTypes.PIGLIN, 2, 2, 2).spawn();
+        installCatalog(ctx, true);
+        ServerPlayer p = player(ctx, true);
+        p.setItemInHand(net.minecraft.world.InteractionHand.OFF_HAND, new ItemStack(Items.GOLD_INGOT, 2));
+        ctx.assertTrue(PiglinTrading.interact(p, piglin, net.minecraft.world.InteractionHand.OFF_HAND)
+                == net.minecraft.world.InteractionResult.SUCCESS_SERVER, "offhand click consumed for unlocked player");
+        ctx.assertTrue(!(p.containerMenu instanceof MerchantMenu), "offhand click must not open a menu");
+        ctx.assertTrue(p.getOffhandItem().getCount() == 2, "offhand gold not consumed by the trade path");
+        ctx.assertTrue(PiglinTrading.interact(p, piglin, net.minecraft.world.InteractionHand.MAIN_HAND)
+                == net.minecraft.world.InteractionResult.SUCCESS_SERVER, "main-hand click consumed");
+        ctx.assertTrue(p.containerMenu instanceof MerchantMenu, "main-hand click opens the trade");
+        p.closeContainer();
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void sharedStockSyncsOtherOpenTradesAfterAPurchase(GameTestHelper ctx) {
+        installCatalog(ctx, true);
+        Piglin first = ctx.spawnMob(EntityTypes.PIGLIN, 2, 2, 2).spawn();
+        Piglin second = ctx.spawnMob(EntityTypes.PIGLIN, 4, 2, 2).spawn();
+        ServerPlayer buyer = player(ctx, true);
+        buyer.getInventory().add(new ItemStack(Items.DIRT, 2));
+        ServerPlayer watcher = player(ctx, true);
+        ctx.assertTrue(PiglinTrading.tryOpen(buyer, first), "buyer opens first Piglin");
+        ctx.assertTrue(PiglinTrading.tryOpen(watcher, second), "watcher opens second Piglin");
+        MerchantMenu watched = (MerchantMenu) watcher.containerMenu;
+        ctx.assertTrue(watched.getOffers().get(0).getUses() == 0, "watcher starts with full stock");
+
+        MerchantMenu menu = (MerchantMenu) buyer.containerMenu;
+        menu.setSelectionHint(0);
+        menu.tryMoveItems(0);
+        menu.clicked(2, 0, ContainerInput.PICKUP, buyer);
+        ctx.assertTrue(watched.getOffers().get(0).getUses() == 1,
+                "the other open trade must see the shared stock used");
+        ctx.assertTrue(PiglinTradeStock.get(ctx.getLevel().getServer().overworld()).usesOf(
+                "moreminecrafts:test_placeholder") == 1, "shared stock recorded");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void closedTradesAreReleasedSoRetiredPiglinsAreNotRetained(GameTestHelper ctx) {
+        installCatalog(ctx, true);
+        Piglin piglin = ctx.spawnMob(EntityTypes.PIGLIN, 2, 2, 2).spawn();
+        ServerPlayer p = player(ctx, true);
+        ctx.assertTrue(PiglinTrading.tryOpen(p, piglin), "open");
+        int before = PiglinTrading.openCount();
+        ctx.assertTrue(before >= 1, "open trade tracked while held");
+        p.closeContainer();
+        ctx.assertTrue(PiglinTrading.openCount() == before - 1, "closing the menu releases the trade");
+        ctx.succeed();
+    }
 }

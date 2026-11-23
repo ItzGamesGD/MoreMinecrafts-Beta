@@ -61,12 +61,27 @@ public final class PiglinMerchant implements Merchant {
                 && player.distanceToSqr(piglin) <= 64.0;
     }
 
+    /** Re-applies the shared stock to this session's offers (used after another session trades). */
+    void syncFromStock() {
+        for (int i = 0; i < offers.size(); i++) {
+            MerchantOffer offer = offers.get(i);
+            int want = Math.min(stock.usesOf(ids.get(i)), offer.getMaxUses());
+            if (offer.getUses() != want) {
+                offer.resetUses();
+                for (int k = 0; k < want; k++) offer.increaseUses();
+            }
+        }
+    }
+
     @Override
     public void notifyTrade(MerchantOffer offer) {
         offer.increaseUses();
         for (int i = 0; i < offers.size(); i++) {
             if (offers.get(i) == offer) {
-                if (!isClientSide()) stock.recordUse(ids.get(i), offer.getUses());
+                if (!isClientSide()) {
+                    stock.recordUse(ids.get(i), offer.getUses());
+                    PiglinTrading.syncOpenTrades(this);
+                }
                 break;
             }
         }
