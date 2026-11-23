@@ -12,8 +12,8 @@ import net.minecraft.world.entity.monster.piglin.Piglin;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
 
 /**
- * Opens the vanilla merchant screen on a Piglin. Vanilla gold-ingot barter is left untouched
- * (interaction with a gold ingot is never intercepted).
+ * Opens the vanilla merchant screen on a Piglin for players who unlocked structured trading,
+ * replacing right-click barter for them (villager-style). Dropped-gold attraction stays vanilla.
  */
 public final class PiglinTrading {
     /** One active session per Piglin so stock counters cannot diverge between two open screens. */
@@ -25,17 +25,31 @@ public final class PiglinTrading {
         ResourceLoader.get(PackType.SERVER_DATA).registerReloadListener(
                 ModIds.id("piglin_trade"), new PiglinTradeCatalog.Listener());
         UseEntityCallback.EVENT.register((player, level, hand, entity, hit) -> {
-            if (hand != InteractionHand.MAIN_HAND || !(entity instanceof Piglin piglin)
-                    || player.isSpectator() || isBarterInteraction(player.getItemInHand(hand)))
+            if (hand != InteractionHand.MAIN_HAND || !(entity instanceof Piglin piglin) || player.isSpectator()
+                    || level.isClientSide() || !(player instanceof ServerPlayer serverPlayer))
                 return InteractionResult.PASS;
-            if (level.isClientSide() || !(player instanceof ServerPlayer serverPlayer)) return InteractionResult.PASS;
-            return tryOpen(serverPlayer, piglin) ? InteractionResult.SUCCESS_SERVER : InteractionResult.PASS;
+            return handleUse(serverPlayer, piglin);
         });
     }
 
-    /** Safeguard: an interaction carrying the vanilla barter item is never routed to structured trading. */
-    static boolean isBarterInteraction(net.minecraft.world.item.ItemStack held) {
-        return held.is(PiglinAi.BARTERING_ITEM);
+    /**
+     * Right-click handling. Players who have unlocked structured trading never start vanilla barter by
+     * right-click (even holding the barter item): the click is consumed and opens the villager-style
+     * trade when possible. Locked players fall through to untouched vanilla. Gold attraction
+     * (dropped-item pickup/admiring) is a separate vanilla path and is never touched here.
+     */
+    static InteractionResult handleUse(ServerPlayer player, Piglin piglin) {
+        if (!isUnlocked(player)) return InteractionResult.PASS;
+        tryOpen(player, piglin);
+        return InteractionResult.SUCCESS_SERVER;
+    }
+
+    static boolean isUnlocked(ServerPlayer player) {
+        return PiglinTradeCatalog.current().config().unlocked(id -> KnowledgeRuntime.state(player).researchLevel(id));
+    }
+
+    static boolean isBarterItem(net.minecraft.world.item.ItemStack stack) {
+        return stack.is(PiglinAi.BARTERING_ITEM);
     }
 
     /** Server-side gate shared by the interaction and tests. */
@@ -43,8 +57,7 @@ public final class PiglinTrading {
         PiglinTradeCatalog.Loaded loaded = PiglinTradeCatalog.current();
         if (loaded.offers().isEmpty() || piglin.isBaby() || !piglin.isAlive()) return false;
         // Never interfere with an in-progress vanilla admire/barter sequence.
-        if (isBarterInteraction(piglin.getOffhandItem())) return false;
-        if (isBarterInteraction(player.getMainHandItem())) return false;
+        if (isBarterItem(piglin.getOffhandItem())) return false;
         if (!loaded.config().unlocked(id -> KnowledgeRuntime.state(player).researchLevel(id))) return false;
         PiglinMerchant active = SESSIONS.get(piglin);
         if (active != null && active.getTradingPlayer() != null && active.getTradingPlayer() != player

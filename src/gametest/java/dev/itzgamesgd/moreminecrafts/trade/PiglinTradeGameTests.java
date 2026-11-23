@@ -120,19 +120,31 @@ public final class PiglinTradeGameTests {
     }
 
     @GameTest
-    public void goldIngotInteractionNeverOpensTradeAndVanillaBarterIsUntouched(GameTestHelper ctx) {
+    public void unlockedGoldIngotRightClickOpensTradeInsteadOfBarter(GameTestHelper ctx) {
         Piglin piglin = ctx.spawnMob(EntityTypes.PIGLIN, 2, 2, 2).spawn();
         installCatalog(true);
         ServerPlayer p = player(ctx, true);
         p.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, new ItemStack(Items.GOLD_INGOT, 3));
-        ctx.assertTrue(!PiglinTrading.tryOpen(p, piglin), "holding gold ingot must not open trade");
-        ctx.assertTrue(!(p.containerMenu instanceof MerchantMenu), "no merchant menu with gold ingot");
-        ctx.assertTrue(p.getMainHandItem().getCount() == 3, "gold ingot stack untouched by trade path");
-        p.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, ItemStack.EMPTY);
+        ctx.assertTrue(PiglinTrading.handleUse(p, piglin) == net.minecraft.world.InteractionResult.SUCCESS_SERVER, "click consumed");
+        ctx.assertTrue(p.containerMenu instanceof MerchantMenu, "trade opens even with gold ingot in hand");
+        ctx.assertTrue(p.getMainHandItem().getCount() == 3, "gold ingot not consumed by the click");
+        ctx.assertTrue(piglin.getOffhandItem().isEmpty(), "no vanilla barter started (offhand empty)");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void lockedPlayerKeepsVanillaBarterAndUnlockedMidBarterIsSwallowed(GameTestHelper ctx) {
+        Piglin piglin = ctx.spawnMob(EntityTypes.PIGLIN, 2, 2, 2).spawn();
+        installCatalog(true);
+        ServerPlayer locked = player(ctx, false);
+        locked.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, new ItemStack(Items.GOLD_INGOT));
+        ctx.assertTrue(PiglinTrading.handleUse(locked, piglin) == net.minecraft.world.InteractionResult.PASS,
+                "locked player falls through to vanilla");
+        ServerPlayer p = player(ctx, true);
+        p.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, new ItemStack(Items.GOLD_INGOT));
         piglin.setItemInHand(net.minecraft.world.InteractionHand.OFF_HAND, new ItemStack(Items.GOLD_INGOT));
-        ctx.assertTrue(!PiglinTrading.tryOpen(p, piglin), "mid-barter piglin must not open trade");
-        piglin.setItemInHand(net.minecraft.world.InteractionHand.OFF_HAND, ItemStack.EMPTY);
-        ctx.assertTrue(PiglinTrading.tryOpen(p, piglin), "empty hand still opens");
+        ctx.assertTrue(PiglinTrading.handleUse(p, piglin) == net.minecraft.world.InteractionResult.SUCCESS_SERVER, "swallowed");
+        ctx.assertTrue(!(p.containerMenu instanceof MerchantMenu), "no trade during an ongoing admire sequence");
         ctx.succeed();
     }
 }
