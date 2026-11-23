@@ -414,10 +414,10 @@ public final class VisualValidationHarness {
                         || quests.validationQuestGroupCount("xpq.cmb.habitats_5") != 5) {
                     failJourney("XP Quest selector did not open the three-node tree with all registry-driven bestiary targets"); return;
                 }
-                if (quests.validationCanvas().nodes().size() != 75) {
-                    failJourney("production tree must expose exactly the 75 recovered registrations"); return;
+                if (quests.validationCanvas().nodes().size() != 76) {
+                    failJourney("production tree must expose exactly the 76 registered registrations"); return;
                 }
-                MoreMinecrafts.LOGGER.info("BATCH_A_FULL_TREE_VERIFIED registered_nodes=75 preview=false");
+                MoreMinecrafts.LOGGER.info("BATCH_A_FULL_TREE_VERIFIED registered_nodes=76 preview=false");
                 // The following donor regressions deliberately exercise the original dense ecology fixture.
                 quests = ProgressionBrowseScreen.forEcologyValidation();
                 client.gui.setScreen(quests);
