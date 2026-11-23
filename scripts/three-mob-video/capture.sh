@@ -34,7 +34,7 @@ python3 scripts/visual_validation/rcon.py 'setworldspawn 0 64 16' 'forceload add
 printf 'guiScale:2\ntutorialStep:none\n' > run/options.txt
 export OUT
 xvfb-run -a -s '-screen 0 1280x720x24 +extension GLX +render -noreset' bash -euo pipefail -c '
- export LIBGL_ALWAYS_SOFTWARE=1 MESA_LOADER_DRIVER_OVERRIDE=llvmpipe MOREMINECRAFTS_VISUAL_VALIDATION=1 MOREMINECRAFTS_VISUAL_SERVER_ADDRESS=127.0.0.1:25565
+ export LIBGL_ALWAYS_SOFTWARE=1 MESA_LOADER_DRIVER_OVERRIDE=llvmpipe MOREMINECRAFTS_VISUAL_VALIDATION=1 MOREMINECRAFTS_VISUAL_SERVER_ADDRESS=127.0.0.1:25565 MOREMINECRAFTS_FALLEN_SENTINEL_CAPTURE=1
  openbox --sm-disable > "$OUT/openbox.log" 2>&1 &
  setsid ./gradlew -I scripts/visual_validation/visual-validation.init.gradle runClient --args="--width 1280 --height 720 --username MobViewer" > "$OUT/client.log" 2>&1 &
  client_pid=$!
