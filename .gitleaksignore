@@ -26,3 +26,6 @@ a1e0aeb0ab8ba90419b714a42502cbe8db9d770c:docs/TERRITORY_REGISTRATION_FABRIC_SPEC
 cec8bff8edc34bfbd54aebe635260f2f0761f729:tools/st05-p0-probe-01/freeze_integrity.py:generic-api-key:23
 e28ce2fb8491dc7b7aade3ac51b52ab0a37542d7:docs/preservation/prc-p6/territory-versions/PR132/TERRITORY_REGISTRATION_FABRIC_SPEC.md:generic-api-key:15
 e28ce2fb8491dc7b7aade3ac51b52ab0a37542d7:docs/preservation/prc-p6/territory-versions/PR134/TERRITORY_REGISTRATION_FABRIC_SPEC.md:generic-api-key:15
+
+# 2026-11-23: one more REDACTED placeholder, found once pull-request refs were included in the scan.
+024fc75a6298ab2f34ef80a2cc7e40e4d73af666:docs/preservation/recovered/territory-chain/TERRITORY_REGISTRATION_FABRIC_SPEC.md:generic-api-key:17
