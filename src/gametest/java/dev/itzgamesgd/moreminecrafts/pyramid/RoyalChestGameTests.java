@@ -146,6 +146,7 @@ public final class RoyalChestGameTests {
         ids.add(RoyalChestRewardModel.CATALYST_ID);
         ids.add("moreminecrafts:seed_of_life");
         ids.add("moreminecrafts:ring_of_time");
+        ids.add(RoyalChestRewardModel.SOUL_GLASS_ID);
         for (String id : ids) {
             Identifier parsed = Identifier.parse(id);
             ctx.assertTrue(BuiltInRegistries.ITEM.containsKey(parsed), "registered item " + id);
