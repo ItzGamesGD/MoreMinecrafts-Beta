@@ -210,7 +210,7 @@
 
 | 항목 | 정정 |
 |---|---|
-| C-01 인챈트 화면 | `EnchantingProgressionScreen.init()`은 이미 `ViewportScale.fit(…, padding 8)`로 창에 맞춰 축소한다. 진단 로그의 `panelFits=false`와 `widgetsOffScreen`은 축소 전 좌표를 재므로 **실제 깨짐의 증거가 아니다**. 다만 통합 시트의 GUI 3/4 타일은 위아래가 잘려 보여 축소가 반영되었는지 확신할 수 없다. 원본 스크린샷이 없어 판정 보류이며, 심각도는 "깨짐"이 아니라 **확인 필요**로 낮춘다. 코드는 바꾸지 않았다. |
+| C-01 인챈트 화면 | `EnchantingProgressionScreen.init()`은 이미 `ViewportScale.fit(…, padding 8)`로 창에 맞춰 축소한다. 진단 로그의 `panelFits=false`와 `widgetsOffScreen`은 축소 전 좌표를 재므로 **실제 깨짐의 증거가 아니다**. 다만 통합 시트의 GUI 3/4 타일은 위아래가 잘려 보여 축소가 반영되었는지 확신할 수 없다. PR #323 CI 시트(`accessory-integration-contact-sheet-45439136922`)로 재확인: GUI 3/4 타일에서 패널 너비가 각각 330·440 타일px로 측정되어 **축소가 적용되지 않은 크기**와 일치한다(GUI 4에서 `ViewportScale.fit`이 적용됐다면 약 310). 즉 실제로 잘리는 것으로 보이며, 코드에 축소가 있는데도 반영되지 않는 원인은 아직 모른다(캡처 하네스의 해상도 변경 방식 때문일 수도 있음). 코드는 바꾸지 않았고, 실클라이언트 확인 후 원인을 정한다. |
 | C-04 연구 툴팁의 "V3 Research 08" | 코드가 내부 ID를 만드는 것이 아니라 `en_us.json`의 연구 제목 60개가 임시 문구 "V3 Research NN"이다. 한국어는 실제 이름이 있다. 영어 제목은 명칭 결정이므로 **C(오너 결정)**로 옮긴다. 코드에서는 미확정 단계 줄 숨김과 충족·부족 색만 처리했다. |
 | A-07 ko 누락 키 | 한국어 이름은 권한 문서에 없는 항목이 대부분이다(티타늄, 미스릴, 유틸 장비 등). 기존 용어로 확정되는 `block.moreminecrafts.auto_farm`("자동 농장")만 추가했다. 나머지는 **C(명칭 결정)**. |
 | 검증 한계 | 클라이언트 캡처 워크플로(`client-visual-validation`, `accessory-client-acceptance`)는 수동 실행 트리거가 없고 특정 브랜치·PR에서만 돈다. 수정 브랜치의 화면 변경은 **NOT RUN**이다. |
