@@ -20,11 +20,10 @@ import net.minecraft.world.level.block.CropBlock;
 public final class ResearchStage3HandlersGameTests implements CustomTestMethodInvoker {
     @GameTest
     public void cropCultivationAndMagicalMaterialBlockDropsArePurchaseGated(GameTestHelper ctx) {
-        ServerPlayer unpaid = ctx.makeMockServerPlayerInLevel();
-        ServerPlayer paid = ctx.makeMockServerPlayerInLevel();
-        unpaid.setGameMode(GameType.SURVIVAL);
-        paid.setGameMode(GameType.SURVIVAL);
-        KnowledgeRuntime.updateState(paid, ResearchProgressState.empty()
+        // makeMockServerPlayerInLevel() always reports isCreative() == true; drop bonuses require genuine survival.
+        ServerPlayer unpaid = (ServerPlayer) ctx.makeMockServerPlayer(GameType.SURVIVAL);
+        ServerPlayer paid = (ServerPlayer) ctx.makeMockServerPlayer(GameType.SURVIVAL);
+        paid.setAttached(KnowledgeRuntime.STATE, ResearchProgressState.empty()
                 .with("research.v3.research.14", 3)
                 .with("research.v3.research.63", 3));
 
