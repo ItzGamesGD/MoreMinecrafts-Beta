@@ -28,11 +28,13 @@ public final class ProgressionSyncRuntime {
         }));
     }
     public static void snapshot(ServerPlayer player) {
+        if (player.connection == null) return;
         ResearchProgressState state = KnowledgeRuntime.state(player);
         ServerPlayNetworking.send(player, new ProgressionSnapshotPayload(
                 state.get("progression.revision"), state.counters()));
     }
     public static void delta(ServerPlayer player, ResearchProgressState before, ResearchProgressState after) {
+        if (player.connection == null) return;
         Map<String,Integer> changes = new HashMap<>();
         after.counters().forEach((key,value) -> {
             if (!java.util.Objects.equals(before.counters().get(key), value)) changes.put(key,value);
@@ -43,6 +45,7 @@ public final class ProgressionSyncRuntime {
                 new ProgressionDeltaPayload(after.get("progression.revision"), changes));
     }
     public static void actionResult(ServerPlayer player, String actionId, int resultCode) {
+        if (player.connection == null) return;
         ServerPlayNetworking.send(player, new dev.itzgamesgd.moreminecrafts.network.ProgressionActionResultPayload(
                 actionId, resultCode, KnowledgeRuntime.state(player).get("progression.revision")));
     }

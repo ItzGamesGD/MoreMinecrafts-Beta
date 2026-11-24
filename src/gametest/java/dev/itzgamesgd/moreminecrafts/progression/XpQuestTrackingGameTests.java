@@ -579,9 +579,10 @@ public final class XpQuestTrackingGameTests implements CustomTestMethodInvoker {
         XpQuestTracking.reconcile(player);
         ctx.assertTrue(state(player).questProgress("xpq.frm.harvest_all_crops") == 0, "standalone melon ignored");
 
+        ctx.setBlock(new BlockPos(2, 1, 3), Blocks.FARMLAND);
+        ctx.setBlock(fruitPos, Blocks.MELON);
         ctx.setBlock(new BlockPos(2, 2, 3), Blocks.ATTACHED_MELON_STEM.defaultBlockState()
                 .setValue(net.minecraft.world.level.block.AttachedStemBlock.FACING, Direction.EAST));
-        ctx.setBlock(fruitPos, Blocks.MELON);
         player.gameMode.destroyBlock(ctx.absolutePos(fruitPos));
 
         // Player-placed torchflower must NOT count; crop-matured torchflower counts.
