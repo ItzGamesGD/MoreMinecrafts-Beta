@@ -28,58 +28,58 @@ final class TombGuardianAnimations {
         return new AnimationChannel(AnimationChannel.Targets.ROTATION, frames);
     }
 
-    /** Right arm cocks out to the right, then sweeps across the front (the 120 degree fan); the body twists with it. */
+    /** Right arm cocks out to the right, then sweeps across the front (the 120 degree fan); the torso_bone twists with it. */
     static final AnimationDefinition SWEEP = AnimationDefinition.Builder.withLength(1.0F)
-            .addAnimation("right_arm", rotation(
+            .addAnimation("arm_upper_right_bone", rotation(
                     rot(0.0F, 0, 0, 0), rot(0.55F, -80, 70, 0), rot(0.62F, -80, 72, 0),
                     rot(0.75F, -85, -62, 0), rot(0.9F, -60, -70, 0), rot(1.0F, 0, 0, 0)))
-            .addAnimation("left_arm", rotation(
+            .addAnimation("arm_upper_left_bone", rotation(
                     rot(0.0F, 0, 0, 0), rot(0.55F, 12, 0, -14), rot(0.75F, -10, 0, -6), rot(1.0F, 0, 0, 0)))
-            .addAnimation("body", rotation(
+            .addAnimation("torso_bone", rotation(
                     rot(0.0F, 0, 0, 0), rot(0.55F, 0, 22, 0), rot(0.75F, 0, -25, 0), rot(0.9F, 0, -18, 0), rot(1.0F, 0, 0, 0)))
             .build();
 
-    /** Both arms are raised overhead, then driven down onto the floor at 1.3 s with the body leaning into the blow. */
+    /** Both arms are raised overhead, then driven down onto the floor at 1.3 s with the torso_bone leaning into the blow. */
     static final AnimationDefinition SLAM = AnimationDefinition.Builder.withLength(2.2F)
-            .addAnimation("right_arm", rotation(
+            .addAnimation("arm_upper_right_bone", rotation(
                     rot(0.0F, 0, 0, 0), rot(1.0F, -165, 0, 8), rot(1.3F, -35, 0, 4), rot(1.6F, -35, 0, 4), rot(2.2F, 0, 0, 0)))
-            .addAnimation("left_arm", rotation(
+            .addAnimation("arm_upper_left_bone", rotation(
                     rot(0.0F, 0, 0, 0), rot(1.0F, -165, 0, -8), rot(1.3F, -35, 0, -4), rot(1.6F, -35, 0, -4), rot(2.2F, 0, 0, 0)))
-            .addAnimation("body", rotation(
+            .addAnimation("torso_bone", rotation(
                     rot(0.0F, 0, 0, 0), rot(1.0F, -10, 0, 0), rot(1.3F, 18, 0, 0), rot(1.6F, 18, 0, 0), rot(2.2F, 0, 0, 0)))
             .build();
 
-    /** A heavy stomp: one leg is lifted, the body rocks back, and the foot comes down at 1.0 s as the spikes erupt. */
+    /** A heavy stomp: one leg is lifted, the torso_bone rocks back, and the foot comes down at 1.0 s as the spikes erupt. */
     static final AnimationDefinition SPIKES = AnimationDefinition.Builder.withLength(1.5F)
-            .addAnimation("right_leg", rotation(
+            .addAnimation("leg_upper_right_bone", rotation(
                     rot(0.0F, 0, 0, 0), rot(0.5F, -55, 0, 0), rot(0.85F, -55, 0, 0), rot(1.0F, 0, 0, 0), rot(1.5F, 0, 0, 0)))
-            .addAnimation("body", rotation(
+            .addAnimation("torso_bone", rotation(
                     rot(0.0F, 0, 0, 0), rot(0.5F, -6, 0, 0), rot(1.0F, 8, 0, 0), rot(1.4F, 0, 0, 0)))
-            .addAnimation("right_arm", rotation(
+            .addAnimation("arm_upper_right_bone", rotation(
                     rot(0.0F, 0, 0, 0), rot(0.5F, -10, 0, 14), rot(1.0F, -25, 0, 6), rot(1.5F, 0, 0, 0)))
-            .addAnimation("left_arm", rotation(
+            .addAnimation("arm_upper_left_bone", rotation(
                     rot(0.0F, 0, 0, 0), rot(0.5F, -10, 0, -14), rot(1.0F, -25, 0, -6), rot(1.5F, 0, 0, 0)))
             .build();
 
     /** The roar of the summon: head thrown back, arms spread wide while the guardians rise at 1.5 s. */
     static final AnimationDefinition SUMMON = AnimationDefinition.Builder.withLength(2.0F)
-            .addAnimation("right_arm", rotation(
+            .addAnimation("arm_upper_right_bone", rotation(
                     rot(0.0F, 0, 0, 0), rot(0.8F, -15, 0, 70), rot(1.5F, -15, 0, 76), rot(2.0F, 0, 0, 0)))
-            .addAnimation("left_arm", rotation(
+            .addAnimation("arm_upper_left_bone", rotation(
                     rot(0.0F, 0, 0, 0), rot(0.8F, -15, 0, -70), rot(1.5F, -15, 0, -76), rot(2.0F, 0, 0, 0)))
-            .addAnimation("head", rotation(
+            .addAnimation("head_bone", rotation(
                     rot(0.0F, 0, 0, 0), rot(0.8F, -30, 0, 0), rot(1.5F, -30, 0, 0), rot(1.8F, 0, 0, 0)))
-            .addAnimation("body", rotation(
+            .addAnimation("torso_bone", rotation(
                     rot(0.0F, 0, 0, 0), rot(0.8F, -8, 0, 0), rot(1.5F, -8, 0, 0), rot(2.0F, 0, 0, 0)))
             .build();
 
     /** Arms stay at full height for the 2.0 s windup, then three crushing blows at 2.0 s, 3.0 s and 4.0 s. */
     static final AnimationDefinition ULTIMATE = AnimationDefinition.Builder.withLength(4.6F)
-            .addAnimation("right_arm", rotation(
+            .addAnimation("arm_upper_right_bone", rotation(
                     rot(0.0F, 0, 0, 0), rot(1.7F, -170, 0, 6), rot(1.85F, -170, 0, 6), rot(2.0F, -30, 0, 3),
                     rot(2.2F, -30, 0, 3), rot(2.8F, -150, 0, 6), rot(3.0F, -30, 0, 3), rot(3.2F, -30, 0, 3),
                     rot(3.8F, -150, 0, 6), rot(4.0F, -30, 0, 3), rot(4.2F, -30, 0, 3), rot(4.6F, 0, 0, 0)))
-            .addAnimation("left_arm", rotation(
+            .addAnimation("arm_upper_left_bone", rotation(
                     rot(0.0F, 0, 0, 0), rot(1.7F, -170, 0, -6), rot(1.85F, -170, 0, -6), rot(2.0F, -30, 0, -3),
                     rot(2.2F, -30, 0, -3), rot(2.8F, -150, 0, -6), rot(3.0F, -30, 0, -3), rot(3.2F, -30, 0, -3),
                     rot(3.8F, -150, 0, -6), rot(4.0F, -30, 0, -3), rot(4.2F, -30, 0, -3), rot(4.6F, 0, 0, 0)))
