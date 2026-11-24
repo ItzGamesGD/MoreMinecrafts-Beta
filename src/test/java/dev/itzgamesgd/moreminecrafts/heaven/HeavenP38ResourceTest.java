@@ -101,9 +101,16 @@ class HeavenP38ResourceTest {
             String key = "src/main/resources/data/moreminecrafts/worldgen/template_pool/sky_islands/" + t + "/" + p + ".json";
             assertNotNull(expected.put(key, sha(PENDING.resolve(t + "/" + p + ".json"))), key + " is in the baseline");
         }
-        // worldgen files added by OTHER approved features after the baseline was taken (not sky-island content): ST-03 pillager headquarters (integration with grand-unified checkpoint 20261123)
+        // worldgen files added by OTHER approved features after the baseline was taken (not sky-island content): ST-03 pillager headquarters (integration with grand-unified checkpoint 20261123).
+        // Exact paths only; the file may evolve with its own feature, but it must stay valid JSON and must not mention any sky-island structure, pool or tag (so it cannot hide a sky-island change).
         for (String extra : List.of("src/main/resources/data/moreminecrafts/worldgen/structure/st03_pillager_headquarters.json", "src/main/resources/data/moreminecrafts/worldgen/structure_set/st03_pillager_headquarters.json"))
-            if (actual.containsKey(extra)) { assertFalse(expected.containsKey(extra), extra + " is not a baseline file"); actual.remove(extra); }
+            if (actual.containsKey(extra)) {
+                assertFalse(expected.containsKey(extra), extra + " is not a baseline file");
+                String text = Files.readString(Path.of(extra));
+                assertDoesNotThrow(() -> JsonParser.parseString(text), extra + " must be valid JSON");
+                assertFalse(text.contains("sky_island") || text.contains("heaven"), extra + " must not reference sky-island content");
+                actual.remove(extra);
+            }
         assertEquals(expected, actual, "structure IDs, sets, other pools, biome tags (probabilities, mob spawn overrides) unchanged; only the approved pools switched");
         // the pending change is outside data/, differs from the live pools only by the element locations, and reverts exactly
         for (String t : THEMES) for (String p : List.of("start", "satellite", "tower_top")) {
