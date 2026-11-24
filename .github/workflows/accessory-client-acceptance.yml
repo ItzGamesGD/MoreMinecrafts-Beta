@@ -11,6 +11,7 @@ on:
       - codex/accessory-inventory-ui-redesign-20261023
       - integration/accessory-system-20261023
       - "checkpoint/grand-unified-*"
+      - claude/asset-ui-fixes-20261124
   pull_request:
     branches:
       - main
