@@ -1224,6 +1224,10 @@ public final class St03NaturalProbe implements ModInitializer {
                 throw new AssertionError("Completion did not record natural HQ origin");
 
             int unsupported = 0, caveAirUnsupported = 0, wet = 0, airBelow = 0, waterBelow = 0, planks = 0;
+            // Natural-tree evidence: no ST-03 template contains leaves, so any leaf block above the foundation inside the
+            // footprint came from a world feature, not from the structure. Samples record where they were found.
+            int exteriorLeaves = 0;
+            List<Map<String, Object>> exteriorLeafSamples = new ArrayList<>();
             int lavaSupport = 0, lavaRingSupport = 0, lavaInterior = 0;
             int preGenWaterCols112 = 0, preGenWaterCols96 = 0;
             int outerRingCols = 0, outerRingCutExceed10 = 0, outerRingSkirtExceed12 = 0, outerRingFillExceed16 = 0, outerRingWaterCols = 0;
@@ -1280,6 +1284,14 @@ public final class St03NaturalProbe implements ModInitializer {
                     for (int dy = 1; dy <= 26; dy++)
                         if (level.getBlockState(new BlockPos(x, origin.getY() + dy, z)).is(net.minecraft.world.level.block.Blocks.SPRUCE_PLANKS))
                             planks++;
+                    for (int dy = 0; dy < 64; dy++) {
+                        var above = level.getBlockState(new BlockPos(x, origin.getY() + dy, z));
+                        if (above.is(net.minecraft.tags.BlockTags.LEAVES)) {
+                            exteriorLeaves++;
+                            if (exteriorLeafSamples.size() < 8)
+                                exteriorLeafSamples.add(Map.of("x", x, "y", origin.getY() + dy, "z", z, "block", above.toString()));
+                        }
+                    }
                 }
             }
 
@@ -1316,6 +1328,8 @@ public final class St03NaturalProbe implements ModInitializer {
             current.put("current_water_cells_below_1_16", waterBelow);
             current.put("bad_support_columns", badColumns);
             current.put("placed_spruce_planks_above_foundation", planks);
+            current.put("exterior_leaf_blocks_in_footprint", exteriorLeaves);
+            current.put("exterior_leaf_samples", exteriorLeafSamples);
             current.put("overlaps", overlaps(actual, hq.box));
 
             current.put("lava_support_columns", lavaSupport);
