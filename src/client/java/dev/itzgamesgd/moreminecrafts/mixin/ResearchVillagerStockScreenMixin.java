@@ -17,14 +17,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /** Displays current/maximum trade stock in MerchantScreen once `v3.research.53` L1+ is owned. */
-@Mixin(MerchantScreen.class)
+@Mixin(AbstractContainerScreen.class)
 abstract class ResearchVillagerStockScreenMixin {
-    @Shadow private int shopItem;
-    @Shadow private int scrollOff;
-
     @Inject(method = "extractRenderState", at = @At("TAIL"))
     private void moreminecrafts$renderTradeStock(GuiGraphicsExtractor graphics, int mouseX, int mouseY,
                                                  float delta, CallbackInfo ci) {
+        if (!((Object) this instanceof MerchantScreen)) return;
         if (ProgressionClientApi.researchLevel("v3.research.53") <= 0) return;
         @SuppressWarnings("unchecked")
         MerchantMenu menu = ((AbstractContainerScreen<MerchantMenu>) (Object) this).getMenu();
@@ -32,6 +30,9 @@ abstract class ResearchVillagerStockScreenMixin {
         if (offers.isEmpty()) return;
 
         AbstractContainerScreenAccessor accessor = (AbstractContainerScreenAccessor) this;
+        MerchantScreenAccessor merchantAccessor = (MerchantScreenAccessor) this;
+        int shopItem = merchantAccessor.moreminecrafts$getShopItem();
+        int scrollOff = merchantAccessor.moreminecrafts$getScrollOff();
         int leftPos = accessor.moreminecrafts$getLeftPos();
         int topPos = accessor.moreminecrafts$getTopPos();
 

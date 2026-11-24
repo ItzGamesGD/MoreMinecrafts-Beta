@@ -161,6 +161,7 @@
     "FishingRodInputClientMixin",
     "T1AnvilScreenFactoryMixin",
     "ProgressionAdvancementKeyMixin",
+    "MerchantScreenAccessor",
     "ResearchVillagerStockScreenMixin",
     "ResearchChestSortScreenMixin"
   ]
