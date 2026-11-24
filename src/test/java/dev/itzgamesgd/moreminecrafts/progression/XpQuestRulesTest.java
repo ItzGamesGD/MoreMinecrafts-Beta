@@ -66,6 +66,6 @@ final class XpQuestRulesTest {
         var tracker = new XpQuestCatalogData.Tracker("research_value", "", List.of(), 1, null);
         assertEquals(expected, XpQuestResearchValue.value(state, tracker, catalog));
         long all = catalog.stream().mapToLong(d -> d.costs().stream().mapToLong(ResearchDefinition.LevelCost::rawXp).sum()).sum();
-        assertEquals(147_670, all, "research ledger total");
+        assertEquals(153_670, all, "research ledger total");
     }
 }

@@ -28,7 +28,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameType;
 
 /**
- * Visual acceptance fixture: renders all twelve accessories in real inventory slots at GUI scales 2/3/4,
+ * Visual acceptance fixture: renders all thirteen accessories in real inventory slots at GUI scales 2/3/4,
  * with the recipe book closed and open, alongside vanilla armor, offhand and the Backpack screen.
  * Each screenshot is preceded by VISUAL_SLOT lines (window-pixel slot rectangles) that the evidence script
  * uses to crop native-size icons. Input is Fabric Client GameTest input, never OS pointer input.
@@ -111,7 +111,7 @@ public final class AccessoryVisualClientGameTest implements FabricClientGameTest
             for (int slot = 0; slot < player.getInventory().getContainerSize(); slot++) {
                 player.getInventory().setItem(slot, ItemStack.EMPTY);
             }
-            // All twelve accessories as ordinary inventory stacks in the 3x9 main grid (menu slots 9-20).
+            // Every accessory definition (13 plus the 7 provisional T1 items, 20 in total) as ordinary inventory stacks in the 3x9 main grid (menu slots 9-28).
             int slot = FIRST_GRID_MENU_SLOT;
             for (AccessoryDefinition definition : AccessoryDefinition.ALL) {
                 player.getInventory().setItem(slot++, stack(definition));

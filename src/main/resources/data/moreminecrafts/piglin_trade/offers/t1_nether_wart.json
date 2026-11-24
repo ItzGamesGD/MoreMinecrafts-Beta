@@ -1,0 +1,19 @@
+{
+  "offer": {
+    "buy": {
+      "id": "minecraft:gold_ingot",
+      "count": 16
+    },
+    "sell": {
+      "id": "minecraft:nether_wart",
+      "count": 8
+    },
+    "maxUses": 4,
+    "uses": 0,
+    "rewardExp": false,
+    "xp": 0,
+    "priceMultiplier": 0.0,
+    "demand": 0,
+    "specialPrice": 0
+  }
+}

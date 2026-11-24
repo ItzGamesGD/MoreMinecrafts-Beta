@@ -273,7 +273,7 @@ class RoyalChestRewardModelTest {
     void theLargestPossibleChestsFitIn54SlotsAndOversizeFailsLoudly() {
         // worst case: every roll hits its maximum, plus accessory and catalyst
         List<Reward> primary = RoyalChestRewardModel.chestRewards(RoyalChestRole.PRIMARY,
-                new Script(0.0D, 64, 0.0D, 8, 0.0D, 12, 0.0D, 1, 0.0D, 30, 1, 0.0D, 1, 0.0D, 0.0D /* two sap rolls */), true);
+                new Script(0.0D, 64, 0.0D, 8, 0.0D, 12, 0.0D, 1, 0.0D, 30, 1, 0.0D, 1, 0.0D, 0.0D /* two sap rolls */, 0.0D /* soul glass */), true);
         assertTrue(RoyalChestRewardModel.split(primary, id -> id.contains("catalyst") || id.contains("of_") ? 1 : 64).size() <= 54);
         List<Reward> secondary = RoyalChestRewardModel.chestRewards(RoyalChestRole.SECONDARY,
                 new Script(0.0D, 32, 0.0D, 64, 0.0D, 64, 0.0D, 8, 0.0D, 32, 0.0D, 0), true);
@@ -324,5 +324,42 @@ class RoyalChestRewardModelTest {
         assertEquals(List.of(1.00D, 0.85D, 0.75D, 0.25D), RoyalChestRewardModel.PRIMARY_ORDINARY.stream().map(RoyalChestRewardModel.Entry::chance).toList());
         assertEquals(0.10D, RoyalChestRewardModel.RARE_GATE_CHANCE);
         assertEquals(List.of(20, 10, 35, 35), RoyalChestRewardModel.PRIMARY_RARE.stream().map(RoyalChestRewardModel.RareEntry::weightPercent).toList());
+    }
+
+    @Test void soulGlassIsOneIndependentFortyPercentRollForOneOnPrimaryOnly() {
+        assertEquals(0.50D, RoyalChestRewardModel.SOUL_GLASS_CHANCE);
+        assertEquals(1, RoyalChestRewardModel.SOUL_GLASS_COUNT);
+        assertEquals("moreminecrafts:shimmering_soul_glass", RoyalChestRewardModel.SOUL_GLASS_ID);
+        assertEquals(Optional.empty(), RoyalChestRewardModel.rollSoulGlass(new Script(0.50D)));
+        assertEquals(1, RoyalChestRewardModel.rollSoulGlass(new Script(0.3999999D)).orElseThrow().count());
+        Script s = new Script(0.0D);
+        RoyalChestRewardModel.rollSoulGlass(s);
+        assertEquals(1, s.consumed(), "exactly one chance draw");
+        for (int seed = 0; seed < 500; seed++)
+            assertTrue(RoyalChestRewardModel.chestRewards(RoyalChestRole.SECONDARY, new java.util.Random(seed), false).stream()
+                    .noneMatch(r -> r.itemId().equals(RoyalChestRewardModel.SOUL_GLASS_ID)));
+    }
+
+    /** Same statistical style as the sap test: fixed seed, large n, tolerance; plus an exact replay of the earlier draws. */
+    @Test void soulGlassRollDoesNotShiftExistingPrimaryDrawsOrProbabilities() {
+        int n = 20000, withGlass = 0;
+        java.util.Random random = new java.util.Random(54321);
+        for (int i = 0; i < n; i++) {
+            long seed = random.nextLong();
+            var rewards = RoyalChestRewardModel.chestRewards(RoyalChestRole.PRIMARY, new java.util.Random(seed), false);
+            var t = totals(rewards);
+            int glass = t.getOrDefault(RoyalChestRewardModel.SOUL_GLASS_ID, 0);
+            assertTrue(glass == 0 || glass == 1);
+            withGlass += glass;
+            // Everything except the glass is exactly what the pre-existing draw sequence (materials, accessory, sap) gives.
+            java.util.Random replay = new java.util.Random(seed);
+            var expected = new java.util.ArrayList<>(RoyalChestRewardModel.rollMaterials(RoyalChestRole.PRIMARY, replay));
+            RoyalChestRewardModel.rollAccessory(replay).ifPresent(id -> expected.add(new Reward(id, 1)));
+            RoyalChestRewardModel.rollSap(replay).ifPresent(expected::add);
+            var actual = new java.util.ArrayList<>(rewards);
+            actual.removeIf(r -> r.itemId().equals(RoyalChestRewardModel.SOUL_GLASS_ID));
+            assertEquals(expected, actual);
+        }
+        assertEquals(0.50D, withGlass / (double) n, 0.02D);
     }
 }

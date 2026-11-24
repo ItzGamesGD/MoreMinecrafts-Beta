@@ -1025,6 +1025,34 @@
       "branchTitleKey": "moreminecrafts.ui.branch.world.trading"
     },
     {
+      "id": "piglin_trading",
+      "screen": "research",
+      "catalog": "v4",
+      "discipline": "world",
+      "branch": "trading",
+      "branchOrder": 3,
+      "nodeOrder": 3,
+      "x": 640,
+      "y": 280,
+      "iconItemId": "minecraft:gold_ingot",
+      "fallbackIconItemId": "minecraft:book",
+      "branchTitleKey": "moreminecrafts.ui.branch.world.trading"
+    },
+    {
+      "id": "piglin_trading_2",
+      "screen": "research",
+      "catalog": "v4",
+      "discipline": "world",
+      "branch": "trading",
+      "branchOrder": 3,
+      "nodeOrder": 4,
+      "x": 640,
+      "y": 352,
+      "iconItemId": "minecraft:gold_ingot",
+      "fallbackIconItemId": "minecraft:book",
+      "branchTitleKey": "moreminecrafts.ui.branch.world.trading"
+    },
+    {
       "id": "wall_jump",
       "screen": "research",
       "catalog": "v4",

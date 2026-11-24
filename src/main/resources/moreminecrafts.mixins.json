@@ -138,7 +138,8 @@
     "QuestWitherSkullDeathLootMixin",
     "QuestWitherSkullSpawnMixin",
     "QuestWitherSkullMergeMixin",
-    "QuestWitherSkullPickupMixin"
+    "QuestWitherSkullPickupMixin",
+    "MerchantMenuPiglinSoundMixin"
   ],
   "injectors": {
     "defaultRequire": 1
