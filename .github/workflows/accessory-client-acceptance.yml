@@ -10,6 +10,7 @@ on:
       - codex/accessory-visual-assets-20261022
       - codex/accessory-inventory-ui-redesign-20261023
       - integration/accessory-system-20261023
+      - "checkpoint/grand-unified-*"
   pull_request:
     branches:
       - main

@@ -1,7 +1,7 @@
 name: Sky Mob Blockbench model capture
 on:
   push:
-    branches: [feat/sky-mob-three-model-capture-20261123]
+    branches: [feat/sky-mob-three-model-capture-20261123, "checkpoint/grand-unified-*"]
   workflow_dispatch:
 permissions:
   contents: read
