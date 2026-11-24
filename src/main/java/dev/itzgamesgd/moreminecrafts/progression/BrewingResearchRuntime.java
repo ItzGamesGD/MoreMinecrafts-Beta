@@ -277,7 +277,7 @@ public final class BrewingResearchRuntime {
         } else if (stand.getItem(2).isEmpty()) {
             stand.setItem(2, out);
         } else if (!player.getInventory().add(out)) {
-            player.drop(out, false);
+            player.drop(out, false, net.minecraft.util.Prediction.SERVER_ONLY);
         }
         stand.setChanged();
         interacted(stand, player);
