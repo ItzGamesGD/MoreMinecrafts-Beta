@@ -72,11 +72,13 @@ abstract class KnowledgeBrewingMixin implements BrewingResearchStateAccess {
     private static void moreminecrafts$applyAdvancedBrewingFuel(ServerLevel level, BlockPos pos, BlockState state,
             BrewingStandBlockEntity stand, CallbackInfo ci) {
         KnowledgeBrewingMixin self = (KnowledgeBrewingMixin) (Object) stand;
-        if (self.moreminecrafts$fuelBeforeTick <= 0 && self.fuel == 20
+        if (self.moreminecrafts$fuelBeforeTick <= 0 && (self.fuel == 20 || self.fuel == 19)
                 && stand.getItem(4).getCount() < self.moreminecrafts$powderBeforeTick) {
             int updatedFuel = BrewingResearchRuntime.fuelUsesPerBlazePowder(level, stand);
-            if (updatedFuel != self.fuel) {
-                self.fuel = updatedFuel;
+            int consumedOnStart = 20 - self.fuel;
+            int targetFuel = Math.max(0, updatedFuel - consumedOnStart);
+            if (targetFuel != self.fuel) {
+                self.fuel = targetFuel;
                 stand.setChanged();
             }
         }

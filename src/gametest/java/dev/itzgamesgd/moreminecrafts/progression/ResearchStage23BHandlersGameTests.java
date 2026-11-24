@@ -182,9 +182,10 @@ public final class ResearchStage23BHandlersGameTests implements CustomTestMethod
         stand.setItem(3, new ItemStack(Items.REDSTONE));
         stand.setItem(4, new ItemStack(Items.BLAZE_POWDER, 1));
 
-        // First tick initializes brewTime = 400 and refills fuel to 25 (.66).
+        // First tick refills fuel to 25 (.66) and immediately consumes 1 to start brewTime = 400.
         BrewingStandBlockEntity.serverTick(ctx.getLevel(), pos, ctx.getBlockState(rel), stand);
-        ctx.assertTrue(intField(stand, "fuel") == 25, "v3.research.66 grants 25 fuel uses per blaze powder");
+        ctx.assertTrue(intField(stand, "fuel") == 24,
+                "v3.research.66 grants 25 fuel uses per blaze powder (24 remaining after starting brew)");
 
         // Remaining 220 ticks complete L3 Brewing Basics (-45% of 400 = 220 ticks) and apply .60 Redstone bonus.
         for (int t = 0; t < 220; t++) {
