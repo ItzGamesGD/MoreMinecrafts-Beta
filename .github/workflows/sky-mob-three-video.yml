@@ -1,0 +1,33 @@
+name: Sky Mob three-model video capture
+on:
+  push:
+    branches: [feat/sky-mob-three-model-capture-20261123]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Install virtual display
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb openbox xdotool x11-utils scrot libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers mesa-utils vulkan-tools ffmpeg python3-pil
+      - name: Record the three mobs in a real client
+        run: bash scripts/three-mob-video/capture.sh
+      - name: Upload videos and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sky-mob-three-video-${{ github.sha }}
+          path: three-mob-results/
+          if-no-files-found: error
