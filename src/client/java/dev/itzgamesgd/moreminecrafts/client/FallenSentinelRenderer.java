@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.entity.ArmorModelSet;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.ZombieRenderState;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.HumanoidArm;
 
 /**
  * Fallen Sentinel: the Blockbench model (scripts/bbmodel-capture/convert.py) on the vanilla husk/zombie renderer path,
@@ -29,7 +30,7 @@ final class FallenSentinelRenderer extends AbstractZombieRenderer<FallenSentinel
                 ArmorModelSet.bake(ModelLayers.HUSK_ARMOR, context.getModelSet(), ZombieModel::new),
                 ArmorModelSet.bake(ModelLayers.HUSK_BABY_ARMOR, context.getModelSet(), BabyZombieModel::new));
         addLayer(new HeldWeaponLayer<>(this,
-                BbModelParts.buildWeapon("fallen_sentinel_weapon", "fallen_sentinel", "right_arm"), WEAPON_TEXTURE));
+                BbModelParts.buildWeapon("fallen_sentinel_weapon", "fallen_sentinel", "right_arm"), WEAPON_TEXTURE, HumanoidArm.RIGHT));
     }
 
     static void register() {

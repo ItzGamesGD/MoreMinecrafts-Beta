@@ -15,7 +15,7 @@ import net.minecraft.world.entity.HumanoidArm;
 
 /**
  * Skyguard Archer: the Blockbench model (scripts/bbmodel-capture/convert.py) on the vanilla skeleton renderer, so the
- * skeleton bow-aim pose is kept. The Celestial Longbow is drawn in the right hand by {@link HeldWeaponLayer}; the
+ * skeleton bow-aim pose is kept. The Celestial Longbow is drawn in the left hand by {@link HeldWeaponLayer}; the
  * vanilla bow item is not drawn.
  */
 final class SkyguardArcherRenderer extends AbstractSkeletonRenderer<SkyguardArcher, SkeletonRenderState> {
@@ -25,7 +25,7 @@ final class SkyguardArcherRenderer extends AbstractSkeletonRenderer<SkyguardArch
     SkyguardArcherRenderer(EntityRendererProvider.Context context) {
         super(context, ModelLayers.SKELETON_ARMOR, new ArcherModel());
         addLayer(new HeldWeaponLayer<>(this,
-                BbModelParts.buildWeapon("skyguard_archer_weapon", "skyguard_archer", "right_arm"), WEAPON_TEXTURE));
+                BbModelParts.buildWeapon("skyguard_archer_weapon", "skyguard_archer", "left_arm"), WEAPON_TEXTURE, HumanoidArm.LEFT));
     }
 
     static void register() {

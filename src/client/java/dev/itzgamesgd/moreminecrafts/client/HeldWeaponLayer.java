@@ -16,9 +16,9 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.HumanoidArm;
 
 /**
- * Draws a custom weapon model in the right hand of a humanoid mob, with its own texture.
+ * Draws a custom weapon model in one hand of a humanoid mob, with its own texture.
  *
- * <p>The weapon root copies the right arm's pose every frame, so the weapon follows the vanilla arm animation (idle,
+ * <p>The weapon root copies that arm's pose every frame, so the weapon follows the vanilla arm animation (idle,
  * swing, raised arm, bow aim). The weapon's elements are positioned relative to that arm (see
  * {@link BbModelParts#buildWeapon}), so the grip pivot lands in the hand as authored in Blockbench.
  */
@@ -26,18 +26,20 @@ final class HeldWeaponLayer<S extends LivingEntityRenderState, M extends EntityM
     private final ModelPart root;
     private final WeaponModel<S> model;
     private final RenderType renderType;
+    private final HumanoidArm arm;
 
-    HeldWeaponLayer(RenderLayerParent<S, M> parent, ModelPart root, Identifier texture) {
+    HeldWeaponLayer(RenderLayerParent<S, M> parent, ModelPart root, Identifier texture, HumanoidArm arm) {
         super(parent);
         this.root = root;
+        this.arm = arm;
         this.model = new WeaponModel<>(root);
         this.renderType = RenderTypes.entityCutoutCull(texture);
     }
 
     @Override
     public void submit(PoseStack pose, SubmitNodeCollector collector, int light, S state, float yRot, float xRot) {
-        ModelPart arm = ((HumanoidModel<?>) getParentModel()).getArm(HumanoidArm.RIGHT);
-        root.loadPose(arm.storePose());
+        ModelPart armPart = ((HumanoidModel<?>) getParentModel()).getArm(arm);
+        root.loadPose(armPart.storePose());
         collector.submitModel(model, state, pose, renderType, light,
                 LivingEntityRenderer.getOverlayCoords(state, 0.0F), -1);
     }
