@@ -3,6 +3,7 @@ package dev.itzgamesgd.moreminecrafts.mixin;
 import dev.itzgamesgd.moreminecrafts.progression.ResearchBeehiveHarvestGuard;
 import dev.itzgamesgd.moreminecrafts.progression.ResearchContentRules;
 import dev.itzgamesgd.moreminecrafts.progression.ResearchRewards;
+import dev.itzgamesgd.moreminecrafts.progression.XpQuestHooks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -21,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-/** Adds at most one bonus comb after a successful vanilla honeycomb harvest. */
+/** Adds at most one bonus comb after a successful vanilla honeycomb harvest and tracks honey bottle harvests. */
 @Mixin(BeehiveBlock.class)
 abstract class ResearchBeehiveMixin {
     @Inject(method = "useItemOn", at = @At("RETURN"))
@@ -29,9 +30,13 @@ abstract class ResearchBeehiveMixin {
             Player player, InteractionHand hand, BlockHitResult hit,
             CallbackInfoReturnable<InteractionResult> result) {
         if (!(level instanceof ServerLevel serverLevel) || !(player instanceof ServerPlayer serverPlayer)
-                || !held.is(Items.SHEARS)
                 || !ResearchBeehiveHarvestGuard.succeeded(before, serverLevel.getBlockState(pos),
                         result.getReturnValue().consumesAction())) return;
+        if (held.is(Items.GLASS_BOTTLE)) {
+            XpQuestHooks.honeyBottleHarvested(serverPlayer);
+            return;
+        }
+        if (!held.is(Items.SHEARS)) return;
         int researchLevel = ResearchRewards.level(serverPlayer,
                 "v3.research.18", "beekeeping_extra_honeycomb");
         double chance = ResearchContentRules.honeycombChance(researchLevel);

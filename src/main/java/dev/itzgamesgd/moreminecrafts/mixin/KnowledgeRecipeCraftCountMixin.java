@@ -7,11 +7,15 @@ import dev.itzgamesgd.moreminecrafts.progression.KnowledgeEventCollectors;
 import dev.itzgamesgd.moreminecrafts.progression.PrecisionCraftingRules;
 import dev.itzgamesgd.moreminecrafts.progression.PrecisionCraftingRuntime;
 import dev.itzgamesgd.moreminecrafts.progression.ResearchProgressState;
+import dev.itzgamesgd.moreminecrafts.progression.XpQuestHooks;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.inventory.ResultContainer;
 import net.minecraft.world.inventory.ResultSlot;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Shadow;
@@ -26,6 +30,7 @@ abstract class KnowledgeRecipeCraftCountMixin {
     @Shadow @Final private Player player;
     @Shadow @Final private CraftingContainer craftSlots;
     @Unique private boolean moreminecrafts$creditedInQuickCraft;
+    @Unique private String moreminecrafts$lastRecipeId;
     @Unique private int moreminecrafts$precisionCraftingPreserveSlot = -1;
     @Unique private boolean moreminecrafts$precisionCraftingPreserved;
 
@@ -36,6 +41,7 @@ abstract class KnowledgeRecipeCraftCountMixin {
     @Inject(method = "onTake", at = @At("HEAD"))
     private void moreminecrafts$preparePrecisionCrafting(Player player, ItemStack crafted,
                                                           CallbackInfo ci) {
+        moreminecrafts$captureRecipeUsed();
         moreminecrafts$precisionCraftingPreserveSlot = -1;
         moreminecrafts$precisionCraftingPreserved = false;
         if (!(player instanceof ServerPlayer serverPlayer)) return;
@@ -82,9 +88,15 @@ abstract class KnowledgeRecipeCraftCountMixin {
         }
     }
 
+    @Inject(method = "onQuickCraft(Lnet/minecraft/world/item/ItemStack;I)V", at = @At("HEAD"))
+    private void moreminecrafts$captureQuickCraftRecipe(ItemStack crafted, int amount, CallbackInfo ci) {
+        moreminecrafts$captureRecipeUsed();
+    }
+
     /** Shift-click transfers call Slot.onQuickCraft with the successfully moved output quantity. */
     @Inject(method = "onQuickCraft(Lnet/minecraft/world/item/ItemStack;I)V", at = @At("TAIL"))
     private void moreminecrafts$countQuickCraftedOutput(ItemStack crafted, int amount, CallbackInfo ci) {
+        String recipeId = moreminecrafts$consumeLastRecipeId();
         if (amount <= 0 || !(player instanceof ServerPlayer serverPlayer) || crafted.isEmpty()) return;
         if (dev.itzgamesgd.moreminecrafts.progression.KnowledgeEligibleRosters
                 .isEligibleVanillaTool(crafted.getItem())) {
@@ -92,7 +104,7 @@ abstract class KnowledgeRecipeCraftCountMixin {
             moved.setCount(amount);
             KnowledgeEventCollectors.vanillaToolCrafted(serverPlayer, moved);
         }
-        moreminecrafts$recordCompletedRecipe(serverPlayer, crafted);
+        moreminecrafts$recordCompletedRecipe(serverPlayer, crafted, recipeId);
         moreminecrafts$creditedInQuickCraft = true;
     }
 
@@ -104,20 +116,37 @@ abstract class KnowledgeRecipeCraftCountMixin {
         // any early return so it cannot suppress a later, unrelated normal take.
         boolean alreadyCreditedInQuickCraft = moreminecrafts$creditedInQuickCraft;
         moreminecrafts$creditedInQuickCraft = false;
+        String recipeId = moreminecrafts$consumeLastRecipeId();
         if (!(player instanceof ServerPlayer serverPlayer) || crafted.isEmpty() || alreadyCreditedInQuickCraft) return;
         if (dev.itzgamesgd.moreminecrafts.progression.KnowledgeEligibleRosters
                 .isEligibleVanillaTool(crafted.getItem()))
             KnowledgeEventCollectors.vanillaToolCrafted(serverPlayer, crafted);
-        moreminecrafts$recordCompletedRecipe(serverPlayer, crafted);
+        moreminecrafts$recordCompletedRecipe(serverPlayer, crafted, recipeId);
     }
 
     @Unique
-    private static void moreminecrafts$recordCompletedRecipe(ServerPlayer player, ItemStack crafted) {
+    private void moreminecrafts$captureRecipeUsed() {
+        if (((Slot) (Object) this).container instanceof ResultContainer resultContainer) {
+            RecipeHolder<?> used = resultContainer.getRecipeUsed();
+            if (used != null) moreminecrafts$lastRecipeId = used.id().identifier().toString();
+        }
+    }
+
+    @Unique
+    private String moreminecrafts$consumeLastRecipeId() {
+        String id = moreminecrafts$lastRecipeId;
+        moreminecrafts$lastRecipeId = null;
+        return id;
+    }
+
+    @Unique
+    private static void moreminecrafts$recordCompletedRecipe(ServerPlayer player, ItemStack crafted, String recipeId) {
         ResearchProgressState state = KnowledgeRuntime.state(player);
         KnowledgeRuntime.recordCondition(player, "recipes_completed",
                 state.conditionProgress("recipes_completed") + 1);
         if (crafted.has(net.minecraft.core.component.DataComponents.FOOD))
             KnowledgeRuntime.recordDistinctCondition(player, "foods_crafted_or_cooked",
                     String.valueOf(net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(crafted.getItem())));
+        XpQuestHooks.crafted(player, crafted, recipeId);
     }
 }

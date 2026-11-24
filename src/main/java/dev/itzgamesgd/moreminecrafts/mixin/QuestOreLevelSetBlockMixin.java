@@ -2,6 +2,7 @@ package dev.itzgamesgd.moreminecrafts.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import dev.itzgamesgd.moreminecrafts.progression.QuestNaturalCropProvenance;
 import dev.itzgamesgd.moreminecrafts.progression.QuestOreProvenance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -24,8 +25,10 @@ abstract class QuestOreLevelSetBlockMixin {
         Level level = (Level) (Object) this;
         BlockState previous = level.isClientSide() ? null : this.getBlockState(pos);
         boolean changed = original.call(pos, state, updateFlags, updateLimit);
-        if (changed && previous != null && previous.getBlock() != state.getBlock())
+        if (changed && previous != null && previous.getBlock() != state.getBlock()) {
             QuestOreProvenance.invalidate(level, pos);
+            QuestNaturalCropProvenance.invalidate(level, pos);
+        }
         return changed;
     }
 }

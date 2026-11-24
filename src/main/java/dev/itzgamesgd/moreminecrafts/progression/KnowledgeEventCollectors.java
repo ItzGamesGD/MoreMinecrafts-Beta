@@ -114,8 +114,11 @@ public final class KnowledgeEventCollectors {
     }
 
     public static void smeltingCollected(ServerPlayer player, AbstractFurnaceBlockEntity furnace, ItemStack taken) {
-        for (String oreType : SmeltingOutputProvenance.collect(furnace, taken))
+        var result = SmeltingOutputProvenance.collectWithCount(furnace, taken);
+        for (String oreType : result.oreTypes())
             KnowledgeRuntime.recordDistinctCondition(player, "ore_types_smelted", oreType);
+        if (result.takenCount() > 0)
+            XpQuestHooks.smeltedCollected(player, taken, result.takenCount());
     }
 
     public static void shieldBlocked(ServerPlayer player) {
@@ -146,9 +149,11 @@ public final class KnowledgeEventCollectors {
     }
 
     public static void archaeologyItemProduced(ServerPlayer player, ItemStack result) {
-        if (!result.isEmpty())
+        if (!result.isEmpty()) {
             KnowledgeRuntime.recordCondition(player, "archaeology_items_brushed",
                     KnowledgeRuntime.state(player).get("condition.archaeology_items_brushed") + result.getCount());
+            XpQuestHooks.archaeologyItemProduced(player, result);
+        }
     }
 
     public static void potionCollected(ServerPlayer player, BrewingStandBlockEntity stand, int slot, ItemStack result) {
@@ -167,6 +172,7 @@ public final class KnowledgeEventCollectors {
         if (KnowledgeEventRules.isStrengthenedPotion(result))
             KnowledgeRuntime.recordCondition(player, "strengthened_potions_brewed",
                     KnowledgeRuntime.state(player).get("condition.strengthened_potions_brewed") + brewedCount);
+        XpQuestHooks.potionCollected(player, result, brewedCount);
     }
 
     public static boolean isPotionItem(ItemStack stack) {

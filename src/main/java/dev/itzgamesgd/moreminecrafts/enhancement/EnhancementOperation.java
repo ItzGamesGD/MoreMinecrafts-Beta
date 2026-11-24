@@ -73,6 +73,9 @@ public final class EnhancementOperation {
             equipment.set(ModDataComponents.ENHANCEMENT_LEVEL, result.targetLevel());
             Runnable injection = failureInjectionForTests;
             if (injection != null) injection.run();
+            if (player instanceof net.minecraft.server.level.ServerPlayer serverPlayer) {
+                dev.itzgamesgd.moreminecrafts.progression.XpQuestTracking.reconcile(serverPlayer);
+            }
             return true;
         } catch (RuntimeException failure) {
             xpBefore.restore(player);

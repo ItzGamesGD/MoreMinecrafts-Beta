@@ -102,6 +102,7 @@ public final class FishingChallenges {
         }
         int deniedRequiredTier = 0;
         boolean caught = false;
+        int caughtCount = 0;
         for (FishSpecies species : speciesRolls) {
             RodEquipment equipment = challenge.rod().getOrDefault(ModDataComponents.ROD_EQUIPMENT, RodEquipment.EMPTY);
             int minnowTier = equipment.tier(FishingEquipmentFamily.MINNOW);
@@ -116,15 +117,22 @@ public final class FishingChallenges {
             challenge.rod().set(ModDataComponents.ROD_EQUIPMENT, equipment);
             deliver(player, fish);
             caught = true;
+            caughtCount++;
             dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime.recordDistinctCondition(
                     player, "fish_species_caught", roll.species().id());
             var biome = player.level().getBiome(player.blockPosition()).unwrapKey();
             biome.ifPresent(key -> dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime.recordDistinctCondition(
                     player, "water_biomes_fished", key.identifier().toString()));
+            dev.itzgamesgd.moreminecrafts.progression.XpQuestHooks.fishCaught(player, roll.species().id(), roll.grade());
         }
-        if (caught) dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime.recordCondition(player, "fishing_successes",
-                dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime.state(player)
-                        .conditionProgress("fishing_successes") + 1);
+        if (caught) {
+            dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime.recordCondition(player, "fishing_successes",
+                    dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime.state(player)
+                            .conditionProgress("fishing_successes") + 1);
+            if (caughtCount >= 2) {
+                dev.itzgamesgd.moreminecrafts.progression.XpQuestHooks.fishingMultiCatch(player);
+            }
+        }
         if (deniedRequiredTier > 0) {
             player.sendSystemMessage(Component.translatable("message.moreminecrafts.fishing.minnow_required",
                     FishingGrade.roman(deniedRequiredTier)), false);

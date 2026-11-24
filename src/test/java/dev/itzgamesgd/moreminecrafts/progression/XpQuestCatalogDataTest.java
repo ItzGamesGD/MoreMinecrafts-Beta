@@ -37,10 +37,39 @@ final class XpQuestCatalogDataTest {
             "xpq.dim.nether_travel_50k", "xpq.fsh.first_sale", "xpq.fsh.sale_64", "xpq.fsh.emerald_500",
             "xpq.cft.anvil_50", "xpq.cft.redstone_100",
             "xpq.exp.archaeology_30", "xpq.cmb.shield_500", "xpq.cmb.trident_50", "xpq.alc.potions_250");
-    static final java.util.Set<String> Q1B_SOURCE_BLOCKED = java.util.Set.of(
-            "xpq.frm.harvest_1000", "xpq.frm.harvest_5000", "xpq.fsh.catch_500",
-            "xpq.frm.composite_foods", "xpq.cft.sleeping_bag", "xpq.cft.parachute",
-            "xpq.cft.all_daggers", "xpq.cft.all_greatswords", "xpq.cft.mm_blocks");
+    static final java.util.Set<String> Q1B_SOURCE_BLOCKED = java.util.Set.of();
+    static final java.util.Set<String> BATCH1_REGISTERED = java.util.Set.of(
+            "xpq.grw.knowledge_10", "xpq.grw.first_research", "xpq.grw.seven_roots", "xpq.grw.knowledge_20",
+            "xpq.grw.research_10", "xpq.grw.knowledge_35", "xpq.grw.first_t2", "xpq.grw.discipline_breadth",
+            "xpq.grw.spent_10k", "xpq.grw.knowledge_50", "xpq.grw.research_25", "xpq.grw.first_t3",
+            "xpq.grw.spent_50k", "xpq.grw.knowledge_complete", "xpq.grw.research_50", "xpq.grw.t3_5",
+            "xpq.grw.discipline_complete",
+            "xpq.exp.walk_10k", "xpq.exp.biomes_25", "xpq.exp.rare_biomes", "xpq.exp.walk_50k",
+            "xpq.exp.biomes_40", "xpq.exp.sail_20k", "xpq.exp.ride_10k", "xpq.exp.elytra_25k", "xpq.exp.travel_250k",
+            "xpq.min.obsidian_64", "xpq.min.stone_10000",
+            "xpq.frm.harvest_1000", "xpq.frm.breed_200", "xpq.frm.harvest_5000", "xpq.frm.trades_200",
+            "xpq.fsh.freshwater_4", "xpq.fsh.water_biomes_8", "xpq.fsh.ocean_trio", "xpq.fsh.catch_500", "xpq.fsh.full_catalogue",
+            "xpq.alc.types_12", "xpq.alc.ingredients_all", "xpq.alc.effects_16");
+    static final java.util.Set<String> BATCH2_REGISTERED = java.util.Set.of(
+            "xpq.eqp.enhance_5", "xpq.eqp.enhance_10", "xpq.eqp.enhance_15", "xpq.eqp.enhance_20",
+            "xpq.eqp.enhance_trio", "xpq.eqp.enhance_20_armor", "xpq.eqp.custom_enchant",
+            "xpq.eqp.first_t2_core", "xpq.eqp.t2_cores_3", "xpq.eqp.all_t2_cores",
+            "xpq.cft.netherite_tools", "xpq.fsh.first_module", "xpq.fsh.tier3_rig");
+    static final java.util.Set<String> BATCH3_REGISTERED = java.util.Set.of(
+            "xpq.fsh.grade_four", "xpq.fsh.grade_five", "xpq.fsh.grade_five_5", "xpq.fsh.multi_catch",
+            "xpq.alc.shock_potion", "xpq.alc.splash_lingering", "xpq.alc.enhanced_3",
+            "xpq.cft.smelt_1000", "xpq.bld.storage_50", "xpq.bld.copper_ages");
+    static final java.util.Set<String> BATCH4_REGISTERED = java.util.Set.of(
+            "xpq.frm.composite_foods", "xpq.cft.sleeping_bag", "xpq.cft.all_daggers",
+            "xpq.cft.parachute", "xpq.cft.all_greatswords", "xpq.cft.mm_blocks",
+            "xpq.dim.shulker_boxes", "xpq.cft.recipes_200",
+            "xpq.frm.master_trade", "xpq.frm.mending_book", "xpq.frm.professions_10");
+    static final java.util.Set<String> BATCH5_REGISTERED = java.util.Set.of(
+            "xpq.exp.explorer_maps", "xpq.exp.height_extremes", "xpq.exp.sherds_15",
+            "xpq.dim.blaze_rods_32", "xpq.min.amethyst_spyglass", "xpq.min.adamantium_debris",
+            "xpq.min.all_wood", "xpq.frm.harvest_all_crops", "xpq.frm.honey_32",
+            "xpq.frm.ancient_harvest", "xpq.cft.enchanting_30", "xpq.cft.conduit",
+            "xpq.cft.mm_metallurgy");
     static final java.util.Set<String> Q1C_LOOT_REGISTERED = java.util.Set.of(
             "xpq.exp.first_structure_loot", "xpq.exp.mineshaft_loot", "xpq.exp.dungeon_loot",
             "xpq.exp.temples", "xpq.exp.ocean_relics", "xpq.dim.fortress_loot",
@@ -62,6 +91,11 @@ final class XpQuestCatalogDataTest {
         java.util.Set<String> registered = new java.util.TreeSet<>();
         CATALOG.quests().stream().filter(XpQuestCatalogData.Spec::registered).forEach(q -> registered.add(q.id()));
         java.util.Set<String> approved = new java.util.TreeSet<>(Q1B_REGISTERED);
+        approved.addAll(BATCH1_REGISTERED);
+        approved.addAll(BATCH2_REGISTERED);
+        approved.addAll(BATCH3_REGISTERED);
+        approved.addAll(BATCH4_REGISTERED);
+        approved.addAll(BATCH5_REGISTERED);
         approved.addAll(Q1C_LOOT_REGISTERED);
         approved.addAll(Q1C_VAULT_REGISTERED);
         approved.addAll(Q1C_STRUCTURE_REGISTERED);
@@ -168,11 +202,9 @@ final class XpQuestCatalogDataTest {
         assertTrue(problems(quests).stream().anyMatch(p -> p.contains("registered while VERIFY")));
 
         quests = new ArrayList<>(CATALOG.quests());
-        int pending = -1;
-        for (int i = 0; i < quests.size(); i++)
-            if (quests.get(i).status().equals("NOW") && !quests.get(i).tracker().evaluable()) { pending = i; break; }
-        q = quests.get(pending);
-        quests.set(pending, new XpQuestCatalogData.Spec(q.id(), q.tab(), q.tier(), q.status(), q.rewardRawXp(), q.target(), q.tracker(), true));
+        q = quests.get(0);
+        quests.set(0, new XpQuestCatalogData.Spec(q.id(), q.tab(), q.tier(), "NOW", q.rewardRawXp(), q.target(),
+                new XpQuestCatalogData.Tracker("pending", "", List.of(), 1, null), true));
         assertTrue(problems(quests).stream().anyMatch(p -> p.contains("without an implemented tracker")));
         assertFalse(XpQuestCatalogData.validate(CATALOG).iterator().hasNext());
     }

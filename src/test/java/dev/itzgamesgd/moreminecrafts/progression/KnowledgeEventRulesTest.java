@@ -17,6 +17,11 @@ final class KnowledgeEventRulesTest {
         assertTrue(KnowledgeEventRules.isStrengthenedPotionId("minecraft:strong_strength"));
         assertFalse(KnowledgeEventRules.isStrengthenedPotionId("minecraft:strength"));
         assertNotEquals("minecraft:strong_strength", "minecraft:strength");
+        assertTrue(KnowledgeEventRules.isExtendedPotionId("minecraft:long_strength"));
+        assertFalse(KnowledgeEventRules.isExtendedPotionId("minecraft:strong_strength"));
+        assertEquals("minecraft:strength", KnowledgeEventRules.potionFamilyBase("minecraft:strong_strength").orElseThrow());
+        assertEquals("minecraft:strength", KnowledgeEventRules.potionFamilyBase("minecraft:long_strength").orElseThrow());
+        assertTrue(KnowledgeEventRules.potionFamilyBase("minecraft:strength").isEmpty());
     }
 
     @Test void specialAmmunitionExcludesOrdinaryArrowsAndAcceptsApprovedTypes() {
