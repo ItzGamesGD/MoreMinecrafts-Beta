@@ -155,6 +155,10 @@ def biome_tag(biomes):
     return {"replace": False, "values": [f"minecraft:{b}" for b in biomes]}
 
 
+# Themes whose three live pools were switched to sky_islands/heaven/<theme>/ (pending_pools.py apply); keep in sync with HeavenP38ResourceTest.TRANSITIONED.
+HEAVEN_POOL_THEMES = ("meadow", "forest")
+
+
 def collect():
     files = {}  # path -> bytes
     stats = {}
@@ -165,12 +169,14 @@ def collect():
     for style in STYLES:
         for name, v in build_style_islands(style).items():
             files[DATA / f"structure/sky_islands/{style}/{name}.nbt"] = v.to_nbt()
+        # P3.12: the approved production transition points the meadow / forest pools at the heaven templates (same pool IDs and weights).
+        base = f"sky_islands/heaven/{style}" if style in HEAVEN_POOL_THEMES else f"sky_islands/{style}"
         text(f"worldgen/template_pool/sky_islands/{style}/start.json",
-             pool([(f"sky_islands/{style}/{n}", w) for n, w in START_WEIGHTS.items()]))
+             pool([(f"{base}/{n}", w) for n, w in START_WEIGHTS.items()]))
         # Sky Tower child: the only way a tower is placed; referenced only by the large tower-bearing islands.
-        text(f"worldgen/template_pool/sky_islands/{style}/tower_top.json", pool([(f"sky_islands/{style}/tower", 1)]))
+        text(f"worldgen/template_pool/sky_islands/{style}/tower_top.json", pool([(f"{base}/tower", 1)]))
         text(f"worldgen/template_pool/sky_islands/{style}/satellite.json",
-             pool([(f"sky_islands/{style}/{n}", w) for n, w in SATELLITE_WEIGHTS.items()], SATELLITE_EMPTY_WEIGHT))
+             pool([(f"{base}/{n}", w) for n, w in SATELLITE_WEIGHTS.items()], SATELLITE_EMPTY_WEIGHT))
 
     # Replace the existing weighted tower child with one composite Jigsaw element.
     # The start pool entries and their weights remain byte-for-byte unchanged.

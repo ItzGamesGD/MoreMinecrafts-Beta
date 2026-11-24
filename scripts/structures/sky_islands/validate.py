@@ -10,6 +10,8 @@ import nbtlib
 
 ROOT = Path(__file__).resolve().parents[3]
 DATA = ROOT / "src/main/resources/data/moreminecrafts"
+# Themes whose three live pools point at sky_islands/heaven/<theme>/ (pending_pools.py apply); keep in sync with generate.py and HeavenP38ResourceTest.TRANSITIONED.
+HEAVEN_POOL_THEMES = ("meadow", "forest")
 NS = "moreminecrafts"
 VANILLA_SPAWNER_CONFIGS = {
     f"minecraft:trial_chamber/{path}/{mode}"
@@ -169,7 +171,7 @@ def main():
         for location in pool_locations(pool):
             path = DATA / "structure" / (location.split(":", 1)[1] + ".nbt")
             check(path.is_file(), f"{pool.name}: missing template {location}")
-    styles = [p.name for p in (template_dir).iterdir() if p.is_dir()]
+    styles = [p.name for p in (template_dir).iterdir() if p.is_dir() and p.name != "heaven"]   # P3.8: structure/sky_islands/heaven/ holds the heaven twins (checked by HeavenP38ResourceTest), not a theme
     check(sorted(styles) == ["badlands", "desert", "forest", "meadow", "rocky", "snowy"], f"styles: {styles}")
     for style in styles:
         for template in sorted((template_dir / style).glob("*.nbt")):
@@ -217,7 +219,8 @@ def main():
         check(totals == [40, 30, 30], f"{style}/start: family totals {totals} != [40, 30, 30]")
         check(weights.get("ruins") == 6 and weights.get("temple") == 2, f"{style}/start: ruins/temple weights changed")
         child = json.loads((DATA / f"worldgen/template_pool/sky_islands/{style}/tower_top.json").read_text())
-        check([e["element"]["location"] for e in child["elements"]] == [f"{NS}:sky_islands/{style}/tower"], f"{style}/tower_top pool")
+        tower = f"{NS}:sky_islands/heaven/{style}/tower" if style in HEAVEN_POOL_THEMES else f"{NS}:sky_islands/{style}/tower"   # P3.12 production transition (meadow, forest)
+        check([e["element"]["location"] for e in child["elements"]] == [tower], f"{style}/tower_top pool")
 
     # structures / sets / tags
     structures = {}
