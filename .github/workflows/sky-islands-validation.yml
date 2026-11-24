@@ -33,6 +33,8 @@ jobs:
         run: python3 scripts/structures/sky_islands/generate.py --check
       - name: Static template, pool, structure and loot validation
         run: python3 scripts/structures/sky_islands/validate.py
+      - name: Tower composite unit tests
+        run: python3 -I -m unittest discover -s scripts/structures/sky_islands -p 'test_tower_composite.py'
 
   worldgen-probe:
     runs-on: ubuntu-latest
@@ -87,4 +89,23 @@ jobs:
           tower_starts = sum(d.get("island_pieces_by_kind", {}).get("tower", 0) for d in [json.load(open(f)) for f in sorted(glob.glob("probe/results/*.json"))])
           print("seen", sorted(seen), "missing", sorted(want - seen), "failed", bad, "composite_tower_starts", tower_starts)
           sys.exit(0 if seen == want and not bad and tower_starts > 0 else 1)
+          PY
+      - name: Tower only on large islands, child inside parent, all size families generated
+        run: |
+          python3 -I - <<'PY'
+          import glob, json, sys
+          starts, towers, viol = {}, {}, []
+          for f in sorted(glob.glob("probe/results/*.json")):
+              d = json.load(open(f))
+              for k, v in d["start_element_counts"].items(): starts[k] = starts.get(k, 0) + v
+              for k, v in d["tower_parent_counts"].items(): towers[k] = towers.get(k, 0) + v
+              viol += d["tower_violations"]
+          fam = {"small": 0, "medium": 0, "large": 0}
+          for k, v in starts.items():
+              for p, name in (("plain_small", "small"), ("plain_medium", "medium"), ("large_", "large")):
+                  if k.startswith(p): fam[name] += v
+          print("start_element_counts", dict(sorted(starts.items())))
+          print("family_counts", fam, "tower_parents", towers, "violations", viol)
+          ok = (not viol and towers and set(towers) <= {"large_d", "large_e"} and all(v > 0 for v in fam.values()))
+          sys.exit(0 if ok else 1)
           PY
