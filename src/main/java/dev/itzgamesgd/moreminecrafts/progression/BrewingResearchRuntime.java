@@ -276,8 +276,8 @@ public final class BrewingResearchRuntime {
             stand.setItem(0, out);
         } else if (stand.getItem(2).isEmpty()) {
             stand.setItem(2, out);
-        } else {
-            player.getInventory().placeItemBackInInventory(out);
+        } else if (!player.getInventory().add(out)) {
+            player.drop(out, false);
         }
         stand.setChanged();
         interacted(stand, player);
