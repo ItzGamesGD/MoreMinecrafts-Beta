@@ -66,6 +66,33 @@ public final class ProgressionClientApi {
     static synchronized void reset() {
         revision = -1; values = Map.of(); lastAction = ""; lastActionResult = -1; PURCHASE_GATE.reset(); CLAIM_GATE.reset();
     }
+    public record BrewingAutoStatus(boolean autoEnabled, int queuedCount, int outputCount) {}
+
+    private static dev.itzgamesgd.moreminecrafts.progression.HopperFilterState hopperFilterState =
+            dev.itzgamesgd.moreminecrafts.progression.HopperFilterState.emptyWhitelist();
+    private static BrewingAutoStatus brewingAutoStatus = new BrewingAutoStatus(false, 0, 0);
+    private static java.util.List<dev.itzgamesgd.moreminecrafts.network.NearbyChestSyncPayload.Entry> nearbyChestEntries =
+            java.util.List.of();
+
+    public static synchronized dev.itzgamesgd.moreminecrafts.progression.HopperFilterState hopperFilterState() {
+        return hopperFilterState;
+    }
+    static synchronized void setHopperFilterState(dev.itzgamesgd.moreminecrafts.progression.HopperFilterState next) {
+        hopperFilterState = next == null
+                ? dev.itzgamesgd.moreminecrafts.progression.HopperFilterState.emptyWhitelist() : next;
+    }
+    public static synchronized BrewingAutoStatus brewingAutoStatus() { return brewingAutoStatus; }
+    static synchronized void setBrewingAutoStatus(boolean autoEnabled, int queuedCount, int outputCount) {
+        brewingAutoStatus = new BrewingAutoStatus(autoEnabled, queuedCount, outputCount);
+    }
+    public static synchronized java.util.List<dev.itzgamesgd.moreminecrafts.network.NearbyChestSyncPayload.Entry> nearbyChestEntries() {
+        return nearbyChestEntries;
+    }
+    static synchronized void setNearbyChestEntries(
+            java.util.List<dev.itzgamesgd.moreminecrafts.network.NearbyChestSyncPayload.Entry> entries) {
+        nearbyChestEntries = entries == null ? java.util.List.of() : java.util.List.copyOf(entries);
+    }
+
     public static synchronized int revision() { return revision; }
     public static synchronized String lastAction() { return lastAction; }
     public static synchronized int lastActionResult() { return lastActionResult; }

@@ -25,6 +25,7 @@ abstract class BrewingStandBlockInteractionMixin {
                 && player instanceof ServerPlayer serverPlayer
                 && level.getBlockEntity(pos) instanceof BrewingStandBlockEntity stand) {
             BrewingResearchRuntime.opened(stand, serverPlayer);
+            BrewingResearchRuntime.syncToPlayer(stand, serverPlayer);
         }
     }
 }

@@ -15,6 +15,10 @@ public final class ResearchWorldLootRules {
         return Math.clamp(level, 0, 3) * 10;
     }
 
+    public static int archaeologyRequiredBrushes(int level) {
+        return 10 - Math.clamp(level, 0, 3);
+    }
+
     public static double archaeologyRareBonusChance(int level) {
         return Math.clamp(level, 0, 3) * 0.03D;
     }

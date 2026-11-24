@@ -146,7 +146,10 @@
     "BrewingMenuInteractionMixin",
     "ResearchEcologyMobMixin",
     "ResearchSkeletonAimMixin",
-    "LivingEntityAttackAccessor"
+    "LivingEntityAttackAccessor",
+    "ResearchHopperFilterMixin",
+    "ResearchHopperBlockMixin",
+    "ResearchCraftingTableMixin"
   ],
   "injectors": {
     "defaultRequire": 1
@@ -163,6 +166,9 @@
     "ProgressionAdvancementKeyMixin",
     "MerchantScreenAccessor",
     "ResearchVillagerStockScreenMixin",
-    "ResearchChestSortScreenMixin"
+    "ResearchChestSortScreenMixin",
+    "ResearchHopperFilterScreenMixin",
+    "ResearchBrewingStandScreenMixin",
+    "ResearchCraftingNearbyScreenMixin"
   ]
 }

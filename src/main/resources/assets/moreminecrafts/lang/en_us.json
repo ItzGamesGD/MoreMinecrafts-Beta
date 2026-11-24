@@ -1212,5 +1212,15 @@
   "moreminecrafts.research.auto_farm.locked": "Unlock Auto Farm research first to operate this machine.",
   "moreminecrafts.ui.villager.stock": "Stock: %s / %s",
   "moreminecrafts.ui.chest_sort.category": "Category",
-  "moreminecrafts.ui.chest_sort.name": "Name"
+  "moreminecrafts.ui.chest_sort.name": "Name",
+  "moreminecrafts.ui.hopper_filter.mode": "Mode",
+  "moreminecrafts.ui.hopper_filter.clear": "Clear",
+  "moreminecrafts.ui.hopper_filter.whitelist": "Whitelist",
+  "moreminecrafts.ui.hopper_filter.blacklist": "Blacklist",
+  "moreminecrafts.ui.brewing.mix_conc": "Mix/Conc",
+  "moreminecrafts.ui.brewing.auto_toggle": "Auto 9+9",
+  "moreminecrafts.ui.brewing.queue": "Queue",
+  "moreminecrafts.ui.brewing.collect": "Collect",
+  "moreminecrafts.ui.brewing.status": "%s Q:%s O:%s",
+  "moreminecrafts.ui.nearby_chests.title": "Nearby"
 }
