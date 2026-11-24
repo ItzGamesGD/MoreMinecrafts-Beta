@@ -1,18 +1,9 @@
 package dev.itzgamesgd.moreminecrafts.pillagerhq.worldgen;
 
-import it.unimi.dsi.fastutil.longs.LongIterator;
-import it.unimi.dsi.fastutil.longs.LongSet;
-import java.util.Map;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.WorldGenRegion;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.level.chunk.status.ChunkStatus;
-import net.minecraft.world.level.levelgen.structure.Structure;
-import net.minecraft.world.level.levelgen.structure.StructurePiece;
-import net.minecraft.world.level.levelgen.structure.StructureStart;
 
 /**
  * Keeps non-solid blocks (lava, fluids, plants) and cave air out of the ST-03 support band after structure placement.
@@ -37,32 +28,9 @@ public final class St03SupportLavaGuard {
      */
     public static boolean replacesNonSolidSupport(WorldGenRegion region, BlockPos pos, BlockState state) {
         if (state.isSolidRender() || (state.isAir() && !state.is(Blocks.CAVE_AIR)) || !region.isWithinWriteZone(pos)) return false;
-        ChunkAccess chunk = region.getChunk(pos.getX() >> 4, pos.getZ() >> 4);
-        Map<Structure, LongSet> references = chunk.getAllReferences();
-        if (references.isEmpty()) return false;
-        for (Map.Entry<Structure, LongSet> entry : references.entrySet()) {
-            if (!(entry.getKey() instanceof St03HeadquartersStructure)) continue;
-            for (LongIterator it = entry.getValue().iterator(); it.hasNext(); ) {
-                ChunkPos startChunk = ChunkPos.unpack(it.nextLong());
-                if (!region.hasChunk(startChunk.x(), startChunk.z())) continue;
-                StructureStart start = region.getChunk(startChunk.x(), startChunk.z(), ChunkStatus.STRUCTURE_STARTS, false)
-                        .getStartForStructure(entry.getKey());
-                if (start == null || !start.isValid()) continue;
-                if (inSupportBand(start, pos)) return true;
-            }
-        }
-        return false;
-    }
-
-    private static boolean inSupportBand(StructureStart start, BlockPos pos) {
-        for (StructurePiece piece : start.getPieces()) {
-            if (!(piece instanceof St03TerrainCorrectionPiece terrain)) continue;
-            BlockPos origin = terrain.origin();
-            int fy = origin.getY();
-            return pos.getX() >= origin.getX() && pos.getX() <= origin.getX() + 111
-                    && pos.getZ() >= origin.getZ() && pos.getZ() <= origin.getZ() + 111
-                    && pos.getY() < fy && pos.getY() >= fy - BAND_DEPTH;
-        }
-        return false;
+        BlockPos origin = St03StructureLookup.footprintOriginAt(region, pos);
+        if (origin == null) return false;
+        int fy = origin.getY();
+        return pos.getY() < fy && pos.getY() >= fy - BAND_DEPTH;
     }
 }

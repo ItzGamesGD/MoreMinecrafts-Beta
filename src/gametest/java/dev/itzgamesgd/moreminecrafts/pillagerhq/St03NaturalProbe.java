@@ -1344,7 +1344,7 @@ public final class St03NaturalProbe implements ModInitializer {
             boolean isCaveAirDiag = Boolean.TRUE.equals(current.get("post_structure_cave_air_intersection"));
             boolean isLavaDiag = Boolean.TRUE.equals(current.get("post_structure_lava_intersection"));
             // Allow the explicit seed 10079 village-overlap diagnostic case and post-structure cave_air feature intersections to be recorded without aborting
-            if (!isVillageDiag && !isCaveAirDiag && !isLavaDiag && (unsupported != 0 || 100L * wet > 15L * 12544L || 100L * preGenWaterCols96 > 20L * 9216L || planks == 0))
+            if (!isVillageDiag && !isCaveAirDiag && !isLavaDiag && (unsupported != 0 || 100L * wet > 15L * 12544L || 100L * preGenWaterCols96 > 20L * 9216L || planks == 0 || exteriorLeaves != 0))
                 throw new AssertionError("Natural template placement/support validation failed: " + current);
         }
 
