@@ -47,7 +47,6 @@ public final class EnchantingProgressionScreen extends AbstractContainerScreen<E
     private Button apply;
     private Button reset;
     private ViewportScale viewportScale = new ViewportScale(1.0D, 0.0D, 0.0D);
-    private boolean diagnosticLogged;
 
     public EnchantingProgressionScreen(EnchantingProgressionMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title, GUI_WIDTH, GUI_HEIGHT);
@@ -63,10 +62,6 @@ public final class EnchantingProgressionScreen extends AbstractContainerScreen<E
     protected void init() {
         super.init();
         viewportScale = ViewportScale.fit(width, height, GUI_WIDTH, GUI_HEIGHT, 8.0D);
-        diagnosticLogged = false;
-        // TEMPORARY diagnostic for audit finding C-01; remove once the cause is known.
-        dev.itzgamesgd.moreminecrafts.MoreMinecrafts.LOGGER.info("ENCHANT_VIEWPORT init width={} height={} leftPos={} topPos={} scale={} left={} top={}",
-                width, height, leftPos, topPos, viewportScale.scale(), viewportScale.left(), viewportScale.top());
         enchantTab = addRenderableWidget(Button.builder(Component.translatable("menu.moreminecrafts.enchantment"), b -> {
             treePage = 0;
             request(0);
@@ -130,11 +125,6 @@ public final class EnchantingProgressionScreen extends AbstractContainerScreen<E
 
     @Override
     public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
-        if (!diagnosticLogged) {
-            diagnosticLogged = true;
-            dev.itzgamesgd.moreminecrafts.MoreMinecrafts.LOGGER.info("ENCHANT_VIEWPORT render scale={} left={} top={} leftPos={} topPos={}",
-                    viewportScale.scale(), viewportScale.left(), viewportScale.top(), leftPos, topPos);
-        }
         graphics.pose().pushMatrix();
         graphics.pose().translate((float) (viewportScale.left() - leftPos * viewportScale.scale()),
                 (float) (viewportScale.top() - topPos * viewportScale.scale()));
@@ -362,6 +352,16 @@ public final class EnchantingProgressionScreen extends AbstractContainerScreen<E
     @Override
     public void extractBackground(GuiGraphicsExtractor g, int mouseX, int mouseY, float delta) {
         super.extractBackground(g, mouseX, mouseY, delta);
+        // The background is extracted outside the scaled pose in extractRenderState (CI captures at GUI 3/4 showed the
+        // widgets shrunk but the panel and slot frames at full size), so apply the same fit transform here unless the
+        // current pose already carries it.
+        boolean fitHere = viewportScale.scale() < 0.9999D && Math.abs(g.pose().m00() - viewportScale.scale()) > 1.0E-3D;
+        if (fitHere) {
+            g.pose().pushMatrix();
+            g.pose().translate((float) (viewportScale.left() - leftPos * viewportScale.scale()),
+                    (float) (viewportScale.top() - topPos * viewportScale.scale()));
+            g.pose().scale((float) viewportScale.scale(), (float) viewportScale.scale());
+        }
         int x = leftPos, y = topPos;
         g.fill(x, y, x + GUI_WIDTH, y + GUI_HEIGHT, 0xFFC6C6C6);
         g.fill(x + 2, y + 2, x + 328, y + 3, 0xFFFFFFFF);
@@ -375,6 +375,7 @@ public final class EnchantingProgressionScreen extends AbstractContainerScreen<E
             g.fill(sx + 1, sy + 1, sx + 18, sy + 18, 0xFFFFFFFF);
             g.fill(sx + 1, sy + 1, sx + 17, sy + 17, 0xFF8B8B8B);
         }
+        if (fitHere) g.pose().popMatrix();
     }
 
     @Override
