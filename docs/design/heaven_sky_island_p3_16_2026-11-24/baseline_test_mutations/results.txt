@@ -1,0 +1,15 @@
+candidate control gradle_exit=0 PASS  
+candidate M1 gradle_exit=1 FAIL  only the approved pools switched
+candidate M2 gradle_exit=1 FAIL  only the approved pools switched
+candidate M3 gradle_exit=1 FAIL  only the approved pools switched
+candidate M4b gradle_exit=0 PASS  
+candidate M4x gradle_exit=0 PASS  
+candidate M5 gradle_exit=0 PASS  
+candidate M7 gradle_exit=1 FAIL  only the approved pools switched
+patched control gradle_exit=0 PASS  
+patched M1 gradle_exit=1 FAIL  only the approved pools switched
+patched M4b gradle_exit=0 PASS  
+patched M4x gradle_exit=1 FAIL  must not reference sky-island content
+patched M5 gradle_exit=0 PASS  
+patched M7 gradle_exit=1 FAIL  only the approved pools switched
+DONE
