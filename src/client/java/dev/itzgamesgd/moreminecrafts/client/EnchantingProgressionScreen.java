@@ -47,6 +47,7 @@ public final class EnchantingProgressionScreen extends AbstractContainerScreen<E
     private Button apply;
     private Button reset;
     private ViewportScale viewportScale = new ViewportScale(1.0D, 0.0D, 0.0D);
+    private boolean diagnosticLogged;
 
     public EnchantingProgressionScreen(EnchantingProgressionMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title, GUI_WIDTH, GUI_HEIGHT);
@@ -62,6 +63,10 @@ public final class EnchantingProgressionScreen extends AbstractContainerScreen<E
     protected void init() {
         super.init();
         viewportScale = ViewportScale.fit(width, height, GUI_WIDTH, GUI_HEIGHT, 8.0D);
+        diagnosticLogged = false;
+        // TEMPORARY diagnostic for audit finding C-01; remove once the cause is known.
+        dev.itzgamesgd.moreminecrafts.MoreMinecrafts.LOGGER.info("ENCHANT_VIEWPORT init width={} height={} leftPos={} topPos={} scale={} left={} top={}",
+                width, height, leftPos, topPos, viewportScale.scale(), viewportScale.left(), viewportScale.top());
         enchantTab = addRenderableWidget(Button.builder(Component.translatable("menu.moreminecrafts.enchantment"), b -> {
             treePage = 0;
             request(0);
@@ -125,6 +130,11 @@ public final class EnchantingProgressionScreen extends AbstractContainerScreen<E
 
     @Override
     public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
+        if (!diagnosticLogged) {
+            diagnosticLogged = true;
+            dev.itzgamesgd.moreminecrafts.MoreMinecrafts.LOGGER.info("ENCHANT_VIEWPORT render scale={} left={} top={} leftPos={} topPos={}",
+                    viewportScale.scale(), viewportScale.left(), viewportScale.top(), leftPos, topPos);
+        }
         graphics.pose().pushMatrix();
         graphics.pose().translate((float) (viewportScale.left() - leftPos * viewportScale.scale()),
                 (float) (viewportScale.top() - topPos * viewportScale.scale()));
