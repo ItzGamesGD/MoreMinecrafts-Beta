@@ -106,13 +106,13 @@ public final class QuestC3ThresholdGameTests implements CustomTestMethodInvoker 
             }
             case "research_nodes" -> {
                 List<ResearchDefinition> pool = ResearchCatalog.allCatalogEntries().stream()
-                        .filter(d -> !"non_root".equals(t.key()) || !"ROOT".equals(d.tier()))
+                        .filter(d -> !"non_root".equals(t.key()) || (!"ROOT".equals(d.tier()) && !d.id().endsWith("_root")))
                         .toList();
                 for (int i = 0; i < amount; i++) s = s.with("research." + pool.get(i).id(), 1);
             }
             case "research_roots" -> {
                 List<ResearchDefinition> roots = ResearchCatalog.allCatalogEntries().stream()
-                        .filter(d -> "ROOT".equals(d.tier()))
+                        .filter(d -> "ROOT".equals(d.tier()) || d.id().endsWith("_root"))
                         .toList();
                 for (int i = 0; i < amount; i++) s = s.with("research." + roots.get(i).id(), 1);
             }
