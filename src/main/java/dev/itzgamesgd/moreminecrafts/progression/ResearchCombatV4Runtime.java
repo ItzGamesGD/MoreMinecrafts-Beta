@@ -166,7 +166,7 @@ public final class ResearchCombatV4Runtime {
             if (away.lengthSqr() < 1.0E-6D) away = attacker.getLookAngle().multiply(1.0D, 0.0D, 1.0D);
             if (away.lengthSqr() >= 1.0E-6D) {
                 Vec3 dir = away.normalize();
-                nearby.knockback(strength, -dir.x, -dir.z);
+                nearby.knockback(strength, -dir.x, -dir.z, attacker.damageSources().playerAttack(attacker), 0);
             }
             if (disableShields) disableShieldIfBlocking(nearby);
         }
