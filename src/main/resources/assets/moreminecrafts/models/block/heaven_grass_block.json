@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "moreminecrafts:block/heaven_grass_block_top",
+    "side": "moreminecrafts:block/heaven_grass_block_side",
+    "bottom": "moreminecrafts:block/heaven_loam",
+    "particle": "moreminecrafts:block/heaven_loam"
+  }
+}

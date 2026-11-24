@@ -1,0 +1,1106 @@
+{
+ "anther": {
+  "kind": "lily_T1",
+  "before": {
+   "colours": 12,
+   "mean": [
+    122.3,
+    58.1,
+    18.0
+   ],
+   "std": 2.5,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 36,
+   "mean": [
+    122.0,
+    58.0,
+    18.0
+   ],
+   "std": 2.9,
+   "colours_per_4x4_tile": 10.69
+  }
+ },
+ "bud": {
+  "kind": "floret",
+  "before": {
+   "colours": 13,
+   "mean": [
+    124.7,
+    90.7,
+    200.4
+   ],
+   "std": 4.7,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 58,
+   "mean": [
+    125.0,
+    91.0,
+    201.0
+   ],
+   "std": 5.4,
+   "colours_per_4x4_tile": 13.19
+  }
+ },
+ "daf_back": {
+  "kind": "petal",
+  "before": {
+   "colours": 14,
+   "mean": [
+    234.0,
+    213.8,
+    74.8
+   ],
+   "std": 6.0,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 74,
+   "mean": [
+    232.0,
+    212.0,
+    74.0
+   ],
+   "std": 6.8,
+   "colours_per_4x4_tile": 13.31
+  }
+ },
+ "daf_cor": {
+  "kind": "corona",
+  "before": {
+   "colours": 13,
+   "mean": [
+    251.1,
+    178.1,
+    30.0
+   ],
+   "std": 4.4,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 52,
+   "mean": [
+    250.8,
+    178.0,
+    30.0
+   ],
+   "std": 5.3,
+   "colours_per_4x4_tile": 12.5
+  }
+ },
+ "daf_pet": {
+  "kind": "petal",
+  "before": {
+   "colours": 13,
+   "mean": [
+    251.8,
+    229.7,
+    90.8
+   ],
+   "std": 5.6,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 60,
+   "mean": [
+    251.3,
+    228.0,
+    90.0
+   ],
+   "std": 5.8,
+   "colours_per_4x4_tile": 13.0
+  }
+ },
+ "daf_rim": {
+  "kind": "petal",
+  "before": {
+   "colours": 13,
+   "mean": [
+    251.6,
+    139.2,
+    19.9
+   ],
+   "std": 3.0,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 41,
+   "mean": [
+    251.1,
+    140.0,
+    20.0
+   ],
+   "std": 3.8,
+   "colours_per_4x4_tile": 11.75
+  }
+ },
+ "fan_1": {
+  "kind": "fan",
+  "before": {
+   "colours": 12,
+   "mean": [
+    106.2,
+    63.1,
+    208.1
+   ],
+   "std": 6.0,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 54,
+   "mean": [
+    106.0,
+    63.0,
+    208.0
+   ],
+   "std": 4.7,
+   "colours_per_4x4_tile": 13.31
+  }
+ },
+ "fan_2": {
+  "kind": "fan",
+  "before": {
+   "colours": 12,
+   "mean": [
+    137.9,
+    97.8,
+    229.6
+   ],
+   "std": 6.5,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 59,
+   "mean": [
+    138.0,
+    98.0,
+    230.0
+   ],
+   "std": 5.6,
+   "colours_per_4x4_tile": 12.94
+  }
+ },
+ "fan_3": {
+  "kind": "fan",
+  "before": {
+   "colours": 14,
+   "mean": [
+    179.2,
+    150.9,
+    244.8
+   ],
+   "std": 6.6,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 71,
+   "mean": [
+    177.0,
+    149.0,
+    241.9
+   ],
+   "std": 6.8,
+   "colours_per_4x4_tile": 14.0
+  }
+ },
+ "fan_4": {
+  "kind": "fan",
+  "before": {
+   "colours": 14,
+   "mean": [
+    215.8,
+    203.9,
+    247.0
+   ],
+   "std": 8.8,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 78,
+   "mean": [
+    217.0,
+    205.0,
+    248.9
+   ],
+   "std": 7.4,
+   "colours_per_4x4_tile": 13.56
+  }
+ },
+ "fan_5": {
+  "kind": "pale_petal",
+  "before": {
+   "colours": 12,
+   "mean": [
+    247.4,
+    244.8,
+    251.7
+   ],
+   "std": 8.1,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 54,
+   "mean": [
+    245.9,
+    242.0,
+    252.6
+   ],
+   "std": 5.0,
+   "colours_per_4x4_tile": 12.06
+  }
+ },
+ "fan_core": {
+  "kind": "pollen",
+  "before": {
+   "colours": 13,
+   "mean": [
+    251.9,
+    225.5,
+    138.8
+   ],
+   "std": 5.9,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 73,
+   "mean": [
+    250.7,
+    224.0,
+    138.0
+   ],
+   "std": 7.1,
+   "colours_per_4x4_tile": 13.75
+  }
+ },
+ "fan_crys": {
+  "kind": "crystal",
+  "before": {
+   "colours": 14,
+   "mean": [
+    189.8,
+    242.4,
+    251.2
+   ],
+   "std": 6.8,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 72,
+   "mean": [
+    189.0,
+    241.6,
+    251.2
+   ],
+   "std": 6.8,
+   "colours_per_4x4_tile": 13.44
+  }
+ },
+ "fil": {
+  "kind": "lily_T1",
+  "before": {
+   "colours": 14,
+   "mean": [
+    217.2,
+    231.5,
+    161.1
+   ],
+   "std": 7.4,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 73,
+   "mean": [
+    216.0,
+    230.0,
+    160.0
+   ],
+   "std": 8.2,
+   "colours_per_4x4_tile": 13.81
+  }
+ },
+ "gr_1": {
+  "kind": "blade",
+  "before": {
+   "colours": 13,
+   "mean": [
+    62.9,
+    153.6,
+    43.9
+   ],
+   "std": 3.2,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 43,
+   "mean": [
+    63.0,
+    154.0,
+    44.0
+   ],
+   "std": 3.2,
+   "colours_per_4x4_tile": 11.69
+  }
+ },
+ "gr_2": {
+  "kind": "blade",
+  "before": {
+   "colours": 15,
+   "mean": [
+    81.5,
+    178.9,
+    54.6
+   ],
+   "std": 3.7,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 46,
+   "mean": [
+    82.0,
+    180.0,
+    55.0
+   ],
+   "std": 4.0,
+   "colours_per_4x4_tile": 13.0
+  }
+ },
+ "gr_3": {
+  "kind": "blade",
+  "before": {
+   "colours": 13,
+   "mean": [
+    103.1,
+    201.1,
+    66.9
+   ],
+   "std": 5.0,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 49,
+   "mean": [
+    103.0,
+    201.0,
+    67.0
+   ],
+   "std": 4.7,
+   "colours_per_4x4_tile": 12.88
+  }
+ },
+ "gr_4": {
+  "kind": "blade",
+  "before": {
+   "colours": 12,
+   "mean": [
+    132.0,
+    215.0,
+    88.9
+   ],
+   "std": 4.9,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 60,
+   "mean": [
+    134.0,
+    218.0,
+    90.0
+   ],
+   "std": 5.6,
+   "colours_per_4x4_tile": 13.56
+  }
+ },
+ "hyd_1": {
+  "kind": "floret",
+  "before": {
+   "colours": 13,
+   "mean": [
+    79.1,
+    134.1,
+    232.2
+   ],
+   "std": 5.9,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 65,
+   "mean": [
+    79.0,
+    134.0,
+    232.0
+   ],
+   "std": 5.8,
+   "colours_per_4x4_tile": 13.69
+  }
+ },
+ "hyd_2": {
+  "kind": "floret",
+  "before": {
+   "colours": 13,
+   "mean": [
+    109.8,
+    161.4,
+    241.9
+   ],
+   "std": 6.7,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 72,
+   "mean": [
+    111.0,
+    163.0,
+    244.2
+   ],
+   "std": 6.3,
+   "colours_per_4x4_tile": 13.81
+  }
+ },
+ "hyd_3": {
+  "kind": "floret",
+  "before": {
+   "colours": 12,
+   "mean": [
+    155.8,
+    193.7,
+    250.3
+   ],
+   "std": 7.0,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 69,
+   "mean": [
+    156.0,
+    194.0,
+    250.9
+   ],
+   "std": 6.7,
+   "colours_per_4x4_tile": 14.19
+  }
+ },
+ "lav": {
+  "kind": "floret",
+  "before": {
+   "colours": 13,
+   "mean": [
+    136.8,
+    89.2,
+    214.1
+   ],
+   "std": 6.3,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 63,
+   "mean": [
+    138.0,
+    90.0,
+    216.0
+   ],
+   "std": 5.8,
+   "colours_per_4x4_tile": 13.38
+  }
+ },
+ "lav_lt": {
+  "kind": "floret",
+  "before": {
+   "colours": 16,
+   "mean": [
+    169.8,
+    124.5,
+    241.0
+   ],
+   "std": 6.8,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 72,
+   "mean": [
+    169.0,
+    124.0,
+    239.7
+   ],
+   "std": 6.9,
+   "colours_per_4x4_tile": 14.62
+  }
+ },
+ "leaf": {
+  "kind": "lily_T1",
+  "before": {
+   "colours": 12,
+   "mean": [
+    78.9,
+    173.8,
+    56.0
+   ],
+   "std": 4.2,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 51,
+   "mean": [
+    79.0,
+    174.0,
+    56.0
+   ],
+   "std": 4.1,
+   "colours_per_4x4_tile": 12.56
+  }
+ },
+ "leaf_dk": {
+  "kind": "leaf",
+  "before": {
+   "colours": 12,
+   "mean": [
+    54.1,
+    133.2,
+    42.1
+   ],
+   "std": 3.3,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 38,
+   "mean": [
+    54.0,
+    133.0,
+    42.0
+   ],
+   "std": 2.7,
+   "colours_per_4x4_tile": 11.69
+  }
+ },
+ "leaf_lt": {
+  "kind": "lily_T1",
+  "before": {
+   "colours": 14,
+   "mean": [
+    106.5,
+    193.4,
+    73.1
+   ],
+   "std": 4.7,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 61,
+   "mean": [
+    108.0,
+    196.0,
+    74.0
+   ],
+   "std": 5.0,
+   "colours_per_4x4_tile": 13.12
+  }
+ },
+ "lil_in": {
+  "kind": "lily_T1",
+  "before": {
+   "colours": 12,
+   "mean": [
+    251.8,
+    175.2,
+    58.3
+   ],
+   "std": 4.6,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 52,
+   "mean": [
+    250.9,
+    174.0,
+    58.0
+   ],
+   "std": 5.0,
+   "colours_per_4x4_tile": 12.69
+  }
+ },
+ "lil_out": {
+  "kind": "lily_T1",
+  "before": {
+   "colours": 13,
+   "mean": [
+    240.6,
+    138.4,
+    30.1
+   ],
+   "std": 4.3,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 58,
+   "mean": [
+    239.8,
+    138.0,
+    30.0
+   ],
+   "std": 5.5,
+   "colours_per_4x4_tile": 12.62
+  }
+ },
+ "lil_spot": {
+  "kind": "lily_T1",
+  "before": {
+   "colours": 9,
+   "mean": [
+    185.9,
+    69.8,
+    26.6
+   ],
+   "std": 2.9,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 47,
+   "mean": [
+    181.0,
+    68.0,
+    26.0
+   ],
+   "std": 3.8,
+   "colours_per_4x4_tile": 12.0
+  }
+ },
+ "petal_g": {
+  "kind": "ground_petal",
+  "before": {
+   "colours": 14,
+   "mean": [
+    250.6,
+    179.8,
+    210.0
+   ],
+   "std": 8.0,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 58,
+   "mean": [
+    251.5,
+    179.0,
+    209.0
+   ],
+   "std": 5.9,
+   "colours_per_4x4_tile": 13.19
+  }
+ },
+ "phl_c": {
+  "kind": "floret",
+  "before": {
+   "colours": 15,
+   "mean": [
+    252.4,
+    226.2,
+    242.3
+   ],
+   "std": 6.6,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 75,
+   "mean": [
+    250.9,
+    224.0,
+    239.7
+   ],
+   "std": 7.7,
+   "colours_per_4x4_tile": 14.31
+  }
+ },
+ "phl_p": {
+  "kind": "floret",
+  "before": {
+   "colours": 15,
+   "mean": [
+    241.7,
+    111.9,
+    177.3
+   ],
+   "std": 7.7,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 66,
+   "mean": [
+    239.7,
+    111.0,
+    176.0
+   ],
+   "std": 6.6,
+   "colours_per_4x4_tile": 14.0
+  }
+ },
+ "sm_blu": {
+  "kind": "petal",
+  "before": {
+   "colours": 12,
+   "mean": [
+    63.3,
+    127.8,
+    231.2
+   ],
+   "std": 3.9,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 58,
+   "mean": [
+    63.0,
+    127.0,
+    230.0
+   ],
+   "std": 5.3,
+   "colours_per_4x4_tile": 13.0
+  }
+ },
+ "sm_ctr": {
+  "kind": "pollen",
+  "before": {
+   "colours": 13,
+   "mean": [
+    244.4,
+    177.3,
+    28.0
+   ],
+   "std": 5.4,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 59,
+   "mean": [
+    244.7,
+    178.0,
+    28.0
+   ],
+   "std": 5.6,
+   "colours_per_4x4_tile": 13.12
+  }
+ },
+ "sm_pnk": {
+  "kind": "petal",
+  "before": {
+   "colours": 14,
+   "mean": [
+    240.6,
+    121.3,
+    182.9
+   ],
+   "std": 5.4,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 69,
+   "mean": [
+    241.8,
+    122.0,
+    184.0
+   ],
+   "std": 6.6,
+   "colours_per_4x4_tile": 13.69
+  }
+ },
+ "sm_red": {
+  "kind": "petal",
+  "before": {
+   "colours": 13,
+   "mean": [
+    226.2,
+    58.0,
+    51.1
+   ],
+   "std": 4.7,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 53,
+   "mean": [
+    226.0,
+    58.0,
+    51.0
+   ],
+   "std": 4.4,
+   "colours_per_4x4_tile": 12.56
+  }
+ },
+ "sm_vio": {
+  "kind": "petal",
+  "before": {
+   "colours": 13,
+   "mean": [
+    153.0,
+    105.2,
+    228.4
+   ],
+   "std": 7.3,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 74,
+   "mean": [
+    154.0,
+    106.0,
+    230.0
+   ],
+   "std": 6.4,
+   "colours_per_4x4_tile": 12.94
+  }
+ },
+ "sm_wht": {
+  "kind": "pale_petal",
+  "before": {
+   "colours": 15,
+   "mean": [
+    244.1,
+    242.6,
+    231.9
+   ],
+   "std": 8.8,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 50,
+   "mean": [
+    246.9,
+    245.0,
+    234.0
+   ],
+   "std": 5.5,
+   "colours_per_4x4_tile": 11.5
+  }
+ },
+ "sm_yel": {
+  "kind": "petal",
+  "before": {
+   "colours": 11,
+   "mean": [
+    250.9,
+    206.6,
+    41.6
+   ],
+   "std": 4.5,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 50,
+   "mean": [
+    250.9,
+    208.0,
+    42.0
+   ],
+   "std": 5.2,
+   "colours_per_4x4_tile": 12.62
+  }
+ },
+ "stem": {
+  "kind": "lily_T1",
+  "before": {
+   "colours": 13,
+   "mean": [
+    78.0,
+    151.9,
+    50.2
+   ],
+   "std": 4.0,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 42,
+   "mean": [
+    79.0,
+    154.0,
+    51.0
+   ],
+   "std": 3.8,
+   "colours_per_4x4_tile": 13.06
+  }
+ },
+ "stem_dk": {
+  "kind": "lily_T1",
+  "before": {
+   "colours": 14,
+   "mean": [
+    60.8,
+    126.2,
+    38.8
+   ],
+   "std": 3.8,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 41,
+   "mean": [
+    61.0,
+    127.0,
+    39.0
+   ],
+   "std": 3.1,
+   "colours_per_4x4_tile": 11.94
+  }
+ },
+ "stem_s": {
+  "kind": "stem",
+  "before": {
+   "colours": 13,
+   "mean": [
+    77.6,
+    151.1,
+    50.1
+   ],
+   "std": 3.7,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 34,
+   "mean": [
+    79.0,
+    154.0,
+    51.0
+   ],
+   "std": 3.3,
+   "colours_per_4x4_tile": 11.62
+  }
+ },
+ "vein": {
+  "kind": "lily_T1",
+  "before": {
+   "colours": 13,
+   "mean": [
+    145.4,
+    217.4,
+    102.5
+   ],
+   "std": 5.1,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 64,
+   "mean": [
+    143.0,
+    214.0,
+    101.0
+   ],
+   "std": 5.9,
+   "colours_per_4x4_tile": 13.19
+  }
+ },
+ "vine": {
+  "kind": "vine",
+  "before": {
+   "colours": 14,
+   "mean": [
+    75.9,
+    158.6,
+    52.9
+   ],
+   "std": 3.6,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 36,
+   "mean": [
+    76.0,
+    159.0,
+    53.0
+   ],
+   "std": 3.7,
+   "colours_per_4x4_tile": 11.0
+  }
+ },
+ "vine_lt": {
+  "kind": "vine",
+  "before": {
+   "colours": 14,
+   "mean": [
+    107.5,
+    195.4,
+    73.8
+   ],
+   "std": 5.3,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 50,
+   "mean": [
+    108.0,
+    196.0,
+    74.0
+   ],
+   "std": 4.8,
+   "colours_per_4x4_tile": 12.44
+  }
+ },
+ "wis_1": {
+  "kind": "floret",
+  "before": {
+   "colours": 14,
+   "mean": [
+    121.8,
+    84.2,
+    199.2
+   ],
+   "std": 6.7,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 57,
+   "mean": [
+    123.0,
+    85.0,
+    201.0
+   ],
+   "std": 5.3,
+   "colours_per_4x4_tile": 13.31
+  }
+ },
+ "wis_2": {
+  "kind": "floret",
+  "before": {
+   "colours": 15,
+   "mean": [
+    152.0,
+    118.3,
+    221.2
+   ],
+   "std": 6.6,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 69,
+   "mean": [
+    154.0,
+    120.0,
+    224.0
+   ],
+   "std": 6.4,
+   "colours_per_4x4_tile": 13.75
+  }
+ },
+ "wis_3": {
+  "kind": "floret",
+  "before": {
+   "colours": 13,
+   "mean": [
+    192.8,
+    169.9,
+    241.4
+   ],
+   "std": 7.1,
+   "colours_per_4x4_tile": 1.0
+  },
+  "after": {
+   "colours": 76,
+   "mean": [
+    194.0,
+    171.0,
+    242.4
+   ],
+   "std": 7.7,
+   "colours_per_4x4_tile": 14.0
+  }
+ }
+}

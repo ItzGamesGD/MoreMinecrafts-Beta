@@ -66,8 +66,47 @@ def tree(v, rng, kind, x, y, z, limit):
                 v.leaves(x + dx, top + dy, z + dz, leaf)
 
 
+def _water_cells(rng, kind, cx, cz, rx, rz, surface, blocked):
+    """Cells (x, z) of a small enclosed brook or pond kept well inside the plateau (d <= 0.62) so water never reaches the rim."""
+    def inside(x, z):
+        return (x, z) in surface and surface[x, z][1] <= 0.62 and not blocked(x, z)
+    cells = set()
+    if kind == "pond":
+        for _ in range(40):  # first candidate centre whose pond fits entirely on free plateau ground
+            px = cx + rng.randint(-rx // 2, rx // 2)
+            pz = cz + rng.randint(-rz // 2, rz // 2)
+            pr = rng.choice([3, 4])
+            cand = set()
+            for x in range(px - pr - 1, px + pr + 2):
+                for z in range(pz - pr - 1, pz + pr + 2):
+                    if ((x - px) ** 2 / (pr + rng.random() * 0.8) ** 2 + (z - pz) ** 2 / (pr - 0.5 + rng.random() * 0.8) ** 2) <= 1.0:
+                        cand.add((x, z))
+            if cand and all(inside(*c) for c in cand):
+                cells = cand
+                break
+    elif kind == "brook":
+        a0 = rng.random() * 6.28
+        sweep = 2.3 + rng.random() * 0.8
+        wobble, phase = 0.06 + rng.random() * 0.05, rng.random() * 6.28
+        steps = int(max(rx, rz) * 2.6)
+        for i in range(steps + 1):
+            t = i / steps
+            ang = a0 + sweep * t
+            rad = 0.48 + wobble * math.sin(t * 9.0 + phase) + 0.10 * math.sin(t * 3.14)
+            bx, bz = cx + rx * rad * math.cos(ang), cz + rz * rad * math.sin(ang)
+            for dx in (-1, 0, 1):
+                for dz in (-1, 0, 1):
+                    if abs(dx) + abs(dz) <= 1 or t % 0.2 < 0.1:
+                        cells.add((round(bx) + dx, round(bz) + dz))
+    cells = {c for c in cells if inside(*c)}
+    # every water cell needs land (or water) on all four sides at the same level, and at least a one-block bank
+    cells = {c for c in cells if all(((c[0] + dx, c[1] + dz) in surface and surface[c[0] + dx, c[1] + dz][1] <= 0.7)
+                                     for dx in (-1, 0, 1) for dz in (-1, 0, 1))}
+    return cells
+
+
 def build_island(style, name, rx, rz, depth, seed, reserved=(), top_socket=None, links=(), margin=2, link_pad=5, clearance=14,
-                 veg_scale=1.0, link_dy=None):
+                 veg_scale=1.0, link_dy=None, water=None, child_socket=None):
     """Create one island template.
 
     reserved: rectangles (x0, z0, x1, z1) kept free of vegetation (structure footprints).
@@ -119,9 +158,20 @@ def build_island(style, name, rx, rz, depth, seed, reserved=(), top_socket=None,
     # vegetation
     def reserved_at(x, z):
         return any(x0 - 1 <= x <= x1 + 1 and z0 - 1 <= z <= z1 + 1 for x0, z0, x1, z1 in reserved)
+    # optional enclosed water (medium/large variants only): the 1-2 top layers are carved, banks stay at the surface level
+    water_cells = set()
+    if water:
+        water_cells = _water_cells(random.Random(f"{name}/{style}/{seed}/water"), water, cx, cz, rx, rz, surface,
+                                   reserved_at)
+        deep = 2 if water == "pond" else 1
+        for (x, z) in water_cells:
+            surf = surface[x, z][0]
+            v.remove(x, surf, z)
+            for k in range(1, deep + 1):
+                v.put(x, surf - k, z, "water", dict(level="0"))
     trees = []
     for (x, z), (surf, d) in sorted(surface.items()):
-        if d > 0.88 or reserved_at(x, z) or abs(x - cx) + abs(z - cz) == 0:
+        if d > 0.88 or reserved_at(x, z) or abs(x - cx) + abs(z - cz) == 0 or (x, z) in water_cells:
             continue
         r = rng.random()
         s = veg_scale
@@ -175,6 +225,12 @@ def build_island(style, name, rx, rz, depth, seed, reserved=(), top_socket=None,
     if top_socket:
         surf_here = surface[cx, cz][0]
         v.jigsaw(cx, surf_here, cz, "up_north", TOP, TOP, top_socket, "minecraft:" + spec["top"])
+    if child_socket:
+        # A composite child (the Sky Tower) attaches here. Its own connector sits on the plateau level, so this
+        # parent connector is buried one block below the surface and is replaced by the subsurface block.
+        px, pz, child_pool = child_socket
+        surf_here = surface[px, pz][0]
+        v.jigsaw(px, surf_here - 1, pz, "up_north", TOP, TOP, child_pool, "minecraft:" + spec["sub"][0])
     for side, pool in links:
         edge_x = 0 if side == "west" else width - 1
         dy = (link_dy or {}).get(side, 0)

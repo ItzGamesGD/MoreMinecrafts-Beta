@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "moreminecrafts:heaven_flower_red",
+    "moreminecrafts:heaven_flower_yellow",
+    "moreminecrafts:heaven_flower_white",
+    "moreminecrafts:heaven_flower_pink",
+    "moreminecrafts:heaven_flower_blue",
+    "moreminecrafts:heaven_flower_violet",
+    "moreminecrafts:heaven_short_grass",
+    "moreminecrafts:heaven_tall_grass",
+    "moreminecrafts:heaven_petals"
+  ]
+}

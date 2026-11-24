@@ -1,0 +1,279 @@
+{
+  "label": "finish",
+  "seed": 42,
+  "mode": "all",
+  "islands": {
+    "mountain_meadow": {
+      "start_chunk": "-118,47",
+      "locate_ms": 0,
+      "generate_ms": 1411,
+      "generated_chunks": 6,
+      "box": "23x24x27",
+      "mid_chunk_x": -118,
+      "templates": [
+        "sky_islands/meadow/plain_small_b"
+      ],
+      "any_vanilla_theme_template": true,
+      "any_heaven_template": false,
+      "vanilla_trace": {
+        "pieces": [
+          "moreminecrafts:sky_islands/meadow/plain_small_b box\u003d-1888,110,726..-1866,133,752"
+        ],
+        "classes": {
+          "in_template/at_or_above_natural_surface": 1060
+        },
+        "by_block": {
+          "coarse_dirt": 218,
+          "dirt": 412,
+          "grass_block": 315,
+          "oak_leaves": 57,
+          "short_grass": 50,
+          "tall_grass": 8
+        },
+        "y_range": "116..126",
+        "samples": [
+          "coarse_dirt@-1886,116,738 in_template/at_or_above_natural_surface surface\u003d90",
+          "coarse_dirt@-1886,117,738 in_template/at_or_above_natural_surface surface\u003d90"
+        ]
+      },
+      "fingerprint": "228fdd33fba8356b",
+      "blocks": 2025,
+      "vanilla_theme_blocks": 1060,
+      "vanilla_theme_detail": {
+        "coarse_dirt": 218,
+        "dirt": 412,
+        "grass_block": 315,
+        "oak_leaves": 57,
+        "short_grass": 50,
+        "tall_grass": 8
+      },
+      "heaven_blocks": 0,
+      "jigsaw_left": 0,
+      "vault": 0,
+      "trial_spawner": 0,
+      "block_entities": {},
+      "loot_table_containers": 0,
+      "block_entity_positions": [],
+      "mid_chunk_x_used": -118,
+      "standable_columns": 80,
+      "habitat_support": 80,
+      "habitat_first_call_ms": 4.95179,
+      "habitat_max_call_ms": 4.95179,
+      "natural_spawn_gate_open": 80
+    },
+    "mountain_meadow#1": "duplicate of an earlier site",
+    "mountain_meadow#2": "duplicate of an earlier site",
+    "mountain_meadow#3": "duplicate of an earlier site",
+    "mountain_meadow#4": {
+      "start_chunk": "-140,-66",
+      "locate_ms": 1,
+      "generate_ms": 1655,
+      "generated_chunks": 21,
+      "box": "99x44x33",
+      "mid_chunk_x": -141,
+      "templates": [
+        "sky_islands/meadow/plain_medium_c",
+        "sky_islands/meadow/satellite_a",
+        "sky_islands/meadow/satellite_b"
+      ],
+      "any_vanilla_theme_template": true,
+      "any_heaven_template": false,
+      "vanilla_trace": {
+        "pieces": [
+          "moreminecrafts:sky_islands/meadow/plain_medium_c box\u003d-2240,176,-1056..-2194,219,-1024",
+          "moreminecrafts:sky_islands/meadow/satellite_a box\u003d-2267,186,-1049..-2241,207,-1031",
+          "moreminecrafts:sky_islands/meadow/satellite_b box\u003d-2292,191,-1050..-2268,211,-1030"
+        ],
+        "classes": {
+          "in_template/at_or_above_natural_surface": 3833,
+          "not_template/at_or_above_natural_surface": 87
+        },
+        "by_block": {
+          "birch_leaves": 57,
+          "coarse_dirt": 734,
+          "dirt": 1511,
+          "grass_block": 1087,
+          "oak_leaves": 282,
+          "short_grass": 183,
+          "tall_grass": 66
+        },
+        "y_range": "186..205",
+        "samples": [
+          "birch_leaves@-2286,202,-1048 not_template/at_or_above_natural_surface surface\u003d77",
+          "birch_leaves@-2286,201,-1047 not_template/at_or_above_natural_surface surface\u003d78",
+          "dirt@-2286,194,-1043 in_template/at_or_above_natural_surface surface\u003d82",
+          "coarse_dirt@-2286,195,-1043 in_template/at_or_above_natural_surface surface\u003d82"
+        ]
+      },
+      "fingerprint": "2585c9f78d0c8af7",
+      "blocks": 8752,
+      "vanilla_theme_blocks": 3920,
+      "vanilla_theme_detail": {
+        "birch_leaves": 57,
+        "coarse_dirt": 734,
+        "dirt": 1511,
+        "grass_block": 1087,
+        "oak_leaves": 282,
+        "short_grass": 183,
+        "tall_grass": 66
+      },
+      "heaven_blocks": 0,
+      "jigsaw_left": 0,
+      "vault": 0,
+      "trial_spawner": 0,
+      "block_entities": {},
+      "loot_table_containers": 0,
+      "block_entity_positions": [],
+      "mid_chunk_x_used": -141,
+      "standable_columns": 277,
+      "habitat_support": 268,
+      "habitat_first_call_ms": 1.342629,
+      "habitat_max_call_ms": 6.809918,
+      "natural_spawn_gate_open": 268
+    },
+    "mountain_meadow#5": {
+      "start_chunk": "200,-151",
+      "locate_ms": 0,
+      "generate_ms": 285,
+      "generated_chunks": 9,
+      "box": "25x23x25",
+      "mid_chunk_x": 199,
+      "templates": [
+        "sky_islands/meadow/plain_small_a"
+      ],
+      "any_vanilla_theme_template": true,
+      "any_heaven_template": false,
+      "vanilla_trace": {
+        "pieces": [
+          "moreminecrafts:sky_islands/meadow/plain_small_a box\u003d3176,114,-2440..3200,136,-2416"
+        ],
+        "classes": {
+          "in_template/at_or_above_natural_surface": 1065,
+          "not_template/at_or_above_natural_surface": 111
+        },
+        "by_block": {
+          "coarse_dirt": 215,
+          "dirt": 423,
+          "grass_block": 316,
+          "oak_leaves": 168,
+          "short_grass": 50,
+          "tall_grass": 4
+        },
+        "y_range": "119..130",
+        "samples": [
+          "coarse_dirt@3179,119,-2429 in_template/at_or_above_natural_surface surface\u003d104",
+          "dirt@3179,120,-2429 in_template/at_or_above_natural_surface surface\u003d104",
+          "oak_leaves@3194,126,-2432 not_template/at_or_above_natural_surface surface\u003d85",
+          "oak_leaves@3194,127,-2432 not_template/at_or_above_natural_surface surface\u003d85"
+        ]
+      },
+      "fingerprint": "830594020d11e7e9",
+      "blocks": 2013,
+      "vanilla_theme_blocks": 1176,
+      "vanilla_theme_detail": {
+        "coarse_dirt": 215,
+        "dirt": 423,
+        "grass_block": 316,
+        "oak_leaves": 168,
+        "short_grass": 50,
+        "tall_grass": 4
+      },
+      "heaven_blocks": 0,
+      "jigsaw_left": 0,
+      "vault": 0,
+      "trial_spawner": 0,
+      "block_entities": {},
+      "loot_table_containers": 0,
+      "block_entity_positions": [],
+      "mid_chunk_x_used": 199,
+      "standable_columns": 82,
+      "habitat_support": 72,
+      "habitat_first_call_ms": 3.513731,
+      "habitat_max_call_ms": 3.513731,
+      "natural_spawn_gate_open": 72
+    },
+    "mountain_meadow#6": "duplicate of an earlier site",
+    "mountain_meadow#7": "duplicate of an earlier site",
+    "mountain_meadow#8": "duplicate of an earlier site",
+    "mountain_meadow#9": {
+      "start_chunk": "-174,43",
+      "locate_ms": 0,
+      "generate_ms": 3800,
+      "generated_chunks": 100,
+      "box": "137x101x155",
+      "mid_chunk_x": -179,
+      "templates": [
+        "sky_islands/meadow/large_e",
+        "sky_islands/meadow/tower"
+      ],
+      "any_vanilla_theme_template": true,
+      "any_heaven_template": false,
+      "vanilla_trace": {
+        "pieces": [
+          "moreminecrafts:sky_islands/meadow/large_e box\u003d-2920,144,688..-2784,244,842",
+          "moreminecrafts:sky_islands/meadow/tower box\u003d-2876,145,735..-2828,241,792"
+        ],
+        "classes": {
+          "in_template/at_or_above_natural_surface": 48191,
+          "not_template/at_or_above_natural_surface": 74
+        },
+        "by_block": {
+          "coarse_dirt": 9663,
+          "dirt": 19344,
+          "grass_block": 14467,
+          "oak_leaves": 2610,
+          "short_grass": 1876,
+          "tall_grass": 305
+        },
+        "y_range": "157..168",
+        "samples": [
+          "coarse_dirt@-2912,157,730 in_template/at_or_above_natural_surface surface\u003d117",
+          "dirt@-2912,158,730 in_template/at_or_above_natural_surface surface\u003d117",
+          "tall_grass@-2901,162,755 not_template/at_or_above_natural_surface surface\u003d119",
+          "tall_grass@-2901,163,755 not_template/at_or_above_natural_surface surface\u003d119"
+        ]
+      },
+      "fingerprint": "ee08f73a0e9b6f46",
+      "blocks": 208562,
+      "vanilla_theme_blocks": 48265,
+      "vanilla_theme_detail": {
+        "coarse_dirt": 9663,
+        "dirt": 19344,
+        "grass_block": 14467,
+        "oak_leaves": 2610,
+        "short_grass": 1876,
+        "tall_grass": 305
+      },
+      "heaven_blocks": 0,
+      "jigsaw_left": 0,
+      "vault": 8,
+      "trial_spawner": 16,
+      "block_entities": {
+        "beehive": 5,
+        "trial_spawner": 8,
+        "vault": 4
+      },
+      "loot_table_containers": 0,
+      "block_entity_positions": [
+        "trial_spawner@-2859,174,752 chunkX\u003d-179",
+        "trial_spawner@-2859,174,766 chunkX\u003d-179",
+        "trial_spawner@-2859,185,752 chunkX\u003d-179",
+        "trial_spawner@-2859,185,766 chunkX\u003d-179",
+        "trial_spawner@-2859,197,752 chunkX\u003d-179",
+        "trial_spawner@-2859,197,766 chunkX\u003d-179",
+        "trial_spawner@-2859,211,752 chunkX\u003d-179",
+        "trial_spawner@-2859,211,766 chunkX\u003d-179",
+        "vault@-2861,173,751 chunkX\u003d-179",
+        "vault@-2861,184,751 chunkX\u003d-179",
+        "vault@-2861,196,751 chunkX\u003d-179",
+        "vault@-2861,210,751 chunkX\u003d-179"
+      ],
+      "mid_chunk_x_used": -179,
+      "standable_columns": 3673,
+      "habitat_support": 2216,
+      "habitat_first_call_ms": 0.080937,
+      "habitat_max_call_ms": 83.316711,
+      "natural_spawn_gate_open": 2216
+    }
+  }
+}

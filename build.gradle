@@ -94,6 +94,14 @@ loom {
             runDir = "build/st05-worldgen-probe/run"
             ideConfigGenerated false
         }
+        // Heaven sky island P3.9 real-worldgen probe (tools/heaven-p39/run_worldgen.sh); inert unless -Dmm.heaven.out is set; not part of check/build/CI.
+        heavenWorldgenProbe {
+            server()
+            name = "Heaven Worldgen Probe"
+            source sourceSets.gametest
+            runDir = "build/heaven-worldgen/run"
+            ideConfigGenerated false
+        }
         // Nether Adamantium-vs-Ancient-Debris matched-sample probe (docs/audits/wave13/ADAMANTIUM_F3_ANALYSIS.md).
         // Driven by tools/ore-sampling/run_sampling.sh; inert unless -Dmm.nether.ore.out is set; not part of check/build/CI.
         oreSampling {
@@ -136,6 +144,13 @@ processResources {
     filesMatching("fabric.mod.json") {
         expand "version": project.version
     }
+}
+
+// P3.11: the shared GameTest world keeps every chunk its ~750 tests touch (measured: ~4.2M PalettedContainers, ~7-10M cached StructureBlockInfo, mock-player
+// advancements), so the live set reaches ~3.3 GB near the xpq mock-player tests; the default heap (1/4 of RAM = 3.4 GB here) was one allocation from OutOfMemoryError.
+// Give only the game-test server JVM headroom; nothing else (client run, production code) changes.
+tasks.matching { it.name == "runGameTest" }.configureEach { task ->
+    if (task instanceof JavaExec) task.maxHeapSize = "6g"
 }
 
 tasks.withType(JavaCompile).configureEach {

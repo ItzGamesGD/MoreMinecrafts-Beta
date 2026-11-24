@@ -1,0 +1,1 @@
+{"parent":"minecraft:block/block","textures":{"t0":"moreminecrafts:block/heaven/flora/daf_back","particle":"moreminecrafts:block/heaven/flora/daf_back"},"elements":[{"from":[8,8,12],"to":[16,16,16],"faces":{"north":{"texture":"#t0"},"south":{"texture":"#t0"},"west":{"texture":"#t0"},"east":{"texture":"#t0"},"down":{"texture":"#t0"},"up":{"texture":"#t0"}}}]}

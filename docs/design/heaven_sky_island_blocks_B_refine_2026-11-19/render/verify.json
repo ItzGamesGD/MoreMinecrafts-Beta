@@ -1,0 +1,46 @@
+{
+ "nbt_sha256": "c2a919e9b028a90e6ababa3b4dd908e51bd01f637e27da22fcd3561f335a9a22",
+ "grid_shape": [
+  45,
+  22,
+  37
+ ],
+ "grid_nonair": 6880,
+ "grid_matches_hitbuffer_grid": true,
+ "palette_checks": {
+  "B": {
+   "slots_only": true,
+   "grass_loam_equal_B": true
+  },
+  "B1": {
+   "slots_only": true,
+   "grass_loam_equal_B": true
+  },
+  "B2": {
+   "slots_only": true,
+   "grass_loam_equal_B": true
+  },
+  "B3": {
+   "slots_only": true,
+   "grass_loam_equal_B": true
+  },
+  "B4": {
+   "slots_only": true,
+   "grass_loam_equal_B": true
+  },
+  "B5": {
+   "slots_only": true,
+   "grass_loam_equal_B": true
+  }
+ },
+ "hitbuffer_sha256": {
+  "full": "5e9918e55caabd20",
+  "edge": "91ec2ede66131da5",
+  "underside": "406b249d5fa9e069"
+ },
+ "original_B_vs_round1": {
+  "full": true,
+  "edge": true,
+  "underside": true
+ }
+}

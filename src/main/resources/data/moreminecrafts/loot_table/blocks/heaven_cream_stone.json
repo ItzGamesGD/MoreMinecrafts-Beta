@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "moreminecrafts:heaven_cream_stone"
+        }
+      ]
+    }
+  ],
+  "random_sequence": "moreminecrafts:blocks/heaven_cream_stone"
+}

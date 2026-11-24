@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "condition": "minecraft:tool/can_silk_touch",
+              "name": "moreminecrafts:heaven_grass_block"
+            },
+            {
+              "type": "minecraft:item",
+              "name": "moreminecrafts:heaven_loam"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "random_sequence": "moreminecrafts:blocks/heaven_grass_block"
+}

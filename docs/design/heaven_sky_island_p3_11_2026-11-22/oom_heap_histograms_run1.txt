@@ -1,0 +1,288 @@
+=== 05:52:32 pid=3356
+3356:
+garbage-first heap   total reserved 3502080K, committed 1218560K, used 841584K [0x000000072a400000, 0x0000000800000000)
+ region size 2048K, 65 young (133120K), 19 survivors (38912K)
+3356:
+ num     #instances         #bytes  class name (module)
+-------------------------------------------------------
+   1:        488158       99638592  [J (java.base@25.0.5.1)
+   2:        311760       57874840  [B (java.base@25.0.5.1)
+   3:        654799       45227064  [Ljava.lang.Object; (java.base@25.0.5.1)
+   4:       1181423       37805536  java.util.concurrent.locks.ReentrantLock$NonfairSync (java.base@25.0.5.1)
+   5:       1181330       37802560  java.util.concurrent.Semaphore$NonfairSync (java.base@25.0.5.1)
+   6:       1181328       37802496  net.minecraft.util.ThreadingDetector
+   7:       1181328       28351872  net.minecraft.world.level.chunk.PalettedContainer
+   8:       1181328       28351872  net.minecraft.world.level.chunk.PalettedContainer$Data
+   9:       1181378       18902048  java.util.concurrent.locks.ReentrantLock (java.base@25.0.5.1)
+  10:       1181330       18901280  java.util.concurrent.Semaphore (java.base@25.0.5.1)
+  11:        590664       18901248  net.minecraft.world.level.chunk.LevelChunkSection
+=== 05:53:19 pid=3356
+3356:
+garbage-first heap   total reserved 3502080K, committed 2709504K, used 1925182K [0x000000072a400000, 0x0000000800000000)
+ region size 2048K, 520 young (1064960K), 39 survivors (79872K)
+3356:
+ num     #instances         #bytes  class name (module)
+-------------------------------------------------------
+   1:        340636       58072648  [B (java.base@25.0.5.1)
+   2:        282403       45934032  [J (java.base@25.0.5.1)
+   3:       1099394       35180608  java.util.HashMap$Node (java.base@25.0.5.1)
+   4:        412639       32079464  [Ljava.lang.Object; (java.base@25.0.5.1)
+   5:        257046       27757496  [Ljava.util.HashMap$Node; (java.base@25.0.5.1)
+   6:        276620       13277760  java.util.HashMap (java.base@25.0.5.1)
+   7:        280211       11208440  java.util.LinkedHashMap$Entry (java.base@25.0.5.1)
+   8:        413361        9920664  net.minecraft.server.PlayerAdvancements$TriggerInstanceKey
+   9:        279413        8941216  java.util.concurrent.locks.ReentrantLock$NonfairSync (java.base@25.0.5.1)
+  10:        278834        8922688  java.util.concurrent.Semaphore$NonfairSync (java.base@25.0.5.1)
+  11:        278832        8922624  net.minecraft.util.ThreadingDetector
+=== 05:54:05 pid=3356
+3356:
+garbage-first heap   total reserved 3502080K, committed 1828864K, used 1055392K [0x000000072a400000, 0x0000000800000000)
+ region size 2048K, 159 young (325632K), 12 survivors (24576K)
+3356:
+ num     #instances         #bytes  class name (module)
+-------------------------------------------------------
+   1:        344707       61846456  [B (java.base@25.0.5.1)
+   2:        313459       54765416  [J (java.base@25.0.5.1)
+   3:        452370       38212592  [Ljava.lang.Object; (java.base@25.0.5.1)
+   4:       1173479       37551328  java.util.HashMap$Node (java.base@25.0.5.1)
+   5:        274605       29601928  [Ljava.util.HashMap$Node; (java.base@25.0.5.1)
+   6:        890782       21378768  net.minecraft.core.BlockPos
+   7:        867588       20822112  net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate$StructureBlockInfo
+   8:        303336       14560128  java.util.HashMap (java.base@25.0.5.1)
+   9:        410631       13140192  java.util.concurrent.locks.ReentrantLock$NonfairSync (java.base@25.0.5.1)
+  10:        410018       13120576  java.util.concurrent.Semaphore$NonfairSync (java.base@25.0.5.1)
+  11:        410016       13120512  net.minecraft.util.ThreadingDetector
+=== 05:54:51 pid=3356
+3356:
+garbage-first heap   total reserved 3502080K, committed 2123776K, used 1363557K [0x000000072a400000, 0x0000000800000000)
+ region size 2048K, 54 young (110592K), 29 survivors (59392K)
+3356:
+ num     #instances         #bytes  class name (module)
+-------------------------------------------------------
+   1:       7400550      177613200  net.minecraft.core.BlockPos
+   2:       6505413      156129912  net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate$StructureBlockInfo
+   3:        436909      104003328  [J (java.base@25.0.5.1)
+   4:        610190       94975168  [Ljava.lang.Object; (java.base@25.0.5.1)
+   5:        381885       87991224  [B (java.base@25.0.5.1)
+   6:       1931406       61804992  java.util.HashMap$Node (java.base@25.0.5.1)
+   7:        452879       48726104  [Ljava.util.HashMap$Node; (java.base@25.0.5.1)
+   8:        779331       24938592  java.util.concurrent.locks.ReentrantLock$NonfairSync (java.base@25.0.5.1)
+   9:        778322       24906304  java.util.concurrent.Semaphore$NonfairSync (java.base@25.0.5.1)
+  10:        778320       24906240  net.minecraft.util.ThreadingDetector
+  11:        512495       24599760  java.util.HashMap (java.base@25.0.5.1)
+=== 05:55:38 pid=3356
+3356:
+garbage-first heap   total reserved 3502080K, committed 3274752K, used 1901278K [0x000000072a400000, 0x0000000800000000)
+ region size 2048K, 72 young (147456K), 65 survivors (133120K)
+3356:
+ num     #instances         #bytes  class name (module)
+-------------------------------------------------------
+   1:       6505903      156141672  net.minecraft.core.BlockPos
+   2:       6502842      156068208  net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate$StructureBlockInfo
+   3:       4197916      134333312  java.util.HashMap$Node (java.base@25.0.5.1)
+   4:        550325      123026320  [J (java.base@25.0.5.1)
+   5:        457888      117657520  [B (java.base@25.0.5.1)
+   6:        827840      117563704  [Ljava.lang.Object; (java.base@25.0.5.1)
+   7:        999401      106815376  [Ljava.util.HashMap$Node; (java.base@25.0.5.1)
+   8:       1093493       52487664  java.util.HashMap (java.base@25.0.5.1)
+   9:       1849222       44381328  net.minecraft.server.PlayerAdvancements$TriggerInstanceKey
+  10:        996389       39855560  java.util.LinkedHashMap$Entry (java.base@25.0.5.1)
+  11:       1235835       39546720  java.util.concurrent.locks.ReentrantLock$NonfairSync (java.base@25.0.5.1)
+=== 05:56:25 pid=3356
+3356:
+garbage-first heap   total reserved 3502080K, committed 3502080K, used 2735431K [0x000000072a400000, 0x0000000800000000)
+ region size 2048K, 87 young (178176K), 1 survivors (2048K)
+3356:
+ num     #instances         #bytes  class name (module)
+-------------------------------------------------------
+   1:        801167      218762704  [J (java.base@25.0.5.1)
+   2:       5543817      177402144  java.util.HashMap$Node (java.base@25.0.5.1)
+   3:       6589527      158148648  net.minecraft.core.BlockPos
+   4:       6581287      157950888  net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate$StructureBlockInfo
+   5:       1196880      156923280  [Ljava.lang.Object; (java.base@25.0.5.1)
+   6:        516960      154218320  [B (java.base@25.0.5.1)
+   7:       1330739      141806728  [Ljava.util.HashMap$Node; (java.base@25.0.5.1)
+   8:       1490997       71567856  java.util.HashMap (java.base@25.0.5.1)
+   9:       2109857       67515424  java.util.concurrent.locks.ReentrantLock$NonfairSync (java.base@25.0.5.1)
+  10:       2107042       67425344  java.util.concurrent.Semaphore$NonfairSync (java.base@25.0.5.1)
+  11:       2107040       67425280  net.minecraft.util.ThreadingDetector
+=== 05:57:13 pid=3356
+3356:
+garbage-first heap   total reserved 3502080K, committed 3502080K, used 2844682K [0x000000072a400000, 0x0000000800000000)
+ region size 2048K, 2 young (4096K), 1 survivors (2048K)
+3356:
+ num     #instances         #bytes  class name (module)
+-------------------------------------------------------
+   1:       1107755      310100480  [J (java.base@25.0.5.1)
+   2:       1596267      193351536  [Ljava.lang.Object; (java.base@25.0.5.1)
+   3:       5837669      186805408  java.util.HashMap$Node (java.base@25.0.5.1)
+   4:        542122      168096520  [B (java.base@25.0.5.1)
+   5:       6917643      166023432  net.minecraft.core.BlockPos
+   6:       6907624      165782976  net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate$StructureBlockInfo
+   7:       1401154      149283816  [Ljava.util.HashMap$Node; (java.base@25.0.5.1)
+   8:       3411133      109156256  java.util.concurrent.locks.ReentrantLock$NonfairSync (java.base@25.0.5.1)
+   9:       3408178      109061696  java.util.concurrent.Semaphore$NonfairSync (java.base@25.0.5.1)
+  10:       3408176      109061632  net.minecraft.util.ThreadingDetector
+  11:       3408176       81796224  net.minecraft.world.level.chunk.PalettedContainer
+=== 05:58:02 pid=3356
+3356:
+garbage-first heap   total reserved 3502080K, committed 3502080K, used 3403108K [0x000000072a400000, 0x0000000800000000)
+ region size 2048K, 11 young (22528K), 0 survivors (0K)
+3356:
+ num     #instances         #bytes  class name (module)
+-------------------------------------------------------
+   1:       1271428      367673824  [J (java.base@25.0.5.1)
+   2:       7404824      236954368  java.util.HashMap$Node (java.base@25.0.5.1)
+   3:       2246311      230057264  [Ljava.lang.Object; (java.base@25.0.5.1)
+   4:       2169011      212459168  [Ljava.util.HashMap$Node; (java.base@25.0.5.1)
+   5:       1029414      204343392  [B (java.base@25.0.5.1)
+   6:       6917638      166023312  net.minecraft.core.BlockPos
+   7:       6907624      165782976  net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate$StructureBlockInfo
+   8:       4266629      136532128  java.util.concurrent.locks.ReentrantLock$NonfairSync (java.base@25.0.5.1)
+   9:       4263586      136434752  java.util.concurrent.Semaphore$NonfairSync (java.base@25.0.5.1)
+  10:       4263584      136434688  net.minecraft.util.ThreadingDetector
+  11:       2478316      118959168  java.util.HashMap (java.base@25.0.5.1)
+=== 05:58:53 pid=3356
+3356:
+garbage-first heap   total reserved 3502080K, committed 3502080K, used 3434441K [0x000000072a400000, 0x0000000800000000)
+ region size 2048K, 15 young (30720K), 0 survivors (0K)
+3356:
+ num     #instances         #bytes  class name (module)
+-------------------------------------------------------
+   1:       1251089      366158808  [J (java.base@25.0.5.1)
+   2:       7865299      251689568  java.util.HashMap$Node (java.base@25.0.5.1)
+   3:       2392790      240418032  [Ljava.lang.Object; (java.base@25.0.5.1)
+   4:       2408447      231974968  [Ljava.util.HashMap$Node; (java.base@25.0.5.1)
+   5:       1187805      209200960  [B (java.base@25.0.5.1)
+   6:       6917646      166023504  net.minecraft.core.BlockPos
+   7:       6907624      165782976  net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate$StructureBlockInfo
+   8:       4113329      131626528  java.util.concurrent.locks.ReentrantLock$NonfairSync (java.base@25.0.5.1)
+   9:       4110274      131528768  java.util.concurrent.Semaphore$NonfairSync (java.base@25.0.5.1)
+  10:       4110272      131528704  net.minecraft.util.ThreadingDetector
+  11:       2720419      130580112  java.util.HashMap (java.base@25.0.5.1)
+=== 05:59:44 pid=3356
+3356:
+garbage-first heap   total reserved 3502080K, committed 3502080K, used 3361345K [0x000000072a400000, 0x0000000800000000)
+ region size 2048K, 51 young (104448K), 11 survivors (22528K)
+3356:
+ num     #instances         #bytes  class name (module)
+-------------------------------------------------------
+   1:        922607      290733352  [J (java.base@25.0.5.1)
+   2:       7535033      241121056  java.util.HashMap$Node (java.base@25.0.5.1)
+   3:       1089171      219969816  [B (java.base@25.0.5.1)
+   4:       2229362      217609464  [Ljava.util.HashMap$Node; (java.base@25.0.5.1)
+   5:       1834960      202446464  [Ljava.lang.Object; (java.base@25.0.5.1)
+   6:       6915732      165977568  net.minecraft.core.BlockPos
+   7:       6907624      165782976  net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate$StructureBlockInfo
+   8:       2425268      116412864  java.util.HashMap (java.base@25.0.5.1)
+   9:       2254961       72158752  java.util.concurrent.locks.ReentrantLock$NonfairSync (java.base@25.0.5.1)
+  10:       2251906       72060992  java.util.concurrent.Semaphore$NonfairSync (java.base@25.0.5.1)
+  11:       2251904       72060928  net.minecraft.util.ThreadingDetector
+=== 06:00:32 pid=3356
+3356:
+garbage-first heap   total reserved 3502080K, committed 3502080K, used 2757078K [0x000000072a400000, 0x0000000800000000)
+ region size 2048K, 159 young (325632K), 7 survivors (14336K)
+3356:
+ num     #instances         #bytes  class name (module)
+-------------------------------------------------------
+   1:        734686      214239888  [J (java.base@25.0.5.1)
+   2:       5945834      190266688  java.util.HashMap$Node (java.base@25.0.5.1)
+   3:       6915823      165979752  net.minecraft.core.BlockPos
+   4:       6907624      165782976  net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate$StructureBlockInfo
+   5:       1145392      165208960  [Ljava.lang.Object; (java.base@25.0.5.1)
+   6:        547314      162935336  [B (java.base@25.0.5.1)
+   7:       1446431      153600784  [Ljava.util.HashMap$Node; (java.base@25.0.5.1)
+   8:       1580731       75875088  java.util.HashMap (java.base@25.0.5.1)
+   9:       2630767       63138408  net.minecraft.server.PlayerAdvancements$TriggerInstanceKey
+  10:       1427216       57088640  java.util.LinkedHashMap$Entry (java.base@25.0.5.1)
+  11:       1724881       55196192  java.util.concurrent.locks.ReentrantLock$NonfairSync (java.base@25.0.5.1)
+=== 06:01:19 pid=3356
+3356:
+garbage-first heap   total reserved 3502080K, committed 3502080K, used 2591910K [0x000000072a400000, 0x0000000800000000)
+ region size 2048K, 163 young (333824K), 8 survivors (16384K)
+3356:
+ num     #instances         #bytes  class name (module)
+-------------------------------------------------------
+   1:        715236      208212760  [J (java.base@25.0.5.1)
+   2:       5937517      190000544  java.util.HashMap$Node (java.base@25.0.5.1)
+   3:       1131114      174528776  [Ljava.lang.Object; (java.base@25.0.5.1)
+   4:       6915809      165979416  net.minecraft.core.BlockPos
+   5:       6907624      165782976  net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate$StructureBlockInfo
+   6:        546729      161527712  [B (java.base@25.0.5.1)
+   7:       1446371      153527552  [Ljava.util.HashMap$Node; (java.base@25.0.5.1)
+   8:       1576232       75659136  java.util.HashMap (java.base@25.0.5.1)
+   9:       2622647       62943528  net.minecraft.server.PlayerAdvancements$TriggerInstanceKey
+  10:       1427269       57090760  java.util.LinkedHashMap$Entry (java.base@25.0.5.1)
+  11:       1665265       53288480  java.util.concurrent.locks.ReentrantLock$NonfairSync (java.base@25.0.5.1)
+=== 06:02:07 pid=3356
+3356:
+garbage-first heap   total reserved 3502080K, committed 3502080K, used 3347649K [0x000000072a400000, 0x0000000800000000)
+ region size 2048K, 2 young (4096K), 1 survivors (2048K)
+3356:
+ num     #instances         #bytes  class name (module)
+-------------------------------------------------------
+   1:        713908      207450280  [J (java.base@25.0.5.1)
+   2:       6122517      195920544  java.util.HashMap$Node (java.base@25.0.5.1)
+   3:       1152839      189845112  [Ljava.lang.Object; (java.base@25.0.5.1)
+   4:       7132470      171179280  net.minecraft.core.BlockPos
+   5:       7124136      170979264  net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate$StructureBlockInfo
+   6:        553970      164963896  [B (java.base@25.0.5.1)
+   7:       1491482      158317608  [Ljava.util.HashMap$Node; (java.base@25.0.5.1)
+   8:       1621509       77832432  java.util.HashMap (java.base@25.0.5.1)
+   9:       2711595       65078280  net.minecraft.server.PlayerAdvancements$TriggerInstanceKey
+  10:       1472616       58904640  java.util.LinkedHashMap$Entry (java.base@25.0.5.1)
+  11:       1663485       53231520  java.util.concurrent.locks.ReentrantLock$NonfairSync (java.base@25.0.5.1)
+=== 06:02:55 pid=3356
+3356:
+garbage-first heap   total reserved 3502080K, committed 3502080K, used 3420470K [0x000000072a400000, 0x0000000800000000)
+ region size 2048K, 151 young (309248K), 10 survivors (20480K)
+3356:
+ num     #instances         #bytes  class name (module)
+-------------------------------------------------------
+   1:        856504      253071008  [J (java.base@25.0.5.1)
+   2:       1323892      206663552  [Ljava.lang.Object; (java.base@25.0.5.1)
+   3:       6128435      196109920  java.util.HashMap$Node (java.base@25.0.5.1)
+   4:       7959090      191018160  net.minecraft.core.BlockPos
+   5:       7785246      186845904  net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate$StructureBlockInfo
+   6:        561894      178024008  [B (java.base@25.0.5.1)
+   7:       1491734      158359400  [Ljava.util.HashMap$Node; (java.base@25.0.5.1)
+   8:       1659337       79648176  java.util.HashMap (java.base@25.0.5.1)
+   9:       2073789       66361248  java.util.concurrent.locks.ReentrantLock$NonfairSync (java.base@25.0.5.1)
+  10:       2070642       66260544  java.util.concurrent.Semaphore$NonfairSync (java.base@25.0.5.1)
+  11:       2070640       66260480  net.minecraft.util.ThreadingDetector
+=== 06:03:42 pid=3356
+3356:
+garbage-first heap   total reserved 3502080K, committed 3502080K, used 3420772K [0x000000072a400000, 0x0000000800000000)
+ region size 2048K, 36 young (73728K), 0 survivors (0K)
+3356:
+ num     #instances         #bytes  class name (module)
+-------------------------------------------------------
+   1:      11154435      267706440  net.minecraft.core.BlockPos
+   2:        856966      254202576  [J (java.base@25.0.5.1)
+   3:       9969995      239279880  net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate$StructureBlockInfo
+   4:       1325749      223794912  [Ljava.lang.Object; (java.base@25.0.5.1)
+   5:       6141108      196515456  java.util.HashMap$Node (java.base@25.0.5.1)
+   6:        562639      178053960  [B (java.base@25.0.5.1)
+   7:       1491923      158513720  [Ljava.util.HashMap$Node; (java.base@25.0.5.1)
+   8:       1659902       79675296  java.util.HashMap (java.base@25.0.5.1)
+   9:       2073789       66361248  java.util.concurrent.locks.ReentrantLock$NonfairSync (java.base@25.0.5.1)
+  10:       2070642       66260544  java.util.concurrent.Semaphore$NonfairSync (java.base@25.0.5.1)
+  11:       2070640       66260480  net.minecraft.util.ThreadingDetector
+=== 06:04:30 pid=3356
+3356:
+garbage-first heap   total reserved 3502080K, committed 3502080K, used 2680872K [0x000000072a400000, 0x0000000800000000)
+ region size 2048K, 162 young (331776K), 0 survivors (0K)
+3356:
+ num     #instances         #bytes  class name (module)
+-------------------------------------------------------
+   1:       2905288      261211448  [Ljava.util.HashMap$Node; (java.base@25.0.5.1)
+   2:       9976618      239438832  net.minecraft.core.BlockPos
+   3:       9969995      239279880  net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate$StructureBlockInfo
+   4:       7433551      237873632  java.util.HashMap$Node (java.base@25.0.5.1)
+   5:       1553035      223098056  [Ljava.lang.Object; (java.base@25.0.5.1)
+   6:       1499107      173873016  [B (java.base@25.0.5.1)
+   7:       2967235      142427280  java.util.HashMap (java.base@25.0.5.1)
+   8:        268093       86511664  [J (java.base@25.0.5.1)
+   9:       1489822       59592880  java.util.LinkedHashMap$Entry (java.base@25.0.5.1)
+  10:       3079754       49276064  net.minecraft.advancements.CriterionProgress
+  11:       2013858       48332592  java.util.ArrayList (java.base@25.0.5.1)

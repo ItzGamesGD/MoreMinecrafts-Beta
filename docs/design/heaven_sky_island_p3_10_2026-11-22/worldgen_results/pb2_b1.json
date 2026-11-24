@@ -1,0 +1,368 @@
+{
+  "label": "b1",
+  "seed": 42,
+  "mode": "west",
+  "islands": {
+    "meadow": {
+      "start_chunk": "32,-24",
+      "locate_ms": 0,
+      "generate_ms": 469,
+      "generated_chunks": 4,
+      "box": "27x23x25",
+      "mid_chunk_x": 31,
+      "templates": [
+        "sky_islands/heaven/meadow/plain_small_c"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true
+    },
+    "meadow#1": {
+      "start_chunk": "-115,-40",
+      "locate_ms": 0,
+      "generate_ms": 3934,
+      "generated_chunks": 55,
+      "box": "137x101x155",
+      "mid_chunk_x": -111,
+      "templates": [
+        "sky_islands/heaven/meadow/large_e",
+        "sky_islands/heaven/meadow/tower"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true
+    },
+    "meadow#2": {
+      "start_chunk": "34,-112",
+      "locate_ms": 0,
+      "generate_ms": 732,
+      "generated_chunks": 12,
+      "box": "97x43x35",
+      "mid_chunk_x": 33,
+      "templates": [
+        "sky_islands/heaven/meadow/plain_medium_a",
+        "sky_islands/heaven/meadow/satellite_b",
+        "sky_islands/heaven/meadow/satellite_a"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true
+    },
+    "meadow#3": {
+      "start_chunk": "29,97",
+      "locate_ms": 0,
+      "generate_ms": 1952,
+      "generated_chunks": 28,
+      "box": "97x67x97",
+      "mid_chunk_x": 26,
+      "templates": [
+        "sky_islands/heaven/meadow/large_a"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true
+    },
+    "meadow#4": {
+      "start_chunk": "-110,-19",
+      "locate_ms": 0,
+      "generate_ms": 1778,
+      "generated_chunks": 28,
+      "box": "99x69x109",
+      "mid_chunk_x": -114,
+      "templates": [
+        "sky_islands/heaven/meadow/large_b"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true
+    },
+    "meadow#5": {
+      "start_chunk": "58,-107",
+      "locate_ms": 0,
+      "generate_ms": 402,
+      "generated_chunks": 6,
+      "box": "27x24x23",
+      "mid_chunk_x": 57,
+      "templates": [
+        "sky_islands/heaven/meadow/plain_small_b"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true
+    },
+    "meadow#6": {
+      "start_chunk": "-40,183",
+      "locate_ms": 0,
+      "generate_ms": 1107,
+      "generated_chunks": 14,
+      "box": "35x43x97",
+      "mid_chunk_x": -42,
+      "templates": [
+        "sky_islands/heaven/meadow/plain_medium_a",
+        "sky_islands/heaven/meadow/satellite_b",
+        "sky_islands/heaven/meadow/satellite_a"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true
+    },
+    "meadow#7": {
+      "start_chunk": "-57,-96",
+      "locate_ms": 0,
+      "generate_ms": 1190,
+      "generated_chunks": 20,
+      "box": "149x43x35",
+      "mid_chunk_x": -59,
+      "templates": [
+        "sky_islands/heaven/meadow/plain_medium_a",
+        "sky_islands/heaven/meadow/satellite_a",
+        "sky_islands/heaven/meadow/satellite_b",
+        "sky_islands/heaven/meadow/satellite_b",
+        "sky_islands/heaven/meadow/satellite_a"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true
+    },
+    "meadow#8": {
+      "start_chunk": "120,72",
+      "locate_ms": 0,
+      "generate_ms": 55,
+      "generated_chunks": 2,
+      "box": "27x24x25",
+      "mid_chunk_x": 120,
+      "templates": [
+        "sky_islands/heaven/meadow/plain_small_d"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true
+    },
+    "meadow#9": "duplicate of an earlier site",
+    "meadow#10": {
+      "start_chunk": "39,-185",
+      "locate_ms": 0,
+      "generate_ms": 243,
+      "generated_chunks": 6,
+      "box": "36x27x33",
+      "mid_chunk_x": 40,
+      "templates": [
+        "sky_islands/heaven/meadow/ruins",
+        "sky_islands/ruins_c"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true
+    },
+    "meadow#11": {
+      "start_chunk": "60,181",
+      "locate_ms": 0,
+      "generate_ms": 648,
+      "generated_chunks": 12,
+      "box": "33x42x68",
+      "mid_chunk_x": 61,
+      "templates": [
+        "sky_islands/heaven/meadow/plain_medium_e",
+        "sky_islands/heaven/meadow/satellite_b"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true
+    },
+    "forest": {
+      "start_chunk": "-22,-14",
+      "locate_ms": 0,
+      "generate_ms": 163,
+      "generated_chunks": 3,
+      "box": "25x24x27",
+      "mid_chunk_x": -22,
+      "templates": [
+        "sky_islands/heaven/forest/plain_small_d"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true
+    },
+    "forest#1": {
+      "start_chunk": "-70,26",
+      "locate_ms": 0,
+      "generate_ms": 387,
+      "generated_chunks": 6,
+      "box": "25x23x25",
+      "mid_chunk_x": -71,
+      "templates": [
+        "sky_islands/heaven/forest/plain_small_a"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true
+    },
+    "forest#2": "duplicate of an earlier site",
+    "forest#3": {
+      "start_chunk": "79,61",
+      "locate_ms": 0,
+      "generate_ms": 794,
+      "generated_chunks": 18,
+      "box": "151x43x35",
+      "mid_chunk_x": 80,
+      "templates": [
+        "sky_islands/heaven/forest/plain_medium_a",
+        "sky_islands/heaven/forest/satellite_a",
+        "sky_islands/heaven/forest/satellite_a",
+        "sky_islands/heaven/forest/satellite_a",
+        "sky_islands/heaven/forest/satellite_b"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true
+    },
+    "forest#4": {
+      "start_chunk": "-91,28",
+      "locate_ms": 0,
+      "generate_ms": 521,
+      "generated_chunks": 6,
+      "box": "27x24x25",
+      "mid_chunk_x": -92,
+      "templates": [
+        "sky_islands/heaven/forest/plain_small_d"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true
+    },
+    "forest#5": {
+      "start_chunk": "86,-91",
+      "locate_ms": 0,
+      "generate_ms": 618,
+      "generated_chunks": 10,
+      "box": "33x43x70",
+      "mid_chunk_x": 85,
+      "templates": [
+        "sky_islands/heaven/forest/plain_medium_e",
+        "sky_islands/heaven/forest/satellite_a"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true
+    },
+    "forest#6": {
+      "start_chunk": "-134,85",
+      "locate_ms": 0,
+      "generate_ms": 1135,
+      "generated_chunks": 15,
+      "box": "81x45x57",
+      "mid_chunk_x": -137,
+      "templates": [
+        "sky_islands/heaven/forest/temple",
+        "sky_islands/temple"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true
+    },
+    "forest#7": {
+      "start_chunk": "14,-187",
+      "locate_ms": 0,
+      "generate_ms": 772,
+      "generated_chunks": 12,
+      "box": "97x42x33",
+      "mid_chunk_x": 13,
+      "templates": [
+        "sky_islands/heaven/forest/plain_medium_e",
+        "sky_islands/heaven/forest/satellite_a",
+        "sky_islands/heaven/forest/satellite_a"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true
+    },
+    "forest#8": "duplicate of an earlier site",
+    "forest#9": "duplicate of an earlier site",
+    "forest#10": {
+      "start_chunk": "37,-210",
+      "locate_ms": 0,
+      "generate_ms": 453,
+      "generated_chunks": 6,
+      "box": "27x24x25",
+      "mid_chunk_x": 36,
+      "templates": [
+        "sky_islands/heaven/forest/plain_small_d"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true
+    },
+    "forest#11": {
+      "start_chunk": "75,147",
+      "locate_ms": 0,
+      "generate_ms": 1050,
+      "generated_chunks": 12,
+      "box": "33x27x90",
+      "mid_chunk_x": 74,
+      "templates": [
+        "sky_islands/heaven/forest/ruins",
+        "sky_islands/heaven/forest/satellite_a",
+        "sky_islands/ruins_a",
+        "sky_islands/heaven/forest/satellite_a"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true
+    },
+    "mountain_meadow": {
+      "start_chunk": "-118,47",
+      "locate_ms": 0,
+      "generate_ms": 209,
+      "generated_chunks": 3,
+      "box": "23x24x27",
+      "mid_chunk_x": -118,
+      "templates": [
+        "sky_islands/heaven/meadow/plain_small_b"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true
+    },
+    "mountain_meadow#1": "duplicate of an earlier site",
+    "mountain_meadow#2": "duplicate of an earlier site",
+    "mountain_meadow#3": "duplicate of an earlier site",
+    "mountain_meadow#4": {
+      "start_chunk": "-140,-66",
+      "locate_ms": 0,
+      "generate_ms": 1359,
+      "generated_chunks": 12,
+      "box": "99x44x33",
+      "mid_chunk_x": -141,
+      "templates": [
+        "sky_islands/heaven/meadow/plain_medium_c",
+        "sky_islands/heaven/meadow/satellite_a",
+        "sky_islands/heaven/meadow/satellite_b"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true
+    },
+    "mountain_meadow#5": {
+      "start_chunk": "200,-151",
+      "locate_ms": 0,
+      "generate_ms": 760,
+      "generated_chunks": 6,
+      "box": "25x23x25",
+      "mid_chunk_x": 199,
+      "templates": [
+        "sky_islands/heaven/meadow/plain_small_a"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true
+    },
+    "mountain_meadow#6": "duplicate of an earlier site",
+    "mountain_meadow#7": "duplicate of an earlier site",
+    "mountain_meadow#8": "duplicate of an earlier site",
+    "mountain_meadow#9": {
+      "start_chunk": "-174,43",
+      "locate_ms": 0,
+      "generate_ms": 4679,
+      "generated_chunks": 50,
+      "box": "137x101x155",
+      "mid_chunk_x": -179,
+      "templates": [
+        "sky_islands/heaven/meadow/large_e",
+        "sky_islands/heaven/meadow/tower"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true
+    },
+    "mountain_meadow#10": {
+      "start_chunk": "157,-248",
+      "locate_ms": 0,
+      "generate_ms": 302,
+      "generated_chunks": 3,
+      "box": "25x23x25",
+      "mid_chunk_x": 157,
+      "templates": [
+        "sky_islands/heaven/meadow/plain_small_a"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true
+    },
+    "mountain_meadow#11": "duplicate of an earlier site"
+  }
+}

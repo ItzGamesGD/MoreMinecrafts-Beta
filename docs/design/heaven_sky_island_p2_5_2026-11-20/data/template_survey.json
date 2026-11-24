@@ -1,0 +1,3571 @@
+{
+ "theme_roles": {
+  "meadow": {
+   "blocks": {
+    "minecraft:stone": {
+     "share": 0.374,
+     "mean_depth": 9.7,
+     "role": "rock"
+    },
+    "minecraft:tuff": {
+     "share": 0.188,
+     "mean_depth": 9.69,
+     "role": "rock"
+    },
+    "minecraft:andesite": {
+     "share": 0.187,
+     "mean_depth": 9.71,
+     "role": "rock"
+    },
+    "minecraft:dirt": {
+     "share": 0.112,
+     "mean_depth": 1.49,
+     "role": "subsurface"
+    },
+    "minecraft:grass_block": {
+     "share": 0.083,
+     "mean_depth": 0.0,
+     "role": "surface"
+    },
+    "minecraft:coarse_dirt": {
+     "share": 0.056,
+     "mean_depth": 1.49,
+     "role": "subsurface"
+    }
+   },
+   "all_terrain": [
+    "minecraft:stone",
+    "minecraft:tuff",
+    "minecraft:andesite",
+    "minecraft:dirt",
+    "minecraft:grass_block",
+    "minecraft:coarse_dirt"
+   ]
+  },
+  "forest": {
+   "blocks": {
+    "minecraft:stone": {
+     "share": 0.374,
+     "mean_depth": 9.67,
+     "role": "rock"
+    },
+    "minecraft:andesite": {
+     "share": 0.187,
+     "mean_depth": 9.69,
+     "role": "rock"
+    },
+    "minecraft:mossy_cobblestone": {
+     "share": 0.187,
+     "mean_depth": 9.68,
+     "role": "rock"
+    },
+    "minecraft:dirt": {
+     "share": 0.112,
+     "mean_depth": 1.49,
+     "role": "subsurface"
+    },
+    "minecraft:grass_block": {
+     "share": 0.083,
+     "mean_depth": 0.0,
+     "role": "surface"
+    },
+    "minecraft:podzol": {
+     "share": 0.056,
+     "mean_depth": 1.49,
+     "role": "subsurface"
+    }
+   },
+   "all_terrain": [
+    "minecraft:stone",
+    "minecraft:andesite",
+    "minecraft:mossy_cobblestone",
+    "minecraft:dirt",
+    "minecraft:grass_block",
+    "minecraft:podzol"
+   ]
+  },
+  "snowy": {
+   "blocks": {
+    "minecraft:stone": {
+     "share": 0.411,
+     "mean_depth": 7.46,
+     "role": "rock"
+    },
+    "minecraft:packed_ice": {
+     "share": 0.151,
+     "mean_depth": 9.67,
+     "role": "rock"
+    },
+    "minecraft:cobblestone": {
+     "share": 0.15,
+     "mean_depth": 9.67,
+     "role": "rock"
+    },
+    "minecraft:andesite": {
+     "share": 0.15,
+     "mean_depth": 9.7,
+     "role": "rock"
+    },
+    "minecraft:snow_block": {
+     "share": 0.139,
+     "mean_depth": 0.6,
+     "role": "surface"
+    }
+   },
+   "all_terrain": [
+    "minecraft:stone",
+    "minecraft:packed_ice",
+    "minecraft:cobblestone",
+    "minecraft:andesite",
+    "minecraft:snow_block"
+   ]
+  },
+  "desert": {
+   "blocks": {
+    "minecraft:sandstone": {
+     "share": 0.541,
+     "mean_depth": 7.15,
+     "role": "rock"
+    },
+    "minecraft:smooth_sandstone": {
+     "share": 0.188,
+     "mean_depth": 9.67,
+     "role": "rock"
+    },
+    "minecraft:cut_sandstone": {
+     "share": 0.188,
+     "mean_depth": 9.69,
+     "role": "rock"
+    },
+    "minecraft:sand": {
+     "share": 0.083,
+     "mean_depth": 0.0,
+     "role": "surface"
+    }
+   },
+   "all_terrain": [
+    "minecraft:sandstone",
+    "minecraft:smooth_sandstone",
+    "minecraft:cut_sandstone",
+    "minecraft:sand"
+   ]
+  },
+  "badlands": {
+   "blocks": {
+    "minecraft:terracotta": {
+     "share": 0.249,
+     "mean_depth": 9.72,
+     "role": "rock"
+    },
+    "minecraft:orange_terracotta": {
+     "share": 0.182,
+     "mean_depth": 7.16,
+     "role": "rock"
+    },
+    "minecraft:yellow_terracotta": {
+     "share": 0.126,
+     "mean_depth": 9.69,
+     "role": "rock"
+    },
+    "minecraft:white_terracotta": {
+     "share": 0.125,
+     "mean_depth": 9.66,
+     "role": "rock"
+    },
+    "minecraft:red_terracotta": {
+     "share": 0.124,
+     "mean_depth": 9.69,
+     "role": "rock"
+    },
+    "minecraft:red_sandstone": {
+     "share": 0.111,
+     "mean_depth": 1.5,
+     "role": "subsurface"
+    },
+    "minecraft:red_sand": {
+     "share": 0.083,
+     "mean_depth": 0.01,
+     "role": "surface"
+    }
+   },
+   "all_terrain": [
+    "minecraft:terracotta",
+    "minecraft:orange_terracotta",
+    "minecraft:yellow_terracotta",
+    "minecraft:white_terracotta",
+    "minecraft:red_terracotta",
+    "minecraft:red_sandstone",
+    "minecraft:red_sand"
+   ]
+  },
+  "rocky": {
+   "blocks": {
+    "minecraft:stone": {
+     "share": 0.409,
+     "mean_depth": 7.53,
+     "role": "rock"
+    },
+    "minecraft:andesite": {
+     "share": 0.205,
+     "mean_depth": 7.51,
+     "role": "rock"
+    },
+    "minecraft:cobblestone": {
+     "share": 0.153,
+     "mean_depth": 9.62,
+     "role": "rock"
+    },
+    "minecraft:tuff": {
+     "share": 0.149,
+     "mean_depth": 9.73,
+     "role": "rock"
+    },
+    "minecraft:gravel": {
+     "share": 0.083,
+     "mean_depth": 0.05,
+     "role": "surface"
+    }
+   },
+   "all_terrain": [
+    "minecraft:stone",
+    "minecraft:andesite",
+    "minecraft:cobblestone",
+    "minecraft:tuff",
+    "minecraft:gravel"
+   ]
+  }
+ },
+ "templates": {
+  "meadow/large_a": {
+   "size": [
+    97,
+    67,
+    97
+   ],
+   "terrain_blocks": 96572,
+   "surface_columns": 6338,
+   "plantable_columns": 6338,
+   "pond_columns": 208,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 60,
+   "giant_recommended": 23,
+   "est_vegetation_blocks": 9676,
+   "est_new_models": 0
+  },
+  "meadow/large_b": {
+   "size": [
+    109,
+    69,
+    99
+   ],
+   "terrain_blocks": 121238,
+   "surface_columns": 7637,
+   "plantable_columns": 7637,
+   "pond_columns": 54,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 72,
+   "giant_recommended": 28,
+   "est_vegetation_blocks": 11659,
+   "est_new_models": 0
+  },
+  "meadow/large_c": {
+   "size": [
+    125,
+    71,
+    113
+   ],
+   "terrain_blocks": 170828,
+   "surface_columns": 9908,
+   "plantable_columns": 9908,
+   "pond_columns": 259,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 96,
+   "giant_recommended": 37,
+   "est_vegetation_blocks": 15126,
+   "est_new_models": 0
+  },
+  "meadow/large_d": {
+   "size": [
+    145,
+    101,
+    129
+   ],
+   "terrain_blocks": 130036,
+   "surface_columns": 13571,
+   "plantable_columns": 13458,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      78,
+      16,
+      64
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/tower_top"
+    }
+   ],
+   "giant_positions_feasible": 136,
+   "giant_recommended": 50,
+   "est_vegetation_blocks": 20546,
+   "est_new_models": 0
+  },
+  "meadow/large_e": {
+   "size": [
+    155,
+    101,
+    137
+   ],
+   "terrain_blocks": 148440,
+   "surface_columns": 15242,
+   "plantable_columns": 15129,
+   "pond_columns": 154,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      83,
+      16,
+      68
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/tower_top"
+    }
+   ],
+   "giant_positions_feasible": 155,
+   "giant_recommended": 56,
+   "est_vegetation_blocks": 23097,
+   "est_new_models": 0
+  },
+  "meadow/plain_medium_a": {
+   "size": [
+    45,
+    43,
+    35
+   ],
+   "terrain_blocks": 6004,
+   "surface_columns": 802,
+   "plantable_columns": 801,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      17,
+      17
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/satellite"
+    },
+    {
+     "pos": [
+      44,
+      8,
+      17
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/satellite"
+    }
+   ],
+   "giant_positions_feasible": 6,
+   "giant_recommended": 3,
+   "est_vegetation_blocks": 1223,
+   "est_new_models": 0
+  },
+  "meadow/plain_medium_b": {
+   "size": [
+    43,
+    43,
+    35
+   ],
+   "terrain_blocks": 5641,
+   "surface_columns": 726,
+   "plantable_columns": 724,
+   "pond_columns": 30,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      17,
+      17
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/satellite"
+    },
+    {
+     "pos": [
+      42,
+      8,
+      17
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/satellite"
+    }
+   ],
+   "giant_positions_feasible": 4,
+   "giant_recommended": 3,
+   "est_vegetation_blocks": 1105,
+   "est_new_models": 0
+  },
+  "meadow/plain_medium_c": {
+   "size": [
+    47,
+    44,
+    33
+   ],
+   "terrain_blocks": 6276,
+   "surface_columns": 735,
+   "plantable_columns": 734,
+   "pond_columns": 68,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      18,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/satellite"
+    },
+    {
+     "pos": [
+      46,
+      9,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/satellite"
+    }
+   ],
+   "giant_positions_feasible": 4,
+   "giant_recommended": 3,
+   "est_vegetation_blocks": 1121,
+   "est_new_models": 0
+  },
+  "meadow/plain_medium_d": {
+   "size": [
+    45,
+    43,
+    37
+   ],
+   "terrain_blocks": 6272,
+   "surface_columns": 807,
+   "plantable_columns": 807,
+   "pond_columns": 52,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      17,
+      18
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/satellite"
+    },
+    {
+     "pos": [
+      44,
+      8,
+      18
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/satellite"
+    }
+   ],
+   "giant_positions_feasible": 5,
+   "giant_recommended": 3,
+   "est_vegetation_blocks": 1232,
+   "est_new_models": 0
+  },
+  "meadow/plain_medium_e": {
+   "size": [
+    43,
+    42,
+    33
+   ],
+   "terrain_blocks": 4660,
+   "surface_columns": 643,
+   "plantable_columns": 639,
+   "pond_columns": 59,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      16,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/satellite"
+    },
+    {
+     "pos": [
+      42,
+      7,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/satellite"
+    }
+   ],
+   "giant_positions_feasible": 3,
+   "giant_recommended": 2,
+   "est_vegetation_blocks": 976,
+   "est_new_models": 0
+  },
+  "meadow/plain_small_a": {
+   "size": [
+    25,
+    23,
+    25
+   ],
+   "terrain_blocks": 1702,
+   "surface_columns": 318,
+   "plantable_columns": 318,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 485,
+   "est_new_models": 0
+  },
+  "meadow/plain_small_b": {
+   "size": [
+    27,
+    24,
+    23
+   ],
+   "terrain_blocks": 1871,
+   "surface_columns": 315,
+   "plantable_columns": 315,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 481,
+   "est_new_models": 0
+  },
+  "meadow/plain_small_c": {
+   "size": [
+    25,
+    23,
+    27
+   ],
+   "terrain_blocks": 1800,
+   "surface_columns": 347,
+   "plantable_columns": 347,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 530,
+   "est_new_models": 0
+  },
+  "meadow/plain_small_d": {
+   "size": [
+    27,
+    24,
+    25
+   ],
+   "terrain_blocks": 2064,
+   "surface_columns": 348,
+   "plantable_columns": 348,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 531,
+   "est_new_models": 0
+  },
+  "meadow/ruins": {
+   "size": [
+    36,
+    27,
+    33
+   ],
+   "terrain_blocks": 4049,
+   "surface_columns": 618,
+   "plantable_columns": 506,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      16,
+      11,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/ruins_top"
+    },
+    {
+     "pos": [
+      35,
+      8,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/satellite"
+    }
+   ],
+   "giant_positions_feasible": 3,
+   "giant_recommended": 2,
+   "est_vegetation_blocks": 772,
+   "est_new_models": 0
+  },
+  "meadow/satellite_a": {
+   "size": [
+    27,
+    22,
+    19
+   ],
+   "terrain_blocks": 853,
+   "surface_columns": 175,
+   "plantable_columns": 175,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      8,
+      9
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/satellite"
+    },
+    {
+     "pos": [
+      26,
+      8,
+      9
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/satellite"
+    }
+   ],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 267,
+   "est_new_models": 0
+  },
+  "meadow/satellite_b": {
+   "size": [
+    25,
+    21,
+    21
+   ],
+   "terrain_blocks": 803,
+   "surface_columns": 178,
+   "plantable_columns": 178,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      3,
+      10
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/satellite"
+    },
+    {
+     "pos": [
+      24,
+      10,
+      10
+     ],
+     "pool": "moreminecrafts:sky_islands/meadow/satellite"
+    }
+   ],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 272,
+   "est_new_models": 0
+  },
+  "meadow/temple": {
+   "size": [
+    81,
+    45,
+    57
+   ],
+   "terrain_blocks": 32897,
+   "surface_columns": 3109,
+   "plantable_columns": 2997,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      40,
+      19,
+      28
+     ],
+     "pool": "moreminecrafts:sky_islands/temple_top"
+    }
+   ],
+   "giant_positions_feasible": 28,
+   "giant_recommended": 11,
+   "est_vegetation_blocks": 4575,
+   "est_new_models": 0
+  },
+  "meadow/tower": {
+   "size": [
+    58,
+    97,
+    49
+   ],
+   "terrain_blocks": 13490,
+   "surface_columns": 849,
+   "plantable_columns": 87,
+   "pond_columns": 0,
+   "structure_blocks": 29056,
+   "structure_kinds": {
+    "stone_bricks": 11895,
+    "polished_andesite": 6450,
+    "smooth_stone": 5537,
+    "stone_brick_slab": 2799,
+    "chiseled_stone_bricks": 1274,
+    "polished_deepslate": 1000,
+    "oxidized_cut_copper": 42,
+    "sea_lantern": 29
+   },
+   "functional_blocks": {
+    "sea_lantern": 29,
+    "vault": 8,
+    "trial_spawner": 16,
+    "oxidized_cut_copper": 42
+   },
+   "jigsaws": [
+    {
+     "pos": [
+      36,
+      16,
+      24
+     ],
+     "pool": "minecraft:empty"
+    }
+   ],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 0,
+   "est_vegetation_blocks": 133,
+   "est_new_models": 0
+  },
+  "forest/large_a": {
+   "size": [
+    97,
+    67,
+    97
+   ],
+   "terrain_blocks": 97893,
+   "surface_columns": 6467,
+   "plantable_columns": 6467,
+   "pond_columns": 164,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 63,
+   "giant_recommended": 24,
+   "est_vegetation_blocks": 9873,
+   "est_new_models": 0
+  },
+  "forest/large_b": {
+   "size": [
+    109,
+    69,
+    99
+   ],
+   "terrain_blocks": 120375,
+   "surface_columns": 7587,
+   "plantable_columns": 7587,
+   "pond_columns": 32,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 76,
+   "giant_recommended": 28,
+   "est_vegetation_blocks": 11583,
+   "est_new_models": 0
+  },
+  "forest/large_c": {
+   "size": [
+    125,
+    71,
+    113
+   ],
+   "terrain_blocks": 170598,
+   "surface_columns": 9907,
+   "plantable_columns": 9907,
+   "pond_columns": 284,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 96,
+   "giant_recommended": 37,
+   "est_vegetation_blocks": 15124,
+   "est_new_models": 0
+  },
+  "forest/large_d": {
+   "size": [
+    145,
+    101,
+    129
+   ],
+   "terrain_blocks": 130218,
+   "surface_columns": 13558,
+   "plantable_columns": 13445,
+   "pond_columns": 32,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      78,
+      16,
+      64
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/tower_top"
+    }
+   ],
+   "giant_positions_feasible": 139,
+   "giant_recommended": 50,
+   "est_vegetation_blocks": 20526,
+   "est_new_models": 0
+  },
+  "forest/large_e": {
+   "size": [
+    155,
+    101,
+    137
+   ],
+   "terrain_blocks": 147207,
+   "surface_columns": 15148,
+   "plantable_columns": 15035,
+   "pond_columns": 383,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      83,
+      16,
+      68
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/tower_top"
+    }
+   ],
+   "giant_positions_feasible": 150,
+   "giant_recommended": 56,
+   "est_vegetation_blocks": 22953,
+   "est_new_models": 0
+  },
+  "forest/plain_medium_a": {
+   "size": [
+    45,
+    43,
+    35
+   ],
+   "terrain_blocks": 5987,
+   "surface_columns": 812,
+   "plantable_columns": 807,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      17,
+      17
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/satellite"
+    },
+    {
+     "pos": [
+      44,
+      8,
+      17
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/satellite"
+    }
+   ],
+   "giant_positions_feasible": 6,
+   "giant_recommended": 3,
+   "est_vegetation_blocks": 1232,
+   "est_new_models": 0
+  },
+  "forest/plain_medium_b": {
+   "size": [
+    43,
+    43,
+    35
+   ],
+   "terrain_blocks": 5626,
+   "surface_columns": 729,
+   "plantable_columns": 729,
+   "pond_columns": 33,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      17,
+      17
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/satellite"
+    },
+    {
+     "pos": [
+      42,
+      8,
+      17
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/satellite"
+    }
+   ],
+   "giant_positions_feasible": 5,
+   "giant_recommended": 3,
+   "est_vegetation_blocks": 1113,
+   "est_new_models": 0
+  },
+  "forest/plain_medium_c": {
+   "size": [
+    47,
+    44,
+    33
+   ],
+   "terrain_blocks": 6282,
+   "surface_columns": 730,
+   "plantable_columns": 730,
+   "pond_columns": 61,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      18,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/satellite"
+    },
+    {
+     "pos": [
+      46,
+      9,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/satellite"
+    }
+   ],
+   "giant_positions_feasible": 4,
+   "giant_recommended": 3,
+   "est_vegetation_blocks": 1114,
+   "est_new_models": 0
+  },
+  "forest/plain_medium_d": {
+   "size": [
+    45,
+    43,
+    37
+   ],
+   "terrain_blocks": 6275,
+   "surface_columns": 810,
+   "plantable_columns": 810,
+   "pond_columns": 54,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      17,
+      18
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/satellite"
+    },
+    {
+     "pos": [
+      44,
+      8,
+      18
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/satellite"
+    }
+   ],
+   "giant_positions_feasible": 5,
+   "giant_recommended": 3,
+   "est_vegetation_blocks": 1237,
+   "est_new_models": 0
+  },
+  "forest/plain_medium_e": {
+   "size": [
+    43,
+    42,
+    33
+   ],
+   "terrain_blocks": 4861,
+   "surface_columns": 656,
+   "plantable_columns": 656,
+   "pond_columns": 54,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      16,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/satellite"
+    },
+    {
+     "pos": [
+      42,
+      7,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/satellite"
+    }
+   ],
+   "giant_positions_feasible": 4,
+   "giant_recommended": 2,
+   "est_vegetation_blocks": 1001,
+   "est_new_models": 0
+  },
+  "forest/plain_small_a": {
+   "size": [
+    25,
+    23,
+    25
+   ],
+   "terrain_blocks": 1732,
+   "surface_columns": 318,
+   "plantable_columns": 318,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 485,
+   "est_new_models": 0
+  },
+  "forest/plain_small_b": {
+   "size": [
+    27,
+    24,
+    23
+   ],
+   "terrain_blocks": 1842,
+   "surface_columns": 312,
+   "plantable_columns": 312,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 476,
+   "est_new_models": 0
+  },
+  "forest/plain_small_c": {
+   "size": [
+    25,
+    23,
+    27
+   ],
+   "terrain_blocks": 1904,
+   "surface_columns": 345,
+   "plantable_columns": 345,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 527,
+   "est_new_models": 0
+  },
+  "forest/plain_small_d": {
+   "size": [
+    27,
+    24,
+    25
+   ],
+   "terrain_blocks": 2147,
+   "surface_columns": 344,
+   "plantable_columns": 344,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 525,
+   "est_new_models": 0
+  },
+  "forest/ruins": {
+   "size": [
+    36,
+    27,
+    33
+   ],
+   "terrain_blocks": 3995,
+   "surface_columns": 620,
+   "plantable_columns": 508,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      16,
+      11,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/ruins_top"
+    },
+    {
+     "pos": [
+      35,
+      8,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/satellite"
+    }
+   ],
+   "giant_positions_feasible": 3,
+   "giant_recommended": 2,
+   "est_vegetation_blocks": 776,
+   "est_new_models": 0
+  },
+  "forest/satellite_a": {
+   "size": [
+    27,
+    22,
+    19
+   ],
+   "terrain_blocks": 816,
+   "surface_columns": 172,
+   "plantable_columns": 172,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      8,
+      9
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/satellite"
+    },
+    {
+     "pos": [
+      26,
+      8,
+      9
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/satellite"
+    }
+   ],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 263,
+   "est_new_models": 0
+  },
+  "forest/satellite_b": {
+   "size": [
+    25,
+    21,
+    21
+   ],
+   "terrain_blocks": 765,
+   "surface_columns": 175,
+   "plantable_columns": 175,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      3,
+      10
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/satellite"
+    },
+    {
+     "pos": [
+      24,
+      10,
+      10
+     ],
+     "pool": "moreminecrafts:sky_islands/forest/satellite"
+    }
+   ],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 267,
+   "est_new_models": 0
+  },
+  "forest/temple": {
+   "size": [
+    81,
+    45,
+    57
+   ],
+   "terrain_blocks": 32849,
+   "surface_columns": 3103,
+   "plantable_columns": 2991,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      40,
+      19,
+      28
+     ],
+     "pool": "moreminecrafts:sky_islands/temple_top"
+    }
+   ],
+   "giant_positions_feasible": 28,
+   "giant_recommended": 11,
+   "est_vegetation_blocks": 4566,
+   "est_new_models": 0
+  },
+  "forest/tower": {
+   "size": [
+    58,
+    97,
+    49
+   ],
+   "terrain_blocks": 13640,
+   "surface_columns": 839,
+   "plantable_columns": 90,
+   "pond_columns": 0,
+   "structure_blocks": 29058,
+   "structure_kinds": {
+    "stone_bricks": 11897,
+    "polished_andesite": 6450,
+    "smooth_stone": 5537,
+    "stone_brick_slab": 2799,
+    "chiseled_stone_bricks": 1274,
+    "polished_deepslate": 1000,
+    "oxidized_cut_copper": 42,
+    "sea_lantern": 29
+   },
+   "functional_blocks": {
+    "sea_lantern": 29,
+    "vault": 8,
+    "trial_spawner": 16,
+    "oxidized_cut_copper": 42
+   },
+   "jigsaws": [
+    {
+     "pos": [
+      36,
+      16,
+      24
+     ],
+     "pool": "minecraft:empty"
+    }
+   ],
+   "giant_positions_feasible": 0,
+   "giant_recommended": 0,
+   "est_vegetation_blocks": 137,
+   "est_new_models": 0
+  },
+  "snowy/large_a": {
+   "size": [
+    97,
+    67,
+    97
+   ],
+   "terrain_blocks": 96904,
+   "surface_columns": 6385,
+   "plantable_columns": 6385,
+   "pond_columns": 213,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 61,
+   "giant_recommended": 24,
+   "est_vegetation_blocks": 9748,
+   "est_new_models": 0
+  },
+  "snowy/large_b": {
+   "size": [
+    109,
+    69,
+    99
+   ],
+   "terrain_blocks": 121091,
+   "surface_columns": 7603,
+   "plantable_columns": 7603,
+   "pond_columns": 31,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 74,
+   "giant_recommended": 28,
+   "est_vegetation_blocks": 11607,
+   "est_new_models": 0
+  },
+  "snowy/large_c": {
+   "size": [
+    125,
+    71,
+    113
+   ],
+   "terrain_blocks": 172160,
+   "surface_columns": 9914,
+   "plantable_columns": 9914,
+   "pond_columns": 249,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 99,
+   "giant_recommended": 37,
+   "est_vegetation_blocks": 15135,
+   "est_new_models": 0
+  },
+  "snowy/large_d": {
+   "size": [
+    145,
+    101,
+    129
+   ],
+   "terrain_blocks": 129322,
+   "surface_columns": 13373,
+   "plantable_columns": 13260,
+   "pond_columns": 53,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      78,
+      16,
+      64
+     ],
+     "pool": "moreminecrafts:sky_islands/snowy/tower_top"
+    }
+   ],
+   "giant_positions_feasible": 139,
+   "giant_recommended": 49,
+   "est_vegetation_blocks": 20243,
+   "est_new_models": 0
+  },
+  "snowy/large_e": {
+   "size": [
+    155,
+    101,
+    137
+   ],
+   "terrain_blocks": 147744,
+   "surface_columns": 15106,
+   "plantable_columns": 14993,
+   "pond_columns": 361,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      83,
+      16,
+      68
+     ],
+     "pool": "moreminecrafts:sky_islands/snowy/tower_top"
+    }
+   ],
+   "giant_positions_feasible": 155,
+   "giant_recommended": 56,
+   "est_vegetation_blocks": 22889,
+   "est_new_models": 0
+  },
+  "snowy/plain_medium_a": {
+   "size": [
+    45,
+    43,
+    35
+   ],
+   "terrain_blocks": 5947,
+   "surface_columns": 799,
+   "plantable_columns": 798,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      17,
+      17
+     ],
+     "pool": "moreminecrafts:sky_islands/snowy/satellite"
+    },
+    {
+     "pos": [
+      44,
+      8,
+      17
+     ],
+     "pool": "moreminecrafts:sky_islands/snowy/satellite"
+    }
+   ],
+   "giant_positions_feasible": 6,
+   "giant_recommended": 3,
+   "est_vegetation_blocks": 1218,
+   "est_new_models": 0
+  },
+  "snowy/plain_medium_b": {
+   "size": [
+    43,
+    43,
+    35
+   ],
+   "terrain_blocks": 5560,
+   "surface_columns": 720,
+   "plantable_columns": 720,
+   "pond_columns": 33,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      17,
+      17
+     ],
+     "pool": "moreminecrafts:sky_islands/snowy/satellite"
+    },
+    {
+     "pos": [
+      42,
+      8,
+      17
+     ],
+     "pool": "moreminecrafts:sky_islands/snowy/satellite"
+    }
+   ],
+   "giant_positions_feasible": 4,
+   "giant_recommended": 3,
+   "est_vegetation_blocks": 1099,
+   "est_new_models": 0
+  },
+  "snowy/plain_medium_c": {
+   "size": [
+    47,
+    44,
+    33
+   ],
+   "terrain_blocks": 6162,
+   "surface_columns": 741,
+   "plantable_columns": 741,
+   "pond_columns": 60,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      18,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/snowy/satellite"
+    },
+    {
+     "pos": [
+      46,
+      9,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/snowy/satellite"
+    }
+   ],
+   "giant_positions_feasible": 4,
+   "giant_recommended": 3,
+   "est_vegetation_blocks": 1131,
+   "est_new_models": 0
+  },
+  "snowy/plain_medium_d": {
+   "size": [
+    45,
+    43,
+    37
+   ],
+   "terrain_blocks": 6474,
+   "surface_columns": 827,
+   "plantable_columns": 827,
+   "pond_columns": 30,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      17,
+      18
+     ],
+     "pool": "moreminecrafts:sky_islands/snowy/satellite"
+    },
+    {
+     "pos": [
+      44,
+      8,
+      18
+     ],
+     "pool": "moreminecrafts:sky_islands/snowy/satellite"
+    }
+   ],
+   "giant_positions_feasible": 6,
+   "giant_recommended": 3,
+   "est_vegetation_blocks": 1263,
+   "est_new_models": 0
+  },
+  "snowy/plain_medium_e": {
+   "size": [
+    43,
+    42,
+    33
+   ],
+   "terrain_blocks": 4801,
+   "surface_columns": 647,
+   "plantable_columns": 647,
+   "pond_columns": 63,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      16,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/snowy/satellite"
+    },
+    {
+     "pos": [
+      42,
+      7,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/snowy/satellite"
+    }
+   ],
+   "giant_positions_feasible": 3,
+   "giant_recommended": 2,
+   "est_vegetation_blocks": 988,
+   "est_new_models": 0
+  },
+  "snowy/plain_small_a": {
+   "size": [
+    25,
+    23,
+    25
+   ],
+   "terrain_blocks": 1781,
+   "surface_columns": 320,
+   "plantable_columns": 320,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 489,
+   "est_new_models": 0
+  },
+  "snowy/plain_small_b": {
+   "size": [
+    27,
+    24,
+    23
+   ],
+   "terrain_blocks": 1924,
+   "surface_columns": 312,
+   "plantable_columns": 312,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 476,
+   "est_new_models": 0
+  },
+  "snowy/plain_small_c": {
+   "size": [
+    25,
+    23,
+    27
+   ],
+   "terrain_blocks": 1960,
+   "surface_columns": 350,
+   "plantable_columns": 350,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 534,
+   "est_new_models": 0
+  },
+  "snowy/plain_small_d": {
+   "size": [
+    27,
+    24,
+    25
+   ],
+   "terrain_blocks": 2093,
+   "surface_columns": 353,
+   "plantable_columns": 353,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 539,
+   "est_new_models": 0
+  },
+  "snowy/ruins": {
+   "size": [
+    36,
+    27,
+    33
+   ],
+   "terrain_blocks": 4058,
+   "surface_columns": 615,
+   "plantable_columns": 502,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      16,
+      11,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/ruins_top"
+    },
+    {
+     "pos": [
+      35,
+      8,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/snowy/satellite"
+    }
+   ],
+   "giant_positions_feasible": 5,
+   "giant_recommended": 2,
+   "est_vegetation_blocks": 766,
+   "est_new_models": 0
+  },
+  "snowy/satellite_a": {
+   "size": [
+    27,
+    22,
+    19
+   ],
+   "terrain_blocks": 862,
+   "surface_columns": 173,
+   "plantable_columns": 172,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      8,
+      9
+     ],
+     "pool": "moreminecrafts:sky_islands/snowy/satellite"
+    },
+    {
+     "pos": [
+      26,
+      8,
+      9
+     ],
+     "pool": "moreminecrafts:sky_islands/snowy/satellite"
+    }
+   ],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 263,
+   "est_new_models": 0
+  },
+  "snowy/satellite_b": {
+   "size": [
+    25,
+    21,
+    21
+   ],
+   "terrain_blocks": 828,
+   "surface_columns": 177,
+   "plantable_columns": 177,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      3,
+      10
+     ],
+     "pool": "moreminecrafts:sky_islands/snowy/satellite"
+    },
+    {
+     "pos": [
+      24,
+      10,
+      10
+     ],
+     "pool": "moreminecrafts:sky_islands/snowy/satellite"
+    }
+   ],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 270,
+   "est_new_models": 0
+  },
+  "snowy/temple": {
+   "size": [
+    81,
+    45,
+    57
+   ],
+   "terrain_blocks": 32815,
+   "surface_columns": 3089,
+   "plantable_columns": 2977,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      40,
+      19,
+      28
+     ],
+     "pool": "moreminecrafts:sky_islands/temple_top"
+    }
+   ],
+   "giant_positions_feasible": 26,
+   "giant_recommended": 11,
+   "est_vegetation_blocks": 4545,
+   "est_new_models": 0
+  },
+  "snowy/tower": {
+   "size": [
+    58,
+    97,
+    49
+   ],
+   "terrain_blocks": 13417,
+   "surface_columns": 846,
+   "plantable_columns": 99,
+   "pond_columns": 0,
+   "structure_blocks": 29060,
+   "structure_kinds": {
+    "stone_bricks": 11899,
+    "polished_andesite": 6450,
+    "smooth_stone": 5537,
+    "stone_brick_slab": 2799,
+    "chiseled_stone_bricks": 1274,
+    "polished_deepslate": 1000,
+    "oxidized_cut_copper": 42,
+    "sea_lantern": 29
+   },
+   "functional_blocks": {
+    "sea_lantern": 29,
+    "vault": 8,
+    "trial_spawner": 16,
+    "oxidized_cut_copper": 42
+   },
+   "jigsaws": [
+    {
+     "pos": [
+      36,
+      16,
+      24
+     ],
+     "pool": "minecraft:empty"
+    }
+   ],
+   "giant_positions_feasible": 0,
+   "giant_recommended": 0,
+   "est_vegetation_blocks": 151,
+   "est_new_models": 0
+  },
+  "desert/large_a": {
+   "size": [
+    97,
+    67,
+    97
+   ],
+   "terrain_blocks": 97879,
+   "surface_columns": 6396,
+   "plantable_columns": 6396,
+   "pond_columns": 245,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 57,
+   "giant_recommended": 24,
+   "est_vegetation_blocks": 9764,
+   "est_new_models": 0
+  },
+  "desert/large_b": {
+   "size": [
+    109,
+    69,
+    99
+   ],
+   "terrain_blocks": 120298,
+   "surface_columns": 7583,
+   "plantable_columns": 7583,
+   "pond_columns": 55,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 75,
+   "giant_recommended": 28,
+   "est_vegetation_blocks": 11577,
+   "est_new_models": 0
+  },
+  "desert/large_c": {
+   "size": [
+    125,
+    71,
+    113
+   ],
+   "terrain_blocks": 170874,
+   "surface_columns": 9820,
+   "plantable_columns": 9820,
+   "pond_columns": 319,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 95,
+   "giant_recommended": 36,
+   "est_vegetation_blocks": 14992,
+   "est_new_models": 0
+  },
+  "desert/large_d": {
+   "size": [
+    145,
+    101,
+    129
+   ],
+   "terrain_blocks": 129015,
+   "surface_columns": 13467,
+   "plantable_columns": 13354,
+   "pond_columns": 32,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      78,
+      16,
+      64
+     ],
+     "pool": "moreminecrafts:sky_islands/desert/tower_top"
+    }
+   ],
+   "giant_positions_feasible": 140,
+   "giant_recommended": 49,
+   "est_vegetation_blocks": 20387,
+   "est_new_models": 0
+  },
+  "desert/large_e": {
+   "size": [
+    155,
+    101,
+    137
+   ],
+   "terrain_blocks": 148082,
+   "surface_columns": 15226,
+   "plantable_columns": 15113,
+   "pond_columns": 185,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      83,
+      16,
+      68
+     ],
+     "pool": "moreminecrafts:sky_islands/desert/tower_top"
+    }
+   ],
+   "giant_positions_feasible": 152,
+   "giant_recommended": 56,
+   "est_vegetation_blocks": 23072,
+   "est_new_models": 0
+  },
+  "desert/plain_medium_a": {
+   "size": [
+    45,
+    43,
+    35
+   ],
+   "terrain_blocks": 6135,
+   "surface_columns": 814,
+   "plantable_columns": 814,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      17,
+      17
+     ],
+     "pool": "moreminecrafts:sky_islands/desert/satellite"
+    },
+    {
+     "pos": [
+      44,
+      8,
+      17
+     ],
+     "pool": "moreminecrafts:sky_islands/desert/satellite"
+    }
+   ],
+   "giant_positions_feasible": 6,
+   "giant_recommended": 3,
+   "est_vegetation_blocks": 1243,
+   "est_new_models": 0
+  },
+  "desert/plain_medium_b": {
+   "size": [
+    43,
+    43,
+    35
+   ],
+   "terrain_blocks": 5554,
+   "surface_columns": 695,
+   "plantable_columns": 695,
+   "pond_columns": 55,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      17,
+      17
+     ],
+     "pool": "moreminecrafts:sky_islands/desert/satellite"
+    },
+    {
+     "pos": [
+      42,
+      8,
+      17
+     ],
+     "pool": "moreminecrafts:sky_islands/desert/satellite"
+    }
+   ],
+   "giant_positions_feasible": 4,
+   "giant_recommended": 3,
+   "est_vegetation_blocks": 1061,
+   "est_new_models": 0
+  },
+  "desert/plain_medium_c": {
+   "size": [
+    47,
+    44,
+    33
+   ],
+   "terrain_blocks": 6385,
+   "surface_columns": 716,
+   "plantable_columns": 716,
+   "pond_columns": 70,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      18,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/desert/satellite"
+    },
+    {
+     "pos": [
+      46,
+      9,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/desert/satellite"
+    }
+   ],
+   "giant_positions_feasible": 2,
+   "giant_recommended": 2,
+   "est_vegetation_blocks": 1093,
+   "est_new_models": 0
+  },
+  "desert/plain_medium_d": {
+   "size": [
+    45,
+    43,
+    37
+   ],
+   "terrain_blocks": 6251,
+   "surface_columns": 800,
+   "plantable_columns": 800,
+   "pond_columns": 51,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      17,
+      18
+     ],
+     "pool": "moreminecrafts:sky_islands/desert/satellite"
+    },
+    {
+     "pos": [
+      44,
+      8,
+      18
+     ],
+     "pool": "moreminecrafts:sky_islands/desert/satellite"
+    }
+   ],
+   "giant_positions_feasible": 4,
+   "giant_recommended": 3,
+   "est_vegetation_blocks": 1221,
+   "est_new_models": 0
+  },
+  "desert/plain_medium_e": {
+   "size": [
+    43,
+    42,
+    33
+   ],
+   "terrain_blocks": 4939,
+   "surface_columns": 647,
+   "plantable_columns": 646,
+   "pond_columns": 55,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      16,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/desert/satellite"
+    },
+    {
+     "pos": [
+      42,
+      7,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/desert/satellite"
+    }
+   ],
+   "giant_positions_feasible": 4,
+   "giant_recommended": 2,
+   "est_vegetation_blocks": 986,
+   "est_new_models": 0
+  },
+  "desert/plain_small_a": {
+   "size": [
+    25,
+    23,
+    25
+   ],
+   "terrain_blocks": 1679,
+   "surface_columns": 310,
+   "plantable_columns": 310,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 473,
+   "est_new_models": 0
+  },
+  "desert/plain_small_b": {
+   "size": [
+    27,
+    24,
+    23
+   ],
+   "terrain_blocks": 1934,
+   "surface_columns": 313,
+   "plantable_columns": 313,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 478,
+   "est_new_models": 0
+  },
+  "desert/plain_small_c": {
+   "size": [
+    25,
+    23,
+    27
+   ],
+   "terrain_blocks": 1853,
+   "surface_columns": 350,
+   "plantable_columns": 350,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 534,
+   "est_new_models": 0
+  },
+  "desert/plain_small_d": {
+   "size": [
+    27,
+    24,
+    25
+   ],
+   "terrain_blocks": 2072,
+   "surface_columns": 347,
+   "plantable_columns": 347,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 530,
+   "est_new_models": 0
+  },
+  "desert/ruins": {
+   "size": [
+    36,
+    27,
+    33
+   ],
+   "terrain_blocks": 3963,
+   "surface_columns": 627,
+   "plantable_columns": 515,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      16,
+      11,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/ruins_top"
+    },
+    {
+     "pos": [
+      35,
+      8,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/desert/satellite"
+    }
+   ],
+   "giant_positions_feasible": 3,
+   "giant_recommended": 2,
+   "est_vegetation_blocks": 786,
+   "est_new_models": 0
+  },
+  "desert/satellite_a": {
+   "size": [
+    27,
+    22,
+    19
+   ],
+   "terrain_blocks": 911,
+   "surface_columns": 179,
+   "plantable_columns": 179,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      8,
+      9
+     ],
+     "pool": "moreminecrafts:sky_islands/desert/satellite"
+    },
+    {
+     "pos": [
+      26,
+      8,
+      9
+     ],
+     "pool": "moreminecrafts:sky_islands/desert/satellite"
+    }
+   ],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 273,
+   "est_new_models": 0
+  },
+  "desert/satellite_b": {
+   "size": [
+    25,
+    21,
+    21
+   ],
+   "terrain_blocks": 736,
+   "surface_columns": 173,
+   "plantable_columns": 173,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      3,
+      10
+     ],
+     "pool": "moreminecrafts:sky_islands/desert/satellite"
+    },
+    {
+     "pos": [
+      24,
+      10,
+      10
+     ],
+     "pool": "moreminecrafts:sky_islands/desert/satellite"
+    }
+   ],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 264,
+   "est_new_models": 0
+  },
+  "desert/temple": {
+   "size": [
+    81,
+    45,
+    57
+   ],
+   "terrain_blocks": 33037,
+   "surface_columns": 3100,
+   "plantable_columns": 2988,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      40,
+      19,
+      28
+     ],
+     "pool": "moreminecrafts:sky_islands/temple_top"
+    }
+   ],
+   "giant_positions_feasible": 28,
+   "giant_recommended": 11,
+   "est_vegetation_blocks": 4562,
+   "est_new_models": 0
+  },
+  "desert/tower": {
+   "size": [
+    58,
+    97,
+    49
+   ],
+   "terrain_blocks": 10259,
+   "surface_columns": 1140,
+   "plantable_columns": 98,
+   "pond_columns": 0,
+   "structure_blocks": 32369,
+   "structure_kinds": {
+    "stone_bricks": 11896,
+    "polished_andesite": 6450,
+    "smooth_stone": 5537,
+    "andesite": 3312,
+    "stone_brick_slab": 2799,
+    "chiseled_stone_bricks": 1274,
+    "polished_deepslate": 1000,
+    "oxidized_cut_copper": 42
+   },
+   "functional_blocks": {
+    "sea_lantern": 29,
+    "vault": 8,
+    "trial_spawner": 16,
+    "oxidized_cut_copper": 42
+   },
+   "jigsaws": [
+    {
+     "pos": [
+      36,
+      16,
+      24
+     ],
+     "pool": "minecraft:empty"
+    }
+   ],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 0,
+   "est_vegetation_blocks": 150,
+   "est_new_models": 0
+  },
+  "badlands/large_a": {
+   "size": [
+    97,
+    67,
+    97
+   ],
+   "terrain_blocks": 98176,
+   "surface_columns": 6412,
+   "plantable_columns": 6412,
+   "pond_columns": 216,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 59,
+   "giant_recommended": 24,
+   "est_vegetation_blocks": 9789,
+   "est_new_models": 0
+  },
+  "badlands/large_b": {
+   "size": [
+    109,
+    69,
+    99
+   ],
+   "terrain_blocks": 120558,
+   "surface_columns": 7531,
+   "plantable_columns": 7531,
+   "pond_columns": 31,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 75,
+   "giant_recommended": 28,
+   "est_vegetation_blocks": 11497,
+   "est_new_models": 0
+  },
+  "badlands/large_c": {
+   "size": [
+    125,
+    71,
+    113
+   ],
+   "terrain_blocks": 170419,
+   "surface_columns": 9778,
+   "plantable_columns": 9778,
+   "pond_columns": 285,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 96,
+   "giant_recommended": 36,
+   "est_vegetation_blocks": 14928,
+   "est_new_models": 0
+  },
+  "badlands/large_d": {
+   "size": [
+    145,
+    101,
+    129
+   ],
+   "terrain_blocks": 129398,
+   "surface_columns": 13408,
+   "plantable_columns": 13295,
+   "pond_columns": 30,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      78,
+      16,
+      64
+     ],
+     "pool": "moreminecrafts:sky_islands/badlands/tower_top"
+    }
+   ],
+   "giant_positions_feasible": 143,
+   "giant_recommended": 49,
+   "est_vegetation_blocks": 20297,
+   "est_new_models": 0
+  },
+  "badlands/large_e": {
+   "size": [
+    155,
+    101,
+    137
+   ],
+   "terrain_blocks": 148738,
+   "surface_columns": 15196,
+   "plantable_columns": 15083,
+   "pond_columns": 179,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      83,
+      16,
+      68
+     ],
+     "pool": "moreminecrafts:sky_islands/badlands/tower_top"
+    }
+   ],
+   "giant_positions_feasible": 154,
+   "giant_recommended": 56,
+   "est_vegetation_blocks": 23026,
+   "est_new_models": 0
+  },
+  "badlands/plain_medium_a": {
+   "size": [
+    45,
+    43,
+    35
+   ],
+   "terrain_blocks": 5976,
+   "surface_columns": 796,
+   "plantable_columns": 796,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      17,
+      17
+     ],
+     "pool": "moreminecrafts:sky_islands/badlands/satellite"
+    },
+    {
+     "pos": [
+      44,
+      8,
+      17
+     ],
+     "pool": "moreminecrafts:sky_islands/badlands/satellite"
+    }
+   ],
+   "giant_positions_feasible": 6,
+   "giant_recommended": 3,
+   "est_vegetation_blocks": 1215,
+   "est_new_models": 0
+  },
+  "badlands/plain_medium_b": {
+   "size": [
+    43,
+    43,
+    35
+   ],
+   "terrain_blocks": 5428,
+   "surface_columns": 717,
+   "plantable_columns": 716,
+   "pond_columns": 29,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      17,
+      17
+     ],
+     "pool": "moreminecrafts:sky_islands/badlands/satellite"
+    },
+    {
+     "pos": [
+      42,
+      8,
+      17
+     ],
+     "pool": "moreminecrafts:sky_islands/badlands/satellite"
+    }
+   ],
+   "giant_positions_feasible": 4,
+   "giant_recommended": 3,
+   "est_vegetation_blocks": 1093,
+   "est_new_models": 0
+  },
+  "badlands/plain_medium_c": {
+   "size": [
+    47,
+    44,
+    33
+   ],
+   "terrain_blocks": 6276,
+   "surface_columns": 726,
+   "plantable_columns": 719,
+   "pond_columns": 64,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      18,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/badlands/satellite"
+    },
+    {
+     "pos": [
+      46,
+      9,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/badlands/satellite"
+    }
+   ],
+   "giant_positions_feasible": 3,
+   "giant_recommended": 3,
+   "est_vegetation_blocks": 1098,
+   "est_new_models": 0
+  },
+  "badlands/plain_medium_d": {
+   "size": [
+    45,
+    43,
+    37
+   ],
+   "terrain_blocks": 6389,
+   "surface_columns": 822,
+   "plantable_columns": 821,
+   "pond_columns": 31,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      17,
+      18
+     ],
+     "pool": "moreminecrafts:sky_islands/badlands/satellite"
+    },
+    {
+     "pos": [
+      44,
+      8,
+      18
+     ],
+     "pool": "moreminecrafts:sky_islands/badlands/satellite"
+    }
+   ],
+   "giant_positions_feasible": 5,
+   "giant_recommended": 3,
+   "est_vegetation_blocks": 1253,
+   "est_new_models": 0
+  },
+  "badlands/plain_medium_e": {
+   "size": [
+    43,
+    42,
+    33
+   ],
+   "terrain_blocks": 4752,
+   "surface_columns": 654,
+   "plantable_columns": 653,
+   "pond_columns": 57,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      16,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/badlands/satellite"
+    },
+    {
+     "pos": [
+      42,
+      7,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/badlands/satellite"
+    }
+   ],
+   "giant_positions_feasible": 4,
+   "giant_recommended": 2,
+   "est_vegetation_blocks": 997,
+   "est_new_models": 0
+  },
+  "badlands/plain_small_a": {
+   "size": [
+    25,
+    23,
+    25
+   ],
+   "terrain_blocks": 1731,
+   "surface_columns": 320,
+   "plantable_columns": 320,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 489,
+   "est_new_models": 0
+  },
+  "badlands/plain_small_b": {
+   "size": [
+    27,
+    24,
+    23
+   ],
+   "terrain_blocks": 1783,
+   "surface_columns": 308,
+   "plantable_columns": 308,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 470,
+   "est_new_models": 0
+  },
+  "badlands/plain_small_c": {
+   "size": [
+    25,
+    23,
+    27
+   ],
+   "terrain_blocks": 1872,
+   "surface_columns": 345,
+   "plantable_columns": 345,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 527,
+   "est_new_models": 0
+  },
+  "badlands/plain_small_d": {
+   "size": [
+    27,
+    24,
+    25
+   ],
+   "terrain_blocks": 2083,
+   "surface_columns": 347,
+   "plantable_columns": 347,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 530,
+   "est_new_models": 0
+  },
+  "badlands/ruins": {
+   "size": [
+    36,
+    27,
+    33
+   ],
+   "terrain_blocks": 3974,
+   "surface_columns": 617,
+   "plantable_columns": 505,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      16,
+      11,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/ruins_top"
+    },
+    {
+     "pos": [
+      35,
+      8,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/badlands/satellite"
+    }
+   ],
+   "giant_positions_feasible": 4,
+   "giant_recommended": 2,
+   "est_vegetation_blocks": 771,
+   "est_new_models": 0
+  },
+  "badlands/satellite_a": {
+   "size": [
+    27,
+    22,
+    19
+   ],
+   "terrain_blocks": 909,
+   "surface_columns": 178,
+   "plantable_columns": 177,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      8,
+      9
+     ],
+     "pool": "moreminecrafts:sky_islands/badlands/satellite"
+    },
+    {
+     "pos": [
+      26,
+      8,
+      9
+     ],
+     "pool": "moreminecrafts:sky_islands/badlands/satellite"
+    }
+   ],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 270,
+   "est_new_models": 0
+  },
+  "badlands/satellite_b": {
+   "size": [
+    25,
+    21,
+    21
+   ],
+   "terrain_blocks": 757,
+   "surface_columns": 173,
+   "plantable_columns": 172,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      3,
+      10
+     ],
+     "pool": "moreminecrafts:sky_islands/badlands/satellite"
+    },
+    {
+     "pos": [
+      24,
+      10,
+      10
+     ],
+     "pool": "moreminecrafts:sky_islands/badlands/satellite"
+    }
+   ],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 263,
+   "est_new_models": 0
+  },
+  "badlands/temple": {
+   "size": [
+    81,
+    45,
+    57
+   ],
+   "terrain_blocks": 33486,
+   "surface_columns": 3137,
+   "plantable_columns": 3025,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      40,
+      19,
+      28
+     ],
+     "pool": "moreminecrafts:sky_islands/temple_top"
+    }
+   ],
+   "giant_positions_feasible": 29,
+   "giant_recommended": 11,
+   "est_vegetation_blocks": 4618,
+   "est_new_models": 0
+  },
+  "badlands/tower": {
+   "size": [
+    58,
+    97,
+    49
+   ],
+   "terrain_blocks": 9983,
+   "surface_columns": 1123,
+   "plantable_columns": 95,
+   "pond_columns": 0,
+   "structure_blocks": 32370,
+   "structure_kinds": {
+    "stone_bricks": 11897,
+    "polished_andesite": 6450,
+    "smooth_stone": 5537,
+    "andesite": 3312,
+    "stone_brick_slab": 2799,
+    "chiseled_stone_bricks": 1274,
+    "polished_deepslate": 1000,
+    "oxidized_cut_copper": 42
+   },
+   "functional_blocks": {
+    "sea_lantern": 29,
+    "vault": 8,
+    "trial_spawner": 16,
+    "oxidized_cut_copper": 42
+   },
+   "jigsaws": [
+    {
+     "pos": [
+      36,
+      16,
+      24
+     ],
+     "pool": "minecraft:empty"
+    }
+   ],
+   "giant_positions_feasible": 0,
+   "giant_recommended": 0,
+   "est_vegetation_blocks": 145,
+   "est_new_models": 0
+  },
+  "rocky/large_a": {
+   "size": [
+    97,
+    67,
+    97
+   ],
+   "terrain_blocks": 97570,
+   "surface_columns": 6181,
+   "plantable_columns": 3799,
+   "pond_columns": 216,
+   "structure_blocks": 129,
+   "structure_kinds": {
+    "mossy_cobblestone": 98,
+    "moss_block": 31
+   },
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 43,
+   "giant_recommended": 14,
+   "est_vegetation_blocks": 5800,
+   "est_new_models": 0
+  },
+  "rocky/large_b": {
+   "size": [
+    109,
+    69,
+    99
+   ],
+   "terrain_blocks": 120996,
+   "surface_columns": 7345,
+   "plantable_columns": 4658,
+   "pond_columns": 33,
+   "structure_blocks": 147,
+   "structure_kinds": {
+    "mossy_cobblestone": 117,
+    "moss_block": 30
+   },
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 56,
+   "giant_recommended": 17,
+   "est_vegetation_blocks": 7111,
+   "est_new_models": 0
+  },
+  "rocky/large_c": {
+   "size": [
+    125,
+    71,
+    113
+   ],
+   "terrain_blocks": 172400,
+   "surface_columns": 9441,
+   "plantable_columns": 6119,
+   "pond_columns": 241,
+   "structure_blocks": 182,
+   "structure_kinds": {
+    "mossy_cobblestone": 143,
+    "moss_block": 39
+   },
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 73,
+   "giant_recommended": 23,
+   "est_vegetation_blocks": 9342,
+   "est_new_models": 0
+  },
+  "rocky/large_d": {
+   "size": [
+    145,
+    101,
+    129
+   ],
+   "terrain_blocks": 130644,
+   "surface_columns": 13190,
+   "plantable_columns": 9741,
+   "pond_columns": 29,
+   "structure_blocks": 184,
+   "structure_kinds": {
+    "mossy_cobblestone": 144,
+    "moss_block": 40
+   },
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      78,
+      16,
+      64
+     ],
+     "pool": "moreminecrafts:sky_islands/rocky/tower_top"
+    }
+   ],
+   "giant_positions_feasible": 111,
+   "giant_recommended": 36,
+   "est_vegetation_blocks": 14871,
+   "est_new_models": 0
+  },
+  "rocky/large_e": {
+   "size": [
+    155,
+    101,
+    137
+   ],
+   "terrain_blocks": 148205,
+   "surface_columns": 14874,
+   "plantable_columns": 10990,
+   "pond_columns": 264,
+   "structure_blocks": 206,
+   "structure_kinds": {
+    "mossy_cobblestone": 161,
+    "moss_block": 45
+   },
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      83,
+      16,
+      68
+     ],
+     "pool": "moreminecrafts:sky_islands/rocky/tower_top"
+    }
+   ],
+   "giant_positions_feasible": 126,
+   "giant_recommended": 41,
+   "est_vegetation_blocks": 16778,
+   "est_new_models": 0
+  },
+  "rocky/plain_medium_a": {
+   "size": [
+    45,
+    43,
+    35
+   ],
+   "terrain_blocks": 6057,
+   "surface_columns": 770,
+   "plantable_columns": 427,
+   "pond_columns": 0,
+   "structure_blocks": 20,
+   "structure_kinds": {
+    "mossy_cobblestone": 14,
+    "moss_block": 6
+   },
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      17,
+      17
+     ],
+     "pool": "moreminecrafts:sky_islands/rocky/satellite"
+    },
+    {
+     "pos": [
+      44,
+      8,
+      17
+     ],
+     "pool": "moreminecrafts:sky_islands/rocky/satellite"
+    }
+   ],
+   "giant_positions_feasible": 3,
+   "giant_recommended": 2,
+   "est_vegetation_blocks": 652,
+   "est_new_models": 0
+  },
+  "rocky/plain_medium_b": {
+   "size": [
+    43,
+    43,
+    35
+   ],
+   "terrain_blocks": 5518,
+   "surface_columns": 681,
+   "plantable_columns": 342,
+   "pond_columns": 53,
+   "structure_blocks": 21,
+   "structure_kinds": {
+    "mossy_cobblestone": 17,
+    "moss_block": 4
+   },
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      17,
+      17
+     ],
+     "pool": "moreminecrafts:sky_islands/rocky/satellite"
+    },
+    {
+     "pos": [
+      42,
+      8,
+      17
+     ],
+     "pool": "moreminecrafts:sky_islands/rocky/satellite"
+    }
+   ],
+   "giant_positions_feasible": 2,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 522,
+   "est_new_models": 0
+  },
+  "rocky/plain_medium_c": {
+   "size": [
+    47,
+    44,
+    33
+   ],
+   "terrain_blocks": 6172,
+   "surface_columns": 716,
+   "plantable_columns": 449,
+   "pond_columns": 60,
+   "structure_blocks": 14,
+   "structure_kinds": {
+    "mossy_cobblestone": 13,
+    "moss_block": 1
+   },
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      18,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/rocky/satellite"
+    },
+    {
+     "pos": [
+      46,
+      9,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/rocky/satellite"
+    }
+   ],
+   "giant_positions_feasible": 2,
+   "giant_recommended": 2,
+   "est_vegetation_blocks": 685,
+   "est_new_models": 0
+  },
+  "rocky/plain_medium_d": {
+   "size": [
+    45,
+    43,
+    37
+   ],
+   "terrain_blocks": 6294,
+   "surface_columns": 775,
+   "plantable_columns": 458,
+   "pond_columns": 32,
+   "structure_blocks": 19,
+   "structure_kinds": {
+    "mossy_cobblestone": 13,
+    "moss_block": 6
+   },
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      17,
+      18
+     ],
+     "pool": "moreminecrafts:sky_islands/rocky/satellite"
+    },
+    {
+     "pos": [
+      44,
+      8,
+      18
+     ],
+     "pool": "moreminecrafts:sky_islands/rocky/satellite"
+    }
+   ],
+   "giant_positions_feasible": 4,
+   "giant_recommended": 2,
+   "est_vegetation_blocks": 699,
+   "est_new_models": 0
+  },
+  "rocky/plain_medium_e": {
+   "size": [
+    43,
+    42,
+    33
+   ],
+   "terrain_blocks": 4792,
+   "surface_columns": 620,
+   "plantable_columns": 328,
+   "pond_columns": 63,
+   "structure_blocks": 17,
+   "structure_kinds": {
+    "mossy_cobblestone": 15,
+    "moss_block": 2
+   },
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      16,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/rocky/satellite"
+    },
+    {
+     "pos": [
+      42,
+      7,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/rocky/satellite"
+    }
+   ],
+   "giant_positions_feasible": 2,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 501,
+   "est_new_models": 0
+  },
+  "rocky/plain_small_a": {
+   "size": [
+    25,
+    23,
+    25
+   ],
+   "terrain_blocks": 1794,
+   "surface_columns": 301,
+   "plantable_columns": 200,
+   "pond_columns": 0,
+   "structure_blocks": 6,
+   "structure_kinds": {
+    "mossy_cobblestone": 4,
+    "moss_block": 2
+   },
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 305,
+   "est_new_models": 0
+  },
+  "rocky/plain_small_b": {
+   "size": [
+    27,
+    24,
+    23
+   ],
+   "terrain_blocks": 1864,
+   "surface_columns": 309,
+   "plantable_columns": 235,
+   "pond_columns": 0,
+   "structure_blocks": 4,
+   "structure_kinds": {
+    "mossy_cobblestone": 4
+   },
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 359,
+   "est_new_models": 0
+  },
+  "rocky/plain_small_c": {
+   "size": [
+    25,
+    23,
+    27
+   ],
+   "terrain_blocks": 1940,
+   "surface_columns": 342,
+   "plantable_columns": 138,
+   "pond_columns": 0,
+   "structure_blocks": 12,
+   "structure_kinds": {
+    "mossy_cobblestone": 11,
+    "moss_block": 1
+   },
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 0,
+   "giant_recommended": 0,
+   "est_vegetation_blocks": 211,
+   "est_new_models": 0
+  },
+  "rocky/plain_small_d": {
+   "size": [
+    27,
+    24,
+    25
+   ],
+   "terrain_blocks": 2093,
+   "surface_columns": 339,
+   "plantable_columns": 339,
+   "pond_columns": 0,
+   "structure_blocks": 0,
+   "structure_kinds": {},
+   "functional_blocks": {},
+   "jigsaws": [],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 518,
+   "est_new_models": 0
+  },
+  "rocky/ruins": {
+   "size": [
+    36,
+    27,
+    33
+   ],
+   "terrain_blocks": 3956,
+   "surface_columns": 597,
+   "plantable_columns": 339,
+   "pond_columns": 0,
+   "structure_blocks": 7,
+   "structure_kinds": {
+    "mossy_cobblestone": 6,
+    "moss_block": 1
+   },
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      16,
+      11,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/ruins_top"
+    },
+    {
+     "pos": [
+      35,
+      8,
+      16
+     ],
+     "pool": "moreminecrafts:sky_islands/rocky/satellite"
+    }
+   ],
+   "giant_positions_feasible": 3,
+   "giant_recommended": 1,
+   "est_vegetation_blocks": 518,
+   "est_new_models": 0
+  },
+  "rocky/satellite_a": {
+   "size": [
+    27,
+    22,
+    19
+   ],
+   "terrain_blocks": 851,
+   "surface_columns": 166,
+   "plantable_columns": 84,
+   "pond_columns": 0,
+   "structure_blocks": 4,
+   "structure_kinds": {
+    "moss_block": 2,
+    "mossy_cobblestone": 2
+   },
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      8,
+      9
+     ],
+     "pool": "moreminecrafts:sky_islands/rocky/satellite"
+    },
+    {
+     "pos": [
+      26,
+      8,
+      9
+     ],
+     "pool": "moreminecrafts:sky_islands/rocky/satellite"
+    }
+   ],
+   "giant_positions_feasible": 0,
+   "giant_recommended": 0,
+   "est_vegetation_blocks": 128,
+   "est_new_models": 0
+  },
+  "rocky/satellite_b": {
+   "size": [
+    25,
+    21,
+    21
+   ],
+   "terrain_blocks": 817,
+   "surface_columns": 169,
+   "plantable_columns": 125,
+   "pond_columns": 0,
+   "structure_blocks": 2,
+   "structure_kinds": {
+    "mossy_cobblestone": 2
+   },
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      3,
+      10
+     ],
+     "pool": "moreminecrafts:sky_islands/rocky/satellite"
+    },
+    {
+     "pos": [
+      24,
+      10,
+      10
+     ],
+     "pool": "moreminecrafts:sky_islands/rocky/satellite"
+    }
+   ],
+   "giant_positions_feasible": 1,
+   "giant_recommended": 0,
+   "est_vegetation_blocks": 191,
+   "est_new_models": 0
+  },
+  "rocky/temple": {
+   "size": [
+    81,
+    45,
+    57
+   ],
+   "terrain_blocks": 32970,
+   "surface_columns": 3046,
+   "plantable_columns": 2429,
+   "pond_columns": 0,
+   "structure_blocks": 29,
+   "structure_kinds": {
+    "mossy_cobblestone": 22,
+    "moss_block": 7
+   },
+   "functional_blocks": {},
+   "jigsaws": [
+    {
+     "pos": [
+      40,
+      19,
+      28
+     ],
+     "pool": "moreminecrafts:sky_islands/temple_top"
+    }
+   ],
+   "giant_positions_feasible": 22,
+   "giant_recommended": 9,
+   "est_vegetation_blocks": 3708,
+   "est_new_models": 0
+  },
+  "rocky/tower": {
+   "size": [
+    58,
+    97,
+    49
+   ],
+   "terrain_blocks": 13595,
+   "surface_columns": 850,
+   "plantable_columns": 98,
+   "pond_columns": 0,
+   "structure_blocks": 29062,
+   "structure_kinds": {
+    "stone_bricks": 11900,
+    "polished_andesite": 6450,
+    "smooth_stone": 5537,
+    "stone_brick_slab": 2799,
+    "chiseled_stone_bricks": 1274,
+    "polished_deepslate": 1000,
+    "oxidized_cut_copper": 42,
+    "sea_lantern": 29
+   },
+   "functional_blocks": {
+    "sea_lantern": 29,
+    "vault": 8,
+    "trial_spawner": 16,
+    "oxidized_cut_copper": 42
+   },
+   "jigsaws": [
+    {
+     "pos": [
+      36,
+      16,
+      24
+     ],
+     "pool": "minecraft:empty"
+    }
+   ],
+   "giant_positions_feasible": 0,
+   "giant_recommended": 0,
+   "est_vegetation_blocks": 150,
+   "est_new_models": 0
+  }
+ }
+}

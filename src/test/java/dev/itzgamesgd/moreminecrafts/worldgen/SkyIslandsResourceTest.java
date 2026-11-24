@@ -279,9 +279,17 @@ class SkyIslandsResourceTest {
         }
     }
 
-    @Test void everyIslandTemplateLoadsAndPlainIslandsCarryNoStructureSocket() throws Exception {
-        for (String style : List.of("snowy", "meadow", "forest", "badlands", "desert", "rocky")) {
-            for (String name : List.of("plain_small_a", "plain_small_b", "plain_medium", "ruins", "tower", "temple", "satellite_a", "satellite_b")) {
+    private static final List<String> STYLES = List.of("snowy", "meadow", "forest", "badlands", "desert", "rocky");
+    private static final List<String> SMALL = List.of("plain_small_a", "plain_small_b", "plain_small_c", "plain_small_d");
+    private static final List<String> MEDIUM = List.of("plain_medium_a", "plain_medium_b", "plain_medium_c", "plain_medium_d", "plain_medium_e");
+    private static final List<String> LARGE = List.of("large_a", "large_b", "large_c", "large_d", "large_e");
+    private static final List<String> TOWER_LARGE = List.of("large_d", "large_e");
+
+    @Test void everyIslandTemplateLoadsAndOnlyStructureIslandsCarryASocket() throws Exception {
+        List<String> names = new ArrayList<>(List.of("ruins", "tower", "temple", "satellite_a", "satellite_b"));
+        names.addAll(SMALL); names.addAll(MEDIUM); names.addAll(LARGE);
+        for (String style : STYLES) {
+            for (String name : names) {
                 Template t = template("data/moreminecrafts/structure/sky_islands/" + style + "/" + name + ".nbt");
                 boolean hasSocket = t.of("minecraft:jigsaw").stream().anyMatch(b -> String.valueOf(b.nbt().get("pool")).endsWith("_top"));
                 if (name.equals("tower")) {
@@ -291,9 +299,84 @@ class SkyIslandsResourceTest {
                     assertEquals(16, t.count("minecraft:trial_spawner"), style + "/tower approved trial spawners");
                     assertEquals(8, t.count("minecraft:vault"), style + "/tower approved vaults");
                 } else {
-                    assertEquals(List.of("ruins", "temple").contains(name), hasSocket, style + "/" + name);
+                    assertEquals(List.of("ruins", "temple").contains(name) || TOWER_LARGE.contains(name), hasSocket, style + "/" + name);
                 }
             }
         }
+    }
+
+    @Test void startPoolsHoldSizeFamiliesInFourThreeThreeWithEqualWeightsAndNoDirectTower() throws Exception {
+        for (String style : STYLES) {
+            JsonObject pool = json("data/moreminecrafts/worldgen/template_pool/sky_islands/" + style + "/start.json");
+            Map<String, Integer> weights = new HashMap<>();
+            for (JsonElement element : pool.getAsJsonArray("elements")) {
+                JsonObject e = element.getAsJsonObject();
+                String location = e.getAsJsonObject("element").get("location").getAsString();
+                weights.put(location.substring(location.lastIndexOf('/') + 1), e.get("weight").getAsInt());
+            }
+            assertFalse(weights.containsKey("tower"), style + ": the composite tower is never a start element");
+            for (List<String> family : List.of(SMALL, MEDIUM, LARGE)) {
+                assertEquals(1, family.stream().map(weights::get).distinct().count(), style + " equal weights inside " + family.getFirst());
+            }
+            int small = SMALL.stream().mapToInt(weights::get).sum(), medium = MEDIUM.stream().mapToInt(weights::get).sum(),
+                    large = LARGE.stream().mapToInt(weights::get).sum();
+            assertEquals(List.of(40, 30, 30), List.of(small, medium, large), style + " family totals (4:3:3)");
+            assertEquals(6, weights.get("ruins")); assertEquals(2, weights.get("temple"));
+            assertEquals(SMALL.size() + MEDIUM.size() + LARGE.size() + 2, weights.size(), style);
+            JsonObject child = json("data/moreminecrafts/worldgen/template_pool/sky_islands/" + style + "/tower_top.json");
+            assertEquals(1, child.getAsJsonArray("elements").size());
+            // P3.12: the approved transition repoints meadow / forest to the heaven templates (same names, same pool structure); other themes keep the original tower
+            String towerPath = java.util.Set.of("meadow", "forest").contains(style) ? "sky_islands/heaven/" + style + "/tower" : "sky_islands/" + style + "/tower";
+            assertEquals("moreminecrafts:" + towerPath,
+                    child.getAsJsonArray("elements").get(0).getAsJsonObject().getAsJsonObject("element").get("location").getAsString());
+        }
+    }
+
+    @Test void islandFamiliesKeepTheirFootprintRanges() throws Exception {
+        for (String style : STYLES) {
+            for (String n : SMALL) {
+                int[] s = template("data/moreminecrafts/structure/sky_islands/" + style + "/" + n + ".nbt").size();
+                assertTrue(s[0] >= 23 && s[0] <= 27 && s[2] >= 23 && s[2] <= 27, style + "/" + n + " " + Arrays.toString(s));
+            }
+            for (String n : MEDIUM) {
+                int[] s = template("data/moreminecrafts/structure/sky_islands/" + style + "/" + n + ".nbt").size();
+                assertTrue(s[0] >= 43 && s[0] <= 47 && s[2] >= 33 && s[2] <= 37, style + "/" + n + " " + Arrays.toString(s));
+            }
+            for (String n : LARGE) {
+                int[] s = template("data/moreminecrafts/structure/sky_islands/" + style + "/" + n + ".nbt").size();
+                assertTrue(s[0] >= 96 && s[0] <= 160 && s[2] >= 96 && s[2] <= 160, style + "/" + n + " " + Arrays.toString(s));
+            }
+        }
+    }
+
+    /** The tower child (58 x 97 x 49, connector at local 36,16,24) must lie inside the large parent, on flat solid plateau. */
+    @Test void towerSocketsExistOnlyOnLargeIslandsAndTheChildFitsWithGroundUnderTheTower() throws Exception {
+        for (String style : STYLES) {
+            for (String name : SMALL) assertEquals(0, towerSockets(style, name).size(), style + "/" + name);
+            for (String name : MEDIUM) assertEquals(0, towerSockets(style, name).size(), style + "/" + name);
+            for (String name : LARGE) {
+                List<Block> sockets = towerSockets(style, name);
+                assertEquals(TOWER_LARGE.contains(name) ? 1 : 0, sockets.size(), style + "/" + name);
+                if (sockets.isEmpty()) continue;
+                Template t = template("data/moreminecrafts/structure/sky_islands/" + style + "/" + name + ".nbt");
+                Block socket = sockets.getFirst();
+                int ox = socket.x() - 36, oy = socket.y() + 1 - 16, oz = socket.z() - 24;
+                assertTrue(ox >= 0 && oy >= 0 && oz >= 0 && ox + 58 <= t.size()[0] && oy + 97 <= t.size()[1] && oz + 49 <= t.size()[2],
+                        style + "/" + name + " tower child inside parent box");
+                java.util.Set<Long> ground = new java.util.HashSet<>();
+                for (Block b : t.blocks()) {
+                    String id = t.palette().get(b.state());
+                    if (b.y() == socket.y() + 1 && !id.equals("minecraft:air") && !id.equals("minecraft:water")) ground.add(((long) b.x() << 32) | b.z());
+                }
+                for (int x = ox; x < ox + 50; x++) for (int z = oz; z < oz + 49; z++)
+                    assertTrue(ground.contains(((long) x << 32) | z), style + "/" + name + " plateau ground under tower at " + x + "," + z);
+            }
+        }
+    }
+
+    private static List<Block> towerSockets(String style, String name) throws IOException {
+        Template t = template("data/moreminecrafts/structure/sky_islands/" + style + "/" + name + ".nbt");
+        return t.of("minecraft:jigsaw").stream()
+                .filter(b -> String.valueOf(b.nbt().get("pool")).equals("moreminecrafts:sky_islands/" + style + "/tower_top")).toList();
     }
 }

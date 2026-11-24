@@ -47,9 +47,10 @@ class TowerCompositeTest(unittest.TestCase):
                 self.assertEqual(details["tower_origin_from_piece"], (0, 17, 0))
                 self.assertEqual(details["tower_bounds_from_connector"], [[-36, 1, -24], [13, 80, 24]])
                 self.assertTrue(all(0 <= pos[i] < composite.COMPOSITE_SIZE[i] for pos in rows for i in range(3)))
+                self.assertEqual(str(nbt["palette"][int(next(e for e in nbt["blocks"] if tuple(map(int, e["pos"])) == (36, 16, 24))["state"])]
+                                     ["properties"]["orientation"]), "down_north")
                 pool = json.loads((composite.DATA / f"worldgen/template_pool/sky_islands/{style}/start.json").read_text())
-                selected = {entry["element"]["location"].rsplit("/", 1)[-1]: entry["weight"] for entry in pool["elements"]}
-                self.assertEqual(selected["tower"], 3)
+                self.assertNotIn("tower", {entry["element"]["location"].rsplit("/", 1)[-1] for entry in pool["elements"]})
 
     def test_composite_preserves_all_approved_trial_spawners_and_vaults(self):
         source_tower = composite.block_rows(composite.load(self.approved))
@@ -73,8 +74,11 @@ class TowerCompositeTest(unittest.TestCase):
                 _, details, _ = self.outputs[style]
                 self.assertEqual(details["tower_overwrite_voxel_count"], len(c2["tower_overwrites_parent"]))
 
-    def test_start_pool_weights_and_generation_policies_remain_unchanged(self):
-        expected = {"plain_small_a": 3, "plain_small_b": 3, "plain_medium": 4, "ruins": 6, "tower": 3, "temple": 2}
+    def test_start_pool_size_families_are_4_3_3_with_equal_weights_inside_a_family(self):
+        expected = {**{n: 10 for n in generator.SMALL}, **{n: 6 for n in generator.MEDIUM}, **{n: 6 for n in generator.LARGE},
+                    "ruins": 6, "temple": 2}
+        self.assertEqual((len(generator.SMALL), len(generator.MEDIUM), len(generator.LARGE)), (4, 5, 5))
+        self.assertEqual(generator.TOWER_LARGE, ["large_d", "large_e"])
         for style in STYLES:
             pool = json.loads((composite.DATA / f"worldgen/template_pool/sky_islands/{style}/start.json").read_text())
             weights = {entry["element"]["location"].rsplit("/", 1)[-1]: entry["weight"] for entry in pool["elements"]}

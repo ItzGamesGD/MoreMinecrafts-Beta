@@ -1,0 +1,76 @@
+{
+  "label": "a2_packs_finish",
+  "seed": 42,
+  "mode": "all",
+  "islands": {
+    "meadow": {
+      "start_chunk": "32,-24",
+      "locate_ms": 0,
+      "generate_ms": 733,
+      "generated_chunks": 6,
+      "box": "27x23x25",
+      "mid_chunk_x": 31,
+      "templates": [
+        "sky_islands/meadow/plain_small_c"
+      ],
+      "any_vanilla_theme_template": true,
+      "any_heaven_template": false,
+      "fingerprint": "c8e24545d5dde37",
+      "blocks": 2000,
+      "vanilla_theme_blocks": 1215,
+      "heaven_blocks": 0,
+      "jigsaw_left": 0,
+      "vault": 0,
+      "trial_spawner": 0,
+      "standable_columns": 87,
+      "habitat_support": 87,
+      "natural_spawn_gate_open": 87
+    },
+    "forest": {
+      "start_chunk": "-22,-14",
+      "locate_ms": 0,
+      "generate_ms": 784,
+      "generated_chunks": 6,
+      "box": "25x24x27",
+      "mid_chunk_x": -22,
+      "templates": [
+        "sky_islands/forest/plain_small_d"
+      ],
+      "any_vanilla_theme_template": true,
+      "any_heaven_template": false,
+      "fingerprint": "e8cc7631095176f8",
+      "blocks": 2683,
+      "vanilla_theme_blocks": 1523,
+      "heaven_blocks": 0,
+      "jigsaw_left": 0,
+      "vault": 0,
+      "trial_spawner": 0,
+      "standable_columns": 92,
+      "habitat_support": 76,
+      "natural_spawn_gate_open": 76
+    },
+    "mountain_meadow": {
+      "start_chunk": "-118,47",
+      "locate_ms": 0,
+      "generate_ms": 729,
+      "generated_chunks": 6,
+      "box": "23x24x27",
+      "mid_chunk_x": -118,
+      "templates": [
+        "sky_islands/meadow/plain_small_b"
+      ],
+      "any_vanilla_theme_template": true,
+      "any_heaven_template": false,
+      "fingerprint": "a9b26b70e6be4ce5",
+      "blocks": 2025,
+      "vanilla_theme_blocks": 1060,
+      "heaven_blocks": 0,
+      "jigsaw_left": 0,
+      "vault": 0,
+      "trial_spawner": 0,
+      "standable_columns": 80,
+      "habitat_support": 80,
+      "natural_spawn_gate_open": 80
+    }
+  }
+}

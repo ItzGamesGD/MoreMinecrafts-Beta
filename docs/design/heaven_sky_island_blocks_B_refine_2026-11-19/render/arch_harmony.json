@@ -1,0 +1,110 @@
+{
+ "B": {
+  "stone_bricks": {
+   "dE": 38.3,
+   "dab": 15.9
+  },
+  "smooth_stone": {
+   "dE": 26.0,
+   "dab": 15.7
+  },
+  "polished_andesite": {
+   "dE": 33.9,
+   "dab": 15.6
+  },
+  "chiseled_stone_bricks": {
+   "dE": 39.4,
+   "dab": 16.1
+  }
+ },
+ "B1": {
+  "stone_bricks": {
+   "dE": 38.5,
+   "dab": 16.0
+  },
+  "smooth_stone": {
+   "dE": 26.2,
+   "dab": 15.7
+  },
+  "polished_andesite": {
+   "dE": 34.1,
+   "dab": 15.7
+  },
+  "chiseled_stone_bricks": {
+   "dE": 39.7,
+   "dab": 16.1
+  }
+ },
+ "B2": {
+  "stone_bricks": {
+   "dE": 36.6,
+   "dab": 12.8
+  },
+  "smooth_stone": {
+   "dE": 23.7,
+   "dab": 12.5
+  },
+  "polished_andesite": {
+   "dE": 32.0,
+   "dab": 12.5
+  },
+  "chiseled_stone_bricks": {
+   "dE": 37.7,
+   "dab": 12.9
+  }
+ },
+ "B3": {
+  "stone_bricks": {
+   "dE": 33.7,
+   "dab": 4.2
+  },
+  "smooth_stone": {
+   "dE": 19.7,
+   "dab": 3.9
+  },
+  "polished_andesite": {
+   "dE": 29.0,
+   "dab": 3.9
+  },
+  "chiseled_stone_bricks": {
+   "dE": 34.9,
+   "dab": 4.3
+  }
+ },
+ "B4": {
+  "stone_bricks": {
+   "dE": 36.9,
+   "dab": 16.4
+  },
+  "smooth_stone": {
+   "dE": 24.9,
+   "dab": 16.1
+  },
+  "polished_andesite": {
+   "dE": 32.6,
+   "dab": 16.1
+  },
+  "chiseled_stone_bricks": {
+   "dE": 38.0,
+   "dab": 16.5
+  }
+ },
+ "B5": {
+  "stone_bricks": {
+   "dE": 40.1,
+   "dab": 9.7
+  },
+  "smooth_stone": {
+   "dE": 26.5,
+   "dab": 9.4
+  },
+  "polished_andesite": {
+   "dE": 35.5,
+   "dab": 9.6
+  },
+  "chiseled_stone_bricks": {
+   "dE": 41.3,
+   "dab": 9.7
+  }
+ }
+}

@@ -1,0 +1,9 @@
+{
+ "only_grass_slot_changed": true,
+ "hitbuffers_equal_round2": true,
+ "hitbuffer_sha256": {
+  "full": "5e9918e55caabd20",
+  "edge": "91ec2ede66131da5",
+  "underside": "406b249d5fa9e069"
+ }
+}

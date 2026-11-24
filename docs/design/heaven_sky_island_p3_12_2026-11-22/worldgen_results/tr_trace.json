@@ -1,0 +1,144 @@
+{
+  "label": "trace",
+  "seed": 42,
+  "mode": "all",
+  "islands": {
+    "meadow": {
+      "start_chunk": "32,-24",
+      "locate_ms": 0,
+      "generate_ms": 668,
+      "generated_chunks": 6,
+      "box": "27x23x25",
+      "mid_chunk_x": 31,
+      "templates": [
+        "sky_islands/heaven/meadow/plain_small_c"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true,
+      "vanilla_trace": {
+        "pieces": [
+          "moreminecrafts:sky_islands/heaven/meadow/plain_small_c box\u003d486,155,-384..512,177,-360"
+        ],
+        "classes": {},
+        "by_block": {},
+        "y_range": "2147483647..-2147483648",
+        "samples": []
+      },
+      "fingerprint": "3ba68ed1884f2202",
+      "blocks": 2257,
+      "vanilla_theme_blocks": 0,
+      "vanilla_theme_detail": {},
+      "heaven_blocks": 2167,
+      "jigsaw_left": 0,
+      "vault": 0,
+      "trial_spawner": 0,
+      "block_entities": {},
+      "loot_table_containers": 0,
+      "standable_columns": 86,
+      "habitat_support": 86,
+      "habitat_first_call_ms": 6.748499,
+      "habitat_max_call_ms": 6.748499,
+      "natural_spawn_gate_open": 86
+    },
+    "meadow#1": {
+      "start_chunk": "-115,-40",
+      "locate_ms": 0,
+      "generate_ms": 6216,
+      "generated_chunks": 99,
+      "box": "137x101x155",
+      "mid_chunk_x": -111,
+      "templates": [
+        "sky_islands/heaven/meadow/large_e",
+        "sky_islands/heaven/meadow/tower"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true,
+      "vanilla_trace": {
+        "pieces": [
+          "moreminecrafts:sky_islands/heaven/meadow/large_e box\u003d-1840,74,-794..-1704,174,-640",
+          "moreminecrafts:sky_islands/heaven/meadow/tower box\u003d-1796,75,-744..-1748,171,-687"
+        ],
+        "classes": {
+          "not_template/at_or_above_natural_surface": 429,
+          "not_template/below_natural_surface": 2263
+        },
+        "by_block": {
+          "dirt": 1151,
+          "grass_block": 1140,
+          "oak_leaves": 31,
+          "short_grass": 364,
+          "tall_grass": 6
+        },
+        "y_range": "74..78",
+        "samples": [
+          "grass_block@-1840,74,-785 not_template/below_natural_surface surface\u003d75",
+          "dirt@-1840,74,-784 not_template/below_natural_surface surface\u003d76",
+          "short_grass@-1840,76,-778 not_template/at_or_above_natural_surface surface\u003d76",
+          "short_grass@-1840,76,-776 not_template/at_or_above_natural_surface surface\u003d76"
+        ]
+      },
+      "fingerprint": "d24b24e188f49280",
+      "blocks": 188023,
+      "vanilla_theme_blocks": 2692,
+      "vanilla_theme_detail": {
+        "dirt": 1151,
+        "grass_block": 1140,
+        "oak_leaves": 31,
+        "short_grass": 364,
+        "tall_grass": 6
+      },
+      "heaven_blocks": 151010,
+      "jigsaw_left": 0,
+      "vault": 8,
+      "trial_spawner": 16,
+      "block_entities": {
+        "trial_spawner": 16,
+        "vault": 8
+      },
+      "loot_table_containers": 0,
+      "standable_columns": 3645,
+      "habitat_support": 3422,
+      "habitat_first_call_ms": 0.129051,
+      "habitat_max_call_ms": 81.129997,
+      "natural_spawn_gate_open": 3422
+    },
+    "mountain_meadow": {
+      "start_chunk": "-118,47",
+      "locate_ms": 0,
+      "generate_ms": 434,
+      "generated_chunks": 6,
+      "box": "23x24x27",
+      "mid_chunk_x": -118,
+      "templates": [
+        "sky_islands/heaven/meadow/plain_small_b"
+      ],
+      "any_vanilla_theme_template": false,
+      "any_heaven_template": true,
+      "vanilla_trace": {
+        "pieces": [
+          "moreminecrafts:sky_islands/heaven/meadow/plain_small_b box\u003d-1888,110,726..-1866,133,752"
+        ],
+        "classes": {},
+        "by_block": {},
+        "y_range": "2147483647..-2147483648",
+        "samples": []
+      },
+      "fingerprint": "72dadfe31dde99b5",
+      "blocks": 2323,
+      "vanilla_theme_blocks": 0,
+      "vanilla_theme_detail": {},
+      "heaven_blocks": 2233,
+      "jigsaw_left": 0,
+      "vault": 0,
+      "trial_spawner": 0,
+      "block_entities": {},
+      "loot_table_containers": 0,
+      "standable_columns": 78,
+      "habitat_support": 78,
+      "habitat_first_call_ms": 1.394594,
+      "habitat_max_call_ms": 1.394594,
+      "natural_spawn_gate_open": 78
+    },
+    "mountain_meadow#1": "duplicate of an earlier site"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "snowy=false": {
+      "model": "moreminecrafts:block/heaven_grass_block"
+    },
+    "snowy=true": {
+      "model": "moreminecrafts:block/heaven_grass_block"
+    }
+  }
+}

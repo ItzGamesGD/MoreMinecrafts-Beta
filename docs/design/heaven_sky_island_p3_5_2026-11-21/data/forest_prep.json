@@ -1,0 +1,1603 @@
+{
+ "theme_roles": {
+  "minecraft:stone": {
+   "share": 0.374,
+   "mean_depth": 9.67,
+   "role": "rock"
+  },
+  "minecraft:andesite": {
+   "share": 0.187,
+   "mean_depth": 9.69,
+   "role": "rock"
+  },
+  "minecraft:mossy_cobblestone": {
+   "share": 0.187,
+   "mean_depth": 9.68,
+   "role": "rock"
+  },
+  "minecraft:dirt": {
+   "share": 0.112,
+   "mean_depth": 1.49,
+   "role": "subsurface"
+  },
+  "minecraft:grass_block": {
+   "share": 0.083,
+   "mean_depth": 0.0,
+   "role": "surface"
+  },
+  "minecraft:podzol": {
+   "share": 0.056,
+   "mean_depth": 1.49,
+   "role": "subsurface"
+  }
+ },
+ "palette": {
+  "minecraft:stone": 281027,
+  "minecraft:andesite": 143857,
+  "minecraft:mossy_cobblestone": 140361,
+  "minecraft:dirt": 84580,
+  "minecraft:grass_block": 62939,
+  "minecraft:podzol": 42248,
+  "minecraft:oak_leaves": 29978,
+  "minecraft:birch_leaves": 14694,
+  "minecraft:stone_bricks": 11897,
+  "minecraft:short_grass": 7232,
+  "minecraft:polished_andesite": 6450,
+  "minecraft:smooth_stone": 5537,
+  "minecraft:stone_brick_slab": 2799,
+  "minecraft:oak_log": 2446,
+  "minecraft:fern": 1487,
+  "minecraft:chiseled_stone_bricks": 1274,
+  "minecraft:water": 1248,
+  "minecraft:birch_log": 1205,
+  "minecraft:polished_deepslate": 1000,
+  "minecraft:air": 425,
+  "minecraft:cornflower": 115,
+  "minecraft:allium": 104,
+  "minecraft:dandelion": 100,
+  "minecraft:poppy": 94,
+  "minecraft:azure_bluet": 88,
+  "minecraft:oxeye_daisy": 79,
+  "minecraft:oxidized_cut_copper": 42,
+  "minecraft:sea_lantern": 29,
+  "minecraft:jigsaw": 20,
+  "minecraft:trial_spawner": 16,
+  "minecraft:vault": 8,
+  "minecraft:stone_brick_wall": 6
+ },
+ "vegetation": {
+  "minecraft:oak_leaves": 29978,
+  "minecraft:birch_leaves": 14694,
+  "minecraft:short_grass": 7232,
+  "minecraft:oak_log": 2446,
+  "minecraft:fern": 1487,
+  "minecraft:birch_log": 1205,
+  "minecraft:cornflower": 115,
+  "minecraft:allium": 104,
+  "minecraft:dandelion": 100,
+  "minecraft:poppy": 94,
+  "minecraft:azure_bluet": 88,
+  "minecraft:oxeye_daisy": 79
+ },
+ "templates": {
+  "large_a": {
+   "size": [
+    97,
+    67,
+    97
+   ],
+   "same_size_as_meadow": true,
+   "non_vegetation_positions": 98057,
+   "meadow_non_vegetation_positions": 96780,
+   "shape_identical_to_meadow": false,
+   "shape_jaccard": 0.8593,
+   "vegetation": {
+    "minecraft:oak_leaves": 3622,
+    "minecraft:short_grass": 933,
+    "minecraft:oak_log": 295,
+    "minecraft:cornflower": 19,
+    "minecraft:oxeye_daisy": 14,
+    "minecraft:birch_leaves": 1840,
+    "minecraft:fern": 189,
+    "minecraft:birch_log": 149,
+    "minecraft:azure_bluet": 9,
+    "minecraft:allium": 11,
+    "minecraft:dandelion": 9,
+    "minecraft:poppy": 8
+   },
+   "jigsaws": []
+  },
+  "large_b": {
+   "size": [
+    109,
+    69,
+    99
+   ],
+   "same_size_as_meadow": true,
+   "non_vegetation_positions": 120439,
+   "meadow_non_vegetation_positions": 121346,
+   "shape_identical_to_meadow": false,
+   "shape_jaccard": 0.8164,
+   "vegetation": {
+    "minecraft:oak_leaves": 4310,
+    "minecraft:fern": 226,
+    "minecraft:oak_log": 349,
+    "minecraft:short_grass": 1101,
+    "minecraft:poppy": 15,
+    "minecraft:birch_leaves": 1937,
+    "minecraft:birch_log": 157,
+    "minecraft:azure_bluet": 21,
+    "minecraft:dandelion": 16,
+    "minecraft:allium": 17,
+    "minecraft:cornflower": 26,
+    "minecraft:oxeye_daisy": 13
+   },
+   "jigsaws": []
+  },
+  "large_c": {
+   "size": [
+    125,
+    71,
+    113
+   ],
+   "same_size_as_meadow": true,
+   "non_vegetation_positions": 170882,
+   "meadow_non_vegetation_positions": 171087,
+   "shape_identical_to_meadow": false,
+   "shape_jaccard": 0.8996,
+   "vegetation": {
+    "minecraft:short_grass": 1408,
+    "minecraft:birch_leaves": 2937,
+    "minecraft:oak_leaves": 5165,
+    "minecraft:fern": 276,
+    "minecraft:birch_log": 242,
+    "minecraft:oak_log": 434,
+    "minecraft:azure_bluet": 15,
+    "minecraft:dandelion": 22,
+    "minecraft:poppy": 19,
+    "minecraft:cornflower": 16,
+    "minecraft:oxeye_daisy": 16,
+    "minecraft:allium": 13
+   },
+   "jigsaws": []
+  },
+  "large_d": {
+   "size": [
+    145,
+    101,
+    129
+   ],
+   "same_size_as_meadow": true,
+   "non_vegetation_positions": 130283,
+   "meadow_non_vegetation_positions": 130037,
+   "shape_identical_to_meadow": false,
+   "shape_jaccard": 0.8073,
+   "vegetation": {
+    "minecraft:oak_leaves": 6294,
+    "minecraft:oak_log": 510,
+    "minecraft:short_grass": 1281,
+    "minecraft:oxeye_daisy": 12,
+    "minecraft:fern": 284,
+    "minecraft:poppy": 17,
+    "minecraft:dandelion": 17,
+    "minecraft:allium": 18,
+    "minecraft:azure_bluet": 17,
+    "minecraft:birch_leaves": 2506,
+    "minecraft:birch_log": 205,
+    "minecraft:cornflower": 19
+   },
+   "jigsaws": [
+    {
+     "pos": [
+      78,
+      16,
+      64
+     ],
+     "orientation": "up_north",
+     "pool": "moreminecrafts:sky_islands/forest/tower_top",
+     "final_state": "minecraft:dirt"
+    }
+   ]
+  },
+  "large_e": {
+   "size": [
+    155,
+    101,
+    137
+   ],
+   "same_size_as_meadow": true,
+   "non_vegetation_positions": 147591,
+   "meadow_non_vegetation_positions": 148595,
+   "shape_identical_to_meadow": false,
+   "shape_jaccard": 0.7704,
+   "vegetation": {
+    "minecraft:oak_leaves": 6378,
+    "minecraft:short_grass": 1520,
+    "minecraft:oak_log": 524,
+    "minecraft:fern": 333,
+    "minecraft:azure_bluet": 16,
+    "minecraft:poppy": 24,
+    "minecraft:allium": 32,
+    "minecraft:birch_leaves": 3467,
+    "minecraft:birch_log": 287,
+    "minecraft:cornflower": 16,
+    "minecraft:dandelion": 18,
+    "minecraft:oxeye_daisy": 12
+   },
+   "jigsaws": [
+    {
+     "pos": [
+      83,
+      16,
+      68
+     ],
+     "orientation": "up_north",
+     "pool": "moreminecrafts:sky_islands/forest/tower_top",
+     "final_state": "minecraft:dirt"
+    }
+   ]
+  },
+  "plain_medium_a": {
+   "size": [
+    45,
+    43,
+    35
+   ],
+   "same_size_as_meadow": true,
+   "non_vegetation_positions": 5989,
+   "meadow_non_vegetation_positions": 6006,
+   "shape_identical_to_meadow": false,
+   "shape_jaccard": 0.8221,
+   "vegetation": {
+    "minecraft:oak_leaves": 552,
+    "minecraft:short_grass": 132,
+    "minecraft:oak_log": 41,
+    "minecraft:poppy": 2,
+    "minecraft:fern": 23,
+    "minecraft:allium": 2,
+    "minecraft:dandelion": 2,
+    "minecraft:cornflower": 1,
+    "minecraft:oxeye_daisy": 3,
+    "minecraft:azure_bluet": 1,
+    "minecraft:birch_leaves": 58,
+    "minecraft:birch_log": 5
+   },
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      17,
+      17
+     ],
+     "orientation": "west_up",
+     "pool": "moreminecrafts:sky_islands/forest/satellite",
+     "final_state": "minecraft:air"
+    },
+    {
+     "pos": [
+      44,
+      8,
+      17
+     ],
+     "orientation": "east_up",
+     "pool": "moreminecrafts:sky_islands/forest/satellite",
+     "final_state": "minecraft:air"
+    }
+   ]
+  },
+  "plain_medium_b": {
+   "size": [
+    43,
+    43,
+    35
+   ],
+   "same_size_as_meadow": true,
+   "non_vegetation_positions": 5694,
+   "meadow_non_vegetation_positions": 5703,
+   "shape_identical_to_meadow": false,
+   "shape_jaccard": 0.7553,
+   "vegetation": {
+    "minecraft:short_grass": 101,
+    "minecraft:oak_leaves": 285,
+    "minecraft:birch_leaves": 495,
+    "minecraft:oak_log": 22,
+    "minecraft:birch_log": 41,
+    "minecraft:fern": 19,
+    "minecraft:cornflower": 2,
+    "minecraft:oxeye_daisy": 2,
+    "minecraft:dandelion": 3,
+    "minecraft:poppy": 1,
+    "minecraft:azure_bluet": 2
+   },
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      17,
+      17
+     ],
+     "orientation": "west_up",
+     "pool": "moreminecrafts:sky_islands/forest/satellite",
+     "final_state": "minecraft:air"
+    },
+    {
+     "pos": [
+      42,
+      8,
+      17
+     ],
+     "orientation": "east_up",
+     "pool": "moreminecrafts:sky_islands/forest/satellite",
+     "final_state": "minecraft:air"
+    }
+   ]
+  },
+  "plain_medium_c": {
+   "size": [
+    47,
+    44,
+    33
+   ],
+   "same_size_as_meadow": true,
+   "non_vegetation_positions": 6345,
+   "meadow_non_vegetation_positions": 6346,
+   "shape_identical_to_meadow": false,
+   "shape_jaccard": 0.8379,
+   "vegetation": {
+    "minecraft:birch_leaves": 270,
+    "minecraft:short_grass": 106,
+    "minecraft:birch_log": 24,
+    "minecraft:fern": 20,
+    "minecraft:cornflower": 2,
+    "minecraft:oak_leaves": 326,
+    "minecraft:oak_log": 26,
+    "minecraft:azure_bluet": 1,
+    "minecraft:dandelion": 2,
+    "minecraft:allium": 2,
+    "minecraft:poppy": 1,
+    "minecraft:oxeye_daisy": 1
+   },
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      18,
+      16
+     ],
+     "orientation": "west_up",
+     "pool": "moreminecrafts:sky_islands/forest/satellite",
+     "final_state": "minecraft:air"
+    },
+    {
+     "pos": [
+      46,
+      9,
+      16
+     ],
+     "orientation": "east_up",
+     "pool": "moreminecrafts:sky_islands/forest/satellite",
+     "final_state": "minecraft:air"
+    }
+   ]
+  },
+  "plain_medium_d": {
+   "size": [
+    45,
+    43,
+    37
+   ],
+   "same_size_as_meadow": true,
+   "non_vegetation_positions": 6385,
+   "meadow_non_vegetation_positions": 6378,
+   "shape_identical_to_meadow": false,
+   "shape_jaccard": 0.7505,
+   "vegetation": {
+    "minecraft:fern": 20,
+    "minecraft:short_grass": 97,
+    "minecraft:cornflower": 2,
+    "minecraft:azure_bluet": 1,
+    "minecraft:oak_leaves": 446,
+    "minecraft:dandelion": 2,
+    "minecraft:oak_log": 36,
+    "minecraft:allium": 4,
+    "minecraft:birch_leaves": 280,
+    "minecraft:birch_log": 23,
+    "minecraft:poppy": 1
+   },
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      17,
+      18
+     ],
+     "orientation": "west_up",
+     "pool": "moreminecrafts:sky_islands/forest/satellite",
+     "final_state": "minecraft:air"
+    },
+    {
+     "pos": [
+      44,
+      8,
+      18
+     ],
+     "orientation": "east_up",
+     "pool": "moreminecrafts:sky_islands/forest/satellite",
+     "final_state": "minecraft:air"
+    }
+   ]
+  },
+  "plain_medium_e": {
+   "size": [
+    43,
+    42,
+    33
+   ],
+   "same_size_as_meadow": true,
+   "non_vegetation_positions": 4917,
+   "meadow_non_vegetation_positions": 4721,
+   "shape_identical_to_meadow": false,
+   "shape_jaccard": 0.7297,
+   "vegetation": {
+    "minecraft:birch_leaves": 57,
+    "minecraft:birch_log": 5,
+    "minecraft:oak_leaves": 737,
+    "minecraft:poppy": 2,
+    "minecraft:short_grass": 98,
+    "minecraft:oak_log": 58,
+    "minecraft:fern": 10,
+    "minecraft:cornflower": 3,
+    "minecraft:dandelion": 3,
+    "minecraft:oxeye_daisy": 3,
+    "minecraft:allium": 2
+   },
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      16,
+      16
+     ],
+     "orientation": "west_up",
+     "pool": "moreminecrafts:sky_islands/forest/satellite",
+     "final_state": "minecraft:air"
+    },
+    {
+     "pos": [
+      42,
+      7,
+      16
+     ],
+     "orientation": "east_up",
+     "pool": "moreminecrafts:sky_islands/forest/satellite",
+     "final_state": "minecraft:air"
+    }
+   ]
+  },
+  "plain_small_a": {
+   "size": [
+    25,
+    23,
+    25
+   ],
+   "same_size_as_meadow": true,
+   "non_vegetation_positions": 1732,
+   "meadow_non_vegetation_positions": 1702,
+   "shape_identical_to_meadow": false,
+   "shape_jaccard": 0.8131,
+   "vegetation": {
+    "minecraft:oak_leaves": 161,
+    "minecraft:short_grass": 39,
+    "minecraft:poppy": 1,
+    "minecraft:oak_log": 13,
+    "minecraft:fern": 11,
+    "minecraft:cornflower": 1,
+    "minecraft:dandelion": 1,
+    "minecraft:birch_leaves": 57,
+    "minecraft:birch_log": 5,
+    "minecraft:azure_bluet": 1
+   },
+   "jigsaws": []
+  },
+  "plain_small_b": {
+   "size": [
+    27,
+    24,
+    23
+   ],
+   "same_size_as_meadow": true,
+   "non_vegetation_positions": 1842,
+   "meadow_non_vegetation_positions": 1871,
+   "shape_identical_to_meadow": false,
+   "shape_jaccard": 0.7547,
+   "vegetation": {
+    "minecraft:short_grass": 55,
+    "minecraft:fern": 5,
+    "minecraft:oak_leaves": 282,
+    "minecraft:cornflower": 1,
+    "minecraft:birch_leaves": 59,
+    "minecraft:oak_log": 22,
+    "minecraft:birch_log": 5,
+    "minecraft:oxeye_daisy": 1,
+    "minecraft:azure_bluet": 1
+   },
+   "jigsaws": []
+  },
+  "plain_small_c": {
+   "size": [
+    25,
+    23,
+    27
+   ],
+   "same_size_as_meadow": true,
+   "non_vegetation_positions": 1904,
+   "meadow_non_vegetation_positions": 1800,
+   "shape_identical_to_meadow": false,
+   "shape_jaccard": 0.7894,
+   "vegetation": {
+    "minecraft:birch_leaves": 58,
+    "minecraft:fern": 11,
+    "minecraft:short_grass": 50,
+    "minecraft:birch_log": 4,
+    "minecraft:oak_leaves": 172,
+    "minecraft:allium": 1,
+    "minecraft:oak_log": 14,
+    "minecraft:poppy": 1,
+    "minecraft:cornflower": 2
+   },
+   "jigsaws": []
+  },
+  "plain_small_d": {
+   "size": [
+    27,
+    24,
+    25
+   ],
+   "same_size_as_meadow": true,
+   "non_vegetation_positions": 2147,
+   "meadow_non_vegetation_positions": 2064,
+   "shape_identical_to_meadow": false,
+   "shape_jaccard": 0.7287,
+   "vegetation": {
+    "minecraft:short_grass": 42,
+    "minecraft:fern": 5,
+    "minecraft:oak_leaves": 113,
+    "minecraft:birch_leaves": 171,
+    "minecraft:oak_log": 9,
+    "minecraft:birch_log": 14,
+    "minecraft:cornflower": 1,
+    "minecraft:dandelion": 2,
+    "minecraft:oxeye_daisy": 1
+   },
+   "jigsaws": []
+  },
+  "ruins": {
+   "size": [
+    36,
+    27,
+    33
+   ],
+   "same_size_as_meadow": true,
+   "non_vegetation_positions": 3997,
+   "meadow_non_vegetation_positions": 4051,
+   "shape_identical_to_meadow": false,
+   "shape_jaccard": 0.7477,
+   "vegetation": {
+    "minecraft:oak_leaves": 108,
+    "minecraft:short_grass": 42,
+    "minecraft:oak_log": 8,
+    "minecraft:fern": 11,
+    "minecraft:dandelion": 1,
+    "minecraft:cornflower": 1,
+    "minecraft:birch_leaves": 116,
+    "minecraft:birch_log": 9
+   },
+   "jigsaws": [
+    {
+     "pos": [
+      16,
+      11,
+      16
+     ],
+     "orientation": "up_north",
+     "pool": "moreminecrafts:sky_islands/ruins_top",
+     "final_state": "minecraft:grass_block"
+    },
+    {
+     "pos": [
+      35,
+      8,
+      16
+     ],
+     "orientation": "east_up",
+     "pool": "moreminecrafts:sky_islands/forest/satellite",
+     "final_state": "minecraft:air"
+    }
+   ]
+  },
+  "satellite_a": {
+   "size": [
+    27,
+    22,
+    19
+   ],
+   "same_size_as_meadow": true,
+   "non_vegetation_positions": 818,
+   "meadow_non_vegetation_positions": 855,
+   "shape_identical_to_meadow": false,
+   "shape_jaccard": 0.7373,
+   "vegetation": {
+    "minecraft:short_grass": 25,
+    "minecraft:fern": 4,
+    "minecraft:azure_bluet": 2,
+    "minecraft:oak_leaves": 161,
+    "minecraft:oak_log": 14,
+    "minecraft:cornflower": 1
+   },
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      8,
+      9
+     ],
+     "orientation": "west_up",
+     "pool": "moreminecrafts:sky_islands/forest/satellite",
+     "final_state": "minecraft:air"
+    },
+    {
+     "pos": [
+      26,
+      8,
+      9
+     ],
+     "orientation": "east_up",
+     "pool": "moreminecrafts:sky_islands/forest/satellite",
+     "final_state": "minecraft:air"
+    }
+   ]
+  },
+  "satellite_b": {
+   "size": [
+    25,
+    21,
+    21
+   ],
+   "same_size_as_meadow": true,
+   "non_vegetation_positions": 767,
+   "meadow_non_vegetation_positions": 805,
+   "shape_identical_to_meadow": false,
+   "shape_jaccard": 0.6741,
+   "vegetation": {
+    "minecraft:oak_leaves": 54,
+    "minecraft:short_grass": 27,
+    "minecraft:oak_log": 5,
+    "minecraft:fern": 4,
+    "minecraft:birch_leaves": 55,
+    "minecraft:birch_log": 4
+   },
+   "jigsaws": [
+    {
+     "pos": [
+      0,
+      3,
+      10
+     ],
+     "orientation": "west_up",
+     "pool": "moreminecrafts:sky_islands/forest/satellite",
+     "final_state": "minecraft:air"
+    },
+    {
+     "pos": [
+      24,
+      10,
+      10
+     ],
+     "orientation": "east_up",
+     "pool": "moreminecrafts:sky_islands/forest/satellite",
+     "final_state": "minecraft:air"
+    }
+   ]
+  },
+  "temple": {
+   "size": [
+    81,
+    45,
+    57
+   ],
+   "same_size_as_meadow": true,
+   "non_vegetation_positions": 32850,
+   "meadow_non_vegetation_positions": 32898,
+   "shape_identical_to_meadow": false,
+   "shape_jaccard": 0.8233,
+   "vegetation": {
+    "minecraft:oak_leaves": 775,
+    "minecraft:short_grass": 168,
+    "minecraft:oxeye_daisy": 1,
+    "minecraft:oak_log": 66,
+    "minecraft:dandelion": 2,
+    "minecraft:fern": 34,
+    "minecraft:birch_leaves": 331,
+    "minecraft:birch_log": 26,
+    "minecraft:allium": 2,
+    "minecraft:cornflower": 2,
+    "minecraft:azure_bluet": 1,
+    "minecraft:poppy": 1
+   },
+   "jigsaws": [
+    {
+     "pos": [
+      40,
+      19,
+      28
+     ],
+     "orientation": "up_north",
+     "pool": "moreminecrafts:sky_islands/temple_top",
+     "final_state": "minecraft:grass_block"
+    }
+   ]
+  },
+  "tower": {
+   "size": [
+    58,
+    97,
+    49
+   ],
+   "same_size_as_meadow": true,
+   "non_vegetation_positions": 42699,
+   "meadow_non_vegetation_positions": 42547,
+   "shape_identical_to_meadow": false,
+   "shape_jaccard": 0.9545,
+   "vegetation": {
+    "minecraft:short_grass": 7,
+    "minecraft:fern": 2,
+    "minecraft:oak_leaves": 37,
+    "minecraft:poppy": 1
+   },
+   "jigsaws": [
+    {
+     "pos": [
+      36,
+      16,
+      24
+     ],
+     "orientation": "down_north",
+     "pool": "minecraft:empty",
+     "final_state": "minecraft:grass_block"
+    }
+   ]
+  }
+ },
+ "dry_run_A_all_heaven": {
+  "palette": {
+   "minecraft:grass_block": "moreminecrafts:heaven_grass_block",
+   "minecraft:dirt": "moreminecrafts:heaven_loam",
+   "minecraft:podzol": "moreminecrafts:heaven_loam",
+   "minecraft:coarse_dirt": "moreminecrafts:heaven_loam",
+   "minecraft:stone": "moreminecrafts:heaven_cream_stone",
+   "minecraft:andesite": "moreminecrafts:heaven_cream_stone_pale",
+   "minecraft:tuff": "moreminecrafts:heaven_cream_stone_pale",
+   "minecraft:mossy_cobblestone": "moreminecrafts:heaven_cream_stone_pale"
+  },
+  "templates": {
+   "large_a": {
+    "plantable": 6467,
+    "grass": 6467,
+    "giant_requested": 24,
+    "giant_placed": 24,
+    "trees": 16,
+    "vegetation": 10199,
+    "terrain_converted": 97893,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {},
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:cell_collision": 2,
+     "tree:overhangs_open_air": 1,
+     "medium:cell_collision": 53
+    },
+    "survival_violations": {},
+    "walkable": 0.9791,
+    "seconds": 3.4
+   },
+   "large_b": {
+    "plantable": 7587,
+    "grass": 7587,
+    "giant_requested": 28,
+    "giant_placed": 28,
+    "trees": 19,
+    "vegetation": 11939,
+    "terrain_converted": 120375,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {},
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:overhangs_open_air": 1,
+     "giant:cell_collision": 1,
+     "tree:cell_collision": 1,
+     "medium:cell_collision": 48
+    },
+    "survival_violations": {},
+    "walkable": 0.9786,
+    "seconds": 7.8
+   },
+   "large_c": {
+    "plantable": 9907,
+    "grass": 9907,
+    "giant_requested": 37,
+    "giant_placed": 37,
+    "trees": 25,
+    "vegetation": 15638,
+    "terrain_converted": 170598,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {},
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:cell_collision": 3,
+     "tree:overhangs_open_air": 3,
+     "tree:cell_collision": 4,
+     "medium:cell_collision": 64
+    },
+    "survival_violations": {},
+    "walkable": 0.9786,
+    "seconds": 13.8
+   },
+   "large_d": {
+    "plantable": 7661,
+    "grass": 13558,
+    "giant_requested": 28,
+    "giant_placed": 28,
+    "trees": 19,
+    "vegetation": 12084,
+    "terrain_converted": 130218,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {},
+    "jigsaw_final_state_mapped": 1,
+    "unplaced": {
+     "giant:cell_collision": 4,
+     "giant:inside_attached_piece": 14,
+     "giant:overhangs_open_air": 2,
+     "tree:out_of_template_bounds": 1,
+     "tree:overhangs_open_air": 5,
+     "tree:inside_attached_piece": 5,
+     "medium:cell_collision": 45
+    },
+    "survival_violations": {},
+    "walkable": 0.9881,
+    "seconds": 18.8
+   },
+   "large_e": {
+    "plantable": 9575,
+    "grass": 15148,
+    "giant_requested": 35,
+    "giant_placed": 35,
+    "trees": 24,
+    "vegetation": 14945,
+    "terrain_converted": 147207,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {},
+    "jigsaw_final_state_mapped": 1,
+    "unplaced": {
+     "giant:inside_attached_piece": 10,
+     "giant:cell_collision": 3,
+     "tree:overhangs_open_air": 4,
+     "tree:inside_attached_piece": 5,
+     "tree:cell_collision": 3,
+     "medium:cell_collision": 77
+    },
+    "survival_violations": {},
+    "walkable": 0.9867,
+    "seconds": 23.9
+   },
+   "plain_medium_a": {
+    "plantable": 807,
+    "grass": 812,
+    "giant_requested": 3,
+    "giant_placed": 3,
+    "trees": 2,
+    "vegetation": 1228,
+    "terrain_converted": 5987,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {},
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "medium:cell_collision": 5
+    },
+    "survival_violations": {},
+    "walkable": 0.9791,
+    "seconds": 24.4
+   },
+   "plain_medium_b": {
+    "plantable": 729,
+    "grass": 729,
+    "giant_requested": 3,
+    "giant_placed": 3,
+    "trees": 2,
+    "vegetation": 1175,
+    "terrain_converted": 5626,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {},
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:overhangs_open_air": 1,
+     "medium:cell_collision": 3
+    },
+    "survival_violations": {},
+    "walkable": 0.9767,
+    "seconds": 24.6
+   },
+   "plain_medium_c": {
+    "plantable": 730,
+    "grass": 730,
+    "giant_requested": 3,
+    "giant_placed": 3,
+    "trees": 2,
+    "vegetation": 1120,
+    "terrain_converted": 6282,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {},
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "tree:overhangs_open_air": 2,
+     "medium:cell_collision": 2
+    },
+    "survival_violations": {},
+    "walkable": 0.9767,
+    "seconds": 24.8
+   },
+   "plain_medium_d": {
+    "plantable": 810,
+    "grass": 810,
+    "giant_requested": 3,
+    "giant_placed": 3,
+    "trees": 2,
+    "vegetation": 1246,
+    "terrain_converted": 6275,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {},
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "tree:overhangs_open_air": 1,
+     "medium:cell_collision": 9
+    },
+    "survival_violations": {},
+    "walkable": 0.979,
+    "seconds": 25.0
+   },
+   "plain_medium_e": {
+    "plantable": 656,
+    "grass": 656,
+    "giant_requested": 2,
+    "giant_placed": 2,
+    "trees": 2,
+    "vegetation": 987,
+    "terrain_converted": 4861,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {},
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "medium:cell_collision": 2
+    },
+    "survival_violations": {},
+    "walkable": 0.9771,
+    "seconds": 25.1
+   },
+   "plain_small_a": {
+    "plantable": 318,
+    "grass": 318,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 1,
+    "vegetation": 509,
+    "terrain_converted": 1732,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {},
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "walkable": 0.9717,
+    "seconds": 25.2
+   },
+   "plain_small_b": {
+    "plantable": 312,
+    "grass": 312,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 1,
+    "vegetation": 444,
+    "terrain_converted": 1842,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {},
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "tree:overhangs_open_air": 9,
+     "medium:cell_collision": 1
+    },
+    "survival_violations": {},
+    "walkable": 0.9712,
+    "seconds": 25.3
+   },
+   "plain_small_c": {
+    "plantable": 345,
+    "grass": 345,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 1,
+    "vegetation": 530,
+    "terrain_converted": 1904,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {},
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "walkable": 0.9739,
+    "seconds": 25.4
+   },
+   "plain_small_d": {
+    "plantable": 344,
+    "grass": 344,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 1,
+    "vegetation": 534,
+    "terrain_converted": 2147,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {},
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "walkable": 0.9738,
+    "seconds": 25.5
+   },
+   "ruins": {
+    "plantable": 260,
+    "grass": 620,
+    "giant_requested": 1,
+    "giant_placed": 0,
+    "trees": 0,
+    "vegetation": 251,
+    "terrain_converted": 3995,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {},
+    "jigsaw_final_state_mapped": 1,
+    "unplaced": {
+     "tree:inside_attached_piece": 22,
+     "tree:overhangs_open_air": 12
+    },
+    "survival_violations": {},
+    "walkable": 1.0,
+    "seconds": 25.6
+   },
+   "satellite_a": {
+    "plantable": 172,
+    "grass": 172,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 0,
+    "vegetation": 247,
+    "terrain_converted": 816,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {},
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "walkable": 0.9651,
+    "seconds": 25.6
+   },
+   "satellite_b": {
+    "plantable": 175,
+    "grass": 175,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 0,
+    "vegetation": 234,
+    "terrain_converted": 765,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {},
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "walkable": 0.9657,
+    "seconds": 25.6
+   },
+   "temple": {
+    "plantable": 832,
+    "grass": 3103,
+    "giant_requested": 3,
+    "giant_placed": 3,
+    "trees": 2,
+    "vegetation": 1168,
+    "terrain_converted": 32849,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {},
+    "jigsaw_final_state_mapped": 1,
+    "unplaced": {
+     "giant:overhangs_open_air": 9,
+     "giant:inside_attached_piece": 24,
+     "tree:inside_attached_piece": 1,
+     "medium:cell_collision": 9
+    },
+    "survival_violations": {},
+    "walkable": 0.9945,
+    "seconds": 26.7
+   },
+   "tower": {
+    "plantable": 90,
+    "grass": 239,
+    "giant_requested": 0,
+    "giant_placed": 0,
+    "trees": 0,
+    "vegetation": 48,
+    "terrain_converted": 10328,
+    "terrain_id_kept_as_structure": 3312,
+    "vanilla_blocks_left": {
+     "minecraft:stone_bricks": 11897,
+     "minecraft:polished_andesite": 6450,
+     "minecraft:smooth_stone": 5537,
+     "minecraft:andesite": 3312,
+     "minecraft:stone_brick_slab": 2799,
+     "minecraft:chiseled_stone_bricks": 1274,
+     "minecraft:polished_deepslate": 1000,
+     "minecraft:oxidized_cut_copper": 42
+    },
+    "jigsaw_final_state_mapped": 1,
+    "unplaced": {
+     "medium:cell_collision": 2
+    },
+    "survival_violations": {},
+    "walkable": 1.0,
+    "seconds": 28.0
+   }
+  },
+  "seconds": 28.0,
+  "totals": {
+   "plantable": 47777,
+   "giant_requested": 176,
+   "giant_placed": 175,
+   "trees": 119,
+   "vegetation": 74526
+  }
+ },
+ "dry_run_B_keep_forest_accents": {
+  "palette": {
+   "minecraft:grass_block": "moreminecrafts:heaven_grass_block",
+   "minecraft:dirt": "moreminecrafts:heaven_loam",
+   "minecraft:stone": "moreminecrafts:heaven_cream_stone",
+   "minecraft:andesite": "moreminecrafts:heaven_cream_stone_pale",
+   "minecraft:podzol": "minecraft:podzol",
+   "minecraft:mossy_cobblestone": "minecraft:mossy_cobblestone"
+  },
+  "templates": {
+   "large_a": {
+    "plantable": 6467,
+    "grass": 6467,
+    "giant_requested": 24,
+    "giant_placed": 24,
+    "trees": 16,
+    "vegetation": 10199,
+    "terrain_converted": 97893,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {
+     "minecraft:mossy_cobblestone": 19740,
+     "minecraft:podzol": 4377
+    },
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:cell_collision": 2,
+     "tree:overhangs_open_air": 1,
+     "medium:cell_collision": 53
+    },
+    "survival_violations": {},
+    "walkable": 0.9791,
+    "seconds": 3.4
+   },
+   "large_b": {
+    "plantable": 7587,
+    "grass": 7587,
+    "giant_requested": 28,
+    "giant_placed": 28,
+    "trees": 19,
+    "vegetation": 11939,
+    "terrain_converted": 120375,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {
+     "minecraft:mossy_cobblestone": 24350,
+     "minecraft:podzol": 5104
+    },
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:overhangs_open_air": 1,
+     "giant:cell_collision": 1,
+     "tree:cell_collision": 1,
+     "medium:cell_collision": 48
+    },
+    "survival_violations": {},
+    "walkable": 0.9786,
+    "seconds": 7.8
+   },
+   "large_c": {
+    "plantable": 9907,
+    "grass": 9907,
+    "giant_requested": 37,
+    "giant_placed": 37,
+    "trees": 25,
+    "vegetation": 15638,
+    "terrain_converted": 170598,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {
+     "minecraft:mossy_cobblestone": 34936,
+     "minecraft:podzol": 6618
+    },
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:cell_collision": 3,
+     "tree:overhangs_open_air": 3,
+     "tree:cell_collision": 4,
+     "medium:cell_collision": 64
+    },
+    "survival_violations": {},
+    "walkable": 0.9786,
+    "seconds": 13.8
+   },
+   "large_d": {
+    "plantable": 7661,
+    "grass": 13558,
+    "giant_requested": 28,
+    "giant_placed": 28,
+    "trees": 19,
+    "vegetation": 12084,
+    "terrain_converted": 130218,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {
+     "minecraft:mossy_cobblestone": 22378,
+     "minecraft:podzol": 9014
+    },
+    "jigsaw_final_state_mapped": 1,
+    "unplaced": {
+     "giant:cell_collision": 4,
+     "giant:inside_attached_piece": 14,
+     "giant:overhangs_open_air": 2,
+     "tree:out_of_template_bounds": 1,
+     "tree:overhangs_open_air": 5,
+     "tree:inside_attached_piece": 5,
+     "medium:cell_collision": 45
+    },
+    "survival_violations": {},
+    "walkable": 0.9881,
+    "seconds": 19.1
+   },
+   "large_e": {
+    "plantable": 9575,
+    "grass": 15148,
+    "giant_requested": 35,
+    "giant_placed": 35,
+    "trees": 24,
+    "vegetation": 14945,
+    "terrain_converted": 147207,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {
+     "minecraft:mossy_cobblestone": 25515,
+     "minecraft:podzol": 10207
+    },
+    "jigsaw_final_state_mapped": 1,
+    "unplaced": {
+     "giant:inside_attached_piece": 10,
+     "giant:cell_collision": 3,
+     "tree:overhangs_open_air": 4,
+     "tree:inside_attached_piece": 5,
+     "tree:cell_collision": 3,
+     "medium:cell_collision": 77
+    },
+    "survival_violations": {},
+    "walkable": 0.9867,
+    "seconds": 24.2
+   },
+   "plain_medium_a": {
+    "plantable": 807,
+    "grass": 812,
+    "giant_requested": 3,
+    "giant_placed": 3,
+    "trees": 2,
+    "vegetation": 1228,
+    "terrain_converted": 5987,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {
+     "minecraft:mossy_cobblestone": 892,
+     "minecraft:podzol": 544
+    },
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "medium:cell_collision": 5
+    },
+    "survival_violations": {},
+    "walkable": 0.9791,
+    "seconds": 24.4
+   },
+   "plain_medium_b": {
+    "plantable": 729,
+    "grass": 729,
+    "giant_requested": 3,
+    "giant_placed": 3,
+    "trees": 2,
+    "vegetation": 1175,
+    "terrain_converted": 5626,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {
+     "minecraft:mossy_cobblestone": 881,
+     "minecraft:podzol": 504
+    },
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "giant:overhangs_open_air": 1,
+     "medium:cell_collision": 3
+    },
+    "survival_violations": {},
+    "walkable": 0.9767,
+    "seconds": 24.6
+   },
+   "plain_medium_c": {
+    "plantable": 730,
+    "grass": 730,
+    "giant_requested": 3,
+    "giant_placed": 3,
+    "trees": 2,
+    "vegetation": 1120,
+    "terrain_converted": 6282,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {
+     "minecraft:mossy_cobblestone": 974,
+     "minecraft:podzol": 522
+    },
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "tree:overhangs_open_air": 2,
+     "medium:cell_collision": 2
+    },
+    "survival_violations": {},
+    "walkable": 0.9767,
+    "seconds": 24.8
+   },
+   "plain_medium_d": {
+    "plantable": 810,
+    "grass": 810,
+    "giant_requested": 3,
+    "giant_placed": 3,
+    "trees": 2,
+    "vegetation": 1246,
+    "terrain_converted": 6275,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {
+     "minecraft:mossy_cobblestone": 951,
+     "minecraft:podzol": 545
+    },
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "tree:overhangs_open_air": 1,
+     "medium:cell_collision": 9
+    },
+    "survival_violations": {},
+    "walkable": 0.979,
+    "seconds": 25.1
+   },
+   "plain_medium_e": {
+    "plantable": 656,
+    "grass": 656,
+    "giant_requested": 2,
+    "giant_placed": 2,
+    "trees": 2,
+    "vegetation": 987,
+    "terrain_converted": 4861,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {
+     "minecraft:mossy_cobblestone": 716,
+     "minecraft:podzol": 451
+    },
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "medium:cell_collision": 2
+    },
+    "survival_violations": {},
+    "walkable": 0.9771,
+    "seconds": 25.2
+   },
+   "plain_small_a": {
+    "plantable": 318,
+    "grass": 318,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 1,
+    "vegetation": 509,
+    "terrain_converted": 1732,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {
+     "minecraft:podzol": 224,
+     "minecraft:mossy_cobblestone": 201
+    },
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "walkable": 0.9717,
+    "seconds": 25.3
+   },
+   "plain_small_b": {
+    "plantable": 312,
+    "grass": 312,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 1,
+    "vegetation": 444,
+    "terrain_converted": 1842,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {
+     "minecraft:podzol": 242,
+     "minecraft:mossy_cobblestone": 214
+    },
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {
+     "tree:overhangs_open_air": 9,
+     "medium:cell_collision": 1
+    },
+    "survival_violations": {},
+    "walkable": 0.9712,
+    "seconds": 25.3
+   },
+   "plain_small_c": {
+    "plantable": 345,
+    "grass": 345,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 1,
+    "vegetation": 530,
+    "terrain_converted": 1904,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {
+     "minecraft:podzol": 229,
+     "minecraft:mossy_cobblestone": 209
+    },
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "walkable": 0.9739,
+    "seconds": 25.4
+   },
+   "plain_small_d": {
+    "plantable": 344,
+    "grass": 344,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 1,
+    "vegetation": 534,
+    "terrain_converted": 2147,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {
+     "minecraft:mossy_cobblestone": 267,
+     "minecraft:podzol": 233
+    },
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "walkable": 0.9738,
+    "seconds": 25.5
+   },
+   "ruins": {
+    "plantable": 260,
+    "grass": 620,
+    "giant_requested": 1,
+    "giant_placed": 0,
+    "trees": 0,
+    "vegetation": 251,
+    "terrain_converted": 3995,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {
+     "minecraft:mossy_cobblestone": 483,
+     "minecraft:podzol": 413
+    },
+    "jigsaw_final_state_mapped": 1,
+    "unplaced": {
+     "tree:inside_attached_piece": 22,
+     "tree:overhangs_open_air": 12
+    },
+    "survival_violations": {},
+    "walkable": 1.0,
+    "seconds": 25.6
+   },
+   "satellite_a": {
+    "plantable": 172,
+    "grass": 172,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 0,
+    "vegetation": 247,
+    "terrain_converted": 816,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {
+     "minecraft:podzol": 110,
+     "minecraft:mossy_cobblestone": 70
+    },
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "walkable": 0.9651,
+    "seconds": 25.6
+   },
+   "satellite_b": {
+    "plantable": 175,
+    "grass": 175,
+    "giant_requested": 1,
+    "giant_placed": 1,
+    "trees": 0,
+    "vegetation": 234,
+    "terrain_converted": 765,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {
+     "minecraft:podzol": 107,
+     "minecraft:mossy_cobblestone": 59
+    },
+    "jigsaw_final_state_mapped": 0,
+    "unplaced": {},
+    "survival_violations": {},
+    "walkable": 0.9657,
+    "seconds": 25.7
+   },
+   "temple": {
+    "plantable": 832,
+    "grass": 3103,
+    "giant_requested": 3,
+    "giant_placed": 3,
+    "trees": 2,
+    "vegetation": 1168,
+    "terrain_converted": 32849,
+    "terrain_id_kept_as_structure": 0,
+    "vanilla_blocks_left": {
+     "minecraft:mossy_cobblestone": 5836,
+     "minecraft:podzol": 2039
+    },
+    "jigsaw_final_state_mapped": 1,
+    "unplaced": {
+     "giant:overhangs_open_air": 9,
+     "giant:inside_attached_piece": 24,
+     "tree:inside_attached_piece": 1,
+     "medium:cell_collision": 9
+    },
+    "survival_violations": {},
+    "walkable": 0.9945,
+    "seconds": 26.7
+   },
+   "tower": {
+    "plantable": 90,
+    "grass": 239,
+    "giant_requested": 0,
+    "giant_placed": 0,
+    "trees": 0,
+    "vegetation": 48,
+    "terrain_converted": 10328,
+    "terrain_id_kept_as_structure": 3312,
+    "vanilla_blocks_left": {
+     "minecraft:stone_bricks": 11897,
+     "minecraft:polished_andesite": 6450,
+     "minecraft:smooth_stone": 5537,
+     "minecraft:andesite": 3312,
+     "minecraft:stone_brick_slab": 2799,
+     "minecraft:mossy_cobblestone": 1689,
+     "minecraft:chiseled_stone_bricks": 1274,
+     "minecraft:polished_deepslate": 1000
+    },
+    "jigsaw_final_state_mapped": 1,
+    "unplaced": {
+     "medium:cell_collision": 2
+    },
+    "survival_violations": {},
+    "walkable": 1.0,
+    "seconds": 28.0
+   }
+  },
+  "seconds": 28.0,
+  "totals": {
+   "plantable": 47777,
+   "giant_requested": 176,
+   "giant_placed": 175,
+   "trees": 119,
+   "vegetation": 74526
+  }
+ }
+}

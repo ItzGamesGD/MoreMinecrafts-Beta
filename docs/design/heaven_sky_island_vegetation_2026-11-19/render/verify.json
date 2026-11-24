@@ -1,0 +1,38 @@
+{
+ "nbt_sha256": "c2a919e9b028a90e6ababa3b4dd908e51bd01f637e27da22fcd3561f335a9a22",
+ "terrain_identical_to_nbt": true,
+ "terrain_blocks": 6272,
+ "removed_template_vegetation": {
+  "oak_log": 24,
+  "oak_leaves": 288,
+  "short_grass": 151,
+  "tall_grass": 14,
+  "dandelion": 8,
+  "poppy": 3,
+  "allium": 5,
+  "cornflower": 5,
+  "azure_bluet": 3,
+  "oxeye_daisy": 3
+ },
+ "natural_palette": {
+  "grass_block": "heaven_grass_AL",
+  "dirt": "garden_loam_B",
+  "coarse_dirt": "garden_loam_B",
+  "stone": "cream_stone_B2",
+  "andesite": "cream_stone_pale_B2",
+  "tuff": "cream_stone_pale_B2"
+ },
+ "natural_palette_ok": true,
+ "layout_crc32_match": {
+  "V1": true,
+  "V2": true,
+  "V3": true,
+  "V4": true,
+  "V5": true
+ },
+ "render_V1_pixel_identical": {
+  "V1_full.png": true,
+  "V1_giant.png": true,
+  "V1_field.png": true
+ }
+}

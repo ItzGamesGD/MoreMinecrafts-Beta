@@ -85,6 +85,10 @@ def compose(style, source_bytes, tower_bytes, candidate):
     # This weighted start-pool element already contains the approved full tower.
     # Terminate its legacy tower_top socket so a second tower cannot be attached.
     connector_state, connector_nbt = rows[jigsaws[0]]
+    # The composite is now a child of a large island: its connector faces down and mates the parent's up-facing socket.
+    connector_state = Compound(connector_state)
+    connector_state["properties"] = Compound({"orientation": String("down_north")})
+    rows[jigsaws[0]] = (connector_state, connector_nbt)
     if connector_nbt is None:
         raise ValueError(f"{style}: root connector has no block entity data")
     connector_nbt["pool"] = String("minecraft:empty")

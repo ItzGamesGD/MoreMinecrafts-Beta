@@ -1,0 +1,33 @@
+{
+ "neighbour_same_slot": {
+  "stone": {
+   "observed": 0.511,
+   "random_expect": 0.507
+  },
+  "andesite": {
+   "observed": 0.247,
+   "random_expect": 0.241
+  },
+  "tuff": {
+   "observed": 0.252,
+   "random_expect": 0.252
+  }
+ },
+ "exposed_tuff_clusters": {
+  "count": 150,
+  "single_block_share": 0.813,
+  "median": 1.0,
+  "max": 13
+ },
+ "exposed_andesite_clusters": {
+  "count": 148,
+  "single_block_share": 0.757,
+  "median": 1.0,
+  "max": 6
+ },
+ "protrusion_voxels": {
+  "count": 62,
+  "share_of_exposed_rock": 0.075,
+  "tuff_share_in_protrusions": 0.145
+ }
+}

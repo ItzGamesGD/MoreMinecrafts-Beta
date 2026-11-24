@@ -1,0 +1,170 @@
+{
+  "sites": {
+    "meadow": {
+      "box": "27x23x25",
+      "player_present": true,
+      "spawner_attempts_per_chunk": 300,
+      "spawned_total": 29,
+      "spawned_on_habitat": 6,
+      "spawned_by_type": {
+        "azure_slime": 1,
+        "cloud_wraith": 1,
+        "creeper": 4,
+        "crystal_bug": 2,
+        "rock_creeper": 1,
+        "rotten_skeleton": 1,
+        "skeleton": 5,
+        "sky_archer": 1,
+        "spider": 3,
+        "witch": 1,
+        "zombie": 9
+      },
+      "natural_tick_mobs_in_box": 2,
+      "natural_tick_by_type": {
+        "crystal_bug": 1,
+        "fallen_sentinel": 1
+      }
+    },
+    "meadow#2": {
+      "box": "97x43x35",
+      "player_present": true,
+      "spawner_attempts_per_chunk": 300,
+      "spawned_total": 53,
+      "spawned_on_habitat": 6,
+      "spawned_by_type": {
+        "cloud_slime": 4,
+        "creeper": 10,
+        "crystal_bug": 1,
+        "enderman": 1,
+        "rotten_skeleton": 1,
+        "skeleton": 16,
+        "spider": 6,
+        "weathered_zombie": 1,
+        "zombie": 11,
+        "zombie_horse": 1,
+        "zombie_villager": 1
+      },
+      "natural_tick_mobs_in_box": 6,
+      "natural_tick_by_type": {
+        "pig": 4,
+        "skeleton": 2
+      }
+    },
+    "meadow#3": {
+      "box": "97x67x97",
+      "player_present": true,
+      "spawner_attempts_per_chunk": 300,
+      "spawned_total": 226,
+      "spawned_on_habitat": 24,
+      "spawned_by_type": {
+        "cave_bug": 1,
+        "cloud_slime": 3,
+        "cloud_wraith": 3,
+        "creeper": 59,
+        "crystal_bug": 3,
+        "drowned": 1,
+        "enderman": 3,
+        "fallen_sentinel": 1,
+        "pale_enderman": 1,
+        "rotten_skeleton": 1,
+        "skeleton": 69,
+        "sky_archer": 1,
+        "skyguard_archer": 3,
+        "spider": 34,
+        "zombie": 42,
+        "zombie_horse": 1
+      },
+      "natural_tick_mobs_in_box": 6,
+      "natural_tick_by_type": {
+        "pig": 4,
+        "skeleton": 2
+      }
+    },
+    "forest": {
+      "box": "25x24x27",
+      "player_present": true,
+      "spawner_attempts_per_chunk": 300,
+      "spawned_total": 36,
+      "spawned_on_habitat": 0,
+      "spawned_by_type": {
+        "creeper": 14,
+        "enderman": 1,
+        "forest_spider": 1,
+        "skeleton": 12,
+        "zombie": 8
+      },
+      "natural_tick_mobs_in_box": 0,
+      "natural_tick_by_type": {}
+    },
+    "forest#1": {
+      "box": "25x23x25",
+      "player_present": true,
+      "spawner_attempts_per_chunk": 300,
+      "spawned_total": 71,
+      "spawned_on_habitat": 3,
+      "spawned_by_type": {
+        "bandit_archer": 1,
+        "cave_bug": 1,
+        "cave_creeper": 2,
+        "creeper": 15,
+        "enderman": 1,
+        "skeleton": 16,
+        "spider": 5,
+        "zombie": 30
+      },
+      "natural_tick_mobs_in_box": 2,
+      "natural_tick_by_type": {
+        "skeleton": 1,
+        "spider": 1
+      }
+    },
+    "forest#3": {
+      "box": "151x43x35",
+      "player_present": true,
+      "spawner_attempts_per_chunk": 300,
+      "spawned_total": 164,
+      "spawned_on_habitat": 12,
+      "spawned_by_type": {
+        "bandit": 1,
+        "cave_bug": 2,
+        "cloud_slime": 1,
+        "creeper": 42,
+        "crystal_bug": 1,
+        "drowned": 1,
+        "enderman": 2,
+        "forest_spider": 1,
+        "large_zombie": 1,
+        "rotten_skeleton": 2,
+        "skeleton": 38,
+        "sky_archer": 1,
+        "skyguard_archer": 4,
+        "spider": 14,
+        "sulfur_cube": 2,
+        "zombie": 51
+      },
+      "natural_tick_mobs_in_box": 2,
+      "natural_tick_by_type": {
+        "crystal_bug": 1,
+        "rock_creeper": 1
+      }
+    },
+    "mountain_meadow": {
+      "box": "23x24x27",
+      "player_present": true,
+      "spawner_attempts_per_chunk": 300,
+      "spawned_total": 37,
+      "spawned_on_habitat": 0,
+      "spawned_by_type": {
+        "creeper": 9,
+        "enderman": 1,
+        "skeleton": 14,
+        "small_spider": 1,
+        "spider": 4,
+        "zombie": 8
+      },
+      "natural_tick_mobs_in_box": 0,
+      "natural_tick_by_type": {}
+    }
+  },
+  "packs": "forest"
+}

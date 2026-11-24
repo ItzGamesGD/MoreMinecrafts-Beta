@@ -1,0 +1,79 @@
+{
+ "giant_connectivity": {
+  "6-connectivity": {
+   "components": 3,
+   "sizes": [
+    121,
+    115,
+    105
+   ]
+  },
+  "18-connectivity": {
+   "components": 3,
+   "sizes": [
+    121,
+    115,
+    105
+   ]
+  },
+  "26-connectivity": {
+   "components": 3,
+   "sizes": [
+    121,
+    115,
+    105
+   ]
+  },
+  "per_species": [
+   {
+    "species": "starlotus",
+    "base": [
+     27,
+     14,
+     10
+    ],
+    "flood_fill_blocks": 121,
+    "parts": {
+     "heaven_giant_bloom": 71,
+     "heaven_giant_leaf": 26,
+     "heaven_giant_stem": 24
+    },
+    "reached_from_base": 121,
+    "collapse_waves": 9
+   },
+   {
+    "species": "lily",
+    "base": [
+     16,
+     14,
+     11
+    ],
+    "flood_fill_blocks": 115,
+    "parts": {
+     "heaven_giant_bloom": 68,
+     "heaven_giant_stem": 19,
+     "heaven_giant_leaf": 28
+    },
+    "reached_from_base": 115,
+    "collapse_waves": 11
+   },
+   {
+    "species": "daffodil",
+    "base": [
+     22,
+     14,
+     29
+    ],
+    "flood_fill_blocks": 105,
+    "parts": {
+     "heaven_giant_leaf": 54,
+     "heaven_giant_bloom": 35,
+     "heaven_giant_stem": 16
+    },
+    "reached_from_base": 105,
+    "collapse_waves": 10
+   }
+  ],
+  "island_giant_blocks": 341
+ }
+}

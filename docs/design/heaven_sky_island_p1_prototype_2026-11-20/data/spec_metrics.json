@@ -1,0 +1,198 @@
+{
+ "species": {
+  "giant:starlotus": {
+   "instances_in_V5": 1,
+   "block_cells": 123,
+   "unique_cells": 122,
+   "elements": 706,
+   "materials": 13,
+   "height_blocks": 9.25,
+   "vertical_extent_blocks": 9.75,
+   "footprint_blocks": [
+    5.75,
+    6.0
+   ]
+  },
+  "giant:lily": {
+   "instances_in_V5": 1,
+   "block_cells": 120,
+   "unique_cells": 117,
+   "elements": 562,
+   "materials": 10,
+   "height_blocks": 11.5,
+   "vertical_extent_blocks": 12.5,
+   "footprint_blocks": [
+    6.0,
+    6.0
+   ]
+  },
+  "giant:daffodil": {
+   "instances_in_V5": 1,
+   "block_cells": 106,
+   "unique_cells": 105,
+   "elements": 699,
+   "materials": 9,
+   "height_blocks": 10.5,
+   "vertical_extent_blocks": 10.75,
+   "footprint_blocks": [
+    8.75,
+    9.25
+   ]
+  },
+  "tree:blossom": {
+   "instances_in_V5": 1,
+   "block_cells": 172,
+   "unique_cells": 172,
+   "elements": 3512,
+   "materials": 6,
+   "height_blocks": 7.25,
+   "vertical_extent_blocks": 7.75,
+   "footprint_blocks": [
+    6.75,
+    7.25
+   ]
+  },
+  "tree:white": {
+   "instances_in_V5": 1,
+   "block_cells": 223,
+   "unique_cells": 223,
+   "elements": 4569,
+   "materials": 5,
+   "height_blocks": 8.25,
+   "vertical_extent_blocks": 8.75,
+   "footprint_blocks": [
+    7.5,
+    8.5
+   ]
+  },
+  "medium:hydrangea": {
+   "instances_in_V5": 5,
+   "block_cells": 15,
+   "unique_cells": 15,
+   "elements": 212,
+   "materials": 7,
+   "height_blocks": 2.25,
+   "vertical_extent_blocks": 2.25,
+   "footprint_blocks": [
+    2.5,
+    2.25
+   ]
+  },
+  "medium:lavender": {
+   "instances_in_V5": 8,
+   "block_cells": 16,
+   "unique_cells": 16,
+   "elements": 94,
+   "materials": 6,
+   "height_blocks": 2.75,
+   "vertical_extent_blocks": 2.75,
+   "footprint_blocks": [
+    2.25,
+    2.0
+   ]
+  },
+  "medium:phlox": {
+   "instances_in_V5": 6,
+   "block_cells": 20,
+   "unique_cells": 20,
+   "elements": 203,
+   "materials": 4,
+   "height_blocks": 2.5,
+   "vertical_extent_blocks": 2.5,
+   "footprint_blocks": [
+    2.25,
+    2.5
+   ]
+  },
+  "small:small_red": {
+   "instances_in_V5": 21,
+   "block_cells": 2,
+   "unique_cells": 2,
+   "elements": 9,
+   "materials": 4,
+   "height_blocks": 1.25,
+   "vertical_extent_blocks": 1.25,
+   "footprint_blocks": [
+    0.75,
+    0.75
+   ]
+  },
+  "grass:tuft_short": {
+   "instances_in_V5": 79,
+   "block_cells": 1,
+   "unique_cells": 1,
+   "elements": 6,
+   "materials": 4,
+   "height_blocks": 1.0,
+   "vertical_extent_blocks": 1.0,
+   "footprint_blocks": [
+    0.5,
+    0.75
+   ]
+  },
+  "grass:tuft_tall": {
+   "instances_in_V5": 29,
+   "block_cells": 4,
+   "unique_cells": 4,
+   "elements": 14,
+   "materials": 4,
+   "height_blocks": 2.0,
+   "vertical_extent_blocks": 2.0,
+   "footprint_blocks": [
+    0.75,
+    1.0
+   ]
+  },
+  "ground:petals": {
+   "instances_in_V5": 12,
+   "block_cells": 7,
+   "unique_cells": 7,
+   "elements": 12,
+   "materials": 1,
+   "height_blocks": 0.25,
+   "vertical_extent_blocks": 0.25,
+   "footprint_blocks": [
+    2.5,
+    2.75
+   ]
+  },
+  "vine:vine": {
+   "instances_in_V5": 8,
+   "block_cells": 4,
+   "unique_cells": 3,
+   "elements": 9,
+   "materials": 2,
+   "height_blocks": 0.25,
+   "vertical_extent_blocks": 2.5,
+   "footprint_blocks": [
+    0.75,
+    0.25
+   ]
+  },
+  "vine:wisteria": {
+   "instances_in_V5": 10,
+   "block_cells": 6,
+   "unique_cells": 6,
+   "elements": 17,
+   "materials": 3,
+   "height_blocks": 0.25,
+   "vertical_extent_blocks": 2.5,
+   "footprint_blocks": [
+    1.25,
+    1.25
+   ]
+  },
+  "vine:wisteria_canopy": {
+   "instances_in_V5": 18,
+   "note": "same raceme model as wisteria, hung from tree canopies"
+  },
+  "small:all_6_colours": {
+   "instances_in_V5": 127,
+   "note": "one model per colour"
+  }
+ },
+ "textures": {
+  "soil_rows_mean_abs_diff_before": 17.98,
+  "soil_rows_mean_abs_diff_after": 0.0
+ }
+}

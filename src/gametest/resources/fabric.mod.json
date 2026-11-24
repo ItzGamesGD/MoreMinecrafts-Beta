@@ -22,7 +22,10 @@
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01d3.St01D6PrepareBench",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01d3.St01D8MapTradeBench",
       "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyTowerPhase2Probe",
-      "dev.itzgamesgd.moreminecrafts.worldgenprobe.SpiderColonyProbe"
+      "dev.itzgamesgd.moreminecrafts.worldgenprobe.SpiderColonyProbe",
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP35TexturePacks",
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP310Packs",
+      "dev.itzgamesgd.moreminecrafts.worldgenprobe.HeavenWorldgenProbe"
     ],
     "fabric-gametest": [
       "dev.itzgamesgd.moreminecrafts.pillagerhq.St03BiomeEligibilityGameTests",
@@ -67,6 +70,12 @@
       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryAbilityGameTests",
       "dev.itzgamesgd.moreminecrafts.k5probe.K5NaturalTreeProbeGameTests",
       "dev.itzgamesgd.moreminecrafts.worldgen.SkyIslandsGameTests",
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenPrototypeGameTests",
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP2GameTests",
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP25PolicyProbes",
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP3PolicyGameTests",
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP3MeadowGameTests",
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP35GameTests",
       "dev.itzgamesgd.moreminecrafts.bounty.ContractGameTests",
       "dev.itzgamesgd.moreminecrafts.bounty.ContractCatalogGameTests",
       "dev.itzgamesgd.moreminecrafts.bounty.ContractIntegrationGameTests",
@@ -129,7 +138,13 @@
       "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryRestartGameTests",
       "dev.itzgamesgd.moreminecrafts.mob.sky.SkyVariantMobGameTests",
       "dev.itzgamesgd.moreminecrafts.mob.pyramid.PyramidMobGameTests",
-      "dev.itzgamesgd.moreminecrafts.trade.PiglinTradeGameTests"
+      "dev.itzgamesgd.moreminecrafts.trade.PiglinTradeGameTests",
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP37GameTests",
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP38GameTests",
+      "dev.itzgamesgd.moreminecrafts.mob.sky.HeavenHabitatGameTests",
+      "dev.itzgamesgd.moreminecrafts.mob.sky.HabitatPerfInstrumentation",
+      "dev.itzgamesgd.moreminecrafts.mob.sky.HabitatMaskGameTests",
+      "dev.itzgamesgd.moreminecrafts.mob.sky.HabitatBeforeAfterGameTests"
     ],
     "fabric-client-gametest": [
       "dev.itzgamesgd.moreminecrafts.pillagerhq.St03NaturalClientCapture",
@@ -151,7 +166,19 @@
       "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryClientGameTest",
       "dev.itzgamesgd.moreminecrafts.mob.pyramid.PyramidMobClientCapture",
       "dev.itzgamesgd.moreminecrafts.boss.TombGuardianClientCapture",
-      "dev.itzgamesgd.moreminecrafts.spidercolony.SpiderColonyClientCapture"
+      "dev.itzgamesgd.moreminecrafts.spidercolony.SpiderColonyClientCapture",
+      "dev.itzgamesgd.moreminecrafts.mob.sky.SkyIslandsClientCapture",
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenPrototypeClientCapture",
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP2ClientCapture",
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP3ClientCapture",
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP35ClientCapture",
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP36ClientCapture",
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP37ClientCapture",
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP38ClientCapture",
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP310RealPlayerSpawn",
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP312ClientRender",
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP313ClientRender",
+      "dev.itzgamesgd.moreminecrafts.heaven.HeavenP313Exploration"
     ]
   },
   "mixins": [
