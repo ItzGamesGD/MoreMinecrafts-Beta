@@ -51,7 +51,7 @@ class SkyVariantMobsDefinitionTest {
         Set<String> groupC = registered("mob/sky/SkyNormalMobs.java", "register\\(\"([a-z0-9_]+)\"");
         Set<String> catalog = registered("mob/CustomMobCatalog.java", "type\\(\"([a-z0-9_]+)\"");
         assertEquals(Set.copyOf(IDS), groupB);
-        assertEquals(40, catalog.size(), "the approved forty-entry catalog is untouched");
+        assertEquals(44, catalog.size(), "40 base entries plus the four existing ST-03 HQ variants");
         for (String id : IDS) {
             assertFalse(groupC.contains(id), "no group C collision: " + id);
             assertFalse(catalog.contains(id), "no catalog collision: " + id);

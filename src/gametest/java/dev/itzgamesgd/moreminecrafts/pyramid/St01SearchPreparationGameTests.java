@@ -170,14 +170,16 @@ public final class St01SearchPreparationGameTests {
     }
 
     @GameTest(maxTicks = 400)
-    public void shutdownStopsTheWorkerAndAFreshServiceWorks(GameTestHelper ctx) {
+    public void shutdownStopsTheWorkerAndAFreshServiceWorks(GameTestHelper ctx) throws InterruptedException {
         World w = new World(ctx.getLevel().registryAccess(), 1001L);
         AtomicInteger seen = new AtomicInteger();
-        Preparer p = new Preparer(St01SearchPreparation.QUEUE_CAP, 1, c -> seen.incrementAndGet());
+        CountDownLatch seenFour = new CountDownLatch(1);
+        Preparer p = new Preparer(St01SearchPreparation.QUEUE_CAP, 1, c -> {
+            if (seen.incrementAndGet() == 4) seenFour.countDown();
+        });
         BlockPos origin = new BlockPos(0, 64, 0);
         ctx.assertTrue(p.request(target(w), origin, 100) == Status.QUEUED, "request must queue");
-        long deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(30);
-        while (seen.get() < 4 && System.nanoTime() < deadline) Thread.onSpinWait();
+        ctx.assertTrue(seenFour.await(30, TimeUnit.SECONDS), "worker did not reach four candidates");
         long t0 = System.nanoTime();
         boolean stopped = p.shutdown(2000);
         double ms = (System.nanoTime() - t0) / 1e6;

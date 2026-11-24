@@ -25,15 +25,23 @@ public final class St01DecisionMemoGameTests {
     @GameTest(maxTicks = 400)
     public void secondEvaluationOfAFoundCandidateIsAMemoHit(GameTestHelper ctx) {
         World w = new World(ctx.getLevel().registryAccess(), 1004L);
+        int seen = 0;
         for (KnownStart s : St01D3Support.KNOWN_STARTS) {
             if (s.seed() != 1004L) continue;
             ChunkPos c = new ChunkPos(s.chunkX(), s.chunkZ());
+            ctx.assertTrue(!St01D3Support.memoHit(w, c), "a fresh world's memo must not already hold " + s);
+            // HITS/MISSES are process-global: other St01 threads (e.g. search-preparation workers) may add to them while this
+            // test runs, so an exact delta of 1/1 is racy. Assert lower bounds here and the exact behaviour on this world's own cache.
             long hits = St01DecisionMemo.HITS.get(), misses = St01DecisionMemo.MISSES.get();
             // the locator's evaluation, then the chunk pipeline's evaluation of the same candidate (two fresh contexts)
             Optional<Structure.GenerationStub> first = w.st01.findValidGenerationPoint(w.context(c));
+            ctx.assertTrue(St01D3Support.memoHit(w, c), "the first evaluation must be remembered for " + s);
             Optional<Structure.GenerationStub> second = w.st01.findValidGenerationPoint(w.context(c));
-            ctx.assertTrue(St01DecisionMemo.MISSES.get() - misses == 1 && St01DecisionMemo.HITS.get() - hits == 1,
-                    "expected one miss then one hit for " + s);
+            seen++;
+            ctx.assertTrue(St01DecisionMemo.MISSES.get() - misses >= 1 && St01DecisionMemo.HITS.get() - hits >= 1,
+                    "expected at least one miss then one hit for " + s);
+            ctx.assertTrue(St01DecisionMemo.size(w.randomState) == seen,
+                    "the second evaluation must reuse the remembered entry, not add one for " + s + " (size " + St01DecisionMemo.size(w.randomState) + ")");
             ctx.assertTrue(first.isPresent() && second.isPresent() && first.get().position().equals(second.get().position()),
                     "both evaluations must yield the same stub for " + s);
             ctx.assertTrue(St01D3Support.memoDecision(w, c).equals(St01D3Support.legacyDecision(w, c)), "memo decision differs from legacy for " + s);

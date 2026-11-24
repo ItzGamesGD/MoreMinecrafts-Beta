@@ -28,6 +28,8 @@
     "K5LevelBlockMutationMixin",
     "K5WorldGenRegionBlockMutationMixin",
     "St01WorldGenRegionGuardMixin",
+    "St03WorldGenRegionLavaGuardMixin",
+    "St03SpawnSuppressionMixin",
     "NoiseBasedChunkGeneratorAccessor",
     "St01VillagerTradeAccessor",
     "St01MerchantOffersAccessor",

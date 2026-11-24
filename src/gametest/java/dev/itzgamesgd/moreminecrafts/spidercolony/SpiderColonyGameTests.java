@@ -27,13 +27,46 @@ public final class SpiderColonyGameTests {
   var mother=ctx.spawn(SpiderColonyEntities.MOTHER,new net.minecraft.core.BlockPos(2,3,2));
   var target=ctx.spawn(net.minecraft.world.entity.EntityTypes.ZOMBIE,new net.minecraft.core.BlockPos(7,3,2));
   mother.setNoAi(true); mother.setNoGravity(true); target.setNoAi(true); target.setNoGravity(true); mother.setTarget(target);
+  // A durable dummy survives both cooldowns, including daylight, like the Tomb Guardian fixture.
+  target.getAttribute(Attributes.MAX_HEALTH).setBaseValue(1000.0D); target.setHealth(1000.0F);
+  // Juveniles are ordinary monsters: a nearby player prevents vanilla hard distance despawn,
+  // matching the already-fixed Tomb Guardian summon fixture without changing production rules.
+  var cookie=net.minecraft.server.network.CommonListenerCookie.createInitial(
+    new com.mojang.authlib.GameProfile(java.util.UUID.randomUUID(),"spider-cap-anchor"),false);
+  var anchor=new net.minecraft.server.level.ServerPlayer(level.getServer(),level,cookie.gameProfile(),cookie.clientInformation());
+  var connection=new net.minecraft.network.Connection(net.minecraft.network.protocol.PacketFlow.SERVERBOUND);
+  new io.netty.channel.embedded.EmbeddedChannel(connection);
+  level.getServer().getPlayerList().placeNewPlayer(connection,anchor,cookie);
+  anchor.setGameMode(net.minecraft.world.level.GameType.CREATIVE);
+  var position=ctx.absoluteVec(new net.minecraft.world.phys.Vec3(8.5,3,8.5));
+  anchor.teleportTo(position.x,position.y,position.z);
+  ctx.onEachTick(()-> {
+   if(ctx.getTick()%100!=0)return;
+   var state=net.minecraft.world.level.storage.TagValueOutput.createWithContext(net.minecraft.util.ProblemReporter.DISCARDING,level.registryAccess());
+   mother.saveWithoutId(state);
+   int floor=0,empty=0,clear=0;
+   var child=SpiderColonyEntities.JUVENILE.create(level,EntitySpawnReason.MOB_SUMMONED);
+   for(int dx=-3;dx<=3;dx++)for(int dz=-3;dz<=3;dz++) {
+    child.setPos(mother.getX()+dx,mother.getY(),mother.getZ()+dz);var below=child.blockPosition().below();
+    if(level.getBlockState(below).isFaceSturdy(level,below,net.minecraft.core.Direction.UP))floor++;
+    if(level.getFluidState(child.blockPosition()).isEmpty())empty++;
+    if(level.noCollision(child))clear++;
+   }
+   child.discard();
+   System.out.println("SPIDER_FIXTURE tick="+ctx.getTick()+" motherTicks="+mother.tickCount+" motherPos="+mother.position()
+    +" motherAlive="+mother.isAlive()+" motherTicking="+level.isPositionEntityTicking(mother.blockPosition())
+    +" motherHealth="+mother.getHealth()+" motherRemoved="+mother.getRemovalReason()+" anchorRemoved="+anchor.getRemovalReason()
+    +" targetTicks="+target.tickCount+" targetAlive="+target.isAlive()+" targetHealth="+target.getHealth()+" targetTicking="+level.isPositionEntityTicking(target.blockPosition())
+    +" currentTarget="+mother.getTarget()+" cooldown="+state.buildResult().getIntOr("colony_cooldown",-1)
+    +" children="+SpiderColonyEntities.data(level).childCount(mother.getUUID())+" sturdy="+floor+" dry="+empty+" collisionFree="+clear);
+  });
   ctx.runAfterDelay(310,()-> {
    int count=SpiderColonyEntities.data(level).childCount(mother.getUUID());
    ctx.assertTrue(count>0 && count<=2,"first cycle must create at most two juveniles; got "+count);
    ctx.runAfterDelay(320,()-> {
     int later=SpiderColonyEntities.data(level).childCount(mother.getUUID());
     ctx.assertTrue(later<=4,"simultaneous summon cap exceeded: "+later);
-    mother.discard(); target.discard(); ctx.succeed();
+    mother.discard(); target.discard(); level.getServer().getPlayerList().remove(anchor); ctx.succeed();
    });
   });
  }
@@ -103,7 +136,17 @@ public final class SpiderColonyGameTests {
   var phase=new java.util.concurrent.atomic.AtomicInteger();
   var motherId=new java.util.concurrent.atomic.AtomicReference<java.util.UUID>();
   var children=new java.util.ArrayList<java.util.UUID>();
+  net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents.ENTITY_UNLOAD.register((entity,world)-> {
+   if(children.contains(entity.getUUID())||entity.getUUID().equals(motherId.get()))
+    System.out.println("SPIDER_RELOAD_UNLOAD phase="+phase.get()+" type="+entity.getType()+" uuid="+entity.getUUID()+" reason="+entity.getRemovalReason());
+  });
   ctx.onEachTick(()-> {
+   if(ctx.getTick()%100==0) {
+    int visible=0;for(var id:children)if(level.getEntity(id)!=null)visible++;
+    System.out.println("SPIDER_RELOAD tick="+ctx.getTick()+" phase="+phase.get()+" entitiesLoaded="+level.areEntitiesLoaded(chunk.pack())
+     +" motherPresent="+(motherId.get()!=null&&level.getEntity(motherId.get())!=null)+" visibleChildren="+visible
+     +" ledger="+(motherId.get()==null?-1:SpiderColonyEntities.data(level).childCount(motherId.get())));
+   }
    switch(phase.get()) {
     case 0 -> {
      if(!level.areEntitiesLoaded(chunk.pack()))return;
@@ -113,6 +156,9 @@ public final class SpiderColonyGameTests {
      for(int i=0;i<4;i++) {
       var baby=SpiderColonyEntities.JUVENILE.create(level,EntitySpawnReason.MOB_SUMMONED);
       baby.setPos(mother.getX(),mother.getY(),mother.getZ()); baby.setNoAi(true); baby.setNoGravity(true);
+      // The fixture has no player within 128 blocks; vanilla Mob#checkDespawn would discard a non-persistent juvenile on reload (and the
+      // unload hook would then drop its ledger entry), which makes this chunk-reload test depend on which mock players other tests left behind.
+      baby.setPersistenceRequired();
       baby.addTag("mm_spider_owner_"+mother.getUUID()); SpiderColonyEntities.data(level).addChild(mother.getUUID(),baby.getUUID());
       children.add(baby.getUUID()); level.addFreshEntity(baby);
      }
