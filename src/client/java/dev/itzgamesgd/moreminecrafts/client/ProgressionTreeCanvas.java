@@ -1037,8 +1037,13 @@ public final class ProgressionTreeCanvas {
             addText(lines, font, Component.translatable("moreminecrafts.ui.discipline_branch",
                     Component.translatable("moreminecrafts.discipline." + research.discipline()),
                     Component.translatable(node.branchTitleKey())), maxWidth);
-            addText(lines, font, Component.translatable("moreminecrafts.ui.research.tier_level",
-                    Component.translatable(tierKey(research.tier())), research.level(), research.maximumLevel()), maxWidth);
+            // An unclassified tier is a development marker, not player information: show only level progress then.
+            boolean tierKnown = "T1".equals(research.tier()) || "T2".equals(research.tier()) || "T3".equals(research.tier());
+            addText(lines, font, tierKnown
+                    ? Component.translatable("moreminecrafts.ui.research.tier_level",
+                            Component.translatable(tierKey(research.tier())), research.level(), research.maximumLevel())
+                    : Component.translatable("moreminecrafts.ui.research.level_only",
+                            research.level(), research.maximumLevel()), maxWidth);
             String effectLabel = research.maximumLevel() == 1
                     ? (research.level() > 0 ? "moreminecrafts.ui.research.effect.current" : "moreminecrafts.ui.research.effect.next")
                     : "moreminecrafts.ui.research.effect.summary";
@@ -1062,8 +1067,10 @@ public final class ProgressionTreeCanvas {
                 }
             }
             if (research.nextCost() != null) {
+                boolean enoughXp = ProgressionClientApi.availableXp() >= research.nextCost().rawXp();
                 addText(lines, font, Component.translatable("moreminecrafts.ui.tooltip.cost_xp",
-                        research.nextCost().rawXp(), ProgressionClientApi.availableXp()), maxWidth);
+                        research.nextCost().rawXp(), ProgressionClientApi.availableXp())
+                        .withStyle(enoughXp ? ChatFormatting.GREEN : ChatFormatting.RED), maxWidth);
                 for (var cost : research.nextCost().materials()) {
                     Item item = BuiltInRegistries.ITEM.getValue(Identifier.parse(cost.itemId()));
                     if (item == null || item == Items.AIR) continue;
@@ -1075,11 +1082,18 @@ public final class ProgressionTreeCanvas {
                                     cost.count(), cost.compressedUnits(), held)
                             : Component.translatable(materialKey, ProgressionClientApi.materialName(cost.itemId()), cost.count(), held);
                     String label = rowLabel.getString();
-                    lines.add(new ProgressionMaterialTooltipComponent(new ItemStack(item), Component.literal(label)));
+                    lines.add(new ProgressionMaterialTooltipComponent(new ItemStack(item), Component.literal(label)
+                            .withStyle(cost.compressedUnits() > 0 ? ChatFormatting.WHITE
+                                    : held >= cost.count() ? ChatFormatting.GREEN : ChatFormatting.RED)));
                 }
             }
+            ChatFormatting stateColor = switch (research.availability()) {
+                case PURCHASED -> ChatFormatting.GREEN;
+                case ALREADY_PURCHASED, MAX_LEVEL -> ChatFormatting.GRAY;
+                default -> ChatFormatting.RED;
+            };
             addText(lines, font, Component.translatable("moreminecrafts.ui.purchase.state."
-                    + research.availability().name().toLowerCase()), maxWidth);
+                    + research.availability().name().toLowerCase()).withStyle(stateColor), maxWidth);
             if (ProgressionClientApi.purchasePending(research.id())) {
                 addText(lines, font, Component.translatable("moreminecrafts.ui.purchase.pending"), maxWidth);
             } else if (research.availability() == ResearchPurchaseRules.Result.PURCHASED

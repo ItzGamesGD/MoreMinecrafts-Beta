@@ -106,8 +106,11 @@ public final class ContractScreen extends Screen {
                     targetName(objective), objective.required())
                     : Component.translatable("moreminecrafts.contract.objective_progress", categoryName(objective),
                     targetName(objective), objective.progress(), objective.required());
-            graphics.text(font, label, x, y, objective.progress() >= objective.required() ? DONE_COLOR : TEXT_COLOR);
-            y += 12;
+            int labelColor = objective.progress() >= objective.required() ? DONE_COLOR : TEXT_COLOR;
+            for (var part : font.split(label, PANEL_WIDTH - 20)) {
+                graphics.text(font, part, x, y, labelColor);
+                y += font.lineHeight + 3;
+            }
             hasDelivery |= objective.category() == ContractData.Category.DELIVERY;
         }
 
@@ -118,9 +121,12 @@ public final class ContractScreen extends Screen {
             for (ContractData.Objective objective : data.objectives()) {
                 if (objective.category() != ContractData.Category.DELIVERY) continue;
                 int have = holdings.getOrDefault(objective.target(), 0);
-                graphics.text(font, Component.translatable("moreminecrafts.contract.holding", targetName(objective),
-                                have, objective.required()), x, y, have >= objective.required() ? DONE_COLOR : SHORT_COLOR);
-                y += 12;
+                int holdingColor = have >= objective.required() ? DONE_COLOR : SHORT_COLOR;
+                for (var part : font.split(Component.translatable("moreminecrafts.contract.holding", targetName(objective),
+                        have, objective.required()), PANEL_WIDTH - 20)) {
+                    graphics.text(font, part, x, y, holdingColor);
+                    y += font.lineHeight + 3;
+                }
             }
         }
 
