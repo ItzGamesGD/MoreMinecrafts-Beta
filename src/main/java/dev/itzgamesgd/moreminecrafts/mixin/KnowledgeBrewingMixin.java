@@ -39,14 +39,15 @@ abstract class KnowledgeBrewingMixin implements BrewingResearchStateAccess {
     @Unique
     private boolean moreminecrafts$autoProcessEnabled;
     @Unique
-    private final NonNullList<ItemStack> moreminecrafts$inputQueue =
-            NonNullList.withSize(AUTO_QUEUE_SIZE, ItemStack.EMPTY);
+    private NonNullList<ItemStack> moreminecrafts$inputQueue;
     @Unique
-    private final NonNullList<ItemStack> moreminecrafts$outputBuffer =
-            NonNullList.withSize(AUTO_QUEUE_SIZE, ItemStack.EMPTY);
+    private NonNullList<ItemStack> moreminecrafts$outputBuffer;
 
     @Override
     public BlockEntityResearchAttribution.State moreminecrafts$getResearchAttribution() {
+        if (moreminecrafts$researchAttribution == null) {
+            moreminecrafts$researchAttribution = BlockEntityResearchAttribution.State.empty();
+        }
         return moreminecrafts$researchAttribution;
     }
 
@@ -80,11 +81,17 @@ abstract class KnowledgeBrewingMixin implements BrewingResearchStateAccess {
 
     @Override
     public NonNullList<ItemStack> moreminecrafts$getInputQueue() {
+        if (moreminecrafts$inputQueue == null) {
+            moreminecrafts$inputQueue = NonNullList.withSize(AUTO_QUEUE_SIZE, ItemStack.EMPTY);
+        }
         return moreminecrafts$inputQueue;
     }
 
     @Override
     public NonNullList<ItemStack> moreminecrafts$getOutputBuffer() {
+        if (moreminecrafts$outputBuffer == null) {
+            moreminecrafts$outputBuffer = NonNullList.withSize(AUTO_QUEUE_SIZE, ItemStack.EMPTY);
+        }
         return moreminecrafts$outputBuffer;
     }
 
@@ -119,20 +126,22 @@ abstract class KnowledgeBrewingMixin implements BrewingResearchStateAccess {
     private void moreminecrafts$saveBrewProvenance(ValueOutput output, CallbackInfo ci) {
         BrewingStandBlockEntity stand = (BrewingStandBlockEntity) (Object) this;
         BlockEntityResearchAttribution.save(output, "MoreMinecraftsBrewResearchAttribution",
-                moreminecrafts$researchAttribution);
+                moreminecrafts$getResearchAttribution());
         if (moreminecrafts$brewProgressRemainder > 0.0D) {
             output.putDouble("MoreMinecraftsBrewProgressRemainder", moreminecrafts$brewProgressRemainder);
         }
         if (moreminecrafts$autoProcessEnabled) {
             output.putBoolean("MoreMinecraftsBrewAutoProcess", true);
         }
-        if (moreminecrafts$inputQueue.stream().anyMatch(s -> !s.isEmpty())) {
+        var inputQueue = moreminecrafts$getInputQueue();
+        if (inputQueue.stream().anyMatch(s -> !s.isEmpty())) {
             output.store("MoreMinecraftsBrewInputQueue", ItemStack.OPTIONAL_CODEC.listOf(),
-                    java.util.List.copyOf(moreminecrafts$inputQueue));
+                    java.util.List.copyOf(inputQueue));
         }
-        if (moreminecrafts$outputBuffer.stream().anyMatch(s -> !s.isEmpty())) {
+        var outputBuffer = moreminecrafts$getOutputBuffer();
+        if (outputBuffer.stream().anyMatch(s -> !s.isEmpty())) {
             output.store("MoreMinecraftsBrewOutputBuffer", ItemStack.OPTIONAL_CODEC.listOf(),
-                    java.util.List.copyOf(moreminecrafts$outputBuffer));
+                    java.util.List.copyOf(outputBuffer));
         }
         var pending = BrewingOutputProvenance.save(stand);
         if (!pending.isEmpty()) {
@@ -150,16 +159,18 @@ abstract class KnowledgeBrewingMixin implements BrewingResearchStateAccess {
         moreminecrafts$brewProgressRemainder = Double.isFinite(loadedRemainder)
                 && loadedRemainder >= 0.0D && loadedRemainder < 1.0D ? loadedRemainder : 0.0D;
         moreminecrafts$autoProcessEnabled = input.getBooleanOr("MoreMinecraftsBrewAutoProcess", false);
-        moreminecrafts$inputQueue.clear();
+        var inputQueue = moreminecrafts$getInputQueue();
+        inputQueue.clear();
         input.read("MoreMinecraftsBrewInputQueue", ItemStack.OPTIONAL_CODEC.listOf()).ifPresent(list -> {
             for (int i = 0; i < Math.min(AUTO_QUEUE_SIZE, list.size()); i++) {
-                moreminecrafts$inputQueue.set(i, list.get(i).copy());
+                inputQueue.set(i, list.get(i).copy());
             }
         });
-        moreminecrafts$outputBuffer.clear();
+        var outputBuffer = moreminecrafts$getOutputBuffer();
+        outputBuffer.clear();
         input.read("MoreMinecraftsBrewOutputBuffer", ItemStack.OPTIONAL_CODEC.listOf()).ifPresent(list -> {
             for (int i = 0; i < Math.min(AUTO_QUEUE_SIZE, list.size()); i++) {
-                moreminecrafts$outputBuffer.set(i, list.get(i).copy());
+                outputBuffer.set(i, list.get(i).copy());
             }
         });
         if (input.getIntOr("MoreMinecraftsBrewProvenanceVersion", 0) == BrewingOutputProvenance.DATA_VERSION)

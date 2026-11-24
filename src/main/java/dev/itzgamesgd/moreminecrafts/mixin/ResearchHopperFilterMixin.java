@@ -29,6 +29,9 @@ abstract class ResearchHopperFilterMixin implements HopperFilterAccess {
 
     @Override
     public HopperFilterState moreminecrafts$getFilterState() {
+        if (moreminecrafts$filterState == null) {
+            moreminecrafts$filterState = HopperFilterState.emptyWhitelist();
+        }
         return moreminecrafts$filterState;
     }
 
@@ -40,6 +43,9 @@ abstract class ResearchHopperFilterMixin implements HopperFilterAccess {
 
     @Override
     public BlockEntityResearchAttribution.State moreminecrafts$getResearchAttribution() {
+        if (moreminecrafts$researchAttribution == null) {
+            moreminecrafts$researchAttribution = BlockEntityResearchAttribution.State.empty();
+        }
         return moreminecrafts$researchAttribution;
     }
 
@@ -52,11 +58,12 @@ abstract class ResearchHopperFilterMixin implements HopperFilterAccess {
     @Override
     public boolean moreminecrafts$isFilterActive(ServerLevel level) {
         if (level == null || level.getServer() == null) return false;
-        if (moreminecrafts$filterState.entries().isEmpty() && moreminecrafts$filterState.whitelist()) {
+        HopperFilterState state = moreminecrafts$getFilterState();
+        if (state.entries().isEmpty() && state.whitelist()) {
             return false; // Unconfigured default hopper behaves like vanilla until entries or blacklist mode is set.
         }
         return BlockEntityResearchAttribution.resolveLevel(
-                level.getServer(), moreminecrafts$researchAttribution, "hopper_filter") > 0;
+                level.getServer(), moreminecrafts$getResearchAttribution(), "hopper_filter") > 0;
     }
 
     @Inject(method = "saveAdditional", at = @At("TAIL"))
