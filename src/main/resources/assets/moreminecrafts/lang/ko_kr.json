@@ -1132,5 +1132,12 @@
   "entity.moreminecrafts.buried_mummy": "매장된 미라",
   "entity.moreminecrafts.crypt_archer": "묘실 궁수",
   "entity.moreminecrafts.funeral_servant": "장례 시종",
-  "entity.moreminecrafts.gilded_mummy": "금장 미라"
+  "entity.moreminecrafts.gilded_mummy": "금장 미라",
+  "item.moreminecrafts.wood_dagger": "나무 단검",
+  "item.moreminecrafts.stone_dagger": "돌 단검",
+  "item.moreminecrafts.copper_dagger": "구리 단검",
+  "item.moreminecrafts.iron_dagger": "철 단검",
+  "item.moreminecrafts.gold_dagger": "금 단검",
+  "item.moreminecrafts.diamond_dagger": "다이아몬드 단검",
+  "item.moreminecrafts.netherite_dagger": "네더라이트 단검"
 }
