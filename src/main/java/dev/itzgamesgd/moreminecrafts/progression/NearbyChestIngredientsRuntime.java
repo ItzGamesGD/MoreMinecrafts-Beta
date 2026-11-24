@@ -45,7 +45,7 @@ public final class NearbyChestIngredientsRuntime {
     }
 
     public static void syncForPlayer(ServerPlayer player, BlockPos center) {
-        if (player == null || ResearchRewards.level(player, "nearby_chest_ingredients", "nearby_chest_ingredients") <= 0) {
+        if (player == null || ResearchRewards.level(player, "nearby_chest_ingredients", "chest_ingredient_reference") <= 0) {
             return;
         }
         if (ServerPlayNetworking.canSend(player, NearbyChestSyncPayload.TYPE)) {
@@ -55,7 +55,7 @@ public final class NearbyChestIngredientsRuntime {
 
     public static int pullItem(ServerPlayer player, BlockPos center, NearbyChestPullPayload payload) {
         if (player == null || payload == null
-                || ResearchRewards.level(player, "nearby_chest_ingredients", "nearby_chest_ingredients") <= 0) {
+                || ResearchRewards.level(player, "nearby_chest_ingredients", "chest_ingredient_reference") <= 0) {
             return 0;
         }
         Identifier id = Identifier.tryParse(payload.itemId());
