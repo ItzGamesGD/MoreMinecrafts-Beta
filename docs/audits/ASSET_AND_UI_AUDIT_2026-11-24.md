@@ -41,10 +41,10 @@
 | # | ID | 발견 | 심각도 | 크기 | 근거 |
 |---|---|---|---|---|---|
 | 1 | A-01 | 유물 코어 5종(`*_relic_core`)과 `relic_catalyst`에 `items/*.json`이 없다. 26.x에서는 누락 모델(마젠타/검정) 아이콘으로 나온다. 코어는 실제 드롭되고(`ArtifactCoreDrops`), 촉매는 모루 슬롯에 들어간다. | 깨짐 | 소 | 부록 TSV `NO_ITEM_DEF`. `models/item/*_relic_core.json`은 있는데 연결이 안 됨. `relic_catalyst`는 모델도 없음. 인게임 화면으로는 확인하지 못함(정적 판정). |
-| 2 | C-01 | 인챈트 진행 화면(330×360)이 GUI 4(1920×1080 → 480×270)에서 화면을 벗어난다. 탭 2개가 y=-37에 그려지고 슬롯 28개가 화면 밖이다. GUI 3에서는 패널이 y=0에 붙어 여백이 없다. | 깨짐 | 중 | `enchanting-gui-scale-diagnostic.txt`(`panelFits=false`, `widgetsOffScreen=[Enchantment@83,-37, Book Option@243,-37]`), 시트 `enchant-scale-3-tree`, `enchant-scale-4-tree`, `enchant-scale-4-book-options` |
+| 2 | C-01 (정정 §8 참조) | 인챈트 진행 화면(330×360)이 GUI 4(1920×1080 → 480×270)에서 화면을 벗어난다. 탭 2개가 y=-37에 그려지고 슬롯 28개가 화면 밖이다. GUI 3에서는 패널이 y=0에 붙어 여백이 없다. | 깨짐 | 중 | `enchanting-gui-scale-diagnostic.txt`(`panelFits=false`, `widgetsOffScreen=[Enchantment@83,-37, Book Option@243,-37]`), 시트 `enchant-scale-3-tree`, `enchant-scale-4-tree`, `enchant-scale-4-book-options` |
 | 3 | A-03 | T2 원소 무기 5종(물의 검, 바람의 검, 바람 활, 대지의 철퇴, 번개의 검)과 암흑 에너지 지팡이가 모두 바닐라 `diamond_sword` 텍스처를 쓴다. 활은 당김 단계가 없고, 철퇴도 검으로 보인다. | 결함 | 중(무기당) | `models/item/{wind_sword,…}.json` `layer0: minecraft:item/diamond_sword`. 권한: `SKY_ISLANDS_T2_CONTEXT_2026-10-27.md` §1 "무기는 … 고유 텍스처/모델을 갖는다". 지팡이는 권한상 deferred/placeholder. |
 | 4 | A-07 | ko_kr 키 누락 71개(아이템·블록 이름 65, 컨테이너·UI 6). 한국어 클라이언트에서 영어로 나온다. 대상: 광물 전체, 강화석, 바람의 검·T2 무기, 유틸 장비, 단검·대검 14종, 백팩 제목 등. `auto_farm` 블록 이름은 en/ko 모두 없어 원시 키가 나온다. | 결함(auto_farm은 깨짐) | 소~중 | 부록 TSV `NO_LANG_*`. 정적 키 검사: 코드의 리터럴 키 중 en 누락 0, ko 누락 6(`container.moreminecrafts.{backpack,fish_trap,mining_drill,portable_furnace,potion_injector}`, `item.moreminecrafts.enhancement_level`). 한국어 명칭이 권한 문서에 없는 항목은 명칭 결정이 필요하다. |
-| 5 | C-04 | 연구 툴팁에 내부 식별자와 미완성 문구가 그대로 나온다. 예: "Prerequisite research: Production Engineering, V3 Research 08", "Tier: Unspecified"/"단계: 분류 미확정", "Next level effect description". 비용, 재료, 구매 상태 줄에 충족/부족 색이 없다. | 결함 | 소~중 | `gui-scale-3-en_us/research-node-tooltip.png`, `gui-scale-3-ko_kr/research-unavailable-tooltip.png`, `ProgressionTreeCanvas.java:1036-1090`(비용·재료·상태 줄에 스타일 없음). 권한: 2026-10-12 정정은 "localized item-rich tooltips"를 요구함 |
+| 5 | C-04 (정정 §8 참조) | 연구 툴팁에 내부 식별자와 미완성 문구가 그대로 나온다. 예: "Prerequisite research: Production Engineering, V3 Research 08", "Tier: Unspecified"/"단계: 분류 미확정", "Next level effect description". 비용, 재료, 구매 상태 줄에 충족/부족 색이 없다. | 결함 | 소~중 | `gui-scale-3-en_us/research-node-tooltip.png`, `gui-scale-3-ko_kr/research-unavailable-tooltip.png`, `ProgressionTreeCanvas.java:1036-1090`(비용·재료·상태 줄에 스타일 없음). 권한: 2026-10-12 정정은 "localized item-rich tooltips"를 요구함 |
 | 6 | C-06 | T1 모루 강화 모드에서 재료가 부족한 상태가 충분한 상태와 똑같아 보인다. 비용 줄 색이 `0xFF303030` 하나로 고정이고, 비활성 버튼도 겉모습 차이가 거의 없다. 바닐라 모루는 비용이 모자라면 빨간색으로 표시한다. | 결함 | 소 | 시트 `anvil-scale-3-accessory-insufficient`와 `…-4-to-5-before` 비교, `T1AnvilScreen.java:173-193`. 기능은 정상(`ANVIL_INSUFFICIENT_REJECTED`). |
 | 7 | A-04 | 임시 텍스처 12장(T2 재료 11 + 깃털 부적)이 마젠타 체커 표식이 있는 공용 보석 모양이다. 대문자 파일 `textures/item/PLACEHOLDER_T2_TEXTURES.txt` 때문에 실행할 때마다 `ERROR Invalid path in mod resource-pack` 로그가 나온다. | 결함 | 소(로그) / 중(아트) | 모든 클라이언트 로그, 예: `sky-bbmodel/client.log` `[Worker-Main-3/ERROR] (ModNioPackResources) Invalid path … PLACEHOLDER_T2_TEXTURES.txt`. 메모 파일을 `assets/` 밖으로 옮기면 로그는 사라진다. 아트는 오너 결정이 필요하다. |
 | 8 | A-06 | 단검·대검 14종이 모든 티어에서 바닐라 `iron_sword` 모델을 쓴다. 인벤토리에서 티어와 종류(단검/대검/바닐라 철 검)를 구분할 수 없다. | 결함 | 중 | `items/*_dagger.json`, `items/*_greatsword.json`. 권한(`EARLY_T1_T2…CHECKPOINT`)은 "vanilla-style" 확장이라고만 하며 아이콘은 정하지 않음 → 미정 |
@@ -167,7 +167,7 @@
 
 | ID | 화면 | 발견 | 심각도 | 크기 | 근거 | 개선안 |
 |---|---|---|---|---|---|---|
-| C-01 | 인챈트 진행(`EnchantingProgressionScreen`, 330×360) | GUI 4(480×270)에서 탭이 y=-37, 슬롯 28개가 화면 밖. GUI 3은 위 여백 0이라 탭 윗부분이 잘림 | 깨짐 | 중 | `enchanting-gui-scale-diagnostic.txt`, 시트 `enchant-scale-3/4-*` | 높이를 270 이하로 줄이거나(인벤토리 줄 압축, 탭을 패널 안으로), 넘칠 때 스크롤 영역. 바닐라 모루·인챈트대(166 높이)와 맞추는 것이 기준 |
+| C-01 (정정 §8 참조) | 인챈트 진행(`EnchantingProgressionScreen`, 330×360) | GUI 4(480×270)에서 탭이 y=-37, 슬롯 28개가 화면 밖. GUI 3은 위 여백 0이라 탭 윗부분이 잘림 | 깨짐 | 중 | `enchanting-gui-scale-diagnostic.txt`, 시트 `enchant-scale-3/4-*` | 높이를 270 이하로 줄이거나(인벤토리 줄 압축, 탭을 패널 안으로), 넘칠 때 스크롤 영역. 바닐라 모루·인챈트대(166 높이)와 맞추는 것이 기준 |
 | C-02 | 낚싯대(`FishingRodScreen`, 330×270) | 높이 270 고정. 1280×720 GUI 3(240)에서 30px 넘칠 것으로 계산됨. 커스텀 어두운 테마(`0xEE17212C`)라 바닐라와 톤이 다름 | 결함(추정) | 중 | `FishingRodScreen.java:25,51` | 가용 높이에 맞춘 축소 배치. **NOT RUN: 스크린샷 없음** |
 | C-03 | 계약(`ContractScreen`, 260×240) | 목표·보유·보상 줄에 폭 제한이나 줄바꿈이 없어 긴 대상 이름(한국어 구조물명 등)이 패널 밖으로 나갈 수 있음. 완료(초록)/부족(진홍) 색 구분은 있음(좋음) | 결함(추정) | 소~중 | `ContractScreen.java:98-136` | `font.split`으로 줄바꿈하거나 말줄임 + 툴팁. 패널 높이를 가용 높이에 맞춤. **NOT RUN** |
 | C-04 | 연구·지식 툴팁 | 내부 ID 노출("V3 Research 08"), "Tier: Unspecified/분류 미확정", 라벨형 문구("Next level effect description/다음 레벨 효과 설명"). 비용·재료·상태 줄이 무색이라 가능/불가/부족을 한눈에 알 수 없음. GUI 3에서 툴팁이 캔버스의 약 70%를 덮고 화면 제목과 겹침 | 결함 | 소~중 | `gui-scale-3-en_us/research-node-tooltip.png`, `gui-scale-3-ko_kr/research-unavailable-tooltip.png`, `ProgressionTreeCanvas.java:1040-1090` | 선행 연구는 현지화 이름으로 표시(이름이 없으면 숨김). 미확정 단계 줄은 숨김. 충족=초록·부족=빨강(바닐라 관례). 상태 줄 색 구분. 툴팁 최대 폭과 높이 제한 |
@@ -203,3 +203,14 @@
 
 - 에셋·코드·권한 문서는 바꾸지 않았다. 워크플로를 실행하거나 추가하지 않았다.
 - 승인 자산(불꽃검, 물고기·낚시 장비, 광물, 액세서리 12종, 선택 카드 아트, 액세서리 인벤토리 배치)은 기록만 하고 변경을 제안하지 않았다.
+
+## 8. 정정 (수정 작업 중 확인한 내용)
+
+수정 작업(`claude/asset-ui-fixes-20261124`)에서 코드를 더 읽고 발견한 정정이다. 위 본문은 감사 시점 기록으로 두고 여기서 바로잡는다.
+
+| 항목 | 정정 |
+|---|---|
+| C-01 인챈트 화면 | `EnchantingProgressionScreen.init()`은 이미 `ViewportScale.fit(…, padding 8)`로 창에 맞춰 축소한다. 진단 로그의 `panelFits=false`와 `widgetsOffScreen`은 축소 전 좌표를 재므로 **실제 깨짐의 증거가 아니다**. 다만 통합 시트의 GUI 3/4 타일은 위아래가 잘려 보여 축소가 반영되었는지 확신할 수 없다. 원본 스크린샷이 없어 판정 보류이며, 심각도는 "깨짐"이 아니라 **확인 필요**로 낮춘다. 코드는 바꾸지 않았다. |
+| C-04 연구 툴팁의 "V3 Research 08" | 코드가 내부 ID를 만드는 것이 아니라 `en_us.json`의 연구 제목 60개가 임시 문구 "V3 Research NN"이다. 한국어는 실제 이름이 있다. 영어 제목은 명칭 결정이므로 **C(오너 결정)**로 옮긴다. 코드에서는 미확정 단계 줄 숨김과 충족·부족 색만 처리했다. |
+| A-07 ko 누락 키 | 한국어 이름은 권한 문서에 없는 항목이 대부분이다(티타늄, 미스릴, 유틸 장비 등). 기존 용어로 확정되는 `block.moreminecrafts.auto_farm`("자동 농장")만 추가했다. 나머지는 **C(명칭 결정)**. |
+| 검증 한계 | 클라이언트 캡처 워크플로(`client-visual-validation`, `accessory-client-acceptance`)는 수동 실행 트리거가 없고 특정 브랜치·PR에서만 돈다. 수정 브랜치의 화면 변경은 **NOT RUN**이다. |
