@@ -28,6 +28,7 @@
     "K5LevelBlockMutationMixin",
     "K5WorldGenRegionBlockMutationMixin",
     "St01WorldGenRegionGuardMixin",
+    "St03StructureStartPlacementMixin",
     "St03WorldGenRegionLavaGuardMixin",
     "St03SpawnSuppressionMixin",
     "NoiseBasedChunkGeneratorAccessor",
