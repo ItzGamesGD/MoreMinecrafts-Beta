@@ -11,21 +11,24 @@ import net.minecraft.client.renderer.entity.AbstractSkeletonRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.SkeletonRenderState;
 import net.minecraft.resources.Identifier;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 /**
  * Skyguard Archer: the Blockbench model (scripts/bbmodel-capture/convert.py) on the vanilla skeleton renderer, so the
- * skeleton bow-aim pose is kept. The Celestial Longbow is drawn in the left hand by {@link HeldWeaponLayer}; the
- * vanilla bow item is not drawn.
+ * skeleton bow-aim pose is kept. The Celestial Longbow is drawn through the vanilla held-item path: a render-only
+ * bow stack whose item model is the longbow, so hand placement is exactly vanilla's.
  */
 final class SkyguardArcherRenderer extends AbstractSkeletonRenderer<SkyguardArcher, SkeletonRenderState> {
     static final Identifier TEXTURE = ModIds.id("textures/entity/bb_skyguard_archer.png");
-    static final Identifier WEAPON_TEXTURE = ModIds.id("textures/entity/bb_skyguard_archer_weapon.png");
+    /** Created lazily: item components are not bound yet while renderers register. */
+    private ItemStack heldBow;
 
     SkyguardArcherRenderer(EntityRendererProvider.Context context) {
         super(context, ModelLayers.SKELETON_ARMOR, new ArcherModel());
-        addLayer(new HeldWeaponLayer<>(this,
-                BbModelParts.buildWeapon("skyguard_archer_weapon", "skyguard_archer", "left_arm"), WEAPON_TEXTURE, HumanoidArm.LEFT));
     }
 
     static void register() {
@@ -40,8 +43,13 @@ final class SkyguardArcherRenderer extends AbstractSkeletonRenderer<SkyguardArch
     @Override
     public void extractRenderState(SkyguardArcher entity, SkeletonRenderState state, float partialTick) {
         super.extractRenderState(entity, state, partialTick);
-        // The longbow is drawn by HeldWeaponLayer, so the vanilla bow item from the entity is not drawn.
-        state.rightHandItemState.clear();
+        if (heldBow == null) {
+            heldBow = new ItemStack(Items.BOW);
+            heldBow.set(DataComponents.ITEM_MODEL, ModIds.id("skyguard_archer_weapon"));
+        }
+        state.rightHandItemStack = heldBow;
+        itemModelResolver.updateForLiving(state.rightHandItemState, heldBow,
+                ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, entity);
         state.leftHandItemState.clear();
     }
 
