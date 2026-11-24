@@ -126,7 +126,9 @@ public final class QuestC3ThresholdGameTests implements CustomTestMethodInvoker 
                 List<ResearchDefinition> byDiscipline = new ArrayList<>();
                 Set<String> seenDisciplines = new HashSet<>();
                 for (ResearchDefinition d : ResearchCatalog.allCatalogEntries()) {
-                    if (seenDisciplines.add(d.discipline())) byDiscipline.add(d);
+                    if (!"ROOT".equals(d.tier()) && !d.id().endsWith("_root") && seenDisciplines.add(d.discipline())) {
+                        byDiscipline.add(d);
+                    }
                 }
                 for (int i = 0; i < amount; i++) s = s.with("research." + byDiscipline.get(i).id(), 1);
             }
@@ -178,8 +180,10 @@ public final class QuestC3ThresholdGameTests implements CustomTestMethodInvoker 
         for (XpQuestCatalogData.Spec spec : XpQuestCatalogData.catalog().quests()) {
             if (!spec.registered() || covered.contains(spec.id())) continue;
             if (spec.tracker().kind().equals("distinct_groups") || spec.tracker().kind().equals("research_value")
+                    || (spec.tracker().kind().equals("knowledge_seen") && "biomes_visited".equals(spec.tracker().key())
+                        && spec.tracker().entries().isEmpty())
                     || spec.id().startsWith("xpq.exp.first_structure_loot")
-                    || spec.tracker().key().startsWith("set.structure_loot")) continue; // C1 loot and research_value have dedicated tests
+                    || spec.tracker().key().startsWith("set.structure_loot")) continue; // C1 loot, research_value, and join-observed biomes have dedicated tests
             checked++;
             ServerPlayer player = ctx.makeMockServerPlayerInLevel();
             List<XpQuestCatalogData.Spec> one = List.of(spec);
@@ -196,8 +200,38 @@ public final class QuestC3ThresholdGameTests implements CustomTestMethodInvoker 
                 failures.add(spec.id() + " gives another player progress " + nothing.questProgress(spec.id()));
         }
         System.out.println("QUEST_C3_THRESHOLDS checked=" + checked);
-        ctx.assertTrue(checked == 113, "the table covered every registered quest without a dedicated test: " + checked);
+        ctx.assertTrue(checked == 111, "the table covered every registered quest without a dedicated test: " + checked);
         ctx.assertTrue(failures.isEmpty(), "threshold failures: " + failures);
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void biomeSeenThresholdsWork(GameTestHelper ctx) {
+        for (String id : List.of("xpq.exp.biomes_25", "xpq.exp.biomes_40")) {
+            XpQuestCatalogData.Spec spec = XpQuestCatalogData.catalog().quests().stream()
+                    .filter(q -> q.id().equals(id)).findFirst().orElseThrow();
+            ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+            ServerPlayer other = ctx.makeMockServerPlayerInLevel();
+            int base = XpQuestTracking.reconcile(player, KnowledgeRuntime.state(player), List.of(spec))
+                    .questProgress(spec.id());
+            int otherBefore = XpQuestTracking.reconcile(other, KnowledgeRuntime.state(other), List.of(spec))
+                    .questProgress(spec.id());
+            ResearchProgressState s = KnowledgeRuntime.state(player);
+            for (int i = 0; i < spec.target() - 1 - base; i++) {
+                s = s.with(KnowledgeConditionSemantics.distinctObservationKey("biomes_visited", "test:biome_" + i), 1);
+            }
+            KnowledgeRuntime.updateState(player, s);
+            ResearchProgressState partial = XpQuestTracking.reconcile(player, KnowledgeRuntime.state(player), List.of(spec));
+            ctx.assertTrue(!partial.questComplete(spec.id()) && partial.questProgress(spec.id()) == spec.target() - 1,
+                    spec.id() + " at target-1: progress " + partial.questProgress(spec.id()));
+            s = s.with(KnowledgeConditionSemantics.distinctObservationKey("biomes_visited", "test:biome_final"), 1);
+            KnowledgeRuntime.updateState(player, s);
+            ResearchProgressState full = XpQuestTracking.reconcile(player, KnowledgeRuntime.state(player), List.of(spec));
+            ctx.assertTrue(full.questComplete(spec.id()), spec.id() + " complete at target");
+            ResearchProgressState otherAfter = XpQuestTracking.reconcile(other, KnowledgeRuntime.state(other), List.of(spec));
+            ctx.assertTrue(otherAfter.questProgress(spec.id()) == otherBefore && !otherAfter.questComplete(spec.id()),
+                    spec.id() + " does not leak to another player");
+        }
         ctx.succeed();
     }
 
