@@ -21,14 +21,39 @@ import net.minecraft.world.level.storage.ValueOutput;
 public final class FishTrapBlockEntity extends BaseContainerBlockEntity {
     private NonNullList<ItemStack> items = NonNullList.withSize(LowerEquipmentRules.FISH_TRAP_SLOTS, ItemStack.EMPTY);
     private int productionTicks;
+    private dev.itzgamesgd.moreminecrafts.progression.BlockEntityResearchAttribution.State researchAttribution =
+            dev.itzgamesgd.moreminecrafts.progression.BlockEntityResearchAttribution.State.empty();
 
     public FishTrapBlockEntity(BlockPos pos, BlockState state) { super(ModBlockEntities.FISH_TRAP, pos, state); }
 
+    public dev.itzgamesgd.moreminecrafts.progression.BlockEntityResearchAttribution.State researchAttribution() {
+        return researchAttribution;
+    }
+
+    public void recordPlaced(java.util.UUID playerId) {
+        var next = researchAttribution.openedBy(playerId);
+        if (!next.equals(researchAttribution)) {
+            researchAttribution = next;
+            setChanged();
+        }
+    }
+
+    public void recordInteracted(java.util.UUID playerId) {
+        var next = researchAttribution.interactedBy(playerId);
+        if (!next.equals(researchAttribution)) {
+            researchAttribution = next;
+            setChanged();
+        }
+    }
+
     public static void serverTick(ServerLevel level, BlockPos pos, BlockState state, FishTrapBlockEntity trap) {
         if (trap.isFull()) return; // timer is intentionally paused, not reset, while full
-        trap.productionTicks = LowerEquipmentRules.advanceFishTrapTimer(trap.productionTicks, false);
+        int level26 = dev.itzgamesgd.moreminecrafts.progression.BlockEntityResearchAttribution.resolveLevel(
+                level.getServer(), trap.researchAttribution, "v3.research.26");
+        int interval = LowerEquipmentRules.fishTrapIntervalTicks(level26);
+        trap.productionTicks = LowerEquipmentRules.advanceFishTrapTimer(trap.productionTicks, false, interval);
         trap.setChanged();
-        if (trap.productionTicks < LowerEquipmentRules.FISH_TRAP_INTERVAL_TICKS) return;
+        if (trap.productionTicks < interval) return;
         trap.productionTicks = 0;
         var random = level.getRandom();
         FishSpecies species = FishingLogic.selectSpecies(java.util.List.of(FishSpecies.values()), random);
@@ -58,9 +83,13 @@ public final class FishTrapBlockEntity extends BaseContainerBlockEntity {
         super.loadAdditional(input); ContainerHelper.loadAllItems(input, items);
         productionTicks = Math.max(0, Math.min(LowerEquipmentRules.FISH_TRAP_INTERVAL_TICKS - 1,
                 input.getIntOr("ProductionTicks", 0)));
+        researchAttribution = dev.itzgamesgd.moreminecrafts.progression.BlockEntityResearchAttribution.load(
+                input, "MoreMinecraftsResearchAttribution");
     }
     @Override protected void saveAdditional(ValueOutput output) {
         super.saveAdditional(output); ContainerHelper.saveAllItems(output, items);
         output.putInt("ProductionTicks", productionTicks);
+        dev.itzgamesgd.moreminecrafts.progression.BlockEntityResearchAttribution.save(
+                output, "MoreMinecraftsResearchAttribution", researchAttribution);
     }
 }

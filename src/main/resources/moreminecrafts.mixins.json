@@ -140,7 +140,13 @@
     "QuestWitherSkullSpawnMixin",
     "QuestWitherSkullMergeMixin",
     "QuestWitherSkullPickupMixin",
-    "MerchantMenuPiglinSoundMixin"
+    "MerchantMenuPiglinSoundMixin",
+    "ResearchSlimeSplitMixin",
+    "BrewingStandBlockInteractionMixin",
+    "BrewingMenuInteractionMixin",
+    "ResearchEcologyMobMixin",
+    "ResearchSkeletonAimMixin",
+    "LivingEntityAttackAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
@@ -154,6 +160,8 @@
     "FishingRodItemClientMixin",
     "FishingRodInputClientMixin",
     "T1AnvilScreenFactoryMixin",
-    "ProgressionAdvancementKeyMixin"
+    "ProgressionAdvancementKeyMixin",
+    "ResearchVillagerStockScreenMixin",
+    "ResearchChestSortScreenMixin"
   ]
 }

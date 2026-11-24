@@ -1,6 +1,11 @@
 package dev.itzgamesgd.moreminecrafts.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import dev.itzgamesgd.moreminecrafts.progression.BlockEntityResearchAttribution;
 import dev.itzgamesgd.moreminecrafts.progression.BrewingOutputProvenance;
+import dev.itzgamesgd.moreminecrafts.progression.BrewingResearchRuntime;
+import dev.itzgamesgd.moreminecrafts.progression.BrewingResearchStateAccess;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
@@ -9,24 +14,82 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
-/** Captures only the output mutation made by vanilla's successful brew operation. */
+/** Captures output provenance and applies `.59`/`.60`/`.66` brewing research effects. */
 @Mixin(BrewingStandBlockEntity.class)
-abstract class KnowledgeBrewingMixin {
+abstract class KnowledgeBrewingMixin implements BrewingResearchStateAccess {
+    @Shadow private int brewTime;
+    @Shadow private int fuel;
+
+    @Unique
+    private BlockEntityResearchAttribution.State moreminecrafts$researchAttribution =
+            BlockEntityResearchAttribution.State.empty();
+    @Unique
+    private double moreminecrafts$brewProgressRemainder;
+    @Unique
+    private int moreminecrafts$fuelBeforeTick;
+    @Unique
+    private int moreminecrafts$powderBeforeTick;
+
+    @Override
+    public BlockEntityResearchAttribution.State moreminecrafts$getResearchAttribution() {
+        return moreminecrafts$researchAttribution;
+    }
+
+    @Override
+    public void moreminecrafts$setResearchAttribution(BlockEntityResearchAttribution.State state) {
+        moreminecrafts$researchAttribution = state == null ? BlockEntityResearchAttribution.State.empty() : state;
+        ((BrewingStandBlockEntity) (Object) this).setChanged();
+    }
+
+    @Override
+    public double moreminecrafts$getBrewProgressRemainder() {
+        return moreminecrafts$brewProgressRemainder;
+    }
+
+    @Override
+    public void moreminecrafts$setBrewProgressRemainder(double remainder) {
+        moreminecrafts$brewProgressRemainder = Double.isFinite(remainder) && remainder >= 0.0D && remainder < 1.0D
+                ? remainder : 0.0D;
+    }
+
     @Inject(method = "serverTick", at = @At("HEAD"))
-    private static void moreminecrafts$reconcileOutputProvenance(ServerLevel level, BlockPos pos, BlockState state,
+    private static void moreminecrafts$reconcileAndAccelerateBrew(ServerLevel level, BlockPos pos, BlockState state,
             BrewingStandBlockEntity stand, CallbackInfo ci) {
         BrewingOutputProvenance.reconcile(stand);
+        KnowledgeBrewingMixin self = (KnowledgeBrewingMixin) (Object) stand;
+        self.moreminecrafts$fuelBeforeTick = self.fuel;
+        self.moreminecrafts$powderBeforeTick = stand.getItem(4).getCount();
+        self.brewTime = BrewingResearchRuntime.accelerateBrewTime(level, stand, self.brewTime);
+    }
+
+    @Inject(method = "serverTick", at = @At("RETURN"))
+    private static void moreminecrafts$applyAdvancedBrewingFuel(ServerLevel level, BlockPos pos, BlockState state,
+            BrewingStandBlockEntity stand, CallbackInfo ci) {
+        KnowledgeBrewingMixin self = (KnowledgeBrewingMixin) (Object) stand;
+        if (self.moreminecrafts$fuelBeforeTick <= 0 && self.fuel == 20
+                && stand.getItem(4).getCount() < self.moreminecrafts$powderBeforeTick) {
+            int updatedFuel = BrewingResearchRuntime.fuelUsesPerBlazePowder(level, stand);
+            if (updatedFuel != self.fuel) {
+                self.fuel = updatedFuel;
+                stand.setChanged();
+            }
+        }
     }
 
     @Inject(method = "saveAdditional", at = @At("TAIL"))
     private void moreminecrafts$saveBrewProvenance(ValueOutput output, CallbackInfo ci) {
         BrewingStandBlockEntity stand = (BrewingStandBlockEntity) (Object) this;
+        BlockEntityResearchAttribution.save(output, "MoreMinecraftsBrewResearchAttribution",
+                moreminecrafts$researchAttribution);
+        if (moreminecrafts$brewProgressRemainder > 0.0D) {
+            output.putDouble("MoreMinecraftsBrewProgressRemainder", moreminecrafts$brewProgressRemainder);
+        }
         var pending = BrewingOutputProvenance.save(stand);
         if (!pending.isEmpty()) {
             output.putInt("MoreMinecraftsBrewProvenanceVersion", BrewingOutputProvenance.DATA_VERSION);
@@ -37,6 +100,11 @@ abstract class KnowledgeBrewingMixin {
     @Inject(method = "loadAdditional", at = @At("TAIL"))
     private void moreminecrafts$loadBrewProvenance(ValueInput input, CallbackInfo ci) {
         BrewingStandBlockEntity stand = (BrewingStandBlockEntity) (Object) this;
+        moreminecrafts$researchAttribution = BlockEntityResearchAttribution.load(
+                input, "MoreMinecraftsBrewResearchAttribution");
+        double loadedRemainder = input.getDoubleOr("MoreMinecraftsBrewProgressRemainder", 0.0D);
+        moreminecrafts$brewProgressRemainder = Double.isFinite(loadedRemainder)
+                && loadedRemainder >= 0.0D && loadedRemainder < 1.0D ? loadedRemainder : 0.0D;
         if (input.getIntOr("MoreMinecraftsBrewProvenanceVersion", 0) == BrewingOutputProvenance.DATA_VERSION)
             input.read("MoreMinecraftsBrewProvenance", BrewingOutputProvenance.CODEC)
                     .ifPresent(pending -> BrewingOutputProvenance.load(stand, pending));
@@ -48,7 +116,10 @@ abstract class KnowledgeBrewingMixin {
             BrewingStandBlockEntity stand, Operation<Void> original) {
         ItemStack[] before = new ItemStack[3];
         for (int slot = 0; slot < 3; slot++) before[slot] = stand.getItem(slot).copy();
+        ItemStack ingredientBefore = stand.getItem(3).copy();
         original.call(level, pos, stand);
+        BrewingResearchRuntime.adjustBrewedPotions(level, stand, ingredientBefore, before);
+        BrewingResearchRuntime.tryPreserveCatalyst(level, stand, ingredientBefore);
         ItemStack[] after = new ItemStack[3];
         for (int slot = 0; slot < 3; slot++) after[slot] = stand.getItem(slot).copy();
         BrewingOutputProvenance.completed(level, pos, stand, before, after);

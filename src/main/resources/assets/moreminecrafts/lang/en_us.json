@@ -1208,5 +1208,9 @@
   "entity.moreminecrafts.buried_mummy": "Buried Mummy",
   "entity.moreminecrafts.crypt_archer": "Crypt Archer",
   "entity.moreminecrafts.funeral_servant": "Funeral Servant",
-  "entity.moreminecrafts.gilded_mummy": "Gilded Mummy"
+  "entity.moreminecrafts.gilded_mummy": "Gilded Mummy",
+  "moreminecrafts.research.auto_farm.locked": "Unlock Auto Farm research first to operate this machine.",
+  "moreminecrafts.ui.villager.stock": "Stock: %s / %s",
+  "moreminecrafts.ui.chest_sort.category": "Category",
+  "moreminecrafts.ui.chest_sort.name": "Name"
 }

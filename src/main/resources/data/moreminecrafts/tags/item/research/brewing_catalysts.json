@@ -1,0 +1,25 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:nether_wart",
+    "minecraft:redstone",
+    "minecraft:glowstone_dust",
+    "minecraft:gunpowder",
+    "minecraft:dragon_breath",
+    "minecraft:fermented_spider_eye",
+    "minecraft:spider_eye",
+    "minecraft:sugar",
+    "minecraft:glistering_melon_slice",
+    "minecraft:blaze_powder",
+    "minecraft:ghast_tear",
+    "minecraft:magma_cream",
+    "minecraft:golden_carrot",
+    "minecraft:rabbit_foot",
+    "minecraft:pufferfish",
+    "minecraft:phantom_membrane",
+    "minecraft:breeze_rod",
+    "minecraft:slime_ball",
+    "minecraft:cobweb",
+    "minecraft:stone"
+  ]
+}

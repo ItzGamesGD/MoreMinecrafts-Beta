@@ -139,6 +139,79 @@ public final class ResearchContentRuntime {
                 .findFirst().ifPresent(stack -> drops.add(stack.copyWithCount(1)));
     }
 
+    private static final TagKey<net.minecraft.world.item.Item> BREWING_INGREDIENTS = TagKey.create(
+            Registries.ITEM, Identifier.fromNamespaceAndPath("moreminecrafts", "research/brewing_ingredients"));
+    private static final ThreadLocal<Boolean> IN_MAGICAL_MOB_BONUS = ThreadLocal.withInitial(() -> Boolean.FALSE);
+
+    public static List<ItemStack> applyCropCultivationResearch(ServerPlayer player, BlockState state,
+                                                                List<ItemStack> baseDrops) {
+        if (player == null) return baseDrops;
+        return applyCropCultivationResearch(player, state, baseDrops, player.getRandom()::nextDouble);
+    }
+
+    static List<ItemStack> applyCropCultivationResearch(ServerPlayer player, BlockState state,
+                                                         List<ItemStack> baseDrops,
+                                                         java.util.function.DoubleSupplier random) {
+        if (player == null || player.isCreative() || baseDrops.isEmpty()) return baseDrops;
+        if (!(state.getBlock() instanceof CropBlock crop) || !crop.isMaxAge(state)) return baseDrops;
+        net.minecraft.world.item.Item produce = stapleCropProduce(state.getBlock());
+        if (produce == null) return baseDrops;
+        int level = ResearchRewards.level(player, "v3.research.14", "crop_cultivation_extra");
+        int extra = ResearchStage3HarvestRules.cropCultivationExtra(level, random.getAsDouble());
+        if (extra <= 0) return baseDrops;
+        List<ItemStack> drops = copyDrops(baseDrops);
+        drops.add(new ItemStack(produce, extra));
+        return drops;
+    }
+
+    private static net.minecraft.world.item.Item stapleCropProduce(net.minecraft.world.level.block.Block block) {
+        if (block == net.minecraft.world.level.block.Blocks.WHEAT) return net.minecraft.world.item.Items.WHEAT;
+        if (block == net.minecraft.world.level.block.Blocks.CARROTS) return net.minecraft.world.item.Items.CARROT;
+        if (block == net.minecraft.world.level.block.Blocks.POTATOES) return net.minecraft.world.item.Items.POTATO;
+        if (block == net.minecraft.world.level.block.Blocks.BEETROOTS) return net.minecraft.world.item.Items.BEETROOT;
+        return null;
+    }
+
+    public static List<ItemStack> applyMagicalMaterialBlockResearch(ServerPlayer player, BlockState state,
+                                                                     List<ItemStack> baseDrops) {
+        if (player == null) return baseDrops;
+        return applyMagicalMaterialBlockResearch(player, state, baseDrops, player.getRandom()::nextDouble);
+    }
+
+    static List<ItemStack> applyMagicalMaterialBlockResearch(ServerPlayer player, BlockState state,
+                                                              List<ItemStack> baseDrops,
+                                                              java.util.function.DoubleSupplier random) {
+        if (player == null || player.isCreative() || baseDrops.isEmpty()) return baseDrops;
+        int level = ResearchRewards.level(player, "v3.research.63", "magical_material_extra");
+        if (level <= 0) return baseDrops;
+        ItemStack eligible = baseDrops.stream()
+                .filter(stack -> !stack.isEmpty() && stack.is(BREWING_INGREDIENTS))
+                .findFirst().orElse(ItemStack.EMPTY);
+        if (eligible.isEmpty() || !ResearchStage3HarvestRules.magicalMaterialExtraSucceeds(level, random.getAsDouble())) {
+            return baseDrops;
+        }
+        List<ItemStack> drops = copyDrops(baseDrops);
+        drops.add(eligible.copyWithCount(1));
+        return drops;
+    }
+
+    public static void tryBonusMagicalMobDrop(net.minecraft.world.entity.Entity sourceEntity,
+                                              net.minecraft.server.level.ServerLevel level,
+                                              ItemStack droppedStack) {
+        if (Boolean.TRUE.equals(IN_MAGICAL_MOB_BONUS.get())) return;
+        if (droppedStack == null || droppedStack.isEmpty() || !droppedStack.is(BREWING_INGREDIENTS)) return;
+        if (!(sourceEntity instanceof net.minecraft.world.entity.LivingEntity victim) || !victim.isDeadOrDying()) return;
+        if (!(victim.getKillCredit() instanceof ServerPlayer killer) || killer.isCreative()) return;
+        int level63 = ResearchRewards.level(killer, "v3.research.63", "magical_material_extra");
+        if (!ResearchStage3HarvestRules.magicalMaterialExtraSucceeds(level63, killer.getRandom().nextDouble())) return;
+        IN_MAGICAL_MOB_BONUS.set(Boolean.TRUE);
+        try {
+            victim.spawnAtLocation(level, droppedStack.copyWithCount(1));
+        } finally {
+            IN_MAGICAL_MOB_BONUS.set(Boolean.FALSE);
+        }
+    }
+
     public static boolean isResearchOre(BlockState state) {
         return state.is(RESEARCH_ORES);
     }

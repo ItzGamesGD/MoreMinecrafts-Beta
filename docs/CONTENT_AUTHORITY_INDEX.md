@@ -111,6 +111,8 @@ For Stage 2-A/B acquisition semantics and verification status, use [Stage 2-A Kn
 
 13 user-approved knowledge-gated recipe alternatives are retained, all vanilla recipes remain available. Automatic crafting was rejected entirely. T3 mob capture (30-durability tool, original mob persistent state including villager trades, no bosses) and the latest mobility/hostile-target redirection/parachute clarifications are active scoped design. Defer rope arrows. This promotion does NOT itself assert runtime implementation and does not overturn separate existing equipment/fishing/enchantment authorities outside the new research scope.
 
+For the 12 research-effect design decisions resolved on 2026-11-24 (block-entity attribution, brewing tags, piglin barter separation, automatic tool switch, crop cultivation, soil study L3, ecology mob attribution, rare-mob tag, archaeology, shield counter, falling axe smash, weapon swap handling), see [Stage 23-B Research Effect Design Decisions](RESEARCH_STAGE23B_DESIGN_DECISIONS_2026-11-24.md).
+
 ## Oct 7 follow-up authority overlay
 
 The current design baseline is [the Oct 7 continuation record](CONTENT_FINALIZATION_CONTINUATION_2026-10-07.md). The implementation choices and provisional values made under the user's scoped follow-up are recorded in [the Oct 7 design and implementation follow-up](CONTENT_FINALIZATION_IMPLEMENTATION_2026-10-07.md). Those two documents supersede older `[OPEN]` statements in this index and the current design checklist for T2 core acquisition, Multi Catch, Fisherman fish sales, and the first one-time activity rewards. Numeric loot chances, the Emerald conversion divisor/cap, and all interactive behavior remain balance/live-validation pending.

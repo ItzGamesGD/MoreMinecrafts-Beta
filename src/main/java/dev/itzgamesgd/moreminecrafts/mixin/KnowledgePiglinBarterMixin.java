@@ -41,12 +41,27 @@ abstract class KnowledgePiglinBarterMixin {
             KnowledgeEventCollectors.rememberPiglinOffer(piglin, serverPlayer);
     }
 
+    @Inject(method = "angerNearbyPiglins", at = @At("HEAD"), cancellable = true)
+    private static void moreminecrafts$preventPiglinAnger(ServerLevel level, Player player, boolean requireVisible,
+            CallbackInfo ci) {
+        if (player instanceof ServerPlayer serverPlayer) {
+            int level43 = dev.itzgamesgd.moreminecrafts.progression.ResearchRewards.level(
+                    serverPlayer, "v3.research.43", "piglin_anger_prevention");
+            if (dev.itzgamesgd.moreminecrafts.progression.ResearchEcologyAiRules.piglinAngerPrevented(
+                    level43, serverPlayer.getRandom().nextDouble())) {
+                ci.cancel();
+            }
+        }
+    }
+
     @WrapOperation(method = "stopHoldingOffHandItem",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/monster/piglin/PiglinAi;throwItems(Lnet/minecraft/world/entity/monster/piglin/Piglin;Ljava/util/List;)V", ordinal = 0))
     private static void moreminecrafts$recordSuccessfulBarter(Piglin piglin, List<ItemStack> barterDrops,
             Operation<Void> original) {
-        original.call(piglin, barterDrops);
-        if (!barterDrops.isEmpty()) KnowledgeEventCollectors.completePiglinBarter(piglin);
+        List<ItemStack> adjusted = dev.itzgamesgd.moreminecrafts.progression.ResearchWorldLootRuntime
+                .applyPiglinBarterBonus(piglin, barterDrops);
+        original.call(piglin, adjusted);
+        if (!adjusted.isEmpty()) KnowledgeEventCollectors.completePiglinBarter(piglin);
         else KnowledgeEventCollectors.clearPiglinOffer(piglin);
     }
 

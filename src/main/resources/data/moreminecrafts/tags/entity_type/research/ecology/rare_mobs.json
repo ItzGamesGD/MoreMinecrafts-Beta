@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:endermite",
+    "minecraft:evoker",
+    "minecraft:elder_guardian",
+    "moreminecrafts:end_bug",
+    "moreminecrafts:crystal_bug",
+    "moreminecrafts:cloud_wraith",
+    "moreminecrafts:fallen_sentinel",
+    "moreminecrafts:gilded_mummy",
+    "moreminecrafts:lesser_wither_skeleton"
+  ]
+}

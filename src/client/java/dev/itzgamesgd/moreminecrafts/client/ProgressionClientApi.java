@@ -70,6 +70,7 @@ public final class ProgressionClientApi {
     public static synchronized String lastAction() { return lastAction; }
     public static synchronized int lastActionResult() { return lastActionResult; }
     public static synchronized boolean purchasePending(String id) { return PURCHASE_GATE.pending("research:" + id); }
+    public static synchronized int researchLevel(String researchId) { return state().researchLevel(researchId); }
     private static synchronized ResearchProgressState state() { return new ResearchProgressState(values); }
 
     public static java.util.List<ProgressionScreenData.KnowledgeRow> knowledge(String discipline) {

@@ -33,13 +33,37 @@ public final class AutoFarmBlockEntity extends BaseContainerBlockEntity implemen
 
     private NonNullList<ItemStack> items = NonNullList.withSize(TOTAL, ItemStack.EMPTY);
     private int cursor;
+    private BlockEntityResearchAttribution.State researchAttribution = BlockEntityResearchAttribution.State.empty();
 
     public AutoFarmBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.AUTO_FARM, pos, state);
     }
 
+    public BlockEntityResearchAttribution.State researchAttribution() {
+        return researchAttribution;
+    }
+
+    public void recordPlaced(java.util.UUID playerId) {
+        BlockEntityResearchAttribution.State next = researchAttribution.openedBy(playerId);
+        if (!next.equals(researchAttribution)) {
+            researchAttribution = next;
+            setChanged();
+        }
+    }
+
+    public void recordInteracted(java.util.UUID playerId) {
+        BlockEntityResearchAttribution.State next = researchAttribution.interactedBy(playerId);
+        if (!next.equals(researchAttribution)) {
+            researchAttribution = next;
+            setChanged();
+        }
+    }
+
     public static void serverTick(ServerLevel level, BlockPos pos, BlockState state, AutoFarmBlockEntity farm) {
         if (level.getGameTime() % 20 != 0 || !level.hasNeighborSignal(pos)) return;
+        if (BlockEntityResearchAttribution.resolveLevel(level.getServer(), farm.researchAttribution, "v3.research.24") <= 0) {
+            return;
+        }
         // One operation per tick interval, one crop layer only, never force chunk loading.
         for (int tested = 0; tested < 81; tested++) {
             int index = (farm.cursor++ % 81);
@@ -122,9 +146,11 @@ public final class AutoFarmBlockEntity extends BaseContainerBlockEntity implemen
     @Override protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input); ContainerHelper.loadAllItems(input, items);
         cursor = Math.floorMod(input.getIntOr("Cursor", 0), 81);
+        researchAttribution = BlockEntityResearchAttribution.load(input, "MoreMinecraftsResearchAttribution");
     }
     @Override protected void saveAdditional(ValueOutput output) {
         super.saveAdditional(output); ContainerHelper.saveAllItems(output, items);
         output.putInt("Cursor", cursor);
+        BlockEntityResearchAttribution.save(output, "MoreMinecraftsResearchAttribution", researchAttribution);
     }
 }
