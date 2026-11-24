@@ -5,8 +5,12 @@ import net.fabricmc.fabric.api.gametest.v1.CustomTestMethodInvoker;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.ProblemReporter;
@@ -14,6 +18,7 @@ import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameType;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.TagValueInput;
 import net.minecraft.world.level.storage.TagValueOutput;
@@ -314,10 +319,10 @@ public final class XpQuestTrackingGameTests implements CustomTestMethodInvoker {
         }
         ctx.placeAt(player, new ItemStack(Items.CHEST), base, Direction.UP);
         ctx.placeAt(player, new ItemStack(Items.BARREL), base.east(), Direction.UP);
-        ctx.placeAt(player, new ItemStack(Items.COPPER_BLOCK), base.south(), Direction.UP);
-        ctx.placeAt(player, new ItemStack(Items.EXPOSED_COPPER), base.south().east(), Direction.UP);
-        ctx.placeAt(player, new ItemStack(Items.WEATHERED_COPPER), base.south(2), Direction.UP);
-        ctx.placeAt(player, new ItemStack(Items.OXIDIZED_COPPER), base.south(2).east(), Direction.UP);
+        ctx.placeAt(player, new ItemStack(BuiltInRegistries.ITEM.getOptional(Identifier.parse("minecraft:copper_block")).orElseThrow()), base.south(), Direction.UP);
+        ctx.placeAt(player, new ItemStack(BuiltInRegistries.ITEM.getOptional(Identifier.parse("minecraft:exposed_copper")).orElseThrow()), base.south().east(), Direction.UP);
+        ctx.placeAt(player, new ItemStack(BuiltInRegistries.ITEM.getOptional(Identifier.parse("minecraft:weathered_copper")).orElseThrow()), base.south(2), Direction.UP);
+        ctx.placeAt(player, new ItemStack(BuiltInRegistries.ITEM.getOptional(Identifier.parse("minecraft:oxidized_copper")).orElseThrow()), base.south(2).east(), Direction.UP);
         XpQuestTracking.reconcile(player);
         ctx.assertTrue(state(player).questProgress("xpq.bld.storage_50") == 2, "chest and barrel counted");
         ctx.assertTrue(state(player).questComplete("xpq.bld.copper_ages"), "4 copper stages complete");
@@ -390,7 +395,8 @@ public final class XpQuestTrackingGameTests implements CustomTestMethodInvoker {
         activate("xpq.cft.recipes_200");
         ServerPlayer creative = ctx.makeMockServerPlayerInLevel();
         creative.setGameMode(GameType.CREATIVE);
-        XpQuestHooks.crafted(creative, new ItemStack(dev.itzgamesgd.moreminecrafts.registry.ModItems.EXPLORATION_SLEEPING_BAG),
+        XpQuestHooks.crafted(creative,
+                new ItemStack(BuiltInRegistries.ITEM.getOptional(Identifier.parse("moreminecrafts:exploration_sleeping_bag")).orElseThrow()),
                 "moreminecrafts:exploration_sleeping_bag");
         XpQuestTracking.reconcile(creative);
         ctx.assertTrue(!state(creative).questComplete("xpq.cft.sleeping_bag"), "creative craft is ignored");
@@ -409,13 +415,22 @@ public final class XpQuestTrackingGameTests implements CustomTestMethodInvoker {
         ctx.assertTrue(QuestRules.distinctCount(state(survival), XpQuestHooks.CRAFTED_RECIPES_SET) >= 1,
                 "real crafting result slot take records recipe ID");
 
-        XpQuestHooks.crafted(survival, new ItemStack(dev.itzgamesgd.moreminecrafts.registry.ModItems.EXPLORATION_SLEEPING_BAG),
+        XpQuestHooks.crafted(survival,
+                new ItemStack(BuiltInRegistries.ITEM.getOptional(Identifier.parse("moreminecrafts:exploration_sleeping_bag")).orElseThrow()),
                 "moreminecrafts:exploration_sleeping_bag");
         XpQuestHooks.crafted(survival, new ItemStack(Items.SHULKER_BOX), "minecraft:shulker_box");
-        XpQuestHooks.crafted(survival, new ItemStack(Items.WHITE_SHULKER_BOX), "minecraft:white_shulker_box");
-        XpQuestHooks.crafted(survival, new ItemStack(Items.RED_SHULKER_BOX), "minecraft:red_shulker_box");
-        XpQuestHooks.crafted(survival, new ItemStack(Items.BLUE_SHULKER_BOX), "minecraft:blue_shulker_box");
-        XpQuestHooks.crafted(survival, new ItemStack(Items.GREEN_SHULKER_BOX), "minecraft:green_shulker_box");
+        XpQuestHooks.crafted(survival,
+                new ItemStack(BuiltInRegistries.ITEM.getOptional(Identifier.parse("minecraft:white_shulker_box")).orElseThrow()),
+                "minecraft:white_shulker_box");
+        XpQuestHooks.crafted(survival,
+                new ItemStack(BuiltInRegistries.ITEM.getOptional(Identifier.parse("minecraft:red_shulker_box")).orElseThrow()),
+                "minecraft:red_shulker_box");
+        XpQuestHooks.crafted(survival,
+                new ItemStack(BuiltInRegistries.ITEM.getOptional(Identifier.parse("minecraft:blue_shulker_box")).orElseThrow()),
+                "minecraft:blue_shulker_box");
+        XpQuestHooks.crafted(survival,
+                new ItemStack(BuiltInRegistries.ITEM.getOptional(Identifier.parse("minecraft:green_shulker_box")).orElseThrow()),
+                "minecraft:green_shulker_box");
         XpQuestTracking.reconcile(survival);
         ctx.assertTrue(state(survival).questComplete("xpq.cft.sleeping_bag"), "survival sleeping bag craft completes");
         ctx.assertTrue(state(survival).questComplete("xpq.dim.shulker_boxes"), "4 dyed shulker colors complete");
@@ -496,15 +511,17 @@ public final class XpQuestTrackingGameTests implements CustomTestMethodInvoker {
         cartographer.setTradingPlayer(player);
         cartographer.setVillagerData(cartographer.getVillagerData()
                 .withProfession(professions.getOrThrow(net.minecraft.world.entity.npc.villager.VillagerProfession.CARTOGRAPHER)));
-        for (var typeKey : new net.minecraft.resources.ResourceKey[]{
-                net.minecraft.world.level.saveddata.maps.MapDecorationTypes.MONUMENT,
-                net.minecraft.world.level.saveddata.maps.MapDecorationTypes.MANSION,
-                net.minecraft.world.level.saveddata.maps.MapDecorationTypes.TRIAL_CHAMBERS}) {
+        for (String typeId : new String[]{
+                "minecraft:monument",
+                "minecraft:mansion",
+                "minecraft:trial_chambers"}) {
+            var typeHolder = decorationsRegistry.get(
+                    ResourceKey.create(Registries.MAP_DECORATION_TYPE, Identifier.parse(typeId))).orElseThrow();
             ItemStack map = new ItemStack(Items.FILLED_MAP);
             map.set(net.minecraft.core.component.DataComponents.MAP_DECORATIONS,
                     new net.minecraft.world.item.component.MapDecorations(java.util.Map.of(
                             "+", new net.minecraft.world.item.component.MapDecorations.Entry(
-                                    decorationsRegistry.getOrThrow(typeKey), 0.0D, 0.0D, 0.0F))));
+                                    typeHolder, 0.0D, 0.0D, 0.0F))));
             cartographer.notifyTrade(new net.minecraft.world.item.trading.MerchantOffer(
                     new net.minecraft.world.item.trading.ItemCost(Items.EMERALD, 12),
                     java.util.Optional.empty(), map, 12, 1, 0.0F));
