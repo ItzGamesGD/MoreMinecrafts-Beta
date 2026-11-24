@@ -1,0 +1,210 @@
+category	id	kind_or_family	model_or_renderer	textures	texture_size	status	en_us	ko_kr
+item	bounty_contract	register	minecraft:item/paper			VANILLA_MODEL:item/paper	Bounty Contract	현상금 계약서
+item	special_contract	register	minecraft:item/map			VANILLA_MODEL:item/map	Special Contract	특별 계약서
+item	raw_titanium	material	moreminecrafts:item/raw_titanium	item/raw_titanium	32x32	NO_LANG_ko_kr	Raw Titanium	
+item	titanium_ingot	material	moreminecrafts:item/titanium_ingot	item/titanium_ingot	32x32	NO_LANG_ko_kr	Titanium Ingot	
+item	mythril	material	moreminecrafts:item/mythril	item/mythril	32x32	NO_LANG_ko_kr	Mythril	
+item	etherium	material	moreminecrafts:item/etherium	item/etherium	32x32	NO_LANG_ko_kr	Etherium	
+item	etherium_shard	material	moreminecrafts:item/etherium_shard	item/etherium_shard	32x32	OK	Etherium Shard	이더리움 파편
+item	etherium_ingot	material	moreminecrafts:item/etherium_ingot	item/etherium_ingot	32x32	OK	Etherium Ingot	이더리움 주괴
+item	gale_shard	material	moreminecrafts:item/gale_shard	item/gale_shard	32x32	OK	Gale Shard	돌풍 파편
+item	colony_crystal	material	moreminecrafts:item/colony_crystal	minecraft:item/amethyst_shard		VANILLA_TEXTURE	Colony Crystal	군락의 수정
+item	sky_feather	material	moreminecrafts:item/sky_feather	item/sky_feather	32x32	OK	Sky Feather	천공의 깃털
+item	adamantium_ingot	fireResistantMaterial	moreminecrafts:item/adamantium_ingot	item/adamantium	32x32	NO_LANG_ko_kr	Adamantium Ingot	
+item	eye_of_typhoon	core	minecraft:item/ender_eye			VANILLA_MODEL:item/ender_eye	Eye of the Typhoon	태풍의 눈
+item	heart_of_thunder	core	minecraft:item/heart_of_the_sea			VANILLA_MODEL:item/heart_of_the_sea	Heart of Thunder	천둥의 심장
+item	burning_heart	core	minecraft:item/fire_charge			VANILLA_MODEL:item/fire_charge	Burning Heart	불타는 심장
+item	heart_of_currents	core	minecraft:item/heart_of_the_sea			VANILLA_MODEL:item/heart_of_the_sea	Heart of Currents	해류의 심장
+item	ancient_heart	core	minecraft:item/echo_shard			VANILLA_MODEL:item/echo_shard	Ancient Heart	고대의 심장
+item	earthen_relic_core	material				NO_ITEM_DEF	Earthen Relic Core	대지의 유물핵
+item	abyssal_relic_core	material				NO_ITEM_DEF	Abyssal Relic Core	심연의 유물핵
+item	glacial_relic_core	material				NO_ITEM_DEF	Glacial Relic Core	한기의 유물핵
+item	tidal_relic_core	material				NO_ITEM_DEF	Tidal Relic Core	해류의 유물핵
+item	blazing_relic_core	material				NO_ITEM_DEF	Blazing Relic Core	작열의 유물핵
+item	skeleton_king_chain	material	moreminecrafts:item/skeleton_king_chain	item/skeleton_king_chain	32x32	PLACEHOLDER_LISTED	Skeleton King's Chain	스켈레톤 킹의 쇠사슬
+item	gladiator_blood_crest	material	moreminecrafts:item/gladiator_blood_crest	item/gladiator_blood_crest	32x32	PLACEHOLDER_LISTED	Gladiator's Bloodied Crest	검투사의 핏빛 문장
+item	ancient_clock_spring	material	moreminecrafts:item/ancient_clock_spring	item/ancient_clock_spring	32x32	PLACEHOLDER_LISTED	Ancient Clock Spring	고대 시계 태엽
+item	ancient_world_tree_sap	material	moreminecrafts:item/ancient_world_tree_sap	item/ancient_world_tree_sap	32x32	PLACEHOLDER_LISTED	Ancient World Tree Sap	고대 세계수의 수액
+item	lava_heartstone	material	moreminecrafts:item/lava_heartstone	item/lava_heartstone	32x32	PLACEHOLDER_LISTED	Lava Heartstone	용암 심장석
+item	permafrost_crystal	material	moreminecrafts:item/permafrost_crystal	item/permafrost_crystal	32x32	PLACEHOLDER_LISTED	Perennial Snow Crystal	만년설의 결정
+item	abyssal_pearl_core	material	moreminecrafts:item/abyssal_pearl_core	item/abyssal_pearl_core	32x32	PLACEHOLDER_LISTED	Deep-Sea Pearl Core	심해의 진주핵
+item	mermaid_scale	material	moreminecrafts:item/mermaid_scale	item/mermaid_scale	32x32	PLACEHOLDER_LISTED	Mermaid's Scale	인어의 비늘
+item	void_star_shard	material	moreminecrafts:item/void_star_shard	item/void_star_shard	32x32	PLACEHOLDER_LISTED	Void Star Shard	공허의 별조각
+item	void_gravity_core	material	moreminecrafts:item/void_gravity_core	item/void_gravity_core	32x32	PLACEHOLDER_LISTED	Void Gravity Core	공허의 중력핵
+item	shimmering_soul_glass	material	moreminecrafts:item/shimmering_soul_glass	item/shimmering_soul_glass	32x32	PLACEHOLDER_LISTED	Shimmering Soul Glass	아른거리는 영혼 유리
+item	relic_catalyst	register				NO_ITEM_DEF	Relic Catalyst (provisional)	유물 촉매 (잠정)
+item	mob_capture_tool	register	minecraft:item/brush			VANILLA_MODEL:item/brush	Mob Capture Tool	몹 포획 도구
+item	captured_mob_egg	register	minecraft:item/egg			VANILLA_MODEL:item/egg	Captured Mob Egg	포획한 개체의 알
+item	parachute	register	minecraft:item/feather			VANILLA_MODEL:item/feather	Parachute	낙하산
+item	miner_lantern	simpleUtility	minecraft:item/lantern			NO_LANG_ko_kr;VANILLA_MODEL:item/lantern	Miner Lantern	
+item	potion_injector	register	minecraft:item/potion			NO_LANG_ko_kr;VANILLA_MODEL:item/potion	Potion Injector	
+item	portable_furnace	register	minecraft:block/furnace			NO_LANG_ko_kr;VANILLA_MODEL:block/furnace	Portable Furnace	
+item	mining_drill	register	minecraft:item/netherite_pickaxe			NO_LANG_ko_kr;VANILLA_MODEL:item/netherite_pickaxe	Mining Drill	
+item	small_backpack	backpack	minecraft:item/bundle			NO_LANG_ko_kr;VANILLA_MODEL:item/bundle	Small Backpack	
+item	backpack	backpack	minecraft:item/bundle			NO_LANG_ko_kr;VANILLA_MODEL:item/bundle	Backpack	
+item	large_backpack	backpack	minecraft:item/shulker_box			NO_LANG_ko_kr;VANILLA_MODEL:item/shulker_box	Large Backpack	
+item	gauntlet	register	minecraft:item/iron_ingot			NO_LANG_ko_kr;VANILLA_MODEL:item/iron_ingot	Gauntlet	
+item	foundation_probe	direct				NO_ITEM_DEF;NO_LANG_en_us;NO_LANG_ko_kr		
+item	enhancement_stone	direct	moreminecrafts:item/enhancement_stone	item/enhancement_stone	32x32	NO_LANG_ko_kr	Enhancement Stone	
+item	flame_sword	direct	moreminecrafts:item/flame_sword	item/flame_sword	1263x1246	3D_ELEMENTS	Flame Sword	불꽃검
+item	wind_sword	direct	moreminecrafts:item/wind_sword	minecraft:item/diamond_sword		NO_LANG_ko_kr;VANILLA_TEXTURE	Wind Sword	
+item	flowing_water_sword	direct	moreminecrafts:item/flowing_water_sword	minecraft:item/diamond_sword		NO_LANG_ko_kr;VANILLA_TEXTURE	Flowing Water Sword	
+item	wind_archers_bow	direct	moreminecrafts:item/wind_archers_bow	minecraft:item/diamond_sword		NO_LANG_ko_kr;VANILLA_TEXTURE	Wind Archer's Bow	
+item	earth_mace	direct	moreminecrafts:item/earth_mace	minecraft:item/diamond_sword		NO_LANG_ko_kr;VANILLA_TEXTURE	Earth Mace	
+item	lightning_sword	direct	moreminecrafts:item/lightning_sword	minecraft:item/diamond_sword		NO_LANG_ko_kr;VANILLA_TEXTURE	Lightning Sword	
+item	dark_energy_staff	direct	moreminecrafts:item/dark_energy_staff	minecraft:item/diamond_sword		NO_LANG_ko_kr;VANILLA_TEXTURE	Dark Energy Staff	
+item	snow_charm	accessory	moreminecrafts:item/snow_charm	item/snow_charm	32x32	OK	Snow Charm	설원의 부적
+item	deep_sea_pearl	accessory	moreminecrafts:item/deep_sea_pearl	item/deep_sea_pearl	32x32	OK	Deep Sea Pearl	심해의 진주
+item	ember_ring	accessory	moreminecrafts:item/ember_ring	item/ember_ring	32x32	OK	Ember Ring	잿불 반지
+item	ring_of_life	accessory	moreminecrafts:item/ring_of_life	item/ring_of_life	32x32	OK	Ring of Life	생명의 고리
+item	whisper_of_the_sea	accessory	moreminecrafts:item/whisper_of_the_sea	item/whisper_of_the_sea	32x32	OK	Whisper of the Sea	바다의 속삭임
+item	star_covenant	accessory	moreminecrafts:item/star_covenant	item/star_covenant	32x32	OK	Star Covenant	별의 계약
+item	phantom_mirror	accessory	moreminecrafts:item/phantom_mirror	item/phantom_mirror	32x32	OK	Phantom Mirror	환영의 거울
+item	ring_of_time	accessory	moreminecrafts:item/ring_of_time	item/ring_of_time	32x32	OK	Ring of Time	시간의 고리
+item	blood_covenant	accessory	moreminecrafts:item/blood_covenant	item/blood_covenant	32x32	OK	Blood Covenant	피의 계약
+item	seed_of_life	accessory	moreminecrafts:item/seed_of_life	item/seed_of_life	32x32	OK	Seed of Life	생명의 씨앗
+item	heart_of_gravity	accessory	moreminecrafts:item/heart_of_gravity	item/heart_of_gravity	32x32	OK	Heart of Gravity	중력의 심장
+item	soul_chain	accessory	moreminecrafts:item/soul_chain	item/soul_chain	32x32	OK	Soul Chain	영혼의 사슬
+item	t1_combo	accessory	moreminecrafts:item/t1_combo	minecraft:item/iron_sword		VANILLA_TEXTURE	Combo (T1, provisional)	연속 공격 (T1 임시)
+item	t1_crisis_escape	accessory	moreminecrafts:item/t1_crisis_escape	minecraft:item/totem_of_undying		VANILLA_TEXTURE	Crisis Escape (T1, provisional)	위기 탈출 (T1 임시)
+item	t1_heavy_buffer	accessory	moreminecrafts:item/t1_heavy_buffer	minecraft:item/iron_chestplate		VANILLA_TEXTURE	Heavy Buffer (T1, provisional)	강한 일격 완충 (T1 임시)
+item	t1_status_resilience	accessory	moreminecrafts:item/t1_status_resilience	minecraft:item/milk_bucket		VANILLA_TEXTURE	Status Resilience (T1, provisional)	상태이상 대응 (T1 임시)
+item	t1_sustained_recovery	accessory	moreminecrafts:item/t1_sustained_recovery	minecraft:item/glistering_melon_slice		VANILLA_TEXTURE	Sustained Recovery (T1, provisional)	지속 회복 (T1 임시)
+item	t1_sprint_acceleration	accessory	moreminecrafts:item/t1_sprint_acceleration	minecraft:item/sugar		VANILLA_TEXTURE	Sprint Acceleration (T1, provisional)	질주 가속 (T1 임시)
+item	t1_double_jump	accessory	moreminecrafts:item/t1_double_jump	minecraft:item/feather		VANILLA_TEXTURE	Double Jump (T1, provisional)	더블 점프 (T1 임시)
+item	feather_charm	accessory	moreminecrafts:item/feather_charm	item/feather_charm	32x32	PLACEHOLDER_LISTED	Feather Charm	깃털 부적
+item	wood_dagger	weapon	minecraft:item/iron_sword			NO_LANG_ko_kr;VANILLA_MODEL:item/iron_sword	Wood Dagger	
+item	wood_greatsword	weapon	minecraft:item/iron_sword			NO_LANG_ko_kr;VANILLA_MODEL:item/iron_sword	Wood Greatsword	
+item	stone_dagger	weapon	minecraft:item/iron_sword			NO_LANG_ko_kr;VANILLA_MODEL:item/iron_sword	Stone Dagger	
+item	stone_greatsword	weapon	minecraft:item/iron_sword			NO_LANG_ko_kr;VANILLA_MODEL:item/iron_sword	Stone Greatsword	
+item	copper_dagger	weapon	minecraft:item/iron_sword			NO_LANG_ko_kr;VANILLA_MODEL:item/iron_sword	Copper Dagger	
+item	copper_greatsword	weapon	minecraft:item/iron_sword			NO_LANG_ko_kr;VANILLA_MODEL:item/iron_sword	Copper Greatsword	
+item	iron_dagger	weapon	minecraft:item/iron_sword			NO_LANG_ko_kr;VANILLA_MODEL:item/iron_sword	Iron Dagger	
+item	iron_greatsword	weapon	minecraft:item/iron_sword			NO_LANG_ko_kr;VANILLA_MODEL:item/iron_sword	Iron Greatsword	
+item	gold_dagger	weapon	minecraft:item/iron_sword			NO_LANG_ko_kr;VANILLA_MODEL:item/iron_sword	Gold Dagger	
+item	gold_greatsword	weapon	minecraft:item/iron_sword			NO_LANG_ko_kr;VANILLA_MODEL:item/iron_sword	Gold Greatsword	
+item	diamond_dagger	weapon	minecraft:item/iron_sword			NO_LANG_ko_kr;VANILLA_MODEL:item/iron_sword	Diamond Dagger	
+item	diamond_greatsword	weapon	minecraft:item/iron_sword			NO_LANG_ko_kr;VANILLA_MODEL:item/iron_sword	Diamond Greatsword	
+item	netherite_dagger	weapon	minecraft:item/iron_sword			NO_LANG_ko_kr;VANILLA_MODEL:item/iron_sword	Netherite Dagger	
+item	netherite_greatsword	weapon	minecraft:item/iron_sword			NO_LANG_ko_kr;VANILLA_MODEL:item/iron_sword	Netherite Greatsword	
+item	crucian_carp	fish	moreminecrafts:item/crucian_carp	item/crucian_carp	512x512	3D_ELEMENTS	Crucian Carp	붕어
+item	common_carp	fish	moreminecrafts:item/common_carp	item/common_carp	512x512	3D_ELEMENTS	Common Carp	잉어
+item	amur_catfish	fish	moreminecrafts:item/amur_catfish	item/amur_catfish	512x512	3D_ELEMENTS	Amur Catfish	메기
+item	rainbow_trout	fish	moreminecrafts:item/rainbow_trout	item/rainbow_trout	512x512	3D_ELEMENTS	Rainbow Trout	무지개송어
+item	largemouth_bass	fish	moreminecrafts:item/largemouth_bass	item/largemouth_bass	512x512	3D_ELEMENTS	Largemouth Bass	큰입배스
+item	northern_pike	fish	moreminecrafts:item/northern_pike	item/northern_pike	512x512	3D_ELEMENTS	Northern Pike	파이크
+item	atlantic_salmon	fish	moreminecrafts:item/atlantic_salmon	item/atlantic_salmon	512x512	3D_ELEMENTS	Atlantic Salmon	대서양연어
+item	yellowfin_tuna	fish	moreminecrafts:item/yellowfin_tuna	item/yellowfin_tuna	512x512	3D_ELEMENTS	Yellowfin Tuna	황다랑어
+item	arapaima	fish	moreminecrafts:item/arapaima	item/arapaima	512x512	3D_ELEMENTS	Arapaima	피라루쿠
+item	swordfish	fish	moreminecrafts:item/swordfish	item/swordfish	512x512	3D_ELEMENTS	Swordfish	황새치
+item	blue_marlin	fish	moreminecrafts:item/blue_marlin	item/blue_marlin	512x512	3D_ELEMENTS	Atlantic Blue Marlin	블루마린
+item	beluga_sturgeon	fish	moreminecrafts:item/beluga_sturgeon	item/beluga_sturgeon	512x512	3D_ELEMENTS	Beluga Sturgeon	벨루가 철갑상어
+item	reel_1	fishing_equipment	moreminecrafts:item/reel_1	item/reel_1	311x237	3D_ELEMENTS	Reel I	릴 I
+item	reel_2	fishing_equipment	moreminecrafts:item/reel_2	item/reel_2	294x247	3D_ELEMENTS	Reel II	릴 II
+item	reel_3	fishing_equipment	moreminecrafts:item/reel_3	item/reel_3	280x250	3D_ELEMENTS	Reel III	릴 III
+item	reel_4	legacy_equipment	moreminecrafts:item/reel_4	minecraft:item/iron_nugget		NO_LANG_ko_kr;VANILLA_TEXTURE	Reel IV	
+item	reel_5	legacy_equipment	moreminecrafts:item/reel_5	minecraft:item/iron_nugget		NO_LANG_ko_kr;VANILLA_TEXTURE	Reel V	
+item	crankbait_1	fishing_equipment	moreminecrafts:item/crankbait_1	item/crankbait_1	327x210	3D_ELEMENTS	Crankbait I	크랭크베이트 I
+item	crankbait_2	fishing_equipment	moreminecrafts:item/crankbait_2	item/crankbait_2	320x214	3D_ELEMENTS	Crankbait II	크랭크베이트 II
+item	crankbait_3	fishing_equipment	moreminecrafts:item/crankbait_3	item/crankbait_3	307x219	3D_ELEMENTS	Crankbait III	크랭크베이트 III
+item	crankbait_4	legacy_equipment	moreminecrafts:item/crankbait_4	item/crankbait_3	307x219	NO_LANG_ko_kr	Crankbait IV	
+item	crankbait_5	legacy_equipment	moreminecrafts:item/crankbait_5	item/crankbait_3	307x219	NO_LANG_ko_kr	Crankbait V	
+item	minnow_1	fishing_equipment	moreminecrafts:item/minnow_1	item/minnow_1	314x173	3D_ELEMENTS	Minnow I	미노우 I
+item	minnow_2	fishing_equipment	moreminecrafts:item/minnow_2	item/minnow_2	292x175	3D_ELEMENTS	Minnow II	미노우 II
+item	minnow_3	fishing_equipment	moreminecrafts:item/minnow_3	item/minnow_3	282x178	3D_ELEMENTS	Minnow III	미노우 III
+item	minnow_4	legacy_equipment	moreminecrafts:item/minnow_4	minecraft:item/tropical_fish		NO_LANG_ko_kr;VANILLA_TEXTURE	Minnow IV	
+item	minnow_5	legacy_equipment	moreminecrafts:item/minnow_5	minecraft:item/tropical_fish		NO_LANG_ko_kr;VANILLA_TEXTURE	Minnow V	
+item	bluegill	legacy_fish	moreminecrafts:item/bluegill	minecraft:item/cod		NO_LANG_ko_kr;VANILLA_TEXTURE	Bluegill	
+item	perch	legacy_fish	moreminecrafts:item/perch	minecraft:item/cod		NO_LANG_ko_kr;VANILLA_TEXTURE	Perch	
+item	trout	legacy_fish	moreminecrafts:item/trout	minecraft:item/cod		NO_LANG_ko_kr;VANILLA_TEXTURE	Trout	
+item	catfish	legacy_fish	moreminecrafts:item/catfish	minecraft:item/cod		NO_LANG_ko_kr;VANILLA_TEXTURE	Catfish	
+item	salmon	legacy_fish	moreminecrafts:item/salmon	minecraft:item/cod		NO_LANG_ko_kr;VANILLA_TEXTURE	Salmon	
+item	pike	legacy_fish	moreminecrafts:item/pike	minecraft:item/cod		NO_LANG_ko_kr;VANILLA_TEXTURE	Pike	
+item	sturgeon	legacy_fish	moreminecrafts:item/sturgeon	minecraft:item/cod		NO_LANG_ko_kr;VANILLA_TEXTURE	Sturgeon	
+item	golden_koi	legacy_fish	moreminecrafts:item/golden_koi	minecraft:item/cod		NO_LANG_ko_kr;VANILLA_TEXTURE	Golden Koi	
+item	abyssal_angler	legacy_fish	moreminecrafts:item/abyssal_angler	minecraft:item/cod		NO_LANG_ko_kr;VANILLA_TEXTURE	Abyssal Angler	
+item	ancient_coelacanth	legacy_fish	moreminecrafts:item/ancient_coelacanth	minecraft:item/cod		NO_LANG_ko_kr;VANILLA_TEXTURE	Ancient Coelacanth	
+block	deepslate_titanium_ore	block_item	moreminecrafts:block/deepslate_titanium_ore	block/titanium_ore_deepslate	32x32	NO_LANG_ko_kr	Deepslate Titanium Ore	
+block	titanium_ore	block_item	moreminecrafts:block/titanium_ore	block/titanium_ore	32x32	NO_LANG_ko_kr	Titanium Ore	
+block	deepslate_mythril_ore	block_item	moreminecrafts:block/deepslate_mythril_ore	block/mythril_ore_deepslate	32x32	NO_LANG_ko_kr	Deepslate Mythril Ore	
+block	mythril_ore	block_item	moreminecrafts:block/mythril_ore	block/mythril_ore	32x32	NO_LANG_ko_kr	Mythril Ore	
+block	deepslate_etherium_ore	block_item	moreminecrafts:block/deepslate_etherium_ore	block/etherium_ore_deepslate	32x32	NO_LANG_ko_kr	Deepslate Etherium Ore	
+block	etherium_ore	block_item	moreminecrafts:block/etherium_ore	block/etherium_ore	32x32	NO_LANG_ko_kr	Etherium Ore	
+block	adamantium_debris	block_item	moreminecrafts:block/adamantium_debris	block/adamantium_debris	32x32	NO_LANG_ko_kr	Adamantium Debris	
+block	titanium_block	block_item	moreminecrafts:block/titanium_block	block/titanium_block	32x32	NO_LANG_ko_kr	Titanium Block	
+block	mythril_block	block_item	moreminecrafts:block/mythril_block	block/mythril_block	32x32	NO_LANG_ko_kr	Mythril Block	
+block	etherium_block	block_item	moreminecrafts:block/etherium_block	block/etherium_block	32x32	NO_LANG_ko_kr	Etherium Block	
+block	adamantium_block	block_item	moreminecrafts:block/adamantium_block	block/adamantium_block	32x32	NO_LANG_ko_kr	Adamantium Block	
+block	exploration_sleeping_bag	block_item	moreminecrafts:block/exploration_sleeping_bag	minecraft:block/green_wool		NO_LANG_ko_kr;VANILLA_TEXTURE	Exploration Sleeping Bag	
+block	fish_trap	block_item	moreminecrafts:block/fish_trap	minecraft:block/barrel_side		NO_LANG_ko_kr;VANILLA_TEXTURE	Fish Trap	
+block	spider_egg_sac	block_item	moreminecrafts:block/spider_egg_sac			OK	Spider Egg Sac	거미 알주머니
+block	hanging_cocoon	block_item	moreminecrafts:block/hanging_cocoon	minecraft:block/cobweb		3D_ELEMENTS;VANILLA_TEXTURE	Hanging Cocoon	매달린 고치
+block	auto_farm	block_item	moreminecrafts:block/auto_farm	minecraft:block/observer_front		NO_LANG_en_us;NO_LANG_ko_kr;VANILLA_TEXTURE		
+entity	swamp_zombie	ordinary custom mob (CustomMobCatalog)	ZombieRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/swamp_zombie*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	cave_zombie	ordinary custom mob (CustomMobCatalog)	ZombieRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/cave_zombie*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	large_zombie	ordinary custom mob (CustomMobCatalog)	ZombieRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/large_zombie*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	frozen_zombie	ordinary custom mob (CustomMobCatalog)	ZombieRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/frozen_zombie*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	mossy_zombie	ordinary custom mob (CustomMobCatalog)	ZombieRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/mossy_zombie*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	fungal_zombie	ordinary custom mob (CustomMobCatalog)	ZombieRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/fungal_zombie*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	miner_zombie	ordinary custom mob (CustomMobCatalog)	ZombieRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/miner_zombie*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	rotten_skeleton	ordinary custom mob (CustomMobCatalog)	SkeletonRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/rotten_skeleton*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	cave_skeleton	ordinary custom mob (CustomMobCatalog)	SkeletonRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/cave_skeleton*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	armored_skeleton	ordinary custom mob (CustomMobCatalog)	SkeletonRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/armored_skeleton*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	ashen_skeleton	ordinary custom mob (CustomMobCatalog)	SkeletonRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/ashen_skeleton*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	lesser_wither_skeleton	ordinary custom mob (CustomMobCatalog)	WitherSkeletonRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/lesser_wither_skeleton*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	mountain_skeleton	ordinary custom mob (CustomMobCatalog)	StrayRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/mountain_skeleton*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	miner_skeleton	ordinary custom mob (CustomMobCatalog)	SkeletonRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/miner_skeleton*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	small_spider	ordinary custom mob (CustomMobCatalog)	CaveSpiderRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/small_spider*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	large_spider	ordinary custom mob (CustomMobCatalog)	SpiderRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/large_spider*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	forest_spider	ordinary custom mob (CustomMobCatalog)	SpiderRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/forest_spider*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	desert_spider	ordinary custom mob (CustomMobCatalog)	SpiderRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/desert_spider*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	swamp_spider	ordinary custom mob (CustomMobCatalog)	CaveSpiderRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/swamp_spider*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	ice_spider	ordinary custom mob (CustomMobCatalog)	SpiderRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/ice_spider*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	cave_bug	ordinary custom mob (CustomMobCatalog)	SilverfishRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/cave_bug*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	desert_bug	ordinary custom mob (CustomMobCatalog)	SilverfishRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/desert_bug*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	end_bug	ordinary custom mob (CustomMobCatalog)	EndermiteRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/end_bug*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	wild_slime	ordinary custom mob (CustomMobCatalog)	SlimeRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/wild_slime*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	mud_slime	ordinary custom mob (CustomMobCatalog)	SlimeRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/mud_slime*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	sand_slime	ordinary custom mob (CustomMobCatalog)	SlimeRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/sand_slime*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	lesser_magma_cube	ordinary custom mob (CustomMobCatalog)	MagmaCubeRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/lesser_magma_cube*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	drowned_sailor	ordinary custom mob (CustomMobCatalog)	DrownedRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/drowned_sailor*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	deep_sea_drowned	ordinary custom mob (CustomMobCatalog)	DrownedRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/deep_sea_drowned*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	river_drowned	ordinary custom mob (CustomMobCatalog)	DrownedRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/river_drowned*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	wild_piglin	ordinary custom mob (CustomMobCatalog)	PiglinRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/wild_piglin*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	bandit	ordinary custom mob (CustomMobCatalog)	PillagerRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/bandit*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	bandit_archer	ordinary custom mob (CustomMobCatalog)	PillagerRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/bandit_archer*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	bandit_warrior	ordinary custom mob (CustomMobCatalog)	VindicatorRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/bandit_warrior*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	wandering_raider	ordinary custom mob (CustomMobCatalog)	PillagerRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/wandering_raider*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	feral_wolf	ordinary custom mob (CustomMobCatalog)	WolfRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/feral_wolf*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	cave_bat	ordinary custom mob (CustomMobCatalog)	BatRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/cave_bat*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	giant_bee	ordinary custom mob (CustomMobCatalog)	BeeRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/giant_bee*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	lesser_phantom	ordinary custom mob (CustomMobCatalog)	PhantomRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/lesser_phantom*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	cave_creeper	ordinary custom mob (CustomMobCatalog)	CreeperRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/cave_creeper*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	pillager_commander	ordinary custom mob (CustomMobCatalog)	VindicatorRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/pillager_commander*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	pillager_beastmaster	ordinary custom mob (CustomMobCatalog)	PillagerRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/pillager_beastmaster*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	armory_guard	ordinary custom mob (CustomMobCatalog)	VindicatorRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/armory_guard*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	pillager_drillmaster	ordinary custom mob (CustomMobCatalog)	PillagerRenderer — vanilla model, custom texture (texture-only adapter)	entity/mobs/pillager_drillmaster*.png	64x64/64x32/32x32	TEXTURE_ONLY; production candidate, visual QA pending (CUSTOM_MOB_RESOURCE_BACKLOG.md)		
+entity	buried_mummy	pyramid mob	Husk — vanilla model, custom texture (texture-only adapter)	entity/pyramid/buried_mummy*.png	64x64	TEXTURE_ONLY; owner review passed (index 2026-11-14)		
+entity	crypt_archer	pyramid mob	Skeleton (CryptArcherRenderer) — vanilla model, custom texture (texture-only adapter)	entity/pyramid/crypt_archer*.png	64x64	TEXTURE_ONLY; owner review passed (index 2026-11-14)		
+entity	funeral_servant	pyramid mob	Zombie — vanilla model, custom texture (texture-only adapter)	entity/pyramid/funeral_servant*.png	64x64	TEXTURE_ONLY; owner review passed (index 2026-11-14)		
+entity	gilded_mummy	pyramid mob	Husk — vanilla model, custom texture (texture-only adapter)	entity/pyramid/gilded_mummy*.png	64x64	TEXTURE_ONLY; owner review passed (index 2026-11-14)		
+entity	mother_spider	spider colony	SpiderRenderer — vanilla model, provisional texture, provisional scale	entity/spider/mother_spider.png	64x32	TEXTURE_ONLY; PROVISIONAL (code comment)		
+entity	juvenile_spider	spider colony	SpiderRenderer — vanilla model AND vanilla texture	minecraft:entity/spider	-	VANILLA_REUSE (no custom asset)		
+entity	cloud_wraith	sky normal mob (group C)	CloudWraithRenderer (custom humanoid geometry)	entity/cloud_wraith.png	64x64	CUSTOM_MODEL		
+entity	fallen_sentinel	sky normal mob (group C)	FallenSentinelRenderer (Blockbench bbmodel on zombie path)	entity/bb_fallen_sentinel.png	512x512	CUSTOM_MODEL; weapon = vanilla iron_sword render-only placeholder		
+entity	crystal_bug	sky normal mob (group C)	CrystalBugRenderer (Blockbench bbmodel)	entity/bb_crystal_bug.png	64x64	CUSTOM_MODEL		
+entity	cloud_slime	sky normal mob (group C)	CloudSlimeRenderer (custom static model)	entity/cloud_slime.png	64x64	CUSTOM_MODEL		
+entity	skyguard_archer	sky normal mob (group C)	SkyguardArcherRenderer (Blockbench bbmodel on skeleton path)	entity/bb_skyguard_archer.png	512x512	CUSTOM_MODEL; weapon = vanilla bow (entity equipment)		
+entity	weathered_zombie	sky vanilla variant (group B)	Zombie — vanilla model, custom texture (texture-only adapter)	entity/sky_variants/weathered_zombie*.png	64x64/64x32	TEXTURE_ONLY (by design, SKY §20)		
+entity	sky_archer	sky vanilla variant (group B)	Skeleton — vanilla model, custom texture (texture-only adapter)	entity/sky_variants/sky_archer*.png	64x64/64x32	TEXTURE_ONLY (by design, SKY §20)		
+entity	rock_creeper	sky vanilla variant (group B)	Creeper — vanilla model, custom texture (texture-only adapter)	entity/sky_variants/rock_creeper*.png	64x64/64x32	TEXTURE_ONLY (by design, SKY §20)		
+entity	pale_enderman	sky vanilla variant (group B)	Enderman — vanilla model, custom texture (texture-only adapter)	entity/sky_variants/pale_enderman*.png	64x64/64x32	TEXTURE_ONLY (by design, SKY §20)		
+entity	azure_slime	sky vanilla variant (group B)	Slime — vanilla model, custom texture (texture-only adapter)	entity/sky_variants/azure_slime*.png	64x64/64x32	TEXTURE_ONLY (by design, SKY §20)		
+entity	tomb_guardian	boss (ST-01)	TombGuardianRenderer — Warden skeleton + code-defined sandstone geometry layer	entity/tomb_guardian/*.png	256x256	CUSTOM_GEOMETRY on Warden bones; index: implementation still temporary, live validation pending		
+entity	tomb_vfx	technical (boss VFX)	ItemDisplayRenderer using items/tomb_* models	item/tomb_*.png	-	OK (technical)		
+entity	tomb_statue_collider	technical	NoopRenderer	-	-	OK (invisible)		
+entity	gold_guide_golem	ST-01 entrance NPC	GoldGuideGolemRenderer — vanilla iron golem model, gold texture	entity/gold_guide_golem/gold_guide_golem.png	128x128	TEXTURE_ONLY		
+entity	immortal_gladiator	boss (ST-05 colosseum)	GladiatorRenderer — humanoid + code-defined armor parts, 1.9x	entity/immortal_gladiator.png	64x64	CUSTOM_GEOMETRY (parts on limbs)		
+unreferenced_texture	entity/crystal_bug.png					NOT_REFERENCED by any renderer (superseded by bb_* textures)		
+unreferenced_texture	entity/fallen_sentinel.png					NOT_REFERENCED by any renderer (superseded by bb_* textures)		
+unreferenced_texture	entity/skyguard_archer.png					NOT_REFERENCED by any renderer (superseded by bb_* textures)		
