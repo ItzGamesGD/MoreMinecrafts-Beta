@@ -12,26 +12,24 @@ import net.minecraft.client.renderer.entity.ArmorModelSet;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.ZombieRenderState;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.ItemDisplayContext;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 
 /**
  * Fallen Sentinel: the Blockbench model (scripts/bbmodel-capture/convert.py) on the vanilla husk/zombie renderer path,
  * so idle, walking, head tracking, the raised arm pose, attack swing, hurt tint and death roll are inherited.
  *
- * <p>The model has no weapon of its own. As a temporary stand-in the default vanilla iron sword is drawn in the right
- * hand (render only: the entity's equipment and damage are unchanged) until a custom sword model is attached.
+ * <p>The Blood Seraph Greatsword is drawn in the right hand by {@link HeldWeaponLayer} (render only: the entity's
+ * equipment and damage are unchanged).
  */
 final class FallenSentinelRenderer extends AbstractZombieRenderer<FallenSentinel, ZombieRenderState, ZombieModel<ZombieRenderState>> {
     static final Identifier TEXTURE = ModIds.id("textures/entity/bb_fallen_sentinel.png");
-    /** Created lazily: item components are not bound yet while renderers register. */
-    private ItemStack placeholderSword;
+    static final Identifier WEAPON_TEXTURE = ModIds.id("textures/entity/bb_fallen_sentinel_weapon.png");
 
     FallenSentinelRenderer(EntityRendererProvider.Context context) {
         super(context, new SentinelModel(), new SentinelModel(),
                 ArmorModelSet.bake(ModelLayers.HUSK_ARMOR, context.getModelSet(), ZombieModel::new),
                 ArmorModelSet.bake(ModelLayers.HUSK_BABY_ARMOR, context.getModelSet(), BabyZombieModel::new));
+        addLayer(new HeldWeaponLayer<>(this,
+                BbModelParts.buildWeapon("fallen_sentinel_weapon", "fallen_sentinel", "right_arm"), WEAPON_TEXTURE));
     }
 
     static void register() {
@@ -42,16 +40,6 @@ final class FallenSentinelRenderer extends AbstractZombieRenderer<FallenSentinel
 
     @Override public ZombieRenderState createRenderState() { return new ZombieRenderState(); }
 
-    @Override
-    public void extractRenderState(FallenSentinel entity, ZombieRenderState state, float partialTick) {
-        super.extractRenderState(entity, state, partialTick);
-        if (state.rightHandItemState.isEmpty()) {
-            if (placeholderSword == null) placeholderSword = new ItemStack(Items.IRON_SWORD);
-            state.rightHandItemStack = placeholderSword;
-            itemModelResolver.updateForLiving(state.rightHandItemState, placeholderSword,
-                    ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, entity);
-        }
-    }
 
     static final class SentinelModel extends ZombieModel<ZombieRenderState> {
         SentinelModel() {

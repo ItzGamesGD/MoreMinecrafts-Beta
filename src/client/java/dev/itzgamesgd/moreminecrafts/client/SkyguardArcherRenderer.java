@@ -15,14 +15,17 @@ import net.minecraft.world.entity.HumanoidArm;
 
 /**
  * Skyguard Archer: the Blockbench model (scripts/bbmodel-capture/convert.py) on the vanilla skeleton renderer, so the
- * skeleton bow-aim pose and the vanilla bow item are kept. The model has no weapon of its own: the archer holds the
- * default vanilla bow (a temporary stand-in until a custom bow model is attached).
+ * skeleton bow-aim pose is kept. The Celestial Longbow is drawn in the right hand by {@link HeldWeaponLayer}; the
+ * vanilla bow item is not drawn.
  */
 final class SkyguardArcherRenderer extends AbstractSkeletonRenderer<SkyguardArcher, SkeletonRenderState> {
     static final Identifier TEXTURE = ModIds.id("textures/entity/bb_skyguard_archer.png");
+    static final Identifier WEAPON_TEXTURE = ModIds.id("textures/entity/bb_skyguard_archer_weapon.png");
 
     SkyguardArcherRenderer(EntityRendererProvider.Context context) {
         super(context, ModelLayers.SKELETON_ARMOR, new ArcherModel());
+        addLayer(new HeldWeaponLayer<>(this,
+                BbModelParts.buildWeapon("skyguard_archer_weapon", "skyguard_archer", "right_arm"), WEAPON_TEXTURE));
     }
 
     static void register() {
@@ -32,6 +35,14 @@ final class SkyguardArcherRenderer extends AbstractSkeletonRenderer<SkyguardArch
     @Override
     public Identifier getTextureLocation(SkeletonRenderState state) {
         return TEXTURE;
+    }
+
+    @Override
+    public void extractRenderState(SkyguardArcher entity, SkeletonRenderState state, float partialTick) {
+        super.extractRenderState(entity, state, partialTick);
+        // The longbow is drawn by HeldWeaponLayer, so the vanilla bow item from the entity is not drawn.
+        state.rightHandItemState.clear();
+        state.leftHandItemState.clear();
     }
 
     @Override

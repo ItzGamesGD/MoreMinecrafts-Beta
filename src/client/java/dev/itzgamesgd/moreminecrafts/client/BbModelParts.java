@@ -61,6 +61,44 @@ final class BbModelParts {
         }
     }
 
+    /**
+     * Weapon elements from {@code bbmodel/<weaponName>.json}, as children of a root that is posed to the given bone of
+     * {@code bodyName} (the layer copies that bone's pose each frame). Element offsets are relative to the bone, so the
+     * weapon's grip pivot lands in the hand exactly as authored in Blockbench.
+     */
+    static ModelPart buildWeapon(String weaponName, String bodyName, String boneName) {
+        float[] pivot = bonePivot(bodyName, boneName);
+        float bx = -pivot[0], by = 24.0F - pivot[1], bz = pivot[2];
+        try (InputStream in = BbModelParts.class.getResourceAsStream("/assets/moreminecrafts/bbmodel/" + weaponName + ".json")) {
+            if (in == null) throw new IllegalStateException("missing bbmodel/" + weaponName + ".json");
+            JsonObject json = JsonParser.parseReader(new InputStreamReader(in, StandardCharsets.UTF_8)).getAsJsonObject();
+            int w = json.get("w").getAsInt(), h = json.get("h").getAsInt();
+            Map<String, ModelPart> children = new LinkedHashMap<>();
+            int index = 0;
+            for (JsonElement element : json.getAsJsonArray("elements")) {
+                children.put("e" + index++, element(element.getAsJsonObject(), w, h, bx, by, bz));
+            }
+            return new ModelPart(List.of(), children);
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    /** Bedrock-space pivot of a named bone in the exported body model. */
+    private static float[] bonePivot(String bodyName, String boneName) {
+        try (InputStream in = BbModelParts.class.getResourceAsStream("/assets/moreminecrafts/bbmodel/" + bodyName + ".json")) {
+            if (in == null) throw new IllegalStateException("missing bbmodel/" + bodyName + ".json");
+            JsonObject json = JsonParser.parseReader(new InputStreamReader(in, StandardCharsets.UTF_8)).getAsJsonObject();
+            for (JsonElement boneElement : json.getAsJsonArray("bones")) {
+                JsonObject bone = boneElement.getAsJsonObject();
+                if (bone.get("name").getAsString().equals(boneName)) return array(bone.getAsJsonArray("pivot"));
+            }
+            throw new IllegalStateException(bodyName + " has no bone " + boneName);
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
     private static float[] array(JsonArray a) {
         return new float[] {a.get(0).getAsFloat(), a.get(1).getAsFloat(), a.get(2).getAsFloat()};
     }
