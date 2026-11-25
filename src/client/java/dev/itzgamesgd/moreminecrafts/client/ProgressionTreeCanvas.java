@@ -66,6 +66,8 @@ public final class ProgressionTreeCanvas {
     private final QuestTreeStructure questStructure;
     private final QuestTreeLayout.Result questLayout;
     private final List<ProgressionNodeLayoutCatalog.Node> nodes;
+    /** Owner-approved sheet presentation (2026-11-25 pilot); null keeps the existing presentation. */
+    private final ResearchSheetScene sheet;
     private final Map<String, ProgressionNodeLayoutCatalog.Node> byId;
     private final double canvasWidth;
     private final double canvasHeight;
@@ -120,17 +122,33 @@ public final class ProgressionTreeCanvas {
                         ProgressionNodeLayoutCatalog.FALLBACK_ICON, chapter.titleKey()));
             }
             this.nodes = List.copyOf(questNodes);
+            this.sheet = null;
         } else {
             this.questStructure = null;
             this.questLayout = null;
-            this.nodes = ProgressionNodeLayoutCatalog.load().nodes(screen, discipline);
+            List<ProgressionNodeLayoutCatalog.Node> loaded = ProgressionNodeLayoutCatalog.load().nodes(screen, discipline);
+            ResearchSheetScene scene = ResearchSheetScene.load(screen, discipline);
+            if (scene != null && !loaded.isEmpty()
+                    && scene.covers(loaded.stream().map(ProgressionNodeLayoutCatalog.Node::id).toList())) {
+                // Scene-specific presentation overlay: the manifest coordinates stay untouched.
+                loaded = loaded.stream().map(n -> {
+                    int[] at = scene.slot(n.id());
+                    return new ProgressionNodeLayoutCatalog.Node(n.id(), n.screen(), n.catalog(), n.discipline(), n.branch(),
+                            n.branchOrder(), n.nodeOrder(), at[0], at[1], n.iconItemId(), n.fallbackIconItemId(),
+                            n.branchTitleKey());
+                }).toList();
+                this.sheet = scene;
+            } else {
+                this.sheet = null;
+            }
+            this.nodes = loaded;
         }
         this.byId = new HashMap<>();
         for (var node : nodes) byId.put(node.id(), node);
         int maxX = nodes.stream().mapToInt(ProgressionNodeLayoutCatalog.Node::x).max().orElse(0);
         int maxY = nodes.stream().mapToInt(ProgressionNodeLayoutCatalog.Node::y).max().orElse(0);
-        this.canvasWidth = questLayout != null ? questLayout.width() : maxX + 64.0;
-        this.canvasHeight = questLayout != null ? questLayout.height() : maxY + 64.0;
+        this.canvasWidth = questLayout != null ? questLayout.width() : sheet != null ? sheet.width() : maxX + 64.0;
+        this.canvasHeight = questLayout != null ? questLayout.height() : sheet != null ? sheet.height() : maxY + 64.0;
         this.selectedId = nodes.isEmpty() ? null : nodes.get(0).id();
     }
 
@@ -428,8 +446,7 @@ public final class ProgressionTreeCanvas {
         }
         for (int i = nodes.size() - 1; i >= 0; i--) {
             var node = nodes.get(i);
-            var frame = ProgressionCanvasGeometry.nodeFrameBounds(screenX(node.x()), screenY(node.y()), camera.zoom());
-            if (frame.contains(mouseX, mouseY)) return node.id();
+            if (nodeFrame(node).contains(mouseX, mouseY)) return node.id();
         }
         return null;
     }
@@ -465,14 +482,15 @@ public final class ProgressionTreeCanvas {
         lastQuestRows = questRows;
         lastGuiHeight = graphics.guiHeight();
         if (largeGraph()) level = QuestLevelOfDetail.next(level, camera.zoom());
-        drawBackground(graphics);
+        if (sheet != null) drawSheetBackdrop(graphics); else drawBackground(graphics);
         if (questLayout != null) drawQuestWorkspaceGrid(graphics);
         graphics.enableScissor(viewport.x(), viewport.y(), viewport.right(), viewport.bottom());
         try {
             if (largeGraph()) drawLargeGraphBase(graphics, font, questRows);
             else if (questLayout != null) { drawQuestLanes(graphics, font, questRows); drawQuestEdges(graphics, questRows); }
+            else if (sheet != null) drawSheetBase(graphics, font, researchRows);
             else drawBranches(graphics, font);
-            if ("research".equals(screen)) drawPrerequisiteEdges(graphics, researchRows);
+            if ("research".equals(screen) && sheet == null) drawPrerequisiteEdges(graphics, researchRows);
             // A validation run that owns the pointer must not depend on where the real cursor happens to rest.
             double pointerX = validationOwnsPointer ? -1 : mouseX, pointerY = validationOwnsPointer ? -1 : mouseY;
             String nodeHit = validationHoveredId != null ? validationHoveredId : hitTest(pointerX, pointerY);
@@ -485,7 +503,9 @@ public final class ProgressionTreeCanvas {
             } else for (var node : nodes) {
                 var knowledge = knowledgeRows.get(node.id());
                 var research = researchRows.get(node.id());
-                drawNode(graphics, font, node, knowledge, research, questRows.get(node.id()),
+                if (sheet != null) drawSheetNode(graphics, node, research, node.id().equals(selectedId),
+                        node.id().equals(hoveredId));
+                else drawNode(graphics, font, node, knowledge, research, questRows.get(node.id()),
                         node.id().equals(selectedId), node.id().equals(hoveredId));
             }
         } finally {
@@ -938,6 +958,112 @@ public final class ProgressionTreeCanvas {
         }
     }
 
+    /** Screen-space node frame: the approved sheet frame (32 GUI px at zoom 1) or the vanilla advancement frame. */
+    private ProgressionCanvasGeometry.Rect nodeFrame(ProgressionNodeLayoutCatalog.Node node) {
+        int sx = screenX(node.x()), sy = screenY(node.y());
+        if (sheet == null) return ProgressionCanvasGeometry.nodeFrameBounds(sx, sy, camera.zoom());
+        int size = Math.max(10, (int) Math.round(32 * camera.zoom()));
+        return new ProgressionCanvasGeometry.Rect(sx - size / 2, sy - size / 2, size, size);
+    }
+
+    /** True when this canvas uses an owner-approved research sheet scene. */
+    public boolean sheetScene() { return sheet != null; }
+
+    private void drawSheetBackdrop(GuiGraphicsExtractor graphics) {
+        var area = fullViewport != null ? fullViewport : viewport;
+        graphics.fill(area.x(), area.y(), area.right(), area.bottom(), 0xFF0E0C14);
+    }
+
+    private void drawSheetBase(GuiGraphicsExtractor graphics, Font font,
+                               Map<String, ProgressionScreenData.ResearchRow> researchRows) {
+        int x0 = screenX(0), y0 = screenY(0), x1 = screenX(sheet.width()), y1 = screenY(sheet.height());
+        graphics.blit(RenderPipelines.GUI_TEXTURED, sheet.texture(), x0, y0, 0, 0, x1 - x0, y1 - y0,
+                sheet.artWidth(), sheet.artHeight(), sheet.artWidth(), sheet.artHeight());
+        double zoom = camera.zoom();
+        int thickness = Math.max(1, (int) Math.round(2 * zoom));
+        for (var route : sheet.routes()) {
+            var parent = researchRows.get(route.from());
+            boolean on = parent != null && parent.level() > 0;
+            int hi = on ? 0xFFF2C85C : 0xFF5C5864, lo = on ? 0xFF92641E : 0xFF1E1C24;
+            int[][] p = route.points();
+            for (int i = 0; i + 1 < p.length; i++)
+                drawSheetSegment(graphics, screenX(p[i][0]), screenY(p[i][1]), screenX(p[i + 1][0]), screenY(p[i + 1][1]),
+                        thickness, hi, lo);
+        }
+        var selectedNode = selectedId == null ? null : byId.get(selectedId);
+        String selectedBranch = selectedNode == null ? "" : selectedNode.branch();
+        for (var banner : sheet.banners()) {
+            int bx = screenX(banner.x()), by = screenY(banner.y());
+            int bw = screenX(banner.x() + banner.width()) - bx, bh = screenY(banner.y() + banner.height()) - by;
+            String kind = banner.branch().equals(selectedBranch) ? "banner_highlight" : "banner_normal";
+            ResearchSheetScene.nineSlice(graphics, ResearchSheetScene.kit(kind), 96, 28, 24,
+                    (int) Math.round(12 * zoom), bx, by, bw, bh, false);
+            if (zoom < 0.5) continue;
+            String key = nodes.stream().filter(n -> n.branch().equals(banner.branch())).map(ProgressionNodeLayoutCatalog.Node::branchTitleKey)
+                    .findFirst().orElse(null);
+            if (key == null) continue;
+            String label = Component.translatable(key).getString();
+            int room = banner.width() - 18;
+            if (font.width(label) > room) label = font.plainSubstrByWidth(label, Math.max(0, room - font.width("…"))) + "…";
+            float z = (float) zoom;
+            graphics.pose().pushMatrix();
+            graphics.pose().translate(bx + 14 * z, by + (bh - 8 * z) / 2.0F);
+            graphics.pose().scale(z, z);
+            graphics.text(font, label, 0, 0, 0xFFECE0C4, true);
+            graphics.pose().popMatrix();
+        }
+    }
+
+    private static void drawSheetSegment(GuiGraphicsExtractor graphics, int x0, int y0, int x1, int y1,
+                                         int thickness, int hi, int lo) {
+        int half = thickness / 2;
+        if (y0 == y1) {
+            int a = Math.min(x0, x1) - half, b = Math.max(x0, x1) + thickness - half;
+            graphics.fill(a, y0 - half, b, y0 - half + thickness, hi);
+            if (thickness >= 2) graphics.fill(a, y0 - half + thickness / 2, b, y0 - half + thickness, lo);
+        } else {
+            int a = Math.min(y0, y1) - half, b = Math.max(y0, y1) + thickness - half;
+            graphics.fill(x0 - half, a, x0 - half + thickness, b, hi);
+            if (thickness >= 2) graphics.fill(x0 - half + thickness / 2, a, x0 - half + thickness, b, lo);
+        }
+    }
+
+    private void drawSheetNode(GuiGraphicsExtractor graphics, ProgressionNodeLayoutCatalog.Node node,
+                               ProgressionScreenData.ResearchRow research, boolean selected, boolean hovered) {
+        var frame = nodeFrame(node);
+        int cx = screenX(node.x()), cy = screenY(node.y());
+        double zoom = camera.zoom();
+        String state;
+        if (research == null) state = "locked";
+        else if (research.level() > 0 && research.level() >= research.maximumLevel()) state = "maxed";
+        else if (research.level() > 0) state = "owned";
+        else if (research.prerequisitesDefined() && research.availability() == ResearchPurchaseRules.Result.PURCHASED) state = "available";
+        else state = "locked";
+        if (hovered) {
+            int halo = (int) Math.round(40 * zoom);
+            blitKit(graphics, "node_hover", cx - halo / 2, cy - halo / 2, halo, 80);
+        }
+        blitKit(graphics, "node_" + state, frame.x(), frame.y(), frame.width(), 64);
+        int iconSize = Math.max(8, (int) Math.round(16 * zoom));
+        graphics.pose().pushMatrix();
+        graphics.pose().translate(cx, cy);
+        graphics.pose().scale(iconSize / 16.0F, iconSize / 16.0F);
+        graphics.item(icon(node), -8, -8);
+        graphics.pose().popMatrix();
+        if ("locked".equals(state)) {
+            int window = (int) Math.round(20 * zoom);
+            graphics.fill(cx - window / 2, cy - window / 2, cx - window / 2 + window, cy - window / 2 + window, 0x99140E1C);
+        }
+        if (selected) {
+            int ring = (int) Math.round(36 * zoom);
+            blitKit(graphics, "node_selected", cx - ring / 2, cy - ring / 2, ring, 72);
+        }
+    }
+
+    private static void blitKit(GuiGraphicsExtractor graphics, String name, int x, int y, int size, int art) {
+        graphics.blit(RenderPipelines.GUI_TEXTURED, ResearchSheetScene.kit(name), x, y, 0, 0, size, size, art, art, art, art);
+    }
+
     private static void drawHorizontal(GuiGraphicsExtractor graphics, int x1, int x2, int y) {
         graphics.fill(Math.min(x1, x2), y - 1, Math.max(x1, x2) + 1, y + 1, 0xFF756D5E);
     }
@@ -1184,10 +1310,6 @@ public final class ProgressionTreeCanvas {
         int separatorHeight = list.isEmpty() ? 0 : TIP_SEPARATOR;
         int fullHeight = TIP_PAD * 2 + fixedHeight + separatorHeight + listHeight;
         return new TooltipSizing(width, fixedHeight, listHeight, separatorHeight, fullHeight, fixed, list);
-    }
-
-    private ProgressionCanvasGeometry.Rect nodeFrame(ProgressionNodeLayoutCatalog.Node node) {
-        return ProgressionCanvasGeometry.nodeFrameBounds(screenX(node.x()), screenY(node.y()), camera.zoom());
     }
 
     /**

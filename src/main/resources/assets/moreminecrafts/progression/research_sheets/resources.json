@@ -1,0 +1,223 @@
+{
+ "schemaVersion": 1,
+ "screen": "research",
+ "discipline": "resources",
+ "texture": "moreminecrafts:textures/gui/research_tree/sheet_research_resources.png",
+ "artPxPerGuiPx": 2,
+ "sheet": {
+  "w": 2176,
+  "h": 1120
+ },
+ "zones": [
+  {
+   "branch": "discipline_foundation",
+   "y0": 0,
+   "y1": 240,
+   "banner": {
+    "x": 192,
+    "y": 106,
+    "w": 288,
+    "h": 28
+   }
+  },
+  {
+   "branch": "geology_and_quarry",
+   "y0": 240,
+   "y1": 600,
+   "banner": {
+    "x": 192,
+    "y": 406,
+    "w": 288,
+    "h": 28
+   }
+  },
+  {
+   "branch": "forestry",
+   "y0": 600,
+   "y1": 848,
+   "banner": {
+    "x": 192,
+    "y": 710,
+    "w": 288,
+    "h": 28
+   }
+  },
+  {
+   "branch": "field_mobility",
+   "y0": 848,
+   "y1": 1120,
+   "banner": {
+    "x": 192,
+    "y": 970,
+    "w": 288,
+    "h": 28
+   }
+  }
+ ],
+ "slots": [
+  {
+   "id": "resources_root",
+   "x": 1256,
+   "y": 120
+  },
+  {
+   "id": "v3.research.01",
+   "x": 896,
+   "y": 420
+  },
+  {
+   "id": "throwable_pickaxe",
+   "x": 1256,
+   "y": 316
+  },
+  {
+   "id": "v3.research.04",
+   "x": 1256,
+   "y": 524
+  },
+  {
+   "id": "v3.research.03",
+   "x": 1616,
+   "y": 316
+  },
+  {
+   "id": "v3.research.02",
+   "x": 576,
+   "y": 724
+  },
+  {
+   "id": "v3.research.05",
+   "x": 896,
+   "y": 724
+  },
+  {
+   "id": "climbing",
+   "x": 1616,
+   "y": 984
+  }
+ ],
+ "edges": [
+  {
+   "from": "resources_root",
+   "to": "v3.research.03",
+   "route": [
+    [
+     1256,
+     120
+    ],
+    [
+     1616,
+     120
+    ],
+    [
+     1616,
+     316
+    ]
+   ]
+  },
+  {
+   "from": "resources_root",
+   "to": "v3.research.01",
+   "route": [
+    [
+     1256,
+     120
+    ],
+    [
+     896,
+     120
+    ],
+    [
+     896,
+     420
+    ]
+   ]
+  },
+  {
+   "from": "resources_root",
+   "to": "v3.research.02",
+   "route": [
+    [
+     896,
+     120
+    ],
+    [
+     576,
+     120
+    ],
+    [
+     576,
+     724
+    ]
+   ]
+  },
+  {
+   "from": "v3.research.01",
+   "to": "throwable_pickaxe",
+   "route": [
+    [
+     896,
+     420
+    ],
+    [
+     1076,
+     420
+    ],
+    [
+     1076,
+     316
+    ],
+    [
+     1256,
+     316
+    ]
+   ]
+  },
+  {
+   "from": "v3.research.01",
+   "to": "v3.research.04",
+   "route": [
+    [
+     1076,
+     420
+    ],
+    [
+     1076,
+     524
+    ],
+    [
+     1256,
+     524
+    ]
+   ]
+  },
+  {
+   "from": "v3.research.02",
+   "to": "v3.research.05",
+   "route": [
+    [
+     576,
+     724
+    ],
+    [
+     896,
+     724
+    ]
+   ]
+  },
+  {
+   "from": "v3.research.03",
+   "to": "climbing",
+   "route": [
+    [
+     1616,
+     316
+    ],
+    [
+     1616,
+     984
+    ]
+   ]
+  }
+ ]
+}

@@ -289,6 +289,44 @@ public final class VisualValidationHarness {
                     failJourney("research selector did not reach the seven-sector menu"); return;
                 }
                 queueUiScreenshot("research-sector-selection.png");
+                uiJourneyStage = 140;
+            }
+            case 140 -> {
+                // Owner-approved Research / Resources sheet scene (2026-11-25 pilot).
+                if (!takeCapture()) return;
+                if (!(client.gui.screen() instanceof ProgressionDisciplineSelectionScreen hub)
+                        || !hub.validationOpenSector("resources")
+                        || !(client.gui.screen() instanceof ProgressionBrowseScreen browse)
+                        || !browse.validationTreeReady()) {
+                    failJourney("research resources scene did not open"); return;
+                }
+                if (!browse.validationSheetScene()) { failJourney("research resources scene is not using the approved sheet"); return; }
+                queueUiScreenshot("research-resources-sheet.png");
+                uiJourneyStage = 141;
+            }
+            case 141 -> {
+                if (!takeCapture()) return;
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)
+                        || !browse.validationHoverNode("throwable_pickaxe")) {
+                    failJourney("research resources sheet hover target missing"); return;
+                }
+                queueUiScreenshot("research-resources-sheet-hover.png");
+                uiJourneyStage = 142;
+            }
+            case 142 -> {
+                if (!takeCapture()) return;
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)) { failJourney("research resources scene disappeared"); return; }
+                browse.validationClearHover();
+                browse.validationFitAll();
+                queueUiScreenshot("research-resources-sheet-overview.png");
+                uiJourneyStage = 143;
+            }
+            case 143 -> {
+                if (!takeCapture()) return;
+                var hub = new ProgressionDisciplineSelectionScreen(ProgressionBrowseScreen.Mode.RESEARCH);
+                client.gui.setScreen(hub);
+                if (!hub.validationVisitAllSectors()) { failJourney("research selector did not return after the sheet scene"); return; }
+                queueUiScreenshot("research-sector-selection-return.png");
                 uiJourneyStage = 3;
             }
             case 3 -> {

@@ -120,3 +120,29 @@ Keep the 200-slot presentation model. The current 75 registered quests are the i
 All other 2026-10-17 Quest rules remain authoritative, including server-owned `quest.progress.*`, `quest.complete.*` and `quest.claimed.*` state; completion without XP; completed-unclaimed claim interaction; claim-once ordering and grant-failure rollback; persistent state; exact raw-XP accounting; registration and reward gates; and the six owner-locked tracking policies. The custom client must continue to enforce those rules through server validation. No code change or live acceptance is implied by this documentation decision.
 
 Historical design and handoff records on the protected #156 branch that prescribe `QuestClientAdvancements` or a vanilla Quest `AdvancementsScreen`—notably `docs/design/xp-quest/D_UI_XP_COST_UNIT_DESIGN.md` and `docs/design/xp-quest/XP_QUEST_IMPLEMENTATION_HANDOFF.md`—remain source evidence. Their screen-architecture prescriptions are superseded by this amendment; their independent transaction and tracking content is not.
+
+## Research tree visual redesign — pilot scene "Research / Resources" — 2026-11-25 (owner-approved)
+
+**Status:** owner-approved design (2026-11-25, after review of the design captures below). Implementation and live validation are tracked separately; this record approves the visual design only.
+
+**Scope.** Only the Research tree of the Resources (자원학) discipline. The other six Research disciplines, all seven Knowledge trees, XP Quest, the four-card selector and the seven-sector picker keep their current visuals until their own scene designs are approved. Each scene gets its own background sheet; the kit below is the shared Research (violet) kit.
+
+**What this supersedes, for this scene only.** The 2026-10-11 instruction to "preserve vanilla advancement visuals" and the "exact vanilla-frame hit bounds" wording of the 2026-10-12 correction: node frames, connectors, branch headers, the viewport frame and the screen buttons use the approved kit, and a node's hit bounds are the approved node frame as drawn. Everything else in this document stays authoritative: one-click server-authoritative Research purchase, Knowledge non-purchase, localized item-rich tooltips, source discipline/branch IDs, progression data, prerequisites, costs and gameplay rules.
+
+**Approved design evidence.** [Scene](images/research_tree_pilot/research_resources_scene.png), [hover, selection and tooltip](images/research_tree_pilot/research_resources_hover_tooltip.png), [asset kit](images/research_tree_pilot/asset_contact_sheet.png).
+
+**Approved visual kit** (49 transparent PNGs; drawn on the GUI pixel grid and stored at 2 art px per GUI px):
+
+| Element | Files | Rule |
+|---|---|---|
+| Node frame | `node_locked`, `node_available`, `node_owned`, `node_maxed` (32×32 GUI px) | locked = not purchasable now; available = purchasable now; owned = level ≥ 1 and below maximum; maxed = maximum level. Item icon drawn by code in the centre window; a locked node's icon is dimmed. |
+| Hover / selection | `node_hover` (gold halo behind the frame), `node_selected` (white ring) | |
+| Connectors | `link_*_off`, `link_*_on` (2 GUI px line) | on (gold) when the prerequisite node is owned, otherwise off (grey). Routes follow the real research prerequisites; they are presentation only and add no gameplay lock. |
+| Branch banner | `banner_normal`, `banner_highlight`, `banner_dim` (horizontal nine-slice, 12 GUI px caps) | Branch name drawn by code. |
+| Buttons | `button_back`, `button_zoom_in`, `button_zoom_out`, `button_close` × normal / hover / pressed / disabled | Back keeps its existing destination; zoom in/out equal one mouse-wheel step at the viewport centre; close closes the screen. |
+| Screen frame | `screen_frame` (nine-slice, 24 GUI px corners) | Gold corner filigree, violet rune band. |
+| Background sheet | `sheet_research_resources` (2176×1120 art px = 1088×560 GUI px) | Dark violet stone, low-contrast runes, ore specks, gold zone separators. No nodes, banners or text baked in. |
+
+**Approved layout.** Four horizontal zones from top to bottom: Discipline Foundation (학문 기초), Geology and Quarrying (지질과 채석), Forestry (임업), Field Mobility (현장 기동), each with its banner on the left. Slot centres (sheet px): `resources_root` (1256,120); `v3.research.01` (896,420); `throwable_pickaxe` (1256,316); `v3.research.04` (1256,524); `v3.research.03` (1616,316); `v3.research.02` (576,724); `v3.research.05` (896,724); `climbing` (1616,984). Connector edges: root→01, root→02, root→03, 01→04, 01→throwable_pickaxe, 02→05, 03→climbing. These positions are a presentation overlay for this scene; the node manifest coordinates used elsewhere are unchanged.
+
+**Text.** No text is baked into art. Titles, branch names, the available-XP readout and tooltips are drawn by code in the game font and follow the language setting. The header shows the screen and discipline title (for example "연구 · 자원학") and the player's available XP.

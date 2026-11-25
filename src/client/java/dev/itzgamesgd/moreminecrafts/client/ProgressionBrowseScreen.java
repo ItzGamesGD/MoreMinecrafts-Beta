@@ -217,6 +217,7 @@ public final class ProgressionBrowseScreen extends Screen {
         return exists;
     }
     public void validationClearHover() { if (canvas != null) canvas.validationHover(null); }
+    public boolean validationSheetScene() { return canvas != null && canvas.sheetScene(); }
 
     /**
      * Selects and centres a node, then returns the GUI-space point a real pointer must press to hit it, or null when
@@ -340,18 +341,39 @@ public final class ProgressionBrowseScreen extends Screen {
         int margin = margin();
         int y = responsive.compact() ? 8 : 10;
         int backWidth = responsive.compact() ? 54 : 76;
-        addRenderableWidget(Button.builder(Component.translatable("moreminecrafts.ui.back"), b -> {
+        Button.OnPress back = b -> {
             branchMenuOpen = false;
             minecraft.gui.setScreen(mode == Mode.QUEST ? new ProgressionSelectionScreen()
                     : new ProgressionDisciplineSelectionScreen(mode));
-        }).bounds(margin, y, backWidth, 20).build());
+        };
+        boolean sheet = canvas != null && canvas.sheetScene();
+        if (sheet) {
+            // The approved back plate carries its own arrow, so the label drops the textual one.
+            String label = Component.translatable("moreminecrafts.ui.back").getString().replaceFirst("^←\\s*", "");
+            addRenderableWidget(new ResearchSheetButton(margin, y, backWidth, 20, Component.literal(label), "back", back));
+        } else {
+            addRenderableWidget(Button.builder(Component.translatable("moreminecrafts.ui.back"), back)
+                    .bounds(margin, y, backWidth, 20).build());
+        }
         if (mode == Mode.QUEST) return;
         branchButtonX = margin + backWidth + 8;
         branchButtonY = y;
-        branchButtonWidth = Math.max(96, Math.min(190, width - branchButtonX - margin));
-        branchButton = addRenderableWidget(Button.builder(Component.translatable(currentBranchKey()), b ->
-                branchMenuOpen = !branchMenuOpen)
-                .bounds(branchButtonX, branchButtonY, branchButtonWidth, 20).build());
+        branchButtonWidth = Math.max(96, Math.min(190, width - branchButtonX - margin - (sheet ? 28 : 0)));
+        Button.OnPress toggle = b -> branchMenuOpen = !branchMenuOpen;
+        branchButton = addRenderableWidget(sheet
+                ? new ResearchSheetButton(branchButtonX, branchButtonY, branchButtonWidth, 20,
+                        Component.translatable(currentBranchKey()), "plain", toggle)
+                : Button.builder(Component.translatable(currentBranchKey()), toggle)
+                        .bounds(branchButtonX, branchButtonY, branchButtonWidth, 20).build());
+        if (sheet) {
+            var view = canvas.viewport() != null ? canvas.viewport() : responsive.viewport();
+            addRenderableWidget(new ResearchSheetButton(width - margin - 20, y, 20, 20,
+                    Component.translatable("gui.done"), "close", b -> onClose()));
+            addRenderableWidget(new ResearchSheetButton(view.right() - 24, view.bottom() - 48, 20, 20,
+                    Component.literal("+"), "zoom_in", b -> canvas.zoomAt(view.x() + view.width() / 2.0, view.y() + view.height() / 2.0, 1)));
+            addRenderableWidget(new ResearchSheetButton(view.right() - 24, view.bottom() - 24, 20, 20,
+                    Component.literal("-"), "zoom_out", b -> canvas.zoomAt(view.x() + view.width() / 2.0, view.y() + view.height() / 2.0, -1)));
+        }
     }
 
     private List<String> branches() {
@@ -384,11 +406,19 @@ public final class ProgressionBrowseScreen extends Screen {
     }
 
     @Override public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
-        graphics.fill(0, 0, width, height, 0xFF272727);
-        graphics.centeredText(font, preview != null ? Component.literal(preview.banner()) : mode == Mode.QUEST ? title : Component.translatable("moreminecrafts.discipline." + discipline),
-                width / 2, responsive.tabs().y() + 6, 0xFFE0D9C7);
+        boolean sheet = canvas != null && canvas.sheetScene();
+        graphics.fill(0, 0, width, height, sheet ? 0xFF0E0C14 : 0xFF272727);
+        if (sheet) {
+            Component heading = title.copy().append(" · ").append(Component.translatable("moreminecrafts.discipline." + discipline));
+            graphics.centeredText(font, heading, width / 2, responsive.tabs().y() + 6, 0xFFF2C85C);
+            String xp = "XP " + java.text.NumberFormat.getIntegerInstance().format(ProgressionClientApi.availableXp());
+            graphics.text(font, xp, responsive.viewport().right() - font.width(xp), responsive.tabs().y() + 6, 0xFFECE0C4, true);
+        } else {
+            graphics.centeredText(font, preview != null ? Component.literal(preview.banner()) : mode == Mode.QUEST ? title : Component.translatable("moreminecrafts.discipline." + discipline),
+                    width / 2, responsive.tabs().y() + 6, 0xFFE0D9C7);
+        }
         var viewport = responsive.viewport();
-        drawFrameTexture(graphics, viewport.x() - 5, viewport.y() - 5, viewport.width() + 10, viewport.height() + 10);
+        if (!sheet) drawFrameTexture(graphics, viewport.x() - 5, viewport.y() - 5, viewport.width() + 10, viewport.height() + 10);
         long renderStart = preview != null ? System.nanoTime() : 0L;
         canvas.render(graphics, font, mouseX, mouseY, knowledgeById, researchById, questsById);
         if (preview != null) {
@@ -397,7 +427,13 @@ public final class ProgressionBrowseScreen extends Screen {
             renderNanosMax = Math.max(renderNanosMax, elapsed);
             renderFrames++;
         }
-        graphics.outline(viewport.x() - 1, viewport.y() - 1, viewport.width() + 2, viewport.height() + 2, 0xFF171717);
+        if (sheet) {
+            int band = responsive.compact() ? 6 : 10;
+            ResearchSheetScene.nineSlice(graphics, ResearchSheetScene.kit("screen_frame"), 192, 192, 48, responsive.compact() ? 14 : 24,
+                    viewport.x() - band, viewport.y() - band, viewport.width() + 2 * band, viewport.height() + 2 * band, true);
+        } else {
+            graphics.outline(viewport.x() - 1, viewport.y() - 1, viewport.width() + 2, viewport.height() + 2, 0xFF171717);
+        }
         if (branchMenuOpen) renderBranchMenu(graphics);
         super.extractRenderState(graphics, mouseX, mouseY, delta);
     }
