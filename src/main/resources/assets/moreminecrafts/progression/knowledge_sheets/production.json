@@ -1,0 +1,95 @@
+{
+ "schemaVersion": 1,
+ "screen": "knowledge",
+ "discipline": "production",
+ "nodeGuiSize": 64,
+ "texture": "moreminecrafts:textures/gui/research_tree/sheets/sheet_knowledge_production.png",
+ "artPxPerGuiPx": 2,
+ "sheet": {
+  "w": 1192,
+  "h": 864
+ },
+ "zones": [
+  {
+   "branch": "smelting_and_alloys",
+   "y0": 0,
+   "y1": 288,
+   "banner": {
+    "x": 48,
+    "y": 124,
+    "w": 400,
+    "h": 40
+   }
+  },
+  {
+   "branch": "crafting_and_maintenance",
+   "y0": 288,
+   "y1": 576,
+   "banner": {
+    "x": 48,
+    "y": 412,
+    "w": 400,
+    "h": 40
+   }
+  },
+  {
+   "branch": "storage_and_automation",
+   "y0": 576,
+   "y1": 864,
+   "banner": {
+    "x": 48,
+    "y": 700,
+    "w": 400,
+    "h": 40
+   }
+  }
+ ],
+ "slots": [
+  {
+   "id": "knowledge.11",
+   "x": 520,
+   "y": 144
+  },
+  {
+   "id": "knowledge.12",
+   "x": 744,
+   "y": 144
+  },
+  {
+   "id": "knowledge.13",
+   "x": 968,
+   "y": 144
+  },
+  {
+   "id": "knowledge.14",
+   "x": 520,
+   "y": 432
+  },
+  {
+   "id": "knowledge.15",
+   "x": 744,
+   "y": 432
+  },
+  {
+   "id": "knowledge.16",
+   "x": 968,
+   "y": 432
+  },
+  {
+   "id": "knowledge.17",
+   "x": 520,
+   "y": 720
+  },
+  {
+   "id": "knowledge.18",
+   "x": 744,
+   "y": 720
+  },
+  {
+   "id": "knowledge.19",
+   "x": 968,
+   "y": 720
+  }
+ ],
+ "edges": []
+}

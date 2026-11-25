@@ -1,0 +1,90 @@
+{
+ "schemaVersion": 1,
+ "screen": "knowledge",
+ "discipline": "alchemy",
+ "nodeGuiSize": 64,
+ "texture": "moreminecrafts:textures/gui/research_tree/sheets/sheet_knowledge_alchemy.png",
+ "artPxPerGuiPx": 2,
+ "sheet": {
+  "w": 1416,
+  "h": 864
+ },
+ "zones": [
+  {
+   "branch": "brewing_and_potions",
+   "y0": 0,
+   "y1": 288,
+   "banner": {
+    "x": 48,
+    "y": 124,
+    "w": 400,
+    "h": 40
+   }
+  },
+  {
+   "branch": "effects_and_ingredients",
+   "y0": 288,
+   "y1": 576,
+   "banner": {
+    "x": 48,
+    "y": 412,
+    "w": 400,
+    "h": 40
+   }
+  },
+  {
+   "branch": "advanced_brewing",
+   "y0": 576,
+   "y1": 864,
+   "banner": {
+    "x": 48,
+    "y": 700,
+    "w": 400,
+    "h": 40
+   }
+  }
+ ],
+ "slots": [
+  {
+   "id": "knowledge.63",
+   "x": 520,
+   "y": 144
+  },
+  {
+   "id": "knowledge.64",
+   "x": 744,
+   "y": 144
+  },
+  {
+   "id": "knowledge.65",
+   "x": 968,
+   "y": 144
+  },
+  {
+   "id": "knowledge.66",
+   "x": 1192,
+   "y": 144
+  },
+  {
+   "id": "knowledge.67",
+   "x": 520,
+   "y": 432
+  },
+  {
+   "id": "knowledge.68",
+   "x": 744,
+   "y": 432
+  },
+  {
+   "id": "knowledge.69",
+   "x": 520,
+   "y": 720
+  },
+  {
+   "id": "knowledge.70",
+   "x": 744,
+   "y": 720
+  }
+ ],
+ "edges": []
+}

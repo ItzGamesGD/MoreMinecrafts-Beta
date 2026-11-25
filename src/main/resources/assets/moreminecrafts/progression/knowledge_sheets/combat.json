@@ -1,0 +1,111 @@
+{
+ "schemaVersion": 1,
+ "screen": "knowledge",
+ "discipline": "combat",
+ "nodeGuiSize": 64,
+ "texture": "moreminecrafts:textures/gui/research_tree/sheets/sheet_knowledge_combat.png",
+ "artPxPerGuiPx": 2,
+ "sheet": {
+  "w": 1192,
+  "h": 1152
+ },
+ "zones": [
+  {
+   "branch": "melee",
+   "y0": 0,
+   "y1": 288,
+   "banner": {
+    "x": 48,
+    "y": 124,
+    "w": 400,
+    "h": 40
+   }
+  },
+  {
+   "branch": "ranged",
+   "y0": 288,
+   "y1": 576,
+   "banner": {
+    "x": 48,
+    "y": 412,
+    "w": 400,
+    "h": 40
+   }
+  },
+  {
+   "branch": "defense_and_thrown_weapons",
+   "y0": 576,
+   "y1": 864,
+   "banner": {
+    "x": 48,
+    "y": 700,
+    "w": 400,
+    "h": 40
+   }
+  },
+  {
+   "branch": "movement_and_ammunition",
+   "y0": 864,
+   "y1": 1152,
+   "banner": {
+    "x": 48,
+    "y": 988,
+    "w": 400,
+    "h": 40
+   }
+  }
+ ],
+ "slots": [
+  {
+   "id": "knowledge.31",
+   "x": 520,
+   "y": 144
+  },
+  {
+   "id": "knowledge.32",
+   "x": 744,
+   "y": 144
+  },
+  {
+   "id": "knowledge.33",
+   "x": 968,
+   "y": 144
+  },
+  {
+   "id": "knowledge.34",
+   "x": 520,
+   "y": 432
+  },
+  {
+   "id": "knowledge.35",
+   "x": 744,
+   "y": 432
+  },
+  {
+   "id": "knowledge.36",
+   "x": 520,
+   "y": 720
+  },
+  {
+   "id": "knowledge.37",
+   "x": 744,
+   "y": 720
+  },
+  {
+   "id": "knowledge.38",
+   "x": 968,
+   "y": 720
+  },
+  {
+   "id": "knowledge.39",
+   "x": 520,
+   "y": 1008
+  },
+  {
+   "id": "knowledge.40",
+   "x": 744,
+   "y": 1008
+  }
+ ],
+ "edges": []
+}

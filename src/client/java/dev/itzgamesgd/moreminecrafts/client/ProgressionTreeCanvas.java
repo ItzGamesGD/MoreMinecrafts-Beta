@@ -503,7 +503,7 @@ public final class ProgressionTreeCanvas {
             } else for (var node : nodes) {
                 var knowledge = knowledgeRows.get(node.id());
                 var research = researchRows.get(node.id());
-                if (sheet != null) drawSheetNode(graphics, node, research, node.id().equals(selectedId),
+                if (sheet != null) drawSheetNode(graphics, node, knowledge, research, node.id().equals(selectedId),
                         node.id().equals(hoveredId));
                 else drawNode(graphics, font, node, knowledge, research, questRows.get(node.id()),
                         node.id().equals(selectedId), node.id().equals(hoveredId));
@@ -1030,12 +1030,15 @@ public final class ProgressionTreeCanvas {
     }
 
     private void drawSheetNode(GuiGraphicsExtractor graphics, ProgressionNodeLayoutCatalog.Node node,
+                               ProgressionScreenData.KnowledgeRow knowledge,
                                ProgressionScreenData.ResearchRow research, boolean selected, boolean hovered) {
         var frame = nodeFrame(node);
         int cx = screenX(node.x()), cy = screenY(node.y());
         double zoom = camera.zoom();
         String state;
-        if (research == null) state = "locked";
+        // Knowledge scenes use only locked / owned frames (no prerequisite edges, no purchase).
+        if ("knowledge".equals(screen)) state = knowledge != null && knowledge.unlocked() ? "owned" : "locked";
+        else if (research == null) state = "locked";
         else if (research.level() > 0 && research.level() >= research.maximumLevel()) state = "maxed";
         else if (research.level() > 0) state = "owned";
         else if (research.prerequisitesDefined() && research.availability() == ResearchPurchaseRules.Result.PURCHASED) state = "available";

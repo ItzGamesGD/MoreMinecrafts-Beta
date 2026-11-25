@@ -116,4 +116,41 @@ final class ResearchSheetLayoutTest {
         for (String state : List.of("locked", "available", "owned", "maxed"))
             assertNotNull(getClass().getResource("/assets/moreminecrafts/textures/gui/research_tree/node_" + state + "_lg.png"), state);
     }
+    static final List<String> KNOWLEDGE_DISCIPLINES = DISCIPLINES;
+
+    @Test void everyKnowledgeScenePlacesExactlyItsKnowledgeNodesWithoutConnectors() throws Exception {
+        JsonArray layoutNodes = read("/assets/moreminecrafts/progression/node_layout.json").getAsJsonArray("nodes");
+        int total = 0;
+        for (String discipline : KNOWLEDGE_DISCIPLINES) {
+            JsonObject scene = read("/assets/moreminecrafts/progression/knowledge_sheets/" + discipline + ".json");
+            assertEquals("knowledge", scene.get("screen").getAsString(), discipline);
+            assertEquals(discipline, scene.get("discipline").getAsString(), discipline);
+            assertEquals(64, scene.get("nodeGuiSize").getAsInt(), discipline);
+            assertEquals(0, scene.getAsJsonArray("edges").size(), discipline + " knowledge has no prerequisite edges");
+            Set<String> expected = new HashSet<>();
+            for (JsonElement e : layoutNodes) {
+                JsonObject node = e.getAsJsonObject();
+                if ("knowledge".equals(node.get("screen").getAsString()) && discipline.equals(node.get("discipline").getAsString()))
+                    expected.add(node.get("id").getAsString());
+            }
+            Map<String, int[]> slots = new HashMap<>();
+            for (JsonElement e : scene.getAsJsonArray("slots")) {
+                JsonObject slot = e.getAsJsonObject();
+                assertNull(slots.put(slot.get("id").getAsString(), new int[]{slot.get("x").getAsInt(), slot.get("y").getAsInt()}), discipline);
+            }
+            assertEquals(expected, slots.keySet(), discipline);
+            total += slots.size();
+            int w = scene.getAsJsonObject("sheet").get("w").getAsInt(), h = scene.getAsJsonObject("sheet").get("h").getAsInt();
+            for (var entry : slots.entrySet()) {
+                int[] p = entry.getValue();
+                assertTrue(p[0] - 64 >= 0 && p[0] + 64 <= w && p[1] - 64 >= 0 && p[1] + 64 <= h, discipline + " " + entry.getKey());
+            }
+            var ids = List.copyOf(slots.keySet());
+            for (int i = 0; i < ids.size(); i++) for (int j = i + 1; j < ids.size(); j++) {
+                int[] a = slots.get(ids.get(i)), b = slots.get(ids.get(j));
+                assertTrue(Math.max(Math.abs(a[0] - b[0]), Math.abs(a[1] - b[1])) >= 128 + 32, discipline + " nodes too close");
+            }
+        }
+        assertEquals(70, total, "knowledge roster is 70 nodes");
+    }
 }

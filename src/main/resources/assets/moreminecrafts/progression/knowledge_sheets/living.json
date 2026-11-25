@@ -1,0 +1,116 @@
+{
+ "schemaVersion": 1,
+ "screen": "knowledge",
+ "discipline": "living",
+ "nodeGuiSize": 64,
+ "texture": "moreminecrafts:textures/gui/research_tree/sheets/sheet_knowledge_living.png",
+ "artPxPerGuiPx": 2,
+ "sheet": {
+  "w": 1640,
+  "h": 1152
+ },
+ "zones": [
+  {
+   "branch": "cultivation_and_soil",
+   "y0": 0,
+   "y1": 288,
+   "banner": {
+    "x": 48,
+    "y": 124,
+    "w": 400,
+    "h": 40
+   }
+  },
+  {
+   "branch": "livestock_and_bees",
+   "y0": 288,
+   "y1": 576,
+   "banner": {
+    "x": 48,
+    "y": 412,
+    "w": 400,
+    "h": 40
+   }
+  },
+  {
+   "branch": "fishing",
+   "y0": 576,
+   "y1": 864,
+   "banner": {
+    "x": 48,
+    "y": 700,
+    "w": 400,
+    "h": 40
+   }
+  },
+  {
+   "branch": "food",
+   "y0": 864,
+   "y1": 1152,
+   "banner": {
+    "x": 48,
+    "y": 988,
+    "w": 400,
+    "h": 40
+   }
+  }
+ ],
+ "slots": [
+  {
+   "id": "knowledge.20",
+   "x": 520,
+   "y": 144
+  },
+  {
+   "id": "knowledge.21",
+   "x": 744,
+   "y": 144
+  },
+  {
+   "id": "knowledge.22",
+   "x": 968,
+   "y": 144
+  },
+  {
+   "id": "knowledge.23",
+   "x": 1192,
+   "y": 144
+  },
+  {
+   "id": "knowledge.24",
+   "x": 1416,
+   "y": 144
+  },
+  {
+   "id": "knowledge.25",
+   "x": 520,
+   "y": 432
+  },
+  {
+   "id": "knowledge.26",
+   "x": 744,
+   "y": 432
+  },
+  {
+   "id": "knowledge.27",
+   "x": 520,
+   "y": 720
+  },
+  {
+   "id": "knowledge.28",
+   "x": 744,
+   "y": 720
+  },
+  {
+   "id": "knowledge.29",
+   "x": 968,
+   "y": 720
+  },
+  {
+   "id": "knowledge.30",
+   "x": 520,
+   "y": 1008
+  }
+ ],
+ "edges": []
+}

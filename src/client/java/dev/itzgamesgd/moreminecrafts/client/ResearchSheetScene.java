@@ -63,15 +63,20 @@ final class ResearchSheetScene {
         }).toList();
     }
 
-    /** The sheet for a research discipline, or null when that scene has no approved sheet yet. */
+    /** The sheet for a research or knowledge discipline, or null when that scene has no approved sheet yet. */
     static ResearchSheetScene load(String screen, String discipline) {
-        if (!"research".equals(screen)) return null;
+        String folder = switch (screen) {
+            case "research" -> "research_sheets";
+            case "knowledge" -> "knowledge_sheets";
+            default -> null;
+        };
+        if (folder == null) return null;
         var stream = ResearchSheetScene.class.getResourceAsStream(
-                "/assets/moreminecrafts/progression/research_sheets/" + discipline + ".json");
+                "/assets/moreminecrafts/progression/" + folder + "/" + discipline + ".json");
         if (stream == null) return null;
         try (var reader = new InputStreamReader(stream, StandardCharsets.UTF_8)) {
             File file = new Gson().fromJson(reader, File.class);
-            if (file == null || !"research".equals(file.screen()) || !discipline.equals(file.discipline())) return null;
+            if (file == null || !screen.equals(file.screen()) || !discipline.equals(file.discipline())) return null;
             return new ResearchSheetScene(file);
         } catch (Exception e) {
             dev.itzgamesgd.moreminecrafts.MoreMinecrafts.LOGGER.error("Invalid research sheet for {}", discipline, e);

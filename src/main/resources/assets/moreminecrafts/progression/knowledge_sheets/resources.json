@@ -1,0 +1,122 @@
+{
+ "schemaVersion": 1,
+ "screen": "knowledge",
+ "discipline": "resources",
+ "nodeGuiSize": 64,
+ "texture": "moreminecrafts:textures/gui/research_tree/sheets/sheet_knowledge_resources.png",
+ "artPxPerGuiPx": 2,
+ "sheet": {
+  "w": 1192,
+  "h": 1440
+ },
+ "zones": [
+  {
+   "branch": "geology",
+   "y0": 0,
+   "y1": 288,
+   "banner": {
+    "x": 48,
+    "y": 124,
+    "w": 400,
+    "h": 40
+   }
+  },
+  {
+   "branch": "forestry",
+   "y0": 288,
+   "y1": 576,
+   "banner": {
+    "x": 48,
+    "y": 412,
+    "w": 400,
+    "h": 40
+   }
+  },
+  {
+   "branch": "flora_and_soil",
+   "y0": 576,
+   "y1": 864,
+   "banner": {
+    "x": 48,
+    "y": 700,
+    "w": 400,
+    "h": 40
+   }
+  },
+  {
+   "branch": "rock_classification",
+   "y0": 864,
+   "y1": 1152,
+   "banner": {
+    "x": 48,
+    "y": 988,
+    "w": 400,
+    "h": 40
+   }
+  },
+  {
+   "branch": "extraction_and_tools",
+   "y0": 1152,
+   "y1": 1440,
+   "banner": {
+    "x": 48,
+    "y": 1276,
+    "w": 400,
+    "h": 40
+   }
+  }
+ ],
+ "slots": [
+  {
+   "id": "knowledge.1",
+   "x": 520,
+   "y": 144
+  },
+  {
+   "id": "knowledge.2",
+   "x": 744,
+   "y": 144
+  },
+  {
+   "id": "knowledge.3",
+   "x": 968,
+   "y": 144
+  },
+  {
+   "id": "knowledge.4",
+   "x": 520,
+   "y": 432
+  },
+  {
+   "id": "knowledge.5",
+   "x": 744,
+   "y": 432
+  },
+  {
+   "id": "knowledge.6",
+   "x": 520,
+   "y": 720
+  },
+  {
+   "id": "knowledge.7",
+   "x": 744,
+   "y": 720
+  },
+  {
+   "id": "knowledge.8",
+   "x": 520,
+   "y": 1008
+  },
+  {
+   "id": "knowledge.9",
+   "x": 520,
+   "y": 1296
+  },
+  {
+   "id": "knowledge.10",
+   "x": 744,
+   "y": 1296
+  }
+ ],
+ "edges": []
+}
