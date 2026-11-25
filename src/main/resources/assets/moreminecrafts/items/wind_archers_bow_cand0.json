@@ -1,0 +1,12 @@
+{
+  "model": {
+    "type": "minecraft:special",
+    "base": "moreminecrafts:item/wind_archers_bow_cand0",
+    "model": {
+      "type": "moreminecrafts:pose_mesh",
+      "model": "wind_archers_bow",
+      "pose": "pulling_2",
+      "texture": "moreminecrafts:textures/item/wind_archers_bow_3d.png"
+    }
+  }
+}
