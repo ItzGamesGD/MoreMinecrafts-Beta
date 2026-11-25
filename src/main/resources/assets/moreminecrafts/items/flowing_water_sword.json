@@ -1,1 +1,11 @@
-{"model":{"type":"minecraft:model","model":"moreminecrafts:item/flowing_water_sword"}}
+{
+  "model": {
+    "type": "minecraft:special",
+    "base": "moreminecrafts:item/flowing_water_sword_base",
+    "model": {
+      "type": "moreminecrafts:pose_mesh",
+      "model": "flowing_water_sword",
+      "texture": "moreminecrafts:textures/item/flowing_water_sword_3d.png"
+    }
+  }
+}
