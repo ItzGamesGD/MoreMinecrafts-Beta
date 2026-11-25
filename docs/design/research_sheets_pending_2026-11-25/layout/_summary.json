@@ -4,59 +4,239 @@
   "edges": 18,
   "zones": 6,
   "sheet": [
-   976,
-   3008
+   2312,
+   2496
   ],
-  "edge_hits": []
+  "edge_hits": [
+   [
+    "ecology_root",
+    "mob_aggro_redirection",
+    [
+     "v3.research.48"
+    ]
+   ],
+   [
+    "ecology_root",
+    "mob_capture",
+    [
+     "v3.research.48",
+     "mob_aggro_redirection"
+    ]
+   ]
+  ]
  },
  "world": {
   "nodes": 16,
   "edges": 23,
   "zones": 5,
   "sheet": [
-   1168,
-   2848
+   1640,
+   2528
   ],
-  "edge_hits": []
+  "edge_hits": [
+   [
+    "v3.research.49",
+    "v3.research.57",
+    [
+     "v3.research.50",
+     "v3.research.51"
+    ]
+   ],
+   [
+    "world_root",
+    "v3.research.57",
+    [
+     "v3.research.56"
+    ]
+   ],
+   [
+    "world_root",
+    "v3.research.58",
+    [
+     "v3.research.56",
+     "v3.research.57"
+    ]
+   ],
+   [
+    "world_root",
+    "piglin_trading",
+    [
+     "piglin_barter"
+    ]
+   ],
+   [
+    "world_root",
+    "fall_roll",
+    [
+     "wall_jump"
+    ]
+   ]
+  ]
  },
  "combat": {
   "nodes": 15,
   "edges": 22,
   "zones": 5,
   "sheet": [
-   976,
+   1416,
    2720
   ],
-  "edge_hits": []
+  "edge_hits": [
+   [
+    "combat_root",
+    "falling_axe_smash",
+    [
+     "v3.research.33"
+    ]
+   ],
+   [
+    "combat_root",
+    "weapon_swap_handling",
+    [
+     "v3.research.33",
+     "falling_axe_smash"
+    ]
+   ],
+   [
+    "combat_root",
+    "ballistic_control",
+    [
+     "v3.research.35"
+    ]
+   ],
+   [
+    "combat_root",
+    "bow_charge_mobility",
+    [
+     "v3.research.35",
+     "ballistic_control"
+    ]
+   ],
+   [
+    "combat_root",
+    "shield_counter",
+    [
+     "v3.research.34"
+    ]
+   ]
+  ]
  },
  "living": {
   "nodes": 14,
   "edges": 21,
   "zones": 4,
   "sheet": [
-   976,
-   2432
+   1864,
+   1792
   ],
-  "edge_hits": []
+  "edge_hits": [
+   [
+    "v3.research.14",
+    "v3.research.21",
+    [
+     "v3.research.20"
+    ]
+   ],
+   [
+    "living_root",
+    "v3.research.24",
+    [
+     "v3.research.20"
+    ]
+   ],
+   [
+    "living_root",
+    "v3.research.25",
+    [
+     "v3.research.21"
+    ]
+   ],
+   [
+    "v3.research.16",
+    "v3.research.25",
+    [
+     "v3.research.24"
+    ]
+   ],
+   [
+    "v3.research.17",
+    "v3.research.22",
+    [
+     "v3.research.18"
+    ]
+   ],
+   [
+    "living_root",
+    "v3.research.26",
+    [
+     "v3.research.23"
+    ]
+   ]
+  ]
  },
  "alchemy": {
   "nodes": 13,
   "edges": 21,
   "zones": 6,
   "sheet": [
-   1360,
-   2624
+   1416,
+   2496
   ],
-  "edge_hits": []
+  "edge_hits": [
+   [
+    "v3.research.59",
+    "v3.research.60",
+    [
+     "v3.research.63"
+    ]
+   ],
+   [
+    "alchemy_root",
+    "v3.research.68",
+    [
+     "v3.research.61"
+    ]
+   ],
+   [
+    "v3.research.63",
+    "v3.research.65",
+    [
+     "v3.research.62"
+    ]
+   ],
+   [
+    "alchemy_root",
+    "v3.research.69",
+    [
+     "v3.research.66"
+    ]
+   ]
+  ]
  },
  "production": {
   "nodes": 12,
   "edges": 17,
   "zones": 5,
   "sheet": [
-   1168,
-   2336
+   1640,
+   2144
   ],
-  "edge_hits": []
+  "edge_hits": [
+   [
+    "production_root",
+    "nearby_chest_ingredients",
+    [
+     "v3.research.13"
+    ]
+   ],
+   [
+    "production_root",
+    "hopper_filter",
+    [
+     "v3.research.13",
+     "nearby_chest_ingredients"
+    ]
+   ]
+  ]
  }
 }
