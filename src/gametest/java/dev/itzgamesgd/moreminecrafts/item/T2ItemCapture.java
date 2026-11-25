@@ -28,6 +28,7 @@ public final class T2ItemCapture implements FabricClientGameTest {
     private static final int Y = 100;
     private static final int SPACING = 10;
     private static final List<String> MODELS = List.of("wind_sword", "wind_sword", "wind_archers_bow_pose2");
+    private static final List<String> FIRST_PERSON_MODELS = List.of("wind_sword", "wind_archers_bow_pose2", "vanilla_bow_reference");
     private static final float[] ANGLES = {40, 0};
     private static final String[] ANGLE_NAMES = {"three-quarter", "front"};
 
@@ -66,8 +67,33 @@ public final class T2ItemCapture implements FabricClientGameTest {
                     System.out.println("T2_SCREENSHOT " + context.takeScreenshot("t2-capture-%02d-%s".formatted(index++, shotName)));
                 }
             }
+            // First-person: the local player holds the item in survival with the HUD (and hand) visible.
+            context.runOnClient(c -> { if (c.gui.hud.isHidden()) c.gui.hud.toggle(); });
+            for (String model : FIRST_PERSON_MODELS) {
+                ItemStack stack = heldStack(model);
+                server.runOnServer(s -> {
+                    var player = s.getPlayerList().getPlayers().getFirst();
+                    player.setGameMode(GameType.SURVIVAL);
+                    player.setItemSlot(EquipmentSlot.MAINHAND, stack.copy());
+                    player.teleportTo(s.overworld(), 0.5, Y, 3.2, Set.of(), 180, 0, true);
+                });
+                connection.waitForClientboundPackets();
+                context.waitTicks(30);
+                context.runOnClient(c -> c.gui.toastManager().clear());
+                context.waitTicks(2);
+                System.out.println("T2_SCREENSHOT " + context.takeScreenshot("t2-capture-%02d-%s-firstperson".formatted(index++, model)));
+            }
             System.out.println("T2_CAPTURE_COMPLETE");
         }
+    }
+
+    private static ItemStack heldStack(String model) {
+        boolean sword = model.startsWith("wind_sword");
+        ItemStack stack = new ItemStack(sword ? Items.IRON_SWORD : Items.BOW);
+        if (!model.startsWith("vanilla")) {
+            stack.set(DataComponents.ITEM_MODEL, Identifier.parse("moreminecrafts:" + model));
+        }
+        return stack;
     }
 
     private static void buildRoom(ServerLevel level) {
@@ -87,11 +113,7 @@ public final class T2ItemCapture implements FabricClientGameTest {
             Mob mob = EntityTypes.SKELETON.create(level, EntitySpawnReason.COMMAND);
             if (mob == null) continue;
             mob.setPos(i * SPACING + 0.5, Y, 0.5);
-            ItemStack stack = new ItemStack(Items.BOW);
-            if (!MODELS.get(i).startsWith("vanilla")) {
-                stack.set(DataComponents.ITEM_MODEL, Identifier.parse("moreminecrafts:" + MODELS.get(i)));
-            }
-            mob.setItemSlot(EquipmentSlot.MAINHAND, stack);
+            mob.setItemSlot(EquipmentSlot.MAINHAND, heldStack(MODELS.get(i)));
             mob.setAggressive(true);
             mob.setNoAi(true);
             mob.setPersistenceRequired();
