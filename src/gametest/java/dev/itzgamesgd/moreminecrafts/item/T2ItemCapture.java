@@ -12,7 +12,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
@@ -84,7 +84,7 @@ public final class T2ItemCapture implements FabricClientGameTest {
             }
         }
         for (int i = 0; i < MODELS.size(); i++) {
-            Mob mob = EntityType.SKELETON.create(level, EntitySpawnReason.COMMAND);
+            Mob mob = EntityTypes.SKELETON.create(level, EntitySpawnReason.COMMAND);
             if (mob == null) continue;
             mob.setPos(i * SPACING + 0.5, Y, 0.5);
             ItemStack stack = new ItemStack(Items.BOW);
