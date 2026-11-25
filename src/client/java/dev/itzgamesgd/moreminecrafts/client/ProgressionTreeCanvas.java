@@ -962,7 +962,7 @@ public final class ProgressionTreeCanvas {
     private ProgressionCanvasGeometry.Rect nodeFrame(ProgressionNodeLayoutCatalog.Node node) {
         int sx = screenX(node.x()), sy = screenY(node.y());
         if (sheet == null) return ProgressionCanvasGeometry.nodeFrameBounds(sx, sy, camera.zoom());
-        int size = Math.max(10, (int) Math.round(32 * camera.zoom()));
+        int size = Math.max(10, (int) Math.round(sheet.nodeGui() * camera.zoom()));
         return new ProgressionCanvasGeometry.Rect(sx - size / 2, sy - size / 2, size, size);
     }
 
@@ -1007,9 +1007,10 @@ public final class ProgressionTreeCanvas {
             if (font.width(label) > room) label = font.plainSubstrByWidth(label, Math.max(0, room - font.width("…"))) + "…";
             float z = (float) zoom;
             graphics.pose().pushMatrix();
-            graphics.pose().translate(bx + 14 * z, by + (bh - 8 * z) / 2.0F);
+            graphics.pose().translate(bx, by + (bh - 8 * z) / 2.0F);
             graphics.pose().scale(z, z);
-            graphics.text(font, label, 0, 0, 0xFFECE0C4, true);
+            // centred in the banner: local units are scaled by z, so the banner width is divided by z
+            graphics.text(font, label, (int) Math.round((bw / z - font.width(label)) / 2.0), 0, 0xFFECE0C4, true);
             graphics.pose().popMatrix();
         }
     }
@@ -1039,23 +1040,24 @@ public final class ProgressionTreeCanvas {
         else if (research.level() > 0) state = "owned";
         else if (research.prerequisitesDefined() && research.availability() == ResearchPurchaseRules.Result.PURCHASED) state = "available";
         else state = "locked";
+        int nodeGui = sheet.nodeGui();
         if (hovered) {
-            int halo = (int) Math.round(40 * zoom);
+            int halo = (int) Math.round(nodeGui * 1.25 * zoom);
             blitKit(graphics, "node_hover", cx - halo / 2, cy - halo / 2, halo, 80);
         }
-        blitKit(graphics, "node_" + state, frame.x(), frame.y(), frame.width(), 64);
-        int iconSize = Math.max(8, (int) Math.round(16 * zoom));
+        blitKit(graphics, "node_" + state + sheet.kitSuffix(), frame.x(), frame.y(), frame.width(), 2 * nodeGui);
+        int iconSize = Math.max(8, (int) Math.round(nodeGui / 2.0 * zoom));
         graphics.pose().pushMatrix();
         graphics.pose().translate(cx, cy);
         graphics.pose().scale(iconSize / 16.0F, iconSize / 16.0F);
         graphics.item(icon(node), -8, -8);
         graphics.pose().popMatrix();
         if ("locked".equals(state)) {
-            int window = (int) Math.round(20 * zoom);
+            int window = (int) Math.round(nodeGui * 0.625 * zoom);
             graphics.fill(cx - window / 2, cy - window / 2, cx - window / 2 + window, cy - window / 2 + window, 0x99140E1C);
         }
         if (selected) {
-            int ring = (int) Math.round(36 * zoom);
+            int ring = (int) Math.round((nodeGui + 4) * zoom);
             blitKit(graphics, "node_selected", cx - ring / 2, cy - ring / 2, ring, 72);
         }
     }
