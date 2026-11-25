@@ -1,0 +1,58 @@
+name: T2 weapon item capture
+on:
+  push:
+    branches: [feat/t2-weapon-models-20261125]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Install software renderer
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb openbox x11-utils mesa-utils libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers libvulkan1
+      - name: Isolate capture client entrypoint
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('src/gametest/resources/fabric.mod.json')
+          d = json.loads(p.read_text())
+          d['entrypoints']['fabric-client-gametest'] = ['dev.itzgamesgd.moreminecrafts.item.T2ItemCapture']
+          p.write_text(json.dumps(d, indent=2) + '\n')
+          PY
+      - name: Capture the T2 weapon item models in Minecraft
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p build/t2-capture
+          export LIBGL_ALWAYS_SOFTWARE=1 MESA_LOADER_DRIVER_OVERRIDE=llvmpipe
+          export JAVA_TOOL_OPTIONS='-Dmoreminecrafts.t2.capture=true -Dmm.st05.natural=false'
+          icd=$(find /usr/share/vulkan/icd.d -name 'lvp_icd*.json' -print -quit)
+          if [[ -n "$icd" ]]; then export VK_ICD_FILENAMES="$icd"; fi
+          xvfb-run -a -s '-screen 0 1920x1080x24 +extension GLX +render -noreset' bash -euo pipefail -c '
+            openbox --sm-disable > build/t2-capture/openbox.log 2>&1 &
+            trap "kill $! 2>/dev/null || true" EXIT
+            ./gradlew runClientGameTest --args="--width 1920 --height 1080" --no-daemon --max-workers=2 2>&1 | tee build/t2-capture/client.log
+          '
+          grep -q T2_CAPTURE_COMPLETE build/t2-capture/client.log
+          find . -path '*/screenshots/*t2-capture-*.png' -exec cp {} build/t2-capture/ \;
+          test "$(find build/t2-capture -name '*t2-capture-*.png' | wc -l)" -eq 9
+      - name: Upload captures and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: t2-captures
+          path: build/t2-capture/
+          if-no-files-found: error

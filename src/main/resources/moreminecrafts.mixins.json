@@ -151,6 +151,7 @@
     "FishingRodItemClientMixin",
     "FishingRodInputClientMixin",
     "T1AnvilScreenFactoryMixin",
-    "ProgressionAdvancementKeyMixin"
+    "ProgressionAdvancementKeyMixin",
+    "SpecialModelRenderersMixin"
   ]
 }
