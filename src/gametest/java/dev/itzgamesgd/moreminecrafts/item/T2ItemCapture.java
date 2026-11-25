@@ -27,7 +27,7 @@ import net.minecraft.world.level.block.Blocks;
 public final class T2ItemCapture implements FabricClientGameTest {
     private static final int Y = 100;
     private static final int SPACING = 10;
-    private static final List<String> MODELS = List.of("wind_archers_bow_pose0", "wind_archers_bow_pose1", "wind_archers_bow_pose2");
+    private static final List<String> MODELS = List.of("wind_archers_bow_pose0", "wind_archers_bow_pose1", "wind_archers_bow_pose2", "vanilla_bow_reference");
     private static final float[] ANGLES = {0, 40, 90};
     private static final String[] ANGLE_NAMES = {"front", "three-quarter", "side"};
 
@@ -88,7 +88,9 @@ public final class T2ItemCapture implements FabricClientGameTest {
             if (mob == null) continue;
             mob.setPos(i * SPACING + 0.5, Y, 0.5);
             ItemStack stack = new ItemStack(Items.BOW);
-            stack.set(DataComponents.ITEM_MODEL, Identifier.parse("moreminecrafts:" + MODELS.get(i)));
+            if (!MODELS.get(i).startsWith("vanilla")) {
+                stack.set(DataComponents.ITEM_MODEL, Identifier.parse("moreminecrafts:" + MODELS.get(i)));
+            }
             mob.setItemSlot(EquipmentSlot.MAINHAND, stack);
             mob.setAggressive(true);
             mob.setNoAi(true);
