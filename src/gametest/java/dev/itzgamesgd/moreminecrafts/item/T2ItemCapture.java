@@ -27,9 +27,9 @@ import net.minecraft.world.level.block.Blocks;
 public final class T2ItemCapture implements FabricClientGameTest {
     private static final int Y = 100;
     private static final int SPACING = 10;
-    private static final List<String> MODELS = List.of("wind_archers_bow_pose2", "wind_archers_bow_pose0", "vanilla_bow_reference");
-    private static final float[] ANGLES = {40};
-    private static final String[] ANGLE_NAMES = {"three-quarter"};
+    private static final List<String> MODELS = List.of("wind_sword", "wind_sword", "wind_archers_bow_pose2");
+    private static final float[] ANGLES = {40, 0};
+    private static final String[] ANGLE_NAMES = {"three-quarter", "front"};
 
     @Override
     public void runTest(ClientGameTestContext context) {

@@ -1,6 +1,14 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "moreminecrafts:item/wind_sword"
+    "type": "minecraft:special",
+    "base": "moreminecrafts:item/wind_sword_base",
+    "model": {
+      "type": "moreminecrafts:pose_mesh",
+      "model": "wind_sword",
+      "texture": "moreminecrafts:textures/item/wind_sword_3d.png",
+      "prefix": "f",
+      "count": 8,
+      "period_ticks": 80
+    }
   }
 }

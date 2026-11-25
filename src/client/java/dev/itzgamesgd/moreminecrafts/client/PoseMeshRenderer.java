@@ -38,16 +38,27 @@ public final class PoseMeshRenderer implements NoDataSpecialModelRenderer {
 
     private static final Map<String, Map<String, List<Quad>>> CACHE = new HashMap<>();
 
-    private final List<Quad> quads;
+    /** Frames of the animation (one entry for a static pose); the frame is chosen from the client clock. */
+    private final List<List<Quad>> frames;
+    private final int periodTicks;
     private final RenderType renderType;
 
-    private PoseMeshRenderer(List<Quad> quads, Identifier texture) {
-        this.quads = quads;
+    private PoseMeshRenderer(List<List<Quad>> frames, int periodTicks, Identifier texture) {
+        this.frames = frames;
+        this.periodTicks = Math.max(1, periodTicks);
         this.renderType = RenderTypes.entityCutout(texture);
+    }
+
+    private List<Quad> currentFrame() {
+        if (frames.size() == 1) return frames.get(0);
+        long ticks = System.currentTimeMillis() / 50L;
+        int index = (int) ((ticks % periodTicks) * frames.size() / periodTicks);
+        return frames.get(index);
     }
 
     @Override
     public void submit(PoseStack poseStack, SubmitNodeCollector collector, int light, int overlay, boolean foil, int outlineColor) {
+        List<Quad> quads = currentFrame();
         collector.submitCustomGeometry(poseStack, renderType, (pose, consumer) -> {
             for (Quad q : quads) {
                 for (int i = 0; i < 4; i++) {
@@ -64,16 +75,26 @@ public final class PoseMeshRenderer implements NoDataSpecialModelRenderer {
 
     @Override
     public void getExtents(Consumer<Vector3fc> output) {
-        for (Quad q : quads) {
+        for (Quad q : frames.get(0)) {
             for (int i = 0; i < 4; i++) output.accept(new Vector3f(q.v[i * 3], q.v[i * 3 + 1], q.v[i * 3 + 2]));
         }
     }
 
-    private static synchronized List<Quad> load(String model, String pose) {
+    private static synchronized List<List<Quad>> load(String model, String pose, String prefix, int count) {
         Map<String, List<Quad>> poses = CACHE.computeIfAbsent(model, PoseMeshRenderer::loadModel);
-        List<Quad> quads = poses.get(pose);
-        if (quads == null) throw new IllegalStateException("pose " + pose + " missing in bbmodel/pose/" + model + ".json");
-        return quads;
+        List<List<Quad>> frames = new ArrayList<>();
+        if (count <= 0) {
+            List<Quad> quads = poses.get(pose);
+            if (quads == null) throw new IllegalStateException("pose " + pose + " missing in bbmodel/pose/" + model + ".json");
+            frames.add(quads);
+        } else {
+            for (int i = 0; i < count; i++) {
+                List<Quad> quads = poses.get(prefix + i);
+                if (quads == null) throw new IllegalStateException("frame " + prefix + i + " missing in bbmodel/pose/" + model + ".json");
+                frames.add(quads);
+            }
+        }
+        return frames;
     }
 
     private static Map<String, List<Quad>> loadModel(String model) {
@@ -103,11 +124,14 @@ public final class PoseMeshRenderer implements NoDataSpecialModelRenderer {
     }
 
     /** Item definition entry: {@code {"type":"moreminecrafts:pose_mesh","model":"<name>","pose":"<pose>","texture":"<id>"}}. */
-    public record Unbaked(String model, String pose, Identifier texture) implements NoDataSpecialModelRenderer.Unbaked {
+    public record Unbaked(String model, String pose, Identifier texture, String prefix, int count, int periodTicks) implements NoDataSpecialModelRenderer.Unbaked {
         public static final MapCodec<Unbaked> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
                 Codec.STRING.fieldOf("model").forGetter(Unbaked::model),
-                Codec.STRING.fieldOf("pose").forGetter(Unbaked::pose),
-                Identifier.CODEC.fieldOf("texture").forGetter(Unbaked::texture)
+                Codec.STRING.optionalFieldOf("pose", "").forGetter(Unbaked::pose),
+                Identifier.CODEC.fieldOf("texture").forGetter(Unbaked::texture),
+                Codec.STRING.optionalFieldOf("prefix", "f").forGetter(Unbaked::prefix),
+                Codec.INT.optionalFieldOf("count", 0).forGetter(Unbaked::count),
+                Codec.INT.optionalFieldOf("period_ticks", 20).forGetter(Unbaked::periodTicks)
         ).apply(instance, Unbaked::new));
 
         @Override
@@ -115,7 +139,7 @@ public final class PoseMeshRenderer implements NoDataSpecialModelRenderer {
 
         @Override
         public SpecialModelRenderer<Void> bake(SpecialModelRenderer.BakingContext context) {
-            return new PoseMeshRenderer(load(model, pose), texture);
+            return new PoseMeshRenderer(load(model, pose, prefix, count), periodTicks, texture);
         }
     }
 }
