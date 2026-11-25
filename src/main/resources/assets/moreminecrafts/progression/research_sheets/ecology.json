@@ -1,0 +1,560 @@
+{
+ "schemaVersion": 1,
+ "screen": "research",
+ "discipline": "ecology",
+ "nodeGuiSize": 64,
+ "texture": "moreminecrafts:textures/gui/research_tree/sheets/sheet_research_ecology.png",
+ "artPxPerGuiPx": 2,
+ "sheet": {
+  "w": 2312,
+  "h": 2496
+ },
+ "zones": [
+  {
+   "branch": "discipline_foundation",
+   "y0": 0,
+   "y1": 352,
+   "banner": {
+    "x": 48,
+    "y": 156,
+    "w": 400,
+    "h": 40
+   }
+  },
+  {
+   "branch": "overworld_hostiles",
+   "y0": 352,
+   "y1": 704,
+   "banner": {
+    "x": 48,
+    "y": 508,
+    "w": 400,
+    "h": 40
+   }
+  },
+  {
+   "branch": "nether_hostiles",
+   "y0": 704,
+   "y1": 1056,
+   "banner": {
+    "x": 48,
+    "y": 860,
+    "w": 400,
+    "h": 40
+   }
+  },
+  {
+   "branch": "aquatic_hostiles",
+   "y0": 1056,
+   "y1": 1408,
+   "banner": {
+    "x": 48,
+    "y": 1212,
+    "w": 400,
+    "h": 40
+   }
+  },
+  {
+   "branch": "rare_and_boss_mobs",
+   "y0": 1408,
+   "y1": 1760,
+   "banner": {
+    "x": 48,
+    "y": 1564,
+    "w": 400,
+    "h": 40
+   }
+  },
+  {
+   "branch": "tracking_and_capture",
+   "y0": 1760,
+   "y1": 2496,
+   "banner": {
+    "x": 48,
+    "y": 2108,
+    "w": 400,
+    "h": 40
+   }
+  }
+ ],
+ "slots": [
+  {
+   "id": "ecology_root",
+   "x": 520,
+   "y": 176
+  },
+  {
+   "id": "v3.research.36",
+   "x": 744,
+   "y": 528
+  },
+  {
+   "id": "v3.research.37",
+   "x": 968,
+   "y": 528
+  },
+  {
+   "id": "v3.research.38",
+   "x": 1192,
+   "y": 528
+  },
+  {
+   "id": "v3.research.39",
+   "x": 1416,
+   "y": 528
+  },
+  {
+   "id": "v3.research.40",
+   "x": 1640,
+   "y": 528
+  },
+  {
+   "id": "v3.research.41",
+   "x": 1864,
+   "y": 528
+  },
+  {
+   "id": "v3.research.42",
+   "x": 2088,
+   "y": 528
+  },
+  {
+   "id": "v3.research.43",
+   "x": 744,
+   "y": 880
+  },
+  {
+   "id": "v3.research.44",
+   "x": 968,
+   "y": 880
+  },
+  {
+   "id": "v3.research.45",
+   "x": 744,
+   "y": 1232
+  },
+  {
+   "id": "v3.research.46",
+   "x": 744,
+   "y": 1584
+  },
+  {
+   "id": "v3.research.47",
+   "x": 968,
+   "y": 1584
+  },
+  {
+   "id": "v3.research.48",
+   "x": 744,
+   "y": 1936
+  },
+  {
+   "id": "mob_aggro_redirection",
+   "x": 744,
+   "y": 2128
+  },
+  {
+   "id": "mob_capture",
+   "x": 744,
+   "y": 2320
+  }
+ ],
+ "edges": [
+  {
+   "from": "ecology_root",
+   "to": "v3.research.36",
+   "route": [
+    [
+     520,
+     240
+    ],
+    [
+     520,
+     364
+    ],
+    [
+     744,
+     364
+    ],
+    [
+     744,
+     464
+    ]
+   ]
+  },
+  {
+   "from": "ecology_root",
+   "to": "v3.research.37",
+   "route": [
+    [
+     520,
+     240
+    ],
+    [
+     520,
+     364
+    ],
+    [
+     968,
+     364
+    ],
+    [
+     968,
+     464
+    ]
+   ]
+  },
+  {
+   "from": "ecology_root",
+   "to": "v3.research.38",
+   "route": [
+    [
+     520,
+     240
+    ],
+    [
+     520,
+     364
+    ],
+    [
+     1192,
+     364
+    ],
+    [
+     1192,
+     464
+    ]
+   ]
+  },
+  {
+   "from": "ecology_root",
+   "to": "v3.research.39",
+   "route": [
+    [
+     520,
+     240
+    ],
+    [
+     520,
+     364
+    ],
+    [
+     1416,
+     364
+    ],
+    [
+     1416,
+     464
+    ]
+   ]
+  },
+  {
+   "from": "ecology_root",
+   "to": "v3.research.40",
+   "route": [
+    [
+     520,
+     240
+    ],
+    [
+     520,
+     364
+    ],
+    [
+     1640,
+     364
+    ],
+    [
+     1640,
+     464
+    ]
+   ]
+  },
+  {
+   "from": "ecology_root",
+   "to": "v3.research.41",
+   "route": [
+    [
+     520,
+     240
+    ],
+    [
+     520,
+     364
+    ],
+    [
+     1864,
+     364
+    ],
+    [
+     1864,
+     464
+    ]
+   ]
+  },
+  {
+   "from": "ecology_root",
+   "to": "v3.research.42",
+   "route": [
+    [
+     520,
+     240
+    ],
+    [
+     520,
+     364
+    ],
+    [
+     2088,
+     364
+    ],
+    [
+     2088,
+     464
+    ]
+   ]
+  },
+  {
+   "from": "ecology_root",
+   "to": "v3.research.43",
+   "route": [
+    [
+     520,
+     240
+    ],
+    [
+     520,
+     716
+    ],
+    [
+     744,
+     716
+    ],
+    [
+     744,
+     816
+    ]
+   ]
+  },
+  {
+   "from": "ecology_root",
+   "to": "v3.research.44",
+   "route": [
+    [
+     520,
+     240
+    ],
+    [
+     520,
+     716
+    ],
+    [
+     968,
+     716
+    ],
+    [
+     968,
+     816
+    ]
+   ]
+  },
+  {
+   "from": "ecology_root",
+   "to": "v3.research.45",
+   "route": [
+    [
+     520,
+     240
+    ],
+    [
+     520,
+     1068
+    ],
+    [
+     744,
+     1068
+    ],
+    [
+     744,
+     1168
+    ]
+   ]
+  },
+  {
+   "from": "ecology_root",
+   "to": "v3.research.46",
+   "route": [
+    [
+     520,
+     240
+    ],
+    [
+     520,
+     1420
+    ],
+    [
+     744,
+     1420
+    ],
+    [
+     744,
+     1520
+    ]
+   ]
+  },
+  {
+   "from": "ecology_root",
+   "to": "v3.research.47",
+   "route": [
+    [
+     520,
+     240
+    ],
+    [
+     520,
+     1420
+    ],
+    [
+     968,
+     1420
+    ],
+    [
+     968,
+     1520
+    ]
+   ]
+  },
+  {
+   "from": "ecology_root",
+   "to": "v3.research.48",
+   "route": [
+    [
+     520,
+     240
+    ],
+    [
+     520,
+     1772
+    ],
+    [
+     744,
+     1772
+    ],
+    [
+     744,
+     1872
+    ]
+   ]
+  },
+  {
+   "from": "v3.research.46",
+   "to": "v3.research.48",
+   "route": [
+    [
+     776,
+     1584
+    ],
+    [
+     856,
+     1584
+    ],
+    [
+     856,
+     1936
+    ],
+    [
+     712,
+     1936
+    ]
+   ]
+  },
+  {
+   "from": "ecology_root",
+   "to": "mob_aggro_redirection",
+   "route": [
+    [
+     520,
+     240
+    ],
+    [
+     520,
+     1772
+    ],
+    [
+     744,
+     1772
+    ],
+    [
+     744,
+     2064
+    ]
+   ]
+  },
+  {
+   "from": "v3.research.37",
+   "to": "mob_aggro_redirection",
+   "route": [
+    [
+     1000,
+     528
+    ],
+    [
+     1080,
+     528
+    ],
+    [
+     1080,
+     2128
+    ],
+    [
+     712,
+     2128
+    ]
+   ]
+  },
+  {
+   "from": "ecology_root",
+   "to": "mob_capture",
+   "route": [
+    [
+     520,
+     240
+    ],
+    [
+     520,
+     1772
+    ],
+    [
+     744,
+     1772
+    ],
+    [
+     744,
+     2256
+    ]
+   ]
+  },
+  {
+   "from": "v3.research.46",
+   "to": "mob_capture",
+   "route": [
+    [
+     776,
+     1584
+    ],
+    [
+     856,
+     1584
+    ],
+    [
+     856,
+     2320
+    ],
+    [
+     712,
+     2320
+    ]
+   ]
+  }
+ ]
+}

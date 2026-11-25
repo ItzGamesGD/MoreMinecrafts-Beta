@@ -319,6 +319,17 @@ public final class VisualValidationHarness {
                 browse.validationClearHover();
                 browse.validationFitAll();
                 queueUiScreenshot("research-resources-sheet-overview.png");
+                uiJourneyStage = 144;
+            }
+            case 144 -> {
+                // Owned, purchasable and locked states on the approved sheet (validation-only presentation).
+                if (!takeCapture()) return;
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)) { failJourney("research resources scene disappeared"); return; }
+                browse.validationPresentResearchStates(
+                        java.util.Map.of("resources_root", 1, "v3.research.01", 1, "v3.research.02", 1),
+                        java.util.Set.of("v3.research.03", "v3.research.04", "v3.research.05", "throwable_pickaxe"));
+                browse.validationFitAll();
+                queueUiScreenshot("research-resources-sheet-states.png");
                 uiJourneyStage = 143;
             }
             case 143 -> {

@@ -146,3 +146,15 @@ Historical design and handoff records on the protected #156 branch that prescrib
 **Approved layout.** Four horizontal zones from top to bottom: Discipline Foundation (학문 기초), Geology and Quarrying (지질과 채석), Forestry (임업), Field Mobility (현장 기동), each with its banner on the left. Slot centres (sheet px): `resources_root` (1256,120); `v3.research.01` (896,420); `throwable_pickaxe` (1256,316); `v3.research.04` (1256,524); `v3.research.03` (1616,316); `v3.research.02` (576,724); `v3.research.05` (896,724); `climbing` (1616,984). Connector edges: root→01, root→02, root→03, 01→04, 01→throwable_pickaxe, 02→05, 03→climbing. These positions are a presentation overlay for this scene; the node manifest coordinates used elsewhere are unchanged.
 
 **Text.** No text is baked into art. Titles, branch names, the available-XP readout and tooltips are drawn by code in the game font and follow the language setting. The header shows the screen and discipline title (for example "연구 · 자원학") and the player's available XP.
+
+### Knowledge tree visual redesign — same grammar as the Research pilot — 2026-11-25 (owner-approved)
+
+Owner decision (2026-11-25): the Knowledge tree for all seven disciplines uses the same visual grammar as the approved Research / Resources pilot above: the research kit (node frames, banners, buttons, screen frame, hover halo and selection ring), a per-discipline background sheet, horizontal branch lanes with one banner per branch, 64 GUI px nodes, and zoom / pan.
+
+Presentation rules derived from the current Knowledge data (presentation only; no gameplay change):
+- Knowledge nodes have no prerequisite edges in the catalog, so no connectors are drawn for Knowledge.
+- Knowledge nodes have only locked / unlocked state. Unlocked nodes use the owned frame; locked nodes use the locked frame. The available and maxed frames are not used for Knowledge.
+- Knowledge remains non-purchase. Unlock conditions, rewards, tooltips and progression data are unchanged.
+- Node positions come from the scene files only; the node manifest coordinates in `node_layout.json` are unchanged.
+
+The connector and state mapping above follow directly from the existing data and the owner's "same grammar" instruction. Any later change to them is a new design decision.
