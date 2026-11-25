@@ -276,6 +276,26 @@ public final class VisualValidationHarness {
                 if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)) return;
                 browse.validationClearHover();
                 queueUiScreenshot("knowledge-screen.png");
+                uiJourneyStage = 150;
+            }
+            case 150 -> {
+                // Knowledge / Resources uses the research grammar sheet (2026-11-25 owner decision).
+                if (!takeCapture()) return;
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse) || !browse.validationSheetScene()) {
+                    failJourney("knowledge resources scene is not using the approved sheet"); return;
+                }
+                browse.validationClearHover();
+                browse.validationFitAll();
+                queueUiScreenshot("knowledge-resources-sheet-overview.png");
+                uiJourneyStage = 151;
+            }
+            case 151 -> {
+                if (!takeCapture()) return;
+                if (!(client.gui.screen() instanceof ProgressionBrowseScreen browse)
+                        || !browse.validationHoverNode("knowledge.1")) {
+                    failJourney("knowledge resources sheet hover target missing"); return;
+                }
+                queueUiScreenshot("knowledge-resources-sheet-hover.png");
                 uiJourneyStage = 13;
             }
             case 13 -> {
