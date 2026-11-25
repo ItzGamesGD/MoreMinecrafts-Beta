@@ -10,7 +10,7 @@ import net.minecraft.world.entity.player.Inventory;
 public final class AutoFarmScreen extends AbstractContainerScreen<AutoFarmMenu> {
     public AutoFarmScreen(AutoFarmMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title, 222, 212);
-        titleLabelX = 10; titleLabelY = 6; inventoryLabelX = 30; inventoryLabelY = 116;
+        titleLabelX = 10; titleLabelY = 6; inventoryLabelX = 30; inventoryLabelY = 121;
     }
 
     @Override public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
@@ -18,9 +18,10 @@ public final class AutoFarmScreen extends AbstractContainerScreen<AutoFarmMenu> 
         int x = leftPos, y = topPos;
         graphics.fill(x, y, x + imageWidth, y + imageHeight, 0xFF1B1B1B);
         graphics.fill(x + 3, y + 3, x + imageWidth - 3, y + imageHeight - 3, 0xFFC9C9C6);
-        graphics.fill(x + 8, y + 8, x + imageWidth - 8, y + 26, 0xFFB5B5B2);
-        graphics.fill(x + 7, y + 27, x + imageWidth - 7, y + 124, 0xFFBFBFBC);
-        graphics.fill(x + 7, y + 127, x + imageWidth - 7, y + imageHeight - 8, 0xFFBFBFBC);
+        graphics.fill(x + 8, y + 8, x + imageWidth - 8, y + 19, 0xFFB5B5B2);
+        // One continuous body panel: the player-inventory label sits between the farm grids and the inventory rows
+        // instead of overlapping the seed grid, and the section labels stay clear of the title band.
+        graphics.fill(x + 7, y + 20, x + imageWidth - 7, y + imageHeight - 8, 0xFFBFBFBC);
         graphics.fill(x + 110, y + 30, x + 112, y + 119, 0xFF8C8C89);
         for (int i = 0; i < 50; i++) {
             int local = i % 25;
@@ -36,9 +37,9 @@ public final class AutoFarmScreen extends AbstractContainerScreen<AutoFarmMenu> 
     }
 
     @Override protected void extractLabels(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
-        graphics.text(font, title, 12, 7, 0xFF171717, true);
-        graphics.text(font, Component.translatable("menu.moreminecrafts.auto_farm.seeds"), 10, 20, 0xFF252525);
-        graphics.text(font, Component.translatable("menu.moreminecrafts.auto_farm.output"), 122, 20, 0xFF252525);
+        graphics.text(font, title, 12, 10, 0xFF171717, false);
+        graphics.text(font, Component.translatable("menu.moreminecrafts.auto_farm.seeds"), 10, 21, 0xFF252525);
+        graphics.text(font, Component.translatable("menu.moreminecrafts.auto_farm.output"), 122, 21, 0xFF252525);
         graphics.text(font, Component.translatable("container.inventory"), inventoryLabelX, inventoryLabelY, 0xFF252525);
     }
 

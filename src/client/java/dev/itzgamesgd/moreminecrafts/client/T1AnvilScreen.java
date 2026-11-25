@@ -21,6 +21,7 @@ import java.util.Locale;
 
 /** Keeps the vanilla Anvil panel and slots, adding stable mode tabs and an in-place Enhance action. */
 public final class T1AnvilScreen extends AnvilScreen {
+    private static final int SHORT_COLOR = 0xFF8B1A1A;
     private Button action;
     private final Button[] modes = new Button[3];
 
@@ -169,6 +170,16 @@ public final class T1AnvilScreen extends AnvilScreen {
             int catalyst = accessory ? accessoryRequirement.map(dev.itzgamesgd.moreminecrafts.accessory.AccessoryEnhancementRules.Plan::catalystCost).orElse(0) : 0;
             int maximum = accessory ? AccessoryEnhancementOperation.maximumLevel(equipment) : 20;
             boolean hasRequirement = accessory ? accessoryRequirement.isPresent() : equipmentRequirement.isPresent();
+            var stoneStack = menu.getSlot(1).getItem();
+            boolean stoneOk = accessory ? stoneStack.is(dev.itzgamesgd.moreminecrafts.registry.ModItems.ENHANCEMENT_STONE)
+                    : EnhancementOperation.isEnhancementMaterial(stoneStack);
+            boolean xpOk = minecraft.player != null && RawXp.canPay(minecraft.player, xp);
+            // Insufficient cost lines are drawn red (vanilla anvil convention); the Enhance tooltip lists the exact amounts.
+            int costColor = xpOk && stoneOk && stoneStack.getCount() >= stone ? 0xFF303030 : SHORT_COLOR;
+            var catalystStack = accessory ? menu.getSlot(((T1AnvilModes) menu).moreminecrafts$catalystSlotIndex()).getItem()
+                    : net.minecraft.world.item.ItemStack.EMPTY;
+            int catalystColor = catalystStack.is(dev.itzgamesgd.moreminecrafts.registry.ModItems.RELIC_CATALYST)
+                    && catalystStack.getCount() >= catalyst ? 0xFF303030 : SHORT_COLOR;
             if (!equipment.isEmpty() && current >= maximum) {
                 g.text(font, Component.literal("+" + current + " → ").append(Component.translatable("menu.moreminecrafts.maximum")), 62, 6, 0xFF303030, false);
             } else if (hasRequirement) {
@@ -177,14 +188,14 @@ public final class T1AnvilScreen extends AnvilScreen {
                 if (accessory) {
                     // The three costs do not fit one line in the panel, so the catalyst count wraps to its own line.
                     g.text(font, Component.translatable("menu.moreminecrafts.accessory_enhancement_cost_line_compact",
-                            NumberFormat.getIntegerInstance(Locale.ROOT).format(xp), stone), 62, 18, 0xFF303030, false);
+                            NumberFormat.getIntegerInstance(Locale.ROOT).format(xp), stone), 62, 18, costColor, false);
                     if (catalyst > 0) {
                         g.text(font, Component.translatable("menu.moreminecrafts.accessory_enhancement_catalyst_line", catalyst),
-                                62, 28, 0xFF303030, false);
+                                62, 28, catalystColor, false);
                     }
                 } else {
                     g.text(font, Component.translatable("menu.moreminecrafts.enhancement_cost_line",
-                            NumberFormat.getIntegerInstance(Locale.ROOT).format(xp), stone), 62, 18, 0xFF303030, false);
+                            NumberFormat.getIntegerInstance(Locale.ROOT).format(xp), stone), 62, 18, costColor, false);
                 }
             }
         } else {

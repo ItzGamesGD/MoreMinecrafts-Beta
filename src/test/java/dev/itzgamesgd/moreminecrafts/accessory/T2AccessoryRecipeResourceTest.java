@@ -135,7 +135,7 @@ class T2AccessoryRecipeResourceTest {
         JsonObject en = json("assets/moreminecrafts/lang/en_us.json");
         ClassLoader cl = T2AccessoryRecipeResourceTest.class.getClassLoader();
         String marker;
-        try (InputStream in = cl.getResourceAsStream("assets/moreminecrafts/textures/item/PLACEHOLDER_T2_TEXTURES.txt")) {
+        try (InputStream in = cl.getResourceAsStream("assets/moreminecrafts/textures/item/placeholder_t2_textures.txt")) {
             assertNotNull(in, "placeholder textures must be flagged");
             marker = new String(in.readAllBytes(), StandardCharsets.UTF_8);
         }
