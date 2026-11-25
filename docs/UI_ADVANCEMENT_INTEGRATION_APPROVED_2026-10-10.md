@@ -158,3 +158,15 @@ Presentation rules derived from the current Knowledge data (presentation only; n
 - Node positions come from the scene files only; the node manifest coordinates in `node_layout.json` are unchanged.
 
 The connector and state mapping above follow directly from the existing data and the owner's "same grammar" instruction. Any later change to them is a new design decision.
+
+### Discipline selector hub — unified research grammar — 2026-11-25 (owner-approved)
+
+Owner decision (2026-11-25): the seven-sector discipline selector hub used by both Research and Knowledge uses the same visual grammar as the approved research pilot. The vanilla advancement window and stone background are removed from these two hubs.
+
+- Frame: the research screen frame (nine-slice kit texture) around the hub, on the dark research sheet background.
+- Header: centred gold title (research or knowledge), with the research back button (kit) at top left.
+- Sector plates: violet fills from the research palette. The hovered or focused sector uses a lighter violet fill and a gold outline; the other sectors use a muted outline.
+- Sector icons: research kit locked frames instead of vanilla advancement sprites.
+- Navigation, sector order, geometry of the seven sectors, and sector titles are unchanged. The Quest selector is not affected.
+
+If an asset is needed beyond the approved research kit, it is created to this grammar and recorded here.
