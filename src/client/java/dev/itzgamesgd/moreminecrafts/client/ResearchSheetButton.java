@@ -29,8 +29,8 @@ final class ResearchSheetButton extends Button {
         int x = getX(), y = getY(), w = getWidth(), h = getHeight();
         if (kind.equals("back") || kind.equals("plain")) {
             var tex = ResearchSheetScene.kit("button_back_" + state);
-            // 160x40 art plate; the left 32 art px hold the arrow, so a plain plate reuses the right-hand border.
-            int leftU = kind.equals("back") ? 0 : 152;
+            // 160x40 art plate; the arrow sits at art x 12-20, so a plain plate takes only the first 8 art px (border).
+            int leftU = 0;
             int leftArt = kind.equals("back") ? 32 : 8;
             int leftGui = leftArt / 2;
             graphics.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, tex, x, y, leftU, 0,
