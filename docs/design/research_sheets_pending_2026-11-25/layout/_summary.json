@@ -1,0 +1,62 @@
+{
+ "ecology": {
+  "nodes": 16,
+  "edges": 18,
+  "zones": 6,
+  "sheet": [
+   976,
+   3008
+  ],
+  "edge_hits": []
+ },
+ "world": {
+  "nodes": 16,
+  "edges": 23,
+  "zones": 5,
+  "sheet": [
+   1168,
+   2848
+  ],
+  "edge_hits": []
+ },
+ "combat": {
+  "nodes": 15,
+  "edges": 22,
+  "zones": 5,
+  "sheet": [
+   976,
+   2720
+  ],
+  "edge_hits": []
+ },
+ "living": {
+  "nodes": 14,
+  "edges": 21,
+  "zones": 4,
+  "sheet": [
+   976,
+   2432
+  ],
+  "edge_hits": []
+ },
+ "alchemy": {
+  "nodes": 13,
+  "edges": 21,
+  "zones": 6,
+  "sheet": [
+   1360,
+   2624
+  ],
+  "edge_hits": []
+ },
+ "production": {
+  "nodes": 12,
+  "edges": 17,
+  "zones": 5,
+  "sheet": [
+   1168,
+   2336
+  ],
+  "edge_hits": []
+ }
+}

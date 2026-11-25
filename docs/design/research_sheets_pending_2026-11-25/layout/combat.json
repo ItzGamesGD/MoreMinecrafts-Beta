@@ -1,0 +1,631 @@
+{
+ "schemaVersion": 1,
+ "screen": "research",
+ "discipline": "combat",
+ "texture": "moreminecrafts:textures/gui/research_tree/sheets/sheet_research_combat.png",
+ "artPxPerGuiPx": 2,
+ "sheet": {
+  "w": 976,
+  "h": 2720
+ },
+ "zones": [
+  {
+   "branch": "discipline_foundation",
+   "y0": 0,
+   "y1": 288,
+   "banner": {
+    "x": 48,
+    "y": 130,
+    "w": 288,
+    "h": 28
+   }
+  },
+  {
+   "branch": "melee",
+   "y0": 288,
+   "y1": 1088,
+   "banner": {
+    "x": 48,
+    "y": 674,
+    "w": 288,
+    "h": 28
+   }
+  },
+  {
+   "branch": "ranged",
+   "y0": 1088,
+   "y1": 1760,
+   "banner": {
+    "x": 48,
+    "y": 1410,
+    "w": 288,
+    "h": 28
+   }
+  },
+  {
+   "branch": "defense",
+   "y0": 1760,
+   "y1": 2432,
+   "banner": {
+    "x": 48,
+    "y": 2082,
+    "w": 288,
+    "h": 28
+   }
+  },
+  {
+   "branch": "thrown_weapons",
+   "y0": 2432,
+   "y1": 2720,
+   "banner": {
+    "x": 48,
+    "y": 2562,
+    "w": 288,
+    "h": 28
+   }
+  }
+ ],
+ "slots": [
+  {
+   "id": "combat_root",
+   "x": 400,
+   "y": 144
+  },
+  {
+   "id": "v3.research.27",
+   "x": 592,
+   "y": 432
+  },
+  {
+   "id": "v3.research.28",
+   "x": 592,
+   "y": 560
+  },
+  {
+   "id": "v3.research.33",
+   "x": 784,
+   "y": 688
+  },
+  {
+   "id": "falling_axe_smash",
+   "x": 784,
+   "y": 816
+  },
+  {
+   "id": "weapon_swap_handling",
+   "x": 784,
+   "y": 944
+  },
+  {
+   "id": "v3.research.29",
+   "x": 592,
+   "y": 1232
+  },
+  {
+   "id": "v3.research.35",
+   "x": 784,
+   "y": 1360
+  },
+  {
+   "id": "ballistic_control",
+   "x": 784,
+   "y": 1488
+  },
+  {
+   "id": "bow_charge_mobility",
+   "x": 784,
+   "y": 1616
+  },
+  {
+   "id": "v3.research.30",
+   "x": 592,
+   "y": 1904
+  },
+  {
+   "id": "v3.research.31",
+   "x": 592,
+   "y": 2032
+  },
+  {
+   "id": "v3.research.34",
+   "x": 784,
+   "y": 2160
+  },
+  {
+   "id": "shield_counter",
+   "x": 784,
+   "y": 2288
+  },
+  {
+   "id": "v3.research.32",
+   "x": 592,
+   "y": 2576
+  }
+ ],
+ "edges": [
+  {
+   "from": "combat_root",
+   "to": "v3.research.27",
+   "route": [
+    [
+     432,
+     144
+    ],
+    [
+     496,
+     144
+    ],
+    [
+     496,
+     432
+    ],
+    [
+     560,
+     432
+    ]
+   ]
+  },
+  {
+   "from": "combat_root",
+   "to": "v3.research.28",
+   "route": [
+    [
+     432,
+     144
+    ],
+    [
+     496,
+     144
+    ],
+    [
+     496,
+     560
+    ],
+    [
+     560,
+     560
+    ]
+   ]
+  },
+  {
+   "from": "combat_root",
+   "to": "v3.research.33",
+   "route": [
+    [
+     432,
+     144
+    ],
+    [
+     496,
+     144
+    ],
+    [
+     496,
+     688
+    ],
+    [
+     752,
+     688
+    ]
+   ]
+  },
+  {
+   "from": "v3.research.27",
+   "to": "v3.research.33",
+   "route": [
+    [
+     624,
+     432
+    ],
+    [
+     688,
+     432
+    ],
+    [
+     688,
+     688
+    ],
+    [
+     752,
+     688
+    ]
+   ]
+  },
+  {
+   "from": "combat_root",
+   "to": "falling_axe_smash",
+   "route": [
+    [
+     432,
+     144
+    ],
+    [
+     496,
+     144
+    ],
+    [
+     496,
+     816
+    ],
+    [
+     752,
+     816
+    ]
+   ]
+  },
+  {
+   "from": "v3.research.28",
+   "to": "falling_axe_smash",
+   "route": [
+    [
+     624,
+     560
+    ],
+    [
+     688,
+     560
+    ],
+    [
+     688,
+     816
+    ],
+    [
+     752,
+     816
+    ]
+   ]
+  },
+  {
+   "from": "combat_root",
+   "to": "weapon_swap_handling",
+   "route": [
+    [
+     432,
+     144
+    ],
+    [
+     496,
+     144
+    ],
+    [
+     496,
+     944
+    ],
+    [
+     752,
+     944
+    ]
+   ]
+  },
+  {
+   "from": "v3.research.27",
+   "to": "weapon_swap_handling",
+   "route": [
+    [
+     624,
+     432
+    ],
+    [
+     688,
+     432
+    ],
+    [
+     688,
+     944
+    ],
+    [
+     752,
+     944
+    ]
+   ]
+  },
+  {
+   "from": "combat_root",
+   "to": "v3.research.29",
+   "route": [
+    [
+     432,
+     144
+    ],
+    [
+     496,
+     144
+    ],
+    [
+     496,
+     1232
+    ],
+    [
+     560,
+     1232
+    ]
+   ]
+  },
+  {
+   "from": "combat_root",
+   "to": "v3.research.35",
+   "route": [
+    [
+     432,
+     144
+    ],
+    [
+     496,
+     144
+    ],
+    [
+     496,
+     1360
+    ],
+    [
+     752,
+     1360
+    ]
+   ]
+  },
+  {
+   "from": "v3.research.29",
+   "to": "v3.research.35",
+   "route": [
+    [
+     624,
+     1232
+    ],
+    [
+     688,
+     1232
+    ],
+    [
+     688,
+     1360
+    ],
+    [
+     752,
+     1360
+    ]
+   ]
+  },
+  {
+   "from": "combat_root",
+   "to": "ballistic_control",
+   "route": [
+    [
+     432,
+     144
+    ],
+    [
+     496,
+     144
+    ],
+    [
+     496,
+     1488
+    ],
+    [
+     752,
+     1488
+    ]
+   ]
+  },
+  {
+   "from": "v3.research.29",
+   "to": "ballistic_control",
+   "route": [
+    [
+     624,
+     1232
+    ],
+    [
+     688,
+     1232
+    ],
+    [
+     688,
+     1488
+    ],
+    [
+     752,
+     1488
+    ]
+   ]
+  },
+  {
+   "from": "combat_root",
+   "to": "bow_charge_mobility",
+   "route": [
+    [
+     432,
+     144
+    ],
+    [
+     496,
+     144
+    ],
+    [
+     496,
+     1616
+    ],
+    [
+     752,
+     1616
+    ]
+   ]
+  },
+  {
+   "from": "v3.research.29",
+   "to": "bow_charge_mobility",
+   "route": [
+    [
+     624,
+     1232
+    ],
+    [
+     688,
+     1232
+    ],
+    [
+     688,
+     1616
+    ],
+    [
+     752,
+     1616
+    ]
+   ]
+  },
+  {
+   "from": "combat_root",
+   "to": "v3.research.30",
+   "route": [
+    [
+     432,
+     144
+    ],
+    [
+     496,
+     144
+    ],
+    [
+     496,
+     1904
+    ],
+    [
+     560,
+     1904
+    ]
+   ]
+  },
+  {
+   "from": "combat_root",
+   "to": "v3.research.31",
+   "route": [
+    [
+     432,
+     144
+    ],
+    [
+     496,
+     144
+    ],
+    [
+     496,
+     2032
+    ],
+    [
+     560,
+     2032
+    ]
+   ]
+  },
+  {
+   "from": "combat_root",
+   "to": "v3.research.34",
+   "route": [
+    [
+     432,
+     144
+    ],
+    [
+     496,
+     144
+    ],
+    [
+     496,
+     2160
+    ],
+    [
+     752,
+     2160
+    ]
+   ]
+  },
+  {
+   "from": "v3.research.30",
+   "to": "v3.research.34",
+   "route": [
+    [
+     624,
+     1904
+    ],
+    [
+     688,
+     1904
+    ],
+    [
+     688,
+     2160
+    ],
+    [
+     752,
+     2160
+    ]
+   ]
+  },
+  {
+   "from": "combat_root",
+   "to": "shield_counter",
+   "route": [
+    [
+     432,
+     144
+    ],
+    [
+     496,
+     144
+    ],
+    [
+     496,
+     2288
+    ],
+    [
+     752,
+     2288
+    ]
+   ]
+  },
+  {
+   "from": "v3.research.30",
+   "to": "shield_counter",
+   "route": [
+    [
+     624,
+     1904
+    ],
+    [
+     688,
+     1904
+    ],
+    [
+     688,
+     2288
+    ],
+    [
+     752,
+     2288
+    ]
+   ]
+  },
+  {
+   "from": "combat_root",
+   "to": "v3.research.32",
+   "route": [
+    [
+     432,
+     144
+    ],
+    [
+     496,
+     144
+    ],
+    [
+     496,
+     2576
+    ],
+    [
+     560,
+     2576
+    ]
+   ]
+  }
+ ]
+}

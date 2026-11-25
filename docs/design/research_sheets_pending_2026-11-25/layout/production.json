@@ -1,0 +1,506 @@
+{
+ "schemaVersion": 1,
+ "screen": "research",
+ "discipline": "production",
+ "texture": "moreminecrafts:textures/gui/research_tree/sheets/sheet_research_production.png",
+ "artPxPerGuiPx": 2,
+ "sheet": {
+  "w": 1168,
+  "h": 2336
+ },
+ "zones": [
+  {
+   "branch": "discipline_foundation",
+   "y0": 0,
+   "y1": 288,
+   "banner": {
+    "x": 48,
+    "y": 130,
+    "w": 288,
+    "h": 28
+   }
+  },
+  {
+   "branch": "smelting_and_fuels",
+   "y0": 288,
+   "y1": 960,
+   "banner": {
+    "x": 48,
+    "y": 610,
+    "w": 288,
+    "h": 28
+   }
+  },
+  {
+   "branch": "crafting_and_maintenance",
+   "y0": 960,
+   "y1": 1504,
+   "banner": {
+    "x": 48,
+    "y": 1218,
+    "w": 288,
+    "h": 28
+   }
+  },
+  {
+   "branch": "woodworking",
+   "y0": 1504,
+   "y1": 1792,
+   "banner": {
+    "x": 48,
+    "y": 1634,
+    "w": 288,
+    "h": 28
+   }
+  },
+  {
+   "branch": "storage_and_logistics",
+   "y0": 1792,
+   "y1": 2336,
+   "banner": {
+    "x": 48,
+    "y": 2050,
+    "w": 288,
+    "h": 28
+   }
+  }
+ ],
+ "slots": [
+  {
+   "id": "v3.research.06",
+   "x": 592,
+   "y": 432
+  },
+  {
+   "id": "v3.research.07",
+   "x": 592,
+   "y": 560
+  },
+  {
+   "id": "v3.research.11",
+   "x": 784,
+   "y": 688
+  },
+  {
+   "id": "v3.research.12",
+   "x": 976,
+   "y": 816
+  },
+  {
+   "id": "v3.research.08",
+   "x": 592,
+   "y": 1104
+  },
+  {
+   "id": "v3.research.10",
+   "x": 592,
+   "y": 1232
+  },
+  {
+   "id": "automatic_tool_switch",
+   "x": 784,
+   "y": 1360
+  },
+  {
+   "id": "v3.research.09",
+   "x": 592,
+   "y": 1648
+  },
+  {
+   "id": "v3.research.13",
+   "x": 784,
+   "y": 1936
+  },
+  {
+   "id": "nearby_chest_ingredients",
+   "x": 784,
+   "y": 2064
+  },
+  {
+   "id": "hopper_filter",
+   "x": 784,
+   "y": 2192
+  },
+  {
+   "id": "production_root",
+   "x": 400,
+   "y": 144
+  }
+ ],
+ "edges": [
+  {
+   "from": "production_root",
+   "to": "v3.research.06",
+   "route": [
+    [
+     432,
+     144
+    ],
+    [
+     496,
+     144
+    ],
+    [
+     496,
+     432
+    ],
+    [
+     560,
+     432
+    ]
+   ]
+  },
+  {
+   "from": "production_root",
+   "to": "v3.research.07",
+   "route": [
+    [
+     432,
+     144
+    ],
+    [
+     496,
+     144
+    ],
+    [
+     496,
+     560
+    ],
+    [
+     560,
+     560
+    ]
+   ]
+  },
+  {
+   "from": "production_root",
+   "to": "v3.research.11",
+   "route": [
+    [
+     432,
+     144
+    ],
+    [
+     496,
+     144
+    ],
+    [
+     496,
+     688
+    ],
+    [
+     752,
+     688
+    ]
+   ]
+  },
+  {
+   "from": "v3.research.07",
+   "to": "v3.research.11",
+   "route": [
+    [
+     624,
+     560
+    ],
+    [
+     688,
+     560
+    ],
+    [
+     688,
+     688
+    ],
+    [
+     752,
+     688
+    ]
+   ]
+  },
+  {
+   "from": "production_root",
+   "to": "v3.research.12",
+   "route": [
+    [
+     432,
+     144
+    ],
+    [
+     496,
+     144
+    ],
+    [
+     496,
+     816
+    ],
+    [
+     944,
+     816
+    ]
+   ]
+  },
+  {
+   "from": "v3.research.11",
+   "to": "v3.research.12",
+   "route": [
+    [
+     816,
+     688
+    ],
+    [
+     880,
+     688
+    ],
+    [
+     880,
+     816
+    ],
+    [
+     944,
+     816
+    ]
+   ]
+  },
+  {
+   "from": "production_root",
+   "to": "v3.research.08",
+   "route": [
+    [
+     432,
+     144
+    ],
+    [
+     496,
+     144
+    ],
+    [
+     496,
+     1104
+    ],
+    [
+     560,
+     1104
+    ]
+   ]
+  },
+  {
+   "from": "production_root",
+   "to": "v3.research.10",
+   "route": [
+    [
+     432,
+     144
+    ],
+    [
+     496,
+     144
+    ],
+    [
+     496,
+     1232
+    ],
+    [
+     560,
+     1232
+    ]
+   ]
+  },
+  {
+   "from": "production_root",
+   "to": "automatic_tool_switch",
+   "route": [
+    [
+     432,
+     144
+    ],
+    [
+     496,
+     144
+    ],
+    [
+     496,
+     1360
+    ],
+    [
+     752,
+     1360
+    ]
+   ]
+  },
+  {
+   "from": "v3.research.10",
+   "to": "automatic_tool_switch",
+   "route": [
+    [
+     624,
+     1232
+    ],
+    [
+     688,
+     1232
+    ],
+    [
+     688,
+     1360
+    ],
+    [
+     752,
+     1360
+    ]
+   ]
+  },
+  {
+   "from": "production_root",
+   "to": "v3.research.09",
+   "route": [
+    [
+     432,
+     144
+    ],
+    [
+     496,
+     144
+    ],
+    [
+     496,
+     1648
+    ],
+    [
+     560,
+     1648
+    ]
+   ]
+  },
+  {
+   "from": "production_root",
+   "to": "v3.research.13",
+   "route": [
+    [
+     432,
+     144
+    ],
+    [
+     496,
+     144
+    ],
+    [
+     496,
+     1936
+    ],
+    [
+     752,
+     1936
+    ]
+   ]
+  },
+  {
+   "from": "v3.research.08",
+   "to": "v3.research.13",
+   "route": [
+    [
+     624,
+     1104
+    ],
+    [
+     688,
+     1104
+    ],
+    [
+     688,
+     1936
+    ],
+    [
+     752,
+     1936
+    ]
+   ]
+  },
+  {
+   "from": "production_root",
+   "to": "nearby_chest_ingredients",
+   "route": [
+    [
+     432,
+     144
+    ],
+    [
+     496,
+     144
+    ],
+    [
+     496,
+     2064
+    ],
+    [
+     752,
+     2064
+    ]
+   ]
+  },
+  {
+   "from": "v3.research.08",
+   "to": "nearby_chest_ingredients",
+   "route": [
+    [
+     624,
+     1104
+    ],
+    [
+     688,
+     1104
+    ],
+    [
+     688,
+     2064
+    ],
+    [
+     752,
+     2064
+    ]
+   ]
+  },
+  {
+   "from": "production_root",
+   "to": "hopper_filter",
+   "route": [
+    [
+     432,
+     144
+    ],
+    [
+     496,
+     144
+    ],
+    [
+     496,
+     2192
+    ],
+    [
+     752,
+     2192
+    ]
+   ]
+  },
+  {
+   "from": "v3.research.08",
+   "to": "hopper_filter",
+   "route": [
+    [
+     624,
+     1104
+    ],
+    [
+     688,
+     1104
+    ],
+    [
+     688,
+     2192
+    ],
+    [
+     752,
+     2192
+    ]
+   ]
+  }
+ ]
+}
