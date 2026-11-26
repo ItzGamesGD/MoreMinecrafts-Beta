@@ -57,6 +57,9 @@ FACES = {
 MC_FACE = {"north": "north", "south": "south", "east": "west", "west": "east", "up": "down", "down": "up"}
 
 
+V_OFFSET = {}
+
+
 def build_cube(el, origin_bb):
     f, t = el["from"], el["to"]
     sel = {"f": f, "t": t}
@@ -66,6 +69,8 @@ def build_cube(el, origin_bb):
         if not face or face.get("uv") is None or face.get("texture") is None:
             continue  # face not textured -> not rendered (Blockbench semantics)
         u0, v0, u1, v1 = face["uv"]
+        dv = V_OFFSET.get(face["texture"], 0)  # --stack-textures: texture k sits k*height below texture 0
+        v0, v1 = v0 + dv, v1 + dv
         uvs = [(u0, v0), (u1, v0), (u1, v1), (u0, v1)]
         verts = []
         for (cx, cy, cz), (u, v) in zip(corners, uvs):
@@ -183,12 +188,30 @@ def main():
     ap.add_argument("--model-out", required=True)
     ap.add_argument("--texture-out", required=True)
     ap.add_argument("--animations", action="store_true", help="also export the .bbmodel animations (ModelPart convention)")
+    ap.add_argument("--stack-textures", action="store_true",
+                    help="multi-texture models: stack every texture vertically into one PNG and offset face UVs to match")
     ap.add_argument("--check", action="store_true", help="do not write; fail if outputs differ from what would be written")
     a = ap.parse_args()
     raw = open(a.source, "rb").read()
     bb = json.loads(raw)
+    if a.stack_textures:
+        res_h = bb["resolution"]["height"]
+        V_OFFSET.update({i: i * res_h for i in range(len(bb["textures"]))})
     model = convert(bb, hashlib.sha256(raw).hexdigest(), a.source.replace("\\", "/").split("/")[-1], a.animations)
     png = base64.b64decode(bb["textures"][0]["source"].split(",", 1)[1])
+    if a.stack_textures and len(bb["textures"]) > 1:
+        import io
+        from PIL import Image
+        imgs = [Image.open(io.BytesIO(base64.b64decode(t["source"].split(",", 1)[1]))).convert("RGBA") for t in bb["textures"]]
+        sheet = Image.new("RGBA", (imgs[0].width, sum(i.height for i in imgs)))
+        y = 0
+        for img in imgs:
+            sheet.paste(img, (0, y))
+            y += img.height
+        buf = io.BytesIO()
+        sheet.save(buf, format="PNG")
+        png = buf.getvalue()
+        model["texture"].update({"height": sheet.height, "uv_height": bb["resolution"]["height"] * len(imgs)})
     text = json.dumps(model, indent=1, ensure_ascii=False) + "\n"
     if a.check:
         ok = open(a.model_out, encoding="utf-8").read() == text and open(a.texture_out, "rb").read() == png

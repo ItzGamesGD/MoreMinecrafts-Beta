@@ -54,19 +54,31 @@ def _sample(frames, t, axis=0):
     return frames[-1][1][axis]
 
 
-def axe_pitch(bones, desired):
-    """Keys piglin_forgemaster.axe_hold_bone so the axe's pitch in the sagittal plane follows `desired`
-    ([(t, deg)], 0 = haft upright, negative = head leaning forward) whatever the body chain does.
-    Pitch = sum of X rotations down the chain + the hold bone's rest tilt (-30) + its keyframe."""
-    chain = ("pelvis_bone", "torso_bone", "arm_upper_right_bone", "arm_lower_right_bone")
+def tool_pitch(bones, desired, hold, chain, rest=0.0):
+    """Keys `hold` so a held tool's pitch in the sagittal plane follows `desired` ([(t, deg)], 0 = upright,
+    negative = tip leaning forward, -90 = level and pointing forward) whatever the body chain does.
+    Pitch = sum of X rotations down `chain` + the hold bone's rest tilt + its keyframe. Extra channels already
+    set on the hold bone (e.g. scale) are kept."""
     tracks = {b: bones.get(b, {}).get("rotation") for b in chain}
     times = sorted({t for t, _ in desired} | {t for fr in tracks.values() if fr for t, _ in fr})
     want = [(t, (p, 0, 0)) for t, p in desired]
     out = []
     for t in times:
         total = sum(_sample(fr, t) for fr in tracks.values() if fr)
-        out.append((t, (round(_sample(want, t) - total + 30.0, 3), 0, 0)))
-    bones["axe_hold_bone"] = {"rotation": out}
+        out.append((t, (round(_sample(want, t) - total - rest, 3), 0, 0)))
+    bones.setdefault(hold, {})["rotation"] = out
+
+
+def axe_pitch(bones, desired):
+    """piglin_forgemaster: the axe_hold_bone rests at -30 (head leaning forward)."""
+    tool_pitch(bones, desired, "axe_hold_bone",
+               ("pelvis_bone", "torso_bone", "arm_upper_right_bone", "arm_lower_right_bone"), rest=-30.0)
+
+
+def trident_pitch(bones, desired):
+    """deep_sea_poseidon: the trident stands upright at rest (trident_hold_bone at the right fist)."""
+    tool_pitch(bones, desired, "trident_hold_bone",
+               ("pelvis_bone", "torso_core_bone", "arm_upper_right_bone", "arm_lower_right_bone"))
 
 
 # ---------------------------------------------------------------- sky wyvern
@@ -136,9 +148,33 @@ def wyvern():
         "tail_1_bone": {"rotation": kf((0, 0, 0, 0), (1.8, 20, 0, 0))},
         "tail_fan_core_bone": {"rotation": kf((0, 0, 0, 0), (1.8, 30, 0, 0))},
     }
+    # wing_buffet (SKY_ISLANDS_T2 §3 날개 밀쳐내기, defensive): rear up, raise both wings, beat them forward at 0.45 s
+    wing_buffet = {
+        "torso_bone": {"rotation": kf((0, 0, 0, 0), (0.3, 24, 0, 0), (0.45, 10, 0, 0), (0.7, 6, 0, 0), (1.0, 0, 0, 0)),
+                       "position": kf((0, 0, 0, 0), (0.3, 0, 2, 2), (0.45, 0, 1, -1), (1.0, 0, 0, 0))},
+        "head_bone": {"rotation": kf((0, 0, 0, 0), (0.3, 16, 0, 0), (0.45, -10, 0, 0), (1.0, 0, 0, 0))},
+        "jaw_bone": {"rotation": kf((0, 0, 0, 0), (0.3, -24, 0, 0), (0.5, -10, 0, 0), (1.0, 0, 0, 0))},
+        "wing_upper_right_bone": {"rotation": kf((0, 0, 0, 8), (0.3, 0, -20, 58), (0.45, 0, 46, -20), (0.7, 0, 30, -10), (1.0, 0, 0, 8))},
+        "wing_upper_left_bone": {"rotation": kf((0, 0, 0, -8), (0.3, 0, 20, -58), (0.45, 0, -46, 20), (0.7, 0, -30, 10), (1.0, 0, 0, -8))},
+        "wing_fore_right_bone": {"rotation": kf((0, 0, 0, 6), (0.3, 0, 0, 28), (0.45, 0, 20, -24), (1.0, 0, 0, 6))},
+        "wing_fore_left_bone": {"rotation": kf((0, 0, 0, -6), (0.3, 0, 0, -28), (0.45, 0, -20, 24), (1.0, 0, 0, -6))},
+        "tail_1_bone": {"rotation": kf((0, 0, 0, 0), (0.3, -10, 0, 0), (0.45, 8, 0, 0), (1.0, 0, 0, 0))},
+        "tail_3_bone": {"rotation": kf((0, 0, 0, 0), (0.45, -10, 0, 0), (1.0, 0, 0, 0))},
+        "thigh_right_bone": {"rotation": kf((0, 25, 0, 0), (0.3, 50, 0, 0), (1.0, 25, 0, 0))},
+        "thigh_left_bone": {"rotation": kf((0, 25, 0, 0), (0.3, 50, 0, 0), (1.0, 25, 0, 0))},
+    }
+    # hurt (피격 반응): short recoil, head snaps back, wings flinch
+    hurt = {
+        "torso_bone": {"rotation": kf((0, 0, 0, 0), (0.08, 10, 0, -6), (0.4, 0, 0, 0)), "position": kf((0, 0, 0, 0), (0.08, 0, 0.5, 1.5), (0.4, 0, 0, 0))},
+        "head_bone": {"rotation": kf((0, 0, 0, 0), (0.08, 18, 10, 0), (0.4, 0, 0, 0))},
+        "jaw_bone": {"rotation": kf((0, 0, 0, 0), (0.08, -20, 0, 0), (0.4, 0, 0, 0))},
+        "wing_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (0.08, 0, 0, 16), (0.4, 0, 0, 0))},
+        "wing_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (0.08, 0, 0, -16), (0.4, 0, 0, 0))},
+        "tail_2_bone": {"rotation": kf((0, 0, 0, 0), (0.08, 0, 14, 0), (0.4, 0, 0, 0))},
+    }
     return {
-        "fly": (T, "loop", fly), "bite": (0.8, "once", bite), "dive": (1.7, "once", dive),
-        "breath": (2.5, "once", breath), "death": (1.8, "hold", death),
+        "fly": (T, "loop", fly), "dive": (1.7, "once", dive), "breath": (2.5, "once", breath),
+        "wing_buffet": (1.0, "once", wing_buffet), "hurt": (0.4, "once", hurt), "death": (1.8, "hold", death),
     }
 
 
@@ -201,65 +237,135 @@ def jellyfish():
 
 # ---------------------------------------------------------------- humanoids
 def poseidon():
+    # ---- authority: docs/planning/boss_sync_2026-11-15 (U-01) 심해의 해신: free-swimming underwater boss, basic
+    # trident thrust/swing (8), skill 1 spinning-trident pull, skill 2 1.2 s telegraph then 14-block piercing dash,
+    # skill 3 trident throw that returns after 1.5 s. Owner (2026-11-26): it must look like it floats, never walks.
     T = 4.0
-    idle = {
-        "pelvis_bone": {"position": merge(y=sine(0.3, T, 0, 0, 8))},
-        "torso_core_bone": {"rotation": merge(x=sine(1.2, T, 0), y=sine(1.0, T, 1.2))},
-        "head_core_bone": {"rotation": merge(x=sine(1.5, T, math.pi), y=sine(3, T, 0.6))},
-        "arm_upper_right_bone": {"rotation": merge(x=sine(1.5, T, 0.4), z=sine(1, T, 0, 2))},
-        "arm_upper_left_bone": {"rotation": merge(x=sine(-1.5, T, 0.4), z=sine(1, T, 0, -2))},
-        "cape_top_bone": {"rotation": merge(x=sine(3, T, -0.8, 4))},
+    hover = {  # neutral buoyancy: slow bob, legs dangling and treading, arms drifting, cape and loincloth waving
+        "pelvis_bone": {"position": merge(y=sine(1.4, T, 0), z=sine(0.6, T, 1.1)),
+                        "rotation": merge(x=sine(3, T, 0.7), z=sine(2, T, 1.9))},
+        "torso_core_bone": {"rotation": merge(x=sine(2, T, 1.3), y=sine(3, T, 0.4))},
+        "head_core_bone": {"rotation": merge(x=sine(3, T, 2.0), y=sine(5, T, 0.9))},
+        "leg_upper_right_bone": {"rotation": merge(x=sine(9, T, 0.0, 12), z=sine(2, T, 0, 4))},
+        "leg_upper_left_bone": {"rotation": merge(x=sine(9, T, math.pi, 6), z=sine(2, T, 0, -4))},
+        "leg_lower_right_bone": {"rotation": merge(x=sine(8, T, -0.9, -20))},
+        "leg_lower_left_bone": {"rotation": merge(x=sine(8, T, math.pi - 0.9, -14))},
+        "arm_upper_right_bone": {"rotation": merge(x=sine(5, T, 0.5, 14), z=sine(3, T, 1.0, 8))},
+        "arm_lower_right_bone": {"rotation": merge(x=sine(4, T, 0.9, 16))},
+        "arm_upper_left_bone": {"rotation": merge(x=sine(6, T, 2.0, 6), z=sine(7, T, 0.6, -22))},
+        "arm_lower_left_bone": {"rotation": merge(x=sine(6, T, 2.6, 20))},
+        "cape_top_bone": {"rotation": merge(x=sine(9, T, -0.8, -18), z=sine(3, T, 0.3))},
+        "loin_front_bone": {"rotation": merge(x=sine(7, T, -1.4, 6))},
     }
-    W = 1.0
-    sw = lambda a, ph=0: merge(x=sine(a, W, ph))
-    walk = {
-        "pelvis_bone": {"position": merge(y=[(t, abs(v)) for t, v in sine(0.5, W, math.pi / 2, 0, 8)])},
-        "leg_upper_right_bone": {"rotation": sw(32)},
-        "leg_upper_left_bone": {"rotation": sw(-32)},
-        "leg_lower_right_bone": {"rotation": merge(x=[(t, max(0, v)) for t, v in sine(35, W, -1.2, 5)])},
-        "leg_lower_left_bone": {"rotation": merge(x=[(t, max(0, v)) for t, v in sine(-35, W, -1.2, -5)])},
-        "arm_upper_right_bone": {"rotation": sw(-22)},
-        "arm_upper_left_bone": {"rotation": sw(22)},
-        "torso_core_bone": {"rotation": merge(y=sine(4, W))},
-        "cape_top_bone": {"rotation": merge(x=sine(5, W, -1, 8))},
+    trident_pitch(hover, [(0, 0), (T, 0)])
+    S = 1.6
+    swim = {  # body laid forward, flutter kick, trident levelled ahead, free arm sculling, cape streaming back
+        "pelvis_bone": {"rotation": merge(x=sine(4, S, 0.0, -58), z=sine(3, S, 0.6)), "position": merge(y=sine(0.8, S, 1.2))},
+        "head_core_bone": {"rotation": merge(x=sine(3, S, 0.4, 44))},
+        "torso_core_bone": {"rotation": merge(x=sine(3, S, 0.9), y=sine(4, S, 0.3))},
+        "leg_upper_right_bone": {"rotation": merge(x=sine(20, S, 0.0, -8))},
+        "leg_upper_left_bone": {"rotation": merge(x=sine(20, S, math.pi, -8))},
+        "leg_lower_right_bone": {"rotation": merge(x=sine(16, S, -1.0, -14))},
+        "leg_lower_left_bone": {"rotation": merge(x=sine(16, S, math.pi - 1.0, -14))},
+        "arm_upper_right_bone": {"rotation": merge(x=sine(4, S, 0.5, 150), z=sine(3, S, 0, 6))},
+        "arm_lower_right_bone": {"rotation": merge(x=sine(3, S, 0.8, 10))},
+        "arm_upper_left_bone": {"rotation": merge(x=sine(32, S, 0.0, 30), z=sine(10, S, 1.0, -26))},
+        "arm_lower_left_bone": {"rotation": merge(x=sine(18, S, 0.7, 30))},
+        "cape_top_bone": {"rotation": merge(x=sine(12, S, -0.6, -52), z=sine(5, S, 0.4))},
+        "loin_front_bone": {"rotation": merge(x=sine(10, S, -0.8, 30))},
     }
-    # thrust: coil back (0-0.5 s), drive the trident forwards at 0.7 s, hold, recover
-    thrust = {
-        "torso_core_bone": {"rotation": kf((0, 0, 0, 0), (0.5, 4, 22, 0), (0.7, -10, -16, 0), (1.3, -6, -10, 0), (1.8, 0, 0, 0))},
-        "pelvis_bone": {"position": kf((0, 0, 0, 0), (0.5, 0, -0.5, 1.5), (0.7, 0, -0.5, -3), (1.8, 0, 0, 0))},
-        "arm_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (0.5, -35, 10, 10), (0.7, 88, -8, 0), (1.3, 82, -6, 0), (1.8, 0, 0, 0))},
-        "arm_lower_right_bone": {"rotation": kf((0, 0, 0, 0), (0.5, 35, 0, 0), (0.7, 0, 0, 0), (1.8, 0, 0, 0))},
-        "arm_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (0.5, 24, 0, -10), (0.7, 40, 0, -6), (1.8, 0, 0, 0))},
-        "head_core_bone": {"rotation": kf((0, 0, 0, 0), (0.5, 2, 12, 0), (0.7, -4, -10, 0), (1.8, 0, 0, 0))},
-        "leg_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (0.5, -8, 0, 0), (0.7, 20, 0, 0), (1.8, 0, 0, 0))},
-        "leg_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (0.5, 14, 0, 0), (0.7, -16, 0, 0), (1.8, 0, 0, 0))},
-        "cape_top_bone": {"rotation": kf((0, 0, 0, 0), (0.7, 18, 0, 0), (1.8, 0, 0, 0))},
+    trident_pitch(swim, [(0, -95), (S, -95)])
+    float_legs = lambda *ts: {  # legs keep treading water during the attacks
+        "leg_upper_right_bone": {"rotation": [(t, (10 + 8 * math.sin(i), 0, 4)) for i, t in enumerate(ts)]},
+        "leg_upper_left_bone": {"rotation": [(t, (6 - 8 * math.sin(i), 0, -4)) for i, t in enumerate(ts)]},
+        "leg_lower_right_bone": {"rotation": [(t, (-20 + 6 * math.sin(i + 1), 0, 0)) for i, t in enumerate(ts)]},
+        "leg_lower_left_bone": {"rotation": [(t, (-14 - 6 * math.sin(i + 1), 0, 0)) for i, t in enumerate(ts)]},
     }
-    # summon: both arms raise the trident overhead (1.2 s), hold while the storm builds, slam down (2.4 s)
-    summon = {
-        "pelvis_bone": {"position": kf((0, 0, 0, 0), (1.2, 0, 1, 0), (2.4, 0, 1, 0), (2.6, 0, -1.2, 0), (3.2, 0, 0, 0))},
-        "torso_core_bone": {"rotation": kf((0, 0, 0, 0), (1.2, 10, 0, 0), (2.4, 10, 0, 0), (2.6, -14, 0, 0), (3.2, 0, 0, 0))},
-        "arm_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (1.2, 172, 0, -6), (2.4, 172, 0, -6), (2.6, 40, 0, 0), (3.2, 0, 0, 0))},
-        "arm_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (1.2, 172, 0, 6), (2.4, 172, 0, 6), (2.6, 40, 0, 0), (3.2, 0, 0, 0))},
-        "arm_lower_right_bone": {"rotation": kf((0, 0, 0, 0), (1.2, 8, 0, 0), (2.6, 0, 0, 0))},
-        "head_core_bone": {"rotation": kf((0, 0, 0, 0), (1.2, 22, 0, 0), (2.4, 22, 0, 0), (2.6, -16, 0, 0), (3.2, 0, 0, 0))},
-        "cape_top_bone": {"rotation": kf((0, 0, 0, 0), (1.2, -10, 0, 0), (2.4, -14, 0, 0), (2.6, 30, 0, 0), (3.2, 0, 0, 0))},
-        "leg_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (1.2, -10, 0, 4), (2.6, 6, 0, 4), (3.2, 0, 0, 0))},
-        "leg_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (1.2, -10, 0, -4), (2.6, 6, 0, -4), (3.2, 0, 0, 0))},
+    attack_thrust = {  # basic (8): draw the trident back to the hip, drive it straight ahead at 0.55 s
+        "pelvis_bone": {"position": kf((0, 0, 0, 0), (0.35, 0, 0.5, 2.5), (0.55, 0, -0.5, -4), (0.75, 0, -0.5, -4), (1.0, 0, 0, 0))},
+        "torso_core_bone": {"rotation": kf((0, 0, 0, 0), (0.35, 4, -26, 0), (0.55, -8, 18, 0), (0.75, -8, 18, 0), (1.0, 0, 0, 0))},
+        "arm_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (0.35, 20, 0, 12), (0.55, 86, 0, 0), (0.75, 86, 0, 0), (1.0, 0, 0, 0))},
+        "arm_lower_right_bone": {"rotation": kf((0, 0, 0, 0), (0.35, 72, 0, 0), (0.55, 0, 0, 0), (0.75, 0, 0, 0), (1.0, 0, 0, 0))},
+        "arm_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (0.35, 40, 0, -20), (0.55, -10, 0, -30), (1.0, 0, 0, 0))},
+        "head_core_bone": {"rotation": kf((0, 0, 0, 0), (0.35, 0, 18, 0), (0.55, -4, -12, 0), (1.0, 0, 0, 0))},
+        "cape_top_bone": {"rotation": kf((0, 0, 0, 0), (0.35, -8, 0, 0), (0.55, -30, 0, 0), (1.0, 0, 0, 0))},
+        **float_legs(0, 0.35, 0.55, 1.0),
     }
-    death = {
-        "pelvis_bone": {"position": kf((0, 0, 0, 0), (0.8, 0, -6, 2), (2.0, 0, -15, 6)), "rotation": kf((0, 0, 0, 0), (0.8, 10, 0, 0), (2.0, 88, 0, 0))},
-        "torso_core_bone": {"rotation": kf((0, 0, 0, 0), (0.8, 8, 0, 0), (2.0, 4, 0, 0))},
-        "head_core_bone": {"rotation": kf((0, 0, 0, 0), (0.8, 24, 0, 8), (2.0, 14, 0, 12))},
-        "arm_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (0.8, 40, 0, 24), (2.0, 20, 0, 34))},
-        "arm_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (0.8, 30, 0, -20), (2.0, 20, 0, -34))},
-        "arm_lower_right_bone": {"rotation": kf((0, 0, 0, 0), (2.0, 24, 0, 0))},
-        "leg_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (0.8, 10, 0, 6), (2.0, 4, 0, 10))},
-        "leg_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (0.8, 22, 0, -6), (2.0, 10, 0, -10))},
-        "cape_top_bone": {"rotation": kf((0, 0, 0, 0), (0.8, 30, 0, 0), (2.0, 74, 0, 0))},
+    trident_pitch(attack_thrust, [(0, 0), (0.3, -90), (0.75, -90), (1.0, 0)])
+    attack_swing = {  # basic variant (8): wind to the right, sweep the trident across the front at 0.65 s
+        "pelvis_bone": {"rotation": kf((0, 0, 0, 0), (0.45, 0, -16, 0), (0.65, 0, 20, 0), (0.85, 0, 20, 0), (1.2, 0, 0, 0))},
+        "torso_core_bone": {"rotation": kf((0, 0, 0, 0), (0.45, 0, -48, 0), (0.65, -6, 52, 0), (0.85, -6, 52, 0), (1.2, 0, 0, 0))},
+        "arm_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (0.45, 78, 0, 30), (0.65, 84, 0, -10), (0.85, 84, 0, -10), (1.2, 0, 0, 0))},
+        "arm_lower_right_bone": {"rotation": kf((0, 0, 0, 0), (0.45, 14, 0, 0), (0.65, 0, 0, 0), (1.2, 0, 0, 0))},
+        "arm_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (0.45, 20, 0, -36), (0.65, 30, 0, -14), (1.2, 0, 0, 0))},
+        "head_core_bone": {"rotation": kf((0, 0, 0, 0), (0.45, 0, 26, 0), (0.65, 0, -30, 0), (1.2, 0, 0, 0))},
+        "cape_top_bone": {"rotation": kf((0, 0, 0, 0), (0.45, -6, 0, 14), (0.65, -20, 0, -18), (1.2, 0, 0, 0))},
+        **float_legs(0, 0.45, 0.65, 1.2),
     }
-    return {"idle": (T, "loop", idle), "walk": (W, "loop", walk), "thrust": (1.8, "once", thrust),
-            "summon": (3.2, "once", summon), "death": (2.0, "hold", death)}
+    trident_pitch(attack_swing, [(0, 0), (0.4, -90), (0.85, -90), (1.2, 0)])
+    spin = [(0.6, (0, 0, 0)), (2.6, (0, 2160, 0)), (3.0, (0, 2160, 0))]
+    skill_pull = {  # skill 1: arm thrust straight ahead, the trident spins on its own axis (0.6-2.6 s) and drags targets in
+        "pelvis_bone": {"position": kf((0, 0, 0, 0), (0.6, 0, 0, 2), (2.6, 0, 0, 3), (3.0, 0, 0, 0))},
+        "torso_core_bone": {"rotation": kf((0, 0, 0, 0), (0.6, 6, 0, 0), (2.6, 8, 0, 0), (3.0, 0, 0, 0)),
+                            "position": [(0, (0, 0, 0)), (0.6, (0, 0, 0))] + [(round(0.6 + i * 0.1, 3), (0.25 * (-1) ** i, 0, 0)) for i in range(1, 20)] + [(2.6, (0, 0, 0)), (3.0, (0, 0, 0))]},
+        "arm_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (0.6, 90, 0, 0), (2.6, 90, 0, 0), (3.0, 0, 0, 0))},
+        "arm_lower_right_bone": {"rotation": kf((0, 0, 0, 0), (0.3, 30, 0, 0), (0.6, 0, 0, 0), (2.6, 0, 0, 0), (3.0, 0, 0, 0))},
+        "arm_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (0.6, 30, 0, -40), (2.6, 30, 0, -46), (3.0, 0, 0, 0))},
+        "arm_lower_left_bone": {"rotation": kf((0, 0, 0, 0), (0.6, 40, 0, 0), (2.6, 40, 0, 0), (3.0, 0, 0, 0))},
+        "head_core_bone": {"rotation": kf((0, 0, 0, 0), (0.6, -6, 0, 0), (2.6, -6, 0, 0), (3.0, 0, 0, 0))},
+        "cape_top_bone": {"rotation": kf((0, 0, 0, 0), (0.6, -24, 0, 0), (1.6, -34, 0, 6), (2.6, -24, 0, -6), (3.0, 0, 0, 0))},
+        "trident_shaft_bone": {"rotation": spin},
+        **float_legs(0, 0.6, 1.6, 2.6, 3.0),
+    }
+    trident_pitch(skill_pull, [(0, 0), (0.6, -90), (2.6, -90), (3.0, 0)])
+    skill_charge = {  # skill 2: coil and aim for 1.2 s (telegraph), streamlined piercing dash 1.2-1.9 s, recover
+        "pelvis_bone": {"rotation": kf((0, 0, 0, 0), (1.2, -22, 0, 0), (1.3, -80, 0, 0), (1.9, -80, 0, 0), (2.6, 0, 0, 0)),
+                        "position": kf((0, 0, 0, 0), (1.2, 0, 0, 4), (1.3, 0, 0, -2), (1.9, 0, 0, -2), (2.6, 0, 0, 0))},
+        "head_core_bone": {"rotation": kf((0, 0, 0, 0), (1.2, 18, 0, 0), (1.3, 66, 0, 0), (1.9, 66, 0, 0), (2.6, 0, 0, 0))},
+        "arm_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (1.2, 70, 0, 0), (1.3, 170, 0, 0), (1.9, 170, 0, 0), (2.6, 0, 0, 0))},
+        "arm_lower_right_bone": {"rotation": kf((0, 0, 0, 0), (1.2, 40, 0, 0), (1.3, 0, 0, 0), (1.9, 0, 0, 0), (2.6, 0, 0, 0))},
+        "arm_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (1.2, -30, 0, -20), (1.3, -14, 0, -6), (1.9, -14, 0, -6), (2.6, 0, 0, 0))},
+        "leg_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (1.2, 52, 0, 6), (1.3, -6, 0, 2), (1.9, -6, 0, 2), (2.6, 0, 0, 0))},
+        "leg_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (1.2, 46, 0, -6), (1.3, -6, 0, -2), (1.9, -6, 0, -2), (2.6, 0, 0, 0))},
+        "leg_lower_right_bone": {"rotation": kf((0, 0, 0, 0), (1.2, -74, 0, 0), (1.3, 0, 0, 0), (1.9, 0, 0, 0), (2.6, 0, 0, 0))},
+        "leg_lower_left_bone": {"rotation": kf((0, 0, 0, 0), (1.2, -70, 0, 0), (1.3, 0, 0, 0), (1.9, 0, 0, 0), (2.6, 0, 0, 0))},
+        "cape_top_bone": {"rotation": kf((0, 0, 0, 0), (1.2, -10, 0, 0), (1.3, -70, 0, 0), (1.9, -70, 0, 0), (2.6, 0, 0, 0))},
+        "loin_front_bone": {"rotation": kf((0, 0, 0, 0), (1.3, 50, 0, 0), (1.9, 50, 0, 0), (2.6, 0, 0, 0))},
+    }
+    trident_pitch(skill_charge, [(0, 0), (1.2, -90), (1.9, -90), (2.6, 0)])
+    hidden = [(0, (1, 1, 1)), (0.7, (1, 1, 1)), (0.72, (0.001, 0.001, 0.001)), (2.18, (0.001, 0.001, 0.001)), (2.2, (1, 1, 1)), (2.8, (1, 1, 1))]
+    skill_throw = {  # skill 3: overhand throw released at 0.7 s; the hand is empty until the trident flies back at 2.2 s
+        "torso_core_bone": {"rotation": kf((0, 0, 0, 0), (0.55, 14, -32, 0), (0.7, -14, 22, 0), (0.9, -14, 22, 0), (2.1, 0, 0, 0), (2.2, 6, -8, 0), (2.8, 0, 0, 0))},
+        "pelvis_bone": {"position": kf((0, 0, 0, 0), (0.55, 0, 0.5, 2), (0.7, 0, 0, -2), (1.2, 0, 0, 0), (2.2, 0, 0, 1), (2.8, 0, 0, 0))},
+        "arm_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (0.55, 192, 0, 8), (0.7, 70, 0, 0), (0.9, 60, 0, 0), (1.6, 20, 0, 6), (2.1, 118, 0, 10), (2.2, 108, 0, 10), (2.8, 0, 0, 0))},
+        "arm_lower_right_bone": {"rotation": kf((0, 0, 0, 0), (0.55, 34, 0, 0), (0.7, 0, 0, 0), (2.1, 10, 0, 0), (2.2, 24, 0, 0), (2.8, 0, 0, 0))},
+        "arm_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (0.55, 60, 0, -14), (0.7, -18, 0, -24), (1.2, 0, 0, -14), (2.8, 0, 0, 0))},
+        "head_core_bone": {"rotation": kf((0, 0, 0, 0), (0.55, 10, 20, 0), (0.7, -4, -12, 0), (1.2, 0, 0, 0), (2.1, 10, 0, 0), (2.8, 0, 0, 0))},
+        "cape_top_bone": {"rotation": kf((0, 0, 0, 0), (0.55, -6, 0, 0), (0.7, -26, 0, 0), (1.4, -10, 0, 0), (2.8, 0, 0, 0))},
+        "trident_hold_bone": {"scale": hidden},
+        **float_legs(0, 0.55, 0.7, 1.4, 2.2, 2.8),
+    }
+    trident_pitch(skill_throw, [(0, 0), (0.55, -70), (0.7, -90), (2.2, -10), (2.8, 0)])
+    death = {  # goes limp and sinks, rolling onto its back, arms and cape floating up
+        "pelvis_bone": {"position": kf((0, 0, 0, 0), (0.6, 0, 1.5, 0), (2.5, 0, -10, 3)),
+                        "rotation": kf((0, 0, 0, 0), (0.6, 12, 0, 6), (2.5, 72, 0, 18))},
+        "torso_core_bone": {"rotation": kf((0, 0, 0, 0), (0.6, 10, 0, 0), (2.5, 6, 0, 0))},
+        "head_core_bone": {"rotation": kf((0, 0, 0, 0), (0.6, 22, 0, 10), (2.5, 30, 0, 18))},
+        "arm_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (0.6, 30, 0, 30), (2.5, 50, 0, 70))},
+        "arm_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (0.6, 20, 0, -36), (2.5, 46, 0, -74))},
+        "arm_lower_right_bone": {"rotation": kf((0, 0, 0, 0), (2.5, 30, 0, 0))},
+        "arm_lower_left_bone": {"rotation": kf((0, 0, 0, 0), (2.5, 34, 0, 0))},
+        "leg_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (0.6, 18, 0, 6), (2.5, 26, 0, 14))},
+        "leg_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (0.6, 8, 0, -6), (2.5, 34, 0, -12))},
+        "leg_lower_right_bone": {"rotation": kf((0, 0, 0, 0), (2.5, -30, 0, 0))},
+        "leg_lower_left_bone": {"rotation": kf((0, 0, 0, 0), (2.5, -40, 0, 0))},
+        "cape_top_bone": {"rotation": kf((0, 0, 0, 0), (0.6, -20, 0, 0), (2.5, -60, 0, 0))},
+    }
+    trident_pitch(death, [(0, 0), (0.6, -20), (2.5, -60)])
+    return {"idle": (T, "loop", hover), "swim": (S, "loop", swim), "attack_thrust": (1.0, "once", attack_thrust),
+            "attack_swing": (1.2, "once", attack_swing), "skill_pull": (3.0, "once", skill_pull),
+            "skill_charge": (2.6, "once", skill_charge), "skill_throw": (2.8, "once", skill_throw),
+            "death": (2.5, "hold", death)}
 
 
 def forgemaster():
@@ -413,7 +519,7 @@ MODELS = {
 
 
 # animations replaced by differently named ones (removed from the bbmodel on the next run)
-OBSOLETE = {"piglin_forgemaster": ("slam", "sweep", "enrage")}
+OBSOLETE = {"piglin_forgemaster": ("slam", "sweep", "enrage"), "deep_sea_poseidon": ("walk", "thrust", "summon"), "sky_wyvern": ("bite",)}
 
 
 def build_animation(model, name, length, loop, bones, groups, existing_uuid=None):
