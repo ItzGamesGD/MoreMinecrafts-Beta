@@ -27,6 +27,7 @@ final class ResearchSheetScene {
     private record Edge(String from, String to, int[][] route) {}
     private record Size(int w, int h) {}
     private record File(int schemaVersion, String screen, String discipline, String texture, int artPxPerGuiPx,
+                        Integer nodeGuiSize,
                         Size sheet, List<Zone> zones, List<Slot> slots, List<Edge> edges) {}
 
     record BannerBox(String branch, int x, int y, int width, int height) {}
@@ -37,6 +38,7 @@ final class ResearchSheetScene {
     private final int artHeight;
     private final int width;
     private final int height;
+    private final int nodeGui;
     private final Map<String, int[]> slots = new LinkedHashMap<>();
     private final List<BannerBox> banners;
     private final List<Route> routes;
@@ -49,6 +51,8 @@ final class ResearchSheetScene {
         artHeight = file.sheet().h();
         width = artWidth / s;
         height = artHeight / s;
+        nodeGui = file.nodeGuiSize() == null ? 32 : file.nodeGuiSize();
+        if (nodeGui != 32 && nodeGui != 64) throw new IllegalArgumentException("nodeGuiSize must be 32 or 64");
         for (Slot slot : file.slots()) slots.put(slot.id(), new int[]{slot.x() / s, slot.y() / s});
         banners = file.zones().stream().map(z -> new BannerBox(z.branch(), z.banner().x() / s, z.banner().y() / s,
                 z.banner().w() / s, z.banner().h() / s)).toList();
@@ -59,15 +63,20 @@ final class ResearchSheetScene {
         }).toList();
     }
 
-    /** The sheet for a research discipline, or null when that scene has no approved sheet yet. */
+    /** The sheet for a research or knowledge discipline, or null when that scene has no approved sheet yet. */
     static ResearchSheetScene load(String screen, String discipline) {
-        if (!"research".equals(screen)) return null;
+        String folder = switch (screen) {
+            case "research" -> "research_sheets";
+            case "knowledge" -> "knowledge_sheets";
+            default -> null;
+        };
+        if (folder == null) return null;
         var stream = ResearchSheetScene.class.getResourceAsStream(
-                "/assets/moreminecrafts/progression/research_sheets/" + discipline + ".json");
+                "/assets/moreminecrafts/progression/" + folder + "/" + discipline + ".json");
         if (stream == null) return null;
         try (var reader = new InputStreamReader(stream, StandardCharsets.UTF_8)) {
             File file = new Gson().fromJson(reader, File.class);
-            if (file == null || !"research".equals(file.screen()) || !discipline.equals(file.discipline())) return null;
+            if (file == null || !screen.equals(file.screen()) || !discipline.equals(file.discipline())) return null;
             return new ResearchSheetScene(file);
         } catch (Exception e) {
             dev.itzgamesgd.moreminecrafts.MoreMinecrafts.LOGGER.error("Invalid research sheet for {}", discipline, e);
@@ -81,6 +90,10 @@ final class ResearchSheetScene {
     int artWidth() { return artWidth; }
     int artHeight() { return artHeight; }
     int width() { return width; }
+    /** Node frame size in GUI px: 32 for the approved Resources scene, 64 for the 2026-11-25 horizontal revision. */
+    int nodeGui() { return nodeGui; }
+    /** Kit name suffix: frames for 64 px nodes are the 2x kit files. */
+    String kitSuffix() { return nodeGui == 64 ? "_lg" : ""; }
     int height() { return height; }
     int[] slot(String id) { return slots.get(id); }
     boolean covers(java.util.Collection<String> ids) { return slots.keySet().containsAll(ids); }

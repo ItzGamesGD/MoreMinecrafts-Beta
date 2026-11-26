@@ -1,0 +1,122 @@
+{
+ "schemaVersion": 1,
+ "screen": "knowledge",
+ "discipline": "world",
+ "nodeGuiSize": 64,
+ "texture": "moreminecrafts:textures/gui/research_tree/sheets/sheet_knowledge_world.png",
+ "artPxPerGuiPx": 2,
+ "sheet": {
+  "w": 1416,
+  "h": 1440
+ },
+ "zones": [
+  {
+   "branch": "biomes_and_caves",
+   "y0": 0,
+   "y1": 288,
+   "banner": {
+    "x": 48,
+    "y": 124,
+    "w": 400,
+    "h": 40
+   }
+  },
+  {
+   "branch": "travel",
+   "y0": 288,
+   "y1": 576,
+   "banner": {
+    "x": 48,
+    "y": 412,
+    "w": 400,
+    "h": 40
+   }
+  },
+  {
+   "branch": "archaeology_and_structures",
+   "y0": 576,
+   "y1": 864,
+   "banner": {
+    "x": 48,
+    "y": 700,
+    "w": 400,
+    "h": 40
+   }
+  },
+  {
+   "branch": "villager_trade",
+   "y0": 864,
+   "y1": 1152,
+   "banner": {
+    "x": 48,
+    "y": 988,
+    "w": 400,
+    "h": 40
+   }
+  },
+  {
+   "branch": "expeditions",
+   "y0": 1152,
+   "y1": 1440,
+   "banner": {
+    "x": 48,
+    "y": 1276,
+    "w": 400,
+    "h": 40
+   }
+  }
+ ],
+ "slots": [
+  {
+   "id": "knowledge.53",
+   "x": 520,
+   "y": 144
+  },
+  {
+   "id": "knowledge.54",
+   "x": 744,
+   "y": 144
+  },
+  {
+   "id": "knowledge.55",
+   "x": 520,
+   "y": 432
+  },
+  {
+   "id": "knowledge.56",
+   "x": 744,
+   "y": 432
+  },
+  {
+   "id": "knowledge.57",
+   "x": 968,
+   "y": 432
+  },
+  {
+   "id": "knowledge.58",
+   "x": 1192,
+   "y": 432
+  },
+  {
+   "id": "knowledge.59",
+   "x": 520,
+   "y": 720
+  },
+  {
+   "id": "knowledge.60",
+   "x": 744,
+   "y": 720
+  },
+  {
+   "id": "knowledge.61",
+   "x": 520,
+   "y": 1008
+  },
+  {
+   "id": "knowledge.62",
+   "x": 520,
+   "y": 1296
+  }
+ ],
+ "edges": []
+}

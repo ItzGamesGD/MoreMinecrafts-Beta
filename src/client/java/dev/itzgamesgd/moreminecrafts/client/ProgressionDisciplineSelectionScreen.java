@@ -19,11 +19,10 @@ import net.minecraft.world.item.Items;
 
 /** Navigation-only selector shared by the Research and Knowledge screens. */
 public final class ProgressionDisciplineSelectionScreen extends Screen {
-    private static final Identifier VANILLA_WINDOW = Identifier.withDefaultNamespace("textures/gui/advancements/window.png");
-    private static final Identifier VANILLA_BACKGROUND = Identifier.withDefaultNamespace(
-            "textures/gui/advancements/backgrounds/stone.png");
-    private static final Identifier LOCKED_BOX = Identifier.withDefaultNamespace("advancements/box_unobtained");
-    private static final Identifier LOCKED_FRAME = Identifier.withDefaultNamespace("advancements/task_frame_unobtained");
+    // Unified research grammar (owner-approved 2026-11-25): research kit frame, sheet background, violet plates.
+    private static final int SHEET_BACKGROUND = 0xFF0E0C14;
+    private static final int PLATE = 0xFF221F2C, PLATE_ACTIVE = 0xFF2F2B3D, PLATE_CENTRE = 0xFF1A1722;
+    private static final int OUTLINE = 0xFF5C5864, OUTLINE_ACTIVE = 0xFFF2C85C, TITLE = 0xFFF2C85C;
 
     private final ProgressionBrowseScreen.Mode mode;
     private double scale;
@@ -54,8 +53,9 @@ public final class ProgressionDisciplineSelectionScreen extends Screen {
         double centerY = panelY + 27.0 + innerHeight / 2.0;
         originX = centerX - 320.0 * scale;
         originY = centerY - 177.0 * scale;
-        backButton = addRenderableWidget(Button.builder(Component.translatable("moreminecrafts.ui.back"), button -> onClose())
-                .bounds((int) Math.round(panelX + 13), (int) Math.round(panelY + 10), 70, 20).build());
+        String back = Component.translatable("moreminecrafts.ui.back").getString().replaceFirst("^←\\s*", "");
+        backButton = addRenderableWidget(new ResearchSheetButton((int) Math.round(panelX + 13), (int) Math.round(panelY + 8),
+                70, 20, Component.literal(back), "back", button -> onClose()));
     }
 
     @Override public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
@@ -63,36 +63,37 @@ public final class ProgressionDisciplineSelectionScreen extends Screen {
         double panelHeight = panelWidth * (140.0 / 252.0);
         int panelX = (int) Math.round((width - panelWidth) / 2.0);
         int panelY = (int) Math.round((height - panelHeight) / 2.0);
-        graphics.fill(0, 0, width, height, 0xFF272727);
-        graphics.blit(RenderPipelines.GUI_TEXTURED, VANILLA_WINDOW, panelX, panelY, 0, 0,
-                (int) Math.round(panelWidth), (int) Math.round(panelHeight), 252, 140, 256, 256);
-        int innerLeft = panelX + 13, innerTop = panelY + 31;
-        int innerRight = panelX + (int) Math.round(panelWidth) - 13;
-        int innerBottom = panelY + (int) Math.round(panelHeight) - 18;
-        tileAdvancementBackground(graphics, innerLeft, innerTop, innerRight, innerBottom);
-        graphics.centeredText(font, title, width / 2, panelY + 10, 0xFF181818);
+        graphics.fill(0, 0, width, height, SHEET_BACKGROUND);
+        ResearchSheetScene.nineSlice(graphics, ResearchSheetScene.kit("screen_frame"), 192, 192, 48, 24,
+                panelX, panelY, (int) Math.round(panelWidth), (int) Math.round(panelHeight), false);
+        graphics.centeredText(font, title, width / 2, panelY + 10, TITLE);
 
         hoveredSector = ProgressionSectorGeometry.hitTest(mouseX, mouseY, originX, originY, scale);
         for (int index = 0; index < ProgressionSectorGeometry.sectors().size(); index++) {
             var sector = ProgressionSectorGeometry.sectors().get(index);
-            int fill = index == hoveredSector || index == focusedSector ? 0xFF55524B : 0xFF333333;
-            fillPolygon(graphics, sector.polygon(), originX, originY, scale, fill);
+            boolean active = index == hoveredSector || index == focusedSector;
+            fillPolygon(graphics, sector.polygon(), originX, originY, scale, active ? PLATE_ACTIVE : PLATE);
         }
         fillPolygon(graphics, List.of(new ProgressionSectorGeometry.Point(302,139),
                 new ProgressionSectorGeometry.Point(338,139), new ProgressionSectorGeometry.Point(361,168),
                 new ProgressionSectorGeometry.Point(353,203), new ProgressionSectorGeometry.Point(320,219),
                 new ProgressionSectorGeometry.Point(287,203), new ProgressionSectorGeometry.Point(279,168)),
-                originX, originY, scale, 0xFF242424);
-        for (var sector : ProgressionSectorGeometry.sectors())
-            outlinePolygon(graphics, sector.polygon(), originX, originY, scale, 0xFFB4A57D);
+                originX, originY, scale, PLATE_CENTRE);
+        for (int index = 0; index < ProgressionSectorGeometry.sectors().size(); index++) {
+            boolean active = index == hoveredSector || index == focusedSector;
+            outlinePolygon(graphics, ProgressionSectorGeometry.sectors().get(index).polygon(), originX, originY, scale,
+                    active ? OUTLINE_ACTIVE : OUTLINE);
+        }
 
         for (int index = 0; index < ProgressionSectorGeometry.sectors().size(); index++) {
             var sector = ProgressionSectorGeometry.sectors().get(index);
             var center = sector.centroid();
             int x = (int) Math.round(originX + center.x() * scale);
             int y = (int) Math.round(originY + center.y() * scale);
-            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, LOCKED_BOX, x - 13, y - 13, 26, 26);
-            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, LOCKED_FRAME, x - 13, y - 13, 26, 26);
+            boolean active = index == hoveredSector || index == focusedSector;
+            graphics.blit(RenderPipelines.GUI_TEXTURED,
+                    ResearchSheetScene.kit(active ? "node_available" : "node_locked"),
+                    x - 13, y - 13, 0, 0, 26, 26, 64, 64, 64, 64);
             graphics.item(icon(sector.iconItemId()), x - 8, y - 8);
         }
 
@@ -100,16 +101,8 @@ public final class ProgressionDisciplineSelectionScreen extends Screen {
         var activeSector = ProgressionSectorGeometry.sectors().get(active);
         graphics.centeredText(font, Component.translatable(activeSector.titleKey()),
                 (int) Math.round(originX + 320.0 * scale),
-                (int) Math.round(originY + 178.0 * scale), 0xFFE2DFD7);
+                (int) Math.round(originY + 178.0 * scale), 0xFFECE0C4);
         super.extractRenderState(graphics, mouseX, mouseY, delta);
-    }
-
-    private void tileAdvancementBackground(GuiGraphicsExtractor graphics, int left, int top, int right, int bottom) {
-        for (int y = top; y < bottom; y += 16) for (int x = left; x < right; x += 16) {
-            int tileWidth = Math.min(16, right - x), tileHeight = Math.min(16, bottom - y);
-            graphics.blit(RenderPipelines.GUI_TEXTURED, VANILLA_BACKGROUND, x, y, 0, 0,
-                    tileWidth, tileHeight, 16, 16, 16, 16);
-        }
     }
 
     private static void fillPolygon(GuiGraphicsExtractor graphics, List<ProgressionSectorGeometry.Point> polygon,

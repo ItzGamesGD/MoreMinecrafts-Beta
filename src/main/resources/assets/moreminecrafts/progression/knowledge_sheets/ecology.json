@@ -1,0 +1,110 @@
+{
+ "schemaVersion": 1,
+ "screen": "knowledge",
+ "discipline": "ecology",
+ "nodeGuiSize": 64,
+ "texture": "moreminecrafts:textures/gui/research_tree/sheets/sheet_knowledge_ecology.png",
+ "artPxPerGuiPx": 2,
+ "sheet": {
+  "w": 2088,
+  "h": 864
+ },
+ "zones": [
+  {
+   "branch": "overworld_hostiles",
+   "y0": 0,
+   "y1": 288,
+   "banner": {
+    "x": 48,
+    "y": 124,
+    "w": 400,
+    "h": 40
+   }
+  },
+  {
+   "branch": "nether_and_aquatic",
+   "y0": 288,
+   "y1": 576,
+   "banner": {
+    "x": 48,
+    "y": 412,
+    "w": 400,
+    "h": 40
+   }
+  },
+  {
+   "branch": "rare_and_boss_mobs",
+   "y0": 576,
+   "y1": 864,
+   "banner": {
+    "x": 48,
+    "y": 700,
+    "w": 400,
+    "h": 40
+   }
+  }
+ ],
+ "slots": [
+  {
+   "id": "knowledge.41",
+   "x": 520,
+   "y": 144
+  },
+  {
+   "id": "knowledge.42",
+   "x": 744,
+   "y": 144
+  },
+  {
+   "id": "knowledge.43",
+   "x": 968,
+   "y": 144
+  },
+  {
+   "id": "knowledge.44",
+   "x": 1192,
+   "y": 144
+  },
+  {
+   "id": "knowledge.45",
+   "x": 1416,
+   "y": 144
+  },
+  {
+   "id": "knowledge.46",
+   "x": 1640,
+   "y": 144
+  },
+  {
+   "id": "knowledge.47",
+   "x": 1864,
+   "y": 144
+  },
+  {
+   "id": "knowledge.48",
+   "x": 520,
+   "y": 432
+  },
+  {
+   "id": "knowledge.49",
+   "x": 744,
+   "y": 432
+  },
+  {
+   "id": "knowledge.50",
+   "x": 968,
+   "y": 432
+  },
+  {
+   "id": "knowledge.51",
+   "x": 520,
+   "y": 720
+  },
+  {
+   "id": "knowledge.52",
+   "x": 744,
+   "y": 720
+  }
+ ],
+ "edges": []
+}

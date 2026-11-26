@@ -220,6 +220,27 @@ public final class ProgressionBrowseScreen extends Screen {
     public boolean validationSheetScene() { return canvas != null && canvas.sheetScene(); }
 
     /**
+     * Validation-only: presents research states for a screenshot (owned levels, purchasable or locked) without a live
+     * server. Rows keep their real titles, costs and prerequisites; only level and availability are replaced.
+     */
+    public void validationPresentResearchStates(Map<String, Integer> levels, java.util.Set<String> purchasable) {
+        if (!"1".equals(System.getenv("MOREMINECRAFTS_VISUAL_VALIDATION")))
+            throw new IllegalStateException("Research state presentation requires the opt-in harness");
+        var presented = new java.util.HashMap<String, ProgressionScreenData.ResearchRow>();
+        for (var entry : researchById.entrySet()) {
+            var row = entry.getValue();
+            var availability = purchasable.contains(row.id())
+                    ? dev.itzgamesgd.moreminecrafts.progression.ResearchPurchaseRules.Result.PURCHASED
+                    : dev.itzgamesgd.moreminecrafts.progression.ResearchPurchaseRules.Result.MISSING_PREREQUISITE;
+            presented.put(entry.getKey(), new ProgressionScreenData.ResearchRow(row.id(), row.discipline(), row.titleKey(),
+                    row.descriptionKey(), levels.getOrDefault(row.id(), 0), row.maximumLevel(), row.catalogVersion(),
+                    row.tier(), row.prerequisitesDefined(), row.requiredKnowledge(), row.prerequisiteResearch(),
+                    row.nextCost(), availability));
+        }
+        researchById = presented;
+    }
+
+    /**
      * Selects and centres a node, then returns the GUI-space point a real pointer must press to hit it, or null when
      * the node is absent or that point would not hit it. Used only to announce targets to the OS-input harness.
      */
