@@ -73,7 +73,6 @@ public final class EnhancementOperation {
             equipment.set(ModDataComponents.ENHANCEMENT_LEVEL, result.targetLevel());
             Runnable injection = failureInjectionForTests;
             if (injection != null) injection.run();
-            return true;
         } catch (RuntimeException failure) {
             xpBefore.restore(player);
             material.setCount(materialBefore);
@@ -82,6 +81,10 @@ public final class EnhancementOperation {
             else equipment.set(ModDataComponents.ENHANCEMENT_LEVEL, levelBefore);
             return false;
         }
+        if (player instanceof net.minecraft.server.level.ServerPlayer serverPlayer) {
+            dev.itzgamesgd.moreminecrafts.progression.XpQuestTracking.reconcile(serverPlayer);
+        }
+        return true;
     }
 
     private static Result result(ItemStack equipment, Plan plan) {

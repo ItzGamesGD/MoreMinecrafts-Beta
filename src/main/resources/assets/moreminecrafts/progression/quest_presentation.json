@@ -31,7 +31,31 @@
             "xpq.exp.ocean_relics",
             "xpq.exp.villages_5",
             "xpq.exp.grand_expedition",
+            "xpq.exp.sherds_15",
             "xpq.exp.structures_15"
+          ]
+        },
+        {
+          "id": "exploration.biomes",
+          "titleKey": "moreminecrafts.ui.quest.sub.exploration.biomes",
+          "nodeIds": [
+            "xpq.exp.biomes_25",
+            "xpq.exp.explorer_maps",
+            "xpq.exp.rare_biomes",
+            "xpq.exp.biomes_40"
+          ]
+        },
+        {
+          "id": "exploration.travel",
+          "titleKey": "moreminecrafts.ui.quest.sub.exploration.travel",
+          "nodeIds": [
+            "xpq.exp.walk_10k",
+            "xpq.exp.height_extremes",
+            "xpq.exp.elytra_25k",
+            "xpq.exp.ride_10k",
+            "xpq.exp.sail_20k",
+            "xpq.exp.walk_50k",
+            "xpq.exp.travel_250k"
           ]
         }
       ]
@@ -134,6 +158,8 @@
           "id": "mining.debris",
           "titleKey": "moreminecrafts.ui.quest.sub.mining.debris",
           "nodeIds": [
+            "xpq.min.obsidian_64",
+            "xpq.min.adamantium_debris",
             "xpq.min.adamantium_10",
             "xpq.min.debris_16"
           ]
@@ -142,6 +168,8 @@
           "id": "mining.stone",
           "titleKey": "moreminecrafts.ui.quest.sub.mining.stone",
           "nodeIds": [
+            "xpq.min.amethyst_spyglass",
+            "xpq.min.stone_10000",
             "xpq.min.pickaxe_5000"
           ]
         },
@@ -149,7 +177,8 @@
           "id": "mining.wood",
           "titleKey": "moreminecrafts.ui.quest.sub.mining.wood",
           "nodeIds": [
-            "xpq.min.logs_1000"
+            "xpq.min.logs_1000",
+            "xpq.min.all_wood"
           ]
         }
       ]
@@ -162,21 +191,32 @@
           "id": "farming.crops",
           "titleKey": "moreminecrafts.ui.quest.sub.farming.crops",
           "nodeIds": [
-            "xpq.frm.till_1000"
+            "xpq.frm.composite_foods",
+            "xpq.frm.harvest_all_crops",
+            "xpq.frm.harvest_1000",
+            "xpq.frm.till_1000",
+            "xpq.frm.ancient_harvest",
+            "xpq.frm.harvest_5000"
           ]
         },
         {
           "id": "farming.livestock",
           "titleKey": "moreminecrafts.ui.quest.sub.farming.livestock",
           "nodeIds": [
-            "xpq.frm.tame_5"
+            "xpq.frm.tame_5",
+            "xpq.frm.breed_200",
+            "xpq.frm.honey_32"
           ]
         },
         {
           "id": "farming.trades",
           "titleKey": "moreminecrafts.ui.quest.sub.farming.trades",
           "nodeIds": [
-            "xpq.frm.barter_200"
+            "xpq.frm.master_trade",
+            "xpq.frm.mending_book",
+            "xpq.frm.professions_10",
+            "xpq.frm.barter_200",
+            "xpq.frm.trades_200"
           ]
         }
       ]
@@ -186,12 +226,35 @@
       "titleKey": "moreminecrafts.ui.quest.chapter.fishing",
       "subBranches": [
         {
+          "id": "fishing.catches",
+          "titleKey": "moreminecrafts.ui.quest.sub.fishing.catches",
+          "nodeIds": [
+            "xpq.fsh.freshwater_4",
+            "xpq.fsh.multi_catch",
+            "xpq.fsh.water_biomes_8",
+            "xpq.fsh.ocean_trio",
+            "xpq.fsh.catch_500",
+            "xpq.fsh.full_catalogue"
+          ]
+        },
+        {
           "id": "fishing.sales",
           "titleKey": "moreminecrafts.ui.quest.sub.fishing.sales",
           "nodeIds": [
             "xpq.fsh.first_sale",
             "xpq.fsh.sale_64",
             "xpq.fsh.emerald_500"
+          ]
+        },
+        {
+          "id": "fishing.rods",
+          "titleKey": "moreminecrafts.ui.quest.sub.fishing.rods",
+          "nodeIds": [
+            "xpq.fsh.first_module",
+            "xpq.fsh.grade_four",
+            "xpq.fsh.tier3_rig",
+            "xpq.fsh.grade_five",
+            "xpq.fsh.grade_five_5"
           ]
         }
       ]
@@ -204,14 +267,37 @@
           "id": "crafting.essentials",
           "titleKey": "moreminecrafts.ui.quest.sub.crafting.essentials",
           "nodeIds": [
-            "xpq.cft.anvil_50"
+            "xpq.cft.sleeping_bag",
+            "xpq.cft.enchanting_30",
+            "xpq.cft.anvil_50",
+            "xpq.cft.parachute",
+            "xpq.cft.smelt_1000"
+          ]
+        },
+        {
+          "id": "crafting.weapons",
+          "titleKey": "moreminecrafts.ui.quest.sub.crafting.weapons",
+          "nodeIds": [
+            "xpq.cft.all_daggers",
+            "xpq.cft.all_greatswords"
+          ]
+        },
+        {
+          "id": "crafting.advanced",
+          "titleKey": "moreminecrafts.ui.quest.sub.crafting.advanced",
+          "nodeIds": [
+            "xpq.cft.conduit",
+            "xpq.cft.mm_metallurgy",
+            "xpq.cft.netherite_tools",
+            "xpq.cft.mm_blocks"
           ]
         },
         {
           "id": "crafting.recipes",
           "titleKey": "moreminecrafts.ui.quest.sub.crafting.recipes",
           "nodeIds": [
-            "xpq.cft.redstone_100"
+            "xpq.cft.redstone_100",
+            "xpq.cft.recipes_200"
           ]
         }
       ]
@@ -235,7 +321,15 @@
           "titleKey": "moreminecrafts.ui.quest.sub.building.variety",
           "nodeIds": [
             "xpq.bld.variety_50",
+            "xpq.bld.storage_50",
             "xpq.bld.variety_150"
+          ]
+        },
+        {
+          "id": "building.copper",
+          "titleKey": "moreminecrafts.ui.quest.sub.building.copper",
+          "nodeIds": [
+            "xpq.bld.copper_ages"
           ]
         }
       ]
@@ -245,10 +339,103 @@
       "titleKey": "moreminecrafts.ui.quest.chapter.alchemy",
       "subBranches": [
         {
+          "id": "alchemy.brewing",
+          "titleKey": "moreminecrafts.ui.quest.sub.alchemy.brewing",
+          "nodeIds": [
+            "xpq.alc.shock_potion",
+            "xpq.alc.splash_lingering"
+          ]
+        },
+        {
+          "id": "alchemy.variety",
+          "titleKey": "moreminecrafts.ui.quest.sub.alchemy.variety",
+          "nodeIds": [
+            "xpq.alc.ingredients_all",
+            "xpq.alc.types_12",
+            "xpq.alc.effects_16"
+          ]
+        },
+        {
           "id": "alchemy.mastery",
           "titleKey": "moreminecrafts.ui.quest.sub.alchemy.mastery",
           "nodeIds": [
+            "xpq.alc.enhanced_3",
             "xpq.alc.potions_250"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "equipment",
+      "titleKey": "moreminecrafts.ui.quest.chapter.equipment",
+      "subBranches": [
+        {
+          "id": "equipment.enhance",
+          "titleKey": "moreminecrafts.ui.quest.sub.equipment.enhance",
+          "nodeIds": [
+            "xpq.eqp.enhance_5",
+            "xpq.eqp.enhance_10",
+            "xpq.eqp.enhance_15",
+            "xpq.eqp.enhance_trio",
+            "xpq.eqp.enhance_20",
+            "xpq.eqp.enhance_20_armor"
+          ]
+        },
+        {
+          "id": "equipment.custom",
+          "titleKey": "moreminecrafts.ui.quest.sub.equipment.custom",
+          "nodeIds": [
+            "xpq.eqp.custom_enchant"
+          ]
+        },
+        {
+          "id": "equipment.t2_cores",
+          "titleKey": "moreminecrafts.ui.quest.sub.equipment.t2_cores",
+          "nodeIds": [
+            "xpq.eqp.first_t2_core",
+            "xpq.eqp.t2_cores_3",
+            "xpq.eqp.all_t2_cores"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "research",
+      "titleKey": "moreminecrafts.ui.quest.chapter.research",
+      "subBranches": [
+        {
+          "id": "research.knowledge",
+          "titleKey": "moreminecrafts.ui.quest.sub.research.knowledge",
+          "nodeIds": [
+            "xpq.grw.knowledge_10",
+            "xpq.grw.knowledge_20",
+            "xpq.grw.knowledge_35",
+            "xpq.grw.knowledge_50",
+            "xpq.grw.knowledge_complete"
+          ]
+        },
+        {
+          "id": "research.research",
+          "titleKey": "moreminecrafts.ui.quest.sub.research.research",
+          "nodeIds": [
+            "xpq.grw.first_research",
+            "xpq.grw.seven_roots",
+            "xpq.grw.research_10",
+            "xpq.grw.discipline_breadth",
+            "xpq.grw.research_25",
+            "xpq.grw.discipline_complete",
+            "xpq.grw.research_50"
+          ]
+        },
+        {
+          "id": "research.tiers",
+          "titleKey": "moreminecrafts.ui.quest.sub.research.tiers",
+          "nodeIds": [
+            "xpq.grw.first_t2",
+            "xpq.grw.spent_10k",
+            "xpq.grw.first_t3",
+            "xpq.grw.spent_50k",
+            "xpq.grw.t3_5"
           ]
         }
       ]
@@ -262,6 +449,7 @@
           "titleKey": "moreminecrafts.ui.quest.sub.dimensions.nether",
           "nodeIds": [
             "xpq.dim.fortress_loot",
+            "xpq.dim.blaze_rods_32",
             "xpq.dim.bastion_all",
             "xpq.dim.nether_travel_50k"
           ]
@@ -271,6 +459,7 @@
           "titleKey": "moreminecrafts.ui.quest.sub.dimensions.end",
           "nodeIds": [
             "xpq.dim.end_cities_3",
+            "xpq.dim.shulker_boxes",
             "xpq.dim.end_city_loot_10"
           ]
         },
@@ -399,6 +588,93 @@
     "xpq.boss.wither": "minecraft:nether_star",
     "xpq.boss.dragon_rematch": "minecraft:dragon_breath",
     "xpq.boss.twin_bosses": "minecraft:end_crystal",
-    "xpq.boss.omen_raid": "minecraft:ominous_bottle"
+    "xpq.boss.omen_raid": "minecraft:ominous_bottle",
+    "xpq.exp.biomes_25": "minecraft:map",
+    "xpq.exp.rare_biomes": "minecraft:cherry_sapling",
+    "xpq.exp.biomes_40": "minecraft:filled_map",
+    "xpq.exp.walk_10k": "minecraft:leather_boots",
+    "xpq.exp.elytra_25k": "minecraft:elytra",
+    "xpq.exp.ride_10k": "minecraft:saddle",
+    "xpq.exp.sail_20k": "minecraft:oak_boat",
+    "xpq.exp.walk_50k": "minecraft:iron_boots",
+    "xpq.exp.travel_250k": "minecraft:netherite_boots",
+    "xpq.min.obsidian_64": "minecraft:obsidian",
+    "xpq.min.stone_10000": "minecraft:stone",
+    "xpq.frm.harvest_1000": "minecraft:wheat",
+    "xpq.frm.harvest_5000": "minecraft:hay_block",
+    "xpq.frm.breed_200": "minecraft:golden_carrot",
+    "xpq.frm.trades_200": "minecraft:emerald",
+    "xpq.fsh.freshwater_4": "minecraft:fishing_rod",
+    "xpq.fsh.water_biomes_8": "minecraft:water_bucket",
+    "xpq.fsh.ocean_trio": "minecraft:tropical_fish",
+    "xpq.fsh.catch_500": "minecraft:pufferfish",
+    "xpq.fsh.full_catalogue": "minecraft:nautilus_shell",
+    "xpq.fsh.first_module": "minecraft:copper_ingot",
+    "xpq.fsh.tier3_rig": "minecraft:gold_ingot",
+    "xpq.cft.netherite_tools": "minecraft:netherite_pickaxe",
+    "xpq.alc.ingredients_all": "minecraft:nether_wart",
+    "xpq.alc.types_12": "minecraft:brewing_stand",
+    "xpq.alc.effects_16": "minecraft:dragon_breath",
+    "xpq.eqp.enhance_5": "moreminecrafts:enhancement_stone",
+    "xpq.eqp.enhance_10": "minecraft:iron_sword",
+    "xpq.eqp.enhance_15": "minecraft:diamond_sword",
+    "xpq.eqp.enhance_trio": "minecraft:anvil",
+    "xpq.eqp.enhance_20": "minecraft:netherite_sword",
+    "xpq.eqp.enhance_20_armor": "minecraft:netherite_chestplate",
+    "xpq.eqp.custom_enchant": "minecraft:enchanted_book",
+    "xpq.eqp.first_t2_core": "moreminecrafts:burning_heart",
+    "xpq.eqp.t2_cores_3": "moreminecrafts:eye_of_typhoon",
+    "xpq.eqp.all_t2_cores": "moreminecrafts:ancient_heart",
+    "xpq.grw.knowledge_10": "minecraft:book",
+    "xpq.grw.knowledge_20": "minecraft:knowledge_book",
+    "xpq.grw.knowledge_35": "minecraft:bookshelf",
+    "xpq.grw.knowledge_50": "minecraft:enchanted_book",
+    "xpq.grw.knowledge_complete": "minecraft:chiseled_bookshelf",
+    "xpq.grw.first_research": "minecraft:writable_book",
+    "xpq.grw.seven_roots": "minecraft:oak_sapling",
+    "xpq.grw.research_10": "minecraft:paper",
+    "xpq.grw.discipline_breadth": "minecraft:compass",
+    "xpq.grw.research_25": "minecraft:lectern",
+    "xpq.grw.discipline_complete": "minecraft:totem_of_undying",
+    "xpq.grw.research_50": "minecraft:beacon",
+    "xpq.grw.first_t2": "minecraft:amethyst_shard",
+    "xpq.grw.spent_10k": "minecraft:experience_bottle",
+    "xpq.grw.first_t3": "minecraft:nether_star",
+    "xpq.grw.spent_50k": "minecraft:emerald_block",
+    "xpq.grw.t3_5": "minecraft:dragon_egg",
+    "xpq.fsh.multi_catch": "minecraft:fishing_rod",
+    "xpq.fsh.grade_four": "moreminecrafts:rainbow_trout",
+    "xpq.fsh.grade_five": "moreminecrafts:blue_marlin",
+    "xpq.fsh.grade_five_5": "moreminecrafts:beluga_sturgeon",
+    "xpq.cft.smelt_1000": "minecraft:furnace",
+    "xpq.bld.storage_50": "minecraft:chest",
+    "xpq.bld.copper_ages": "minecraft:copper_block",
+    "xpq.alc.shock_potion": "minecraft:potion",
+    "xpq.alc.splash_lingering": "minecraft:splash_potion",
+    "xpq.alc.enhanced_3": "minecraft:glowstone_dust",
+    "xpq.frm.composite_foods": "minecraft:cake",
+    "xpq.frm.master_trade": "minecraft:emerald_block",
+    "xpq.frm.mending_book": "minecraft:enchanted_book",
+    "xpq.frm.professions_10": "minecraft:bell",
+    "xpq.cft.sleeping_bag": "moreminecrafts:exploration_sleeping_bag",
+    "xpq.cft.parachute": "moreminecrafts:parachute",
+    "xpq.cft.all_daggers": "moreminecrafts:diamond_dagger",
+    "xpq.cft.all_greatswords": "moreminecrafts:diamond_greatsword",
+    "xpq.cft.mm_blocks": "moreminecrafts:mythril_block",
+    "xpq.cft.recipes_200": "minecraft:crafting_table",
+    "xpq.dim.shulker_boxes": "minecraft:shulker_box",
+    "xpq.exp.sherds_15": "minecraft:decorated_pot",
+    "xpq.exp.explorer_maps": "minecraft:filled_map",
+    "xpq.exp.height_extremes": "minecraft:elytra",
+    "xpq.min.adamantium_debris": "moreminecrafts:adamantium_debris",
+    "xpq.min.amethyst_spyglass": "minecraft:spyglass",
+    "xpq.min.all_wood": "minecraft:cherry_log",
+    "xpq.frm.harvest_all_crops": "minecraft:sweet_berries",
+    "xpq.frm.ancient_harvest": "minecraft:torchflower",
+    "xpq.frm.honey_32": "minecraft:honey_bottle",
+    "xpq.cft.enchanting_30": "minecraft:enchanting_table",
+    "xpq.cft.conduit": "minecraft:conduit",
+    "xpq.cft.mm_metallurgy": "moreminecrafts:etherium_ingot",
+    "xpq.dim.blaze_rods_32": "minecraft:blaze_rod"
   }
 }

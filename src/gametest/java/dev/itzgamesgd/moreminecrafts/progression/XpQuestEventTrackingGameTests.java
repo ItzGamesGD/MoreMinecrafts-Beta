@@ -413,8 +413,8 @@ public final class XpQuestEventTrackingGameTests implements CustomTestMethodInvo
     public void registeredQuestEvidenceKeysAreValid(GameTestHelper ctx) {
         List<XpQuestCatalogData.Spec> registered = XpQuestCatalogData.catalog().quests().stream()
                 .filter(XpQuestCatalogData.Spec::registered).toList();
-        ctx.assertTrue(registered.size() == 76,
-                "30 Q1-B, nine C1 loot, two vault, four structure, 28 combat/boss/raid and three ecology quests registered: " + registered.size());
+        ctx.assertTrue(registered.size() == 163,
+                "All 163 approved NOW quests registered: " + registered.size());
         for (XpQuestCatalogData.Spec spec : registered) {
             XpQuestCatalogData.Tracker t = spec.tracker();
             // A missing id would resolve to air and make an injected threshold test pass vacuously.
@@ -431,7 +431,13 @@ public final class XpQuestEventTrackingGameTests implements CustomTestMethodInvo
                                 ? ctx.getLevel().getServer().reloadableRegistries().getLootTable(
                                     net.minecraft.resources.ResourceKey.create(net.minecraft.core.registries.Registries.LOOT_TABLE,
                                             Identifier.parse(id))) != net.minecraft.world.level.storage.loot.LootTable.EMPTY
+                                : t.key().equals("set.explorer_maps")
+                                ? ctx.getLevel().registryAccess().lookupOrThrow(net.minecraft.core.registries.Registries.MAP_DECORATION_TYPE)
+                                    .containsKey(Identifier.parse(id))
+                                : t.key().equals("set.overworld_height_extremes")
+                                ? (id.equals("high") || id.equals("low"))
                                 : BuiltInRegistries.BLOCK.containsKey(Identifier.parse(id))
+                                    || BuiltInRegistries.ITEM.containsKey(Identifier.parse(id))
                                     || BuiltInRegistries.ENTITY_TYPE.containsKey(Identifier.parse(id)),
                                 spec.id() + " names a real id " + id);
             if (t.kind().equals("stat_killed") || t.kind().equals("stat_killed_each"))
@@ -440,10 +446,11 @@ public final class XpQuestEventTrackingGameTests implements CustomTestMethodInvo
                             spec.id() + " names a registered entity type " + id);
             if (t.kind().equals("counter_sum") || (t.kind().equals("counter") && t.key().startsWith("natural_mined.")))
                 for (String key : t.kind().equals("counter") ? List.of(t.key()) : t.entries())
-                    ctx.assertTrue(BuiltInRegistries.BLOCK.containsKey(Identifier.parse(key.substring("natural_mined.".length())))
-                            && QuestOreProvenance.isTrackedOre(BuiltInRegistries.BLOCK.getValue(
-                                    Identifier.parse(key.substring("natural_mined.".length()))).defaultBlockState()),
-                            spec.id() + " counts a tracked ore " + key);
+                    if (key.startsWith("natural_mined."))
+                        ctx.assertTrue(BuiltInRegistries.BLOCK.containsKey(Identifier.parse(key.substring("natural_mined.".length())))
+                                && QuestOreProvenance.isTrackedOre(BuiltInRegistries.BLOCK.getValue(
+                                        Identifier.parse(key.substring("natural_mined.".length()))).defaultBlockState()),
+                                spec.id() + " counts a tracked ore " + key);
         }
         ctx.succeed();
     }

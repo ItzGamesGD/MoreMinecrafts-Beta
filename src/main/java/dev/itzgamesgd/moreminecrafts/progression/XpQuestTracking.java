@@ -36,6 +36,9 @@ public final class XpQuestTracking {
             if (spec.registered()) register(spec);
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> reconcile(handler.player));
         ServerTickEvents.END_SERVER_TICK.register(server -> {
+            for (ServerPlayer player : server.getPlayerList().getPlayers()) {
+                XpQuestHooks.checkOverworldHeightExtremes(player);
+            }
             if (server.getTickCount() % REFRESH_TICKS != 0) return;
             for (ServerPlayer player : server.getPlayerList().getPlayers()) reconcile(player);
         });
@@ -70,6 +73,7 @@ public final class XpQuestTracking {
         if (specs.isEmpty()) return state; // nothing registered: leave every save untouched
         // Q1-B: history enters through per-key baselines captured once (XpQuestHooks), not by seeding.
         ResearchProgressState next = migrate(state);
+        next = QuestInventoryScanner.scan(player, next);
         XpQuestEvaluator evaluator = new XpQuestEvaluator(player, next);
         for (XpQuestCatalogData.Spec spec : specs) {
             QuestDefinition quest = QuestCatalog.byId(spec.id());

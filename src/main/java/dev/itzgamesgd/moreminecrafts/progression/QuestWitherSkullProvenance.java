@@ -30,6 +30,8 @@ public final class QuestWitherSkullProvenance {
 
     public static final AttachmentType<String> ORIGIN_TOKEN = AttachmentRegistry.create(
             ModIds.id("quest_wither_skull_token"), builder -> builder.persistent(Codec.STRING));
+    public static final AttachmentType<Boolean> GENUINE_BLAZE_ROD = AttachmentRegistry.create(
+            ModIds.id("quest_blaze_rod_genuine"), builder -> builder.persistent(Codec.BOOL));
 
     /** The Wither Skeleton currently running its death loot table, on this (server) thread only. */
     private static final ThreadLocal<Entity> DEATH_LOOT_SOURCE = new ThreadLocal<>();
@@ -38,6 +40,7 @@ public final class QuestWitherSkullProvenance {
 
     public static void initialize() {
         java.util.Objects.requireNonNull(ORIGIN_TOKEN);
+        java.util.Objects.requireNonNull(GENUINE_BLAZE_ROD);
         QuestWitherSkullAttachments.initialize();
 
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) ->
@@ -65,13 +68,14 @@ public final class QuestWitherSkullProvenance {
         if (previous == null) DEATH_LOOT_SOURCE.remove(); else DEATH_LOOT_SOURCE.set(previous);
     }
 
-    /** {@code spawner} spawned {@code item}; marks it only for a skull from a Wither Skeleton's own death loot. */
+    /** {@code spawner} spawned {@code item}; marks genuine Wither Skeleton skulls and Blaze rods from death loot. */
     public static void spawned(Entity spawner, ItemEntity item) {
-        if (item == null || spawner.level().isClientSide()) return;
-        if (spawner.getType() != EntityTypes.WITHER_SKELETON || DEATH_LOOT_SOURCE.get() != spawner) return;
-        if (item.getItem().is(Items.WITHER_SKELETON_SKULL)) {
+        if (item == null || spawner.level().isClientSide() || DEATH_LOOT_SOURCE.get() != spawner) return;
+        if (spawner.getType() == EntityTypes.WITHER_SKELETON && item.getItem().is(Items.WITHER_SKELETON_SKULL)) {
             String token = UUID.randomUUID().toString();
             item.setAttached(ORIGIN_TOKEN, token);
+        } else if (spawner.getType() == EntityTypes.BLAZE && item.getItem().is(Items.BLAZE_ROD)) {
+            item.setAttached(GENUINE_BLAZE_ROD, Boolean.TRUE);
         }
     }
 
@@ -89,12 +93,21 @@ public final class QuestWitherSkullProvenance {
         return true;
     }
 
+    public static boolean isGenuineBlazeRod(ItemEntity item) {
+        return item != null && !item.isRemoved() && item.getItem().is(Items.BLAZE_ROD)
+                && Boolean.TRUE.equals(item.getAttached(GENUINE_BLAZE_ROD));
+    }
+
     /**
-     * Wither skull entities with tokens never merge (genuine with genuine, or genuine with ordinary).
-     * This ensures each genuine entity holds exactly one skull and one token.
+     * Wither skull entities with tokens never merge. Blaze rod entities merge only when both share the
+     * same genuine-drop provenance so player-dropped blaze rods cannot inherit mob-drop provenance.
      */
     public static boolean mayMerge(ItemEntity a, ItemEntity b) {
-        return getToken(a) == null && getToken(b) == null;
+        if (getToken(a) != null || getToken(b) != null) return false;
+        if (a.getItem().is(Items.BLAZE_ROD) || b.getItem().is(Items.BLAZE_ROD)) {
+            return isGenuineBlazeRod(a) == isGenuineBlazeRod(b);
+        }
+        return true;
     }
 
     public static void consumeToken(ItemEntity item) {

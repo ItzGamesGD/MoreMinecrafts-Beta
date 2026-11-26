@@ -1,11 +1,14 @@
 package dev.itzgamesgd.moreminecrafts.progression;
 
 import dev.itzgamesgd.moreminecrafts.registry.ModMenuTypes;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.player.*;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.EnchantingTableBlock;
 
 /** Vanilla container transport; the client only requests actions, never XP amounts or rolled values. */
 public final class EnchantingProgressionMenu extends AbstractContainerMenu {
@@ -26,7 +29,21 @@ public final class EnchantingProgressionMenu extends AbstractContainerMenu {
         if(action==0||action==1){mode.set(action);broadcastChanges();return true;}
         boolean changed=false;
         if(action==2 && mode()==1)changed=T1Operations.apply(player,inputs.getItem(0),inputs.getItem(1),player.getRandom()::nextDouble);
-        else if(action>=100&&action<200&&mode()==0){int index=action-100;var tree=tree();if(index<tree.size())changed=T1Operations.purchase(player,inputs.getItem(0),tree.get(index).id());}
+        else if(action>=100&&action<200&&mode()==0){
+            int index=action-100;var tree=tree();
+            if(index<tree.size()) {
+                changed=T1Operations.purchase(player,inputs.getItem(0),tree.get(index).id());
+                if(changed && player instanceof ServerPlayer serverPlayer) {
+                    access.execute((level, tablePos) -> {
+                        int bookshelves = 0;
+                        for (BlockPos offset : EnchantingTableBlock.BOOKSHELF_OFFSETS) {
+                            if (EnchantingTableBlock.isValidBookShelf(level, tablePos, offset)) bookshelves++;
+                        }
+                        if (bookshelves >= 15) XpQuestHooks.enchantedWithBookshelves(serverPlayer);
+                    });
+                }
+            }
+        }
         else if(action>=200&&action<300&&mode()==1){int index=action-200;var tree=tree();if(index<tree.size())changed=T1Operations.reset(player,inputs.getItem(0),tree.get(index).id());}
         if(changed){inputs.setChanged();broadcastChanges();}return changed;
     }

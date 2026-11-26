@@ -110,4 +110,20 @@ public final class KnowledgeEventRules {
         int separator = id.indexOf(':');
         return id.substring(separator + 1).startsWith("strong_");
     }
+
+    public static boolean isExtendedPotionId(String id) {
+        if (id == null) return false;
+        int separator = id.indexOf(':');
+        return id.substring(separator + 1).startsWith("long_");
+    }
+
+    public static Optional<String> potionFamilyBase(String id) {
+        if (id == null) return Optional.empty();
+        int separator = id.indexOf(':');
+        String prefix = separator >= 0 ? id.substring(0, separator + 1) : "";
+        String path = separator >= 0 ? id.substring(separator + 1) : id;
+        if (path.startsWith("strong_")) return Optional.of(prefix + path.substring("strong_".length()));
+        if (path.startsWith("long_")) return Optional.of(prefix + path.substring("long_".length()));
+        return Optional.empty();
+    }
 }
