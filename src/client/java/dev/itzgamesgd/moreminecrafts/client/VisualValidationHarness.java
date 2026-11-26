@@ -707,7 +707,7 @@ public final class VisualValidationHarness {
             }
             case 170 -> {
                 // Reference captures of the current enchanting and anvil screens (no server data; synthetic empty menus).
-                if (!takeCapture()) return;
+                // Stage 7 queued no screenshot, so there is no completion to wait for here.
                 try {
                     client.gui.setScreen(null);
                     var inventory = client.player.getInventory();
