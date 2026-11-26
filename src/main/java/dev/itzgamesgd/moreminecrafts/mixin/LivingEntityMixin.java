@@ -80,6 +80,16 @@ abstract class LivingEntityMixin {
                 double bonus = dev.itzgamesgd.moreminecrafts.progression.ResearchAxeCombatRuntime.damageBonus(attacker);
                 incomingDamage = (float) dev.itzgamesgd.moreminecrafts.progression.ResearchPassiveMath
                         .scaleByBonus(incomingDamage, bonus);
+                double smashBonus = dev.itzgamesgd.moreminecrafts.progression.ResearchCombatV4Runtime
+                        .consumeFallingAxeSmash(attacker, (LivingEntity) (Object) this);
+                if (smashBonus > 0.0D) incomingDamage = (float) dev.itzgamesgd.moreminecrafts.progression.ResearchPassiveMath
+                        .scaleByBonus(incomingDamage, smashBonus);
+            }
+            if (source.getDirectEntity() == attacker) {
+                double counterBonus = dev.itzgamesgd.moreminecrafts.progression.ResearchCombatV4Runtime
+                        .consumeShieldCounter(attacker, (LivingEntity) (Object) this);
+                if (counterBonus > 0.0D) incomingDamage = (float) dev.itzgamesgd.moreminecrafts.progression.ResearchPassiveMath
+                        .scaleByBonus(incomingDamage, counterBonus);
             }
         }
         if (!((Object) this instanceof ServerPlayer player) || source.is(DamageTypeTags.BYPASSES_ARMOR)) {

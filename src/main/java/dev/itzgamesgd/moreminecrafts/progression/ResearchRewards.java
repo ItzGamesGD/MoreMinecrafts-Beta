@@ -53,7 +53,28 @@ public final class ResearchRewards {
             Map.entry("piglin_trading", List.of(new Effect("piglin_structured_trade", Kind.DEVICE_ELIGIBILITY, 1.0, 1))),
             Map.entry("piglin_trading_2", List.of(new Effect("piglin_structured_trade_expansion", Kind.DEVICE_ELIGIBILITY, 1.0, 1))),
             Map.entry("piglin_barter", List.of(new Effect("piglin_barter_improvement", Kind.OPERATION_IMPROVEMENT, 1.0, 1))),
-            Map.entry("throwable_pickaxe", List.of(new Effect("throwable_pickaxe", Kind.OPERATION_IMPROVEMENT, 1.0, 1)))
+            Map.entry("throwable_pickaxe", List.of(new Effect("throwable_pickaxe", Kind.OPERATION_IMPROVEMENT, 1.0, 1))),
+            Map.entry("v3.research.24", List.of(new Effect("auto_farm_operation", Kind.DEVICE_ELIGIBILITY, 1.0, 1))),
+            Map.entry("v3.research.26", List.of(new Effect("fish_trap_interval", Kind.OPERATION_IMPROVEMENT, 1.0, 1))),
+            Map.entry("v3.research.41", List.of(new Effect("slime_split_prevention", Kind.OPERATION_IMPROVEMENT, 1.0, 1))),
+            Map.entry("v3.research.53", List.of(new Effect("villager_trading", Kind.OPERATION_IMPROVEMENT, 1.0, 3))),
+            Map.entry("v3.research.59", List.of(new Effect("brewing_speed", Kind.PASSIVE_PERCENT, 0.15, 3))),
+            Map.entry("v3.research.60", List.of(new Effect("potion_study", Kind.OPERATION_IMPROVEMENT, 1.0, 3))),
+            Map.entry("v3.research.66", List.of(new Effect("advanced_brewing_fuel", Kind.OPERATION_IMPROVEMENT, 1.0, 1))),
+            Map.entry("v3.research.13", List.of(new Effect("chest_sort", Kind.OPERATION_IMPROVEMENT, 1.0, 1))),
+            Map.entry("v3.research.14", List.of(new Effect("crop_cultivation_extra", Kind.OPERATION_IMPROVEMENT, 0.0, 5))),
+            Map.entry("v3.research.36", List.of(new Effect("zombie_reinforcement_reduction", Kind.PASSIVE_PERCENT, 0.25, 3))),
+            Map.entry("v3.research.37", List.of(new Effect("skeleton_aim_reset", Kind.OPERATION_IMPROVEMENT, 0.0, 3))),
+            Map.entry("v3.research.42", List.of(new Effect("illager_speed_reduction", Kind.PASSIVE_PERCENT, 0.12, 1))),
+            Map.entry("v3.research.43", List.of(new Effect("piglin_anger_prevention", Kind.OPERATION_IMPROVEMENT, 0.0, 3))),
+            Map.entry("v3.research.46", List.of(new Effect("rare_mob_damage", Kind.OPERATION_IMPROVEMENT, 0.0, 3))),
+            Map.entry("v3.research.52", List.of(new Effect("archaeology_study", Kind.OPERATION_IMPROVEMENT, 0.0, 3))),
+            Map.entry("v3.research.54", List.of(new Effect("piglin_barter_rare_weight", Kind.PASSIVE_PERCENT, 0.05, 3))),
+            Map.entry("v3.research.63", List.of(new Effect("magical_material_extra", Kind.PASSIVE_PERCENT, 0.10, 3))),
+            Map.entry("v3.research.65", List.of(new Effect("catalyst_preservation", Kind.PASSIVE_PERCENT, 0.05, 3))),
+            Map.entry("v3.research.68", List.of(new Effect("potion_mixing", Kind.OPERATION_IMPROVEMENT, 1.0, 1))),
+            Map.entry("v3.research.69", List.of(new Effect("brewing_process_control", Kind.OPERATION_IMPROVEMENT, 1.0, 1))),
+            Map.entry("v3.research.70", List.of(new Effect("potion_concentration", Kind.OPERATION_IMPROVEMENT, 1.0, 1)))
     );
 
     private ResearchRewards() {}

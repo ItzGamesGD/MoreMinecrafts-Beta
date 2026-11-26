@@ -129,7 +129,9 @@
       "dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryRestartGameTests",
       "dev.itzgamesgd.moreminecrafts.mob.sky.SkyVariantMobGameTests",
       "dev.itzgamesgd.moreminecrafts.mob.pyramid.PyramidMobGameTests",
-      "dev.itzgamesgd.moreminecrafts.trade.PiglinTradeGameTests"
+      "dev.itzgamesgd.moreminecrafts.trade.PiglinTradeGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.ResearchStage23BHandlersGameTests",
+      "dev.itzgamesgd.moreminecrafts.progression.ResearchStage3HandlersGameTests"
     ],
     "fabric-client-gametest": [
       "dev.itzgamesgd.moreminecrafts.pillagerhq.St03NaturalClientCapture",

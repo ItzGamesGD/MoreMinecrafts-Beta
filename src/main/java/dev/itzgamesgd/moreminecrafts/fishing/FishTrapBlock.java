@@ -41,6 +41,10 @@ public final class FishTrapBlock extends BaseEntityBlock {
     @Override public void setPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
         super.setPlacedBy(level, pos, state, placer, stack);
         level.setBlock(pos.relative(state.getValue(FACING)), state.setValue(PART, BedPart.HEAD), 3);
+        if (!level.isClientSide() && placer instanceof net.minecraft.server.level.ServerPlayer serverPlayer
+                && level.getBlockEntity(primary(pos, state)) instanceof FishTrapBlockEntity trap) {
+            trap.recordPlaced(serverPlayer.getUUID());
+        }
     }
 
     private static BlockPos primary(BlockPos pos, BlockState state) {
@@ -49,8 +53,12 @@ public final class FishTrapBlock extends BaseEntityBlock {
 
     @Override protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos,
                                                           Player player, BlockHitResult hit) {
-        if (!level.isClientSide() && level.getBlockEntity(primary(pos, state)) instanceof FishTrapBlockEntity trap)
+        if (!level.isClientSide() && level.getBlockEntity(primary(pos, state)) instanceof FishTrapBlockEntity trap) {
+            if (player instanceof net.minecraft.server.level.ServerPlayer serverPlayer) {
+                trap.recordInteracted(serverPlayer.getUUID());
+            }
             player.openMenu(trap);
+        }
         return InteractionResult.SUCCESS;
     }
 

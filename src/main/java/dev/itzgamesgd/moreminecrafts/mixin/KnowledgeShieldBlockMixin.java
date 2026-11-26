@@ -18,7 +18,9 @@ abstract class KnowledgeShieldBlockMixin {
             float blockedDamage, boolean fullyBlocked, CallbackInfo ci) {
         Object self = this;
         if (blockedDamage > 0.0F && self instanceof ServerPlayer player
-                && player.getItemBlockingWith().getItem() instanceof ShieldItem)
+                && player.getItemBlockingWith().getItem() instanceof ShieldItem) {
             KnowledgeEventCollectors.shieldBlocked(player);
+            dev.itzgamesgd.moreminecrafts.progression.ResearchCombatV4Runtime.onShieldBlocked(player);
+        }
     }
 }

@@ -16,5 +16,9 @@ abstract class QuestWitherSkullSpawnMixin {
             net.minecraft.world.item.ItemStack stack, net.minecraft.world.phys.Vec3 offset,
             CallbackInfoReturnable<ItemEntity> cir) {
         QuestWitherSkullProvenance.spawned((Entity) (Object) this, cir.getReturnValue());
+        if (cir.getReturnValue() != null) {
+            dev.itzgamesgd.moreminecrafts.progression.ResearchContentRuntime
+                    .tryBonusMagicalMobDrop((Entity) (Object) this, level, stack);
+        }
     }
 }

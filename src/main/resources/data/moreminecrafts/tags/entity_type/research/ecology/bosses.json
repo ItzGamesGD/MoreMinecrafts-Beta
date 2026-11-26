@@ -1,1 +1,10 @@
-{"replace": false, "values": ["minecraft:ender_dragon", "minecraft:wither"]}
+{
+  "replace": false,
+  "values": [
+    "minecraft:ender_dragon",
+    "minecraft:wither",
+    "moreminecrafts:tomb_guardian",
+    "moreminecrafts:immortal_gladiator",
+    "moreminecrafts:mother_spider"
+  ]
+}

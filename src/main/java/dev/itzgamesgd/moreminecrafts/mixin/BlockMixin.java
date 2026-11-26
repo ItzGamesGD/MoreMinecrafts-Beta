@@ -28,6 +28,10 @@ abstract class BlockMixin {
         if (entity instanceof ServerPlayer player) {
             drops = dev.itzgamesgd.moreminecrafts.progression.ResearchContentRuntime
                     .applySeedHarvestResearch(player, state, drops);
+            drops = dev.itzgamesgd.moreminecrafts.progression.ResearchContentRuntime
+                    .applyCropCultivationResearch(player, state, drops);
+            drops = dev.itzgamesgd.moreminecrafts.progression.ResearchContentRuntime
+                    .applyMagicalMaterialBlockResearch(player, state, drops);
             drops = dev.itzgamesgd.moreminecrafts.progression.SoilStudyRuntime
                     .applySeedYield(player, state, vanillaDrops, drops);
             // Lumbering extra logs enter the one enchantment pass alongside vanilla drops.

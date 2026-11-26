@@ -39,6 +39,7 @@ public final class ModRegistries {
         dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime.initialize();
         dev.itzgamesgd.moreminecrafts.progression.XpQuestTracking.initialize();
         dev.itzgamesgd.moreminecrafts.progression.ResearchMovementRuntime.initialize();
+        dev.itzgamesgd.moreminecrafts.progression.ResearchCombatV4Runtime.initialize();
         dev.itzgamesgd.moreminecrafts.progression.ResearchDebugCommands.initialize();
         ModItems.initialize();
         T2CoreAcquisition.initialize();

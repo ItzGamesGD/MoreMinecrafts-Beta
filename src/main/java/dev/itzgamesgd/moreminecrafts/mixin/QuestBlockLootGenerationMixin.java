@@ -20,5 +20,7 @@ interface QuestBlockLootGenerationMixin {
         original.call(trigger, player, table);
         RandomizableContainer container = (RandomizableContainer) this;
         QuestStructureLoot.blockGenerated(player, table, container.getLevel(), container.getBlockPos());
+        dev.itzgamesgd.moreminecrafts.progression.ResearchWorldLootRuntime
+                .applyArchaeologyChestBonus(player, table, container);
     }
 }

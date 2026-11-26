@@ -132,6 +132,12 @@ public final class KnowledgeEventCollectors {
         PIGLIN_OFFERERS.put(piglin, player.getUUID());
     }
 
+    public static ServerPlayer peekPiglinOfferer(Piglin piglin) {
+        UUID offerer = PIGLIN_OFFERERS.get(piglin);
+        return offerer == null || !(piglin.level() instanceof ServerLevel level)
+                ? null : level.getServer().getPlayerList().getPlayer(offerer);
+    }
+
     public static void completePiglinBarter(Piglin piglin) {
         UUID offerer = PIGLIN_OFFERERS.remove(piglin);
         ServerPlayer player = offerer == null || !(piglin.level() instanceof ServerLevel level)

@@ -16,6 +16,7 @@ public final class LowerEquipmentRules {
     public static final int[] BACKPACK_CAPACITIES = {9, 27, 54};
     public static final int FISH_TRAP_SLOTS = 9;
     public static final int FISH_TRAP_INTERVAL_TICKS = 5 * 60 * 20;
+    public static final int FISH_TRAP_IMPROVED_INTERVAL_TICKS = (3 * 60 + 30) * 20;
     public static final float DAGGER_REACH = 2.5F;
     public static final float GREATSWORD_REACH = 3.75F;
     public static final double GREATSWORD_SWEEP_HALF_WIDTH = 1.5D;
@@ -49,9 +50,17 @@ public final class LowerEquipmentRules {
                 && Math.abs(lateral) <= GAUNTLET_REGION_WIDTH / 2.0D;
     }
 
+    public static int fishTrapIntervalTicks(int researchLevel) {
+        return researchLevel > 0 ? FISH_TRAP_IMPROVED_INTERVAL_TICKS : FISH_TRAP_INTERVAL_TICKS;
+    }
+
     public static int advanceFishTrapTimer(int currentTicks, boolean full) {
+        return advanceFishTrapTimer(currentTicks, full, FISH_TRAP_INTERVAL_TICKS);
+    }
+
+    public static int advanceFishTrapTimer(int currentTicks, boolean full, int intervalTicks) {
         if (full) return currentTicks;
-        return Math.min(FISH_TRAP_INTERVAL_TICKS, Math.max(0, currentTicks) + 1);
+        return Math.min(Math.max(1, intervalTicks), Math.max(0, currentTicks) + 1);
     }
 
     private LowerEquipmentRules() {}

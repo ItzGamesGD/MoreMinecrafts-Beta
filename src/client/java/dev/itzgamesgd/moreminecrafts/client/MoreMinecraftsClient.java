@@ -95,6 +95,16 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
                     // Resolve any missed/out-of-order progression deltas before refreshing visible data.
                     ProgressionClientApi.requestSnapshot();
                 }));
+        ClientPlayNetworking.registerGlobalReceiver(dev.itzgamesgd.moreminecrafts.network.HopperFilterSyncPayload.TYPE,
+                (payload, context) -> context.client().execute(() ->
+                        ProgressionClientApi.setHopperFilterState(payload.toState())));
+        ClientPlayNetworking.registerGlobalReceiver(dev.itzgamesgd.moreminecrafts.network.BrewingResearchSyncPayload.TYPE,
+                (payload, context) -> context.client().execute(() ->
+                        ProgressionClientApi.setBrewingAutoStatus(
+                                payload.autoEnabled(), payload.queuedCount(), payload.outputCount())));
+        ClientPlayNetworking.registerGlobalReceiver(dev.itzgamesgd.moreminecrafts.network.NearbyChestSyncPayload.TYPE,
+                (payload, context) -> context.client().execute(() ->
+                        ProgressionClientApi.setNearbyChestEntries(payload.entries())));
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> ProgressionClientApi.requestSnapshot());
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
             ProgressionClientApi.reset();

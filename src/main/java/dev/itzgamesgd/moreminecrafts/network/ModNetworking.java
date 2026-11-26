@@ -22,11 +22,34 @@ public final class ModNetworking {
         PayloadTypeRegistry.serverboundPlay().register(ResearchPurchaseRequestPayload.TYPE, ResearchPurchaseRequestPayload.CODEC);
         PayloadTypeRegistry.serverboundPlay().register(QuestClaimRequestPayload.TYPE, QuestClaimRequestPayload.CODEC);
         PayloadTypeRegistry.serverboundPlay().register(ContractActionPayload.TYPE, ContractActionPayload.CODEC);
+        PayloadTypeRegistry.serverboundPlay().register(ChestSortPayload.TYPE, ChestSortPayload.CODEC);
+        PayloadTypeRegistry.serverboundPlay().register(HopperFilterPayload.TYPE, HopperFilterPayload.CODEC);
+        PayloadTypeRegistry.serverboundPlay().register(BrewingResearchActionPayload.TYPE, BrewingResearchActionPayload.CODEC);
+        PayloadTypeRegistry.serverboundPlay().register(NearbyChestPullPayload.TYPE, NearbyChestPullPayload.CODEC);
         PayloadTypeRegistry.clientboundPlay().register(FishingChallengePayload.TYPE, FishingChallengePayload.CODEC);
         PayloadTypeRegistry.clientboundPlay().register(ProgressionSnapshotPayload.TYPE, ProgressionSnapshotPayload.CODEC);
         PayloadTypeRegistry.clientboundPlay().register(ProgressionDeltaPayload.TYPE, ProgressionDeltaPayload.CODEC);
         PayloadTypeRegistry.clientboundPlay().register(ProgressionActionResultPayload.TYPE, ProgressionActionResultPayload.CODEC);
+        PayloadTypeRegistry.clientboundPlay().register(HopperFilterSyncPayload.TYPE, HopperFilterSyncPayload.CODEC);
+        PayloadTypeRegistry.clientboundPlay().register(BrewingResearchSyncPayload.TYPE, BrewingResearchSyncPayload.CODEC);
+        PayloadTypeRegistry.clientboundPlay().register(NearbyChestSyncPayload.TYPE, NearbyChestSyncPayload.CODEC);
         dev.itzgamesgd.moreminecrafts.progression.ProgressionSyncRuntime.initialize();
+        ServerPlayNetworking.registerGlobalReceiver(ChestSortPayload.TYPE, (payload, context) ->
+                context.server().execute(() ->
+                        dev.itzgamesgd.moreminecrafts.progression.ChestSortRuntime
+                                .sortOpenChest(context.player(), payload.mode())));
+        ServerPlayNetworking.registerGlobalReceiver(HopperFilterPayload.TYPE, (payload, context) ->
+                context.server().execute(() ->
+                        dev.itzgamesgd.moreminecrafts.progression.HopperFilterRuntime
+                                .handleAction(context.player(), payload)));
+        ServerPlayNetworking.registerGlobalReceiver(BrewingResearchActionPayload.TYPE, (payload, context) ->
+                context.server().execute(() ->
+                        dev.itzgamesgd.moreminecrafts.progression.BrewingResearchRuntime
+                                .handleAction(context.player(), payload)));
+        ServerPlayNetworking.registerGlobalReceiver(NearbyChestPullPayload.TYPE, (payload, context) ->
+                context.server().execute(() ->
+                        dev.itzgamesgd.moreminecrafts.progression.NearbyChestIngredientsRuntime
+                                .pullItem(context.player(), context.player().blockPosition(), payload)));
         ServerPlayNetworking.registerGlobalReceiver(T1AirJumpPayload.TYPE, (payload, context) ->
                 context.server().execute(() -> {
                     if (!dev.itzgamesgd.moreminecrafts.accessory.T1AccessoryRuntime.onJump(context.player())
