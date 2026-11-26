@@ -152,6 +152,7 @@
       "dev.itzgamesgd.moreminecrafts.mob.pyramid.PyramidMobClientCapture",
       "dev.itzgamesgd.moreminecrafts.boss.TombGuardianClientCapture",
       "dev.itzgamesgd.moreminecrafts.boss.PiglinForgemasterClientCapture",
+      "dev.itzgamesgd.moreminecrafts.boss.BoneMobClientCapture",
       "dev.itzgamesgd.moreminecrafts.spidercolony.SpiderColonyClientCapture"
     ]
   },
