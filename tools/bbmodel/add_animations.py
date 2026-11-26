@@ -42,6 +42,33 @@ def kf(*frames):
     return [(round(f[0], 4), tuple(f[1:])) for f in frames]
 
 
+def _sample(frames, t, axis=0):
+    if not frames:
+        return 0.0
+    frames = sorted(frames)
+    if t <= frames[0][0]:
+        return frames[0][1][axis]
+    for (t0, v0), (t1, v1) in zip(frames, frames[1:]):
+        if t0 <= t <= t1:
+            return v0[axis] + (v1[axis] - v0[axis]) * ((t - t0) / (t1 - t0) if t1 > t0 else 0)
+    return frames[-1][1][axis]
+
+
+def axe_pitch(bones, desired):
+    """Keys piglin_forgemaster.axe_hold_bone so the axe's pitch in the sagittal plane follows `desired`
+    ([(t, deg)], 0 = haft upright, negative = head leaning forward) whatever the body chain does.
+    Pitch = sum of X rotations down the chain + the hold bone's rest tilt (-30) + its keyframe."""
+    chain = ("pelvis_bone", "torso_bone", "arm_upper_right_bone", "arm_lower_right_bone")
+    tracks = {b: bones.get(b, {}).get("rotation") for b in chain}
+    times = sorted({t for t, _ in desired} | {t for fr in tracks.values() if fr for t, _ in fr})
+    want = [(t, (p, 0, 0)) for t, p in desired]
+    out = []
+    for t in times:
+        total = sum(_sample(fr, t) for fr in tracks.values() if fr)
+        out.append((t, (round(_sample(want, t) - total + 30.0, 3), 0, 0)))
+    bones["axe_hold_bone"] = {"rotation": out}
+
+
 # ---------------------------------------------------------------- sky wyvern
 def wyvern():
     T = 1.2
@@ -251,44 +278,110 @@ def forgemaster():
         "loin_front_bone": {"rotation": merge(x=sine(-6, W, 0.6))},
         "loin_back_bone": {"rotation": merge(x=sine(6, W, 0.6))},
     }
-    # slam: axe over the head (0-1.0 s), crash down at 1.2 s (server windup point), recover
-    slam = {
-        "pelvis_bone": {"position": kf((0, 0, 0, 0), (1.0, 0, 1.2, 1), (1.2, 0, -2.2, -2), (1.7, 0, -2.2, -2), (2.4, 0, 0, 0))},
-        "torso_bone": {"rotation": kf((0, 0, 0, 0), (1.0, 14, 0, 0), (1.2, -34, 0, 0), (1.7, -34, 0, 0), (2.4, 0, 0, 0))},
-        "arm_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (1.0, 168, 0, -8), (1.2, 40, 0, -4), (1.7, 40, 0, -4), (2.4, 0, 0, 0))},
-        "arm_lower_right_bone": {"rotation": kf((0, 0, 0, 0), (1.0, 20, 0, 0), (1.2, 0, 0, 0), (2.4, 0, 0, 0))},
-        "arm_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (1.0, 130, 0, 10), (1.2, 40, 0, 6), (1.7, 40, 0, 6), (2.4, 0, 0, 0))},
-        "arm_lower_left_bone": {"rotation": kf((0, 0, 0, 0), (1.0, 14, 0, 0), (1.2, 0, 0, 0), (2.4, 0, 0, 0))},
-        "head_bone": {"rotation": kf((0, 0, 0, 0), (1.0, 14, 0, 0), (1.2, -18, 0, 0), (2.4, 0, 0, 0))},
-        "leg_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (1.2, 24, 0, 0), (2.4, 0, 0, 0))},
-        "leg_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (1.2, -12, 0, 0), (2.4, 0, 0, 0))},
-        "leg_lower_right_bone": {"rotation": kf((0, 0, 0, 0), (1.0, 10, 0, 0), (1.2, 0, 0, 0))},
+    # ---- authority: docs/planning/boss_sync_2026-11-15 (U-01): basic melee overhead chop (dmg 12), skill 1 diagonal
+    # fan slash, skill 2 ground slam -> fissure telegraph -> fire pillars, skill 3 furnace flame (core opens, 2 s
+    # emission), phase-2 overheat transition, 2.5 s core-exposed stagger. Times below are the server hit points.
+    shake = lambda t0, t1, amp, hz=10: [(round(t0 + i / hz, 3), (0, amp * (-1) ** i, 0)) for i in range(int((t1 - t0) * hz) + 1)]
+    attack_overhead = {  # basic: axe cocked over the head (0.5 s), chop lands at 0.75 s
+        "pelvis_bone": {"position": kf((0, 0, 0, 0), (0.5, 0, 1.0, 1), (0.75, 0, -2.5, -2), (1.0, 0, -2.5, -2), (1.3, 0, 0, 0))},
+        "torso_bone": {"rotation": kf((0, 0, 0, 0), (0.5, 12, 0, 0), (0.75, -30, 0, 0), (1.0, -30, 0, 0), (1.3, 0, 0, 0))},
+        "arm_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (0.5, 165, 0, -8), (0.75, 45, 0, -4), (1.0, 45, 0, -4), (1.3, 0, 0, 0))},
+        "arm_lower_right_bone": {"rotation": kf((0, 0, 0, 0), (0.5, 25, 0, 0), (0.75, 0, 0, 0), (1.3, 0, 0, 0))},
+        "arm_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (0.5, 120, 0, 10), (0.75, 35, 0, 6), (1.0, 35, 0, 6), (1.3, 0, 0, 0))},
+        "head_bone": {"rotation": kf((0, 0, 0, 0), (0.5, 14, 0, 0), (0.75, -16, 0, 0), (1.3, 0, 0, 0))},
+        "leg_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (0.75, 22, 0, 0), (1.3, 0, 0, 0))},
+        "leg_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (0.75, -10, 0, 0), (1.3, 0, 0, 0))},
     }
-    # sweep: cock the axe out to the right (0.8 s), wide horizontal arc to the left at 1.0 s
-    sweep = {
-        "torso_bone": {"rotation": kf((0, 0, 0, 0), (0.8, -4, -38, 0), (1.0, -6, 55, 0), (1.3, -6, 55, 0), (1.9, 0, 0, 0))},
-        "arm_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (0.8, 88, -62, 14), (1.0, 92, 70, 0), (1.3, 92, 70, 0), (1.9, 0, 0, 0))},
-        "arm_lower_right_bone": {"rotation": kf((0, 0, 0, 0), (0.8, 12, 0, 0), (1.0, 0, 0, 0), (1.9, 0, 0, 0))},
-        "arm_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (0.8, 26, 0, -22), (1.0, 18, 0, -8), (1.9, 0, 0, 0))},
-        "head_bone": {"rotation": kf((0, 0, 0, 0), (0.8, 0, 22, 0), (1.0, 0, -40, 0), (1.3, 0, -40, 0), (1.9, 0, 0, 0))},
-        "pelvis_bone": {"rotation": kf((0, 0, 0, 0), (0.8, 0, -10, 0), (1.0, 0, 16, 0), (1.9, 0, 0, 0))},
-        "leg_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (1.0, 12, 0, 0), (1.9, 0, 0, 0))},
+    axe_pitch(attack_overhead, [(0, -30), (0.5, 55), (0.75, -95), (1.0, -95), (1.3, -30)])
+    attack_cleave = {  # basic variant: body winds right, short diagonal chop across to the left at 0.6 s
+        "torso_bone": {"rotation": kf((0, 0, 0, 0), (0.45, 6, -35, 0), (0.6, -16, 40, 0), (0.8, -16, 40, 0), (1.1, 0, 0, 0))},
+        "pelvis_bone": {"rotation": kf((0, 0, 0, 0), (0.45, 0, -12, 0), (0.6, 0, 14, 0), (1.1, 0, 0, 0)),
+                        "position": kf((0, 0, 0, 0), (0.6, 0, -1.5, -1), (0.8, 0, -1.5, -1), (1.1, 0, 0, 0))},
+        "arm_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (0.45, 140, 0, 28), (0.6, 62, 0, -8), (0.8, 62, 0, -8), (1.1, 0, 0, 0))},
+        "arm_lower_right_bone": {"rotation": kf((0, 0, 0, 0), (0.45, 22, 0, 0), (0.6, 0, 0, 0), (1.1, 0, 0, 0))},
+        "arm_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (0.45, 30, 0, -24), (0.6, 20, 0, -10), (1.1, 0, 0, 0))},
+        "head_bone": {"rotation": kf((0, 0, 0, 0), (0.45, 0, 24, 0), (0.6, 0, -34, 0), (0.8, 0, -34, 0), (1.1, 0, 0, 0))},
+        "leg_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (0.6, 16, 0, 0), (1.1, 0, 0, 0))},
     }
-    # enrage: the core door swings open, head back, arms flung wide, torso shakes (roar 0.4-2.0 s), close and settle
-    shake = [(round(0.4 + 0.1 * i, 3), (0, 0.45 * (-1) ** i, 0)) for i in range(17)]
-    enrage = {
-        "torso_bone": {"rotation": kf((0, 0, 0, 0), (0.4, 14, 0, 0), (2.0, 14, 0, 0), (2.6, 0, 0, 0)),
-                       "position": [(0, (0, 0, 0))] + shake + [(2.6, (0, 0, 0))]},
-        "head_bone": {"rotation": kf((0, 0, 0, 0), (0.4, 32, 0, 0), (2.0, 32, 0, 0), (2.6, 0, 0, 0))},
-        "arm_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (0.4, 20, 0, 70), (2.0, 20, 0, 70), (2.6, 0, 0, 0))},
-        "arm_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (0.4, 20, 0, -70), (2.0, 20, 0, -70), (2.6, 0, 0, 0))},
-        "arm_lower_right_bone": {"rotation": kf((0, 0, 0, 0), (0.4, 24, 0, 0), (2.0, 24, 0, 0), (2.6, 0, 0, 0))},
-        "arm_lower_left_bone": {"rotation": kf((0, 0, 0, 0), (0.4, 24, 0, 0), (2.0, 24, 0, 0), (2.6, 0, 0, 0))},
-        "core_door_bone": {"rotation": kf((0, 0, 0, 0), (0.4, 0, -105, 0), (2.0, 0, -105, 0), (2.6, 0, 0, 0))},
-        "pelvis_bone": {"position": kf((0, 0, 0, 0), (0.4, 0, -0.8, 0), (2.0, 0, -0.8, 0), (2.6, 0, 0, 0))},
-        "leg_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (0.4, 0, 0, 10), (2.6, 0, 0, 0))},
-        "leg_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (0.4, 0, 0, -10), (2.6, 0, 0, 0))},
+    axe_pitch(attack_cleave, [(0, -30), (0.45, 40), (0.6, -80), (0.8, -80), (1.1, -30)])
+    skill_slash = {  # skill 1: big wind-up to the back right (1.2 s), diagonal fan slash high-right -> low-left at 1.4 s
+        "torso_bone": {"rotation": kf((0, 0, 0, 0), (1.2, 8, -62, 0), (1.4, -26, 70, 0), (1.9, -26, 70, 0), (2.5, 0, 0, 0))},
+        "pelvis_bone": {"rotation": kf((0, 0, 0, 0), (1.2, 0, -18, 0), (1.4, 0, 22, 0), (1.9, 0, 22, 0), (2.5, 0, 0, 0)),
+                        "position": kf((0, 0, 0, 0), (1.2, 0, -1.5, 0), (1.4, 0, -3, -2), (1.9, 0, -3, -2), (2.5, 0, 0, 0))},
+        "arm_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (1.2, 150, 0, 34), (1.4, 50, 0, -22), (1.9, 50, 0, -22), (2.5, 0, 0, 0))},
+        "arm_lower_right_bone": {"rotation": kf((0, 0, 0, 0), (1.2, 26, 0, 0), (1.4, 0, 0, 0), (2.5, 0, 0, 0))},
+        "arm_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (1.2, 40, 0, -30), (1.4, 18, 0, -12), (2.5, 0, 0, 0))},
+        "head_bone": {"rotation": kf((0, 0, 0, 0), (1.2, 0, 30, 0), (1.4, 0, -44, 0), (1.9, 0, -44, 0), (2.5, 0, 0, 0))},
+        "leg_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (1.4, 28, 0, 0), (1.9, 28, 0, 0), (2.5, 0, 0, 0))},
+        "leg_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (1.2, -14, 0, 0), (1.4, -22, 0, 0), (2.5, 0, 0, 0))},
     }
+    axe_pitch(skill_slash, [(0, -30), (1.2, 50), (1.4, -85), (1.9, -85), (2.5, -30)])
+    skill_quake = {  # skill 2: axe overhead (1.2 s), slammed into the floor at 1.4 s, held while the fissure telegraphs,
+        # fire pillars erupt at 2.6 s (end of the hold), then the axe is wrenched out
+        "pelvis_bone": {"position": kf((0, 0, 0, 0), (1.2, 0, 1.5, 1), (1.4, 0, -4, -3), (2.6, 0, -4, -3), (3.3, 0, 0, 0))},
+        "torso_bone": {"rotation": kf((0, 0, 0, 0), (1.2, 14, 0, 0), (1.4, -38, 0, 0), (2.6, -38, 0, 0), (3.3, 0, 0, 0)),
+                       "position": [(0, (0, 0, 0)), (1.4, (0, 0, 0))] + [(t, (0, 0, v[1])) for t, v in shake(1.4, 2.6, 0.35)] + [(2.6, (0, 0, 0)), (3.3, (0, 0, 0))]},
+        "arm_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (1.2, 172, 0, -6), (1.4, 58, 0, -2), (2.6, 58, 0, -2), (3.3, 0, 0, 0))},
+        "arm_lower_right_bone": {"rotation": kf((0, 0, 0, 0), (1.2, 28, 0, 0), (1.4, 0, 0, 0), (2.6, 0, 0, 0), (3.3, 0, 0, 0))},
+        "arm_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (1.2, 140, 0, 12), (1.4, 48, 0, 6), (2.6, 48, 0, 6), (3.3, 0, 0, 0))},
+        "head_bone": {"rotation": kf((0, 0, 0, 0), (1.2, 18, 0, 0), (1.4, -24, 0, 0), (2.6, -24, 0, 0), (3.3, 0, 0, 0))},
+        "leg_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (1.4, 26, 0, 8), (2.6, 26, 0, 8), (3.3, 0, 0, 0))},
+        "leg_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (1.4, -14, 0, -8), (2.6, -14, 0, -8), (3.3, 0, 0, 0))},
+    }
+    axe_pitch(skill_quake, [(0, -30), (1.2, 62), (1.4, -92), (2.6, -92), (3.3, -30)])
+    skill_furnace = {  # skill 3: axe planted upright in front (0.8 s), core door opens, 2 s of flame (1.0-3.0 s), door shuts, axe pulled back
+        "pelvis_bone": {"position": kf((0, 0, 0, 0), (0.8, 0, -3, -2), (3.2, 0, -3, -2), (4.0, 0, 0, 0))},
+        "torso_bone": {"rotation": kf((0, 0, 0, 0), (0.8, -12, 0, 0), (1.0, -8, 0, 0), (3.0, -8, 0, 0), (4.0, 0, 0, 0)),
+                       "position": [(0, (0, 0, 0)), (1.0, (0, 0, 0))] + [(t, (0, 0, v[1])) for t, v in shake(1.0, 3.0, 0.3, 12)] + [(3.2, (0, 0, 0)), (4.0, (0, 0, 0))]},
+        "arm_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (0.8, 52, 0, -6), (3.2, 52, 0, -6), (4.0, 0, 0, 0))},
+        "arm_lower_right_bone": {"rotation": kf((0, 0, 0, 0), (0.8, 10, 0, 0), (3.2, 10, 0, 0), (4.0, 0, 0, 0))},
+        "arm_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (0.8, 18, 0, -34), (3.0, 18, 0, -42), (4.0, 0, 0, 0))},
+        "head_bone": {"rotation": kf((0, 0, 0, 0), (0.8, 6, 0, 0), (1.0, 26, 0, 0), (3.0, 26, 0, 0), (3.4, 0, 0, 0))},
+        "core_door_bone": {"rotation": kf((0, 0, 0, 0), (0.8, 0, 0, 0), (1.0, 0, -105, 0), (3.0, 0, -105, 0), (3.3, 0, 0, 0), (4.0, 0, 0, 0))},
+        "leg_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (0.8, 8, 0, 10), (3.2, 8, 0, 10), (4.0, 0, 0, 0))},
+        "leg_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (0.8, 8, 0, -10), (3.2, 8, 0, -10), (4.0, 0, 0, 0))},
+    }
+    axe_pitch(skill_furnace, [(0, -30), (0.8, -172), (3.2, -172), (4.0, -30)])
+    overheat = {  # phase 2 (HP <= 45%): axe thrust skyward, roar, whole body shaking while the armour glows (texture overlay is separate)
+        "pelvis_bone": {"position": kf((0, 0, 0, 0), (0.5, 0, -1.5, 0), (2.4, 0, -1.5, 0), (3.0, 0, 0, 0))},
+        "torso_bone": {"rotation": kf((0, 0, 0, 0), (0.5, 16, 0, 0), (2.4, 16, 0, 0), (3.0, 0, 0, 0)),
+                       "position": [(0, (0, 0, 0)), (0.5, (0, 0, 0))] + [(t, (0, 0, v[1])) for t, v in shake(0.5, 2.4, 0.4, 14)] + [(3.0, (0, 0, 0))]},
+        "head_bone": {"rotation": kf((0, 0, 0, 0), (0.5, 34, 0, 0), (2.4, 34, 0, 0), (3.0, 0, 0, 0))},
+        "arm_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (0.5, 160, 0, 16), (2.4, 160, 0, 16), (3.0, 0, 0, 0))},
+        "arm_lower_right_bone": {"rotation": kf((0, 0, 0, 0), (0.5, 16, 0, 0), (2.4, 16, 0, 0), (3.0, 0, 0, 0))},
+        "arm_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (0.5, 40, 0, -78), (2.4, 40, 0, -78), (3.0, 0, 0, 0))},
+        "arm_lower_left_bone": {"rotation": kf((0, 0, 0, 0), (0.5, 24, 0, 0), (2.4, 24, 0, 0), (3.0, 0, 0, 0))},
+        "leg_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (0.5, 0, 0, 12), (2.4, 0, 0, 12), (3.0, 0, 0, 0))},
+        "leg_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (0.5, 0, 0, -12), (2.4, 0, 0, -12), (3.0, 0, 0, 0))},
+    }
+    axe_pitch(overheat, [(0, -30), (0.5, 8), (2.4, 8), (3.0, -30)])
+    stagger = {  # overheat recovery: 2.5 s hunched and rigid with the core door open (takes 1.5x damage)
+        "pelvis_bone": {"position": kf((0, 0, 0, 0), (0.3, 0, -4, 0), (2.2, 0, -4, 0), (2.5, 0, 0, 0))},
+        "torso_bone": {"rotation": kf((0, 0, 0, 0), (0.3, -34, 0, 0), (2.2, -34, 0, 0), (2.5, 0, 0, 0)),
+                       "position": [(0, (0, 0, 0)), (0.3, (0, 0, 0))] + [(t, (0, 0, v[1])) for t, v in shake(0.3, 2.2, 0.18, 8)] + [(2.5, (0, 0, 0))]},
+        "head_bone": {"rotation": kf((0, 0, 0, 0), (0.3, -22, 0, 0), (2.2, -22, 0, 0), (2.5, 0, 0, 0))},
+        "core_door_bone": {"rotation": kf((0, 0, 0, 0), (0.3, 0, -105, 0), (2.2, 0, -105, 0), (2.5, 0, 0, 0))},
+        "arm_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (0.3, 30, 0, 12), (2.2, 30, 0, 12), (2.5, 0, 0, 0))},
+        "arm_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (0.3, 24, 0, -14), (2.2, 24, 0, -14), (2.5, 0, 0, 0))},
+        "leg_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (0.3, 28, 0, 8), (2.2, 28, 0, 8), (2.5, 0, 0, 0))},
+        "leg_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (0.3, 20, 0, -8), (2.2, 20, 0, -8), (2.5, 0, 0, 0))},
+        "leg_lower_right_bone": {"rotation": kf((0, 0, 0, 0), (0.3, -24, 0, 0), (2.2, -24, 0, 0), (2.5, 0, 0, 0))},
+        "leg_lower_left_bone": {"rotation": kf((0, 0, 0, 0), (0.3, -18, 0, 0), (2.2, -18, 0, 0), (2.5, 0, 0, 0))},
+    }
+    axe_pitch(stagger, [(0, -30), (0.3, -62), (2.2, -62), (2.5, -30)])
+    leap_slam = {  # extra (not in the authority doc): crouch, leap over 1 s, overhead chop on landing at 1.6 s
+        "pelvis_bone": {"position": kf((0, 0, 0, 0), (0.5, 0, -5, 0), (0.7, 0, 4, -2), (1.0, 0, 32, -4), (1.15, 0, 34, -4), (1.55, 0, 0, 0), (1.7, 0, -3, -2), (2.4, 0, 0, 0))},
+        "torso_bone": {"rotation": kf((0, 0, 0, 0), (0.5, -14, 0, 0), (1.0, 14, 0, 0), (1.15, 18, 0, 0), (1.6, -34, 0, 0), (1.9, -34, 0, 0), (2.4, 0, 0, 0))},
+        "arm_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (0.5, 20, 0, 0), (1.0, 168, 0, -8), (1.15, 172, 0, -8), (1.6, 48, 0, -4), (1.9, 48, 0, -4), (2.4, 0, 0, 0))},
+        "arm_lower_right_bone": {"rotation": kf((0, 0, 0, 0), (1.15, 26, 0, 0), (1.6, 0, 0, 0), (2.4, 0, 0, 0))},
+        "arm_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (0.5, 20, 0, 0), (1.0, 140, 0, 12), (1.6, 40, 0, 6), (1.9, 40, 0, 6), (2.4, 0, 0, 0))},
+        "head_bone": {"rotation": kf((0, 0, 0, 0), (1.15, 12, 0, 0), (1.6, -20, 0, 0), (2.4, 0, 0, 0))},
+        "leg_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (0.5, 36, 0, 0), (1.0, 40, 0, 0), (1.55, 14, 0, 0), (1.9, 14, 0, 0), (2.4, 0, 0, 0))},
+        "leg_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (0.5, 30, 0, 0), (1.0, 56, 0, 0), (1.55, 8, 0, 0), (1.9, 8, 0, 0), (2.4, 0, 0, 0))},
+        "leg_lower_right_bone": {"rotation": kf((0, 0, 0, 0), (0.5, -44, 0, 0), (1.0, -70, 0, 0), (1.55, -10, 0, 0), (2.4, 0, 0, 0))},
+        "leg_lower_left_bone": {"rotation": kf((0, 0, 0, 0), (0.5, -40, 0, 0), (1.0, -84, 0, 0), (1.55, -10, 0, 0), (2.4, 0, 0, 0))},
+    }
+    axe_pitch(leap_slam, [(0, -30), (0.5, -10), (1.0, 58), (1.15, 62), (1.6, -92), (1.9, -92), (2.4, -30)])
     # death: stagger, core door pops open, kneel, then pitch forward (hold)
     death = {
         "pelvis_bone": {"position": kf((0, 0, 0, 0), (0.8, 0, -8, 0), (2.2, 0, -14, -6)), "rotation": kf((0, 0, 0, 0), (0.8, 0, 0, 0), (2.2, -40, 0, 0))},
@@ -304,8 +397,11 @@ def forgemaster():
         "arm_lower_right_bone": {"rotation": kf((0, 0, 0, 0), (2.2, 20, 0, 0))},
         "loin_front_bone": {"rotation": kf((0, 0, 0, 0), (2.2, 40, 0, 0))},
     }
-    return {"walk": (W, "loop", walk), "slam": (2.4, "once", slam), "sweep": (1.9, "once", sweep),
-            "enrage": (2.6, "once", enrage), "death": (2.2, "hold", death)}
+    return {"walk": (W, "loop", walk), "attack_overhead": (1.3, "once", attack_overhead),
+            "attack_cleave": (1.1, "once", attack_cleave), "skill_slash": (2.5, "once", skill_slash),
+            "skill_quake": (3.3, "once", skill_quake), "skill_furnace": (4.0, "once", skill_furnace),
+            "overheat": (3.0, "once", overheat), "stagger": (2.5, "once", stagger),
+            "leap_slam": (2.4, "once", leap_slam), "death": (2.2, "hold", death)}
 
 
 MODELS = {
@@ -314,6 +410,10 @@ MODELS = {
     "deep_sea_poseidon": ("deep_sea_poseidon", poseidon),
     "piglin_forgemaster": ("piglin_forgemaster", forgemaster),
 }
+
+
+# animations replaced by differently named ones (removed from the bbmodel on the next run)
+OBSOLETE = {"piglin_forgemaster": ("slam", "sweep", "enrage")}
 
 
 def build_animation(model, name, length, loop, bones, groups, existing_uuid=None):
@@ -348,7 +448,8 @@ def main():
         data = json.loads(path.read_text(encoding="utf-8"))
         groups = {g["name"]: g["uuid"] for g in data["groups"]}
         new = {f"animation.{model}.{n}": build_animation(model, n, ln, lp, b, groups) for n, (ln, lp, b) in fn().items()}
-        kept = [a for a in data.get("animations", []) if a["name"] not in new]
+        obsolete = {f"animation.{model}.{n}" for n in OBSOLETE.get(key, ())}
+        kept = [a for a in data.get("animations", []) if a["name"] not in new and a["name"] not in obsolete]
         data["animations"] = kept + list(new.values())
         path.write_text(json.dumps(data, indent="\t", ensure_ascii=False), encoding="utf-8")
         print(key, [a["name"].split(".")[-1] for a in data["animations"]])
