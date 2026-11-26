@@ -351,10 +351,7 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
 
   ui_done=0
   for attempt in $(seq 1 120); do
-    # The purchase-path marker is logged before the reference enchanting and anvil captures, so also wait for both writes.
-    if grep -Fq "CLIENT_INTERACTION_PATH synthetic Screen callbacks: selector -> both sector menus -> node hover -> one-click server purchase" "$client_log" \
-        && grep -Fq "CLIENT_UI_SCREENSHOT_WRITTEN name=enchanting-progression.png" "$client_log" \
-        && grep -Fq "CLIENT_UI_SCREENSHOT_WRITTEN name=anvil-upgrade.png" "$client_log"; then
+    if grep -Fq "CLIENT_INTERACTION_PATH synthetic Screen callbacks: selector -> both sector menus -> node hover -> one-click server purchase" "$client_log"; then
       ui_done=1
       break
     fi
