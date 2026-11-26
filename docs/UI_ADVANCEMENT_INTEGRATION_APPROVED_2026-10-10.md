@@ -170,3 +170,7 @@ Owner decision (2026-11-25): the seven-sector discipline selector hub used by bo
 - Navigation, sector order, geometry of the seven sectors, and sector titles are unchanged. The Quest selector is not affected.
 
 If an asset is needed beyond the approved research kit, it is created to this grammar and recorded here.
+
+### XP Quest visual grammar — same as the Research pilot — 2026-11-26 (owner direction)
+
+Owner direction (2026-11-26): the XP Quest screens use the same visual grammar as the approved Research pilot: the research kit, the dark sheet background, and horizontal chapter lanes with one banner per chapter. The exact layout, quest-to-frame state mapping, and connector rules are not yet approved. They are proposed for owner approval before scene files are generated. Quest data, rewards, claims, and tooltips are unchanged.
