@@ -83,7 +83,7 @@ final class TombGuardianAnimations {
                     rot(0.0F, 0, 0, 0), rot(1.7F, -170, 0, -6), rot(1.85F, -170, 0, -6), rot(2.0F, -30, 0, -3),
                     rot(2.2F, -30, 0, -3), rot(2.8F, -150, 0, -6), rot(3.0F, -30, 0, -3), rot(3.2F, -30, 0, -3),
                     rot(3.8F, -150, 0, -6), rot(4.0F, -30, 0, -3), rot(4.2F, -30, 0, -3), rot(4.6F, 0, 0, 0)))
-            .addAnimation("body", rotation(
+            .addAnimation("torso_bone", rotation(
                     rot(0.0F, 0, 0, 0), rot(1.7F, -12, 0, 0), rot(1.85F, -12, 0, 0), rot(2.0F, 18, 0, 0),
                     rot(2.2F, 18, 0, 0), rot(2.8F, -8, 0, 0), rot(3.0F, 18, 0, 0), rot(3.2F, 18, 0, 0),
                     rot(3.8F, -8, 0, 0), rot(4.0F, 18, 0, 0), rot(4.2F, 18, 0, 0), rot(4.6F, 0, 0, 0)))
