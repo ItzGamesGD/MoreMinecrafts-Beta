@@ -292,7 +292,7 @@ def forgemaster():
         "leg_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (0.75, 22, 0, 0), (1.3, 0, 0, 0))},
         "leg_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (0.75, -10, 0, 0), (1.3, 0, 0, 0))},
     }
-    axe_pitch(attack_overhead, [(0, -30), (0.5, 55), (0.75, -95), (1.0, -95), (1.3, -30)])
+    axe_pitch(attack_overhead, [(0, -30), (0.5, 55), (0.75, -90), (1.0, -90), (1.3, -30)])
     attack_cleave = {  # basic variant: body winds right, short diagonal chop across to the left at 0.6 s
         "torso_bone": {"rotation": kf((0, 0, 0, 0), (0.45, 6, -35, 0), (0.6, -16, 40, 0), (0.8, -16, 40, 0), (1.1, 0, 0, 0))},
         "pelvis_bone": {"rotation": kf((0, 0, 0, 0), (0.45, 0, -12, 0), (0.6, 0, 14, 0), (1.1, 0, 0, 0)),
@@ -303,7 +303,7 @@ def forgemaster():
         "head_bone": {"rotation": kf((0, 0, 0, 0), (0.45, 0, 24, 0), (0.6, 0, -34, 0), (0.8, 0, -34, 0), (1.1, 0, 0, 0))},
         "leg_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (0.6, 16, 0, 0), (1.1, 0, 0, 0))},
     }
-    axe_pitch(attack_cleave, [(0, -30), (0.45, 40), (0.6, -80), (0.8, -80), (1.1, -30)])
+    axe_pitch(attack_cleave, [(0, -30), (0.45, 40), (0.6, -90), (0.8, -90), (1.1, -30)])
     skill_slash = {  # skill 1: big wind-up to the back right (1.2 s), diagonal fan slash high-right -> low-left at 1.4 s
         "torso_bone": {"rotation": kf((0, 0, 0, 0), (1.2, 8, -62, 0), (1.4, -26, 70, 0), (1.9, -26, 70, 0), (2.5, 0, 0, 0))},
         "pelvis_bone": {"rotation": kf((0, 0, 0, 0), (1.2, 0, -18, 0), (1.4, 0, 22, 0), (1.9, 0, 22, 0), (2.5, 0, 0, 0)),
@@ -315,7 +315,7 @@ def forgemaster():
         "leg_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (1.4, 28, 0, 0), (1.9, 28, 0, 0), (2.5, 0, 0, 0))},
         "leg_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (1.2, -14, 0, 0), (1.4, -22, 0, 0), (2.5, 0, 0, 0))},
     }
-    axe_pitch(skill_slash, [(0, -30), (1.2, 50), (1.4, -85), (1.9, -85), (2.5, -30)])
+    axe_pitch(skill_slash, [(0, -30), (1.2, 50), (1.4, -90), (1.9, -90), (2.5, -30)])
     skill_quake = {  # skill 2: axe overhead (1.2 s), slammed into the floor at 1.4 s, held while the fissure telegraphs,
         # fire pillars erupt at 2.6 s (end of the hold), then the axe is wrenched out
         "pelvis_bone": {"position": kf((0, 0, 0, 0), (1.2, 0, 1.5, 1), (1.4, 0, -4, -3), (2.6, 0, -4, -3), (3.3, 0, 0, 0))},
@@ -328,7 +328,7 @@ def forgemaster():
         "leg_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (1.4, 26, 0, 8), (2.6, 26, 0, 8), (3.3, 0, 0, 0))},
         "leg_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (1.4, -14, 0, -8), (2.6, -14, 0, -8), (3.3, 0, 0, 0))},
     }
-    axe_pitch(skill_quake, [(0, -30), (1.2, 62), (1.4, -92), (2.6, -92), (3.3, -30)])
+    axe_pitch(skill_quake, [(0, -30), (1.2, 62), (1.4, -90), (2.6, -90), (3.3, -30)])
     skill_furnace = {  # skill 3: axe planted upright in front (0.8 s), core door opens, 2 s of flame (1.0-3.0 s), door shuts, axe pulled back
         "pelvis_bone": {"position": kf((0, 0, 0, 0), (0.8, 0, -3, -2), (3.2, 0, -3, -2), (4.0, 0, 0, 0))},
         "torso_bone": {"rotation": kf((0, 0, 0, 0), (0.8, -12, 0, 0), (1.0, -8, 0, 0), (3.0, -8, 0, 0), (4.0, 0, 0, 0)),
@@ -381,7 +381,7 @@ def forgemaster():
         "leg_lower_right_bone": {"rotation": kf((0, 0, 0, 0), (0.5, -44, 0, 0), (1.0, -70, 0, 0), (1.55, -10, 0, 0), (2.4, 0, 0, 0))},
         "leg_lower_left_bone": {"rotation": kf((0, 0, 0, 0), (0.5, -40, 0, 0), (1.0, -84, 0, 0), (1.55, -10, 0, 0), (2.4, 0, 0, 0))},
     }
-    axe_pitch(leap_slam, [(0, -30), (0.5, -10), (1.0, 58), (1.15, 62), (1.6, -92), (1.9, -92), (2.4, -30)])
+    axe_pitch(leap_slam, [(0, -30), (0.5, -10), (1.0, 58), (1.15, 62), (1.6, -90), (1.9, -90), (2.4, -30)])
     # death: stagger, core door pops open, kneel, then pitch forward (hold)
     death = {
         "pelvis_bone": {"position": kf((0, 0, 0, 0), (0.8, 0, -8, 0), (2.2, 0, -14, -6)), "rotation": kf((0, 0, 0, 0), (0.8, 0, 0, 0), (2.2, -40, 0, 0))},
