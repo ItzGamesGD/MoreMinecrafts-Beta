@@ -3,6 +3,8 @@ package dev.itzgamesgd.moreminecrafts.client;
 import dev.itzgamesgd.moreminecrafts.MoreMinecrafts;
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
 import dev.itzgamesgd.moreminecrafts.progression.AutoFarmMenu;
+import dev.itzgamesgd.moreminecrafts.progression.EnchantingProgressionMenu;
+import net.minecraft.world.inventory.AnvilMenu;
 import dev.itzgamesgd.moreminecrafts.progression.ProgressionCanvasGeometry;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
@@ -701,6 +703,24 @@ public final class VisualValidationHarness {
                 if (!takeCapture()) return;
                 MoreMinecrafts.LOGGER.info("CLIENT_INTERACTION_PATH synthetic Screen callbacks: selector -> both sector menus -> node hover -> one-click server purchase");
                 MoreMinecrafts.LOGGER.info("CLIENT_INTERACTION_PATH auto_farm=render_only_synthetic_empty_container");
+                uiJourneyStage = 170;
+            }
+            case 170 -> {
+                // Reference captures of the current enchanting and anvil screens (no server data; synthetic empty menus).
+                if (!takeCapture()) return;
+                client.gui.setScreen(null);
+                var inventory = client.player.getInventory();
+                client.gui.setScreen(new EnchantingProgressionScreen(new EnchantingProgressionMenu(1, inventory), inventory,
+                        Component.literal("Enchanting")));
+                queueUiScreenshot("enchanting-progression.png");
+                uiJourneyStage = 171;
+            }
+            case 171 -> {
+                if (!takeCapture()) return;
+                client.gui.setScreen(null);
+                var inventory = client.player.getInventory();
+                client.gui.setScreen(new T1AnvilScreen(new AnvilMenu(1, inventory), inventory, Component.literal("Anvil")));
+                queueUiScreenshot("anvil-upgrade.png");
                 uiJourneyStage = 8;
             }
             default -> { }
