@@ -4,6 +4,7 @@ import dev.itzgamesgd.moreminecrafts.MoreMinecrafts;
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
 import dev.itzgamesgd.moreminecrafts.progression.AutoFarmMenu;
 import dev.itzgamesgd.moreminecrafts.progression.EnchantingProgressionMenu;
+import dev.itzgamesgd.moreminecrafts.fishing.FishingRodMenu;
 import net.minecraft.world.inventory.AnvilMenu;
 import dev.itzgamesgd.moreminecrafts.progression.ProgressionCanvasGeometry;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -728,6 +729,31 @@ public final class VisualValidationHarness {
                     queueUiScreenshot("anvil-upgrade.png");
                 } catch (RuntimeException e) {
                     MoreMinecrafts.LOGGER.error("REFERENCE_CAPTURE_FAILED screen=anvil-upgrade", e);
+                }
+                uiJourneyStage = 172;
+            }
+            case 172 -> {
+                // Reference captures of the remaining screens: fishing rod and contract (synthetic empty menus and ids).
+                if (!takeCapture()) return;
+                try {
+                    client.gui.setScreen(null);
+                    var inventory = client.player.getInventory();
+                    client.gui.setScreen(new FishingRodScreen(new FishingRodMenu(1, inventory), inventory,
+                            Component.literal("Fishing Rod")));
+                    queueUiScreenshot("fishing-rod-screen.png");
+                } catch (RuntimeException e) {
+                    MoreMinecrafts.LOGGER.error("REFERENCE_CAPTURE_FAILED screen=fishing-rod-screen", e);
+                }
+                uiJourneyStage = 173;
+            }
+            case 173 -> {
+                if (!takeCapture()) return;
+                try {
+                    client.gui.setScreen(null);
+                    client.gui.setScreen(new ContractScreen("reference-contract"));
+                    queueUiScreenshot("contract-screen.png");
+                } catch (RuntimeException e) {
+                    MoreMinecrafts.LOGGER.error("REFERENCE_CAPTURE_FAILED screen=contract-screen", e);
                 }
                 uiJourneyStage = 8;
             }
