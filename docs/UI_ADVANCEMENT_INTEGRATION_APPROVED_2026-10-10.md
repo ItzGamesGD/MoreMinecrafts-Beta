@@ -174,3 +174,14 @@ If an asset is needed beyond the approved research kit, it is created to this gr
 ### XP Quest visual grammar — same as the Research pilot — 2026-11-26 (owner direction)
 
 Owner direction (2026-11-26): the XP Quest screens use the same visual grammar as the approved Research pilot: the research kit, the dark sheet background, and horizontal chapter lanes with one banner per chapter. The exact layout, quest-to-frame state mapping, and connector rules are not yet approved. They are proposed for owner approval before scene files are generated. Quest data, rewards, claims, and tooltips are unchanged.
+
+### Enchanting and anvil layout — keep current proportions — 2026-11-26 (owner decision)
+
+Owner decision (2026-11-26): the enchanting and anvil screens keep their current layout. Their screen sizes and slot coordinates do not change, including the anvil's vanilla proportions. A wide anvil layout from the reference images is not adopted.
+
+- Enchanting: the screen stays 330×360 GUI px, with the current equipment, book, and tree positions.
+- Anvil: the screen keeps the vanilla anvil proportions and the current input, output, catalyst, and inventory slot positions.
+- Visual skin follows the approved research grammar. Component art is produced to the current layout, so screen logic and slot mapping are not changed.
+- Decorative elements from the reference images (runes, gems, sparkles) are approximated per component unless the owner approves a specific element.
+
+Changing any layout dimension or slot coordinate requires a new owner decision.
