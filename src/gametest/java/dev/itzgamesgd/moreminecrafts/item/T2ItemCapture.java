@@ -28,7 +28,7 @@ public final class T2ItemCapture implements FabricClientGameTest {
     private static final int Y = 100;
     private static final int SPACING = 10;
     private static final List<String> MODELS = List.of("wind_sword", "wind_sword", "wind_archers_bow_pose2", "flowing_water_sword");
-    private static final List<String> FIRST_PERSON_MODELS = List.of("wind_sword", "wind_archers_bow_pose2", "vanilla_bow_reference", "flowing_water_sword");
+    private static final List<String> FIRST_PERSON_MODELS = List.of("wind_sword", "wind_archers_bow_pose2", "vanilla_bow_reference", "flowing_water_sword", "vanilla_sword_reference");
     private static final float[] ANGLES = {40, 0};
     private static final String[] ANGLE_NAMES = {"three-quarter", "front"};
 
@@ -88,7 +88,7 @@ public final class T2ItemCapture implements FabricClientGameTest {
     }
 
     private static ItemStack heldStack(String model) {
-        boolean sword = model.endsWith("sword");
+        boolean sword = model.contains("sword");
         ItemStack stack = new ItemStack(sword ? Items.IRON_SWORD : Items.BOW);
         if (!model.startsWith("vanilla")) {
             stack.set(DataComponents.ITEM_MODEL, Identifier.parse("moreminecrafts:" + model));
