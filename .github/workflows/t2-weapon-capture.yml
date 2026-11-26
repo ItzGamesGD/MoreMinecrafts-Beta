@@ -48,7 +48,7 @@ jobs:
           '
           grep -q T2_CAPTURE_COMPLETE build/t2-capture/client.log
           find . -path '*/screenshots/*t2-capture-*.png' -exec cp {} build/t2-capture/ \;
-          test "$(find build/t2-capture -name '*t2-capture-*.png' | wc -l)" -eq 13
+          test "$(find build/t2-capture -name '*t2-capture-*.png' | wc -l)" -eq 19
       - name: Upload captures and diagnostics
         if: always()
         uses: actions/upload-artifact@v4

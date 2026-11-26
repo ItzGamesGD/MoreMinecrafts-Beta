@@ -1,1 +1,11 @@
-{"model":{"type":"minecraft:model","model":"moreminecrafts:item/lightning_sword"}}
+{
+  "model": {
+    "type": "minecraft:special",
+    "base": "moreminecrafts:item/lightning_sword_base",
+    "model": {
+      "type": "moreminecrafts:pose_mesh",
+      "model": "lightning_sword",
+      "texture": "moreminecrafts:textures/item/lightning_sword_3d.png"
+    }
+  }
+}

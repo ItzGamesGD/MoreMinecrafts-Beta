@@ -1,1 +1,11 @@
-{"model":{"type":"minecraft:model","model":"moreminecrafts:item/earth_mace"}}
+{
+  "model": {
+    "type": "minecraft:special",
+    "base": "moreminecrafts:item/earth_mace_base",
+    "model": {
+      "type": "moreminecrafts:pose_mesh",
+      "model": "earth_mace",
+      "texture": "moreminecrafts:textures/item/earth_mace_3d.png"
+    }
+  }
+}
