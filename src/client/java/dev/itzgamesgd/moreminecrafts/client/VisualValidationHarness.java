@@ -708,19 +708,27 @@ public final class VisualValidationHarness {
             case 170 -> {
                 // Reference captures of the current enchanting and anvil screens (no server data; synthetic empty menus).
                 if (!takeCapture()) return;
-                client.gui.setScreen(null);
-                var inventory = client.player.getInventory();
-                client.gui.setScreen(new EnchantingProgressionScreen(new EnchantingProgressionMenu(1, inventory), inventory,
-                        Component.literal("Enchanting")));
-                queueUiScreenshot("enchanting-progression.png");
+                try {
+                    client.gui.setScreen(null);
+                    var inventory = client.player.getInventory();
+                    client.gui.setScreen(new EnchantingProgressionScreen(new EnchantingProgressionMenu(1, inventory), inventory,
+                            Component.literal("Enchanting")));
+                    queueUiScreenshot("enchanting-progression.png");
+                } catch (RuntimeException e) {
+                    MoreMinecrafts.LOGGER.error("REFERENCE_CAPTURE_FAILED screen=enchanting-progression", e);
+                }
                 uiJourneyStage = 171;
             }
             case 171 -> {
                 if (!takeCapture()) return;
-                client.gui.setScreen(null);
-                var inventory = client.player.getInventory();
-                client.gui.setScreen(new T1AnvilScreen(new AnvilMenu(1, inventory), inventory, Component.literal("Anvil")));
-                queueUiScreenshot("anvil-upgrade.png");
+                try {
+                    client.gui.setScreen(null);
+                    var inventory = client.player.getInventory();
+                    client.gui.setScreen(new T1AnvilScreen(new AnvilMenu(1, inventory), inventory, Component.literal("Anvil")));
+                    queueUiScreenshot("anvil-upgrade.png");
+                } catch (RuntimeException e) {
+                    MoreMinecrafts.LOGGER.error("REFERENCE_CAPTURE_FAILED screen=anvil-upgrade", e);
+                }
                 uiJourneyStage = 8;
             }
             default -> { }
