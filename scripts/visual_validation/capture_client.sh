@@ -12,7 +12,7 @@ xvfb-run -a -s "-screen 0 1280x720x24 +extension GLX +render -noreset" env VISUA
   username="$VISUAL_USERNAME"
   client_log="$results_dir/client.log"
   # Diagnostics: keep the Minecraft crash reports and latest log on every exit path.
-  trap 'mkdir -p "$results_dir"; cp -r run/crash-reports "$results_dir/" 2>/dev/null || true; cp run/logs/latest.log "$results_dir/client-latest.log" 2>/dev/null || true' EXIT
+  trap "mkdir -p \"$results_dir\"; cp -r run/crash-reports \"$results_dir/\" 2>/dev/null || true; cp run/logs/latest.log \"$results_dir/client-latest.log\" 2>/dev/null || true" EXIT
   source scripts/visual_validation/x11_input.sh
   export LIBGL_ALWAYS_SOFTWARE=1
   export MESA_LOADER_DRIVER_OVERRIDE=llvmpipe
