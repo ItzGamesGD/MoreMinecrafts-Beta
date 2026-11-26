@@ -14,7 +14,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.decoration.Mannequin;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameType;
@@ -22,7 +22,7 @@ import net.minecraft.world.level.block.Blocks;
 
 /**
  * Real-client screenshots of Tier 2 weapon item models held by skeletons (opt-in via
- * {@code -Dmoreminecrafts.t2.capture=true}). Each model id is shown on its own skeleton in an aggressive (aim) pose.
+ * {@code -Dmoreminecrafts.t2.capture=true}). Each model id is shown in the hand of its own mannequin (default idle pose, the item as the player would see it held).
  */
 public final class T2ItemCapture implements FabricClientGameTest {
     private static final int Y = 100;
@@ -51,7 +51,7 @@ public final class T2ItemCapture implements FabricClientGameTest {
                     String shotName = MODELS.get(i) + "-" + ANGLE_NAMES[a];
                     server.runOnServer(s -> {
                         ServerLevel level = s.overworld();
-                        for (Mob mob : level.getEntitiesOfClass(Mob.class, new net.minecraft.world.phys.AABB(-10, Y - 2, -10,
+                        for (Mannequin mob : level.getEntitiesOfClass(Mannequin.class, new net.minecraft.world.phys.AABB(-10, Y - 2, -10,
                                 MODELS.size() * SPACING + 10, Y + 6, 10))) {
                             float yaw = Math.abs(mob.getX() - mx) < 0.1 ? mobYaw : 25;
                             mob.setYRot(yaw);
@@ -111,14 +111,11 @@ public final class T2ItemCapture implements FabricClientGameTest {
             }
         }
         for (int i = 0; i < MODELS.size(); i++) {
-            Mob mob = EntityTypes.SKELETON.create(level, EntitySpawnReason.COMMAND);
-            if (mob == null) continue;
-            mob.setPos(i * SPACING + 0.5, Y, 0.5);
-            mob.setItemSlot(EquipmentSlot.MAINHAND, heldStack(MODELS.get(i)));
-            mob.setAggressive(true);
-            mob.setNoAi(true);
-            mob.setPersistenceRequired();
-            level.addFreshEntity(mob);
+            var mannequin = EntityTypes.MANNEQUIN.create(level, EntitySpawnReason.COMMAND);
+            if (mannequin == null) continue;
+            mannequin.setPos(i * SPACING + 0.5, Y, 0.5);
+            mannequin.setItemSlot(EquipmentSlot.MAINHAND, heldStack(MODELS.get(i)));
+            level.addFreshEntity(mannequin);
         }
         var player = level.getServer().getPlayerList().getPlayers().getFirst();
         player.setGameMode(GameType.SPECTATOR);
