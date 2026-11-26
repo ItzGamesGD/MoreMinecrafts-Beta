@@ -28,6 +28,7 @@ public final class ModRegistries {
         dev.itzgamesgd.moreminecrafts.mob.sky.SkyVariantMobs.initialize();
         dev.itzgamesgd.moreminecrafts.mob.sky.SkyIslandHabitat.initialize();
         dev.itzgamesgd.moreminecrafts.boss.TombGuardianEntities.initialize();
+        dev.itzgamesgd.moreminecrafts.boss.PiglinForgemasterEntities.initialize();
         dev.itzgamesgd.moreminecrafts.pyramid.entrance.SecretEntranceEntities.initialize();
         ModAlchemy.initialize();
         EnchantmentRuntime.initialize();

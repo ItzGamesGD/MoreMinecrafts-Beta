@@ -93,7 +93,35 @@ def build_cube(el, origin_bb):
     }
 
 
-def convert(bb, source_sha256, source_name):
+def convert_animations(bb):
+    """Blockbench animations -> {short_name: {length, loop, bones}} in ModelPart convention.
+    rotation (deg) -> (-x, -y, z); position (px) -> (-x, -y, z) added to the part offset; scale stays a multiplier."""
+    names = {g["uuid"]: g["name"] for g in bb.get("groups", [])}
+    out = {}
+    for anim in bb.get("animations", []):
+        short = anim["name"].split(".")[-1]
+        bones = {}
+        for gid, animator in anim.get("animators", {}).items():
+            bone = names.get(gid) or animator.get("name")
+            channels = {}
+            for k in sorted(animator.get("keyframes", []), key=lambda k: k["time"]):
+                x, y, z = (float(k["data_points"][0][a]) for a in "xyz")
+                if k["channel"] == "rotation":
+                    v = [-x, -y, z]
+                elif k["channel"] == "position":
+                    v = [-x, -y, z]
+                elif k["channel"] == "scale":
+                    v = [x, y, z]
+                else:
+                    continue
+                channels.setdefault(k["channel"], []).append([round(k["time"], 4), [round(c + 0.0, 4) for c in v]])
+            if channels:
+                bones[bone] = channels
+        out[short] = {"length": anim["length"], "loop": anim.get("loop", "once"), "bones": bones}
+    return out
+
+
+def convert(bb, source_sha256, source_name, with_animations=False):
     elements = {e["uuid"]: e for e in bb["elements"]}
     groups = {g["uuid"]: g for g in bb.get("groups", [])}
     tex = bb["textures"][0]
@@ -145,6 +173,7 @@ def convert(bb, source_sha256, source_name):
                     "uv_height": tex.get("uv_height", res["height"])},
         "cube_count": len(elements),
         "bones": bones,
+        **({"animations": convert_animations(bb)} if with_animations else {}),
     }
 
 
@@ -153,11 +182,12 @@ def main():
     ap.add_argument("source")
     ap.add_argument("--model-out", required=True)
     ap.add_argument("--texture-out", required=True)
+    ap.add_argument("--animations", action="store_true", help="also export the .bbmodel animations (ModelPart convention)")
     ap.add_argument("--check", action="store_true", help="do not write; fail if outputs differ from what would be written")
     a = ap.parse_args()
     raw = open(a.source, "rb").read()
     bb = json.loads(raw)
-    model = convert(bb, hashlib.sha256(raw).hexdigest(), a.source.replace("\\", "/").split("/")[-1])
+    model = convert(bb, hashlib.sha256(raw).hexdigest(), a.source.replace("\\", "/").split("/")[-1], a.animations)
     png = base64.b64decode(bb["textures"][0]["source"].split(",", 1)[1])
     text = json.dumps(model, indent=1, ensure_ascii=False) + "\n"
     if a.check:
