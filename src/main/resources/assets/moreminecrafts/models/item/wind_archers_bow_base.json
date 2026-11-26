@@ -70,7 +70,7 @@
     },
     "firstperson_righthand": {
       "rotation": [
-        45,
+        25,
         -90,
         25
       ],
@@ -87,7 +87,7 @@
     },
     "firstperson_lefthand": {
       "rotation": [
-        -45,
+        -25,
         90,
         -25
       ],
