@@ -755,6 +755,92 @@ public final class VisualValidationHarness {
                 } catch (RuntimeException e) {
                     MoreMinecrafts.LOGGER.error("REFERENCE_CAPTURE_FAILED screen=contract-screen", e);
                 }
+                uiJourneyStage = 180;
+            }
+            case 180 -> {
+                // Every state of the enchanting and anvil screens, with real menus and items placed client-side.
+                // Mode changes go through the menus' own clickMenuButton, so the same logic as the server runs.
+                if (!takeCapture()) return;
+                try {
+                    client.gui.setScreen(null);
+                    var inventory = client.player.getInventory();
+                    var menu = new EnchantingProgressionMenu(1, inventory);
+                    menu.getSlot(0).set(new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.DIAMOND_SWORD));
+                    client.gui.setScreen(new EnchantingProgressionScreen(menu, inventory, Component.literal("Enchanting")));
+                    queueUiScreenshot("enchanting-equipment-tree.png");
+                } catch (RuntimeException e) {
+                    MoreMinecrafts.LOGGER.error("REFERENCE_CAPTURE_FAILED screen=enchanting-equipment-tree", e);
+                }
+                uiJourneyStage = 181;
+            }
+            case 181 -> {
+                if (!takeCapture()) return;
+                try {
+                    if (client.gui.screen() instanceof EnchantingProgressionScreen screen) {
+                        screen.getMenu().clickMenuButton(client.player, 1);
+                        queueUiScreenshot("enchanting-equipment-option-tab.png");
+                    } else MoreMinecrafts.LOGGER.error("REFERENCE_CAPTURE_FAILED screen=enchanting-equipment-option-tab missing");
+                } catch (RuntimeException e) {
+                    MoreMinecrafts.LOGGER.error("REFERENCE_CAPTURE_FAILED screen=enchanting-equipment-option-tab", e);
+                }
+                uiJourneyStage = 182;
+            }
+            case 182 -> {
+                if (!takeCapture()) return;
+                try {
+                    client.gui.setScreen(null);
+                    var inventory = client.player.getInventory();
+                    var menu = new AnvilMenu(1, inventory);
+                    menu.getSlot(0).set(new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.DIAMOND_SWORD));
+                    client.gui.setScreen(new T1AnvilScreen(menu, inventory, Component.literal("Anvil")));
+                    queueUiScreenshot("anvil-enhancement-with-item.png");
+                } catch (RuntimeException e) {
+                    MoreMinecrafts.LOGGER.error("REFERENCE_CAPTURE_FAILED screen=anvil-enhancement-with-item", e);
+                }
+                uiJourneyStage = 183;
+            }
+            case 183 -> {
+                if (!takeCapture()) return;
+                try {
+                    client.gui.setScreen(null);
+                    var inventory = client.player.getInventory();
+                    var menu = new AnvilMenu(1, inventory);
+                    menu.clickMenuButton(client.player, 1);
+                    client.gui.setScreen(new T1AnvilScreen(menu, inventory, Component.literal("Anvil")));
+                    queueUiScreenshot("anvil-normal-empty.png");
+                } catch (RuntimeException e) {
+                    MoreMinecrafts.LOGGER.error("REFERENCE_CAPTURE_FAILED screen=anvil-normal-empty", e);
+                }
+                uiJourneyStage = 184;
+            }
+            case 184 -> {
+                if (!takeCapture()) return;
+                try {
+                    if (client.gui.screen() instanceof T1AnvilScreen screen) {
+                        var menu = screen.getMenu();
+                        menu.getSlot(0).set(new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.DIAMOND_SWORD));
+                        menu.getSlot(1).set(new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.DIAMOND));
+                        queueUiScreenshot("anvil-normal-with-items.png");
+                    }
+                } catch (RuntimeException e) {
+                    MoreMinecrafts.LOGGER.error("REFERENCE_CAPTURE_FAILED screen=anvil-normal-with-items", e);
+                }
+                uiJourneyStage = 185;
+            }
+            case 185 -> {
+                if (!takeCapture()) return;
+                try {
+                    client.gui.setScreen(null);
+                    var inventory = client.player.getInventory();
+                    var menu = new AnvilMenu(1, inventory);
+                    menu.clickMenuButton(client.player, 2);
+                    menu.getSlot(0).set(new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.DIAMOND_SWORD));
+                    menu.getSlot(1).set(new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.ENCHANTED_BOOK));
+                    client.gui.setScreen(new T1AnvilScreen(menu, inventory, Component.literal("Anvil")));
+                    queueUiScreenshot("anvil-book-combine-with-items.png");
+                } catch (RuntimeException e) {
+                    MoreMinecrafts.LOGGER.error("REFERENCE_CAPTURE_FAILED screen=anvil-book-combine-with-items", e);
+                }
                 uiJourneyStage = 8;
             }
             default -> { }
