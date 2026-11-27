@@ -778,6 +778,7 @@ public final class VisualValidationHarness {
                 try {
                     if (client.gui.screen() instanceof EnchantingProgressionScreen screen) {
                         screen.getMenu().clickMenuButton(client.player, 1);
+                        screen.tick(); // the screen refreshes its widgets for the new mode on tick
                         queueUiScreenshot("enchanting-equipment-option-tab.png");
                     } else MoreMinecrafts.LOGGER.error("REFERENCE_CAPTURE_FAILED screen=enchanting-equipment-option-tab missing");
                 } catch (RuntimeException e) {
