@@ -15,6 +15,7 @@ abstract class K5CooperatingLevelMixin {
     private boolean moreminecrafts$observeMutation(BlockPos pos, BlockState state, int updateFlags,
             int updateLimit, Operation<Boolean> original) {
         K5CooperatingMixinProbe.levelMutationWrapped();
+        dev.itzgamesgd.moreminecrafts.pillagerhq.St03TerrainWriteTrace.observe("Level",pos,state);
         return original.call(pos, state, updateFlags, updateLimit);
     }
 }

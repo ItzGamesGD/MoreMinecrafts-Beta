@@ -25,8 +25,12 @@ public final class FishingTiming {
         return phase <= half ? phase / (double) half : (half * 2L - phase) / (double) half;
     }
     public static Zone zone(double position) {
+        return zone(position, 0);
+    }
+    public static Zone zone(double position, int fishingTechniqueLevel) {
         double distance = Math.abs(position - 0.5);
-        if (distance <= 0.08) return Zone.LIGHT_GREEN;
+        if (dev.itzgamesgd.moreminecrafts.progression.ResearchContentRules
+                .inFishingGreenZone(position, fishingTechniqueLevel)) return Zone.LIGHT_GREEN;
         if (distance <= 0.18) return Zone.YELLOW;
         if (distance <= 0.32) return Zone.ORANGE;
         return Zone.RED;

@@ -1,0 +1,8 @@
+{
+ "python": "3.13.18",
+ "ortools": "9.15.6755 (generator/search only)",
+ "cp_workers": 1,
+ "seed": 1,
+ "verifier_dependencies": "stdlib + frozen sky_tower_geometry_03/geometry03_navigation.py",
+ "base_commit": "4fe9395a381124f32ff9e94971c4f0fae69a1e53"
+}

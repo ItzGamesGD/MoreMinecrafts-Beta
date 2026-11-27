@@ -41,7 +41,7 @@ public final class ElementalSwordItem extends Item {
                 && damageSource.getEntity() instanceof ServerPlayer player
                 && player.getMainHandItem().getItem() == this) {
             bonus += ElementalHitProgress.primaryHitBonusDamage(
-                    player.getUUID(), ElementalHitProgress.Weapon.LIGHTNING);
+                    player, ElementalHitProgress.Weapon.LIGHTNING);
         }
         return bonus;
     }
@@ -56,7 +56,7 @@ public final class ElementalSwordItem extends Item {
             } else {
                 T2ElementalVfx.lightningPrimary(level,
                         target.position().add(0.0D, target.getBbHeight() * 0.55D, 0.0D));
-                if (ElementalHitProgress.record(player.getUUID(), ElementalHitProgress.Weapon.LIGHTNING)) {
+                if (ElementalHitProgress.record(player, ElementalHitProgress.Weapon.LIGHTNING)) {
                     T2ElementalVfx.lightningProc(level,
                             target.position().add(0.0D, target.getBbHeight() * 0.6D, 0.0D));
                     level.playSound(null, target.blockPosition(), SoundEvents.LIGHTNING_BOLT_IMPACT,

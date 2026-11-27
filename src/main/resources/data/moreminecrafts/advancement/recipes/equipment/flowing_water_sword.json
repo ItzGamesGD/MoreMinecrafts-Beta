@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_heart_of_currents": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "moreminecrafts:heart_of_currents"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipes": "moreminecrafts:flowing_water_sword"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_heart_of_currents"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "moreminecrafts:flowing_water_sword"
+    ]
+  }
+}

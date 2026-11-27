@@ -1,0 +1,107 @@
+{
+  "seed": 20261030,
+  "reverse": false,
+  "sampled_blocks": 63488,
+  "block_sha256": "5468a45b5bab77463b4bd2cc53566e86e53def2cfa85f823387607412ff7c9b6",
+  "components": [
+    {
+      "open_frontier": true,
+      "air_blocks": 3,
+      "local_min": 0
+    },
+    {
+      "open_frontier": true,
+      "air_blocks": 209,
+      "local_min": 3
+    },
+    {
+      "open_frontier": true,
+      "air_blocks": 1,
+      "local_min": 12
+    },
+    {
+      "open_frontier": true,
+      "air_blocks": 4,
+      "local_min": 14
+    },
+    {
+      "open_frontier": true,
+      "air_blocks": 5,
+      "local_min": 16
+    },
+    {
+      "open_frontier": true,
+      "air_blocks": 9,
+      "local_min": 23
+    },
+    {
+      "open_frontier": true,
+      "air_blocks": 523,
+      "local_min": 650
+    },
+    {
+      "open_frontier": true,
+      "air_blocks": 14,
+      "local_min": 730
+    },
+    {
+      "open_frontier": true,
+      "air_blocks": 9,
+      "local_min": 1183
+    },
+    {
+      "open_frontier": true,
+      "air_blocks": 307,
+      "local_min": 3743
+    },
+    {
+      "open_frontier": true,
+      "air_blocks": 42,
+      "local_min": 7905
+    },
+    {
+      "open_frontier": false,
+      "air_blocks": 75,
+      "local_min": 12021
+    },
+    {
+      "open_frontier": true,
+      "air_blocks": 34,
+      "local_min": 15904
+    },
+    {
+      "open_frontier": true,
+      "air_blocks": 44,
+      "local_min": 16027
+    },
+    {
+      "open_frontier": true,
+      "air_blocks": 3,
+      "local_min": 16031
+    },
+    {
+      "open_frontier": true,
+      "air_blocks": 3,
+      "local_min": 16159
+    },
+    {
+      "open_frontier": true,
+      "air_blocks": 154,
+      "local_min": 49280
+    },
+    {
+      "open_frontier": true,
+      "air_blocks": 44,
+      "local_min": 51166
+    }
+  ],
+  "qualified_cavern_ids": "UNKNOWN: finite air scan only; no Q09 segmentation adopted",
+  "phase": "write",
+  "materialization_failure_before_writes": true,
+  "complete_plan_present": true,
+  "injected_failure": "after first chunk write + save, before second write",
+  "marker_a": true,
+  "marker_b": false,
+  "elapsed_ms": 5069,
+  "heap_used_bytes": 535114808
+}

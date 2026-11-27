@@ -1,0 +1,7 @@
+seed,chunk_x,chunk_z,structure_chunk,piece_min_y,piece_max_y,element,rooftop_layer_non_air,rooftop_layer_smooth_stone,rooftop_intact
+31,-293,-230,,219,315,meadow/tower,64,64,true
+31,-292,231,,219,315,meadow/tower,64,64,true
+31,-278,-166,,219,315,meadow/tower,64,64,true
+31,-280,-96,,219,315,meadow/tower,64,64,true
+31,-278,63,,219,315,meadow/tower,64,64,true
+31,-273,267,,219,315,meadow/tower,64,64,true

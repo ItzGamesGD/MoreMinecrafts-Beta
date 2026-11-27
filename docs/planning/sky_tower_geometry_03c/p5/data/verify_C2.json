@@ -1,0 +1,2508 @@
+{
+ "boundary": {
+  "outside": [],
+  "pass": true,
+  "whole_block_alternative": {
+   "normal_D45_outside_columns": 86,
+   "balcony_D51_outside_columns": 0
+  }
+ },
+ "overlaps": {
+  "pairs": {
+   "arcade_arch&pillar": 418,
+   "stairs&tower_base_core": 20,
+   "stairs&tower_slab": 80
+  },
+  "intentional_candidate_joins": [
+   "arcade_arch&pillar",
+   "pillar&rail",
+   "stairs&tower_base_core",
+   "stairs&tower_slab"
+  ],
+  "unexpected": {},
+  "invalid_joins": [],
+  "pass": true
+ },
+ "floor_ownership": {
+  "pass": true,
+  "missing": [],
+  "extra": [],
+  "slab_ys": [
+   20,
+   32,
+   46,
+   63
+  ]
+ },
+ "height": {
+  "occupied_y": [
+   0,
+   70
+  ],
+  "occupied_height": 71,
+  "budget_height": 80,
+  "pass": false,
+  "status": "UNVERIFIED: reserved apex is not a placed block"
+ },
+ "arches": {
+  "pairs": 47,
+  "missing": [],
+  "pass": true
+ },
+ "headroom": {
+  "minimum": [
+   3.5,
+   [
+    -21,
+    15,
+    -2
+   ]
+  ],
+  "below_1_8": [],
+  "pass": true
+ },
+ "fall_edges": {
+  "count": 12,
+  "edges": [
+   [
+    15,
+    9,
+    -1,
+    16,
+    -1
+   ],
+   [
+    15,
+    63,
+    0,
+    16,
+    0
+   ],
+   [
+    15,
+    63,
+    1,
+    16,
+    1
+   ],
+   [
+    15,
+    63,
+    2,
+    16,
+    2
+   ],
+   [
+    16,
+    9,
+    0,
+    16,
+    -1
+   ],
+   [
+    16,
+    63,
+    -1,
+    16,
+    0
+   ],
+   [
+    17,
+    9,
+    0,
+    17,
+    -1
+   ],
+   [
+    17,
+    63,
+    -1,
+    17,
+    0
+   ],
+   [
+    18,
+    9,
+    0,
+    18,
+    -1
+   ],
+   [
+    18,
+    63,
+    -1,
+    18,
+    0
+   ],
+   [
+    19,
+    9,
+    0,
+    19,
+    -1
+   ],
+   [
+    19,
+    63,
+    -1,
+    19,
+    0
+   ]
+  ],
+  "pass": false,
+  "note": "face-edge test only; diagonal dynamics require live testing"
+ },
+ "reservations": {
+  "status": "UNVERIFIED",
+  "intersections": [
+   {
+    "id": "F1_wall_link_arch",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {
+     "tower_wall": 44
+    },
+    "samples": {
+     "tower_wall": [
+      [
+       14,
+       12,
+       -3
+      ],
+      [
+       14,
+       12,
+       -2
+      ],
+      [
+       14,
+       12,
+       3
+      ],
+      [
+       15,
+       12,
+       -3
+      ],
+      [
+       15,
+       12,
+       -2
+      ],
+      [
+       15,
+       12,
+       3
+      ],
+      [
+       14,
+       13,
+       -3
+      ],
+      [
+       14,
+       13,
+       -2
+      ]
+     ]
+    }
+   },
+   {
+    "id": "F1_partial_canopy_steps",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {
+     "pillar": 12,
+     "tower_wall": 48
+    },
+    "samples": {
+     "pillar": [
+      [
+       20,
+       19,
+       -2
+      ],
+      [
+       20,
+       19,
+       -1
+      ],
+      [
+       20,
+       19,
+       0
+      ],
+      [
+       20,
+       19,
+       1
+      ],
+      [
+       21,
+       19,
+       -2
+      ],
+      [
+       21,
+       19,
+       -1
+      ],
+      [
+       21,
+       19,
+       0
+      ],
+      [
+       21,
+       19,
+       1
+      ]
+     ],
+     "tower_wall": [
+      [
+       14,
+       17,
+       -4
+      ],
+      [
+       14,
+       17,
+       -3
+      ],
+      [
+       14,
+       17,
+       -2
+      ],
+      [
+       14,
+       17,
+       -1
+      ],
+      [
+       14,
+       17,
+       0
+      ],
+      [
+       14,
+       17,
+       1
+      ],
+      [
+       14,
+       17,
+       2
+      ],
+      [
+       14,
+       17,
+       3
+      ]
+     ]
+    }
+   },
+   {
+    "id": "F1_horizontal_moulding",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {
+     "tower_wall": 16
+    },
+    "samples": {
+     "tower_wall": [
+      [
+       14,
+       17,
+       -4
+      ],
+      [
+       14,
+       17,
+       -3
+      ],
+      [
+       14,
+       17,
+       -2
+      ],
+      [
+       14,
+       17,
+       -1
+      ],
+      [
+       14,
+       17,
+       0
+      ],
+      [
+       14,
+       17,
+       1
+      ],
+      [
+       14,
+       17,
+       2
+      ],
+      [
+       14,
+       17,
+       3
+      ]
+     ]
+    }
+   },
+   {
+    "id": "F1_gate_double_arch",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {
+     "tower_wall": 66
+    },
+    "samples": {
+     "tower_wall": [
+      [
+       13,
+       12,
+       -3
+      ],
+      [
+       13,
+       12,
+       -2
+      ],
+      [
+       13,
+       12,
+       3
+      ],
+      [
+       14,
+       12,
+       -3
+      ],
+      [
+       14,
+       12,
+       -2
+      ],
+      [
+       14,
+       12,
+       3
+      ],
+      [
+       15,
+       12,
+       -3
+      ],
+      [
+       15,
+       12,
+       -2
+      ]
+     ]
+    }
+   },
+   {
+    "id": "F1_gate_shallow_pilasters",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {
+     "tower_wall": 48
+    },
+    "samples": {
+     "tower_wall": [
+      [
+       14,
+       10,
+       -4
+      ],
+      [
+       14,
+       10,
+       -3
+      ],
+      [
+       14,
+       10,
+       -2
+      ],
+      [
+       14,
+       10,
+       3
+      ],
+      [
+       14,
+       10,
+       4
+      ],
+      [
+       15,
+       10,
+       -3
+      ],
+      [
+       15,
+       10,
+       -2
+      ],
+      [
+       15,
+       10,
+       3
+      ]
+     ]
+    }
+   },
+   {
+    "id": "F1_gate_geometric_relief",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {
+     "tower_wall": 34
+    },
+    "samples": {
+     "tower_wall": [
+      [
+       14,
+       16,
+       -3
+      ],
+      [
+       14,
+       16,
+       -2
+      ],
+      [
+       14,
+       16,
+       3
+      ],
+      [
+       15,
+       16,
+       -3
+      ],
+      [
+       15,
+       16,
+       -2
+      ],
+      [
+       15,
+       16,
+       3
+      ],
+      [
+       14,
+       17,
+       -3
+      ],
+      [
+       14,
+       17,
+       -2
+      ]
+     ]
+    }
+   },
+   {
+    "id": "F2_wall_link_arch",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {
+     "arcade_arch": 42,
+     "pillar": 18,
+     "tower_wall": 44
+    },
+    "samples": {
+     "arcade_arch": [
+      [
+       20,
+       23,
+       -2
+      ],
+      [
+       20,
+       23,
+       -1
+      ],
+      [
+       20,
+       23,
+       0
+      ],
+      [
+       20,
+       24,
+       -3
+      ],
+      [
+       20,
+       24,
+       -2
+      ],
+      [
+       20,
+       24,
+       -1
+      ],
+      [
+       20,
+       24,
+       0
+      ],
+      [
+       20,
+       24,
+       1
+      ]
+     ],
+     "pillar": [
+      [
+       20,
+       23,
+       -1
+      ],
+      [
+       20,
+       23,
+       0
+      ],
+      [
+       20,
+       24,
+       -2
+      ],
+      [
+       20,
+       24,
+       -1
+      ],
+      [
+       20,
+       24,
+       0
+      ],
+      [
+       20,
+       25,
+       1
+      ],
+      [
+       21,
+       23,
+       -1
+      ],
+      [
+       21,
+       23,
+       0
+      ]
+     ],
+     "tower_wall": [
+      [
+       14,
+       23,
+       -3
+      ],
+      [
+       14,
+       23,
+       -2
+      ],
+      [
+       14,
+       23,
+       3
+      ],
+      [
+       15,
+       23,
+       -3
+      ],
+      [
+       15,
+       23,
+       -2
+      ],
+      [
+       15,
+       23,
+       3
+      ],
+      [
+       14,
+       24,
+       -3
+      ],
+      [
+       14,
+       24,
+       -2
+      ]
+     ]
+    }
+   },
+   {
+    "id": "F2_partial_canopy_steps",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {
+     "arcade_arch": 2,
+     "tower_wall": 48
+    },
+    "samples": {
+     "arcade_arch": [
+      [
+       20,
+       28,
+       4
+      ],
+      [
+       21,
+       28,
+       4
+      ]
+     ],
+     "tower_wall": [
+      [
+       14,
+       28,
+       -4
+      ],
+      [
+       14,
+       28,
+       -3
+      ],
+      [
+       14,
+       28,
+       -2
+      ],
+      [
+       14,
+       28,
+       -1
+      ],
+      [
+       14,
+       28,
+       0
+      ],
+      [
+       14,
+       28,
+       1
+      ],
+      [
+       14,
+       28,
+       2
+      ],
+      [
+       14,
+       28,
+       3
+      ]
+     ]
+    }
+   },
+   {
+    "id": "F2_horizontal_moulding",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {
+     "arcade_arch": 2,
+     "tower_wall": 16
+    },
+    "samples": {
+     "arcade_arch": [
+      [
+       20,
+       28,
+       4
+      ],
+      [
+       21,
+       28,
+       4
+      ]
+     ],
+     "tower_wall": [
+      [
+       14,
+       28,
+       -4
+      ],
+      [
+       14,
+       28,
+       -3
+      ],
+      [
+       14,
+       28,
+       -2
+      ],
+      [
+       14,
+       28,
+       -1
+      ],
+      [
+       14,
+       28,
+       0
+      ],
+      [
+       14,
+       28,
+       1
+      ],
+      [
+       14,
+       28,
+       2
+      ],
+      [
+       14,
+       28,
+       3
+      ]
+     ]
+    }
+   },
+   {
+    "id": "F2_gate_double_arch",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {
+     "tower_wall": 66
+    },
+    "samples": {
+     "tower_wall": [
+      [
+       13,
+       23,
+       -3
+      ],
+      [
+       13,
+       23,
+       -2
+      ],
+      [
+       13,
+       23,
+       3
+      ],
+      [
+       14,
+       23,
+       -3
+      ],
+      [
+       14,
+       23,
+       -2
+      ],
+      [
+       14,
+       23,
+       3
+      ],
+      [
+       15,
+       23,
+       -3
+      ],
+      [
+       15,
+       23,
+       -2
+      ]
+     ]
+    }
+   },
+   {
+    "id": "F2_gate_shallow_pilasters",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {
+     "tower_wall": 48
+    },
+    "samples": {
+     "tower_wall": [
+      [
+       14,
+       21,
+       -4
+      ],
+      [
+       14,
+       21,
+       -3
+      ],
+      [
+       14,
+       21,
+       -2
+      ],
+      [
+       14,
+       21,
+       3
+      ],
+      [
+       14,
+       21,
+       4
+      ],
+      [
+       15,
+       21,
+       -3
+      ],
+      [
+       15,
+       21,
+       -2
+      ],
+      [
+       15,
+       21,
+       3
+      ]
+     ]
+    }
+   },
+   {
+    "id": "F2_gate_geometric_relief",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {
+     "tower_wall": 34
+    },
+    "samples": {
+     "tower_wall": [
+      [
+       14,
+       27,
+       -3
+      ],
+      [
+       14,
+       27,
+       -2
+      ],
+      [
+       14,
+       27,
+       3
+      ],
+      [
+       15,
+       27,
+       -3
+      ],
+      [
+       15,
+       27,
+       -2
+      ],
+      [
+       15,
+       27,
+       3
+      ],
+      [
+       14,
+       28,
+       -3
+      ],
+      [
+       14,
+       28,
+       -2
+      ]
+     ]
+    }
+   },
+   {
+    "id": "F3_wall_link_arch",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {
+     "arcade_arch": 40,
+     "pillar": 13,
+     "tower_wall": 44
+    },
+    "samples": {
+     "arcade_arch": [
+      [
+       20,
+       35,
+       -1
+      ],
+      [
+       20,
+       35,
+       0
+      ],
+      [
+       20,
+       36,
+       -2
+      ],
+      [
+       20,
+       36,
+       -1
+      ],
+      [
+       20,
+       36,
+       0
+      ],
+      [
+       20,
+       36,
+       1
+      ],
+      [
+       20,
+       36,
+       2
+      ],
+      [
+       20,
+       37,
+       -2
+      ]
+     ],
+     "pillar": [
+      [
+       20,
+       35,
+       -1
+      ],
+      [
+       20,
+       35,
+       0
+      ],
+      [
+       20,
+       37,
+       -1
+      ],
+      [
+       20,
+       37,
+       1
+      ],
+      [
+       21,
+       35,
+       -1
+      ],
+      [
+       21,
+       35,
+       0
+      ],
+      [
+       21,
+       36,
+       0
+      ],
+      [
+       21,
+       37,
+       -1
+      ]
+     ],
+     "tower_wall": [
+      [
+       14,
+       35,
+       -3
+      ],
+      [
+       14,
+       35,
+       -2
+      ],
+      [
+       14,
+       35,
+       3
+      ],
+      [
+       15,
+       35,
+       -3
+      ],
+      [
+       15,
+       35,
+       -2
+      ],
+      [
+       15,
+       35,
+       3
+      ],
+      [
+       14,
+       36,
+       -3
+      ],
+      [
+       14,
+       36,
+       -2
+      ]
+     ]
+    }
+   },
+   {
+    "id": "F3_partial_canopy_steps",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {
+     "arcade_arch": 2,
+     "tower_wall": 48
+    },
+    "samples": {
+     "arcade_arch": [
+      [
+       20,
+       40,
+       4
+      ],
+      [
+       21,
+       40,
+       4
+      ]
+     ],
+     "tower_wall": [
+      [
+       14,
+       40,
+       -4
+      ],
+      [
+       14,
+       40,
+       -3
+      ],
+      [
+       14,
+       40,
+       -2
+      ],
+      [
+       14,
+       40,
+       -1
+      ],
+      [
+       14,
+       40,
+       0
+      ],
+      [
+       14,
+       40,
+       1
+      ],
+      [
+       14,
+       40,
+       2
+      ],
+      [
+       14,
+       40,
+       3
+      ]
+     ]
+    }
+   },
+   {
+    "id": "F3_horizontal_moulding",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {
+     "arcade_arch": 2,
+     "tower_wall": 16
+    },
+    "samples": {
+     "arcade_arch": [
+      [
+       20,
+       40,
+       4
+      ],
+      [
+       21,
+       40,
+       4
+      ]
+     ],
+     "tower_wall": [
+      [
+       14,
+       40,
+       -4
+      ],
+      [
+       14,
+       40,
+       -3
+      ],
+      [
+       14,
+       40,
+       -2
+      ],
+      [
+       14,
+       40,
+       -1
+      ],
+      [
+       14,
+       40,
+       0
+      ],
+      [
+       14,
+       40,
+       1
+      ],
+      [
+       14,
+       40,
+       2
+      ],
+      [
+       14,
+       40,
+       3
+      ]
+     ]
+    }
+   },
+   {
+    "id": "F3_gate_double_arch",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {
+     "tower_wall": 66
+    },
+    "samples": {
+     "tower_wall": [
+      [
+       13,
+       35,
+       -3
+      ],
+      [
+       13,
+       35,
+       -2
+      ],
+      [
+       13,
+       35,
+       3
+      ],
+      [
+       14,
+       35,
+       -3
+      ],
+      [
+       14,
+       35,
+       -2
+      ],
+      [
+       14,
+       35,
+       3
+      ],
+      [
+       15,
+       35,
+       -3
+      ],
+      [
+       15,
+       35,
+       -2
+      ]
+     ]
+    }
+   },
+   {
+    "id": "F3_gate_shallow_pilasters",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {
+     "tower_wall": 48
+    },
+    "samples": {
+     "tower_wall": [
+      [
+       14,
+       33,
+       -4
+      ],
+      [
+       14,
+       33,
+       -3
+      ],
+      [
+       14,
+       33,
+       -2
+      ],
+      [
+       14,
+       33,
+       3
+      ],
+      [
+       14,
+       33,
+       4
+      ],
+      [
+       15,
+       33,
+       -3
+      ],
+      [
+       15,
+       33,
+       -2
+      ],
+      [
+       15,
+       33,
+       3
+      ]
+     ]
+    }
+   },
+   {
+    "id": "F3_gate_geometric_relief",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {
+     "tower_wall": 34
+    },
+    "samples": {
+     "tower_wall": [
+      [
+       14,
+       39,
+       -3
+      ],
+      [
+       14,
+       39,
+       -2
+      ],
+      [
+       14,
+       39,
+       3
+      ],
+      [
+       15,
+       39,
+       -3
+      ],
+      [
+       15,
+       39,
+       -2
+      ],
+      [
+       15,
+       39,
+       3
+      ],
+      [
+       14,
+       40,
+       -3
+      ],
+      [
+       14,
+       40,
+       -2
+      ]
+     ]
+    }
+   },
+   {
+    "id": "F4_wall_link_arch",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {
+     "arcade_arch": 38,
+     "pillar": 13,
+     "tower_wall": 44
+    },
+    "samples": {
+     "arcade_arch": [
+      [
+       20,
+       49,
+       0
+      ],
+      [
+       20,
+       49,
+       1
+      ],
+      [
+       20,
+       50,
+       -1
+      ],
+      [
+       20,
+       50,
+       0
+      ],
+      [
+       20,
+       50,
+       1
+      ],
+      [
+       20,
+       50,
+       2
+      ],
+      [
+       20,
+       50,
+       3
+      ],
+      [
+       20,
+       51,
+       -1
+      ]
+     ],
+     "pillar": [
+      [
+       20,
+       49,
+       0
+      ],
+      [
+       20,
+       49,
+       1
+      ],
+      [
+       20,
+       51,
+       0
+      ],
+      [
+       20,
+       51,
+       2
+      ],
+      [
+       21,
+       49,
+       0
+      ],
+      [
+       21,
+       49,
+       1
+      ],
+      [
+       21,
+       50,
+       1
+      ],
+      [
+       21,
+       51,
+       0
+      ]
+     ],
+     "tower_wall": [
+      [
+       14,
+       49,
+       -3
+      ],
+      [
+       14,
+       49,
+       -2
+      ],
+      [
+       14,
+       49,
+       3
+      ],
+      [
+       15,
+       49,
+       -3
+      ],
+      [
+       15,
+       49,
+       -2
+      ],
+      [
+       15,
+       49,
+       3
+      ],
+      [
+       14,
+       50,
+       -3
+      ],
+      [
+       14,
+       50,
+       -2
+      ]
+     ]
+    }
+   },
+   {
+    "id": "F4_partial_canopy_steps",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {
+     "arcade_arch": 2,
+     "tower_wall": 48
+    },
+    "samples": {
+     "arcade_arch": [
+      [
+       20,
+       54,
+       4
+      ],
+      [
+       21,
+       54,
+       4
+      ]
+     ],
+     "tower_wall": [
+      [
+       14,
+       54,
+       -4
+      ],
+      [
+       14,
+       54,
+       -3
+      ],
+      [
+       14,
+       54,
+       -2
+      ],
+      [
+       14,
+       54,
+       -1
+      ],
+      [
+       14,
+       54,
+       0
+      ],
+      [
+       14,
+       54,
+       1
+      ],
+      [
+       14,
+       54,
+       2
+      ],
+      [
+       14,
+       54,
+       3
+      ]
+     ]
+    }
+   },
+   {
+    "id": "F4_horizontal_moulding",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {
+     "arcade_arch": 2,
+     "tower_wall": 16
+    },
+    "samples": {
+     "arcade_arch": [
+      [
+       20,
+       54,
+       4
+      ],
+      [
+       21,
+       54,
+       4
+      ]
+     ],
+     "tower_wall": [
+      [
+       14,
+       54,
+       -4
+      ],
+      [
+       14,
+       54,
+       -3
+      ],
+      [
+       14,
+       54,
+       -2
+      ],
+      [
+       14,
+       54,
+       -1
+      ],
+      [
+       14,
+       54,
+       0
+      ],
+      [
+       14,
+       54,
+       1
+      ],
+      [
+       14,
+       54,
+       2
+      ],
+      [
+       14,
+       54,
+       3
+      ]
+     ]
+    }
+   },
+   {
+    "id": "F4_gate_double_arch",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {
+     "tower_wall": 66
+    },
+    "samples": {
+     "tower_wall": [
+      [
+       13,
+       49,
+       -3
+      ],
+      [
+       13,
+       49,
+       -2
+      ],
+      [
+       13,
+       49,
+       3
+      ],
+      [
+       14,
+       49,
+       -3
+      ],
+      [
+       14,
+       49,
+       -2
+      ],
+      [
+       14,
+       49,
+       3
+      ],
+      [
+       15,
+       49,
+       -3
+      ],
+      [
+       15,
+       49,
+       -2
+      ]
+     ]
+    }
+   },
+   {
+    "id": "F4_gate_shallow_pilasters",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {
+     "tower_wall": 48
+    },
+    "samples": {
+     "tower_wall": [
+      [
+       14,
+       47,
+       -4
+      ],
+      [
+       14,
+       47,
+       -3
+      ],
+      [
+       14,
+       47,
+       -2
+      ],
+      [
+       14,
+       47,
+       3
+      ],
+      [
+       14,
+       47,
+       4
+      ],
+      [
+       15,
+       47,
+       -3
+      ],
+      [
+       15,
+       47,
+       -2
+      ],
+      [
+       15,
+       47,
+       3
+      ]
+     ]
+    }
+   },
+   {
+    "id": "F4_gate_geometric_relief",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {
+     "tower_wall": 34
+    },
+    "samples": {
+     "tower_wall": [
+      [
+       14,
+       53,
+       -3
+      ],
+      [
+       14,
+       53,
+       -2
+      ],
+      [
+       14,
+       53,
+       3
+      ],
+      [
+       15,
+       53,
+       -3
+      ],
+      [
+       15,
+       53,
+       -2
+      ],
+      [
+       15,
+       53,
+       3
+      ],
+      [
+       14,
+       54,
+       -3
+      ],
+      [
+       14,
+       54,
+       -2
+      ]
+     ]
+    }
+   },
+   {
+    "id": "B2-5_support",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {},
+    "samples": {}
+   },
+   {
+    "id": "B3-2_support",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {},
+    "samples": {}
+   },
+   {
+    "id": "B3-6_support",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {
+     "balcony_support": 41
+    },
+    "samples": {
+     "balcony_support": [
+      [
+       1,
+       42,
+       -23
+      ],
+      [
+       1,
+       42,
+       -22
+      ],
+      [
+       1,
+       42,
+       -21
+      ],
+      [
+       1,
+       42,
+       -20
+      ],
+      [
+       2,
+       42,
+       -23
+      ],
+      [
+       2,
+       42,
+       -22
+      ],
+      [
+       2,
+       42,
+       -21
+      ],
+      [
+       2,
+       42,
+       -20
+      ]
+     ]
+    }
+   },
+   {
+    "id": "B2-1_support",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {
+     "arcade_arch": 6,
+     "balcony_support": 41
+    },
+    "samples": {
+     "arcade_arch": [
+      [
+       3,
+       19,
+       20
+      ],
+      [
+       3,
+       19,
+       21
+      ],
+      [
+       4,
+       19,
+       20
+      ],
+      [
+       4,
+       19,
+       21
+      ],
+      [
+       5,
+       19,
+       20
+      ],
+      [
+       5,
+       19,
+       21
+      ]
+     ],
+     "balcony_support": [
+      [
+       1,
+       21,
+       20
+      ],
+      [
+       1,
+       21,
+       21
+      ],
+      [
+       1,
+       21,
+       22
+      ],
+      [
+       1,
+       21,
+       23
+      ],
+      [
+       2,
+       21,
+       20
+      ],
+      [
+       2,
+       21,
+       21
+      ],
+      [
+       2,
+       21,
+       22
+      ],
+      [
+       2,
+       21,
+       23
+      ]
+     ]
+    }
+   },
+   {
+    "id": "B1-4_support",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {},
+    "samples": {}
+   },
+   {
+    "id": "B4-3_support",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {
+     "balcony_support": 41
+    },
+    "samples": {
+     "balcony_support": [
+      [
+       -23,
+       53,
+       1
+      ],
+      [
+       -23,
+       53,
+       2
+      ],
+      [
+       -23,
+       53,
+       3
+      ],
+      [
+       -23,
+       53,
+       4
+      ],
+      [
+       -23,
+       53,
+       5
+      ],
+      [
+       -23,
+       53,
+       6
+      ],
+      [
+       -23,
+       53,
+       7
+      ],
+      [
+       -23,
+       53,
+       8
+      ]
+     ]
+    }
+   },
+   {
+    "id": "B4-7_support",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {
+     "balcony_support": 41
+    },
+    "samples": {
+     "balcony_support": [
+      [
+       19,
+       62,
+       -9
+      ],
+      [
+       19,
+       62,
+       -8
+      ],
+      [
+       19,
+       62,
+       -7
+      ],
+      [
+       19,
+       62,
+       -6
+      ],
+      [
+       19,
+       62,
+       -5
+      ],
+      [
+       20,
+       62,
+       -9
+      ],
+      [
+       20,
+       62,
+       -8
+      ],
+      [
+       20,
+       62,
+       -7
+      ]
+     ]
+    }
+   },
+   {
+    "id": "B1-0_support",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {
+     "balcony_support": 41
+    },
+    "samples": {
+     "balcony_support": [
+      [
+       19,
+       8,
+       5
+      ],
+      [
+       19,
+       8,
+       6
+      ],
+      [
+       19,
+       8,
+       7
+      ],
+      [
+       19,
+       8,
+       8
+      ],
+      [
+       19,
+       8,
+       9
+      ],
+      [
+       20,
+       8,
+       1
+      ],
+      [
+       20,
+       8,
+       2
+      ],
+      [
+       20,
+       8,
+       3
+      ]
+     ]
+    }
+   },
+   {
+    "id": "base_approach",
+    "trial_box_outside_boundary_columns": 8,
+    "counts": {
+     "balcony_floor": 28,
+     "balcony_rail": 7,
+     "balcony_support": 28,
+     "rail": 2,
+     "stairs": 54,
+     "tower_base_core": 540,
+     "tower_wall": 35
+    },
+    "samples": {
+     "balcony_floor": [
+      [
+       19,
+       9,
+       5
+      ],
+      [
+       19,
+       9,
+       6
+      ],
+      [
+       19,
+       9,
+       7
+      ],
+      [
+       19,
+       9,
+       8
+      ],
+      [
+       20,
+       9,
+       1
+      ],
+      [
+       20,
+       9,
+       2
+      ],
+      [
+       20,
+       9,
+       3
+      ],
+      [
+       20,
+       9,
+       4
+      ]
+     ],
+     "balcony_rail": [
+      [
+       19,
+       10,
+       5
+      ],
+      [
+       19,
+       10,
+       6
+      ],
+      [
+       19,
+       10,
+       7
+      ],
+      [
+       19,
+       10,
+       8
+      ],
+      [
+       20,
+       10,
+       1
+      ],
+      [
+       21,
+       10,
+       1
+      ],
+      [
+       22,
+       10,
+       1
+      ]
+     ],
+     "balcony_support": [
+      [
+       19,
+       8,
+       5
+      ],
+      [
+       19,
+       8,
+       6
+      ],
+      [
+       19,
+       8,
+       7
+      ],
+      [
+       19,
+       8,
+       8
+      ],
+      [
+       20,
+       8,
+       1
+      ],
+      [
+       20,
+       8,
+       2
+      ],
+      [
+       20,
+       8,
+       3
+      ],
+      [
+       20,
+       8,
+       4
+      ]
+     ],
+     "rail": [
+      [
+       18,
+       10,
+       8
+      ],
+      [
+       20,
+       10,
+       0
+      ]
+     ],
+     "stairs": [
+      [
+       12,
+       9,
+       -1
+      ],
+      [
+       12,
+       9,
+       0
+      ],
+      [
+       12,
+       9,
+       1
+      ],
+      [
+       12,
+       9,
+       2
+      ],
+      [
+       13,
+       9,
+       -1
+      ],
+      [
+       13,
+       9,
+       0
+      ],
+      [
+       13,
+       9,
+       1
+      ],
+      [
+       13,
+       9,
+       2
+      ]
+     ],
+     "tower_base_core": [
+      [
+       12,
+       9,
+       -1
+      ],
+      [
+       12,
+       9,
+       0
+      ],
+      [
+       12,
+       9,
+       1
+      ],
+      [
+       12,
+       9,
+       2
+      ],
+      [
+       13,
+       9,
+       -1
+      ],
+      [
+       13,
+       9,
+       0
+      ],
+      [
+       13,
+       9,
+       1
+      ],
+      [
+       13,
+       9,
+       2
+      ]
+     ],
+     "tower_wall": [
+      [
+       12,
+       10,
+       -8
+      ],
+      [
+       12,
+       10,
+       -7
+      ],
+      [
+       12,
+       10,
+       -6
+      ],
+      [
+       12,
+       10,
+       -5
+      ],
+      [
+       12,
+       10,
+       -4
+      ],
+      [
+       12,
+       10,
+       4
+      ],
+      [
+       12,
+       10,
+       5
+      ],
+      [
+       12,
+       10,
+       6
+      ]
+     ]
+    }
+   },
+   {
+    "id": "sanctum_ring",
+    "trial_box_outside_boundary_columns": 0,
+    "counts": {
+     "arcade_arch": 16
+    },
+    "samples": {
+     "arcade_arch": [
+      [
+       -15,
+       65,
+       -15
+      ],
+      [
+       -15,
+       65,
+       -14
+      ],
+      [
+       -15,
+       65,
+       -13
+      ],
+      [
+       -15,
+       66,
+       -15
+      ],
+      [
+       -15,
+       66,
+       -14
+      ],
+      [
+       -14,
+       66,
+       -15
+      ],
+      [
+       -14,
+       66,
+       -14
+      ],
+      [
+       -13,
+       66,
+       -15
+      ]
+     ]
+    }
+   }
+  ],
+  "note": "Trial outer envelopes overlap intentionally at attachments and potentially at passage; no shape feasibility proof."
+ },
+ "balconies": {
+  "count": 8,
+  "items": [
+   {
+    "id": "B2-5",
+    "columns": 21,
+    "standable": 21,
+    "pass": true
+   },
+   {
+    "id": "B3-2",
+    "columns": 21,
+    "standable": 21,
+    "pass": true
+   },
+   {
+    "id": "B3-6",
+    "columns": 21,
+    "standable": 21,
+    "pass": true
+   },
+   {
+    "id": "B2-1",
+    "columns": 21,
+    "standable": 21,
+    "pass": true
+   },
+   {
+    "id": "B1-4",
+    "columns": 21,
+    "standable": 21,
+    "pass": true
+   },
+   {
+    "id": "B4-3",
+    "columns": 21,
+    "standable": 21,
+    "pass": true
+   },
+   {
+    "id": "B4-7",
+    "columns": 21,
+    "standable": 21,
+    "pass": true
+   },
+   {
+    "id": "B1-0",
+    "columns": 21,
+    "standable": 21,
+    "pass": true
+   }
+  ],
+  "pass": true
+ },
+ "reach": {
+  "start_standable": true,
+  "reached": [
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "visited_states": 58566,
+  "limit": 600000,
+  "search_exhausted": false,
+  "limit_hit": false,
+  "player_width": 0.6,
+  "player_height": 1.8,
+  "grid_step": 0.25,
+  "max_step_up": 0.5,
+  "jump_allowed": false,
+  "names": [
+   "F2",
+   "F3",
+   "F4",
+   "SANCTUM",
+   "B2-5",
+   "B3-2",
+   "B3-6",
+   "B2-1",
+   "B1-4",
+   "B4-3",
+   "B4-7",
+   "B1-0"
+  ],
+  "pass_all": true,
+  "reverse_witness_replay": {
+   "F2": true,
+   "F3": true,
+   "F4": true,
+   "SANCTUM": true,
+   "B2-5": true,
+   "B3-2": true,
+   "B3-6": true,
+   "B2-1": true,
+   "B1-4": true,
+   "B4-3": true,
+   "B4-7": true,
+   "B1-0": true
+  }
+ },
+ "base_access": {
+  "status": "UNVERIFIED",
+  "reason": "No Q13 approach stair geometry exists. F1-start BFS does not establish ground\u2192F1."
+ }
+}

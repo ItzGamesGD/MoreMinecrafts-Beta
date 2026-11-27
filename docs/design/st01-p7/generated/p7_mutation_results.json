@@ -1,0 +1,61 @@
+{
+  "mutation_tests": [
+    {
+      "id": "MUT_SOUTH_COLLISION",
+      "description": "Primary chest south extension (-21, -20, 34) collides with sarcophagus",
+      "expected": "FAIL",
+      "got": "FAIL",
+      "detected": true
+    },
+    {
+      "id": "MUT_CENTER_OBELISK_COLLISION",
+      "description": "Guardian emergence at exact center (-21, -22, 21) collides with obelisk",
+      "expected": "FAIL",
+      "got": "FAIL",
+      "detected": true
+    },
+    {
+      "id": "MUT_NORTH_BOSS_SIGHTLINE",
+      "description": "Guardian emergence at north (-21, -22, 15) sightline obstructed by obelisk",
+      "expected": "FAIL",
+      "got": "FAIL",
+      "detected": true
+    },
+    {
+      "id": "MUT_UNSUPPORTED_CHEST",
+      "description": "Floor support removed under chest block (-21, -21, 33)",
+      "expected": "FAIL",
+      "got": "FAIL",
+      "detected": true
+    },
+    {
+      "id": "MUT_BOSS_PILLAR_COLLISION",
+      "description": "Guardian spawned inside pillar shaft (-30, -22, 8)",
+      "expected": "FAIL",
+      "got": "FAIL",
+      "detected": true
+    },
+    {
+      "id": "MUT_CHEST_HEADROOM",
+      "description": "Chest bounding box raised to ceiling boundary Y=-8",
+      "expected": "FAIL",
+      "got": "FAIL",
+      "detected": true
+    },
+    {
+      "id": "MUT_CANDIDATE_A_WARNING",
+      "description": "Candidate A flags approach cell consumption and side-facing orientation",
+      "expected": "UNVERIFIED",
+      "got": "UNVERIFIED",
+      "detected": true
+    },
+    {
+      "id": "MUT_COMBINATION_REJECTION",
+      "description": "Combination of South Collision chest + Center collision boss rejected",
+      "expected": "FAIL",
+      "got": "FAIL",
+      "detected": true
+    }
+  ],
+  "all_detected": true
+}

@@ -1,0 +1,144 @@
+{
+ "angle_step_degrees": 0.5,
+ "nominal_tread_band": [
+  14.5,
+  20.5
+ ],
+ "sample_minima": {
+  "0": {
+   "physical_width": {
+    "lap": 0,
+    "angle_deg": 8.5,
+    "feet_y": 1,
+    "physical_lo": 16.913672687646446,
+    "physical_hi": 20.727675621213272,
+    "physical_width": 3.814002933566826,
+    "centre_lo": 16.913672687646446,
+    "centre_hi": 20.424343782854052,
+    "centre_width": 3.5106710952076057,
+    "limiting_boxes": "[[21,1,3,\"entrance_guard\"],[21,2,3,\"entrance_guard\"]]"
+   },
+   "centre_width": {
+    "lap": 0,
+    "angle_deg": 178.0,
+    "feet_y": 5.5,
+    "physical_lo": 14.508838392332915,
+    "physical_hi": 20.512495658125847,
+    "physical_width": 6.003657265792931,
+    "centre_lo": 0.0,
+    "centre_hi": 0.0,
+    "centre_width": 0.0,
+    "limiting_boxes": "[[-21,5,1,\"rail\"],[-21,6,1,\"rail\"],[-14,5,1,\"rail\"],[-14,6,1,\"rail\"],[-14,7,1,\"podium\"],[0,5,0,\"podium\"],[0,6,0,\"podium\"],[0,7,0,\"podium\"]]"
+   }
+  },
+  "1": {
+   "physical_width": {
+    "lap": 1,
+    "angle_deg": 331.0,
+    "feet_y": 21,
+    "physical_lo": 15.469990047204861,
+    "physical_hi": 20.008696187783098,
+    "physical_width": 4.5387061405782365,
+    "centre_lo": 18.15145498872037,
+    "centre_hi": 19.665689967421102,
+    "centre_width": 1.5142349787007312,
+    "limiting_boxes": "[[14,21,-7,\"stairs\"],[16,21,-8,\"stairs\"],[18,21,-10,\"rail\"],[18,22,-10,\"rail\"],[18,21,-9,\"stairs\"]]"
+   },
+   "centre_width": {
+    "lap": 1,
+    "angle_deg": 178.0,
+    "feet_y": 16,
+    "physical_lo": 14.508838392332915,
+    "physical_hi": 20.512495658125847,
+    "physical_width": 6.003657265792931,
+    "centre_lo": 0.0,
+    "centre_hi": 0.0,
+    "centre_width": 0.0,
+    "limiting_boxes": "[[-21,16,1,\"rail\"],[-21,17,1,\"rail\"],[-14,16,1,\"rail\"],[-14,17,1,\"rail\"]]"
+   }
+  },
+  "2": {
+   "physical_width": {
+    "lap": 2,
+    "angle_deg": 331.0,
+    "feet_y": 33,
+    "physical_lo": 15.469990047204861,
+    "physical_hi": 20.008696187783098,
+    "physical_width": 4.5387061405782365,
+    "centre_lo": 18.15145498872037,
+    "centre_hi": 19.665689967421102,
+    "centre_width": 1.5142349787007312,
+    "limiting_boxes": "[[14,33,-7,\"stairs\"],[16,33,-8,\"stairs\"],[18,33,-10,\"rail\"],[18,34,-10,\"rail\"],[18,33,-9,\"stairs\"]]"
+   },
+   "centre_width": {
+    "lap": 2,
+    "angle_deg": 178.0,
+    "feet_y": 27.5,
+    "physical_lo": 14.508838392332915,
+    "physical_hi": 20.512495658125847,
+    "physical_width": 6.003657265792931,
+    "centre_lo": 0.0,
+    "centre_hi": 0.0,
+    "centre_width": 0.0,
+    "limiting_boxes": "[[-21,27,1,\"rail\"],[-21,28,1,\"rail\"],[-14,27,1,\"rail\"],[-14,28,1,\"rail\"]]"
+   }
+  },
+  "3": {
+   "physical_width": {
+    "lap": 3,
+    "angle_deg": 343.0,
+    "feet_y": 47.5,
+    "physical_lo": 15.391366289249687,
+    "physical_hi": 20.390989251499388,
+    "physical_width": 4.999622962249701,
+    "centre_lo": 16.417457375199664,
+    "centre_hi": 19.031589968066097,
+    "centre_width": 2.614132592866433,
+    "limiting_boxes": "[[15,47,-4,\"stairs\"],[16,47,-4,\"stairs\"],[19,47,-5,\"stairs\"],[20,47,-6,\"rail\"],[20,48,-6,\"rail\"]]"
+   },
+   "centre_width": {
+    "lap": 3,
+    "angle_deg": 178.0,
+    "feet_y": 40.5,
+    "physical_lo": 14.508838392332915,
+    "physical_hi": 20.512495658125847,
+    "physical_width": 6.003657265792931,
+    "centre_lo": 0.0,
+    "centre_hi": 0.0,
+    "centre_width": 0.0,
+    "limiting_boxes": "[[-21,40,1,\"rail\"],[-21,41,1,\"rail\"],[-14,40,1,\"rail\"],[-14,41,1,\"rail\"]]"
+   }
+  },
+  "4": {
+   "physical_width": {
+    "lap": 4,
+    "angle_deg": 335.0,
+    "feet_y": 64,
+    "physical_lo": 15.380310290491249,
+    "physical_hi": 19.309113581843604,
+    "physical_width": 3.928803291352356,
+    "centre_lo": 16.090170765436998,
+    "centre_hi": 17.874722287192363,
+    "centre_width": 1.7845515217553647,
+    "limiting_boxes": "[[14,64,-6,\"stairs\"],[15,64,-6,\"stairs\"],[17,64,-7,\"stairs\"]]"
+   },
+   "centre_width": {
+    "lap": 4,
+    "angle_deg": 178.0,
+    "feet_y": 56,
+    "physical_lo": 14.508838392332915,
+    "physical_hi": 20.512495658125847,
+    "physical_width": 6.003657265792931,
+    "centre_lo": 0.0,
+    "centre_hi": 0.0,
+    "centre_width": 0.0,
+    "limiting_boxes": "[[-21,56,1,\"rail\"],[-21,57,1,\"rail\"],[-14,56,1,\"rail\"],[-14,57,1,\"rail\"]]"
+   }
+  }
+ },
+ "limitations": [
+  "sampled angles; not global minimum",
+  "fixed-height cross-section; step transitions can collapse centre interval without route failure",
+  "physical width distinct from centre span and multiplayer passing"
+ ]
+}

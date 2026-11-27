@@ -1,0 +1,1864 @@
+{
+ "worlds": [
+  {
+   "level": "capw-a",
+   "state_dir": "tools/st05-worldgen-probe/stage0f/live/seed-7001/state-h",
+   "seed": 7001,
+   "arena": "built-20d89ee7",
+   "id": "20d89ee7a8aa754c",
+   "variant": "INTACT",
+   "center": [
+    -837,
+    -26,
+    -1174
+   ],
+   "scenes": [
+    {
+     "name": "20d89ee7_intact__02_interior_overview",
+     "x": -861.5,
+     "y": -25.12,
+     "z": -1165.5,
+     "yaw": -111.7,
+     "pitch": -13.6,
+     "what": "interior from the combat floor, far dome / wall",
+     "cutaway": "",
+     "cx": -837,
+     "cz": -1174,
+     "fy": -26,
+     "eye": [
+      -861.5,
+      -23.5,
+      -1165.5
+     ],
+     "target": [
+      -825,
+      -14,
+      -1180
+     ],
+     "wait": 600,
+     "nightvision": true
+    },
+    {
+     "name": "20d89ee7_intact__02c_interior_overview_NO_nightvision",
+     "x": -861.5,
+     "y": -25.12,
+     "z": -1165.5,
+     "yaw": -111.7,
+     "pitch": -13.6,
+     "what": "same view as 02 but WITHOUT night vision (true block lighting)",
+     "cutaway": "",
+     "cx": -837,
+     "cz": -1174,
+     "fy": -26,
+     "eye": [
+      -861.5,
+      -23.5,
+      -1165.5
+     ],
+     "target": [
+      -825,
+      -14,
+      -1180
+     ],
+     "wait": 120,
+     "nightvision": false
+    },
+    {
+     "name": "20d89ee7_intact__02b_interior_dome_up",
+     "x": -836.5,
+     "y": -25.12,
+     "z": -1159.5,
+     "yaw": 178.6,
+     "pitch": -42.1,
+     "what": "interior looking up into the dome / ceiling",
+     "cutaway": "",
+     "cx": -837,
+     "cz": -1174,
+     "fy": -26,
+     "eye": [
+      -836.5,
+      -23.5,
+      -1159.5
+     ],
+     "target": [
+      -837,
+      -5,
+      -1180
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "20d89ee7_intact__03_entrance_N",
+     "x": -836.5,
+     "y": -25.12,
+     "z": -1161.5,
+     "yaw": -180.0,
+     "pitch": -1.3,
+     "what": "entrance N (7x8 arch) from the floor, columns around",
+     "cutaway": "",
+     "cx": -837,
+     "cz": -1174,
+     "fy": -26,
+     "eye": [
+      -836.5,
+      -23.5,
+      -1161.5
+     ],
+     "target": [
+      -836.5,
+      -22.5,
+      -1206.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "20d89ee7_intact__03_entrance_E",
+     "x": -848.5,
+     "y": -25.12,
+     "z": -1173.5,
+     "yaw": -90.0,
+     "pitch": -1.3,
+     "what": "entrance E (7x8 arch) from the floor, columns around",
+     "cutaway": "",
+     "cx": -837,
+     "cz": -1174,
+     "fy": -26,
+     "eye": [
+      -848.5,
+      -23.5,
+      -1173.5
+     ],
+     "target": [
+      -803.5,
+      -22.5,
+      -1173.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "20d89ee7_intact__03_entrance_S",
+     "x": -836.5,
+     "y": -25.12,
+     "z": -1185.5,
+     "yaw": -0.0,
+     "pitch": -1.3,
+     "what": "entrance S (7x8 arch) from the floor, columns around",
+     "cutaway": "",
+     "cx": -837,
+     "cz": -1174,
+     "fy": -26,
+     "eye": [
+      -836.5,
+      -23.5,
+      -1185.5
+     ],
+     "target": [
+      -836.5,
+      -22.5,
+      -1140.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "20d89ee7_intact__03_entrance_W",
+     "x": -824.5,
+     "y": -25.12,
+     "z": -1173.5,
+     "yaw": 90.0,
+     "pitch": -1.3,
+     "what": "entrance W (7x8 arch) from the floor, columns around",
+     "cutaway": "",
+     "cx": -837,
+     "cz": -1174,
+     "fy": -26,
+     "eye": [
+      -824.5,
+      -23.5,
+      -1173.5
+     ],
+     "target": [
+      -869.5,
+      -22.5,
+      -1173.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "20d89ee7_intact__04_vault_ring",
+     "x": -836.5,
+     "y": -23.12,
+     "z": -1173.5,
+     "yaw": -74.9,
+     "pitch": 8.4,
+     "what": "vault ring on r=27, seen from the centre",
+     "cutaway": "",
+     "cx": -837,
+     "cz": -1174,
+     "fy": -26,
+     "eye": [
+      -836.5,
+      -21.5,
+      -1173.5
+     ],
+     "target": [
+      -810.5,
+      -25.5,
+      -1166.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "20d89ee7_intact__04b_vault_close",
+     "x": -816.293694551124,
+     "y": -25.12,
+     "z": -1168.0598408406872,
+     "yaw": -74.9,
+     "pitch": 15.8,
+     "what": "one ordinary Vault close up",
+     "cutaway": "",
+     "cx": -837,
+     "cz": -1174,
+     "fy": -26,
+     "eye": [
+      -816.293694551124,
+      -23.5,
+      -1168.0598408406872
+     ],
+     "target": [
+      -810.5,
+      -25.2,
+      -1166.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "20d89ee7_intact__04c_ominous_vault_centre",
+     "x": -836.5,
+     "y": -24.82,
+     "z": -1168.5,
+     "yaw": -180.0,
+     "pitch": 23.7,
+     "what": "Ominous Vault at the exact centre",
+     "cutaway": "",
+     "cx": -837,
+     "cz": -1174,
+     "fy": -26,
+     "eye": [
+      -836.5,
+      -23.2,
+      -1168.5
+     ],
+     "target": [
+      -836.5,
+      -25.4,
+      -1173.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "20d89ee7_intact__05_corridor_0_entrance_side",
+     "x": -799.5,
+     "y": -26.220000000000002,
+     "z": -1173.5,
+     "yaw": -90.0,
+     "pitch": 52.4,
+     "what": "corridor 0 (dir E) from the arena end looking outward",
+     "cutaway": "",
+     "cx": -837,
+     "cz": -1174,
+     "fy": -26,
+     "eye": [
+      -799.5,
+      -24.6,
+      -1173.5
+     ],
+     "target": [
+      -796.5,
+      -28.5,
+      -1173.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "20d89ee7_intact__05b_corridor_0_cave_junction",
+     "x": -794.5,
+     "y": -29.220000000000002,
+     "z": -1173.5,
+     "yaw": -0.0,
+     "pitch": 32.3,
+     "what": "corridor 0 junction with the natural cave",
+     "cutaway": "",
+     "cx": -837,
+     "cz": -1174,
+     "fy": -26,
+     "eye": [
+      -794.5,
+      -27.6,
+      -1173.5
+     ],
+     "target": [
+      -794.5,
+      -29.5,
+      -1170.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "20d89ee7_intact__05_corridor_1_entrance_side",
+     "x": -836.5,
+     "y": -25.220000000000002,
+     "z": -1210.5,
+     "yaw": -180.0,
+     "pitch": 42.0,
+     "what": "corridor 1 (dir N) from the arena end looking outward",
+     "cutaway": "",
+     "cx": -837,
+     "cz": -1174,
+     "fy": -26,
+     "eye": [
+      -836.5,
+      -23.6,
+      -1210.5
+     ],
+     "target": [
+      -836.5,
+      -24.5,
+      -1211.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "20d89ee7_intact__05b_corridor_1_cave_junction",
+     "x": -836.5,
+     "y": -25.220000000000002,
+     "z": -1211.5,
+     "yaw": -180.0,
+     "pitch": -20.1,
+     "what": "corridor 1 junction with the natural cave",
+     "cutaway": "",
+     "cx": -837,
+     "cz": -1174,
+     "fy": -26,
+     "eye": [
+      -836.5,
+      -23.6,
+      -1211.5
+     ],
+     "target": [
+      -836.5,
+      -22.5,
+      -1214.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "20d89ee7_intact__06_dome_exterior_aerial",
+     "x": -796.5,
+     "y": 20.38,
+     "z": -1133.5,
+     "yaw": 135.0,
+     "pitch": 33.6,
+     "what": "dome exterior from above, all natural terrain above the floor removed in the photo copy (planned blocks kept)",
+     "cutaway": "top",
+     "cx": -837,
+     "cz": -1174,
+     "fy": -26,
+     "eye": [
+      -796.5,
+      22,
+      -1133.5
+     ],
+     "target": [
+      -837,
+      -16,
+      -1174
+     ],
+     "wait": 200,
+     "nightvision": true
+    },
+    {
+     "name": "20d89ee7_intact__06d_dome_exterior_side",
+     "x": -778.5,
+     "y": -11.620000000000001,
+     "z": -1153.5,
+     "yaw": 109.3,
+     "pitch": 7.4,
+     "what": "dome exterior from the side with all natural terrain removed in the photo copy (planned blocks kept)",
+     "cutaway": "top",
+     "cx": -837,
+     "cz": -1174,
+     "fy": -26,
+     "eye": [
+      -778.5,
+      -10,
+      -1153.5
+     ],
+     "target": [
+      -837,
+      -18,
+      -1174
+     ],
+     "wait": 200,
+     "nightvision": true
+    },
+    {
+     "name": "20d89ee7_intact__06b_dome_cross_section",
+     "x": -784.5,
+     "y": -17.62,
+     "z": -1173.5,
+     "yaw": 90.0,
+     "pitch": 1.1,
+     "what": "vertical section through the centre (east half removed in the photo copy)",
+     "cutaway": "half",
+     "cx": -837,
+     "cz": -1174,
+     "fy": -26,
+     "eye": [
+      -784.5,
+      -16,
+      -1173.5
+     ],
+     "target": [
+      -837,
+      -17,
+      -1173.5
+     ],
+     "wait": 200,
+     "nightvision": true
+    },
+    {
+     "name": "20d89ee7_intact__06c_dome_cross_section_oblique",
+     "x": -788.5,
+     "y": -1.62,
+     "z": -1137.5,
+     "yaw": 125.3,
+     "pitch": 15.9,
+     "what": "oblique view of the section",
+     "cutaway": "half",
+     "cx": -837,
+     "cz": -1174,
+     "fy": -26,
+     "eye": [
+      -788.5,
+      0,
+      -1137.5
+     ],
+     "target": [
+      -840,
+      -18,
+      -1174
+     ],
+     "wait": 60,
+     "nightvision": true
+    }
+   ]
+  },
+  {
+   "level": "capw-b",
+   "state_dir": "tools/st05-worldgen-probe/stage0f/live/seed-7002/state-h",
+   "seed": 7002,
+   "arena": "built-809b9bf8",
+   "id": "809b9bf8237b315e",
+   "variant": "RUINED_NATURAL_CEILING",
+   "center": [
+    1654,
+    -36,
+    1136
+   ],
+   "scenes": [
+    {
+     "name": "809b9bf8_ruined_natural_ceiling__02_interior_overview",
+     "x": 1629.5,
+     "y": -35.12,
+     "z": 1144.5,
+     "yaw": -111.7,
+     "pitch": -13.6,
+     "what": "interior from the combat floor, far dome / wall",
+     "cutaway": "",
+     "cx": 1654,
+     "cz": 1136,
+     "fy": -36,
+     "eye": [
+      1629.5,
+      -33.5,
+      1144.5
+     ],
+     "target": [
+      1666,
+      -24,
+      1130
+     ],
+     "wait": 600,
+     "nightvision": true
+    },
+    {
+     "name": "809b9bf8_ruined_natural_ceiling__02c_interior_overview_NO_nightvision",
+     "x": 1629.5,
+     "y": -35.12,
+     "z": 1144.5,
+     "yaw": -111.7,
+     "pitch": -13.6,
+     "what": "same view as 02 but WITHOUT night vision (true block lighting)",
+     "cutaway": "",
+     "cx": 1654,
+     "cz": 1136,
+     "fy": -36,
+     "eye": [
+      1629.5,
+      -33.5,
+      1144.5
+     ],
+     "target": [
+      1666,
+      -24,
+      1130
+     ],
+     "wait": 120,
+     "nightvision": false
+    },
+    {
+     "name": "809b9bf8_ruined_natural_ceiling__02b_interior_dome_up",
+     "x": 1654.5,
+     "y": -35.12,
+     "z": 1150.5,
+     "yaw": 178.6,
+     "pitch": -42.1,
+     "what": "interior looking up into the dome / ceiling",
+     "cutaway": "",
+     "cx": 1654,
+     "cz": 1136,
+     "fy": -36,
+     "eye": [
+      1654.5,
+      -33.5,
+      1150.5
+     ],
+     "target": [
+      1654,
+      -15,
+      1130
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "809b9bf8_ruined_natural_ceiling__03_entrance_N",
+     "x": 1654.5,
+     "y": -35.12,
+     "z": 1148.5,
+     "yaw": -180.0,
+     "pitch": -1.3,
+     "what": "entrance N (7x8 arch) from the floor, columns around",
+     "cutaway": "",
+     "cx": 1654,
+     "cz": 1136,
+     "fy": -36,
+     "eye": [
+      1654.5,
+      -33.5,
+      1148.5
+     ],
+     "target": [
+      1654.5,
+      -32.5,
+      1103.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "809b9bf8_ruined_natural_ceiling__03_entrance_E",
+     "x": 1642.5,
+     "y": -35.12,
+     "z": 1136.5,
+     "yaw": -90.0,
+     "pitch": -1.3,
+     "what": "entrance E (7x8 arch) from the floor, columns around",
+     "cutaway": "",
+     "cx": 1654,
+     "cz": 1136,
+     "fy": -36,
+     "eye": [
+      1642.5,
+      -33.5,
+      1136.5
+     ],
+     "target": [
+      1687.5,
+      -32.5,
+      1136.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "809b9bf8_ruined_natural_ceiling__03_entrance_S",
+     "x": 1654.5,
+     "y": -35.12,
+     "z": 1124.5,
+     "yaw": -0.0,
+     "pitch": -1.3,
+     "what": "entrance S (7x8 arch) from the floor, columns around",
+     "cutaway": "",
+     "cx": 1654,
+     "cz": 1136,
+     "fy": -36,
+     "eye": [
+      1654.5,
+      -33.5,
+      1124.5
+     ],
+     "target": [
+      1654.5,
+      -32.5,
+      1169.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "809b9bf8_ruined_natural_ceiling__03_entrance_W",
+     "x": 1666.5,
+     "y": -35.12,
+     "z": 1136.5,
+     "yaw": 90.0,
+     "pitch": -1.3,
+     "what": "entrance W (7x8 arch) from the floor, columns around",
+     "cutaway": "",
+     "cx": 1654,
+     "cz": 1136,
+     "fy": -36,
+     "eye": [
+      1666.5,
+      -33.5,
+      1136.5
+     ],
+     "target": [
+      1621.5,
+      -32.5,
+      1136.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "809b9bf8_ruined_natural_ceiling__04_vault_ring",
+     "x": 1654.5,
+     "y": -33.12,
+     "z": 1136.5,
+     "yaw": -74.9,
+     "pitch": 8.4,
+     "what": "vault ring on r=27, seen from the centre",
+     "cutaway": "",
+     "cx": 1654,
+     "cz": 1136,
+     "fy": -36,
+     "eye": [
+      1654.5,
+      -31.5,
+      1136.5
+     ],
+     "target": [
+      1680.5,
+      -35.5,
+      1143.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "809b9bf8_ruined_natural_ceiling__04b_vault_close",
+     "x": 1674.706305448876,
+     "y": -35.12,
+     "z": 1141.9401591593128,
+     "yaw": -74.9,
+     "pitch": 15.8,
+     "what": "one ordinary Vault close up",
+     "cutaway": "",
+     "cx": 1654,
+     "cz": 1136,
+     "fy": -36,
+     "eye": [
+      1674.706305448876,
+      -33.5,
+      1141.9401591593128
+     ],
+     "target": [
+      1680.5,
+      -35.2,
+      1143.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "809b9bf8_ruined_natural_ceiling__04c_ominous_vault_centre",
+     "x": 1654.5,
+     "y": -34.82,
+     "z": 1141.5,
+     "yaw": -180.0,
+     "pitch": 23.7,
+     "what": "Ominous Vault at the exact centre",
+     "cutaway": "",
+     "cx": 1654,
+     "cz": 1136,
+     "fy": -36,
+     "eye": [
+      1654.5,
+      -33.2,
+      1141.5
+     ],
+     "target": [
+      1654.5,
+      -35.4,
+      1136.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "809b9bf8_ruined_natural_ceiling__05_corridor_0_entrance_side",
+     "x": 1654.5,
+     "y": -37.22,
+     "z": 1099.5,
+     "yaw": -180.0,
+     "pitch": 50.8,
+     "what": "corridor 0 (dir N) from the arena end looking outward",
+     "cutaway": "",
+     "cx": 1654,
+     "cz": 1136,
+     "fy": -36,
+     "eye": [
+      1654.5,
+      -35.6,
+      1099.5
+     ],
+     "target": [
+      1654.5,
+      -40.5,
+      1095.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "809b9bf8_ruined_natural_ceiling__05b_corridor_0_cave_junction",
+     "x": 1654.5,
+     "y": -43.22,
+     "z": 1093.5,
+     "yaw": -180.0,
+     "pitch": 52.4,
+     "what": "corridor 0 junction with the natural cave",
+     "cutaway": "",
+     "cx": 1654,
+     "cz": 1136,
+     "fy": -36,
+     "eye": [
+      1654.5,
+      -41.6,
+      1093.5
+     ],
+     "target": [
+      1654.5,
+      -45.5,
+      1090.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "809b9bf8_ruined_natural_ceiling__05_corridor_1_entrance_side",
+     "x": 1691.5,
+     "y": -35.22,
+     "z": 1136.5,
+     "yaw": -90.0,
+     "pitch": 7.3,
+     "what": "corridor 1 (dir E) from the arena end looking outward",
+     "cutaway": "",
+     "cx": 1654,
+     "cz": 1136,
+     "fy": -36,
+     "eye": [
+      1691.5,
+      -33.6,
+      1136.5
+     ],
+     "target": [
+      1698.5,
+      -34.5,
+      1136.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "809b9bf8_ruined_natural_ceiling__05b_corridor_1_cave_junction",
+     "x": 1699.5,
+     "y": -34.22,
+     "z": 1132.5,
+     "yaw": -180.0,
+     "pitch": -35.0,
+     "what": "corridor 1 junction with the natural cave",
+     "cutaway": "",
+     "cx": 1654,
+     "cz": 1136,
+     "fy": -36,
+     "eye": [
+      1699.5,
+      -32.6,
+      1132.5
+     ],
+     "target": [
+      1699.5,
+      -30.5,
+      1129.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "809b9bf8_ruined_natural_ceiling__06_dome_exterior_aerial",
+     "x": 1694.5,
+     "y": 10.379999999999999,
+     "z": 1176.5,
+     "yaw": 135.0,
+     "pitch": 33.6,
+     "what": "dome exterior from above, all natural terrain above the floor removed in the photo copy (planned blocks kept)",
+     "cutaway": "top",
+     "cx": 1654,
+     "cz": 1136,
+     "fy": -36,
+     "eye": [
+      1694.5,
+      12,
+      1176.5
+     ],
+     "target": [
+      1654,
+      -26,
+      1136
+     ],
+     "wait": 200,
+     "nightvision": true
+    },
+    {
+     "name": "809b9bf8_ruined_natural_ceiling__06d_dome_exterior_side",
+     "x": 1712.5,
+     "y": -21.62,
+     "z": 1156.5,
+     "yaw": 109.3,
+     "pitch": 7.4,
+     "what": "dome exterior from the side with all natural terrain removed in the photo copy (planned blocks kept)",
+     "cutaway": "top",
+     "cx": 1654,
+     "cz": 1136,
+     "fy": -36,
+     "eye": [
+      1712.5,
+      -20,
+      1156.5
+     ],
+     "target": [
+      1654,
+      -28,
+      1136
+     ],
+     "wait": 200,
+     "nightvision": true
+    },
+    {
+     "name": "809b9bf8_ruined_natural_ceiling__06b_dome_cross_section",
+     "x": 1706.5,
+     "y": -27.62,
+     "z": 1136.5,
+     "yaw": 90.0,
+     "pitch": 1.1,
+     "what": "vertical section through the centre (east half removed in the photo copy)",
+     "cutaway": "half",
+     "cx": 1654,
+     "cz": 1136,
+     "fy": -36,
+     "eye": [
+      1706.5,
+      -26,
+      1136.5
+     ],
+     "target": [
+      1654,
+      -27,
+      1136.5
+     ],
+     "wait": 200,
+     "nightvision": true
+    },
+    {
+     "name": "809b9bf8_ruined_natural_ceiling__06c_dome_cross_section_oblique",
+     "x": 1702.5,
+     "y": -11.620000000000001,
+     "z": 1172.5,
+     "yaw": 125.3,
+     "pitch": 15.9,
+     "what": "oblique view of the section",
+     "cutaway": "half",
+     "cx": 1654,
+     "cz": 1136,
+     "fy": -36,
+     "eye": [
+      1702.5,
+      -10,
+      1172.5
+     ],
+     "target": [
+      1651,
+      -28,
+      1136
+     ],
+     "wait": 60,
+     "nightvision": true
+    }
+   ]
+  },
+  {
+   "level": "capw-c",
+   "state_dir": "tools/st05-worldgen-probe/stage0f/live/seed-7001/state-h",
+   "seed": 7001,
+   "arena": "built-2ac822e8",
+   "id": "2ac822e8f540f125",
+   "variant": "RUINED_NATURAL_CEILING",
+   "center": [
+    1095,
+    -35,
+    -647
+   ],
+   "scenes": [
+    {
+     "name": "2ac822e8_ruined_natural_ceiling__02_interior_overview",
+     "x": 1070.5,
+     "y": -34.12,
+     "z": -638.5,
+     "yaw": -111.7,
+     "pitch": -13.6,
+     "what": "interior from the combat floor, far dome / wall",
+     "cutaway": "",
+     "cx": 1095,
+     "cz": -647,
+     "fy": -35,
+     "eye": [
+      1070.5,
+      -32.5,
+      -638.5
+     ],
+     "target": [
+      1107,
+      -23,
+      -653
+     ],
+     "wait": 600,
+     "nightvision": true
+    },
+    {
+     "name": "2ac822e8_ruined_natural_ceiling__02c_interior_overview_NO_nightvision",
+     "x": 1070.5,
+     "y": -34.12,
+     "z": -638.5,
+     "yaw": -111.7,
+     "pitch": -13.6,
+     "what": "same view as 02 but WITHOUT night vision (true block lighting)",
+     "cutaway": "",
+     "cx": 1095,
+     "cz": -647,
+     "fy": -35,
+     "eye": [
+      1070.5,
+      -32.5,
+      -638.5
+     ],
+     "target": [
+      1107,
+      -23,
+      -653
+     ],
+     "wait": 120,
+     "nightvision": false
+    },
+    {
+     "name": "2ac822e8_ruined_natural_ceiling__02b_interior_dome_up",
+     "x": 1095.5,
+     "y": -34.12,
+     "z": -632.5,
+     "yaw": 178.6,
+     "pitch": -42.1,
+     "what": "interior looking up into the dome / ceiling",
+     "cutaway": "",
+     "cx": 1095,
+     "cz": -647,
+     "fy": -35,
+     "eye": [
+      1095.5,
+      -32.5,
+      -632.5
+     ],
+     "target": [
+      1095,
+      -14,
+      -653
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "2ac822e8_ruined_natural_ceiling__03_entrance_N",
+     "x": 1095.5,
+     "y": -34.12,
+     "z": -634.5,
+     "yaw": -180.0,
+     "pitch": -1.3,
+     "what": "entrance N (7x8 arch) from the floor, columns around",
+     "cutaway": "",
+     "cx": 1095,
+     "cz": -647,
+     "fy": -35,
+     "eye": [
+      1095.5,
+      -32.5,
+      -634.5
+     ],
+     "target": [
+      1095.5,
+      -31.5,
+      -679.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "2ac822e8_ruined_natural_ceiling__03_entrance_E",
+     "x": 1083.5,
+     "y": -34.12,
+     "z": -646.5,
+     "yaw": -90.0,
+     "pitch": -1.3,
+     "what": "entrance E (7x8 arch) from the floor, columns around",
+     "cutaway": "",
+     "cx": 1095,
+     "cz": -647,
+     "fy": -35,
+     "eye": [
+      1083.5,
+      -32.5,
+      -646.5
+     ],
+     "target": [
+      1128.5,
+      -31.5,
+      -646.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "2ac822e8_ruined_natural_ceiling__03_entrance_S",
+     "x": 1095.5,
+     "y": -34.12,
+     "z": -658.5,
+     "yaw": -0.0,
+     "pitch": -1.3,
+     "what": "entrance S (7x8 arch) from the floor, columns around",
+     "cutaway": "",
+     "cx": 1095,
+     "cz": -647,
+     "fy": -35,
+     "eye": [
+      1095.5,
+      -32.5,
+      -658.5
+     ],
+     "target": [
+      1095.5,
+      -31.5,
+      -613.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "2ac822e8_ruined_natural_ceiling__03_entrance_W",
+     "x": 1107.5,
+     "y": -34.12,
+     "z": -646.5,
+     "yaw": 90.0,
+     "pitch": -1.3,
+     "what": "entrance W (7x8 arch) from the floor, columns around",
+     "cutaway": "",
+     "cx": 1095,
+     "cz": -647,
+     "fy": -35,
+     "eye": [
+      1107.5,
+      -32.5,
+      -646.5
+     ],
+     "target": [
+      1062.5,
+      -31.5,
+      -646.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "2ac822e8_ruined_natural_ceiling__04_vault_ring",
+     "x": 1095.5,
+     "y": -32.12,
+     "z": -646.5,
+     "yaw": -74.9,
+     "pitch": 8.4,
+     "what": "vault ring on r=27, seen from the centre",
+     "cutaway": "",
+     "cx": 1095,
+     "cz": -647,
+     "fy": -35,
+     "eye": [
+      1095.5,
+      -30.5,
+      -646.5
+     ],
+     "target": [
+      1121.5,
+      -34.5,
+      -639.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "2ac822e8_ruined_natural_ceiling__04b_vault_close",
+     "x": 1115.706305448876,
+     "y": -34.12,
+     "z": -641.0598408406872,
+     "yaw": -74.9,
+     "pitch": 15.8,
+     "what": "one ordinary Vault close up",
+     "cutaway": "",
+     "cx": 1095,
+     "cz": -647,
+     "fy": -35,
+     "eye": [
+      1115.706305448876,
+      -32.5,
+      -641.0598408406872
+     ],
+     "target": [
+      1121.5,
+      -34.2,
+      -639.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "2ac822e8_ruined_natural_ceiling__04c_ominous_vault_centre",
+     "x": 1095.5,
+     "y": -33.82,
+     "z": -641.5,
+     "yaw": -180.0,
+     "pitch": 23.7,
+     "what": "Ominous Vault at the exact centre",
+     "cutaway": "",
+     "cx": 1095,
+     "cz": -647,
+     "fy": -35,
+     "eye": [
+      1095.5,
+      -32.2,
+      -641.5
+     ],
+     "target": [
+      1095.5,
+      -34.4,
+      -646.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "2ac822e8_ruined_natural_ceiling__05_corridor_0_entrance_side",
+     "x": 1095.5,
+     "y": -35.22,
+     "z": -609.5,
+     "yaw": -0.0,
+     "pitch": 52.4,
+     "what": "corridor 0 (dir S) from the arena end looking outward",
+     "cutaway": "",
+     "cx": 1095,
+     "cz": -647,
+     "fy": -35,
+     "eye": [
+      1095.5,
+      -33.6,
+      -609.5
+     ],
+     "target": [
+      1095.5,
+      -37.5,
+      -606.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "2ac822e8_ruined_natural_ceiling__05b_corridor_0_cave_junction",
+     "x": 1095.5,
+     "y": -38.22,
+     "z": -604.5,
+     "yaw": -90.0,
+     "pitch": 32.3,
+     "what": "corridor 0 junction with the natural cave",
+     "cutaway": "",
+     "cx": 1095,
+     "cz": -647,
+     "fy": -35,
+     "eye": [
+      1095.5,
+      -36.6,
+      -604.5
+     ],
+     "target": [
+      1098.5,
+      -38.5,
+      -604.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "2ac822e8_ruined_natural_ceiling__05_corridor_1_entrance_side",
+     "x": 1058.5,
+     "y": -32.22,
+     "z": -646.5,
+     "yaw": 90.0,
+     "pitch": -5.7,
+     "what": "corridor 1 (dir W) from the arena end looking outward",
+     "cutaway": "",
+     "cx": 1095,
+     "cz": -647,
+     "fy": -35,
+     "eye": [
+      1058.5,
+      -30.6,
+      -646.5
+     ],
+     "target": [
+      1057.5,
+      -30.5,
+      -646.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "2ac822e8_ruined_natural_ceiling__05b_corridor_1_cave_junction",
+     "x": 1057.5,
+     "y": -31.220000000000002,
+     "z": -646.5,
+     "yaw": 90.0,
+     "pitch": -35.0,
+     "what": "corridor 1 junction with the natural cave",
+     "cutaway": "",
+     "cx": 1095,
+     "cz": -647,
+     "fy": -35,
+     "eye": [
+      1057.5,
+      -29.6,
+      -646.5
+     ],
+     "target": [
+      1054.5,
+      -27.5,
+      -646.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "2ac822e8_ruined_natural_ceiling__06_dome_exterior_aerial",
+     "x": 1135.5,
+     "y": 11.379999999999999,
+     "z": -606.5,
+     "yaw": 135.0,
+     "pitch": 33.6,
+     "what": "dome exterior from above, all natural terrain above the floor removed in the photo copy (planned blocks kept)",
+     "cutaway": "top",
+     "cx": 1095,
+     "cz": -647,
+     "fy": -35,
+     "eye": [
+      1135.5,
+      13,
+      -606.5
+     ],
+     "target": [
+      1095,
+      -25,
+      -647
+     ],
+     "wait": 200,
+     "nightvision": true
+    },
+    {
+     "name": "2ac822e8_ruined_natural_ceiling__06d_dome_exterior_side",
+     "x": 1153.5,
+     "y": -20.62,
+     "z": -626.5,
+     "yaw": 109.3,
+     "pitch": 7.4,
+     "what": "dome exterior from the side with all natural terrain removed in the photo copy (planned blocks kept)",
+     "cutaway": "top",
+     "cx": 1095,
+     "cz": -647,
+     "fy": -35,
+     "eye": [
+      1153.5,
+      -19,
+      -626.5
+     ],
+     "target": [
+      1095,
+      -27,
+      -647
+     ],
+     "wait": 200,
+     "nightvision": true
+    },
+    {
+     "name": "2ac822e8_ruined_natural_ceiling__06b_dome_cross_section",
+     "x": 1147.5,
+     "y": -26.62,
+     "z": -646.5,
+     "yaw": 90.0,
+     "pitch": 1.1,
+     "what": "vertical section through the centre (east half removed in the photo copy)",
+     "cutaway": "half",
+     "cx": 1095,
+     "cz": -647,
+     "fy": -35,
+     "eye": [
+      1147.5,
+      -25,
+      -646.5
+     ],
+     "target": [
+      1095,
+      -26,
+      -646.5
+     ],
+     "wait": 200,
+     "nightvision": true
+    },
+    {
+     "name": "2ac822e8_ruined_natural_ceiling__06c_dome_cross_section_oblique",
+     "x": 1143.5,
+     "y": -10.620000000000001,
+     "z": -610.5,
+     "yaw": 125.3,
+     "pitch": 15.9,
+     "what": "oblique view of the section",
+     "cutaway": "half",
+     "cx": 1095,
+     "cz": -647,
+     "fy": -35,
+     "eye": [
+      1143.5,
+      -9,
+      -610.5
+     ],
+     "target": [
+      1092,
+      -27,
+      -647
+     ],
+     "wait": 60,
+     "nightvision": true
+    }
+   ]
+  },
+  {
+   "level": "capw-d",
+   "state_dir": "tools/st05-worldgen-probe/stage0f/live/seed-7001/state-hp",
+   "seed": 7001,
+   "arena": "built-77ba83e0",
+   "id": "77ba83e05adb2600",
+   "variant": "RUINED_PARTIAL_DOME",
+   "center": [
+    -390,
+    -19,
+    -720
+   ],
+   "scenes": [
+    {
+     "name": "77ba83e0_ruined_partial_dome__02_interior_overview",
+     "x": -414.5,
+     "y": -18.12,
+     "z": -711.5,
+     "yaw": -111.7,
+     "pitch": -13.6,
+     "what": "interior from the combat floor, far dome / wall",
+     "cutaway": "",
+     "cx": -390,
+     "cz": -720,
+     "fy": -19,
+     "eye": [
+      -414.5,
+      -16.5,
+      -711.5
+     ],
+     "target": [
+      -378,
+      -7,
+      -726
+     ],
+     "wait": 600,
+     "nightvision": true
+    },
+    {
+     "name": "77ba83e0_ruined_partial_dome__02c_interior_overview_NO_nightvision",
+     "x": -414.5,
+     "y": -18.12,
+     "z": -711.5,
+     "yaw": -111.7,
+     "pitch": -13.6,
+     "what": "same view as 02 but WITHOUT night vision (true block lighting)",
+     "cutaway": "",
+     "cx": -390,
+     "cz": -720,
+     "fy": -19,
+     "eye": [
+      -414.5,
+      -16.5,
+      -711.5
+     ],
+     "target": [
+      -378,
+      -7,
+      -726
+     ],
+     "wait": 120,
+     "nightvision": false
+    },
+    {
+     "name": "77ba83e0_ruined_partial_dome__02b_interior_dome_up",
+     "x": -389.5,
+     "y": -18.12,
+     "z": -705.5,
+     "yaw": 178.6,
+     "pitch": -42.1,
+     "what": "interior looking up into the dome / ceiling",
+     "cutaway": "",
+     "cx": -390,
+     "cz": -720,
+     "fy": -19,
+     "eye": [
+      -389.5,
+      -16.5,
+      -705.5
+     ],
+     "target": [
+      -390,
+      2,
+      -726
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "77ba83e0_ruined_partial_dome__03_entrance_N",
+     "x": -389.5,
+     "y": -18.12,
+     "z": -707.5,
+     "yaw": -180.0,
+     "pitch": -1.3,
+     "what": "entrance N (7x8 arch) from the floor, columns around",
+     "cutaway": "",
+     "cx": -390,
+     "cz": -720,
+     "fy": -19,
+     "eye": [
+      -389.5,
+      -16.5,
+      -707.5
+     ],
+     "target": [
+      -389.5,
+      -15.5,
+      -752.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "77ba83e0_ruined_partial_dome__03_entrance_E",
+     "x": -401.5,
+     "y": -18.12,
+     "z": -719.5,
+     "yaw": -90.0,
+     "pitch": -1.3,
+     "what": "entrance E (7x8 arch) from the floor, columns around",
+     "cutaway": "",
+     "cx": -390,
+     "cz": -720,
+     "fy": -19,
+     "eye": [
+      -401.5,
+      -16.5,
+      -719.5
+     ],
+     "target": [
+      -356.5,
+      -15.5,
+      -719.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "77ba83e0_ruined_partial_dome__03_entrance_S",
+     "x": -389.5,
+     "y": -18.12,
+     "z": -731.5,
+     "yaw": -0.0,
+     "pitch": -1.3,
+     "what": "entrance S (7x8 arch) from the floor, columns around",
+     "cutaway": "",
+     "cx": -390,
+     "cz": -720,
+     "fy": -19,
+     "eye": [
+      -389.5,
+      -16.5,
+      -731.5
+     ],
+     "target": [
+      -389.5,
+      -15.5,
+      -686.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "77ba83e0_ruined_partial_dome__03_entrance_W",
+     "x": -377.5,
+     "y": -18.12,
+     "z": -719.5,
+     "yaw": 90.0,
+     "pitch": -1.3,
+     "what": "entrance W (7x8 arch) from the floor, columns around",
+     "cutaway": "",
+     "cx": -390,
+     "cz": -720,
+     "fy": -19,
+     "eye": [
+      -377.5,
+      -16.5,
+      -719.5
+     ],
+     "target": [
+      -422.5,
+      -15.5,
+      -719.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "77ba83e0_ruined_partial_dome__04_vault_ring",
+     "x": -389.5,
+     "y": -16.12,
+     "z": -719.5,
+     "yaw": -74.9,
+     "pitch": 8.4,
+     "what": "vault ring on r=27, seen from the centre",
+     "cutaway": "",
+     "cx": -390,
+     "cz": -720,
+     "fy": -19,
+     "eye": [
+      -389.5,
+      -14.5,
+      -719.5
+     ],
+     "target": [
+      -363.5,
+      -18.5,
+      -712.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "77ba83e0_ruined_partial_dome__04b_vault_close",
+     "x": -369.293694551124,
+     "y": -18.12,
+     "z": -714.0598408406872,
+     "yaw": -74.9,
+     "pitch": 15.8,
+     "what": "one ordinary Vault close up",
+     "cutaway": "",
+     "cx": -390,
+     "cz": -720,
+     "fy": -19,
+     "eye": [
+      -369.293694551124,
+      -16.5,
+      -714.0598408406872
+     ],
+     "target": [
+      -363.5,
+      -18.2,
+      -712.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "77ba83e0_ruined_partial_dome__04c_ominous_vault_centre",
+     "x": -389.5,
+     "y": -17.82,
+     "z": -714.5,
+     "yaw": -180.0,
+     "pitch": 23.7,
+     "what": "Ominous Vault at the exact centre",
+     "cutaway": "",
+     "cx": -390,
+     "cz": -720,
+     "fy": -19,
+     "eye": [
+      -389.5,
+      -16.2,
+      -714.5
+     ],
+     "target": [
+      -389.5,
+      -18.4,
+      -719.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "77ba83e0_ruined_partial_dome__05_corridor_0_entrance_side",
+     "x": -389.5,
+     "y": -18.220000000000002,
+     "z": -756.5,
+     "yaw": -180.0,
+     "pitch": 12.7,
+     "what": "corridor 0 (dir N) from the arena end looking outward",
+     "cutaway": "",
+     "cx": -390,
+     "cz": -720,
+     "fy": -19,
+     "eye": [
+      -389.5,
+      -16.6,
+      -756.5
+     ],
+     "target": [
+      -389.5,
+      -17.5,
+      -760.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "77ba83e0_ruined_partial_dome__05b_corridor_0_cave_junction",
+     "x": -387.5,
+     "y": -18.220000000000002,
+     "z": -761.5,
+     "yaw": -90.0,
+     "pitch": 16.7,
+     "what": "corridor 0 junction with the natural cave",
+     "cutaway": "",
+     "cx": -390,
+     "cz": -720,
+     "fy": -19,
+     "eye": [
+      -387.5,
+      -16.6,
+      -761.5
+     ],
+     "target": [
+      -384.5,
+      -17.5,
+      -761.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "77ba83e0_ruined_partial_dome__05_corridor_1_entrance_side",
+     "x": -352.5,
+     "y": -17.22,
+     "z": -719.5,
+     "yaw": -90.0,
+     "pitch": -5.7,
+     "what": "corridor 1 (dir E) from the arena end looking outward",
+     "cutaway": "",
+     "cx": -390,
+     "cz": -720,
+     "fy": -19,
+     "eye": [
+      -352.5,
+      -15.6,
+      -719.5
+     ],
+     "target": [
+      -351.5,
+      -15.5,
+      -719.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "77ba83e0_ruined_partial_dome__05b_corridor_1_cave_junction",
+     "x": -351.5,
+     "y": -16.22,
+     "z": -719.5,
+     "yaw": -90.0,
+     "pitch": -35.0,
+     "what": "corridor 1 junction with the natural cave",
+     "cutaway": "",
+     "cx": -390,
+     "cz": -720,
+     "fy": -19,
+     "eye": [
+      -351.5,
+      -14.6,
+      -719.5
+     ],
+     "target": [
+      -348.5,
+      -12.5,
+      -719.5
+     ],
+     "wait": 120,
+     "nightvision": true
+    },
+    {
+     "name": "77ba83e0_ruined_partial_dome__06_dome_exterior_aerial",
+     "x": -349.5,
+     "y": 27.38,
+     "z": -679.5,
+     "yaw": 135.0,
+     "pitch": 33.6,
+     "what": "dome exterior from above, all natural terrain above the floor removed in the photo copy (planned blocks kept)",
+     "cutaway": "top",
+     "cx": -390,
+     "cz": -720,
+     "fy": -19,
+     "eye": [
+      -349.5,
+      29,
+      -679.5
+     ],
+     "target": [
+      -390,
+      -9,
+      -720
+     ],
+     "wait": 200,
+     "nightvision": true
+    },
+    {
+     "name": "77ba83e0_ruined_partial_dome__06d_dome_exterior_side",
+     "x": -331.5,
+     "y": -4.62,
+     "z": -699.5,
+     "yaw": 109.3,
+     "pitch": 7.4,
+     "what": "dome exterior from the side with all natural terrain removed in the photo copy (planned blocks kept)",
+     "cutaway": "top",
+     "cx": -390,
+     "cz": -720,
+     "fy": -19,
+     "eye": [
+      -331.5,
+      -3,
+      -699.5
+     ],
+     "target": [
+      -390,
+      -11,
+      -720
+     ],
+     "wait": 200,
+     "nightvision": true
+    },
+    {
+     "name": "77ba83e0_ruined_partial_dome__06b_dome_cross_section",
+     "x": -337.5,
+     "y": -10.620000000000001,
+     "z": -719.5,
+     "yaw": 90.0,
+     "pitch": 1.1,
+     "what": "vertical section through the centre (east half removed in the photo copy)",
+     "cutaway": "half",
+     "cx": -390,
+     "cz": -720,
+     "fy": -19,
+     "eye": [
+      -337.5,
+      -9,
+      -719.5
+     ],
+     "target": [
+      -390,
+      -10,
+      -719.5
+     ],
+     "wait": 200,
+     "nightvision": true
+    },
+    {
+     "name": "77ba83e0_ruined_partial_dome__06c_dome_cross_section_oblique",
+     "x": -341.5,
+     "y": 5.38,
+     "z": -683.5,
+     "yaw": 125.3,
+     "pitch": 15.9,
+     "what": "oblique view of the section",
+     "cutaway": "half",
+     "cx": -390,
+     "cz": -720,
+     "fy": -19,
+     "eye": [
+      -341.5,
+      7,
+      -683.5
+     ],
+     "target": [
+      -393,
+      -11,
+      -720
+     ],
+     "wait": 60,
+     "nightvision": true
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,1 @@
+{"name":"H1_SENS_disc46_sectors17","options":{"walk":"pads","emin":17,"pillars":"feas","ray":true,"adj":true,"sectors":17,"offset":0.0,"min_pillars":0,"balconies":false,"flat":true,"obj_elig":false,"contact_min":7,"bins":true,"domain":["disc",46],"portal":true,"rail":true},"status":"INFEASIBLE","seconds":0.2}

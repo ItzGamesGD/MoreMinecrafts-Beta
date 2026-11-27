@@ -1,0 +1,578 @@
+{
+ "baseline_rev": "20a3578",
+ "changed_voxels": 186,
+ "changed_by_category": {
+  "dais top: accent frame": 21,
+  "floor: central field border band": 58,
+  "floor: frame around carved base": 32,
+  "floor: processional runner": 57,
+  "stair row 2: new support block": 9,
+  "stair row 2: raised stair": 9
+ },
+ "changed_by_material": {
+  "air -> sandstone_stairs": 9,
+  "cut_sandstone -> smooth_red_sandstone": 114,
+  "sandstone_stairs -> smooth_sandstone": 9,
+  "smooth_sandstone -> smooth_red_sandstone": 54
+ },
+ "layers_changed": [
+  -23,
+  -22,
+  -21
+ ],
+ "surface_profile_along_z_(z, top_y)": {
+  "x=-21": {
+   "before": [
+    [
+     26.0,
+     -22.0
+    ],
+    [
+     26.5,
+     -22.0
+    ],
+    [
+     27.0,
+     -22.0
+    ],
+    [
+     27.5,
+     -22.0
+    ],
+    [
+     28.0,
+     -22.0
+    ],
+    [
+     28.5,
+     -22.0
+    ],
+    [
+     29.0,
+     -22.0
+    ],
+    [
+     29.5,
+     -22.0
+    ],
+    [
+     30.0,
+     -21.5
+    ],
+    [
+     30.5,
+     -21.0
+    ],
+    [
+     31.0,
+     -21.5
+    ],
+    [
+     31.5,
+     -21.0
+    ],
+    [
+     32.0,
+     -20.0
+    ],
+    [
+     32.5,
+     -20.0
+    ],
+    [
+     33.0,
+     -20.0
+    ],
+    [
+     33.5,
+     -20.0
+    ]
+   ],
+   "after": [
+    [
+     26.0,
+     -22.0
+    ],
+    [
+     26.5,
+     -22.0
+    ],
+    [
+     27.0,
+     -22.0
+    ],
+    [
+     27.5,
+     -22.0
+    ],
+    [
+     28.0,
+     -22.0
+    ],
+    [
+     28.5,
+     -22.0
+    ],
+    [
+     29.0,
+     -22.0
+    ],
+    [
+     29.5,
+     -22.0
+    ],
+    [
+     30.0,
+     -21.5
+    ],
+    [
+     30.5,
+     -21.0
+    ],
+    [
+     31.0,
+     -20.5
+    ],
+    [
+     31.5,
+     -20.0
+    ],
+    [
+     32.0,
+     -20.0
+    ],
+    [
+     32.5,
+     -20.0
+    ],
+    [
+     33.0,
+     -20.0
+    ],
+    [
+     33.5,
+     -20.0
+    ]
+   ],
+   "max_rise_before": [
+    1.0,
+    [
+     31.5,
+     32.0
+    ]
+   ],
+   "max_rise_after": [
+    0.5,
+    [
+     29.5,
+     30.0
+    ]
+   ]
+  },
+  "x=-25": {
+   "before": [
+    [
+     26.0,
+     -22.0
+    ],
+    [
+     26.5,
+     -22.0
+    ],
+    [
+     27.0,
+     -22.0
+    ],
+    [
+     27.5,
+     -22.0
+    ],
+    [
+     28.0,
+     -22.0
+    ],
+    [
+     28.5,
+     -22.0
+    ],
+    [
+     29.0,
+     -22.0
+    ],
+    [
+     29.5,
+     -22.0
+    ],
+    [
+     30.0,
+     -21.5
+    ],
+    [
+     30.5,
+     -21.0
+    ],
+    [
+     31.0,
+     -21.5
+    ],
+    [
+     31.5,
+     -21.0
+    ],
+    [
+     32.0,
+     -20.0
+    ],
+    [
+     32.5,
+     -20.0
+    ],
+    [
+     33.0,
+     -20.0
+    ],
+    [
+     33.5,
+     -20.0
+    ]
+   ],
+   "after": [
+    [
+     26.0,
+     -22.0
+    ],
+    [
+     26.5,
+     -22.0
+    ],
+    [
+     27.0,
+     -22.0
+    ],
+    [
+     27.5,
+     -22.0
+    ],
+    [
+     28.0,
+     -22.0
+    ],
+    [
+     28.5,
+     -22.0
+    ],
+    [
+     29.0,
+     -22.0
+    ],
+    [
+     29.5,
+     -22.0
+    ],
+    [
+     30.0,
+     -21.5
+    ],
+    [
+     30.5,
+     -21.0
+    ],
+    [
+     31.0,
+     -20.5
+    ],
+    [
+     31.5,
+     -20.0
+    ],
+    [
+     32.0,
+     -20.0
+    ],
+    [
+     32.5,
+     -20.0
+    ],
+    [
+     33.0,
+     -20.0
+    ],
+    [
+     33.5,
+     -20.0
+    ]
+   ],
+   "max_rise_before": [
+    1.0,
+    [
+     31.5,
+     32.0
+    ]
+   ],
+   "max_rise_after": [
+    0.5,
+    [
+     29.5,
+     30.0
+    ]
+   ]
+  },
+  "x=-17": {
+   "before": [
+    [
+     26.0,
+     -22.0
+    ],
+    [
+     26.5,
+     -22.0
+    ],
+    [
+     27.0,
+     -22.0
+    ],
+    [
+     27.5,
+     -22.0
+    ],
+    [
+     28.0,
+     -22.0
+    ],
+    [
+     28.5,
+     -22.0
+    ],
+    [
+     29.0,
+     -22.0
+    ],
+    [
+     29.5,
+     -22.0
+    ],
+    [
+     30.0,
+     -21.5
+    ],
+    [
+     30.5,
+     -21.0
+    ],
+    [
+     31.0,
+     -21.5
+    ],
+    [
+     31.5,
+     -21.0
+    ],
+    [
+     32.0,
+     -20.0
+    ],
+    [
+     32.5,
+     -20.0
+    ],
+    [
+     33.0,
+     -20.0
+    ],
+    [
+     33.5,
+     -20.0
+    ]
+   ],
+   "after": [
+    [
+     26.0,
+     -22.0
+    ],
+    [
+     26.5,
+     -22.0
+    ],
+    [
+     27.0,
+     -22.0
+    ],
+    [
+     27.5,
+     -22.0
+    ],
+    [
+     28.0,
+     -22.0
+    ],
+    [
+     28.5,
+     -22.0
+    ],
+    [
+     29.0,
+     -22.0
+    ],
+    [
+     29.5,
+     -22.0
+    ],
+    [
+     30.0,
+     -21.5
+    ],
+    [
+     30.5,
+     -21.0
+    ],
+    [
+     31.0,
+     -20.5
+    ],
+    [
+     31.5,
+     -20.0
+    ],
+    [
+     32.0,
+     -20.0
+    ],
+    [
+     32.5,
+     -20.0
+    ],
+    [
+     33.0,
+     -20.0
+    ],
+    [
+     33.5,
+     -20.0
+    ]
+   ],
+   "max_rise_before": [
+    1.0,
+    [
+     31.5,
+     32.0
+    ]
+   ],
+   "max_rise_after": [
+    0.5,
+    [
+     29.5,
+     30.0
+    ]
+   ]
+  }
+ },
+ "floor_map_y=-23_(R=red accent, c=cut, m=smooth, #=other; x -40..-2 left to right, z 2..40 top to bottom)": [
+  "z= 2 mmmmmmmmmmmmmmmmmmRRRmmmmmmmmmmmmmmmmmm",
+  "z= 3 mmmmmmmmmmmmmmmmmmRRRmmmmmmmmmmmmmmmmmm",
+  "z= 4 mmmmmmmmmmmmmmmmmmRRRmmmmmmmmmmmmmmmmmm",
+  "z= 5 mmmmmmmmmmmmmmmmmmRRRmmmmmmmmmmmmmmmmmm",
+  "z= 6 mmmmmmmmmmmmmmmmmmRRRmmmmmmmmmmmmmmmmmm",
+  "z= 7 mmmmmmmmmmmmmmmmmmRRRmmmmmmmmmmmmmmmmmm",
+  "z= 8 mmmmmmmmmmmmmmmmmmRRRmmmmmmmmmmmmmmmmmm",
+  "z= 9 mmmmmmmmmmmmmmmmmmRRRmmmmmmmmmmmmmmmmmm",
+  "z=10 mmmmmmmmmmmmmmmmmmRRRmmmmmmmmmmmmmmmmmm",
+  "z=11 mmmmmmmmmmmmmmmmmmRRRmmmmmmmmmmmmmmmmmm",
+  "z=12 mmmmmmmmmmmmmmmmmmRRRmmmmmmmmmmmmmmmmmm",
+  "z=13 mmmmmmmmmmmRRRRRRRRRRRRRRRRRmmmmmmmmmmm",
+  "z=14 mmmmmmmmmmmRccccccRRRccccccRmmmmmmmmmmm",
+  "z=15 mmmmmmmmmmmRccccccRRRccccccRmmmmmmmmmmm",
+  "z=16 mmmmmmmmmmmRccccccRRRccccccRmmmmmmmmmmm",
+  "z=17 mmmmmmmmmmmRcccRRRRRRRRRcccRmmmmmmmmmmm",
+  "z=18 mmmmmmmmmmmRcccRcccccccRcccRmmmmmmmmmmm",
+  "z=19 mmmmmmmmmmmRcccRcccccccRcccRmmmmmmmmmmm",
+  "z=20 mmmmmmmmmmmRcccRcccccccRcccRmmmmmmmmmmm",
+  "z=21 mmmmmmmmmmmRcccRcccccccRcccRmmmmmmmmmmm",
+  "z=22 mmmmmmmmmmmRcccRcccccccRcccRmmmmmmmmmmm",
+  "z=23 mmmmmmmmmmmRcccRcccccccRcccRmmmmmmmmmmm",
+  "z=24 mmmmmmmmmmmRcccRcccccccRcccRmmmmmmmmmmm",
+  "z=25 mmmmmmmmmmmRcccRRRRRRRRRcccRmmmmmmmmmmm",
+  "z=26 mmmmmmmmmmmRccccccRRRccccccRmmmmmmmmmmm",
+  "z=27 mmmmmmmmmmmRccccccRRRccccccRmmmmmmmmmmm",
+  "z=28 mmmmmmmmmmmRccccccRRRccccccRmmmmmmmmmmm",
+  "z=29 mmmmmmmmmmmRRRRRRRRRRRRRRRRRmmmmmmmmmmm",
+  "z=30 mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+  "z=31 mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+  "z=32 mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+  "z=33 mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+  "z=34 mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+  "z=35 mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+  "z=36 mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+  "z=37 mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+  "z=38 mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+  "z=39 mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+  "z=40 mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"
+ ],
+ "checks": [
+  {
+   "id": "D1_SAME_VOLUME",
+   "verdict": "PASS",
+   "evidence": "30420 voxels in both; same size (39, 20, 39)"
+  },
+  {
+   "id": "D1_CHANGES_LIMITED_TO_AUTHORIZED_REGIONS",
+   "verdict": "PASS",
+   "evidence": "186 changed voxels in 6 categories; unexpected=[]"
+  },
+  {
+   "id": "D1_NO_WALL_CEILING_PILLAR_CHANGE",
+   "verdict": "PASS",
+   "evidence": "changed voxels exist only on layers y=[-23, -22, -21]; walls, corbel ceiling and roof (y>=-20) are identical"
+  },
+  {
+   "id": "D1_CHEST_UNCHANGED",
+   "verdict": "PASS",
+   "evidence": "PRIMARY B (-21,-20,33)/(-20,-20,33) and supports identical: [('chest', (('facing', 'north'), ('type', 'left'), ('waterlogged', 'false'))), ('chest', (('facing', 'north'), ('type', 'right'), ('waterlogged', 'false')))]"
+  },
+  {
+   "id": "D1_GUARDIAN_ANCHOR_AND_CLEARANCE_UNCHANGED",
+   "verdict": "PASS",
+   "evidence": "anchor (-21, -22, 26) 3x5x3 clearance box untouched; floor below anchor is smooth_red_sandstone"
+  },
+  {
+   "id": "D1_SECONDARY_ALCOVE_UNCHANGED",
+   "verdict": "PASS",
+   "evidence": "SECONDARY chest cells remain air in both"
+  },
+  {
+   "id": "D1_CENTRAL_PILLAR_AND_BASE_UNCHANGED",
+   "verdict": "PASS",
+   "evidence": "central column + carved base volume x -23..-19, z 19..23, y>=-22 has zero changes"
+  },
+  {
+   "id": "D1_SIDE_AISLE_FLOOR_LEVEL_AND_OPEN",
+   "verdict": "PASS",
+   "evidence": "side-aisle walking layer is identical; aisle air cells still air"
+  },
+  {
+   "id": "D1_NO_NEW_OBSTACLES_ON_FLOOR",
+   "verdict": "PASS",
+   "evidence": "air -> solid occurs only for the 9 raised stair blocks: 9 cells"
+  },
+  {
+   "id": "D1_FLOOR_BLOCKS_ARE_FULL_CUBES_AT_SAME_LEVEL",
+   "verdict": "PASS",
+   "evidence": "147 floor blocks replaced in place with smooth_red_sandstone (full cube, same y=-23, nothing added above)"
+  },
+  {
+   "id": "D1_STAIR_ASCENT_CONTINUOUS",
+   "verdict": "PASS",
+   "evidence": "largest single rise along the climb: before (1.0, (31.5, 32.0)), after (0.5, (29.5, 30.0)) (vanilla step-up height 0.6, so no jump is needed after the correction)"
+  },
+  {
+   "id": "D1_FINAL_TREAD_FLUSH_WITH_DAIS_TOP",
+   "verdict": "PASS",
+   "evidence": "after: tread end z=31.5 -> -20.0, dais z=32.0 -> -20.0"
+  },
+  {
+   "id": "D1_STAIR_WIDTH_FACING_PRESERVED",
+   "verdict": "PASS",
+   "evidence": "18 stairs, x -25..-17 (width 9), facing south, bottom half, two rows (z=30 at y=-22, z=31 at y=-21)"
+  }
+ ],
+ "all_pass": true
+}

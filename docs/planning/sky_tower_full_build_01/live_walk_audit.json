@@ -1,0 +1,6 @@
+{
+ "samples": 1292,
+ "minimum_height_delta": 0.0,
+ "max_height_delta": 0.5,
+ "unexpected_drop_over_0_6": false
+}

@@ -17,13 +17,17 @@ public final class EnhancementRules {
         return Math.min(level, ORDINARY_MAX_LEVEL) / MILESTONE_INTERVAL;
     }
 
-    /** Existing numeric XP-level costs remain unchanged; milestone transitions cost extra material. */
+    /**
+     * Approved 2026-10-17 provisional raw-XP table, shared by T1 and T2: +1–5 = 40, +6–10 = 70,
+     * +11–15 = 110, +16–20 = 160 (+0→+20 totals 1,900). Milestones cost extra material, not extra XP.
+     */
     public static Cost costFor(int targetLevel) {
         if (targetLevel < 1 || targetLevel > ORDINARY_MAX_LEVEL) {
             throw new IllegalArgumentException("Target enhancement level must be between 1 and 20: " + targetLevel);
         }
-        return isMilestone(targetLevel) ? new Cost(2, 1) : new Cost(1, 1);
+        int rawXp = targetLevel <= 5 ? 40 : targetLevel <= 10 ? 70 : targetLevel <= 15 ? 110 : 160;
+        return new Cost(isMilestone(targetLevel) ? 2 : 1, rawXp);
     }
 
-    public record Cost(int materialCount, int experienceLevelCost) {}
+    public record Cost(int materialCount, int rawXpCost) {}
 }

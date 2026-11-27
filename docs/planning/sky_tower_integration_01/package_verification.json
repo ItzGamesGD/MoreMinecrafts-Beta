@@ -1,0 +1,7 @@
+{
+ "jar": "build/libs/moreminecrafts-0.1.0-alpha.1.jar",
+ "jar_sha256": "98486c517dc56943ca7286cce4f98742a6a02adb1f26b5f71e3f04f2c4455a25",
+ "template_sha256": "cec5bced051fdddcf5ebe80ed267ea3c5749126559ef982f82ac1b4dd435cd27",
+ "template_byte_identical": true,
+ "note": "Final test + assemble successful; full build successful; all 527 required server GameTests passed"
+}

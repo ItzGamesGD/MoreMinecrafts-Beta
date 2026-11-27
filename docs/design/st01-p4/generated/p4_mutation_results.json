@@ -1,0 +1,324 @@
+{
+ "control_clean": true,
+ "results": [
+  {
+   "mutation": "vault interior 23 wide instead of 25 (candidate A frame)",
+   "candidates": "A",
+   "expected": [
+    "V1"
+   ],
+   "failed": {
+    "A": [
+     "V1"
+    ]
+   },
+   "detected": true
+  },
+  {
+   "mutation": "centre ceiling zone only 9 high (Q68)",
+   "candidates": "AB",
+   "expected": [
+    "V2"
+   ],
+   "failed": {
+    "A": [
+     "V1",
+     "V2"
+    ],
+    "B": [
+     "V1",
+     "V2"
+    ]
+   },
+   "detected": true
+  },
+  {
+   "mutation": "pile dropped into the 5-wide aisle (Q70)",
+   "candidates": "AB",
+   "expected": [
+    "V3",
+    "V8"
+   ],
+   "failed": {
+    "A": [
+     "V3",
+     "V8"
+    ],
+    "B": [
+     "V3",
+     "V8"
+    ]
+   },
+   "detected": true
+  },
+  {
+   "mutation": "dais built 4 high (Q71)",
+   "candidates": "AB",
+   "expected": [
+    "V4"
+   ],
+   "failed": {
+    "A": [
+     "V10",
+     "V4",
+     "V5",
+     "V7",
+     "V7b"
+    ],
+    "B": [
+     "V10",
+     "V4",
+     "V5",
+     "V7",
+     "V7b"
+    ]
+   },
+   "detected": true
+  },
+  {
+   "mutation": "front stair narrowed to 5 (Q89)",
+   "candidates": "AB",
+   "expected": [
+    "V4"
+   ],
+   "failed": {
+    "A": [
+     "V4"
+    ],
+    "B": [
+     "V4"
+    ]
+   },
+   "detected": true
+  },
+  {
+   "mutation": "column lifted off the floor (not floor-founded, Q86)",
+   "candidates": "AB",
+   "expected": [
+    "V5"
+   ],
+   "failed": {
+    "A": [
+     "V10",
+     "V4",
+     "V5"
+    ],
+    "B": [
+     "V10",
+     "V4",
+     "V5"
+    ]
+   },
+   "detected": true
+  },
+  {
+   "mutation": "column capital grown to 7x7 (Q84)",
+   "candidates": "A",
+   "expected": [
+    "V5"
+   ],
+   "failed": {
+    "A": [
+     "V5"
+    ]
+   },
+   "detected": true
+  },
+  {
+   "mutation": "chest body 4 wide instead of 5 (Q72)",
+   "candidates": "AB",
+   "expected": [
+    "V6"
+   ],
+   "failed": {
+    "A": [
+     "V6"
+    ],
+    "B": [
+     "V6"
+    ]
+   },
+   "detected": true
+  },
+  {
+   "mutation": "chest base 8 wide (Q93 max 7x5)",
+   "candidates": "AB",
+   "expected": [
+    "V6"
+   ],
+   "failed": {
+    "A": [
+     "V6"
+    ],
+    "B": [
+     "V6"
+    ]
+   },
+   "detected": true
+  },
+  {
+   "mutation": "block placed in front of the chest (front access lost)",
+   "candidates": "AB",
+   "expected": [
+    "V7",
+    "V7b"
+   ],
+   "failed": {
+    "A": [
+     "V7",
+     "V7b",
+     "V8"
+    ],
+    "B": [
+     "V7",
+     "V7b",
+     "V8"
+    ]
+   },
+   "detected": true
+  },
+  {
+   "mutation": "stair treads skip every other block (gradient 2:1)",
+   "candidates": "A",
+   "expected": [
+    "V7"
+   ],
+   "failed": {
+    "A": [
+     "V10",
+     "V14",
+     "V7",
+     "V7b"
+    ]
+   },
+   "detected": true
+  },
+  {
+   "mutation": "stair headroom 3 instead of 4",
+   "candidates": "AB",
+   "expected": [
+    "V9"
+   ],
+   "failed": {
+    "A": [
+     "V9"
+    ],
+    "B": [
+     "V9"
+    ]
+   },
+   "detected": true
+  },
+  {
+   "mutation": "vault raised 10 blocks into the royal-hall reservation",
+   "candidates": "A",
+   "expected": [
+    "V10"
+   ],
+   "failed": {
+    "A": [
+     "V10",
+     "V11",
+     "V14",
+     "V7"
+    ]
+   },
+   "detected": true
+  },
+  {
+   "mutation": "candidate B vault pushed 10 east past X=+40",
+   "candidates": "B",
+   "expected": [
+    "V12"
+   ],
+   "failed": {
+    "B": [
+     "V10",
+     "V12",
+     "V7",
+     "V7b"
+    ]
+   },
+   "detected": true
+  },
+  {
+   "mutation": "declared link vault entrance <-> corridor removed",
+   "candidates": "A",
+   "expected": [
+    "V10"
+   ],
+   "failed": {
+    "A": [
+     "V10"
+    ]
+   },
+   "detected": true
+  },
+  {
+   "mutation": "crypt interior slid into the vault",
+   "candidates": "A",
+   "expected": [
+    "V10"
+   ],
+   "failed": {
+    "A": [
+     "V1",
+     "V10",
+     "V11",
+     "V2",
+     "V3",
+     "V4",
+     "V5",
+     "V7"
+    ]
+   },
+   "detected": true
+  },
+  {
+   "mutation": "beam raised into the stepped ceiling (Q96 independence)",
+   "candidates": "AB",
+   "expected": [
+    "V5b"
+   ],
+   "failed": {
+    "A": [
+     "V5b"
+    ],
+    "B": [
+     "V5b"
+    ]
+   },
+   "detected": true
+  },
+  {
+   "mutation": "only one side has mineral piles (balance, Q69)",
+   "candidates": "AB",
+   "expected": [
+    "V8"
+   ],
+   "failed": {
+    "A": [
+     "V8"
+    ],
+    "B": [
+     "V8"
+    ]
+   },
+   "detected": true
+  },
+  {
+   "mutation": "stair carved under the hall outside the hatch pierce volume",
+   "candidates": "A",
+   "expected": [
+    "V10"
+   ],
+   "failed": {
+    "A": [
+     "V10",
+     "V14"
+    ]
+   },
+   "detected": true
+  }
+ ]
+}

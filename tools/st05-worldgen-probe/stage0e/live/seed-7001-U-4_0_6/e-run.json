@@ -1,0 +1,234 @@
+{
+  "mode": "e-run",
+  "seed": 7001,
+  "y_band": "-48..0",
+  "generation_order": "fwd",
+  "universe_blocks_minX_minZ_maxX_maxZ_exclusive": [
+    -1024,
+    0,
+    512,
+    1536
+  ],
+  "regions": "6x6 (36 ownership regions, windows 512x512)",
+  "band": "-64..16",
+  "snapshot_ms": 480959,
+  "snapshot_digest": "9075810ce5ba206d",
+  "independent_window_matches_cut": true,
+  "params": {
+    "A_10x10x6": {
+      "extract_cpu_ms": 40386,
+      "core_voxels": 39626818,
+      "resolve_cpu_ms": 258,
+      "resolution_digest": "94066a2bb863837bffbe88e1ec3d21a202f6eee0603be3c0edcff7f49156a8ed",
+      "owned_chambers": 330,
+      "unresolved_groups": 144,
+      "identity_conflicts": 0,
+      "partial_views": 649,
+      "duplicate_complete_observations": 501,
+      "measures": {
+        "BOX32": {
+          "pipeline_cpu_ms_incl_live_chunk_io": 3,
+          "counters": {
+            "owned_chambers": 254,
+            "not_qualifying_no_width_height_fit": 253,
+            "outside_universe": 76,
+            "not_qualifying_reference_y_out_of_band": 1
+          },
+          "denominator": 0,
+          "deferred_fraction": 0.36180904522613067,
+          "footprint_only_rejections": 0,
+          "corridor_envelope_touches_structure": 0,
+          "corridor_envelope_arena_overlap_pairs": 0,
+          "invariant_violations": [],
+          "denominator_invariance_violations": [],
+          "pipeline_digest": "d6364b4c0e74bd6a949affbf6a30ee4f2a0b66d4e340c6ffa491d3cb6327f5ce",
+          "pipeline_identical_fwd_rev_shuffle": true,
+          "candidates": [],
+          "persistence": {
+            "records": 254,
+            "finalized": 254,
+            "reloaded_ok": true
+          }
+        },
+        "DISK32": {
+          "pipeline_cpu_ms_incl_live_chunk_io": 135,
+          "counters": {
+            "owned_chambers": 254,
+            "not_qualifying_no_width_height_fit": 253,
+            "outside_universe": 76,
+            "qualifying_owned": 1,
+            "rejected_structure_body": 1
+          },
+          "denominator": 0,
+          "deferred_fraction": 0.36180904522613067,
+          "footprint_only_rejections": 0,
+          "corridor_envelope_touches_structure": 0,
+          "corridor_envelope_arena_overlap_pairs": 0,
+          "invariant_violations": [],
+          "denominator_invariance_violations": [],
+          "pipeline_digest": "442927cd5788201d525bc34f483a6a06e55eab99157b8156de95999defa3c035",
+          "pipeline_identical_fwd_rev_shuffle": true,
+          "candidates": [
+            "a42e4cdc2fab4358 owner\u003d-2,3 center\u003d-380,761 floorY\u003d-40 path\u003d1 prio\u003d2061da59c8090da0 roll\u003dWIN -\u003e REJECTED_STRUCTURE "
+          ],
+          "persistence": {
+            "records": 254,
+            "finalized": 254,
+            "reloaded_ok": true
+          }
+        }
+      }
+    },
+    "B_16x16x8": {
+      "extract_cpu_ms": 32204,
+      "core_voxels": 26404185,
+      "resolve_cpu_ms": 59,
+      "resolution_digest": "160123ba29ce46940efe56ee47e846db4d39de427f33f60a09c3b4f8f8d7ba0e",
+      "owned_chambers": 107,
+      "unresolved_groups": 60,
+      "identity_conflicts": 0,
+      "partial_views": 264,
+      "duplicate_complete_observations": 155,
+      "measures": {
+        "BOX32": {
+          "pipeline_cpu_ms_incl_live_chunk_io": 105,
+          "counters": {
+            "owned_chambers": 90,
+            "not_qualifying_no_width_height_fit": 88,
+            "outside_universe": 17,
+            "not_qualifying_reference_y_out_of_band": 1,
+            "qualifying_owned": 1,
+            "blocked_by_unresolved": 1
+          },
+          "denominator": 0,
+          "deferred_fraction": 0.4066666666666667,
+          "footprint_only_rejections": 0,
+          "corridor_envelope_touches_structure": 0,
+          "corridor_envelope_arena_overlap_pairs": 0,
+          "invariant_violations": [],
+          "denominator_invariance_violations": [],
+          "pipeline_digest": "da01d404663b28b80018bddcd130a2f4f79afec3d8c54549ac12b1ad4eef9d4e",
+          "pipeline_identical_fwd_rev_shuffle": true,
+          "candidates": [
+            "febe38d2c6827892 owner\u003d-1,4 center\u003d-64,1260 floorY\u003d-27 path\u003d1 prio\u003d45c078e75134d24f roll\u003dWIN -\u003e BLOCKED_BY_UNRESOLVED UNRESOLVED_GROUP_NEARBY"
+          ],
+          "persistence": {
+            "records": 90,
+            "finalized": 89,
+            "reloaded_ok": true
+          }
+        },
+        "DISK32": {
+          "pipeline_cpu_ms_incl_live_chunk_io": 0,
+          "counters": {
+            "owned_chambers": 90,
+            "not_qualifying_no_width_height_fit": 88,
+            "outside_universe": 17,
+            "qualifying_owned": 2,
+            "rejected_structure_body": 1,
+            "blocked_by_unresolved": 1
+          },
+          "denominator": 0,
+          "deferred_fraction": 0.4066666666666667,
+          "footprint_only_rejections": 0,
+          "corridor_envelope_touches_structure": 0,
+          "corridor_envelope_arena_overlap_pairs": 0,
+          "invariant_violations": [],
+          "denominator_invariance_violations": [],
+          "pipeline_digest": "cc7a965e6357f97b549fac6e53329b7d8fbfe5262dc233cf44eeebe37147da01",
+          "pipeline_identical_fwd_rev_shuffle": true,
+          "candidates": [
+            "1558aa8e431fc169 owner\u003d-2,3 center\u003d-380,761 floorY\u003d-40 path\u003d1 prio\u003de7a04d1830b51d17 roll\u003dWIN -\u003e REJECTED_STRUCTURE ",
+            "febe38d2c6827892 owner\u003d-1,4 center\u003d-66,1255 floorY\u003d-28 path\u003d1 prio\u003d45c078e75134d24f roll\u003dWIN -\u003e BLOCKED_BY_UNRESOLVED UNRESOLVED_GROUP_NEARBY"
+          ],
+          "persistence": {
+            "records": 90,
+            "finalized": 89,
+            "reloaded_ok": true
+          }
+        }
+      }
+    },
+    "C_24x24x12": {
+      "extract_cpu_ms": 32264,
+      "core_voxels": 13922552,
+      "resolve_cpu_ms": 24,
+      "resolution_digest": "2e750bc1c925e931b3522ced1001588480c1ee45eb91ebe2c77c485945eef348",
+      "owned_chambers": 26,
+      "unresolved_groups": 24,
+      "identity_conflicts": 0,
+      "partial_views": 97,
+      "duplicate_complete_observations": 38,
+      "measures": {
+        "BOX32": {
+          "pipeline_cpu_ms_incl_live_chunk_io": 0,
+          "counters": {
+            "outside_universe": 4,
+            "owned_chambers": 22,
+            "not_qualifying_no_width_height_fit": 21,
+            "qualifying_owned": 1,
+            "blocked_by_unresolved": 1
+          },
+          "denominator": 0,
+          "deferred_fraction": 0.5434782608695652,
+          "footprint_only_rejections": 0,
+          "corridor_envelope_touches_structure": 0,
+          "corridor_envelope_arena_overlap_pairs": 0,
+          "invariant_violations": [],
+          "denominator_invariance_violations": [],
+          "pipeline_digest": "5e21b034e35b182bb1732b78587f2fa43b333873c7eee018f20be5101cf7a216",
+          "pipeline_identical_fwd_rev_shuffle": true,
+          "candidates": [
+            "5bcf6d221f5a2cd8 owner\u003d-1,4 center\u003d-64,1260 floorY\u003d-27 path\u003d1 prio\u003d913f62d7fec3e8ec roll\u003dWIN -\u003e BLOCKED_BY_UNRESOLVED UNRESOLVED_GROUP_NEARBY"
+          ],
+          "persistence": {
+            "records": 22,
+            "finalized": 21,
+            "reloaded_ok": true
+          }
+        },
+        "DISK32": {
+          "pipeline_cpu_ms_incl_live_chunk_io": 105,
+          "counters": {
+            "outside_universe": 4,
+            "owned_chambers": 22,
+            "not_qualifying_no_width_height_fit": 19,
+            "qualifying_owned": 3,
+            "blocked_by_unresolved": 3
+          },
+          "denominator": 0,
+          "deferred_fraction": 0.5869565217391305,
+          "footprint_only_rejections": 0,
+          "corridor_envelope_touches_structure": 2,
+          "corridor_envelope_arena_overlap_pairs": 0,
+          "invariant_violations": [],
+          "denominator_invariance_violations": [],
+          "pipeline_digest": "f31e31079dea7730916b1e22a714cfb01d91864dd4b80f7b075a4ceb8c45adcb",
+          "pipeline_identical_fwd_rev_shuffle": true,
+          "candidates": [
+            "5bcf6d221f5a2cd8 owner\u003d-1,4 center\u003d-66,1255 floorY\u003d-28 path\u003d1 prio\u003d913f62d7fec3e8ec roll\u003dWIN -\u003e BLOCKED_BY_UNRESOLVED UNRESOLVED_GROUP_NEARBY",
+            "84cb336b65c37d10 owner\u003d0,4 center\u003d246,1144 floorY\u003d-40 path\u003d1 prio\u003d751fdfcafaa0a386 roll\u003dWIN -\u003e BLOCKED_BY_UNRESOLVED UNRESOLVED_GROUP_NEARBY",
+            "a795e49496ccb7a4 owner\u003d-1,5 center\u003d-204,1314 floorY\u003d-39 path\u003d1 prio\u003db8751a9a2684e49c roll\u003dWIN -\u003e BLOCKED_BY_UNRESOLVED UNOBSERVED_NEIGHBOURHOOD"
+          ],
+          "persistence": {
+            "records": 22,
+            "finalized": 19,
+            "reloaded_ok": true
+          }
+        }
+      }
+    }
+  },
+  "structure_starts_chunks_loaded": 2648,
+  "structure_hits_by_type": {
+    "minecraft:abandoned_camp_savanna": 1,
+    "minecraft:mineshaft": 12,
+    "minecraft:ruined_portal": 1,
+    "minecraft:ruined_portal_mountain": 1,
+    "minecraft:trial_chambers": 2,
+    "minecraft:village_savanna": 1,
+    "moreminecrafts:sky_island_meadow": 1
+  },
+  "heap_max_mb": 10240,
+  "total_ms": 639063
+}

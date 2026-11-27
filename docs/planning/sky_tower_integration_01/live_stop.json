@@ -1,0 +1,12 @@
+{
+ "mode": "stop",
+ "base_origin_x": 7000,
+ "scope": "actual Fabric26.3 server; synthetic cooldown states; no combat/client/gates/natural generation claim",
+ "commands": [
+  {
+   "command": "stop",
+   "response": "Stopping the server"
+  }
+ ],
+ "pass": true
+}

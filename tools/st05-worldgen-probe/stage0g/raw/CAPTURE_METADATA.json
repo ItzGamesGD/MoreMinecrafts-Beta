@@ -1,0 +1,1946 @@
+[
+ {
+  "file": "0000_20d89ee7_intact__02_interior_overview.png",
+  "seed": 7001,
+  "arena_id": "20d89ee7a8aa754c",
+  "variant": "INTACT",
+  "centre": [
+   -837,
+   -26,
+   -1174
+  ],
+  "eye": [
+   -861.5,
+   -23.5,
+   -1165.5
+  ],
+  "yaw": -111.7,
+  "pitch": -13.6,
+  "target": [
+   -825,
+   -14,
+   -1180
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "interior from the combat floor, far dome / wall",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0001_20d89ee7_intact__02c_interior_overview_NO_nightvision.png",
+  "seed": 7001,
+  "arena_id": "20d89ee7a8aa754c",
+  "variant": "INTACT",
+  "centre": [
+   -837,
+   -26,
+   -1174
+  ],
+  "eye": [
+   -861.5,
+   -23.5,
+   -1165.5
+  ],
+  "yaw": -111.7,
+  "pitch": -13.6,
+  "target": [
+   -825,
+   -14,
+   -1180
+  ],
+  "night_vision": false,
+  "cutaway_photo_copy": null,
+  "description": "same view as 02 but WITHOUT night vision (true block lighting)",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0002_20d89ee7_intact__02b_interior_dome_up.png",
+  "seed": 7001,
+  "arena_id": "20d89ee7a8aa754c",
+  "variant": "INTACT",
+  "centre": [
+   -837,
+   -26,
+   -1174
+  ],
+  "eye": [
+   -836.5,
+   -23.5,
+   -1159.5
+  ],
+  "yaw": 178.6,
+  "pitch": -42.1,
+  "target": [
+   -837,
+   -5,
+   -1180
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "interior looking up into the dome / ceiling",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0003_20d89ee7_intact__03_entrance_N.png",
+  "seed": 7001,
+  "arena_id": "20d89ee7a8aa754c",
+  "variant": "INTACT",
+  "centre": [
+   -837,
+   -26,
+   -1174
+  ],
+  "eye": [
+   -836.5,
+   -23.5,
+   -1161.5
+  ],
+  "yaw": -180.0,
+  "pitch": -1.3,
+  "target": [
+   -836.5,
+   -22.5,
+   -1206.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "entrance N (7x8 arch) from the floor, columns around",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0004_20d89ee7_intact__03_entrance_E.png",
+  "seed": 7001,
+  "arena_id": "20d89ee7a8aa754c",
+  "variant": "INTACT",
+  "centre": [
+   -837,
+   -26,
+   -1174
+  ],
+  "eye": [
+   -848.5,
+   -23.5,
+   -1173.5
+  ],
+  "yaw": -90.0,
+  "pitch": -1.3,
+  "target": [
+   -803.5,
+   -22.5,
+   -1173.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "entrance E (7x8 arch) from the floor, columns around",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0005_20d89ee7_intact__03_entrance_S.png",
+  "seed": 7001,
+  "arena_id": "20d89ee7a8aa754c",
+  "variant": "INTACT",
+  "centre": [
+   -837,
+   -26,
+   -1174
+  ],
+  "eye": [
+   -836.5,
+   -23.5,
+   -1185.5
+  ],
+  "yaw": -0.0,
+  "pitch": -1.3,
+  "target": [
+   -836.5,
+   -22.5,
+   -1140.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "entrance S (7x8 arch) from the floor, columns around",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0006_20d89ee7_intact__03_entrance_W.png",
+  "seed": 7001,
+  "arena_id": "20d89ee7a8aa754c",
+  "variant": "INTACT",
+  "centre": [
+   -837,
+   -26,
+   -1174
+  ],
+  "eye": [
+   -824.5,
+   -23.5,
+   -1173.5
+  ],
+  "yaw": 90.0,
+  "pitch": -1.3,
+  "target": [
+   -869.5,
+   -22.5,
+   -1173.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "entrance W (7x8 arch) from the floor, columns around",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0007_20d89ee7_intact__04_vault_ring.png",
+  "seed": 7001,
+  "arena_id": "20d89ee7a8aa754c",
+  "variant": "INTACT",
+  "centre": [
+   -837,
+   -26,
+   -1174
+  ],
+  "eye": [
+   -836.5,
+   -21.5,
+   -1173.5
+  ],
+  "yaw": -74.9,
+  "pitch": 8.4,
+  "target": [
+   -810.5,
+   -25.5,
+   -1166.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "vault ring on r=27, seen from the centre",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0008_20d89ee7_intact__04b_vault_close.png",
+  "seed": 7001,
+  "arena_id": "20d89ee7a8aa754c",
+  "variant": "INTACT",
+  "centre": [
+   -837,
+   -26,
+   -1174
+  ],
+  "eye": [
+   -816.293694551124,
+   -23.5,
+   -1168.0598408406872
+  ],
+  "yaw": -74.9,
+  "pitch": 15.8,
+  "target": [
+   -810.5,
+   -25.2,
+   -1166.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "one ordinary Vault close up",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0009_20d89ee7_intact__04c_ominous_vault_centre.png",
+  "seed": 7001,
+  "arena_id": "20d89ee7a8aa754c",
+  "variant": "INTACT",
+  "centre": [
+   -837,
+   -26,
+   -1174
+  ],
+  "eye": [
+   -836.5,
+   -23.2,
+   -1168.5
+  ],
+  "yaw": -180.0,
+  "pitch": 23.7,
+  "target": [
+   -836.5,
+   -25.4,
+   -1173.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "Ominous Vault at the exact centre",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0010_20d89ee7_intact__05_corridor_0_entrance_side.png",
+  "seed": 7001,
+  "arena_id": "20d89ee7a8aa754c",
+  "variant": "INTACT",
+  "centre": [
+   -837,
+   -26,
+   -1174
+  ],
+  "eye": [
+   -799.5,
+   -24.6,
+   -1173.5
+  ],
+  "yaw": -90.0,
+  "pitch": 52.4,
+  "target": [
+   -796.5,
+   -28.5,
+   -1173.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "corridor 0 (dir E) from the arena end looking outward",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0011_20d89ee7_intact__05b_corridor_0_cave_junction.png",
+  "seed": 7001,
+  "arena_id": "20d89ee7a8aa754c",
+  "variant": "INTACT",
+  "centre": [
+   -837,
+   -26,
+   -1174
+  ],
+  "eye": [
+   -794.5,
+   -27.6,
+   -1173.5
+  ],
+  "yaw": -0.0,
+  "pitch": 32.3,
+  "target": [
+   -794.5,
+   -29.5,
+   -1170.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "corridor 0 junction with the natural cave",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0012_20d89ee7_intact__05_corridor_1_entrance_side.png",
+  "seed": 7001,
+  "arena_id": "20d89ee7a8aa754c",
+  "variant": "INTACT",
+  "centre": [
+   -837,
+   -26,
+   -1174
+  ],
+  "eye": [
+   -836.5,
+   -23.6,
+   -1210.5
+  ],
+  "yaw": -180.0,
+  "pitch": 42.0,
+  "target": [
+   -836.5,
+   -24.5,
+   -1211.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "corridor 1 (dir N) from the arena end looking outward",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0013_20d89ee7_intact__05b_corridor_1_cave_junction.png",
+  "seed": 7001,
+  "arena_id": "20d89ee7a8aa754c",
+  "variant": "INTACT",
+  "centre": [
+   -837,
+   -26,
+   -1174
+  ],
+  "eye": [
+   -836.5,
+   -23.6,
+   -1211.5
+  ],
+  "yaw": -180.0,
+  "pitch": -20.1,
+  "target": [
+   -836.5,
+   -22.5,
+   -1214.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "corridor 1 junction with the natural cave",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0000_20d89ee7_intact__06_dome_exterior_aerial.png",
+  "seed": 7001,
+  "arena_id": "20d89ee7a8aa754c",
+  "variant": "INTACT",
+  "centre": [
+   -837,
+   -26,
+   -1174
+  ],
+  "eye": [
+   -796.5,
+   22,
+   -1133.5
+  ],
+  "yaw": 135.0,
+  "pitch": 33.6,
+  "target": [
+   -837,
+   -16,
+   -1174
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": "top",
+  "description": "dome exterior from above, all natural terrain above the floor removed in the photo copy (planned blocks kept)",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0001_20d89ee7_intact__06d_dome_exterior_side.png",
+  "seed": 7001,
+  "arena_id": "20d89ee7a8aa754c",
+  "variant": "INTACT",
+  "centre": [
+   -837,
+   -26,
+   -1174
+  ],
+  "eye": [
+   -778.5,
+   -10,
+   -1153.5
+  ],
+  "yaw": 109.3,
+  "pitch": 7.4,
+  "target": [
+   -837,
+   -18,
+   -1174
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": "top",
+  "description": "dome exterior from the side with all natural terrain removed in the photo copy (planned blocks kept)",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0015_20d89ee7_intact__06b_dome_cross_section.png",
+  "seed": 7001,
+  "arena_id": "20d89ee7a8aa754c",
+  "variant": "INTACT",
+  "centre": [
+   -837,
+   -26,
+   -1174
+  ],
+  "eye": [
+   -784.5,
+   -16,
+   -1173.5
+  ],
+  "yaw": 90.0,
+  "pitch": 1.1,
+  "target": [
+   -837,
+   -17,
+   -1173.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": "half",
+  "description": "vertical section through the centre (east half removed in the photo copy)",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0016_20d89ee7_intact__06c_dome_cross_section_oblique.png",
+  "seed": 7001,
+  "arena_id": "20d89ee7a8aa754c",
+  "variant": "INTACT",
+  "centre": [
+   -837,
+   -26,
+   -1174
+  ],
+  "eye": [
+   -788.5,
+   0,
+   -1137.5
+  ],
+  "yaw": 125.3,
+  "pitch": 15.9,
+  "target": [
+   -840,
+   -18,
+   -1174
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": "half",
+  "description": "oblique view of the section",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0017_809b9bf8_ruined_natural_ceiling__02_interior_overview.png",
+  "seed": 7002,
+  "arena_id": "809b9bf8237b315e",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1654,
+   -36,
+   1136
+  ],
+  "eye": [
+   1629.5,
+   -33.5,
+   1144.5
+  ],
+  "yaw": -111.7,
+  "pitch": -13.6,
+  "target": [
+   1666,
+   -24,
+   1130
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "interior from the combat floor, far dome / wall",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0018_809b9bf8_ruined_natural_ceiling__02c_interior_overview_NO_nightvision.png",
+  "seed": 7002,
+  "arena_id": "809b9bf8237b315e",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1654,
+   -36,
+   1136
+  ],
+  "eye": [
+   1629.5,
+   -33.5,
+   1144.5
+  ],
+  "yaw": -111.7,
+  "pitch": -13.6,
+  "target": [
+   1666,
+   -24,
+   1130
+  ],
+  "night_vision": false,
+  "cutaway_photo_copy": null,
+  "description": "same view as 02 but WITHOUT night vision (true block lighting)",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0019_809b9bf8_ruined_natural_ceiling__02b_interior_dome_up.png",
+  "seed": 7002,
+  "arena_id": "809b9bf8237b315e",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1654,
+   -36,
+   1136
+  ],
+  "eye": [
+   1654.5,
+   -33.5,
+   1150.5
+  ],
+  "yaw": 178.6,
+  "pitch": -42.1,
+  "target": [
+   1654,
+   -15,
+   1130
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "interior looking up into the dome / ceiling",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0020_809b9bf8_ruined_natural_ceiling__03_entrance_N.png",
+  "seed": 7002,
+  "arena_id": "809b9bf8237b315e",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1654,
+   -36,
+   1136
+  ],
+  "eye": [
+   1654.5,
+   -33.5,
+   1148.5
+  ],
+  "yaw": -180.0,
+  "pitch": -1.3,
+  "target": [
+   1654.5,
+   -32.5,
+   1103.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "entrance N (7x8 arch) from the floor, columns around",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0021_809b9bf8_ruined_natural_ceiling__03_entrance_E.png",
+  "seed": 7002,
+  "arena_id": "809b9bf8237b315e",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1654,
+   -36,
+   1136
+  ],
+  "eye": [
+   1642.5,
+   -33.5,
+   1136.5
+  ],
+  "yaw": -90.0,
+  "pitch": -1.3,
+  "target": [
+   1687.5,
+   -32.5,
+   1136.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "entrance E (7x8 arch) from the floor, columns around",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0022_809b9bf8_ruined_natural_ceiling__03_entrance_S.png",
+  "seed": 7002,
+  "arena_id": "809b9bf8237b315e",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1654,
+   -36,
+   1136
+  ],
+  "eye": [
+   1654.5,
+   -33.5,
+   1124.5
+  ],
+  "yaw": -0.0,
+  "pitch": -1.3,
+  "target": [
+   1654.5,
+   -32.5,
+   1169.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "entrance S (7x8 arch) from the floor, columns around",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0023_809b9bf8_ruined_natural_ceiling__03_entrance_W.png",
+  "seed": 7002,
+  "arena_id": "809b9bf8237b315e",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1654,
+   -36,
+   1136
+  ],
+  "eye": [
+   1666.5,
+   -33.5,
+   1136.5
+  ],
+  "yaw": 90.0,
+  "pitch": -1.3,
+  "target": [
+   1621.5,
+   -32.5,
+   1136.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "entrance W (7x8 arch) from the floor, columns around",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0024_809b9bf8_ruined_natural_ceiling__04_vault_ring.png",
+  "seed": 7002,
+  "arena_id": "809b9bf8237b315e",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1654,
+   -36,
+   1136
+  ],
+  "eye": [
+   1654.5,
+   -31.5,
+   1136.5
+  ],
+  "yaw": -74.9,
+  "pitch": 8.4,
+  "target": [
+   1680.5,
+   -35.5,
+   1143.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "vault ring on r=27, seen from the centre",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0025_809b9bf8_ruined_natural_ceiling__04b_vault_close.png",
+  "seed": 7002,
+  "arena_id": "809b9bf8237b315e",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1654,
+   -36,
+   1136
+  ],
+  "eye": [
+   1674.706305448876,
+   -33.5,
+   1141.9401591593128
+  ],
+  "yaw": -74.9,
+  "pitch": 15.8,
+  "target": [
+   1680.5,
+   -35.2,
+   1143.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "one ordinary Vault close up",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0026_809b9bf8_ruined_natural_ceiling__04c_ominous_vault_centre.png",
+  "seed": 7002,
+  "arena_id": "809b9bf8237b315e",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1654,
+   -36,
+   1136
+  ],
+  "eye": [
+   1654.5,
+   -33.2,
+   1141.5
+  ],
+  "yaw": -180.0,
+  "pitch": 23.7,
+  "target": [
+   1654.5,
+   -35.4,
+   1136.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "Ominous Vault at the exact centre",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0027_809b9bf8_ruined_natural_ceiling__05_corridor_0_entrance_side.png",
+  "seed": 7002,
+  "arena_id": "809b9bf8237b315e",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1654,
+   -36,
+   1136
+  ],
+  "eye": [
+   1654.5,
+   -35.6,
+   1099.5
+  ],
+  "yaw": -180.0,
+  "pitch": 50.8,
+  "target": [
+   1654.5,
+   -40.5,
+   1095.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "corridor 0 (dir N) from the arena end looking outward",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0028_809b9bf8_ruined_natural_ceiling__05b_corridor_0_cave_junction.png",
+  "seed": 7002,
+  "arena_id": "809b9bf8237b315e",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1654,
+   -36,
+   1136
+  ],
+  "eye": [
+   1654.5,
+   -41.6,
+   1093.5
+  ],
+  "yaw": -180.0,
+  "pitch": 52.4,
+  "target": [
+   1654.5,
+   -45.5,
+   1090.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "corridor 0 junction with the natural cave",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0029_809b9bf8_ruined_natural_ceiling__05_corridor_1_entrance_side.png",
+  "seed": 7002,
+  "arena_id": "809b9bf8237b315e",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1654,
+   -36,
+   1136
+  ],
+  "eye": [
+   1691.5,
+   -33.6,
+   1136.5
+  ],
+  "yaw": -90.0,
+  "pitch": 7.3,
+  "target": [
+   1698.5,
+   -34.5,
+   1136.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "corridor 1 (dir E) from the arena end looking outward",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0030_809b9bf8_ruined_natural_ceiling__05b_corridor_1_cave_junction.png",
+  "seed": 7002,
+  "arena_id": "809b9bf8237b315e",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1654,
+   -36,
+   1136
+  ],
+  "eye": [
+   1699.5,
+   -32.6,
+   1132.5
+  ],
+  "yaw": -180.0,
+  "pitch": -35.0,
+  "target": [
+   1699.5,
+   -30.5,
+   1129.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "corridor 1 junction with the natural cave",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0002_809b9bf8_ruined_natural_ceiling__06_dome_exterior_aerial.png",
+  "seed": 7002,
+  "arena_id": "809b9bf8237b315e",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1654,
+   -36,
+   1136
+  ],
+  "eye": [
+   1694.5,
+   12,
+   1176.5
+  ],
+  "yaw": 135.0,
+  "pitch": 33.6,
+  "target": [
+   1654,
+   -26,
+   1136
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": "top",
+  "description": "dome exterior from above, all natural terrain above the floor removed in the photo copy (planned blocks kept)",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0003_809b9bf8_ruined_natural_ceiling__06d_dome_exterior_side.png",
+  "seed": 7002,
+  "arena_id": "809b9bf8237b315e",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1654,
+   -36,
+   1136
+  ],
+  "eye": [
+   1712.5,
+   -20,
+   1156.5
+  ],
+  "yaw": 109.3,
+  "pitch": 7.4,
+  "target": [
+   1654,
+   -28,
+   1136
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": "top",
+  "description": "dome exterior from the side with all natural terrain removed in the photo copy (planned blocks kept)",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0032_809b9bf8_ruined_natural_ceiling__06b_dome_cross_section.png",
+  "seed": 7002,
+  "arena_id": "809b9bf8237b315e",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1654,
+   -36,
+   1136
+  ],
+  "eye": [
+   1706.5,
+   -26,
+   1136.5
+  ],
+  "yaw": 90.0,
+  "pitch": 1.1,
+  "target": [
+   1654,
+   -27,
+   1136.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": "half",
+  "description": "vertical section through the centre (east half removed in the photo copy)",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0033_809b9bf8_ruined_natural_ceiling__06c_dome_cross_section_oblique.png",
+  "seed": 7002,
+  "arena_id": "809b9bf8237b315e",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1654,
+   -36,
+   1136
+  ],
+  "eye": [
+   1702.5,
+   -10,
+   1172.5
+  ],
+  "yaw": 125.3,
+  "pitch": 15.9,
+  "target": [
+   1651,
+   -28,
+   1136
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": "half",
+  "description": "oblique view of the section",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0004_2ac822e8_ruined_natural_ceiling__02_interior_overview.png",
+  "seed": 7001,
+  "arena_id": "2ac822e8f540f125",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1095,
+   -35,
+   -647
+  ],
+  "eye": [
+   1070.5,
+   -32.5,
+   -638.5
+  ],
+  "yaw": -111.7,
+  "pitch": -13.6,
+  "target": [
+   1107,
+   -23,
+   -653
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "interior from the combat floor, far dome / wall",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0035_2ac822e8_ruined_natural_ceiling__02c_interior_overview_NO_nightvision.png",
+  "seed": 7001,
+  "arena_id": "2ac822e8f540f125",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1095,
+   -35,
+   -647
+  ],
+  "eye": [
+   1070.5,
+   -32.5,
+   -638.5
+  ],
+  "yaw": -111.7,
+  "pitch": -13.6,
+  "target": [
+   1107,
+   -23,
+   -653
+  ],
+  "night_vision": false,
+  "cutaway_photo_copy": null,
+  "description": "same view as 02 but WITHOUT night vision (true block lighting)",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0036_2ac822e8_ruined_natural_ceiling__02b_interior_dome_up.png",
+  "seed": 7001,
+  "arena_id": "2ac822e8f540f125",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1095,
+   -35,
+   -647
+  ],
+  "eye": [
+   1095.5,
+   -32.5,
+   -632.5
+  ],
+  "yaw": 178.6,
+  "pitch": -42.1,
+  "target": [
+   1095,
+   -14,
+   -653
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "interior looking up into the dome / ceiling",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0037_2ac822e8_ruined_natural_ceiling__03_entrance_N.png",
+  "seed": 7001,
+  "arena_id": "2ac822e8f540f125",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1095,
+   -35,
+   -647
+  ],
+  "eye": [
+   1095.5,
+   -32.5,
+   -634.5
+  ],
+  "yaw": -180.0,
+  "pitch": -1.3,
+  "target": [
+   1095.5,
+   -31.5,
+   -679.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "entrance N (7x8 arch) from the floor, columns around",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0038_2ac822e8_ruined_natural_ceiling__03_entrance_E.png",
+  "seed": 7001,
+  "arena_id": "2ac822e8f540f125",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1095,
+   -35,
+   -647
+  ],
+  "eye": [
+   1083.5,
+   -32.5,
+   -646.5
+  ],
+  "yaw": -90.0,
+  "pitch": -1.3,
+  "target": [
+   1128.5,
+   -31.5,
+   -646.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "entrance E (7x8 arch) from the floor, columns around",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0039_2ac822e8_ruined_natural_ceiling__03_entrance_S.png",
+  "seed": 7001,
+  "arena_id": "2ac822e8f540f125",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1095,
+   -35,
+   -647
+  ],
+  "eye": [
+   1095.5,
+   -32.5,
+   -658.5
+  ],
+  "yaw": -0.0,
+  "pitch": -1.3,
+  "target": [
+   1095.5,
+   -31.5,
+   -613.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "entrance S (7x8 arch) from the floor, columns around",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0040_2ac822e8_ruined_natural_ceiling__03_entrance_W.png",
+  "seed": 7001,
+  "arena_id": "2ac822e8f540f125",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1095,
+   -35,
+   -647
+  ],
+  "eye": [
+   1107.5,
+   -32.5,
+   -646.5
+  ],
+  "yaw": 90.0,
+  "pitch": -1.3,
+  "target": [
+   1062.5,
+   -31.5,
+   -646.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "entrance W (7x8 arch) from the floor, columns around",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0041_2ac822e8_ruined_natural_ceiling__04_vault_ring.png",
+  "seed": 7001,
+  "arena_id": "2ac822e8f540f125",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1095,
+   -35,
+   -647
+  ],
+  "eye": [
+   1095.5,
+   -30.5,
+   -646.5
+  ],
+  "yaw": -74.9,
+  "pitch": 8.4,
+  "target": [
+   1121.5,
+   -34.5,
+   -639.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "vault ring on r=27, seen from the centre",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0042_2ac822e8_ruined_natural_ceiling__04b_vault_close.png",
+  "seed": 7001,
+  "arena_id": "2ac822e8f540f125",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1095,
+   -35,
+   -647
+  ],
+  "eye": [
+   1115.706305448876,
+   -32.5,
+   -641.0598408406872
+  ],
+  "yaw": -74.9,
+  "pitch": 15.8,
+  "target": [
+   1121.5,
+   -34.2,
+   -639.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "one ordinary Vault close up",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0043_2ac822e8_ruined_natural_ceiling__04c_ominous_vault_centre.png",
+  "seed": 7001,
+  "arena_id": "2ac822e8f540f125",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1095,
+   -35,
+   -647
+  ],
+  "eye": [
+   1095.5,
+   -32.2,
+   -641.5
+  ],
+  "yaw": -180.0,
+  "pitch": 23.7,
+  "target": [
+   1095.5,
+   -34.4,
+   -646.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "Ominous Vault at the exact centre",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0044_2ac822e8_ruined_natural_ceiling__05_corridor_0_entrance_side.png",
+  "seed": 7001,
+  "arena_id": "2ac822e8f540f125",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1095,
+   -35,
+   -647
+  ],
+  "eye": [
+   1095.5,
+   -33.6,
+   -609.5
+  ],
+  "yaw": -0.0,
+  "pitch": 52.4,
+  "target": [
+   1095.5,
+   -37.5,
+   -606.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "corridor 0 (dir S) from the arena end looking outward",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0045_2ac822e8_ruined_natural_ceiling__05b_corridor_0_cave_junction.png",
+  "seed": 7001,
+  "arena_id": "2ac822e8f540f125",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1095,
+   -35,
+   -647
+  ],
+  "eye": [
+   1095.5,
+   -36.6,
+   -604.5
+  ],
+  "yaw": -90.0,
+  "pitch": 32.3,
+  "target": [
+   1098.5,
+   -38.5,
+   -604.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "corridor 0 junction with the natural cave",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0046_2ac822e8_ruined_natural_ceiling__05_corridor_1_entrance_side.png",
+  "seed": 7001,
+  "arena_id": "2ac822e8f540f125",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1095,
+   -35,
+   -647
+  ],
+  "eye": [
+   1058.5,
+   -30.6,
+   -646.5
+  ],
+  "yaw": 90.0,
+  "pitch": -5.7,
+  "target": [
+   1057.5,
+   -30.5,
+   -646.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "corridor 1 (dir W) from the arena end looking outward",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0047_2ac822e8_ruined_natural_ceiling__05b_corridor_1_cave_junction.png",
+  "seed": 7001,
+  "arena_id": "2ac822e8f540f125",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1095,
+   -35,
+   -647
+  ],
+  "eye": [
+   1057.5,
+   -29.6,
+   -646.5
+  ],
+  "yaw": 90.0,
+  "pitch": -35.0,
+  "target": [
+   1054.5,
+   -27.5,
+   -646.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "corridor 1 junction with the natural cave",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0005_2ac822e8_ruined_natural_ceiling__06_dome_exterior_aerial.png",
+  "seed": 7001,
+  "arena_id": "2ac822e8f540f125",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1095,
+   -35,
+   -647
+  ],
+  "eye": [
+   1135.5,
+   13,
+   -606.5
+  ],
+  "yaw": 135.0,
+  "pitch": 33.6,
+  "target": [
+   1095,
+   -25,
+   -647
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": "top",
+  "description": "dome exterior from above, all natural terrain above the floor removed in the photo copy (planned blocks kept)",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0006_2ac822e8_ruined_natural_ceiling__06d_dome_exterior_side.png",
+  "seed": 7001,
+  "arena_id": "2ac822e8f540f125",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1095,
+   -35,
+   -647
+  ],
+  "eye": [
+   1153.5,
+   -19,
+   -626.5
+  ],
+  "yaw": 109.3,
+  "pitch": 7.4,
+  "target": [
+   1095,
+   -27,
+   -647
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": "top",
+  "description": "dome exterior from the side with all natural terrain removed in the photo copy (planned blocks kept)",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0049_2ac822e8_ruined_natural_ceiling__06b_dome_cross_section.png",
+  "seed": 7001,
+  "arena_id": "2ac822e8f540f125",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1095,
+   -35,
+   -647
+  ],
+  "eye": [
+   1147.5,
+   -25,
+   -646.5
+  ],
+  "yaw": 90.0,
+  "pitch": 1.1,
+  "target": [
+   1095,
+   -26,
+   -646.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": "half",
+  "description": "vertical section through the centre (east half removed in the photo copy)",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0050_2ac822e8_ruined_natural_ceiling__06c_dome_cross_section_oblique.png",
+  "seed": 7001,
+  "arena_id": "2ac822e8f540f125",
+  "variant": "RUINED_NATURAL_CEILING",
+  "centre": [
+   1095,
+   -35,
+   -647
+  ],
+  "eye": [
+   1143.5,
+   -9,
+   -610.5
+  ],
+  "yaw": 125.3,
+  "pitch": 15.9,
+  "target": [
+   1092,
+   -27,
+   -647
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": "half",
+  "description": "oblique view of the section",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0051_77ba83e0_ruined_partial_dome__02_interior_overview.png",
+  "seed": 7001,
+  "arena_id": "77ba83e05adb2600",
+  "variant": "RUINED_PARTIAL_DOME",
+  "centre": [
+   -390,
+   -19,
+   -720
+  ],
+  "eye": [
+   -414.5,
+   -16.5,
+   -711.5
+  ],
+  "yaw": -111.7,
+  "pitch": -13.6,
+  "target": [
+   -378,
+   -7,
+   -726
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "interior from the combat floor, far dome / wall",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0052_77ba83e0_ruined_partial_dome__02c_interior_overview_NO_nightvision.png",
+  "seed": 7001,
+  "arena_id": "77ba83e05adb2600",
+  "variant": "RUINED_PARTIAL_DOME",
+  "centre": [
+   -390,
+   -19,
+   -720
+  ],
+  "eye": [
+   -414.5,
+   -16.5,
+   -711.5
+  ],
+  "yaw": -111.7,
+  "pitch": -13.6,
+  "target": [
+   -378,
+   -7,
+   -726
+  ],
+  "night_vision": false,
+  "cutaway_photo_copy": null,
+  "description": "same view as 02 but WITHOUT night vision (true block lighting)",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0053_77ba83e0_ruined_partial_dome__02b_interior_dome_up.png",
+  "seed": 7001,
+  "arena_id": "77ba83e05adb2600",
+  "variant": "RUINED_PARTIAL_DOME",
+  "centre": [
+   -390,
+   -19,
+   -720
+  ],
+  "eye": [
+   -389.5,
+   -16.5,
+   -705.5
+  ],
+  "yaw": 178.6,
+  "pitch": -42.1,
+  "target": [
+   -390,
+   2,
+   -726
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "interior looking up into the dome / ceiling",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0054_77ba83e0_ruined_partial_dome__03_entrance_N.png",
+  "seed": 7001,
+  "arena_id": "77ba83e05adb2600",
+  "variant": "RUINED_PARTIAL_DOME",
+  "centre": [
+   -390,
+   -19,
+   -720
+  ],
+  "eye": [
+   -389.5,
+   -16.5,
+   -707.5
+  ],
+  "yaw": -180.0,
+  "pitch": -1.3,
+  "target": [
+   -389.5,
+   -15.5,
+   -752.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "entrance N (7x8 arch) from the floor, columns around",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0055_77ba83e0_ruined_partial_dome__03_entrance_E.png",
+  "seed": 7001,
+  "arena_id": "77ba83e05adb2600",
+  "variant": "RUINED_PARTIAL_DOME",
+  "centre": [
+   -390,
+   -19,
+   -720
+  ],
+  "eye": [
+   -401.5,
+   -16.5,
+   -719.5
+  ],
+  "yaw": -90.0,
+  "pitch": -1.3,
+  "target": [
+   -356.5,
+   -15.5,
+   -719.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "entrance E (7x8 arch) from the floor, columns around",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0056_77ba83e0_ruined_partial_dome__03_entrance_S.png",
+  "seed": 7001,
+  "arena_id": "77ba83e05adb2600",
+  "variant": "RUINED_PARTIAL_DOME",
+  "centre": [
+   -390,
+   -19,
+   -720
+  ],
+  "eye": [
+   -389.5,
+   -16.5,
+   -731.5
+  ],
+  "yaw": -0.0,
+  "pitch": -1.3,
+  "target": [
+   -389.5,
+   -15.5,
+   -686.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "entrance S (7x8 arch) from the floor, columns around",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0057_77ba83e0_ruined_partial_dome__03_entrance_W.png",
+  "seed": 7001,
+  "arena_id": "77ba83e05adb2600",
+  "variant": "RUINED_PARTIAL_DOME",
+  "centre": [
+   -390,
+   -19,
+   -720
+  ],
+  "eye": [
+   -377.5,
+   -16.5,
+   -719.5
+  ],
+  "yaw": 90.0,
+  "pitch": -1.3,
+  "target": [
+   -422.5,
+   -15.5,
+   -719.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "entrance W (7x8 arch) from the floor, columns around",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0058_77ba83e0_ruined_partial_dome__04_vault_ring.png",
+  "seed": 7001,
+  "arena_id": "77ba83e05adb2600",
+  "variant": "RUINED_PARTIAL_DOME",
+  "centre": [
+   -390,
+   -19,
+   -720
+  ],
+  "eye": [
+   -389.5,
+   -14.5,
+   -719.5
+  ],
+  "yaw": -74.9,
+  "pitch": 8.4,
+  "target": [
+   -363.5,
+   -18.5,
+   -712.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "vault ring on r=27, seen from the centre",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0059_77ba83e0_ruined_partial_dome__04b_vault_close.png",
+  "seed": 7001,
+  "arena_id": "77ba83e05adb2600",
+  "variant": "RUINED_PARTIAL_DOME",
+  "centre": [
+   -390,
+   -19,
+   -720
+  ],
+  "eye": [
+   -369.293694551124,
+   -16.5,
+   -714.0598408406872
+  ],
+  "yaw": -74.9,
+  "pitch": 15.8,
+  "target": [
+   -363.5,
+   -18.2,
+   -712.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "one ordinary Vault close up",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0060_77ba83e0_ruined_partial_dome__04c_ominous_vault_centre.png",
+  "seed": 7001,
+  "arena_id": "77ba83e05adb2600",
+  "variant": "RUINED_PARTIAL_DOME",
+  "centre": [
+   -390,
+   -19,
+   -720
+  ],
+  "eye": [
+   -389.5,
+   -16.2,
+   -714.5
+  ],
+  "yaw": -180.0,
+  "pitch": 23.7,
+  "target": [
+   -389.5,
+   -18.4,
+   -719.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "Ominous Vault at the exact centre",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0061_77ba83e0_ruined_partial_dome__05_corridor_0_entrance_side.png",
+  "seed": 7001,
+  "arena_id": "77ba83e05adb2600",
+  "variant": "RUINED_PARTIAL_DOME",
+  "centre": [
+   -390,
+   -19,
+   -720
+  ],
+  "eye": [
+   -389.5,
+   -16.6,
+   -756.5
+  ],
+  "yaw": -180.0,
+  "pitch": 12.7,
+  "target": [
+   -389.5,
+   -17.5,
+   -760.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "corridor 0 (dir N) from the arena end looking outward",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0062_77ba83e0_ruined_partial_dome__05b_corridor_0_cave_junction.png",
+  "seed": 7001,
+  "arena_id": "77ba83e05adb2600",
+  "variant": "RUINED_PARTIAL_DOME",
+  "centre": [
+   -390,
+   -19,
+   -720
+  ],
+  "eye": [
+   -387.5,
+   -16.6,
+   -761.5
+  ],
+  "yaw": -90.0,
+  "pitch": 16.7,
+  "target": [
+   -384.5,
+   -17.5,
+   -761.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "corridor 0 junction with the natural cave",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0063_77ba83e0_ruined_partial_dome__05_corridor_1_entrance_side.png",
+  "seed": 7001,
+  "arena_id": "77ba83e05adb2600",
+  "variant": "RUINED_PARTIAL_DOME",
+  "centre": [
+   -390,
+   -19,
+   -720
+  ],
+  "eye": [
+   -352.5,
+   -15.6,
+   -719.5
+  ],
+  "yaw": -90.0,
+  "pitch": -5.7,
+  "target": [
+   -351.5,
+   -15.5,
+   -719.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "corridor 1 (dir E) from the arena end looking outward",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0064_77ba83e0_ruined_partial_dome__05b_corridor_1_cave_junction.png",
+  "seed": 7001,
+  "arena_id": "77ba83e05adb2600",
+  "variant": "RUINED_PARTIAL_DOME",
+  "centre": [
+   -390,
+   -19,
+   -720
+  ],
+  "eye": [
+   -351.5,
+   -14.6,
+   -719.5
+  ],
+  "yaw": -90.0,
+  "pitch": -35.0,
+  "target": [
+   -348.5,
+   -12.5,
+   -719.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": null,
+  "description": "corridor 1 junction with the natural cave",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0007_77ba83e0_ruined_partial_dome__06_dome_exterior_aerial.png",
+  "seed": 7001,
+  "arena_id": "77ba83e05adb2600",
+  "variant": "RUINED_PARTIAL_DOME",
+  "centre": [
+   -390,
+   -19,
+   -720
+  ],
+  "eye": [
+   -349.5,
+   29,
+   -679.5
+  ],
+  "yaw": 135.0,
+  "pitch": 33.6,
+  "target": [
+   -390,
+   -9,
+   -720
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": "top",
+  "description": "dome exterior from above, all natural terrain above the floor removed in the photo copy (planned blocks kept)",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0008_77ba83e0_ruined_partial_dome__06d_dome_exterior_side.png",
+  "seed": 7001,
+  "arena_id": "77ba83e05adb2600",
+  "variant": "RUINED_PARTIAL_DOME",
+  "centre": [
+   -390,
+   -19,
+   -720
+  ],
+  "eye": [
+   -331.5,
+   -3,
+   -699.5
+  ],
+  "yaw": 109.3,
+  "pitch": 7.4,
+  "target": [
+   -390,
+   -11,
+   -720
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": "top",
+  "description": "dome exterior from the side with all natural terrain removed in the photo copy (planned blocks kept)",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0066_77ba83e0_ruined_partial_dome__06b_dome_cross_section.png",
+  "seed": 7001,
+  "arena_id": "77ba83e05adb2600",
+  "variant": "RUINED_PARTIAL_DOME",
+  "centre": [
+   -390,
+   -19,
+   -720
+  ],
+  "eye": [
+   -337.5,
+   -9,
+   -719.5
+  ],
+  "yaw": 90.0,
+  "pitch": 1.1,
+  "target": [
+   -390,
+   -10,
+   -719.5
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": "half",
+  "description": "vertical section through the centre (east half removed in the photo copy)",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ },
+ {
+  "file": "0067_77ba83e0_ruined_partial_dome__06c_dome_cross_section_oblique.png",
+  "seed": 7001,
+  "arena_id": "77ba83e05adb2600",
+  "variant": "RUINED_PARTIAL_DOME",
+  "centre": [
+   -390,
+   -19,
+   -720
+  ],
+  "eye": [
+   -341.5,
+   7,
+   -683.5
+  ],
+  "yaw": 125.3,
+  "pitch": 15.9,
+  "target": [
+   -393,
+   -11,
+   -720
+  ],
+  "night_vision": true,
+  "cutaway_photo_copy": "half",
+  "description": "oblique view of the section",
+  "client": "Minecraft 26.3, Fabric client gametest, Vulkan llvmpipe software renderer, 1920x1080, HUD hidden, spectator camera, fov 85"
+ }
+]

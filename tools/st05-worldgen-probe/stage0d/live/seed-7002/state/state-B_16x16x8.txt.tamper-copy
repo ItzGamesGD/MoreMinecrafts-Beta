@@ -1,0 +1,25 @@
+ST05D-STATE-1 algo=st05-d01-bprime-core-opening-v1 params=B_16x16x8 seed=7002 snapshot=PLAN_BASE_COLUMN_v1 #f5e48f125f632cb2
+C id=484f293b0123af5 anchor=20001190001077d7 owner=0,1 size=118053 set=194892dad0c2f988 suit=0 c=0,0 st=NOT_SUITABLE roll=0 final=1 proof=03bc40890e2da2cd306d9f37 #6bd5187cb99ce296
+C id=13a9c0ce647f6b39 anchor=20000a700009a7e1 owner=0,0 size=20641 set=1fa548f1b3610665 suit=0 c=0,0 st=NOT_SUITABLE roll=0 final=1 proof=9cbce58ab8912c6927de4b31 #f6ea2c9dd8e84ac7
+C id=167252faadd1a194 anchor=20000a70001067e5 owner=0,1 size=2048 set=d2068f7192b0fb4c suit=0 c=0,0 st=NOT_SUITABLE roll=0 final=1 proof=0311dee7fd8193c597e7f2e3 #c155285dc2b93209
+C id=252c6d830acf5199 anchor=1ffffab0000657f9 owner=-1,0 size=4646 set=f2555d03b36132fe suit=0 c=0,0 st=OWNER_OUTSIDE_OBSERVED_UNIVERSE roll=0 final=0 proof=68f162c572d41a72cf739dc6 #8f148c79ab88b816
+C id=2671076c15ebb84c anchor=200006b0000ea7ec owner=0,0 size=8547 set=9da89a1ac355a633 suit=0 c=0,0 st=NOT_SUITABLE roll=0 final=1 proof=caf0e06899e020302e576538 #63e7aabf970f9d05
+C id=29ab9b43b4468161 anchor=200013affffe17ca owner=0,-1 size=5888 set=27c854700aebc171 suit=0 c=0,0 st=OWNER_OUTSIDE_OBSERVED_UNIVERSE roll=0 final=0 proof=f545652782fae85aa0e9d041 #8bbc50fbec45a35d
+C id=34e93740d7e1191f anchor=20000310001747f1 owner=0,1 size=5181 set=bdf6f9ab76fbe952 suit=0 c=0,0 st=NOT_SUITABLE roll=0 final=1 proof=be460501cbe8fb3934d11661 #b0d1e3e02e03de43
+C id=39f106896c69789b anchor=1ffffa700013e7e8 owner=-1,1 size=11591 set=9294633a888368e5 suit=0 c=0,0 st=OWNER_OUTSIDE_OBSERVED_UNIVERSE roll=0 final=0 proof=f90c832daa640b565ae3bdfb #29a878ab0af0d880
+C id=475362e09c4ac2de anchor=1fffff2ffffc97df owner=-1,-1 size=47219 set=ae781eef93ac836b suit=0 c=0,0 st=OWNER_OUTSIDE_OBSERVED_UNIVERSE roll=0 final=0 proof=02d467e20d60bddd8d65d0fd #1dabc4e997d388bf
+C id=5f2dc06a9c30964f anchor=20000ed0000957d6 owner=0,0 size=31006 set=26dc083494aed3f7 suit=0 c=0,0 st=NOT_SUITABLE roll=0 final=1 proof=7608f61220ddf1fc31053f7b #a04035288c4d1ee2
+C id=6877fb807af05f86 anchor=200010500003f7e1 owner=0,0 size=23294 set=1badedbc4bbe937b suit=0 c=0,0 st=NOT_SUITABLE roll=0 final=1 proof=95f6e6e825c5642d1d4bb0de #6f31db94d4f8627c
+C id=9d7e0fb3015ee600 anchor=20000e50001027ef owner=0,1 size=2521 set=7c9d4201d7d25bc6 suit=0 c=0,0 st=NOT_SUITABLE roll=0 final=1 proof=4ccb10b4f00a1d77710f7549 #93d8ceaf230d20f9
+C id=9d9f7ed7e33e72a1 anchor=200008d0000c87e7 owner=0,0 size=2416 set=5fb8115c3b566290 suit=0 c=0,0 st=NOT_SUITABLE roll=0 final=1 proof=1c501f60c72d7776ea033bee #de2de2af87592af1
+C id=a281e39987414826 anchor=1ffffb50001797e0 owner=-1,1 size=3887 set=b9cbebd17c848ac7 suit=0 c=0,0 st=OWNER_OUTSIDE_OBSERVED_UNIVERSE roll=0 final=0 proof=ea427b7ad88d79343fa7fbff #a0a63f02c181f2d3
+C id=dd288a7ff05f19d1 anchor=200004300014f7f3 owner=0,1 size=18675 set=7b21504a9720c4b8 suit=0 c=0,0 st=NOT_SUITABLE roll=0 final=1 proof=7170cb5533073ce2ec0a7d5d #961be56c9ce4a73a
+C id=de74be0866922dea anchor=20000510000d67ed owner=0,0 size=12033 set=77810ad8c5e2cc9b suit=0 c=0,0 st=NOT_SUITABLE roll=0 final=1 proof=b8db334570cf6666552e73f2 #aafaf98c9f3339e6
+C id=e5881d144afb3972 anchor=20003af0000187d0 owner=1,0 size=17489 set=a59e7f979b357c5b suit=0 c=0,0 st=NOT_SUITABLE roll=0 final=1 proof=28d34582622b62e627cf0cc9 #ce547ecd510f5338
+C id=f7dcd9c834739ab3 anchor=20000370001df7fb owner=0,1 size=5642 set=ef1ebbb79561bded suit=0 c=0,0 st=NOT_SUITABLE roll=0 final=1 proof=93b02114fbfc1382cc712a4c #60b1aea5fcd06012
+B group=1ffff010000457ff used=3448 cap=50000000 exhausted=0 #7313457c246d41ed
+B group=1ffff4f000020808 used=3448 cap=50000000 exhausted=0 #d67109c9cc9feb0b
+B group=20001690000ec800 used=3448 cap=50000000 exhausted=0 #4d7bed7b3da8c9f4
+B group=20002ab00015d7ea used=3448 cap=50000000 exhausted=0 #9843c1834a584ae7
+B group=20004670002567ce used=3448 cap=50000000 exhausted=0 #f4af030615e5530b
+END n=23 chain=c1a70aa9294e5e6d04a36ab4 #1a9f64ee5b48c301

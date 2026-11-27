@@ -1,0 +1,137 @@
+{
+ "mode": "vaults",
+ "base": 10000,
+ "scope": "Fabric26.3 actual server; command removals and synthetic cooldown; not natural generation/combat/client/multiplayer",
+ "codec_note": "VaultConfig.DEFAULT is TRIAL_CHAMBERS_REWARD; vanilla lenientOptionalFieldOf omits default loot_table when saving. See vault_codec_reference.txt.",
+ "commands": [
+  {
+   "command": "data get block 10016 76 1015 config",
+   "response": "10016, 76, 1015 has the following block data: {key_item: {count: 1, id: \"minecraft:trial_key\"}}"
+  },
+  {
+   "command": "data get block 10016 76 1033 config",
+   "response": "10016, 76, 1033 has the following block data: {key_item: {count: 1, id: \"minecraft:trial_key\"}}"
+  },
+  {
+   "command": "data get block 10016 87 1015 config",
+   "response": "10016, 87, 1015 has the following block data: {key_item: {count: 1, id: \"minecraft:trial_key\"}}"
+  },
+  {
+   "command": "data get block 10016 87 1033 config",
+   "response": "10016, 87, 1033 has the following block data: {key_item: {count: 1, id: \"minecraft:trial_key\"}}"
+  },
+  {
+   "command": "data get block 10016 99 1015 config",
+   "response": "10016, 99, 1015 has the following block data: {key_item: {count: 1, id: \"minecraft:trial_key\"}}"
+  },
+  {
+   "command": "data get block 10016 99 1033 config",
+   "response": "10016, 99, 1033 has the following block data: {key_item: {count: 1, id: \"minecraft:trial_key\"}}"
+  },
+  {
+   "command": "data get block 10016 113 1015 config",
+   "response": "10016, 113, 1015 has the following block data: {key_item: {count: 1, id: \"minecraft:trial_key\"}}"
+  },
+  {
+   "command": "data get block 10016 113 1033 config",
+   "response": "10016, 113, 1033 has the following block data: {key_item: {count: 1, id: \"minecraft:trial_key\"}}"
+  },
+  {
+   "command": "data get block 10285 76 1016 config",
+   "response": "10285, 76, 1016 has the following block data: {key_item: {count: 1, id: \"minecraft:trial_key\"}}"
+  },
+  {
+   "command": "data get block 10267 76 1016 config",
+   "response": "10267, 76, 1016 has the following block data: {key_item: {count: 1, id: \"minecraft:trial_key\"}}"
+  },
+  {
+   "command": "data get block 10285 87 1016 config",
+   "response": "10285, 87, 1016 has the following block data: {key_item: {count: 1, id: \"minecraft:trial_key\"}}"
+  },
+  {
+   "command": "data get block 10267 87 1016 config",
+   "response": "10267, 87, 1016 has the following block data: {key_item: {count: 1, id: \"minecraft:trial_key\"}}"
+  },
+  {
+   "command": "data get block 10285 99 1016 config",
+   "response": "10285, 99, 1016 has the following block data: {key_item: {count: 1, id: \"minecraft:trial_key\"}}"
+  },
+  {
+   "command": "data get block 10267 99 1016 config",
+   "response": "10267, 99, 1016 has the following block data: {key_item: {count: 1, id: \"minecraft:trial_key\"}}"
+  },
+  {
+   "command": "data get block 10285 113 1016 config",
+   "response": "10285, 113, 1016 has the following block data: {key_item: {count: 1, id: \"minecraft:trial_key\"}}"
+  },
+  {
+   "command": "data get block 10267 113 1016 config",
+   "response": "10267, 113, 1016 has the following block data: {key_item: {count: 1, id: \"minecraft:trial_key\"}}"
+  },
+  {
+   "command": "data get block 10584 76 985 config",
+   "response": "10584, 76, 985 has the following block data: {key_item: {count: 1, id: \"minecraft:trial_key\"}}"
+  },
+  {
+   "command": "data get block 10584 76 967 config",
+   "response": "10584, 76, 967 has the following block data: {key_item: {count: 1, id: \"minecraft:trial_key\"}}"
+  },
+  {
+   "command": "data get block 10584 87 985 config",
+   "response": "10584, 87, 985 has the following block data: {key_item: {count: 1, id: \"minecraft:trial_key\"}}"
+  },
+  {
+   "command": "data get block 10584 87 967 config",
+   "response": "10584, 87, 967 has the following block data: {key_item: {count: 1, id: \"minecraft:trial_key\"}}"
+  },
+  {
+   "command": "data get block 10584 99 985 config",
+   "response": "10584, 99, 985 has the following block data: {key_item: {count: 1, id: \"minecraft:trial_key\"}}"
+  },
+  {
+   "command": "data get block 10584 99 967 config",
+   "response": "10584, 99, 967 has the following block data: {key_item: {count: 1, id: \"minecraft:trial_key\"}}"
+  },
+  {
+   "command": "data get block 10584 113 985 config",
+   "response": "10584, 113, 985 has the following block data: {key_item: {count: 1, id: \"minecraft:trial_key\"}}"
+  },
+  {
+   "command": "data get block 10584 113 967 config",
+   "response": "10584, 113, 967 has the following block data: {key_item: {count: 1, id: \"minecraft:trial_key\"}}"
+  },
+  {
+   "command": "data get block 10915 76 984 config",
+   "response": "10915, 76, 984 has the following block data: {key_item: {count: 1, id: \"minecraft:trial_key\"}}"
+  },
+  {
+   "command": "data get block 10933 76 984 config",
+   "response": "10933, 76, 984 has the following block data: {key_item: {count: 1, id: \"minecraft:trial_key\"}}"
+  },
+  {
+   "command": "data get block 10915 87 984 config",
+   "response": "10915, 87, 984 has the following block data: {key_item: {count: 1, id: \"minecraft:trial_key\"}}"
+  },
+  {
+   "command": "data get block 10933 87 984 config",
+   "response": "10933, 87, 984 has the following block data: {key_item: {count: 1, id: \"minecraft:trial_key\"}}"
+  },
+  {
+   "command": "data get block 10915 99 984 config",
+   "response": "10915, 99, 984 has the following block data: {key_item: {count: 1, id: \"minecraft:trial_key\"}}"
+  },
+  {
+   "command": "data get block 10933 99 984 config",
+   "response": "10933, 99, 984 has the following block data: {key_item: {count: 1, id: \"minecraft:trial_key\"}}"
+  },
+  {
+   "command": "data get block 10915 113 984 config",
+   "response": "10915, 113, 984 has the following block data: {key_item: {count: 1, id: \"minecraft:trial_key\"}}"
+  },
+  {
+   "command": "data get block 10933 113 984 config",
+   "response": "10933, 113, 984 has the following block data: {key_item: {count: 1, id: \"minecraft:trial_key\"}}"
+  }
+ ],
+ "pass": true
+}

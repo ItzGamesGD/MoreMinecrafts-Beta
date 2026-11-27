@@ -128,8 +128,11 @@ A furnace opened directly from an item, using vanilla furnace interaction/presen
 - Therefore the speed increase does not create a free fuel-efficiency bonus.
 - Items whose normal maximum stack size is 64 are capped at **16 per Portable Furnace slot**.
 - When transferring a larger stack, only the allowed amount enters the slot and the remainder stays with the cursor/source inventory as normal.
-- Closing the UI does **not** preserve contained inventory. Any input, fuel, or output still inside is dropped rather than being stored inside the Portable Furnace item.
-- An in-progress smelt is not preserved as portable hidden machine state after closing.
+- **Stage 23-B amendment (2026-10-16):** closing the UI persists input, fuel, output, remaining burn time, and cooking progress on that Portable Furnace item. Reopening the same item restores those slots and timers.
+- Portable Furnace contents follow the single-stack item when it is moved, dropped, or transferred after closing. The active opener item cannot be removed while its menu is open.
+- This persistence amendment does not extend furnace research bonuses to Portable Furnaces. Existing item attribution metadata remains separate from the portable processing rules.
+
+The Stage 23-B amendment supersedes the earlier close-and-drop behavior recorded in this section.
 
 ### Not yet fixed
 

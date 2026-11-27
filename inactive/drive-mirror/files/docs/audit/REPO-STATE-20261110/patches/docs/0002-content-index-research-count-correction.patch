@@ -1,0 +1,17 @@
+diff --git a/docs/CONTENT_AUTHORITY_INDEX.md b/docs/CONTENT_AUTHORITY_INDEX.md
+index edd131fb..45b6dfc4 100644
+--- a/docs/CONTENT_AUTHORITY_INDEX.md
++++ b/docs/CONTENT_AUTHORITY_INDEX.md
+@@ -87,6 +87,12 @@ The scoped integration manifest is [RESEARCH_STAGE23A_INTEGRATION_MANIFEST_2026-
+ 
+ The [remaining candidate survey and campaign manifest](RESEARCH_STAGE23A_REMAINING_CAMPAIGN_MANIFEST_2026-10-17.md) starts from PR #108 and evaluates all 48 then-DATA_ONLY nodes. Group 1 adds `.33` consecutive sword sweeps and `.61` splash/lingering potion behavior. Group 2 adds ordinary-Horse `.50` Riding support and repairs the existing `mob_capture` purchase gate. The canonical 87-node audit now records 45 DATA_ONLY, 40 PARTIAL and 2 BLOCKED; no node is COMPLETE without live acceptance. This is an implementation record and does not amend effect design authority.
+ 
++> **Correction (2026-11-10):** the counts in the paragraph above are the 2026-10-17 record and are retained as history. The
++> canonical audit's later recounts (after Soil Study `.16` and Villager Trading `.53`) give **43 DATA_ONLY + 42 PARTIAL +
++> 2 BLOCKED + 0 COMPLETE + 0 MISSING = 87**, which is the current count at `checkpoint/wave16-unified-20261104`
++> (`RESEARCH_STAGE22_87_NODE_IMPLEMENTATION_AUDIT_2026-10-15.md`, totals table and the 87-row node table agree). No later
++> branch changes research source or documents. This is not a live-acceptance claim.
++
+ The Claude economy/soil implementation adds `.53` Villager Trading and `.16` Soil Study (group 4 of the same manifest); the canonical audit now records 43 DATA_ONLY, 42 PARTIAL and 2 BLOCKED. Still an implementation record only; the approved values come from the separate user-decision document and live acceptance is pending.
+ 
+ ## Current research/knowledge authority (latest human-approved V4)

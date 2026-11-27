@@ -1,0 +1,20 @@
+seed,structure,variant,min_x,min_y,min_z,max_x,max_y,max_z,biome,evidence
+173,sky_island_mountain_meadow,ruins_d,121,182,-23,135,193,-9,see natural habitat probe (where sampled),worldgen/173.json
+173,sky_island_meadow,tower_7,-292,194,76,-274,246,94,see natural habitat probe (where sampled),worldgen/173.json
+173,sky_island_forest,ruins_a,-327,167,537,-313,178,551,see natural habitat probe (where sampled),worldgen/173.json
+173,sky_island_meadow,tower_6,-580,172,428,-562,217,446,see natural habitat probe (where sampled),worldgen/173.json
+173,sky_island_forest,ruins_b,121,164,617,135,175,631,see natural habitat probe (where sampled),worldgen/173.json
+20261029,sky_island_snowy,ruins_c,57,157,-215,71,168,-201,see natural habitat probe (where sampled),worldgen/20261029.json
+20261029,sky_island_snowy,ruins_a,-359,167,-279,-345,178,-265,see natural habitat probe (where sampled),worldgen/20261029.json
+20261029,sky_island_mountain_snowy,tower_5,-798,114,-254,-780,152,-236,see natural habitat probe (where sampled),worldgen/20261029.json
+20261029,sky_island_meadow,ruins_b,921,130,553,935,141,567,see natural habitat probe (where sampled),worldgen/20261029.json
+20261029,sky_island_forest,tower_6,-532,169,940,-514,214,958,see natural habitat probe (where sampled),worldgen/20261029.json
+20261029,sky_island_forest,tower_7,956,158,-980,974,210,-962,see natural habitat probe (where sampled),worldgen/20261029.json
+42,sky_island_forest,tower_5,-340,133,-254,-322,171,-236,minecraft:birch_forest,worldgen/42.json
+42,sky_island_mountain_rocky,plain_small_b,-608,125,-560,-582,148,-538,minecraft:windswept_hills,saved natural StructureStart + screenshots
+173,moreminecrafts:sky_island_mountain_meadow,moreminecrafts:sky_islands/meadow/ruins,114,180,-24,114,180,-24,minecraft:meadow,habitat-seed173.json
+173,moreminecrafts:sky_island_mountain_meadow,moreminecrafts:sky_islands/meadow/satellite_a,120,177,-48,120,177,-48,minecraft:meadow,habitat-seed173.json
+173,moreminecrafts:sky_island_mountain_meadow,moreminecrafts:sky_islands/ruins_d,121,183,-23,121,183,-23,minecraft:meadow,habitat-seed173.json
+173,moreminecrafts:sky_island_mountain_meadow,moreminecrafts:sky_islands/meadow/satellite_b,120,181,-78,120,181,-78,minecraft:meadow,habitat-seed173.json
+20261029,moreminecrafts:sky_island_mountain_snowy,moreminecrafts:sky_islands/snowy/tower,-807,112,-252,-807,112,-252,minecraft:stony_shore,habitat-seed20261029.json
+20261029,moreminecrafts:sky_island_mountain_snowy,moreminecrafts:sky_islands/tower_5,-798,123,-252,-798,123,-252,minecraft:snowy_slopes,habitat-seed20261029.json

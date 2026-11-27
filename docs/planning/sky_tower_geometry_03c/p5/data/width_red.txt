@@ -1,0 +1,29 @@
+FFF
+======================================================================
+FAIL: test_axis (__main__.WidthTests.test_axis)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/MoreMinecrafts-Beta/docs/planning/sky_tower_geometry_03c/p5/test_width.py", line 7, in test_axis
+    self.assertTrue(hasattr(w,'ray_box'),'missing analytic box intersection')
+AssertionError: False is not true : missing analytic box intersection
+
+======================================================================
+FAIL: test_diagonal (__main__.WidthTests.test_diagonal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/MoreMinecrafts-Beta/docs/planning/sky_tower_geometry_03c/p5/test_width.py", line 10, in test_diagonal
+    self.assertTrue(hasattr(w,'ray_box'))
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_subtract (__main__.WidthTests.test_subtract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/MoreMinecrafts-Beta/docs/planning/sky_tower_geometry_03c/p5/test_width.py", line 16, in test_subtract
+    self.assertTrue(hasattr(w,'subtract'))
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.001s
+
+FAILED (failures=3)

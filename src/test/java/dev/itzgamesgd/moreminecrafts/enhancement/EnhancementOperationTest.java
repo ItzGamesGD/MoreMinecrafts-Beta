@@ -15,11 +15,19 @@ class EnhancementOperationTest {
     }
     @Test void transactionPlanExposesMilestoneStateAndCosts() {
         var ordinary = EnhancementOperation.plan(T1, 3, 1).orElseThrow();
-        assertFalse(ordinary.milestone()); assertEquals(1, ordinary.experienceLevelCost());
+        assertFalse(ordinary.milestone()); assertEquals(40, ordinary.rawXpCost());
         var milestone = EnhancementOperation.plan(T1, 4, 2).orElseThrow();
         assertTrue(milestone.milestone()); assertEquals(1, milestone.milestoneCount());
-        assertEquals(2, milestone.materialCost()); assertEquals(1, milestone.experienceLevelCost());
+        assertEquals(2, milestone.materialCost()); assertEquals(40, milestone.rawXpCost());
         assertTrue(EnhancementOperation.plan(T1, 4, 1).isEmpty());
+    }
+    @Test void t1AndT2ShareTheSameCostAtEveryStep() {
+        for (int current = 0; current < 20; current++) {
+            var t1 = EnhancementOperation.plan(T1, current, 2).orElseThrow();
+            var t2 = EnhancementOperation.plan(T2, current, 2).orElseThrow();
+            assertEquals(t1.rawXpCost(), t2.rawXpCost());
+            assertEquals(t1.materialCost(), t2.materialCost());
+        }
     }
     @Test void futureAndUnsupportedCategoriesRemainUnavailable() {
         for (var category : new EnhancementCategory[]{EnhancementCategory.SPECIAL, EnhancementCategory.ENDGAME, EnhancementCategory.UNSUPPORTED})

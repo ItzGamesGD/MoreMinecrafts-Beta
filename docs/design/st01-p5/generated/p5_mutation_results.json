@@ -1,0 +1,143 @@
+{
+ "control_clean": true,
+ "results": [
+  {
+   "mutation": "hidden stair starts one block too low (first step 2 high)",
+   "expected": [
+    "S1"
+   ],
+   "failed": [
+    "K3",
+    "S1"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "last stair tread missing (landing 2 below)",
+   "expected": [
+    "S1"
+   ],
+   "failed": [
+    "K3",
+    "S1"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "stair headroom 3",
+   "expected": [
+    "S1"
+   ],
+   "failed": [
+    "S1"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "cover never placed (closed hall has a hole)",
+   "expected": [
+    "K1"
+   ],
+   "failed": [
+    "K1",
+    "K2"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "cover placed one layer too high (floor raised)",
+   "expected": [
+    "K1"
+   ],
+   "failed": [
+    "K1"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "pierce volume shrunk (cut leaves the declared volume)",
+   "expected": [
+    "I1",
+    "K4"
+   ],
+   "failed": [
+    "I1",
+    "K4"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "candidate B vault dropped to the hall depth (collides with L2)",
+   "expected": [
+    "I1"
+   ],
+   "failed": [
+    "I1",
+    "I2",
+    "K3",
+    "S1"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "candidate B vault pushed past X=+40",
+   "expected": [
+    "X1"
+   ],
+   "failed": [
+    "K3",
+    "S1",
+    "X1"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "P2-F1 layout C landing shrunk to 7x9",
+   "expected": [
+    "L1"
+   ],
+   "failed": [
+    "L1"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "P2-F1 layout C flight B left overlapping C2",
+   "expected": [
+    "P2R"
+   ],
+   "failed": [
+    "K2",
+    "K3",
+    "P2R"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "P2-F1 layout C vestibule left at the old X (not shifted)",
+   "expected": [
+    "P2R",
+    "X1"
+   ],
+   "failed": [
+    "K2",
+    "K3",
+    "P2R",
+    "X1"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "P1 descent treads missing from the integrated world (chain broken)",
+   "expected": [
+    "K2",
+    "K3"
+   ],
+   "failed": [
+    "K2",
+    "K3"
+   ],
+   "detected": true
+  }
+ ]
+}

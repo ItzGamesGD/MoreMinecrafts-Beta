@@ -1,0 +1,170 @@
+{
+  "P0": {
+    "description": "#130 as shipped: Boolean on entity + counter in player file",
+    "crash_states": 7,
+    "violations": {
+      "INV1": 1,
+      "INV2": 0,
+      "INV3": 0,
+      "INV4": 0,
+      "INV5": 0
+    },
+    "example": {
+      "INV1": {
+        "crash_after_step": 2,
+        "chunk_has_entity": true,
+        "player_A": {
+          "skulls": 1,
+          "credit": 1,
+          "receipts": []
+        },
+        "ledger": null
+      },
+      "INV2": null,
+      "INV3": null,
+      "INV4": null,
+      "INV5": null
+    },
+    "physical_outcomes": {
+      "lost": 2,
+      "duplicated": 1,
+      "exact": 4
+    }
+  },
+  "P1": {
+    "description": "journal appended AFTER Inventory.add",
+    "crash_states": 15,
+    "violations": {
+      "INV1": 0,
+      "INV2": 4,
+      "INV3": 3,
+      "INV4": 0,
+      "INV5": 0
+    },
+    "example": {
+      "INV1": null,
+      "INV2": {
+        "crash_after_step": 1,
+        "chunk_has_entity": true,
+        "player_A": {
+          "skulls": 1,
+          "credit": 0,
+          "receipts": []
+        },
+        "ledger": null
+      },
+      "INV3": {
+        "crash_after_step": 2,
+        "chunk_has_entity": true,
+        "player_A": {
+          "skulls": 0,
+          "credit": 0,
+          "receipts": []
+        },
+        "ledger": [
+          "T",
+          "CONSUMED",
+          "A"
+        ]
+      },
+      "INV4": null,
+      "INV5": null
+    },
+    "physical_outcomes": {
+      "lost": 2,
+      "duplicated": 5,
+      "exact": 8
+    }
+  },
+  "P2": {
+    "description": "journal appended BEFORE Inventory.add",
+    "crash_states": 15,
+    "violations": {
+      "INV1": 0,
+      "INV2": 2,
+      "INV3": 5,
+      "INV4": 0,
+      "INV5": 0
+    },
+    "example": {
+      "INV1": null,
+      "INV2": {
+        "crash_after_step": 3,
+        "chunk_has_entity": true,
+        "player_A": {
+          "skulls": 1,
+          "credit": 0,
+          "receipts": []
+        },
+        "ledger": null
+      },
+      "INV3": {
+        "crash_after_step": 1,
+        "chunk_has_entity": true,
+        "player_A": {
+          "skulls": 0,
+          "credit": 0,
+          "receipts": []
+        },
+        "ledger": [
+          "T",
+          "CONSUMED",
+          "A"
+        ]
+      },
+      "INV4": null,
+      "INV5": null
+    },
+    "physical_outcomes": {
+      "lost": 4,
+      "duplicated": 2,
+      "exact": 9
+    }
+  },
+  "P3": {
+    "description": "PENDING flush -> inventory+receipt in one player file -> player save -> ledger commit",
+    "crash_states": 24,
+    "violations": {
+      "INV1": 0,
+      "INV2": 0,
+      "INV3": 0,
+      "INV4": 0,
+      "INV5": 0
+    },
+    "example": {
+      "INV1": null,
+      "INV2": null,
+      "INV3": null,
+      "INV4": null,
+      "INV5": null
+    },
+    "physical_outcomes": {
+      "lost": 2,
+      "duplicated": 8,
+      "exact": 14
+    }
+  },
+  "P4": {
+    "description": "P3 + restorable ledger entry + restore-or-discard recovery (itself crash-checked)",
+    "crash_states": 138,
+    "violations": {
+      "INV1": 0,
+      "INV2": 0,
+      "INV3": 0,
+      "INV4": 0,
+      "INV5": 0
+    },
+    "example": {
+      "INV1": null,
+      "INV2": null,
+      "INV3": null,
+      "INV4": null,
+      "INV5": null
+    },
+    "physical_outcomes": {
+      "lost": 0,
+      "duplicated": 0,
+      "exact": 138
+    }
+  }
+}

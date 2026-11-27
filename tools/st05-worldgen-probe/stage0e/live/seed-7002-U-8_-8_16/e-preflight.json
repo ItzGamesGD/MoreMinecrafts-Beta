@@ -1,0 +1,121 @@
+{
+  "mode": "e-preflight",
+  "seed": 7002,
+  "y_band": "-48..0",
+  "source": "/home/user/MoreMinecrafts-Beta/tools/st05-worldgen-probe/stage0e/live/seed-7002-U-8_-8_16/e-run.json",
+  "verification": {
+    "A_10x10x6/BOX32": {
+      "v1_matches_json_counts": true,
+      "v1_records": 1561,
+      "v1_loaded_ok": true
+    },
+    "A_10x10x6/BOX32#v2": {
+      "written_reloaded_ok": true,
+      "status_changes_vs_v1": 0
+    },
+    "A_10x10x6/DISK32": {
+      "v1_matches_json_counts": true,
+      "v1_records": 1561,
+      "v1_loaded_ok": true
+    },
+    "A_10x10x6/DISK32#v2": {
+      "written_reloaded_ok": true,
+      "status_changes_vs_v1": 1
+    },
+    "B_16x16x8/BOX32": {
+      "v1_matches_json_counts": true,
+      "v1_records": 519,
+      "v1_loaded_ok": true
+    },
+    "B_16x16x8/BOX32#v2": {
+      "written_reloaded_ok": true,
+      "status_changes_vs_v1": 0
+    },
+    "B_16x16x8/DISK32": {
+      "v1_matches_json_counts": true,
+      "v1_records": 519,
+      "v1_loaded_ok": true
+    },
+    "B_16x16x8/DISK32#v2": {
+      "written_reloaded_ok": true,
+      "status_changes_vs_v1": 1
+    },
+    "C_24x24x12/BOX32": {
+      "v1_matches_json_counts": true,
+      "v1_records": 99,
+      "v1_loaded_ok": true
+    },
+    "C_24x24x12/BOX32#v2": {
+      "written_reloaded_ok": true,
+      "status_changes_vs_v1": 0
+    },
+    "C_24x24x12/DISK32": {
+      "v1_matches_json_counts": true,
+      "v1_records": 99,
+      "v1_loaded_ok": true
+    },
+    "C_24x24x12/DISK32#v2": {
+      "written_reloaded_ok": true,
+      "status_changes_vs_v1": 1
+    }
+  },
+  "preflight_rows": [
+    {
+      "param": "A_10x10x6",
+      "measure": "DISK32",
+      "id": "f4a8f8802279b4e7",
+      "center": "1654,1136",
+      "floorY": -40,
+      "v1": "ROLL_WON_PREFLIGHT_FAILED",
+      "v2": "PLACEMENT_RESERVED",
+      "non_air_total": 7,
+      "solid": 7,
+      "water": 0,
+      "lava": 0,
+      "volume": 14616,
+      "blocks": {
+        "minecraft:deepslate": 2,
+        "minecraft:tuff": 4,
+        "moreminecrafts:deepslate_tungsten_ore": 1
+      }
+    },
+    {
+      "param": "B_16x16x8",
+      "measure": "DISK32",
+      "id": "8224788d407ea7db",
+      "center": "1654,1136",
+      "floorY": -40,
+      "v1": "ROLL_WON_PREFLIGHT_FAILED",
+      "v2": "PLACEMENT_RESERVED",
+      "non_air_total": 7,
+      "solid": 7,
+      "water": 0,
+      "lava": 0,
+      "volume": 14616,
+      "blocks": {
+        "minecraft:deepslate": 2,
+        "minecraft:tuff": 4,
+        "moreminecrafts:deepslate_tungsten_ore": 1
+      }
+    },
+    {
+      "param": "C_24x24x12",
+      "measure": "DISK32",
+      "id": "809b9bf8237b315e",
+      "center": "1654,1136",
+      "floorY": -40,
+      "v1": "ROLL_WON_PREFLIGHT_FAILED",
+      "v2": "PLACEMENT_RESERVED",
+      "non_air_total": 7,
+      "solid": 7,
+      "water": 0,
+      "lava": 0,
+      "volume": 14616,
+      "blocks": {
+        "minecraft:deepslate": 2,
+        "minecraft:tuff": 4,
+        "moreminecrafts:deepslate_tungsten_ore": 1
+      }
+    }
+  ]
+}

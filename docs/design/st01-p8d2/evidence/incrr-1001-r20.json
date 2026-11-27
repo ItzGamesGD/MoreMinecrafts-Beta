@@ -1,0 +1,32 @@
+{
+  "mode": "incr",
+  "dispatch": "worker-thread getChunkFuture (non-blocking for the server thread)",
+  "seed": 1001,
+  "radius_param": 20,
+  "inflight_cap": 16,
+  "budget_ms_per_tick": 5.0,
+  "precheck_on_server_thread": false,
+  "tick_log_note": "per-tick step time and inter-tick gap recorded; see summary",
+  "incremental_search": [
+    {
+      "total_wall_ms": 42633.459913,
+      "ticks": 854,
+      "max_step_ms": 3.152495,
+      "mean_step_ms": 0.07649444613583138,
+      "max_inter_tick_gap_ms": 75.844012,
+      "candidates_examined": 6760,
+      "skipped_by_checkStructurePresence": 0,
+      "chunk_futures_issued": 6760,
+      "rings_processed": 21,
+      "future_result_histogram": {
+        "ERROR:Unloaded chunk": 5647,
+        "OK:minecraft:structure_starts": 1113,
+        "chunks_with_any_start": 8,
+        "retries": 5079
+      },
+      "result_chunk": null
+    }
+  ],
+  "vanilla_after_ms_warm": 771.655254,
+  "vanilla_result": "-6960,0,-4464"
+}

@@ -1,0 +1,24 @@
+legend: # solid mass  O column  L gallery ledge slab  = parapet  / stair tread/fill  f forecourt  d D1 door passage  v vestibule  p D2 portal  . grand hall air  s descent flight A  l descent landing  r P2 reserved stub  a altar portal  u altar stair  A altar chamber  ' ' outside
+PLAN at layer Y=-6  X[-12,20] Z[-18,2]  (north = top = -Z, south = bottom = +Z entrance, west = left = -X)
+  Z\X   '    '    +    '    '    '    '   (' every 5 blocks, + = X=0)
+ -18  #################################
+ -17  #################################
+ -16  #################################
+ -15  #################################
+ -14  #####lllllllllllllll#############
+ -13  #####lllllllllllllllrrrrrrrr#####
+ -12  #####lllllllllllllllrrrrrrrr#####
+ -11  #####lllllllllllllllrrrrrrrr#####
+ -10  #####lllllllllllllllrrrrrrrr#####
+  -9  #####lllllllllllllllrrrrrrrr#####
+  -8  #####lllllllllllllllrrrrrrrr#####
+  -7  #####lllllllllllllllrrrrrrrr#####
+  -6  #######sssssssssss###############
+  -5  #######///////////###############
+  -4  #######///////////###############
+  -3  #######///////////###############
+  -2  #######///////////###############
+  -1  #######///////////###############
+  +0  #################################
+  +1  #################################
+  +2  #################################

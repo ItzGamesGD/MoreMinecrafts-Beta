@@ -1,0 +1,21 @@
+ANVIL_LAYOUT scale=2 slot=102,47 panel=176x166 insidePanel=true onScreen=true overlaps=[]
+ANVIL_CATALYST_CLICK_OK scale=2
+ANVIL_ENHANCE_OK scale=2 State[level=4, stones=16, catalysts=1, rawXp=100000, xpLevels=166] -> State[level=5, stones=14, catalysts=0, rawXp=99960, xpLevels=166]
+ANVIL_INSUFFICIENT_REJECTED scale=2
+ANVIL_MAXIMUM_REJECTED scale=2
+ANVIL_ORDINARY_OK scale=2 State[level=0, stones=16, catalysts=1, rawXp=100004, xpLevels=166] -> State[level=1, stones=15, catalysts=1, rawXp=98672, xpLevels=165]
+ANVIL_VANILLA_REPAIR_OK scale=2
+ANVIL_LAYOUT scale=3 slot=102,47 panel=176x166 insidePanel=true onScreen=true overlaps=[]
+ANVIL_CATALYST_CLICK_OK scale=3
+ANVIL_ENHANCE_OK scale=3 State[level=4, stones=16, catalysts=1, rawXp=100004, xpLevels=166] -> State[level=5, stones=14, catalysts=0, rawXp=99964, xpLevels=166]
+ANVIL_INSUFFICIENT_REJECTED scale=3
+ANVIL_MAXIMUM_REJECTED scale=3
+ANVIL_ORDINARY_OK scale=3 State[level=0, stones=16, catalysts=1, rawXp=100004, xpLevels=166] -> State[level=1, stones=15, catalysts=1, rawXp=98672, xpLevels=165]
+ANVIL_VANILLA_REPAIR_OK scale=3
+ANVIL_LAYOUT scale=4 slot=102,47 panel=176x166 insidePanel=true onScreen=true overlaps=[]
+ANVIL_CATALYST_CLICK_OK scale=4
+ANVIL_ENHANCE_OK scale=4 State[level=4, stones=16, catalysts=1, rawXp=100004, xpLevels=166] -> State[level=5, stones=14, catalysts=0, rawXp=99964, xpLevels=166]
+ANVIL_INSUFFICIENT_REJECTED scale=4
+ANVIL_MAXIMUM_REJECTED scale=4
+ANVIL_ORDINARY_OK scale=4 State[level=0, stones=16, catalysts=1, rawXp=100004, xpLevels=166] -> State[level=1, stones=15, catalysts=1, rawXp=98672, xpLevels=165]
+ANVIL_VANILLA_REPAIR_OK scale=4

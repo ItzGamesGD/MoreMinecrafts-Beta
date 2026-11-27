@@ -1,0 +1,29 @@
+{
+ "build_status": "FULL BUILD COMPLETE — functional architectural candidate",
+ "design_status": "PENDING USER VISUAL REVIEW",
+ "NBT_sha256": "cec5bced051fdddcf5ebe80ed267ea3c5749126559ef982f82ac1b4dd435cd27",
+ "checks": {
+  "NBT_hash_matches_model": true,
+  "server_full_box": true,
+  "main_live_route": true,
+  "main_no_drop": true,
+  "eight_live_balconies": true,
+  "all37_static": true,
+  "no_exposed_faces": true,
+  "connected_masonry": true,
+  "balcony168_flat": true,
+  "final_main_body_replay": true,
+  "regressions": true,
+  "spawner_live_active_and_mobs": true,
+  "vault_key_and_reward": true,
+  "ten_real_frames": true,
+  "package_matches_NBT": true
+ },
+ "limits": [
+  "normal tower runtime progression gates not implemented",
+  "full combat waves/ominous/restart not tested",
+  "two simultaneous clients not tested",
+  "main real route was recorded before final five exterior balcony-floor cells were restored; final body-envelope replay passed and modified balconies were retested live",
+  "width measurements sampled, not global minimum proof"
+ ]
+}

@@ -1,0 +1,35 @@
+PLAN Y=-37 X[13,41] Z[8,40] north(-Z) up, east(+X) right. .=vault ,=corridor s=stair l=landing c=crypt n=niche D/d=dais/stair P=column K=capital B=beam X=chest m=mineral pile S=sarcophagus :=P1-P3 void #=wall/slab
+   Z\X        '         '         ' 
+  +8                               
+  +9   ########################### 
+ +10   ########################### 
+ +11   ########################### 
+ +12   ###.mmm...mmmm..mmmm..mm### 
+ +13   ###mmm...mmm..m.mm..mm.m### 
+ +14   ###...mmm...mmm...mmm...### 
+ +15   ###.m..mmm...mmmm..mmmm.### 
+ +16   ###..mmmm..PPP.......PPP### 
+ +17   ###mm....m.PPPDDDDDDDPPP### 
+ +18   ###.mm.m...PPPDDDDDDDPPP### 
+ +19   ###mmm..mm..DDDDDDDDDDD.### 
+ +20  ####...mm....DDDDDDDDDDD.### 
+ +21  ####mm..mm.dddddDDDDDDDD.### 
+ +22  ,,,,.......dddddDDDDDDDD.### 
+ +23  ,,,,.......dddddDDDDDDDD.### 
+ +24  ,,,,.......dddddDDDDDDDD.### 
+ +25  ,,,,.......dddddDDDDDDDD.### 
+ +26  ,,,,.......dddddDDDDDDDD.### 
+ +27  ####.m..mmmdddddDDDDDDDD.### 
+ +28  ####...mmm...DDDDDDDDDDD.### 
+ +29   ###mmm...m..DDDDDDDDDDD.### 
+ +30   ###.mmm....PPPDDDDDDDPPP### 
+ +31   ###mmm...m.PPPDDDDDDDPPP### 
+ +32   ###...mmm..PPP.......PPP### 
+ +33   ###m...mmmm..mmmm..mmmm.### 
+ +34   ###...mmm...mmm...mmm...### 
+ +35   ###mmm..m.mm..mm.m..mmm.### 
+ +36   ###.mmmm..mmmm..mmmm...m### 
+ +37   ########################### 
+ +38   ########################### 
+ +39   ########################### 
+ +40                               

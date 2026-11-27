@@ -19,21 +19,20 @@ import dev.itzgamesgd.moreminecrafts.fishing.FishTrapBlock;
 public final class ModBlocks {
     public static final Block DEEPSLATE_TITANIUM_ORE = ore("deepslate_titanium_ore", UniformInt.of(0, 0), 4.5F);
     public static final Block TITANIUM_ORE = ore("titanium_ore", UniformInt.of(0, 0), 3.0F);
-    public static final Block DEEPSLATE_TUNGSTEN_ORE = ore("deepslate_tungsten_ore", UniformInt.of(0, 0), 5.0F);
-    public static final Block TUNGSTEN_ORE = ore("tungsten_ore", UniformInt.of(0, 0), 3.5F);
     public static final Block DEEPSLATE_MYTHRIL_ORE = ore("deepslate_mythril_ore", UniformInt.of(3, 7), 5.5F);
     public static final Block MYTHRIL_ORE = ore("mythril_ore", UniformInt.of(3, 7), 4.0F);
     public static final Block DEEPSLATE_ETHERIUM_ORE = ore("deepslate_etherium_ore", UniformInt.of(3, 7), 5.5F);
     public static final Block ETHERIUM_ORE = ore("etherium_ore", UniformInt.of(3, 7), 4.0F);
     public static final Block ADAMANTIUM_DEBRIS = block("adamantium_debris", 30.0F, 1200.0F);
     public static final Block TITANIUM_BLOCK = block("titanium_block", 5.0F, 6.0F);
-    public static final Block TUNGSTEN_BLOCK = block("tungsten_block", 5.0F, 6.0F);
     public static final Block MYTHRIL_BLOCK = block("mythril_block", 5.0F, 6.0F);
     public static final Block ETHERIUM_BLOCK = block("etherium_block", 5.0F, 6.0F);
     public static final Block ADAMANTIUM_BLOCK = block("adamantium_block", 50.0F, 1200.0F);
     public static final Block EXPLORATION_SLEEPING_BAG = sleepingBag();
     public static final Block FISH_TRAP = fishTrap();
+    public static final Block HANGING_COCOON = hangingCocoon();
     public static final Block AUTO_FARM = autoFarm();
+    public static final Block SPIDER_EGG_SAC = spiderEggSac();
 
     private ModBlocks() {}
 
@@ -64,6 +63,19 @@ public final class ModBlocks {
                 BlockBehaviour.Properties.of().strength(2.0F).noOcclusion().setId(key)));
     }
 
+    private static Block spiderEggSac() {
+        String path="spider_egg_sac";
+        ResourceKey<Block> key=ResourceKey.create(Registries.BLOCK,ModIds.id(path));
+        return register(path,key,new dev.itzgamesgd.moreminecrafts.spidercolony.EggSacBlock(BlockBehaviour.Properties.of().strength(dev.itzgamesgd.moreminecrafts.spidercolony.EggSacBlock.HARDNESS_PROVISIONAL).noOcclusion().setId(key)));
+    }
+
+    private static Block hangingCocoon() {
+        String path = "hanging_cocoon";
+        ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, ModIds.id(path));
+        return register(path, key, new dev.itzgamesgd.moreminecrafts.spidercolony.HangingCocoonBlock(
+                BlockBehaviour.Properties.of().strength(dev.itzgamesgd.moreminecrafts.spidercolony.HangingCocoonBlock.HARDNESS_PROVISIONAL).noOcclusion().setId(key)));
+    }
+
     private static Block autoFarm() {
         String path = "auto_farm";
         ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, ModIds.id(path));
@@ -80,6 +92,6 @@ public final class ModBlocks {
     }
 
     public static void initialize() {
-        MoreMinecrafts.LOGGER.info("Registered five Stage 6 mineral blocks.");
+        MoreMinecrafts.LOGGER.info("Registered four Stage 6 mineral blocks.");
     }
 }

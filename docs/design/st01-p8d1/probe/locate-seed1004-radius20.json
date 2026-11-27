@@ -1,0 +1,76 @@
+{
+  "seed": 1004,
+  "locate_calls": [
+    {
+      "origin": "0,0",
+      "radius_param": 20,
+      "cold_ms": 6216.288877,
+      "result": "-1776,0,2688",
+      "repeat_ms": 0.230572,
+      "repeat_same": true,
+      "true_nearest_start_chunk_within_enumerated_area": "-111,168",
+      "true_nearest_distance_blocks": 3224.009925543034,
+      "result_chunk": "-111,168",
+      "result_chunk_is_actual_valid_start": true,
+      "result_chunk_equals_true_nearest": true
+    },
+    {
+      "origin": "-8000,8000",
+      "radius_param": 20,
+      "cold_ms": 6113.278311,
+      "result": "-13088,0,5328",
+      "repeat_ms": 0.266592,
+      "repeat_same": true,
+      "true_nearest_start_chunk_within_enumerated_area": "-146,522",
+      "true_nearest_distance_blocks": 5683.413059069348,
+      "result_chunk": "-818,333",
+      "result_chunk_is_actual_valid_start": false,
+      "result_chunk_equals_true_nearest": false
+    },
+    {
+      "origin": "4000,-4000",
+      "radius_param": 20,
+      "cold_ms": 9137.105445,
+      "result": "-1776,0,2688",
+      "repeat_ms": 0.319869,
+      "repeat_same": true,
+      "true_nearest_start_chunk_within_enumerated_area": "-111,168",
+      "true_nearest_distance_blocks": 8837.773475259479,
+      "result_chunk": "-111,168",
+      "result_chunk_is_actual_valid_start": true,
+      "result_chunk_equals_true_nearest": true
+    },
+    {
+      "origin": "-1700,2600",
+      "radius_param": 20,
+      "cold_ms": 0.007666,
+      "result": "-1776,0,2688",
+      "repeat_ms": 0.003761,
+      "repeat_same": true,
+      "true_nearest_start_chunk_within_enumerated_area": "-111,168",
+      "true_nearest_distance_blocks": 117.64352935882194,
+      "result_chunk": "-111,168",
+      "result_chunk_is_actual_valid_start": true,
+      "result_chunk_equals_true_nearest": true
+    }
+  ],
+  "potential_anchors": 1600,
+  "actual_valid_starts": [
+    {
+      "chunk": "-571,-501",
+      "anchor_xz": "-9128,-8008",
+      "box_center_xz": "-9128,-8008"
+    },
+    {
+      "chunk": "-146,522",
+      "anchor_xz": "-2328,8360",
+      "box_center_xz": "-2328,8360"
+    },
+    {
+      "chunk": "-111,168",
+      "anchor_xz": "-1768,2696",
+      "box_center_xz": "-1768,2696"
+    }
+  ],
+  "note": "radius_param semantics, result offset from anchor and costs are read from these numbers only"
+}

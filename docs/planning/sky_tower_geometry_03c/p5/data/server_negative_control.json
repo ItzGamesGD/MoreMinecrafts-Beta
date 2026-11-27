@@ -1,0 +1,7 @@
+{
+ "remove_expected_block": "Changed the block at 1000, 90, 1000",
+ "injected_error_score": "errors has 1 [p5]",
+ "restore": "Loaded template \"p5:c1\" at 977, 90, 977",
+ "restored_error_score": "errors has 0 [p5]",
+ "status": "PASS"
+}

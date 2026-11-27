@@ -1,0 +1,1898 @@
+{
+ "replica_vs_engine": {
+  "ACCEPT|engine_invalid": 0,
+  "ACCEPT|engine_valid": 197812,
+  "COLUMN_BIOME_NONE|engine_invalid": 4805399,
+  "COLUMN_BIOME_NONE|engine_valid": 0,
+  "GEOMETRY_MATCH|engine_invalid": 0,
+  "GEOMETRY_MATCH|engine_valid": 197812,
+  "PADDING_REJECT|engine_invalid": 1062,
+  "PADDING_REJECT|engine_valid": 0,
+  "PADDING_REJECT_LOGGED|engine_invalid": 0,
+  "PADDING_REJECT_LOGGED|engine_valid": 1062,
+  "STUB_BIOME_REJECT|engine_invalid": 39,
+  "STUB_BIOME_REJECT|engine_valid": 0
+ },
+ "natural_vs_replay": {
+  "checked": 85154,
+  "agree": 85154,
+  "disagree": 0
+ },
+ "padding_log_unique_bboxes": {
+  "natural_pass": 823,
+  "replay": 823,
+  "natural_subset_of_replay": true,
+  "natural_line_multiplicity": {
+   "2": 821,
+   "1": 2
+  }
+ },
+ "formula_vs_replica_attempts": {
+  "attempts": 116955,
+  "mismatches": 0
+ },
+ "variant_attempt_draws_identical_in_chunk": {
+  "identical": 5,
+  "different": 0
+ },
+ "scan_mountain_by_terrain": [
+  {
+   "terrain_top_block_y": "<100",
+   "eligible_candidates": 8393,
+   "tower_selected": 1159,
+   "tower_accepted": 1159,
+   "nontower_selected": 7234,
+   "nontower_accepted": 7229,
+   "pad_reject_tower": 0,
+   "pad_reject_nontower": 0
+  },
+  {
+   "terrain_top_block_y": "100..139",
+   "eligible_candidates": 14507,
+   "tower_selected": 2049,
+   "tower_accepted": 2047,
+   "nontower_selected": 12458,
+   "nontower_accepted": 12457,
+   "pad_reject_tower": 0,
+   "pad_reject_nontower": 0
+  },
+  {
+   "terrain_top_block_y": "140..159",
+   "eligible_candidates": 2774,
+   "tower_selected": 443,
+   "tower_accepted": 426,
+   "nontower_selected": 2331,
+   "nontower_accepted": 2331,
+   "pad_reject_tower": 17,
+   "pad_reject_nontower": 0
+  },
+  {
+   "terrain_top_block_y": "160..179",
+   "eligible_candidates": 1042,
+   "tower_selected": 125,
+   "tower_accepted": 83,
+   "nontower_selected": 917,
+   "nontower_accepted": 917,
+   "pad_reject_tower": 42,
+   "pad_reject_nontower": 0
+  },
+  {
+   "terrain_top_block_y": "180..199",
+   "eligible_candidates": 330,
+   "tower_selected": 52,
+   "tower_accepted": 14,
+   "nontower_selected": 278,
+   "nontower_accepted": 278,
+   "pad_reject_tower": 38,
+   "pad_reject_nontower": 0
+  },
+  {
+   "terrain_top_block_y": "200..219",
+   "eligible_candidates": 104,
+   "tower_selected": 15,
+   "tower_accepted": 0,
+   "nontower_selected": 89,
+   "nontower_accepted": 87,
+   "pad_reject_tower": 15,
+   "pad_reject_nontower": 2
+  },
+  {
+   "terrain_top_block_y": "220..239",
+   "eligible_candidates": 33,
+   "tower_selected": 6,
+   "tower_accepted": 0,
+   "nontower_selected": 27,
+   "nontower_accepted": 22,
+   "pad_reject_tower": 6,
+   "pad_reject_nontower": 5
+  },
+  {
+   "terrain_top_block_y": ">=240",
+   "eligible_candidates": 6,
+   "tower_selected": 1,
+   "tower_accepted": 0,
+   "nontower_selected": 5,
+   "nontower_accepted": 1,
+   "pad_reject_tower": 1,
+   "pad_reject_nontower": 4
+  }
+ ],
+ "scan_general_by_terrain": [
+  {
+   "terrain_top_block_y": "<100",
+   "eligible_candidates": 80627,
+   "tower_selected": 11435,
+   "tower_accepted": 11434,
+   "nontower_selected": 69192,
+   "nontower_accepted": 69180,
+   "pad_reject_tower": 0,
+   "pad_reject_nontower": 0
+  },
+  {
+   "terrain_top_block_y": "100..139",
+   "eligible_candidates": 8828,
+   "tower_selected": 1244,
+   "tower_accepted": 1166,
+   "nontower_selected": 7584,
+   "nontower_accepted": 7584,
+   "pad_reject_tower": 78,
+   "pad_reject_nontower": 0
+  },
+  {
+   "terrain_top_block_y": "140..159",
+   "eligible_candidates": 228,
+   "tower_selected": 39,
+   "tower_accepted": 19,
+   "nontower_selected": 189,
+   "nontower_accepted": 189,
+   "pad_reject_tower": 20,
+   "pad_reject_nontower": 0
+  },
+  {
+   "terrain_top_block_y": "160..179",
+   "eligible_candidates": 62,
+   "tower_selected": 7,
+   "tower_accepted": 3,
+   "nontower_selected": 55,
+   "nontower_accepted": 55,
+   "pad_reject_tower": 4,
+   "pad_reject_nontower": 0
+  },
+  {
+   "terrain_top_block_y": "180..199",
+   "eligible_candidates": 13,
+   "tower_selected": 2,
+   "tower_accepted": 0,
+   "nontower_selected": 11,
+   "nontower_accepted": 8,
+   "pad_reject_tower": 2,
+   "pad_reject_nontower": 3
+  },
+  {
+   "terrain_top_block_y": "200..219",
+   "eligible_candidates": 3,
+   "tower_selected": 0,
+   "tower_accepted": 0,
+   "nontower_selected": 3,
+   "nontower_accepted": 1,
+   "pad_reject_tower": 0,
+   "pad_reject_nontower": 2
+  },
+  {
+   "terrain_top_block_y": "220..239",
+   "eligible_candidates": 0,
+   "tower_selected": 0,
+   "tower_accepted": 0,
+   "nontower_selected": 0,
+   "nontower_accepted": 0,
+   "pad_reject_tower": 0,
+   "pad_reject_nontower": 0
+  },
+  {
+   "terrain_top_block_y": ">=240",
+   "eligible_candidates": 0,
+   "tower_selected": 0,
+   "tower_accepted": 0,
+   "nontower_selected": 0,
+   "nontower_accepted": 0,
+   "pad_reject_tower": 0,
+   "pad_reject_nontower": 0
+  }
+ ],
+ "scan_mountain_overall": {
+  "candidates": 27189,
+  "tower_selected": 3850,
+  "tower_accepted": 3729,
+  "nontower": 23339,
+  "nontower_accepted": 23322,
+  "generated": 27051
+ },
+ "scan_general_overall": {
+  "candidates": 89761,
+  "tower_selected": 12727,
+  "tower_accepted": 12622,
+  "nontower": 77034,
+  "nontower_accepted": 77017,
+  "generated": 89639
+ },
+ "scan_seeds": [
+  "scan_2",
+  "scan_3",
+  "scan_4",
+  "scan_5",
+  "scan_6",
+  "scan_7",
+  "scan_8",
+  "scan_9",
+  "scan_10",
+  "scan_11",
+  "scan_12",
+  "scan_13"
+ ],
+ "scan_area_km2_per_seed": 6402.560256,
+ "scan_mountain_tower_by_surface_biome": {
+  "minecraft:meadow": {
+   "selected": 1257,
+   "accepted": 1257
+  },
+  "minecraft:grove": {
+   "selected": 784,
+   "accepted": 768
+  },
+  "minecraft:snowy_slopes": {
+   "selected": 429,
+   "accepted": 423
+  },
+  "minecraft:windswept_hills": {
+   "selected": 300,
+   "accepted": 300
+  },
+  "minecraft:cherry_grove": {
+   "selected": 280,
+   "accepted": 280
+  },
+  "minecraft:windswept_forest": {
+   "selected": 206,
+   "accepted": 205
+  },
+  "minecraft:frozen_peaks": {
+   "selected": 199,
+   "accepted": 159
+  },
+  "minecraft:jagged_peaks": {
+   "selected": 166,
+   "accepted": 131
+  },
+  "minecraft:stony_peaks": {
+   "selected": 109,
+   "accepted": 88
+  },
+  "minecraft:windswept_gravelly_hills": {
+   "selected": 106,
+   "accepted": 106
+  },
+  "minecraft:dripstone_caves": {
+   "selected": 8,
+   "accepted": 8
+  },
+  "minecraft:sulfur_caves": {
+   "selected": 3,
+   "accepted": 3
+  },
+  "minecraft:lush_caves": {
+   "selected": 1,
+   "accepted": 1
+  },
+  "minecraft:forest": {
+   "selected": 1,
+   "accepted": 0
+  },
+  "minecraft:flower_forest": {
+   "selected": 1,
+   "accepted": 0
+  }
+ },
+ "scan_mountain_stub_biome_differs_from_surface": {
+  "differs": 67,
+  "total": 27189
+ },
+ "scan_mountain_candidates_with_stub_biome_reject_attempt": 8,
+ "scan_mountain_tower_share_by_start_height_quartile": {
+  "18..30": {
+   "n": 6631,
+   "towers": 963,
+   "share": 0.1452
+  },
+  "31..43": {
+   "n": 6635,
+   "towers": 943,
+   "share": 0.1421
+  },
+  "44..56": {
+   "n": 6732,
+   "towers": 933,
+   "share": 0.1386
+  },
+  "57..69": {
+   "n": 6695,
+   "towers": 951,
+   "share": 0.142
+  },
+  "70..82": {
+   "n": 496,
+   "towers": 60,
+   "share": 0.121
+  }
+ },
+ "tower_surface_biome_by_config": {
+  "PRODUCTION": {
+   "minecraft:meadow": 872,
+   "minecraft:grove": 556,
+   "minecraft:snowy_slopes": 305,
+   "minecraft:windswept_hills": 201,
+   "minecraft:cherry_grove": 186,
+   "minecraft:windswept_forest": 151,
+   "minecraft:frozen_peaks": 106,
+   "minecraft:jagged_peaks": 89,
+   "minecraft:windswept_gravelly_hills": 72,
+   "minecraft:stony_peaks": 65,
+   "minecraft:dripstone_caves": 6,
+   "minecraft:lush_caves": 1,
+   "minecraft:sulfur_caves": 1
+  },
+  "A_RANGE_15_35": {
+   "minecraft:meadow": 872,
+   "minecraft:grove": 566,
+   "minecraft:snowy_slopes": 308,
+   "minecraft:windswept_hills": 201,
+   "minecraft:cherry_grove": 186,
+   "minecraft:windswept_forest": 151,
+   "minecraft:frozen_peaks": 129,
+   "minecraft:jagged_peaks": 106,
+   "minecraft:stony_peaks": 73,
+   "minecraft:windswept_gravelly_hills": 72,
+   "minecraft:dripstone_caves": 6,
+   "minecraft:lush_caves": 1,
+   "minecraft:sulfur_caves": 1
+  },
+  "A_RANGE_18_35": {
+   "minecraft:meadow": 872,
+   "minecraft:grove": 566,
+   "minecraft:snowy_slopes": 307,
+   "minecraft:windswept_hills": 201,
+   "minecraft:cherry_grove": 186,
+   "minecraft:windswept_forest": 151,
+   "minecraft:frozen_peaks": 125,
+   "minecraft:jagged_peaks": 106,
+   "minecraft:stony_peaks": 74,
+   "minecraft:windswept_gravelly_hills": 72,
+   "minecraft:dripstone_caves": 6,
+   "minecraft:lush_caves": 1,
+   "minecraft:sulfur_caves": 1
+  },
+  "A_RANGE_10_30": {
+   "minecraft:meadow": 872,
+   "minecraft:grove": 566,
+   "minecraft:snowy_slopes": 308,
+   "minecraft:windswept_hills": 201,
+   "minecraft:cherry_grove": 186,
+   "minecraft:windswept_forest": 151,
+   "minecraft:frozen_peaks": 130,
+   "minecraft:jagged_peaks": 107,
+   "minecraft:stony_peaks": 77,
+   "minecraft:windswept_gravelly_hills": 72,
+   "minecraft:dripstone_caves": 5,
+   "minecraft:lush_caves": 1,
+   "minecraft:sulfur_caves": 1
+  },
+  "A_RANGE_5_20": {
+   "minecraft:meadow": 872,
+   "minecraft:grove": 566,
+   "minecraft:snowy_slopes": 308,
+   "minecraft:windswept_hills": 201,
+   "minecraft:cherry_grove": 186,
+   "minecraft:windswept_forest": 151,
+   "minecraft:frozen_peaks": 133,
+   "minecraft:jagged_peaks": 111,
+   "minecraft:stony_peaks": 80,
+   "minecraft:windswept_gravelly_hills": 72,
+   "minecraft:dripstone_caves": 5,
+   "minecraft:lush_caves": 1,
+   "minecraft:sulfur_caves": 1
+  },
+  "A_RANGE_1_18": {
+   "minecraft:meadow": 872,
+   "minecraft:grove": 566,
+   "minecraft:snowy_slopes": 308,
+   "minecraft:windswept_hills": 201,
+   "minecraft:cherry_grove": 186,
+   "minecraft:windswept_forest": 151,
+   "minecraft:frozen_peaks": 133,
+   "minecraft:jagged_peaks": 112,
+   "minecraft:stony_peaks": 80,
+   "minecraft:windswept_gravelly_hills": 72,
+   "minecraft:dripstone_caves": 4,
+   "minecraft:lush_caves": 1,
+   "minecraft:sulfur_caves": 1
+  },
+  "A_RANGE_1_10": {
+   "minecraft:meadow": 872,
+   "minecraft:grove": 566,
+   "minecraft:snowy_slopes": 308,
+   "minecraft:windswept_hills": 201,
+   "minecraft:cherry_grove": 186,
+   "minecraft:windswept_forest": 151,
+   "minecraft:frozen_peaks": 135,
+   "minecraft:jagged_peaks": 111,
+   "minecraft:stony_peaks": 81,
+   "minecraft:windswept_gravelly_hills": 72,
+   "minecraft:dripstone_caves": 3,
+   "minecraft:lush_caves": 1
+  },
+  "B_DYN_18_70": {
+   "minecraft:meadow": 872,
+   "minecraft:grove": 566,
+   "minecraft:snowy_slopes": 308,
+   "minecraft:windswept_hills": 201,
+   "minecraft:cherry_grove": 186,
+   "minecraft:windswept_forest": 151,
+   "minecraft:frozen_peaks": 131,
+   "minecraft:jagged_peaks": 110,
+   "minecraft:stony_peaks": 78,
+   "minecraft:windswept_gravelly_hills": 72,
+   "minecraft:dripstone_caves": 6,
+   "minecraft:lush_caves": 1,
+   "minecraft:sulfur_caves": 1
+  },
+  "B_DYN_1_70": {
+   "minecraft:meadow": 872,
+   "minecraft:grove": 566,
+   "minecraft:snowy_slopes": 308,
+   "minecraft:windswept_hills": 201,
+   "minecraft:cherry_grove": 186,
+   "minecraft:windswept_forest": 151,
+   "minecraft:frozen_peaks": 135,
+   "minecraft:jagged_peaks": 112,
+   "minecraft:stony_peaks": 81,
+   "minecraft:windswept_gravelly_hills": 72,
+   "minecraft:dripstone_caves": 6,
+   "minecraft:lush_caves": 1,
+   "minecraft:sulfur_caves": 1
+  },
+  "C_RETRY3_18_70": {
+   "minecraft:meadow": 872,
+   "minecraft:grove": 565,
+   "minecraft:snowy_slopes": 308,
+   "minecraft:windswept_hills": 201,
+   "minecraft:cherry_grove": 186,
+   "minecraft:windswept_forest": 151,
+   "minecraft:frozen_peaks": 123,
+   "minecraft:jagged_peaks": 102,
+   "minecraft:stony_peaks": 74,
+   "minecraft:windswept_gravelly_hills": 72,
+   "minecraft:dripstone_caves": 6,
+   "minecraft:lush_caves": 1,
+   "minecraft:sulfur_caves": 1
+  },
+  "C_RETRY8_18_70": {
+   "minecraft:meadow": 872,
+   "minecraft:grove": 566,
+   "minecraft:snowy_slopes": 308,
+   "minecraft:windswept_hills": 201,
+   "minecraft:cherry_grove": 186,
+   "minecraft:windswept_forest": 151,
+   "minecraft:frozen_peaks": 127,
+   "minecraft:jagged_peaks": 106,
+   "minecraft:stony_peaks": 76,
+   "minecraft:windswept_gravelly_hills": 72,
+   "minecraft:dripstone_caves": 6,
+   "minecraft:lush_caves": 1,
+   "minecraft:sulfur_caves": 1
+  },
+  "C_SUBST_ELEMENT": {
+   "minecraft:meadow": 872,
+   "minecraft:grove": 556,
+   "minecraft:snowy_slopes": 305,
+   "minecraft:windswept_hills": 201,
+   "minecraft:cherry_grove": 186,
+   "minecraft:windswept_forest": 151,
+   "minecraft:frozen_peaks": 106,
+   "minecraft:jagged_peaks": 89,
+   "minecraft:windswept_gravelly_hills": 72,
+   "minecraft:stony_peaks": 65,
+   "minecraft:dripstone_caves": 6,
+   "minecraft:lush_caves": 1,
+   "minecraft:sulfur_caves": 1
+  },
+  "C_RELOC_R2": {
+   "minecraft:meadow": 891,
+   "minecraft:grove": 605,
+   "minecraft:snowy_slopes": 301,
+   "minecraft:windswept_hills": 201,
+   "minecraft:cherry_grove": 187,
+   "minecraft:windswept_forest": 151,
+   "minecraft:frozen_peaks": 108,
+   "minecraft:jagged_peaks": 89,
+   "minecraft:stony_peaks": 76,
+   "minecraft:windswept_gravelly_hills": 72,
+   "minecraft:dripstone_caves": 4,
+   "minecraft:lush_caves": 1,
+   "minecraft:sulfur_caves": 1
+  },
+  "D_TOWER_ONLY_18_70": {
+   "minecraft:meadow": 5386,
+   "minecraft:grove": 3364,
+   "minecraft:snowy_slopes": 1847,
+   "minecraft:cherry_grove": 1274,
+   "minecraft:windswept_hills": 1152,
+   "minecraft:windswept_forest": 878,
+   "minecraft:jagged_peaks": 635,
+   "minecraft:frozen_peaks": 615,
+   "minecraft:windswept_gravelly_hills": 474,
+   "minecraft:stony_peaks": 396,
+   "minecraft:dripstone_caves": 34,
+   "minecraft:lush_caves": 4,
+   "minecraft:sulfur_caves": 3
+  },
+  "D_TOWER_ONLY_1_20": {
+   "minecraft:meadow": 5386,
+   "minecraft:grove": 3418,
+   "minecraft:snowy_slopes": 1870,
+   "minecraft:cherry_grove": 1275,
+   "minecraft:windswept_hills": 1153,
+   "minecraft:windswept_forest": 878,
+   "minecraft:jagged_peaks": 811,
+   "minecraft:frozen_peaks": 796,
+   "minecraft:stony_peaks": 505,
+   "minecraft:windswept_gravelly_hills": 474,
+   "minecraft:dripstone_caves": 20,
+   "minecraft:lush_caves": 3,
+   "minecraft:sulfur_caves": 1
+  }
+ },
+ "strategy_overall_natural": [
+  {
+   "config": "PRODUCTION",
+   "eligible_candidates": 18787,
+   "generated_islands": 18687,
+   "generated_towers": 2611,
+   "tower_selected_in_production_draw": 2699,
+   "tower_selected_that_became_tower": 2611,
+   "tower_share_of_generated": 0.1397,
+   "mean_clearance_tower": 43.32,
+   "min_clearance_tower": 18,
+   "max_clearance_tower": 70,
+   "mean_clearance_all": 44.45,
+   "towers_per_1000_mountain_candidates": 138.98,
+   "towers_per_1000_ci95": [
+    134.11,
+    144.0
+   ],
+   "towers_per_10000_km2": 509.76
+  },
+  {
+   "config": "A_RANGE_15_35",
+   "eligible_candidates": 18787,
+   "generated_islands": 18750,
+   "generated_towers": 2672,
+   "tower_selected_in_production_draw": 2699,
+   "tower_selected_that_became_tower": 2672,
+   "tower_share_of_generated": 0.1425,
+   "mean_clearance_tower": 25.1,
+   "min_clearance_tower": 15,
+   "max_clearance_tower": 35,
+   "mean_clearance_all": 25.49,
+   "towers_per_1000_mountain_candidates": 142.23,
+   "towers_per_1000_ci95": [
+    137.3,
+    147.29
+   ],
+   "towers_per_10000_km2": 521.67
+  },
+  {
+   "config": "A_RANGE_18_35",
+   "eligible_candidates": 18787,
+   "generated_islands": 18747,
+   "generated_towers": 2668,
+   "tower_selected_in_production_draw": 2699,
+   "tower_selected_that_became_tower": 2668,
+   "tower_share_of_generated": 0.1423,
+   "mean_clearance_tower": 26.33,
+   "min_clearance_tower": 18,
+   "max_clearance_tower": 35,
+   "mean_clearance_all": 26.94,
+   "towers_per_1000_mountain_candidates": 142.01,
+   "towers_per_1000_ci95": [
+    137.09,
+    147.08
+   ],
+   "towers_per_10000_km2": 520.89
+  },
+  {
+   "config": "A_RANGE_10_30",
+   "eligible_candidates": 18787,
+   "generated_islands": 18752,
+   "generated_towers": 2677,
+   "tower_selected_in_production_draw": 2699,
+   "tower_selected_that_became_tower": 2677,
+   "tower_share_of_generated": 0.1428,
+   "mean_clearance_tower": 20.12,
+   "min_clearance_tower": 10,
+   "max_clearance_tower": 30,
+   "mean_clearance_all": 20.49,
+   "towers_per_1000_mountain_candidates": 142.49,
+   "towers_per_1000_ci95": [
+    137.57,
+    147.56
+   ],
+   "towers_per_10000_km2": 522.64
+  },
+  {
+   "config": "A_RANGE_5_20",
+   "eligible_candidates": 18787,
+   "generated_islands": 18760,
+   "generated_towers": 2687,
+   "tower_selected_in_production_draw": 2699,
+   "tower_selected_that_became_tower": 2687,
+   "tower_share_of_generated": 0.1432,
+   "mean_clearance_tower": 12.57,
+   "min_clearance_tower": 5,
+   "max_clearance_tower": 20,
+   "mean_clearance_all": 13.0,
+   "towers_per_1000_mountain_candidates": 143.02,
+   "towers_per_1000_ci95": [
+    138.09,
+    148.1
+   ],
+   "towers_per_10000_km2": 524.59
+  },
+  {
+   "config": "A_RANGE_1_18",
+   "eligible_candidates": 18787,
+   "generated_islands": 18755,
+   "generated_towers": 2687,
+   "tower_selected_in_production_draw": 2699,
+   "tower_selected_that_became_tower": 2687,
+   "tower_share_of_generated": 0.1433,
+   "mean_clearance_tower": 9.34,
+   "min_clearance_tower": 1,
+   "max_clearance_tower": 18,
+   "mean_clearance_all": 9.96,
+   "towers_per_1000_mountain_candidates": 143.02,
+   "towers_per_1000_ci95": [
+    138.09,
+    148.1
+   ],
+   "towers_per_10000_km2": 524.59
+  },
+  {
+   "config": "A_RANGE_1_10",
+   "eligible_candidates": 18787,
+   "generated_islands": 18755,
+   "generated_towers": 2687,
+   "tower_selected_in_production_draw": 2699,
+   "tower_selected_that_became_tower": 2687,
+   "tower_share_of_generated": 0.1433,
+   "mean_clearance_tower": 5.48,
+   "min_clearance_tower": 1,
+   "max_clearance_tower": 10,
+   "mean_clearance_all": 5.95,
+   "towers_per_1000_mountain_candidates": 143.02,
+   "towers_per_1000_ci95": [
+    138.09,
+    148.1
+   ],
+   "towers_per_10000_km2": 524.59
+  },
+  {
+   "config": "B_DYN_18_70",
+   "eligible_candidates": 18787,
+   "generated_islands": 18765,
+   "generated_towers": 2683,
+   "tower_selected_in_production_draw": 2699,
+   "tower_selected_that_became_tower": 2683,
+   "tower_share_of_generated": 0.143,
+   "mean_clearance_tower": 42.94,
+   "min_clearance_tower": 18,
+   "max_clearance_tower": 70,
+   "mean_clearance_all": 44.43,
+   "towers_per_1000_mountain_candidates": 142.81,
+   "towers_per_1000_ci95": [
+    137.88,
+    147.89
+   ],
+   "towers_per_10000_km2": 523.81
+  },
+  {
+   "config": "B_DYN_1_70",
+   "eligible_candidates": 18787,
+   "generated_islands": 18772,
+   "generated_towers": 2692,
+   "tower_selected_in_production_draw": 2699,
+   "tower_selected_that_became_tower": 2692,
+   "tower_share_of_generated": 0.1434,
+   "mean_clearance_tower": 34.79,
+   "min_clearance_tower": 1,
+   "max_clearance_tower": 70,
+   "mean_clearance_all": 35.78,
+   "towers_per_1000_mountain_candidates": 143.29,
+   "towers_per_1000_ci95": [
+    138.35,
+    148.37
+   ],
+   "towers_per_10000_km2": 525.57
+  },
+  {
+   "config": "C_RETRY3_18_70",
+   "eligible_candidates": 18787,
+   "generated_islands": 18745,
+   "generated_towers": 2662,
+   "tower_selected_in_production_draw": 2699,
+   "tower_selected_that_became_tower": 2662,
+   "tower_share_of_generated": 0.142,
+   "mean_clearance_tower": 43.16,
+   "min_clearance_tower": 18,
+   "max_clearance_tower": 70,
+   "mean_clearance_all": 44.42,
+   "towers_per_1000_mountain_candidates": 141.69,
+   "towers_per_1000_ci95": [
+    136.78,
+    146.75
+   ],
+   "towers_per_10000_km2": 519.71
+  },
+  {
+   "config": "C_RETRY8_18_70",
+   "eligible_candidates": 18787,
+   "generated_islands": 18757,
+   "generated_towers": 2673,
+   "tower_selected_in_production_draw": 2699,
+   "tower_selected_that_became_tower": 2673,
+   "tower_share_of_generated": 0.1425,
+   "mean_clearance_tower": 43.07,
+   "min_clearance_tower": 18,
+   "max_clearance_tower": 70,
+   "mean_clearance_all": 44.41,
+   "towers_per_1000_mountain_candidates": 142.28,
+   "towers_per_1000_ci95": [
+    137.36,
+    147.35
+   ],
+   "towers_per_10000_km2": 521.86
+  },
+  {
+   "config": "C_SUBST_ELEMENT",
+   "eligible_candidates": 18787,
+   "generated_islands": 18778,
+   "generated_towers": 2611,
+   "tower_selected_in_production_draw": 2699,
+   "tower_selected_that_became_tower": 2611,
+   "tower_share_of_generated": 0.139,
+   "mean_clearance_tower": 43.32,
+   "min_clearance_tower": 18,
+   "max_clearance_tower": 70,
+   "mean_clearance_all": 44.5,
+   "towers_per_1000_mountain_candidates": 138.98,
+   "towers_per_1000_ci95": [
+    134.11,
+    144.0
+   ],
+   "towers_per_10000_km2": 509.76
+  },
+  {
+   "config": "C_RELOC_R2",
+   "eligible_candidates": 18787,
+   "generated_islands": 18772,
+   "generated_towers": 2687,
+   "tower_selected_in_production_draw": 2699,
+   "tower_selected_that_became_tower": 2687,
+   "tower_share_of_generated": 0.1431,
+   "mean_clearance_tower": 43.61,
+   "min_clearance_tower": 18,
+   "max_clearance_tower": 70,
+   "mean_clearance_all": 44.49,
+   "towers_per_1000_mountain_candidates": 143.02,
+   "towers_per_1000_ci95": [
+    138.09,
+    148.1
+   ],
+   "towers_per_10000_km2": 524.59
+  },
+  {
+   "config": "D_TOWER_ONLY_18_70",
+   "eligible_candidates": 18787,
+   "generated_islands": 16062,
+   "generated_towers": 16062,
+   "tower_selected_in_production_draw": 2699,
+   "tower_selected_that_became_tower": 2611,
+   "tower_share_of_generated": 1.0,
+   "mean_clearance_tower": 43.56,
+   "min_clearance_tower": 18,
+   "max_clearance_tower": 70,
+   "mean_clearance_all": 43.56,
+   "towers_per_1000_mountain_candidates": 854.95,
+   "towers_per_1000_ci95": [
+    849.84,
+    859.92
+   ],
+   "towers_per_10000_km2": 3135.85
+  },
+  {
+   "config": "D_TOWER_ONLY_1_20",
+   "eligible_candidates": 18787,
+   "generated_islands": 16590,
+   "generated_towers": 16590,
+   "tower_selected_in_production_draw": 2699,
+   "tower_selected_that_became_tower": 2686,
+   "tower_share_of_generated": 1.0,
+   "mean_clearance_tower": 10.44,
+   "min_clearance_tower": 1,
+   "max_clearance_tower": 20,
+   "mean_clearance_all": 10.44,
+   "towers_per_1000_mountain_candidates": 883.06,
+   "towers_per_1000_ci95": [
+    878.38,
+    887.57
+   ],
+   "towers_per_10000_km2": 3238.94
+  }
+ ],
+ "strategy_seeds": [
+  "full_2",
+  "full_3",
+  "full_4",
+  "full_5",
+  "full_6",
+  "full_7",
+  "full_8",
+  "full_9"
+ ],
+ "strategy_area_km2_total": 51220.482048,
+ "tower_only_acceptance_by_terrain_bin": {
+  "D_TOWER_ONLY_18_70": [
+   {
+    "bin": "<100",
+    "candidates": 5743,
+    "tower_generated": 4708,
+    "rate": 0.8198,
+    "ci95": [
+     0.8096,
+     0.8295
+    ]
+   },
+   {
+    "bin": "100..139",
+    "candidates": 9959,
+    "tower_generated": 9010,
+    "rate": 0.9047,
+    "ci95": [
+     0.8988,
+     0.9103
+    ]
+   },
+   {
+    "bin": "140..159",
+    "candidates": 1960,
+    "tower_generated": 1752,
+    "rate": 0.8939,
+    "ci95": [
+     0.8795,
+     0.9068
+    ]
+   },
+   {
+    "bin": "160..179",
+    "candidates": 762,
+    "tower_generated": 492,
+    "rate": 0.6457,
+    "ci95": [
+     0.6111,
+     0.6788
+    ]
+   },
+   {
+    "bin": "180..199",
+    "candidates": 250,
+    "tower_generated": 91,
+    "rate": 0.364,
+    "ci95": [
+     0.3068,
+     0.4253
+    ]
+   },
+   {
+    "bin": "200..219",
+    "candidates": 83,
+    "tower_generated": 9,
+    "rate": 0.1084,
+    "ci95": [
+     0.0581,
+     0.1934
+    ]
+   },
+   {
+    "bin": "220..239",
+    "candidates": 24,
+    "tower_generated": 0,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.138
+    ]
+   },
+   {
+    "bin": ">=240",
+    "candidates": 6,
+    "tower_generated": 0,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.3903
+    ]
+   }
+  ],
+  "D_TOWER_ONLY_1_20": [
+   {
+    "bin": "<100",
+    "candidates": 5743,
+    "tower_generated": 4703,
+    "rate": 0.8189,
+    "ci95": [
+     0.8087,
+     0.8287
+    ]
+   },
+   {
+    "bin": "100..139",
+    "candidates": 9959,
+    "tower_generated": 9005,
+    "rate": 0.9042,
+    "ci95": [
+     0.8983,
+     0.9098
+    ]
+   },
+   {
+    "bin": "140..159",
+    "candidates": 1960,
+    "tower_generated": 1860,
+    "rate": 0.949,
+    "ci95": [
+     0.9383,
+     0.9579
+    ]
+   },
+   {
+    "bin": "160..179",
+    "candidates": 762,
+    "tower_generated": 726,
+    "rate": 0.9528,
+    "ci95": [
+     0.9353,
+     0.9657
+    ]
+   },
+   {
+    "bin": "180..199",
+    "candidates": 250,
+    "tower_generated": 234,
+    "rate": 0.936,
+    "ci95": [
+     0.8986,
+     0.9602
+    ]
+   },
+   {
+    "bin": "200..219",
+    "candidates": 83,
+    "tower_generated": 54,
+    "rate": 0.6506,
+    "ci95": [
+     0.5434,
+     0.7444
+    ]
+   },
+   {
+    "bin": "220..239",
+    "candidates": 24,
+    "tower_generated": 7,
+    "rate": 0.2917,
+    "ci95": [
+     0.1491,
+     0.4917
+    ]
+   },
+   {
+    "bin": ">=240",
+    "candidates": 6,
+    "tower_generated": 1,
+    "rate": 0.1667,
+    "ci95": [
+     0.0301,
+     0.5635
+    ]
+   }
+  ]
+ },
+ "reloc_rescued": {
+  "count": 85,
+  "terrain_delta_mean": -30.2,
+  "biome_transitions": {
+   "minecraft:jagged_peaks -> minecraft:grove": 15,
+   "minecraft:frozen_peaks -> minecraft:grove": 14,
+   "minecraft:stony_peaks -> minecraft:stony_peaks": 12,
+   "minecraft:frozen_peaks -> minecraft:frozen_peaks": 9,
+   "minecraft:grove -> minecraft:grove": 9,
+   "minecraft:jagged_peaks -> minecraft:jagged_peaks": 8,
+   "minecraft:frozen_peaks -> minecraft:snowy_slopes": 6,
+   "minecraft:frozen_peaks -> minecraft:cherry_grove": 3,
+   "minecraft:jagged_peaks -> minecraft:snowy_slopes": 2,
+   "minecraft:jagged_peaks -> minecraft:meadow": 2,
+   "minecraft:snowy_slopes -> minecraft:meadow": 1,
+   "minecraft:snowy_slopes -> minecraft:snowy_slopes": 1,
+   "minecraft:frozen_peaks -> minecraft:meadow": 1,
+   "minecraft:grove -> minecraft:cherry_grove": 1,
+   "minecraft:grove -> minecraft:meadow": 1
+  },
+  "surface_biome_changed": 46
+ },
+ "variant_attempts": {
+  "sky_island_badlands|non-tower": {
+   "ACCEPT": 2738,
+   "PADDING_REJECT": 3
+  },
+  "sky_island_badlands|tower": {
+   "ACCEPT": 413,
+   "PADDING_REJECT": 21
+  },
+  "sky_island_desert|non-tower": {
+   "ACCEPT": 3585,
+   "STUB_BIOME_REJECT": 2
+  },
+  "sky_island_desert|tower": {
+   "ACCEPT": 623
+  },
+  "sky_island_forest|non-tower": {
+   "ACCEPT": 37936,
+   "STUB_BIOME_REJECT": 9
+  },
+  "sky_island_forest|tower": {
+   "ACCEPT": 6247,
+   "PADDING_REJECT": 50,
+   "STUB_BIOME_REJECT": 1
+  },
+  "sky_island_meadow|non-tower": {
+   "ACCEPT": 24654,
+   "PADDING_REJECT": 2,
+   "STUB_BIOME_REJECT": 3
+  },
+  "sky_island_meadow|tower": {
+   "ACCEPT": 4035,
+   "PADDING_REJECT": 25
+  },
+  "sky_island_mountain_meadow|non-tower": {
+   "ACCEPT": 9657,
+   "STUB_BIOME_REJECT": 2
+  },
+  "sky_island_mountain_meadow|tower": {
+   "ACCEPT": 1542,
+   "STUB_BIOME_REJECT": 1
+  },
+  "sky_island_mountain_rocky|non-tower": {
+   "ACCEPT": 4439,
+   "PADDING_REJECT": 3,
+   "STUB_BIOME_REJECT": 3
+  },
+  "sky_island_mountain_rocky|tower": {
+   "ACCEPT": 702,
+   "PADDING_REJECT": 22,
+   "STUB_BIOME_REJECT": 1
+  },
+  "sky_island_mountain_snowy|non-tower": {
+   "ACCEPT": 9226,
+   "PADDING_REJECT": 8,
+   "STUB_BIOME_REJECT": 1
+  },
+  "sky_island_mountain_snowy|tower": {
+   "ACCEPT": 1485,
+   "PADDING_REJECT": 97
+  },
+  "sky_island_snowy|non-tower": {
+   "ACCEPT": 8104,
+   "STUB_BIOME_REJECT": 3
+  },
+  "sky_island_snowy|tower": {
+   "ACCEPT": 1304,
+   "PADDING_REJECT": 8
+  }
+ },
+ "element_kind_attempts": {
+  "plain_medium": {
+   "ACCEPT": 22292,
+   "PADDING_REJECT": 1
+  },
+  "plain_small_a": {
+   "ACCEPT": 16842,
+   "PADDING_REJECT": 1
+  },
+  "plain_small_b": {
+   "ACCEPT": 16742,
+   "PADDING_REJECT": 1
+  },
+  "ruins": {
+   "ACCEPT": 33308,
+   "PADDING_REJECT": 7
+  },
+  "temple": {
+   "ACCEPT": 11155,
+   "PADDING_REJECT": 6
+  },
+  "tower": {
+   "ACCEPT": 16351,
+   "PADDING_REJECT": 223
+  }
+ },
+ "tower_selection_vs_start_height_chi2": {
+  "bins": {
+   "0": [
+    6631,
+    963
+   ],
+   "1": [
+    6635,
+    943
+   ],
+   "2": [
+    6732,
+    933
+   ],
+   "3": [
+    7191,
+    1011
+   ]
+  },
+  "chi2": 1.294,
+  "df": 3,
+  "chi2_critical_p0.05": 7.815
+ },
+ "boundary_by_computed_max_y": {
+  "305": {
+   "padding_rejected": 0,
+   "not_padding_rejected": 32
+  },
+  "306": {
+   "padding_rejected": 0,
+   "not_padding_rejected": 24
+  },
+  "307": {
+   "padding_rejected": 0,
+   "not_padding_rejected": 36
+  },
+  "308": {
+   "padding_rejected": 0,
+   "not_padding_rejected": 32
+  },
+  "309": {
+   "padding_rejected": 0,
+   "not_padding_rejected": 27
+  },
+  "310": {
+   "padding_rejected": 0,
+   "not_padding_rejected": 25
+  },
+  "311": {
+   "padding_rejected": 0,
+   "not_padding_rejected": 13
+  },
+  "312": {
+   "padding_rejected": 0,
+   "not_padding_rejected": 21
+  },
+  "313": {
+   "padding_rejected": 0,
+   "not_padding_rejected": 22
+  },
+  "314": {
+   "padding_rejected": 0,
+   "not_padding_rejected": 23
+  },
+  "315": {
+   "padding_rejected": 0,
+   "not_padding_rejected": 17
+  },
+  "316": {
+   "padding_rejected": 18,
+   "not_padding_rejected": 0
+  },
+  "317": {
+   "padding_rejected": 10,
+   "not_padding_rejected": 0
+  },
+  "318": {
+   "padding_rejected": 9,
+   "not_padding_rejected": 0
+  },
+  "319": {
+   "padding_rejected": 12,
+   "not_padding_rejected": 0
+  },
+  "320": {
+   "padding_rejected": 10,
+   "not_padding_rejected": 0
+  },
+  "321": {
+   "padding_rejected": 8,
+   "not_padding_rejected": 0
+  },
+  "322": {
+   "padding_rejected": 11,
+   "not_padding_rejected": 0
+  },
+  "323": {
+   "padding_rejected": 7,
+   "not_padding_rejected": 0
+  },
+  "324": {
+   "padding_rejected": 16,
+   "not_padding_rejected": 0
+  },
+  "325": {
+   "padding_rejected": 8,
+   "not_padding_rejected": 0
+  },
+  "326": {
+   "padding_rejected": 8,
+   "not_padding_rejected": 0
+  },
+  "327": {
+   "padding_rejected": 8,
+   "not_padding_rejected": 0
+  },
+  "328": {
+   "padding_rejected": 7,
+   "not_padding_rejected": 0
+  },
+  "329": {
+   "padding_rejected": 5,
+   "not_padding_rejected": 0
+  },
+  "330": {
+   "padding_rejected": 5,
+   "not_padding_rejected": 0
+  }
+ },
+ "boundary_violations": {
+  "valid_with_maxY_gt_315": 0,
+  "padding_reject_with_maxY_le_315": 0,
+  "valid_with_maxY_eq_315": 17,
+  "rejected_with_maxY_eq_316": 19
+ },
+ "controlled_formula_check": {
+  "attempts": 143289,
+  "mismatches": 0
+ },
+ "controlled_rows": 414,
+ "placement_trace_rows": 12925,
+ "datapack_override_natural_check": {
+  "baseline": {
+   "run": "flat_jag_T200",
+   "active_start_height": null,
+   "mountain_candidates": 865,
+   "tower_selected": 120,
+   "tower_natural_generated": 6,
+   "rate": 0.05,
+   "ci95": [
+    0.0231,
+    0.1048
+   ],
+   "model_says_fit_given_sampled_rolls": 6,
+   "max_natural_piece_maxY": 315,
+   "natural_vs_replay_agree": 865,
+   "natural_vs_replay_disagree": 0
+  },
+  "override": {
+   "run": "dp_A1535_jag_T200",
+   "active_start_height": "[15 absolute-35 absolute]",
+   "mountain_candidates": 865,
+   "tower_selected": 120,
+   "tower_natural_generated": 38,
+   "rate": 0.3167,
+   "ci95": [
+    0.2402,
+    0.4045
+   ],
+   "model_says_fit_given_sampled_rolls": 38,
+   "max_natural_piece_maxY": 315,
+   "natural_vs_replay_agree": 865,
+   "natural_vs_replay_disagree": 0
+  },
+  "same_selected_tower_chunks": true
+ },
+ "topblocks": [
+  {
+   "run_label": "full_2",
+   "seed": "2",
+   "chunk_x": "-1464",
+   "chunk_z": "-1066",
+   "piece_min_y": "219",
+   "piece_max_y": "315",
+   "element": "meadow/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "full_2",
+   "seed": "2",
+   "chunk_x": "-2460",
+   "chunk_z": "-323",
+   "piece_min_y": "163",
+   "piece_max_y": "259",
+   "element": "forest/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "full_2",
+   "seed": "2",
+   "chunk_x": "1619",
+   "chunk_z": "-47",
+   "piece_min_y": "138",
+   "piece_max_y": "234",
+   "element": "snowy/tower",
+   "top_layer_non_air_blocks": "92",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64; snow=28}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "full_3",
+   "seed": "3",
+   "chunk_x": "1177",
+   "chunk_z": "1442",
+   "piece_min_y": "219",
+   "piece_max_y": "315",
+   "element": "meadow/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "full_3",
+   "seed": "3",
+   "chunk_x": "-330",
+   "chunk_z": "-2363",
+   "piece_min_y": "162",
+   "piece_max_y": "258",
+   "element": "snowy/tower",
+   "top_layer_non_air_blocks": "92",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64; snow=28}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "full_3",
+   "seed": "3",
+   "chunk_x": "-1884",
+   "chunk_z": "-2064",
+   "piece_min_y": "138",
+   "piece_max_y": "234",
+   "element": "meadow/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "full_4",
+   "seed": "4",
+   "chunk_x": "-931",
+   "chunk_z": "-886",
+   "piece_min_y": "219",
+   "piece_max_y": "315",
+   "element": "forest/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "full_4",
+   "seed": "4",
+   "chunk_x": "-1603",
+   "chunk_z": "682",
+   "piece_min_y": "163",
+   "piece_max_y": "259",
+   "element": "badlands/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "full_4",
+   "seed": "4",
+   "chunk_x": "1140",
+   "chunk_z": "-2230",
+   "piece_min_y": "138",
+   "piece_max_y": "234",
+   "element": "forest/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "full_5",
+   "seed": "5",
+   "chunk_x": "-114",
+   "chunk_z": "1975",
+   "piece_min_y": "219",
+   "piece_max_y": "315",
+   "element": "forest/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "full_5",
+   "seed": "5",
+   "chunk_x": "1680",
+   "chunk_z": "2100",
+   "piece_min_y": "163",
+   "piece_max_y": "259",
+   "element": "forest/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "full_5",
+   "seed": "5",
+   "chunk_x": "-2157",
+   "chunk_z": "-477",
+   "piece_min_y": "138",
+   "piece_max_y": "234",
+   "element": "forest/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "full_6",
+   "seed": "6",
+   "chunk_x": "2496",
+   "chunk_z": "1097",
+   "piece_min_y": "219",
+   "piece_max_y": "315",
+   "element": "snowy/tower",
+   "top_layer_non_air_blocks": "86",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64; snow=22}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "full_6",
+   "seed": "6",
+   "chunk_x": "-330",
+   "chunk_z": "-2135",
+   "piece_min_y": "176",
+   "piece_max_y": "272",
+   "element": "meadow/tower",
+   "top_layer_non_air_blocks": "68",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64; snow=4}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "full_6",
+   "seed": "6",
+   "chunk_x": "969",
+   "chunk_z": "-249",
+   "piece_min_y": "163",
+   "piece_max_y": "259",
+   "element": "forest/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "full_6",
+   "seed": "6",
+   "chunk_x": "-2494",
+   "chunk_z": "1496",
+   "piece_min_y": "150",
+   "piece_max_y": "246",
+   "element": "meadow/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "full_6",
+   "seed": "6",
+   "chunk_x": "-2250",
+   "chunk_z": "-2496",
+   "piece_min_y": "138",
+   "piece_max_y": "234",
+   "element": "forest/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "full_6",
+   "seed": "6",
+   "chunk_x": "-494",
+   "chunk_z": "-1768",
+   "piece_min_y": "124",
+   "piece_max_y": "220",
+   "element": "forest/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "full_7",
+   "seed": "7",
+   "chunk_x": "-542",
+   "chunk_z": "204",
+   "piece_min_y": "219",
+   "piece_max_y": "315",
+   "element": "meadow/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "full_7",
+   "seed": "7",
+   "chunk_x": "-2326",
+   "chunk_z": "153",
+   "piece_min_y": "174",
+   "piece_max_y": "270",
+   "element": "meadow/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "full_7",
+   "seed": "7",
+   "chunk_x": "1562",
+   "chunk_z": "1499",
+   "piece_min_y": "163",
+   "piece_max_y": "259",
+   "element": "snowy/tower",
+   "top_layer_non_air_blocks": "84",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64; snow=20}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "full_7",
+   "seed": "7",
+   "chunk_x": "510",
+   "chunk_z": "-1018",
+   "piece_min_y": "150",
+   "piece_max_y": "246",
+   "element": "forest/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "full_7",
+   "seed": "7",
+   "chunk_x": "129",
+   "chunk_z": "1632",
+   "piece_min_y": "138",
+   "piece_max_y": "234",
+   "element": "meadow/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "full_7",
+   "seed": "7",
+   "chunk_x": "1855",
+   "chunk_z": "528",
+   "piece_min_y": "124",
+   "piece_max_y": "220",
+   "element": "forest/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "full_8",
+   "seed": "8",
+   "chunk_x": "-2010",
+   "chunk_z": "-1284",
+   "piece_min_y": "218",
+   "piece_max_y": "314",
+   "element": "badlands/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "full_8",
+   "seed": "8",
+   "chunk_x": "-1029",
+   "chunk_z": "-2418",
+   "piece_min_y": "161",
+   "piece_max_y": "257",
+   "element": "forest/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "full_8",
+   "seed": "8",
+   "chunk_x": "-2483",
+   "chunk_z": "-2398",
+   "piece_min_y": "137",
+   "piece_max_y": "233",
+   "element": "meadow/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "full_9",
+   "seed": "9",
+   "chunk_x": "-176",
+   "chunk_z": "169",
+   "piece_min_y": "219",
+   "piece_max_y": "315",
+   "element": "snowy/tower",
+   "top_layer_non_air_blocks": "91",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64; snow=27}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "full_9",
+   "seed": "9",
+   "chunk_x": "-519",
+   "chunk_z": "-519",
+   "piece_min_y": "177",
+   "piece_max_y": "273",
+   "element": "forest/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "full_9",
+   "seed": "9",
+   "chunk_x": "-1288",
+   "chunk_z": "-863",
+   "piece_min_y": "162",
+   "piece_max_y": "258",
+   "element": "snowy/tower",
+   "top_layer_non_air_blocks": "92",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64; snow=28}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "full_9",
+   "seed": "9",
+   "chunk_x": "-1043",
+   "chunk_z": "1255",
+   "piece_min_y": "149",
+   "piece_max_y": "245",
+   "element": "forest/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "full_9",
+   "seed": "9",
+   "chunk_x": "1349",
+   "chunk_z": "1497",
+   "piece_min_y": "136",
+   "piece_max_y": "232",
+   "element": "forest/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "full_9",
+   "seed": "9",
+   "chunk_x": "1953",
+   "chunk_z": "-1117",
+   "piece_min_y": "124",
+   "piece_max_y": "220",
+   "element": "meadow/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "flat_jag_T160",
+   "seed": "31",
+   "chunk_x": "-280",
+   "chunk_z": "-96",
+   "piece_min_y": "219",
+   "piece_max_y": "315",
+   "element": "snowy/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "flat_jag_T160",
+   "seed": "31",
+   "chunk_x": "296",
+   "chunk_z": "175",
+   "piece_min_y": "208",
+   "piece_max_y": "304",
+   "element": "snowy/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "flat_jag_T160",
+   "seed": "31",
+   "chunk_x": "-246",
+   "chunk_z": "-174",
+   "piece_min_y": "193",
+   "piece_max_y": "289",
+   "element": "snowy/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "flat_jag_T200",
+   "seed": "31",
+   "chunk_x": "-260",
+   "chunk_z": "-178",
+   "piece_min_y": "219",
+   "piece_max_y": "315",
+   "element": "snowy/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "flat_jag_T200",
+   "seed": "31",
+   "chunk_x": "274",
+   "chunk_z": "18",
+   "piece_min_y": "219",
+   "piece_max_y": "315",
+   "element": "snowy/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "flat_jag_T200",
+   "seed": "31",
+   "chunk_x": "-204",
+   "chunk_z": "-118",
+   "piece_min_y": "218",
+   "piece_max_y": "314",
+   "element": "snowy/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "flat_meadow_T180",
+   "seed": "31",
+   "chunk_x": "-152",
+   "chunk_z": "197",
+   "piece_min_y": "219",
+   "piece_max_y": "315",
+   "element": "meadow/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "flat_meadow_T180",
+   "seed": "31",
+   "chunk_x": "99",
+   "chunk_z": "-110",
+   "piece_min_y": "212",
+   "piece_max_y": "308",
+   "element": "meadow/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "flat_meadow_T180",
+   "seed": "31",
+   "chunk_x": "182",
+   "chunk_z": "218",
+   "piece_min_y": "204",
+   "piece_max_y": "300",
+   "element": "meadow/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "flat_desert_T120",
+   "seed": "31",
+   "chunk_x": "-253",
+   "chunk_z": "14",
+   "piece_min_y": "217",
+   "piece_max_y": "313",
+   "element": "desert/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "flat_desert_T120",
+   "seed": "31",
+   "chunk_x": "-253",
+   "chunk_z": "-118",
+   "piece_min_y": "198",
+   "piece_max_y": "294",
+   "element": "desert/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  },
+  {
+   "run_label": "flat_desert_T120",
+   "seed": "31",
+   "chunk_x": "-236",
+   "chunk_z": "-211",
+   "piece_min_y": "184",
+   "piece_max_y": "280",
+   "element": "desert/tower",
+   "top_layer_non_air_blocks": "64",
+   "top_layer_smooth_stone": "64",
+   "top_layer_blocks": "{smooth_stone=64}",
+   "top_blocks_present": "true"
+  }
+ ]
+}

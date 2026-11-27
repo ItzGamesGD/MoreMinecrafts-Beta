@@ -1,0 +1,48 @@
+{
+  "ordinary_city_without_arena": {
+    "x": 194,
+    "vanilla_pieces": 77,
+    "z": -423
+  },
+  "seed": 2632027,
+  "production_weight": 1,
+  "locate_attempts": 17,
+  "city_chunk": {
+    "x": 485,
+    "z": -348
+  },
+  "vanilla_pieces": 72,
+  "arena_element": "Single[Left[moreminecrafts:ancient_city/arena]]",
+  "rotation": "COUNTERCLOCKWISE_90",
+  "bounds": {
+    "min_y": -51,
+    "min_z": -5616,
+    "max_x": 7860,
+    "max_y": -39,
+    "max_z": -5580,
+    "min_x": 7824
+  },
+  "physical_voxel_samples": {
+    "7842, -51, -5598": "Block{minecraft:gray_wool}",
+    "7847, -51, -5592": "Block{minecraft:sculk}",
+    "7837, -51, -5605": "Block{minecraft:sculk}",
+    "7842, -51, -5588": "Block{minecraft:gray_wool}",
+    "7849, -51, -5598": "Block{minecraft:gray_wool}"
+  },
+  "cameras": [
+    {
+      "x": 7864.5,
+      "y": -31.5,
+      "z": -5573.5,
+      "pitch": 28.936696532520372,
+      "yaw": 137.48955292199915
+    },
+    {
+      "x": 7851.5,
+      "y": -39.5,
+      "z": -5584.5,
+      "pitch": 32.31153323742385,
+      "yaw": 145.30484646876602
+    }
+  ]
+}

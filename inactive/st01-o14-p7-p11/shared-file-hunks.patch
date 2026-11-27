@@ -1,0 +1,382 @@
+diff --git a/build.gradle b/build.gradle
+index fb2e0d3b..74e0b48a 100644
+--- a/build.gradle
++++ b/build.gradle
+@@ -80,6 +80,22 @@ loom {
+             runDir = "build/ore-sampling/run"
+             ideConfigGenerated false
+         }
++        // ST-01 Desert Pyramid natural-generation probe (tools/st01-o14/run_probe.sh); inert unless -Dmm.st01.probe.out is set.
++        st01WorldgenProbe {
++            server()
++            name = "ST-01 Worldgen Probe"
++            source sourceSets.gametest
++            runDir = "build/st01-worldgen-probe/run"
++            ideConfigGenerated false
++        }
++        // ST-01 Phase 3 Woodland Mansion baseline and calibration probe; inert unless -Dmm.st01.phase3.out is set.
++        st01Phase3Calibration {
++            server()
++            name = "ST-01 Phase 3 Calibration Probe"
++            source sourceSets.gametest
++            runDir = "build/st01-phase3-calibration/run"
++            ideConfigGenerated false
++        }
+     }
+ }
+ dependencies {
+diff --git a/docs/ST01_BUILD_DECISIONS_Q01_Q08_2026-11-05.md b/docs/ST01_BUILD_DECISIONS_Q01_Q08_2026-11-05.md
+index 2af82f1c..b80c1861 100644
+--- a/docs/ST01_BUILD_DECISIONS_Q01_Q08_2026-11-05.md
++++ b/docs/ST01_BUILD_DECISIONS_Q01_Q08_2026-11-05.md
+@@ -252,3 +252,26 @@ Q72-Q93 recorded as owner-approved design-only decisions. Architectural fit and
+ - No actual voxel construction, client screenshots, NBT/worldgen or runtime tests are implied.
+ 
+ Q01-Q100 are now documented as design choices; physical feasibility remains UNVERIFIED.
++
++
++## Owner-approved ST-01 P11 operational settings (O-1, O-3, O-4, O-6, 2026-11-08)
++
++All prior Q01-Q100 architectural decisions and P9 operational rules remain intact. In ST-01 P11, the owner explicitly approved the following operational parameters for the ST-01 secret entrance and gold guide golem:
++
++| ID | Approved operational setting | Production wiring |
++| --- | --- | --- |
++| O-1 | Fallback opening timer: **600 game ticks** (30.0 s at 20 TPS) | `EntranceConfig.APPROVED_FALLBACK_TICKS = 600L` (`EntranceConfig.PRODUCTION`) |
++| O-3 | Fallback timer starts **immediately** upon valid Tomb Guardian victory confirmation | `EntranceCore.reconcile()` (`remaining = cfg.fallbackTicks()` on `SEALED -> GUARDIAN_DEFEATED`) |
++| O-4 | Arrival detection radius: **1.5 blocks** (horizontal `dx, dz` distance to stop point center) | `EntranceConfig.APPROVED_ARRIVAL_RADIUS = 1.5D` (`EntranceConfig.PRODUCTION`) |
++| O-4 | Stop point coordinate: optimal P10-verified safe Z3/Z4 candidate **C03** (`Z3`, `delta = (-1, 0)` from P9 Z2 reference, `anchor.offset(o.sign * 9, -2, 3)`, model `(-12, -22, 36)` for EAST / `(+12, -22, 36)` for WEST, cell-center distance `2.550` blocks to nearest cover cell, minimum AABB clearance `>= 3.324` blocks across all E/W and `BOSS_S`/`DOOR_IN` trials) | `EntranceLayout.stopPoint(anchor, o)` (`anchor.offset(o.sign * 9, -2, 3)`) |
++| O-6 | Gold guide golem scale: **0.5** (`0.7w × 1.35h`, 50% of vanilla Iron Golem) | `GoldGuideGolemTuning.SCALE = 0.5D` |
++| O-6 | Gold guide golem movement speed: **0.25** | `GoldGuideGolemTuning.MOVEMENT_SPEED = 0.25D` |
++| O-6 | Gold guide golem emergence position: **`BOSS_S`** (`anchor.offset(0, -2, -6)`, hall center `(0, -22, 27)`) | `EntranceLayout.golemSpawn(anchor, o)` (`anchor.offset(0, -2, -6)`) |
++
++### Preserved non-approvals and boundaries (P11)
++
++- **O-9 (Valid victory rule):** Remains the P9 structural minimum (Rule A: final killing blow attributed to a player or `OwnableEntity` owned by a `ServerPlayer`). Minimum player damage share and participation time window remain **UNAPPROVED** (`Params = null`). See `docs/design/st01-p11/ST01_P11_06_O9_ELEMENTAL_DAMAGE_ATTRIBUTION_AUDIT_2026-11-08.md` for the P11 elemental damage source attribution audit.
++- **O-12 (Final opening presentation/VFX/SFX):** Remains **UNAPPROVED**.
++- **O-14 (Natural Overworld worldgen placement):** Remains **UNAPPROVED**. No ST-01 worldgen structure registration is enabled in production.
++- **D-3 (Final East vs West orientation):** Remains **UNAPPROVED**. Both `EAST` and `WEST` remain supported via explicit `EntranceLayout.Orientation` with exact X-axis mirror symmetry.
++- **Q15 (Secret crypt final loot/spec) & Q98 (Replacement maximum underground depth cap):** Remain **UNAPPROVED**.
+diff --git a/src/client/java/dev/itzgamesgd/moreminecrafts/client/MoreMinecraftsClient.java b/src/client/java/dev/itzgamesgd/moreminecrafts/client/MoreMinecraftsClient.java
+index dd0a019e..26f2f9bf 100644
+--- a/src/client/java/dev/itzgamesgd/moreminecrafts/client/MoreMinecraftsClient.java
++++ b/src/client/java/dev/itzgamesgd/moreminecrafts/client/MoreMinecraftsClient.java
+@@ -181,6 +181,8 @@ public final class MoreMinecraftsClient implements ClientModInitializer {
+     }
+ 
+     private static void registerCustomMobRenderers() {
++        EntityRendererRegistry.register(dev.itzgamesgd.moreminecrafts.st01.SecretEntranceEntities.GOLD_GUIDE_GOLEM,
++                dev.itzgamesgd.moreminecrafts.client.st01.GoldGuideGolemRenderer::new);
+         EntityRendererRegistry.register(CustomMobCatalog.SWAMP_ZOMBIE,
+                 context -> CustomMobRenderers.zombie(context, "swamp_zombie"));
+         EntityRendererRegistry.register(CustomMobCatalog.CAVE_ZOMBIE,
+diff --git a/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractCatalogGameTests.java b/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractCatalogGameTests.java
+index 42b66479..b4daebca 100644
+--- a/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractCatalogGameTests.java
++++ b/src/gametest/java/dev/itzgamesgd/moreminecrafts/bounty/ContractCatalogGameTests.java
+@@ -86,7 +86,7 @@ public final class ContractCatalogGameTests implements CustomTestMethodInvoker {
+         accounted.addAll(ContractCatalog.MM_PENDING_VERIFICATION);
+         List<String> registered = new ArrayList<>();
+         // Dedicated encounter bosses/displays are outside the approved ordinary contract roster.
+-        List<String> outsideRoster = List.of("moreminecrafts:tomb_guardian", "moreminecrafts:tomb_vfx", "moreminecrafts:tomb_statue_collider", "moreminecrafts:immortal_gladiator");
++        List<String> outsideRoster = List.of("moreminecrafts:tomb_guardian", "moreminecrafts:tomb_vfx", "moreminecrafts:tomb_statue_collider", "moreminecrafts:immortal_gladiator", "moreminecrafts:gold_guide_golem");
+         ctx.assertTrue(allCombatMobs().stream().noneMatch(m -> m.id().equals("moreminecrafts:immortal_gladiator")), "arena boss is never pooled into ordinary contracts");
+         BuiltInRegistries.ENTITY_TYPE.keySet().forEach(id -> {
+             if (id.getNamespace().equals("moreminecrafts") && !outsideRoster.contains(id.toString())) registered.add(id.toString());
+diff --git a/src/gametest/resources/fabric.mod.json b/src/gametest/resources/fabric.mod.json
+index dce86381..3311f7f4 100644
+--- a/src/gametest/resources/fabric.mod.json
++++ b/src/gametest/resources/fabric.mod.json
+@@ -10,7 +10,9 @@
+       "dev.itzgamesgd.moreminecrafts.worldgenprobe.OreSamplingProbe",
+       "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyIslandsWorldgenProbe",
+       "dev.itzgamesgd.moreminecrafts.worldgenprobe.St05CavernIdentityProbe",
+-      "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyHabitatNaturalProbe"
++      "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyHabitatNaturalProbe",
++      "dev.itzgamesgd.moreminecrafts.worldgenprobe.St01DesertWorldgenProbe",
++      "dev.itzgamesgd.moreminecrafts.worldgenprobe.St01Phase3CalibrationProbe"
+     ],
+     "fabric-gametest": [
+       "dev.itzgamesgd.moreminecrafts.material.EtheriumFortuneGameTests",
+@@ -26,6 +28,10 @@
+       "dev.itzgamesgd.moreminecrafts.progression.QuestProgressGameTests",
+       "dev.itzgamesgd.moreminecrafts.mob.CustomMobGameTests",
+       "dev.itzgamesgd.moreminecrafts.boss.TombGuardianGameTests",
++      "dev.itzgamesgd.moreminecrafts.st01.SecretEntranceGameTests",
++      "dev.itzgamesgd.moreminecrafts.st01.RoyalTombGolemGameTests",
++      "dev.itzgamesgd.moreminecrafts.st01.RoyalTombFlowGameTests",
++      "dev.itzgamesgd.moreminecrafts.st01.RoyalTombSafetyGameTests",
+       "dev.itzgamesgd.moreminecrafts.equipment.LowerEquipmentGameTests",
+       "dev.itzgamesgd.moreminecrafts.equipment.LowerEquipmentRegressionGameTests",
+       "dev.itzgamesgd.moreminecrafts.accessory.AccessoryEquipmentGameTests",
+diff --git a/src/main/java/dev/itzgamesgd/moreminecrafts/boss/TombEncounterData.java b/src/main/java/dev/itzgamesgd/moreminecrafts/boss/TombEncounterData.java
+index 8058bcac..ec530350 100644
+--- a/src/main/java/dev/itzgamesgd/moreminecrafts/boss/TombEncounterData.java
++++ b/src/main/java/dev/itzgamesgd/moreminecrafts/boss/TombEncounterData.java
+@@ -31,7 +31,8 @@ public final class TombEncounterData extends SavedData {
+ 
+     private static final Codec<SavedState> STATE_CODEC = RecordCodecBuilder.create(instance -> instance.group(
+             Codec.LONG.listOf().optionalFieldOf("defeated", List.of()).forGetter(SavedState::defeated),
+-            ACTIVE_CODEC.listOf().optionalFieldOf("active", List.of()).forGetter(SavedState::active)
++            ACTIVE_CODEC.listOf().optionalFieldOf("active", List.of()).forGetter(SavedState::active),
++            Codec.LONG.listOf().optionalFieldOf("victories", List.of()).forGetter(SavedState::victories)
+     ).apply(instance, SavedState::new));
+ 
+     private static final Codec<TombEncounterData> CODEC = STATE_CODEC.xmap(TombEncounterData::fromState, TombEncounterData::toState);
+@@ -39,7 +40,14 @@ public final class TombEncounterData extends SavedData {
+     public static final SavedDataType<TombEncounterData> TYPE = new SavedDataType<>(
+             Identifier.parse("moreminecrafts:tomb_guardian_encounters"), TombEncounterData::new, CODEC, DataFixTypes.LEVEL);
+ 
++    /**
++     * Tombs that are COMPLETED (never summon again, chest unsealed). Before ST-01 P9 this was written for every credited guardian death;
++     * since P9 it is written only for a valid victory. Entries without a matching {@link #victories} entry are LEGACY records of unknown
++     * validity: they stay honoured (compatibility) but are never converted to victories automatically.
++     */
+     private final Set<Long> defeated = new LinkedHashSet<>();
++    /** Tombs whose guardian was killed in a VALID victory (P9). Subset of {@link #defeated}. Only these advance the secret entrance. */
++    private final Set<Long> victories = new LinkedHashSet<>();
+     private final Map<Long, Active> active = new LinkedHashMap<>();
+ 
+     public TombEncounterData() {}
+@@ -47,13 +55,14 @@ public final class TombEncounterData extends SavedData {
+     private static TombEncounterData fromState(SavedState state) {
+         TombEncounterData data = new TombEncounterData();
+         data.defeated.addAll(state.defeated());
++        for (long v : state.victories()) { data.victories.add(v); data.defeated.add(v); }
+         for (Active binding : state.active())
+             if (!data.defeated.contains(binding.tomb())) data.active.put(binding.tomb(), binding);
+         return data;
+     }
+ 
+     private SavedState toState() {
+-        return new SavedState(new ArrayList<>(defeated), new ArrayList<>(active.values()));
++        return new SavedState(new ArrayList<>(defeated), new ArrayList<>(active.values()), new ArrayList<>(victories));
+     }
+ 
+     /** What the server currently knows about an ACTIVE tomb's bound guardian. */
+@@ -81,6 +90,23 @@ public final class TombEncounterData extends SavedData {
+ 
+     public boolean isDefeated(long tomb) { return defeated.contains(tomb); }
+ 
++    /** A VALID victory was recorded (P9). False for legacy-only completed tombs. */
++    public boolean isVictory(long tomb) { return victories.contains(tomb); }
++
++    /** Completed tombs that carry no valid-victory record: pre-P9 data of unknown validity (migration report only; never auto-converted). */
++    public Set<Long> legacyOnlyDefeats() {
++        Set<Long> out = new LinkedHashSet<>(defeated);
++        out.removeAll(victories);
++        return out;
++    }
++
++    /** Explicit, opt-in adoption of a legacy record as a victory (administrative/migration decision; nothing calls this automatically). */
++    public boolean adoptLegacyAsVictory(long tomb) {
++        if (!defeated.contains(tomb) || !victories.add(tomb)) return false;
++        setDirty();
++        return true;
++    }
++
+     public Active active(long tomb) { return active.get(tomb); }
+ 
+     /** Decide a royal chest interaction. Clears a confirmed-lost binding as a side effect. */
+@@ -132,6 +158,17 @@ public final class TombEncounterData extends SavedData {
+         return true;
+     }
+ 
++    /**
++     * Records a VALID victory (P9). Returns true exactly once per tomb, only for the bound guardian, so the seal release, the guardian
++     * reward and the entrance progress cannot be granted twice. An invalid death must NOT call this; it calls {@link #release}.
++     */
++    public boolean markVictory(long tomb, UUID guardian) {
++        if (victories.contains(tomb) || !markDefeated(tomb, guardian)) return false;
++        victories.add(tomb);
++        setDirty();
++        return true;
++    }
++
+     /** Ends an undefeated encounter whose guardian left without dying; the tomb can be retried. */
+     public boolean release(long tomb, UUID guardian) {
+         if (!isBound(tomb, guardian)) return false;
+@@ -142,5 +179,5 @@ public final class TombEncounterData extends SavedData {
+ 
+     public record Active(long tomb, UUID guardian, long guardianChunk, long startedGameTime) {}
+ 
+-    private record SavedState(List<Long> defeated, List<Active> active) {}
++    private record SavedState(List<Long> defeated, List<Active> active, List<Long> victories) {}
+ }
+diff --git a/src/main/java/dev/itzgamesgd/moreminecrafts/boss/TombGuardian.java b/src/main/java/dev/itzgamesgd/moreminecrafts/boss/TombGuardian.java
+index 9099a31b..2dfbac99 100644
+--- a/src/main/java/dev/itzgamesgd/moreminecrafts/boss/TombGuardian.java
++++ b/src/main/java/dev/itzgamesgd/moreminecrafts/boss/TombGuardian.java
+@@ -89,6 +89,7 @@ public class TombGuardian extends Monster {
+     private final Set<UUID> waveHits = new HashSet<>();
+     private long lastTrackedChunk = Long.MIN_VALUE;
+     private boolean lootSuppressed;
++    private final TombVictoryPolicy.Participation participation = new TombVictoryPolicy.Participation();
+ 
+     public TombGuardian(EntityType<? extends TombGuardian> type, Level level) {
+         super(type, level);
+@@ -236,15 +237,31 @@ public class TombGuardian extends Monster {
+     @Override
+     public boolean canUsePortal(boolean allowPassengers) { return false; }
+ 
++    /** CR-2: called from the Fabric AFTER_DAMAGE listener for every non-lethal, unblocked hit. */
++    void recordDamage(DamageSource source, float taken) {
++        if (!(level() instanceof ServerLevel level)) return;
++        net.minecraft.server.level.ServerPlayer player = TombVictoryPolicy.attributedPlayer(source);
++        if (player != null) participation.onPlayerDamage(player.getUUID(), taken, level.getGameTime());
++        else participation.onOtherDamage(taken);
++    }
++
++    TombVictoryPolicy.Participation participation() { return participation; }
++
+     @Override
+     public void die(DamageSource source) {
+         if (!isRemoved() && !dead && level() instanceof ServerLevel level && tombAnchor != null) {
+-            // Only the bound guardian of a not-yet-defeated tomb completes it and may drop its reward.
+-            boolean credited = TombGuardianEncounters.data(level).isBound(TombGuardianEncounters.tombKey(tombAnchor), getUUID());
+-            if (!credited) lootSuppressed = true;
++            boolean bound = TombGuardianEncounters.data(level).isBound(TombGuardianEncounters.tombKey(tombAnchor), getUUID());
++            TombVictoryPolicy.Verdict verdict = null;
++            if (bound) {
++                // The lethal blow runs inside die(), before AFTER_DAMAGE: fold it in, then judge BEFORE super.die() so loot can be suppressed.
++                participation.foldKillingBlow(TombVictoryPolicy.attributedPlayer(source), getMaxHealth(), level.getGameTime());
++                verdict = participation.judge(TombVictoryPolicy.classify(source), level.getGameTime(), getMaxHealth());
++            }
++            // Only the bound guardian of a not-yet-completed tomb may complete it, and only a VALID victory may drop its reward.
++            if (!bound || !verdict.valid()) lootSuppressed = true;
+             LivingEntity killer = getKillCredit();
+             super.die(source);
+-            if (credited) TombGuardianEncounters.guardianDied(level, this, tombAnchor, killer);
++            if (bound) TombGuardianEncounters.guardianDied(level, this, tombAnchor, killer, verdict);
+             return;
+         }
+         super.die(source);
+@@ -527,6 +544,7 @@ public class TombGuardian extends Monster {
+         output.putBoolean("enraged", isEnraged());
+         output.putLong("slam_ready", Math.max(0L, slamReadyTick - tickCount));
+         output.putLong("statue_ready", Math.max(0L, statueReadyTick - tickCount));
++        output.store("participation", TombVictoryPolicy.Participation.CODEC, participation.toState());
+     }
+ 
+     @Override
+@@ -541,6 +559,7 @@ public class TombGuardian extends Monster {
+         }
+         slamReadyTick = tickCount + input.getLongOr("slam_ready", 0L);
+         statueReadyTick = tickCount + input.getLongOr("statue_ready", 0L);
++        input.read("participation", TombVictoryPolicy.Participation.CODEC).ifPresent(participation::fromState);
+     }
+ 
+     /** Walks toward the visible target between attacks; never moves while an attack is telegraphing. */
+diff --git a/src/main/java/dev/itzgamesgd/moreminecrafts/boss/TombGuardianEncounters.java b/src/main/java/dev/itzgamesgd/moreminecrafts/boss/TombGuardianEncounters.java
+index 8a9a1817..181b7b82 100644
+--- a/src/main/java/dev/itzgamesgd/moreminecrafts/boss/TombGuardianEncounters.java
++++ b/src/main/java/dev/itzgamesgd/moreminecrafts/boss/TombGuardianEncounters.java
+@@ -27,12 +27,30 @@ import org.jetbrains.annotations.Nullable;
+ public final class TombGuardianEncounters {
+     private TombGuardianEncounters() {}
+ 
+-    /** Fired once per tomb, after the bound guardian dies and the tomb is recorded DEFEATED. */
++    /** Fired once per tomb, after the bound guardian dies in a VALID victory (P9: invalid deaths no longer fire it) and the tomb is recorded DEFEATED. */
+     public static final Event<Defeated> DEFEATED = EventFactory.createArrayBacked(Defeated.class,
+             listeners -> (level, tombAnchor, killer) -> {
+                 for (Defeated listener : listeners) listener.onDefeated(level, tombAnchor, killer);
+             });
+ 
++    /** Fired once per tomb right after {@link #DEFEATED}, carrying the participants. Both events mean a VALID victory (P9). */
++    public static final Event<Victory> VICTORY = EventFactory.createArrayBacked(Victory.class,
++            listeners -> (level, tombAnchor, verdict) -> {
++                for (Victory listener : listeners) listener.onVictory(level, tombAnchor, verdict);
++            });
++
++    /** Fired when the bound guardian died WITHOUT a valid victory; the tomb is released for a new attempt. */
++    public static final Event<InvalidDeath> INVALID_DEATH = EventFactory.createArrayBacked(InvalidDeath.class,
++            listeners -> (level, tombAnchor, verdict) -> {
++                for (InvalidDeath listener : listeners) listener.onInvalidDeath(level, tombAnchor, verdict);
++            });
++
++    @FunctionalInterface
++    public interface Victory { void onVictory(ServerLevel level, BlockPos tombAnchor, TombVictoryPolicy.Verdict verdict); }
++
++    @FunctionalInterface
++    public interface InvalidDeath { void onInvalidDeath(ServerLevel level, BlockPos tombAnchor, TombVictoryPolicy.Verdict verdict); }
++
+     @FunctionalInterface
+     public interface Defeated {
+         void onDefeated(ServerLevel level, BlockPos tombAnchor, @Nullable LivingEntity killer);
+@@ -135,11 +153,26 @@ public final class TombGuardianEncounters {
+ 
+     // Guardian lifecycle callbacks.
+ 
+-    static void guardianDied(ServerLevel level, TombGuardian guardian, BlockPos tombAnchor, @Nullable LivingEntity killer) {
+-        if (!data(level).markDefeated(tombKey(tombAnchor), guardian.getUUID())) return;
++    /**
++     * Death of the bound guardian. {@code verdict} decides whether this is a VICTORY (valid): only then is the tomb completed, the chest
++     * unsealed and {@link #DEFEATED}/{@link #VICTORY} fired. An invalid death releases the binding so the tomb can be challenged again; the
++     * chest stays sealed, no reward drops (suppressed by the guardian before its death loot) and {@link #INVALID_DEATH} is fired.
++     */
++    static void guardianDied(ServerLevel level, TombGuardian guardian, BlockPos tombAnchor, @Nullable LivingEntity killer,
++                             TombVictoryPolicy.Verdict verdict) {
++        long tomb = tombKey(tombAnchor);
++        if (!verdict.valid()) {
++            if (!data(level).release(tomb, guardian.getUUID())) return;
++            MoreMinecrafts.LOGGER.info("Tomb Guardian at {} in {} died without a valid victory ({}); the chest stays sealed and the tomb can be retried.",
++                    tombAnchor.toShortString(), level.dimension().identifier(), verdict.reason());
++            INVALID_DEATH.invoker().onInvalidDeath(level, tombAnchor, verdict);
++            return;
++        }
++        if (!data(level).markVictory(tomb, guardian.getUUID())) return;
+         MoreMinecrafts.LOGGER.info("Tomb Guardian defeated at {} in {}; royal chest unsealed.",
+                 tombAnchor.toShortString(), level.dimension().identifier());
+         DEFEATED.invoker().onDefeated(level, tombAnchor, killer);
++        VICTORY.invoker().onVictory(level, tombAnchor, verdict);
+     }
+ 
+     static void guardianLost(ServerLevel level, TombGuardian guardian, BlockPos tombAnchor) {
+diff --git a/src/main/java/dev/itzgamesgd/moreminecrafts/boss/TombGuardianEntities.java b/src/main/java/dev/itzgamesgd/moreminecrafts/boss/TombGuardianEntities.java
+index 0b9dc643..914da6f4 100644
+--- a/src/main/java/dev/itzgamesgd/moreminecrafts/boss/TombGuardianEntities.java
++++ b/src/main/java/dev/itzgamesgd/moreminecrafts/boss/TombGuardianEntities.java
+@@ -47,6 +47,7 @@ public final class TombGuardianEntities {
+     public static void initialize() {
+         FabricDefaultAttributeRegistry.register(TOMB_GUARDIAN, TombGuardian.createAttributes());
+         TombGuardianDebugCommand.initialize();
++        TombVictoryPolicy.initialize();
+         MoreMinecrafts.LOGGER.info("Registered Royal Tomb Guardian boss entity.");
+     }
+ }
+diff --git a/src/main/java/dev/itzgamesgd/moreminecrafts/registry/ModRegistries.java b/src/main/java/dev/itzgamesgd/moreminecrafts/registry/ModRegistries.java
+index baa8f3f2..ac870c3f 100644
+--- a/src/main/java/dev/itzgamesgd/moreminecrafts/registry/ModRegistries.java
++++ b/src/main/java/dev/itzgamesgd/moreminecrafts/registry/ModRegistries.java
+@@ -24,6 +24,8 @@ public final class ModRegistries {
+         CustomMobCatalog.initialize();
+         dev.itzgamesgd.moreminecrafts.mob.sky.SkyIslandHabitat.initialize();
+         dev.itzgamesgd.moreminecrafts.boss.TombGuardianEntities.initialize();
++        dev.itzgamesgd.moreminecrafts.st01.SecretEntranceEntities.initialize();
++        dev.itzgamesgd.moreminecrafts.st01.SecretEntranceRuntime.initialize();
+         ModAlchemy.initialize();
+         EnchantmentRuntime.initialize();
+         ModBlocks.initialize();
+diff --git a/src/main/resources/assets/moreminecrafts/lang/en_us.json b/src/main/resources/assets/moreminecrafts/lang/en_us.json
+index e8bcc030..9d42f20c 100644
+--- a/src/main/resources/assets/moreminecrafts/lang/en_us.json
++++ b/src/main/resources/assets/moreminecrafts/lang/en_us.json
+@@ -1162,5 +1162,6 @@
+   "item.moreminecrafts.t1_status_resilience": "Status Resilience (T1, provisional)",
+   "item.moreminecrafts.t1_sustained_recovery": "Sustained Recovery (T1, provisional)",
+   "item.moreminecrafts.t1_sprint_acceleration": "Sprint Acceleration (T1, provisional)",
+-  "item.moreminecrafts.t1_double_jump": "Double Jump (T1, provisional)"
++  "item.moreminecrafts.t1_double_jump": "Double Jump (T1, provisional)",
++  "entity.moreminecrafts.gold_guide_golem": "Gold Guide Golem"
+ }
+diff --git a/src/main/resources/assets/moreminecrafts/lang/ko_kr.json b/src/main/resources/assets/moreminecrafts/lang/ko_kr.json
+index 2a6e9449..16ceeed1 100644
+--- a/src/main/resources/assets/moreminecrafts/lang/ko_kr.json
++++ b/src/main/resources/assets/moreminecrafts/lang/ko_kr.json
+@@ -1081,5 +1081,6 @@
+   "item.moreminecrafts.t1_status_resilience": "상태이상 대응 (T1 임시)",
+   "item.moreminecrafts.t1_sustained_recovery": "지속 회복 (T1 임시)",
+   "item.moreminecrafts.t1_sprint_acceleration": "질주 가속 (T1 임시)",
+-  "item.moreminecrafts.t1_double_jump": "더블 점프 (T1 임시)"
++  "item.moreminecrafts.t1_double_jump": "더블 점프 (T1 임시)",
++  "entity.moreminecrafts.gold_guide_golem": "금빛 안내 골렘"
+ }

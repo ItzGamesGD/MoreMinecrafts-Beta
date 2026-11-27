@@ -1,0 +1,316 @@
+{
+  "minecraft": "26.3",
+  "structure_origin": "BlockPos{x\u003d-40, y\u003d-24, z\u003d2}",
+  "pose_semantics": "commanded \u003d what the test asked for; client_measured \u003d read from the rendering client after the wait",
+  "viewing_aids": "HUD hidden; temporary night vision on the player. Structure and world unchanged.",
+  "walk_executed": false,
+  "captures": [],
+  "status": "finished",
+  "flat_world_surface_height_at_x-80_z-20": -64.0,
+  "run_prefix": "R2c",
+  "walks": {
+    "centre_line_x-20.5": {
+      "start": [
+        -20.5,
+        -22.0,
+        3.5
+      ],
+      "trace": [
+        [
+          0,
+          -20.5,
+          -21.58,
+          3.598
+        ],
+        [
+          30,
+          -20.5,
+          -20.976,
+          8.479
+        ],
+        [
+          60,
+          -20.5,
+          -21.247,
+          14.407
+        ],
+        [
+          90,
+          -20.5,
+          -20.976,
+          18.7
+        ],
+        [
+          120,
+          -20.5,
+          -21.247,
+          18.7
+        ],
+        [
+          150,
+          -20.5,
+          -20.976,
+          18.7
+        ],
+        [
+          180,
+          -20.5,
+          -21.247,
+          18.7
+        ],
+        [
+          210,
+          -20.5,
+          -20.976,
+          18.7
+        ],
+        [
+          240,
+          -20.5,
+          -21.247,
+          18.7
+        ],
+        [
+          270,
+          -20.5,
+          -20.976,
+          18.7
+        ],
+        [
+          300,
+          -20.5,
+          -21.247,
+          18.7
+        ],
+        [
+          330,
+          -20.5,
+          -20.976,
+          18.7
+        ],
+        [
+          360,
+          -20.5,
+          -21.247,
+          18.7
+        ],
+        [
+          390,
+          -20.5,
+          -20.976,
+          18.7
+        ],
+        [
+          420,
+          -20.5,
+          -21.247,
+          18.7
+        ],
+        [
+          450,
+          -20.5,
+          -20.976,
+          18.7
+        ],
+        [
+          480,
+          -20.5,
+          -21.247,
+          18.7
+        ],
+        [
+          510,
+          -20.5,
+          -20.976,
+          18.7
+        ],
+        [
+          540,
+          -20.5,
+          -21.247,
+          18.7
+        ],
+        [
+          570,
+          -20.5,
+          -20.976,
+          18.7
+        ]
+      ],
+      "outcome": "tick_budget_exhausted",
+      "ticks": 600,
+      "end": [
+        -20.5,
+        -21.58,
+        18.7
+      ],
+      "blocks_ahead_of_end_position": {
+        "dy+0.0": "minecraft:chiseled_sandstone",
+        "dy+1.0": "minecraft:chiseled_sandstone",
+        "dy+1.8": "minecraft:air"
+      }
+    },
+    "beside_base_x-25.5": {
+      "start": [
+        -25.5,
+        -22.0,
+        12.5
+      ],
+      "trace": [
+        [
+          0,
+          -25.5,
+          -21.58,
+          12.598
+        ],
+        [
+          30,
+          -25.5,
+          -20.823,
+          17.479
+        ],
+        [
+          60,
+          -25.5,
+          -21.58,
+          23.427
+        ],
+        [
+          90,
+          -25.5,
+          -20.823,
+          29.219
+        ],
+        [
+          120,
+          -25.5,
+          -21.58,
+          31.7
+        ],
+        [
+          150,
+          -25.5,
+          -20.823,
+          31.7
+        ],
+        [
+          180,
+          -25.5,
+          -21.58,
+          31.7
+        ],
+        [
+          210,
+          -25.5,
+          -20.823,
+          31.7
+        ],
+        [
+          240,
+          -25.5,
+          -21.58,
+          31.7
+        ],
+        [
+          270,
+          -25.5,
+          -20.823,
+          31.7
+        ],
+        [
+          300,
+          -25.5,
+          -21.58,
+          31.7
+        ],
+        [
+          330,
+          -25.5,
+          -20.823,
+          31.7
+        ],
+        [
+          360,
+          -25.5,
+          -21.58,
+          31.7
+        ],
+        [
+          390,
+          -25.5,
+          -20.823,
+          31.7
+        ],
+        [
+          420,
+          -25.5,
+          -21.58,
+          31.7
+        ],
+        [
+          450,
+          -25.5,
+          -20.823,
+          31.7
+        ],
+        [
+          480,
+          -25.5,
+          -21.58,
+          31.7
+        ],
+        [
+          510,
+          -25.5,
+          -20.823,
+          31.7
+        ],
+        [
+          540,
+          -25.5,
+          -21.58,
+          31.7
+        ],
+        [
+          570,
+          -25.5,
+          -20.823,
+          31.7
+        ]
+      ],
+      "outcome": "tick_budget_exhausted",
+      "ticks": 600,
+      "end": [
+        -25.5,
+        -22.0,
+        31.7
+      ],
+      "blocks_ahead_of_end_position": {
+        "dy+0.0": "minecraft:smooth_sandstone",
+        "dy+1.0": "minecraft:smooth_sandstone",
+        "dy+1.8": "minecraft:smooth_sandstone"
+      }
+    }
+  },
+  "primary_b_chest": {
+    "client_state_left": "minecraft:chest type\u003dLEFT facing\u003dnorth",
+    "client_state_right": "minecraft:chest type\u003dRIGHT facing\u003dnorth",
+    "client_player_feet": [
+      -20.5,
+      -21.0,
+      30.5
+    ],
+    "crosshair_target": "BLOCK pos\u003dMutableBlockPos{x\u003d-21, y\u003d-20, z\u003d33} dir\u003dnorth block\u003dminecraft:chest",
+    "eye_pos": "(-20.5, -19.37999999523163, 30.5)",
+    "method": "MultiPlayerGameMode.useItemOn with the crosshair hit",
+    "mouse_press_result": "no container screen opened: Timed out waiting for predicate",
+    "use_item_on_result": "Pass[]",
+    "status": "failed: java.lang.AssertionError: Timed out waiting for predicate"
+  },
+  "client": {
+    "window": "1920x1080",
+    "gui_scale": 4,
+    "fov": 70,
+    "render_distance": 5
+  }
+}

@@ -1,0 +1,16 @@
+/workspace/MoreMinecrafts-Beta/docs/planning/sky_tower_geometry_03c/p5/p5_verify.py:10: ResourceWarning: unclosed file <_io.TextIOWrapper name='/workspace/MoreMinecrafts-Beta/docs/planning/sky_tower_geometry_03c/p5/data/blocks_C1.csv' mode='r' encoding='UTF-8'>
+  def read(folder,c):return list(csv.DictReader((folder/f'blocks_{c}.csv').open())),json.loads((folder/f'objects_{c}.json').read_text()),json.loads((folder/f'reservations_{c}.json').read_text())
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+F
+======================================================================
+FAIL: test_full_block_overrides_bottom_slab (__main__.ReviewTests.test_full_block_overrides_bottom_slab)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/MoreMinecrafts-Beta/docs/planning/sky_tower_geometry_03c/p5/test_review.py", line 7, in test_full_block_overrides_bottom_slab
+    self.assertFalse(r['headroom']['pass'])
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 1 test in 1.401s
+
+FAILED (failures=1)

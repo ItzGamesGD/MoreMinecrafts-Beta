@@ -1,0 +1,263 @@
+{
+  "mode": "f-run",
+  "seed": 7001,
+  "y_band": "-48..0",
+  "reservations": 4,
+  "algo": "st05-stage0f-construction-v1",
+  "placements": [
+    {
+      "id": "2ac822e8f540f125",
+      "center": "1095,-647",
+      "reserved_floorY": -35,
+      "state_at_entry": "RESERVED",
+      "block_entity_provenance": {
+        "accepted_natural_sculk_catalyst": 72,
+        "accepted_natural_sculk_sensor": 274,
+        "accepted_natural_sculk_shrieker": 24,
+        "protected_block_entity_chest": 10,
+        "protected_block_entity_sculk_catalyst": 28,
+        "protected_block_entity_sculk_sensor": 112,
+        "protected_block_entity_sculk_shrieker": 16,
+        "protected_block_entity_skeleton_skull": 5,
+        "rejected_inside_structure": 154,
+        "rejected_not_deep_dark": 2,
+        "rejected_not_patch_type": 15
+      },
+      "snapshot_ms": 33263,
+      "structure_pieces_near": 46,
+      "structure_types_near": {
+        "minecraft:abandoned_camp_savanna": 1,
+        "minecraft:ancient_city": 1
+      },
+      "planning_ms": 1141,
+      "candidates": [
+        {
+          "idx": 0,
+          "floorY": -35,
+          "ok": true,
+          "reason": "",
+          "score_milli": 80700,
+          "parts": {
+            "C": 60,
+            "T": 99,
+            "F": 100,
+            "E": 71
+          },
+          "route_work": 554,
+          "hash": "b12c3cda04840fecb4904134124b7aedb15303dcc33427c3c4a2df7cdc0fa512",
+          "cells": 52260,
+          "stats": {
+            "arena_variant_2": 1
+          },
+          "routes": [
+            "dir=2 len=11 stairs=5 turns=1",
+            "dir=3 len=7 stairs=6 turns=0"
+          ]
+        },
+        {
+          "idx": 1,
+          "floorY": -34,
+          "ok": true,
+          "reason": "",
+          "score_milli": 80700,
+          "parts": {
+            "C": 60,
+            "T": 99,
+            "F": 100,
+            "E": 71
+          },
+          "route_work": 554,
+          "hash": "85bea5c5925ab01d98f19039e19f2b50fb5b41685a6ca40f24e0d97b194ec56f",
+          "cells": 52260,
+          "stats": {
+            "arena_variant_2": 1
+          },
+          "routes": [
+            "dir=2 len=11 stairs=6 turns=1",
+            "dir=3 len=7 stairs=5 turns=0"
+          ]
+        },
+        {
+          "idx": 2,
+          "floorY": -36,
+          "ok": true,
+          "reason": "",
+          "score_milli": 80300,
+          "parts": {
+            "C": 60,
+            "T": 98,
+            "F": 100,
+            "E": 71
+          },
+          "route_work": 776,
+          "hash": "1edff26094afaa6941f502903f539d11127805acadecee8cb2c1eb97122d8e94",
+          "cells": 52357,
+          "stats": {
+            "arena_variant_2": 1
+          },
+          "routes": [
+            "dir=2 len=11 stairs=4 turns=1",
+            "dir=3 len=9 stairs=8 turns=0"
+          ]
+        },
+        {
+          "idx": 3,
+          "floorY": -33,
+          "ok": true,
+          "reason": "",
+          "score_milli": 74000,
+          "parts": {
+            "C": 50,
+            "T": 99,
+            "F": 100,
+            "E": 44
+          },
+          "route_work": 809,
+          "hash": "11ea3cbc1592f583e9ea9727ffe94a974180ff239ebc529d2e1c135898715f60",
+          "cells": 52262,
+          "stats": {
+            "arena_variant_2": 1
+          },
+          "routes": [
+            "dir=2 len=12 stairs=3 turns=2",
+            "dir=3 len=7 stairs=4 turns=0"
+          ]
+        },
+        {
+          "idx": 4,
+          "floorY": -37,
+          "ok": true,
+          "reason": "",
+          "score_milli": 79900,
+          "parts": {
+            "C": 60,
+            "T": 97,
+            "F": 100,
+            "E": 71
+          },
+          "route_work": 1286,
+          "hash": "a3e8c9fd500b019ac3e07d1745df673aa2ef89acb4bffb19e0ade63657355672",
+          "cells": 52369,
+          "stats": {
+            "arena_variant_2": 1
+          },
+          "routes": [
+            "dir=2 len=11 stairs=3 turns=1",
+            "dir=3 len=11 stairs=5 turns=1"
+          ]
+        },
+        {
+          "idx": 5,
+          "floorY": -32,
+          "ok": true,
+          "reason": "",
+          "score_milli": 74400,
+          "parts": {
+            "C": 50,
+            "T": 100,
+            "F": 100,
+            "E": 44
+          },
+          "route_work": 852,
+          "hash": "d070157f7a539f5fee78b60f4c44c9bdd9a1ea6783c8ef39643d43ba59175a4a",
+          "cells": 52262,
+          "stats": {
+            "arena_variant_2": 1
+          },
+          "routes": [
+            "dir=2 len=12 stairs=4 turns=2",
+            "dir=3 len=7 stairs=3 turns=0"
+          ]
+        },
+        {
+          "idx": 6,
+          "floorY": -38,
+          "ok": true,
+          "reason": "",
+          "score_milli": 79900,
+          "parts": {
+            "C": 60,
+            "T": 97,
+            "F": 100,
+            "E": 71
+          },
+          "route_work": 1336,
+          "hash": "093a49bc2d894753d6f3b820b8b54dca10b694c5b03e3b97935805969be17b93",
+          "cells": 52369,
+          "stats": {
+            "arena_variant_2": 1
+          },
+          "routes": [
+            "dir=2 len=11 stairs=2 turns=1",
+            "dir=3 len=11 stairs=6 turns=1"
+          ]
+        },
+        {
+          "idx": 7,
+          "floorY": -31,
+          "ok": true,
+          "reason": "",
+          "score_milli": 74400,
+          "parts": {
+            "C": 50,
+            "T": 100,
+            "F": 100,
+            "E": 44
+          },
+          "route_work": 889,
+          "hash": "6b15bf9188359e05a302b86bf942d804ea911cc02b8a8fdf73d707f0527720e7",
+          "cells": 52262,
+          "stats": {
+            "arena_variant_2": 1
+          },
+          "routes": [
+            "dir=2 len=12 stairs=5 turns=2",
+            "dir=3 len=7 stairs=2 turns=0"
+          ]
+        }
+      ],
+      "cave_components": 1242,
+      "cave_qualified_components": 11,
+      "chosen_candidate": 0,
+      "chosen_floorY": -35,
+      "variant": "RUINED_NATURAL_CEILING",
+      "plan_hash": "b12c3cda04840fecb4904134124b7aedb15303dcc33427c3c4a2df7cdc0fa512",
+      "plan_cells": 52260,
+      "plan_ops": 55383,
+      "plan_stats": {
+        "arena_variant_2": 1
+      },
+      "batches": 66,
+      "apply_ms": 4121,
+      "action": "CONSTRUCTED",
+      "plan_mismatches": 0,
+      "verify_failures": [],
+      "measured": {
+        "fluid_adjacent_open_cells": 0,
+        "exterior_radius": 34,
+        "max_solid_offset": 11,
+        "vault_blocks_expected": 7,
+        "walk_arena_to_cave_dir2": 17,
+        "walk_arena_to_cave_dir3": 13,
+        "corridors": 2,
+        "vault_blocks": 7,
+        "ominous_vault_at_exact_center": true
+      },
+      "writes": 55383,
+      "ms": 39151,
+      "final_state": "VERIFIED",
+      "final_reason": "",
+      "reservation_preserved": true
+    }
+  ],
+  "world_writes": 55383,
+  "chunk_saves": 17,
+  "post_tick_reverification": [
+    {
+      "id": "2ac822e8f540f125",
+      "ticks_waited": 200,
+      "plan_mismatches": 0,
+      "verify_failures": []
+    }
+  ]
+}

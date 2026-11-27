@@ -1,0 +1,45 @@
+{
+  "label": "flat_jag_T200",
+  "seed": 31,
+  "world": "FLAT",
+  "radius_chunks": 300,
+  "level_min_y": -64,
+  "level_max_y_inclusive": 319,
+  "candidates": 865,
+  "eligible_candidates": 865,
+  "variant_draws_identical_vs_different_mountain_candidates": [
+    865,
+    0
+  ],
+  "replica_prediction__engine_[invalid,valid]": {
+    "ACCEPT": [
+      0,
+      751
+    ],
+    "COLUMN_BIOME_NONE": [
+      945,
+      0
+    ],
+    "GEOMETRY_MATCH": [
+      0,
+      751
+    ],
+    "PADDING_REJECT": [
+      114,
+      0
+    ],
+    "PADDING_REJECT_LOGGED": [
+      0,
+      114
+    ]
+  },
+  "replay_ms": 524,
+  "natural_eligible_in_scope": 865,
+  "natural_candidates_checked": 865,
+  "natural_generated_starts": 751,
+  "natural_vs_replay_agree": 865,
+  "natural_vs_replay_disagree": 0,
+  "natural_ms": 1170,
+  "natural_padding_log_lines": 228,
+  "tower_starts_natural": 6
+}

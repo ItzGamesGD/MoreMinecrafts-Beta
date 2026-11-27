@@ -15,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.storage.TagValueOutput;
 import dev.itzgamesgd.moreminecrafts.registry.ModItems;
+import dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime;
 
 /**
  * Server-only mob capture. This is a draft C-path implementation, not yet
@@ -31,6 +32,7 @@ public final class MobCaptureRuntime {
             if (!(target instanceof Mob mob) || forbiddenBoss(mob)) return InteractionResult.PASS;
             if (world.isClientSide()) return InteractionResult.SUCCESS;
             if (!(player instanceof ServerPlayer server) || !(world instanceof ServerLevel level)) return InteractionResult.FAIL;
+            if (!KnowledgeRuntime.researched(server, "mob_capture")) return InteractionResult.FAIL;
             return capture(server, level, tool, mob) ? InteractionResult.SUCCESS_SERVER : InteractionResult.FAIL;
         });
     }

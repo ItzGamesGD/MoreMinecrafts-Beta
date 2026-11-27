@@ -1,0 +1,57 @@
+{
+  "codeCommit": "e173f1c7db50bcf031fab6c459ed2c0fc14f7740",
+  "observedUtc": "2026-10-22T22:52:33.898334+00:00",
+  "environment": {
+    "os": "Linux",
+    "java": "Temurin 25.0.5+8",
+    "gradle": "9.6.0",
+    "minecraft": "26.3",
+    "loader": "0.19.5",
+    "fabricApi": "0.161.0+26.3",
+    "renderer": "Mesa 25.0.7 llvmpipe Vulkan 1.4.305",
+    "virtualDisplay": "Xvfb 1280x720"
+  },
+  "jarSha256": "0df4f200c82c2a01ef8550d71c42862f025be910b002e35992772309554dd032",
+  "cleanBuild": "PASS",
+  "unitTests": 391,
+  "unitFailures": 0,
+  "gameTestsPassed": 297,
+  "dedicatedServerSmoke": "PASS",
+  "clientSmoke": "PASS",
+  "nativeScreenCallbackNavigation": {
+    "knowledgeSectors": 7,
+    "researchSectors": 7,
+    "questNodes": 75,
+    "input": "Screen callbacks; physical OS input NOT RUN"
+  },
+  "questClaim": {
+    "quest": "xpq.cmb.hostile_100",
+    "fixture": "100 zombies killed by attributed player-attack server damage; no progress/save-key writes",
+    "xpBeforeClaim": 10,
+    "ordinaryFirstHostileActivityXp": 10,
+    "questReward": 250,
+    "xpAfterClaim": 260,
+    "duplicatePacketResult": "ALREADY_CLAIMED",
+    "nativeCompletionToastObserved": true
+  },
+  "cleanServerRestartAndNewClientReconnect": {
+    "pass": true,
+    "questComplete": true,
+    "questClaimed": true,
+    "questProgress": 100,
+    "rawXp": 260,
+    "revision": 42
+  },
+  "physicalInput": "NOT RUN: only 1x1 SDL helper window exposed by Xvfb",
+  "windowsAndOwnerAcceptance": "NOT RUN / LIVE VALIDATION PENDING",
+  "securityAudit": {
+    "tool": "Gitleaks 8.30.1 checksum verified",
+    "scope": "--all --full-history, all branch/tag/PR refs",
+    "result": "FAIL",
+    "historicalFindings": 2,
+    "findingsReachableFromCumulativeBaseline": 0,
+    "matchedContent": "WITHHELD",
+    "suppressionAdded": false
+  },
+  "remoteCi": "See exact final HEAD checks on Draft PR; not inferred from local results"
+}

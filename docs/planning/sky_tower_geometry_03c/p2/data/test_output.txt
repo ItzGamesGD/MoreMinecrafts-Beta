@@ -1,0 +1,34 @@
+PASS P1 centre rule == verifier int/float rule (D31/45/51)
+PASS P1 whole-block rule == verifier whole-block rule
+PASS verifier pad/3x3 == builder pad/3x3 (offsets -1..2 / -1..1)
+PASS builder D45 disc == verifier D45
+PASS generator discs == builder discs
+PASS generator pad/3x3 == verifier
+PASS D31 == frozen 02B inner+wall
+PASS P1 finding reproduced by P2 rule: 259 columns outside D45 in frozen 03B best
+PASS A0_loop_only: OPTIMAL
+PASS B1_max_pillars_pads: proved optimum 12
+PASS B2_max_pillars_pads_no_ray: proved optimum 12
+PASS B3_max_pillars_pads_no_ray_no_adj: proved optimum 12
+PASS B5_max_pillars_lean_walk: proved optimum 12
+PASS B6_max_pillars_lean_no_ray_no_adj: proved optimum 12
+PASS S8_sectors8_pads: OPTIMAL
+PASS S9_sectors9_pads: INFEASIBLE
+PASS S17_sectors17_pads: INFEASIBLE
+PASS C0_max_rise_stations_no_balconies: proved optimum 21
+PASS C1_loop_8_balconies_flat_landings: INFEASIBLE
+PASS C2_max_rise_stations_with_8_balconies_flat: proved optimum 6
+PASS C3_max_balconies_with_17_rise_stations: proved optimum 4
+PASS D1_RELAXED_contact1_loop_8_balconies_flat: INFEASIBLE
+PASS E1_NOBINS_max_balconies_with_17_rise_contact7: proved optimum 4
+PASS E2_NOBINS_max_balconies_with_17_rise_contact1: proved optimum 4
+PASS F1_4_balconies_max_pillars_17_rise: proved optimum 8
+BEST_max_pillars_sectors8 plan-verify FAIL: [] UNVERIFIED: ['pillar_spacing_about_7 (Q85)']
+PASS BEST_max_pillars_sectors8 C1: 3D stages PASS, D45 centre exceedance 0, height in 0..79
+PASS BEST_max_pillars_sectors8 C2: 3D stages PASS, D45 centre exceedance 0, height in 0..79
+F1_4_balconies_max_pillars_17_rise plan-verify FAIL: ['balcony_count_8'] UNVERIFIED: ['pillar_spacing_about_7 (Q85)']
+PASS F1_4_balconies_max_pillars_17_rise C1: 3D stages PASS, D45 centre exceedance 0, height in 0..79
+PASS F1_4_balconies_max_pillars_17_rise C2: 3D stages PASS, D45 centre exceedance 0, height in 0..79
+PASS BEST plan-level numeric checks: no FAIL
+PASS BAL4: only the 8-balcony count fails (4 built); the 4 built are 7x3/D51/contact/no-overlap clean
+PASS 8 flat balconies: schedule has <17 rise stations (insufficient safe straight stair stations)

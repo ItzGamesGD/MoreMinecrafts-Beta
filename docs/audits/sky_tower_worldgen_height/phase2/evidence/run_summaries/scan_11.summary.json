@@ -1,0 +1,45 @@
+{
+  "label": "scan_11",
+  "seed": 11,
+  "world": "OVERWORLD",
+  "radius_chunks": 2500,
+  "level_min_y": -64,
+  "level_max_y_inclusive": 319,
+  "candidates": 78788,
+  "eligible_candidates": 9499,
+  "replica_prediction__engine_[invalid,valid]": {
+    "ACCEPT": [
+      0,
+      9483
+    ],
+    "COLUMN_BIOME_NONE": [
+      240255,
+      0
+    ],
+    "GEOMETRY_MATCH": [
+      0,
+      9483
+    ],
+    "PADDING_REJECT": [
+      13,
+      0
+    ],
+    "PADDING_REJECT_LOGGED": [
+      0,
+      13
+    ],
+    "STUB_BIOME_REJECT": [
+      3,
+      0
+    ]
+  },
+  "replay_ms": 277268,
+  "natural_eligible_in_scope": 9499,
+  "natural_candidates_checked": 0,
+  "natural_generated_starts": 0,
+  "natural_vs_replay_agree": 0,
+  "natural_vs_replay_disagree": 0,
+  "natural_ms": 0,
+  "natural_padding_log_lines": 0,
+  "tower_starts_natural": 0
+}

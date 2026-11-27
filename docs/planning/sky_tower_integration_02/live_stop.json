@@ -1,0 +1,12 @@
+{
+ "mode": "stop",
+ "base": 10000,
+ "scope": "Fabric26.3 actual server; command removals and synthetic cooldown; not natural generation/combat/client/multiplayer",
+ "commands": [
+  {
+   "command": "stop",
+   "response": "Stopping the server"
+  }
+ ],
+ "pass": true
+}

@@ -1,0 +1,9 @@
+[07:48:05] [Server thread/INFO]: Starting minecraft server version 26.3
+[07:48:06] [Server thread/INFO]: Done (0.362s)! For help, type "help"
+[07:48:14] [Server thread/INFO]: System chat: [Rcon: Loaded template "p4:k2_lap2" at 977, 99, 977]
+[07:51:25] [Server thread/INFO]: System chat: [Rcon: Whitelist is now turned off]
+[07:51:38] [Server thread/INFO]: P4Walker[/127.0.0.1:37180] logged in with entity id 1 at (-8.5, -60.0, 0.5)
+[07:58:56] [Server thread/INFO]: System chat: [Rcon: Loaded template "p4:k1_lap2" at 1077, 99, 977]
+[07:58:56] [Server thread/INFO]: System chat: [Rcon: Loaded template "p4:k3_lap2" at 1177, 99, 977]
+[08:01:25] [Server thread/INFO]: System chat: [Rcon: Loaded template "p4:k3_lap3" at 1277, 105, 977]
+[08:03:38] [Server thread/INFO]: System chat: [Rcon: Loaded template "p4:k2_lap3" at 1377, 105, 977]

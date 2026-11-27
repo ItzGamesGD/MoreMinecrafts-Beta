@@ -1,0 +1,7887 @@
+{
+  "status": "PROPOSED_NOT_APPROVED",
+  "base": "03685656f72faf7cd0f1a931dc7519ebc31b7378",
+  "coordinates": "inclusive [xmin,xmax,ymin,ymax,zmin,zmax]; +X east,+Z south,+Y up; origin ground centre",
+  "source_components": [
+    {
+      "id": "P1:S00",
+      "stage": "P1",
+      "kind": "exterior",
+      "boxes": [
+        [
+          -12,
+          12,
+          0,
+          11,
+          29,
+          40
+        ]
+      ],
+      "bbox": [
+        -12,
+        12,
+        0,
+        11,
+        29,
+        40
+      ],
+      "inner_dims": [
+        25,
+        12,
+        12
+      ],
+      "outer_dims": null,
+      "connects": [
+        "S01"
+      ],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P1 conditional approval record + P1 verifier",
+      "dependency": "worldgen: pyramid shell/terrain fit UNVERIFIED",
+      "note": "forecourt (open-air sunken entrance court) | PROPOSED"
+    },
+    {
+      "id": "P1:S01",
+      "stage": "P1",
+      "kind": "opening",
+      "boxes": [
+        [
+          -4,
+          4,
+          0,
+          9,
+          25,
+          28
+        ]
+      ],
+      "bbox": [
+        -4,
+        4,
+        0,
+        9,
+        25,
+        28
+      ],
+      "inner_dims": [
+        9,
+        10,
+        4
+      ],
+      "outer_dims": null,
+      "connects": [
+        "S00",
+        "S02"
+      ],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P1 conditional approval record + P1 verifier",
+      "dependency": "worldgen: pyramid shell/terrain fit UNVERIFIED",
+      "note": "D1 entrance door passage | PROPOSED"
+    },
+    {
+      "id": "P1:S02",
+      "stage": "P1",
+      "kind": "room",
+      "boxes": [
+        [
+          -10,
+          10,
+          0,
+          11,
+          21,
+          24
+        ]
+      ],
+      "bbox": [
+        -10,
+        10,
+        0,
+        11,
+        21,
+        24
+      ],
+      "inner_dims": [
+        21,
+        12,
+        4
+      ],
+      "outer_dims": null,
+      "connects": [
+        "S01",
+        "S03"
+      ],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P1 conditional approval record + P1 verifier",
+      "dependency": "worldgen: pyramid shell/terrain fit UNVERIFIED",
+      "note": "vestibule | PROPOSED"
+    },
+    {
+      "id": "P1:S03",
+      "stage": "P1",
+      "kind": "opening",
+      "boxes": [
+        [
+          -6,
+          6,
+          0,
+          10,
+          19,
+          20
+        ]
+      ],
+      "bbox": [
+        -6,
+        6,
+        0,
+        10,
+        19,
+        20
+      ],
+      "inner_dims": [
+        13,
+        11,
+        2
+      ],
+      "outer_dims": null,
+      "connects": [
+        "S02",
+        "S04"
+      ],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P1 conditional approval record + P1 verifier",
+      "dependency": "worldgen: pyramid shell/terrain fit UNVERIFIED",
+      "note": "D2 hall portal | PROPOSED"
+    },
+    {
+      "id": "P1:S04",
+      "stage": "P1",
+      "kind": "room",
+      "boxes": [
+        [
+          -18,
+          18,
+          0,
+          17,
+          -6,
+          18
+        ]
+      ],
+      "bbox": [
+        -18,
+        18,
+        0,
+        17,
+        -6,
+        18
+      ],
+      "inner_dims": [
+        37,
+        18,
+        25
+      ],
+      "outer_dims": null,
+      "connects": [
+        "S03",
+        "S05",
+        "S08"
+      ],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P1 conditional approval record + P1 verifier",
+      "dependency": "worldgen: pyramid shell/terrain fit UNVERIFIED",
+      "note": "grand hall (nave + gallery air volume) | PROPOSED (Q03 approved qualitatively)"
+    },
+    {
+      "id": "P1:S05",
+      "stage": "P1",
+      "kind": "stair",
+      "boxes": [
+        [
+          -5,
+          5,
+          -6,
+          -1,
+          -6,
+          -1
+        ]
+      ],
+      "bbox": [
+        -5,
+        5,
+        -6,
+        -1,
+        -6,
+        -1
+      ],
+      "inner_dims": [
+        11,
+        6,
+        6
+      ],
+      "outer_dims": null,
+      "connects": [
+        "S04",
+        "S06"
+      ],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P1 conditional approval record + P1 verifier",
+      "dependency": "worldgen: pyramid shell/terrain fit UNVERIFIED",
+      "note": "descent flight A (stair well, hall-floor cutout) | PROPOSED (Q02)"
+    },
+    {
+      "id": "P1:S06",
+      "stage": "P1",
+      "kind": "room",
+      "boxes": [
+        [
+          -7,
+          7,
+          -6,
+          -1,
+          -14,
+          -7
+        ]
+      ],
+      "bbox": [
+        -7,
+        7,
+        -6,
+        -1,
+        -14,
+        -7
+      ],
+      "inner_dims": [
+        15,
+        6,
+        8
+      ],
+      "outer_dims": null,
+      "connects": [
+        "S05",
+        "S07"
+      ],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P1 conditional approval record + P1 verifier",
+      "dependency": "worldgen: pyramid shell/terrain fit UNVERIFIED",
+      "note": "descent landing | PROPOSED (Q02)"
+    },
+    {
+      "id": "P1:S08",
+      "stage": "P1",
+      "kind": "opening",
+      "boxes": [
+        [
+          -3,
+          3,
+          7,
+          12,
+          -8,
+          -7
+        ]
+      ],
+      "bbox": [
+        -3,
+        3,
+        7,
+        12,
+        -8,
+        -7
+      ],
+      "inner_dims": [
+        7,
+        6,
+        2
+      ],
+      "outer_dims": null,
+      "connects": [
+        "S04",
+        "S09"
+      ],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P1 conditional approval record + P1 verifier",
+      "dependency": "worldgen: pyramid shell/terrain fit UNVERIFIED",
+      "note": "AP1 altar portal (rear wall) | PROPOSED"
+    },
+    {
+      "id": "P1:S09",
+      "stage": "P1",
+      "kind": "stair",
+      "boxes": [
+        [
+          -3,
+          3,
+          8,
+          13,
+          -11,
+          -9
+        ]
+      ],
+      "bbox": [
+        -3,
+        3,
+        8,
+        13,
+        -11,
+        -9
+      ],
+      "inner_dims": [
+        7,
+        6,
+        3
+      ],
+      "outer_dims": null,
+      "connects": [
+        "S08",
+        "S10"
+      ],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P1 conditional approval record + P1 verifier",
+      "dependency": "worldgen: pyramid shell/terrain fit UNVERIFIED",
+      "note": "altar ascent passage + stair | PROPOSED (Q05)"
+    },
+    {
+      "id": "P1:S10",
+      "stage": "P1",
+      "kind": "room",
+      "boxes": [
+        [
+          -7,
+          7,
+          11,
+          17,
+          -20,
+          -12
+        ]
+      ],
+      "bbox": [
+        -7,
+        7,
+        11,
+        17,
+        -20,
+        -12
+      ],
+      "inner_dims": [
+        15,
+        7,
+        9
+      ],
+      "outer_dims": null,
+      "connects": [
+        "S09"
+      ],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P1 conditional approval record + P1 verifier",
+      "dependency": "worldgen: pyramid shell/terrain fit UNVERIFIED",
+      "note": "altar chamber | PROPOSED (Q05)"
+    },
+    {
+      "id": "P1R:S07",
+      "stage": "P1",
+      "kind": "reserved",
+      "boxes": [
+        [
+          8,
+          15,
+          -6,
+          -3,
+          -13,
+          -7
+        ]
+      ],
+      "bbox": [
+        8,
+        15,
+        -6,
+        -3,
+        -13,
+        -7
+      ],
+      "inner_dims": [
+        8,
+        4,
+        7
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "RESERVED (superseded: interface stub is occupied by P2:C1)",
+      "evidence": "P1 record; P2 model",
+      "dependency": "",
+      "note": "P2 interface stub U00 - no own cavity in the P6 model"
+    },
+    {
+      "id": "P2:C1",
+      "stage": "P2",
+      "kind": "main",
+      "boxes": [
+        [
+          8,
+          22,
+          -6,
+          -2,
+          -13,
+          -7
+        ],
+        [
+          23,
+          23,
+          -6,
+          -2,
+          -13,
+          -6
+        ],
+        [
+          24,
+          25,
+          -6,
+          -2,
+          -12,
+          -6
+        ],
+        [
+          26,
+          26,
+          -6,
+          -2,
+          -12,
+          -5
+        ],
+        [
+          27,
+          28,
+          -6,
+          -2,
+          -11,
+          -5
+        ]
+      ],
+      "bbox": [
+        8,
+        28,
+        -6,
+        -2,
+        -13,
+        -5
+      ],
+      "inner_dims": [
+        21,
+        5,
+        9
+      ],
+      "outer_dims": [
+        25,
+        5,
+        13
+      ],
+      "connects": [
+        "P1:S06",
+        "BR1",
+        "BR2",
+        "BR3",
+        "V12"
+      ],
+      "status": "APPROVED (P2-F1 candidate C, user decision; coordinates static-verified, P2 model not updated)",
+      "evidence": "P5 candidate C + P6 overlay",
+      "dependency": "worldgen: NBT not created; wall thickness 2 assumed (P2)",
+      "note": "L1 main corridor (E1 continuation, 7 wide, gentle jog)"
+    },
+    {
+      "id": "P2:BR1",
+      "stage": "P2",
+      "kind": "optional",
+      "boxes": [
+        [
+          11,
+          13,
+          -6,
+          -2,
+          -17,
+          -14
+        ]
+      ],
+      "bbox": [
+        11,
+        13,
+        -6,
+        -2,
+        -17,
+        -14
+      ],
+      "inner_dims": [
+        3,
+        5,
+        4
+      ],
+      "outer_dims": [
+        7,
+        5,
+        8
+      ],
+      "connects": [
+        "C1",
+        "T1"
+      ],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P2 conditional approval record + P2 engine",
+      "dependency": "worldgen: NBT not created; wall thickness 2 assumed (P2)",
+      "note": "L1 branch to tomb T1 (3 wide, 4 long)"
+    },
+    {
+      "id": "P2:T1",
+      "stage": "P2",
+      "kind": "optional",
+      "boxes": [
+        [
+          9,
+          15,
+          -6,
+          -2,
+          -24,
+          -18
+        ]
+      ],
+      "bbox": [
+        9,
+        15,
+        -6,
+        -2,
+        -24,
+        -18
+      ],
+      "inner_dims": [
+        7,
+        5,
+        7
+      ],
+      "outer_dims": [
+        11,
+        5,
+        11
+      ],
+      "connects": [
+        "BR1"
+      ],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P2 conditional approval record + P2 engine",
+      "dependency": "worldgen: NBT not created; wall thickness 2 assumed (P2)",
+      "note": "L1 ordinary tomb T1 7x7"
+    },
+    {
+      "id": "P2:BR2",
+      "stage": "P2",
+      "kind": "optional",
+      "boxes": [
+        [
+          20,
+          22,
+          -6,
+          -2,
+          -17,
+          -14
+        ]
+      ],
+      "bbox": [
+        20,
+        22,
+        -6,
+        -2,
+        -17,
+        -14
+      ],
+      "inner_dims": [
+        3,
+        5,
+        4
+      ],
+      "outer_dims": [
+        7,
+        5,
+        8
+      ],
+      "connects": [
+        "C1",
+        "T2"
+      ],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P2 conditional approval record + P2 engine",
+      "dependency": "worldgen: NBT not created; wall thickness 2 assumed (P2)",
+      "note": "L1 branch to tomb T2"
+    },
+    {
+      "id": "P2:T2",
+      "stage": "P2",
+      "kind": "optional",
+      "boxes": [
+        [
+          18,
+          24,
+          -6,
+          -2,
+          -26,
+          -18
+        ]
+      ],
+      "bbox": [
+        18,
+        24,
+        -6,
+        -2,
+        -26,
+        -18
+      ],
+      "inner_dims": [
+        7,
+        5,
+        9
+      ],
+      "outer_dims": [
+        11,
+        5,
+        13
+      ],
+      "connects": [
+        "BR2"
+      ],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P2 conditional approval record + P2 engine",
+      "dependency": "worldgen: NBT not created; wall thickness 2 assumed (P2)",
+      "note": "L1 ordinary tomb T2 7x9"
+    },
+    {
+      "id": "P2:BR3",
+      "stage": "P2",
+      "kind": "optional",
+      "boxes": [
+        [
+          11,
+          13,
+          -6,
+          -3,
+          -6,
+          -4
+        ]
+      ],
+      "bbox": [
+        11,
+        13,
+        -6,
+        -3,
+        -6,
+        -4
+      ],
+      "inner_dims": [
+        3,
+        4,
+        3
+      ],
+      "outer_dims": [
+        7,
+        4,
+        7
+      ],
+      "connects": [
+        "C1",
+        "T3"
+      ],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P2 conditional approval record + P2 engine",
+      "dependency": "worldgen: NBT not created; wall thickness 2 assumed (P2)",
+      "note": "L1 branch to tomb T3 (under surface hall: clear 4)"
+    },
+    {
+      "id": "P2:T3",
+      "stage": "P2",
+      "kind": "optional",
+      "boxes": [
+        [
+          9,
+          15,
+          -6,
+          -3,
+          -3,
+          3
+        ]
+      ],
+      "bbox": [
+        9,
+        15,
+        -6,
+        -3,
+        -3,
+        3
+      ],
+      "inner_dims": [
+        7,
+        4,
+        7
+      ],
+      "outer_dims": [
+        11,
+        4,
+        11
+      ],
+      "connects": [
+        "BR3"
+      ],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P2 conditional approval record + P2 engine",
+      "dependency": "worldgen: NBT not created; wall thickness 2 assumed (P2)",
+      "note": "L1 ordinary tomb T3 7x7 (clear 4)"
+    },
+    {
+      "id": "P2:V12",
+      "stage": "P2",
+      "kind": "main",
+      "boxes": [
+        [
+          29,
+          37,
+          -6,
+          -2,
+          -12,
+          -2
+        ]
+      ],
+      "bbox": [
+        29,
+        37,
+        -6,
+        -2,
+        -12,
+        -2
+      ],
+      "inner_dims": [
+        9,
+        5,
+        11
+      ],
+      "outer_dims": [
+        13,
+        5,
+        15
+      ],
+      "connects": [
+        "C1",
+        "FA"
+      ],
+      "status": "APPROVED (P2-F1 candidate C, user decision; coordinates static-verified, P2 model not updated)",
+      "evidence": "P5 candidate C + P6 overlay",
+      "dependency": "worldgen: NBT not created; wall thickness 2 assumed (P2)",
+      "note": "L1->L2 transition vestibule 9x11"
+    },
+    {
+      "id": "P2:FA",
+      "stage": "P2",
+      "kind": "stair",
+      "boxes": [
+        [
+          30,
+          36,
+          -7,
+          -3,
+          -1,
+          -1
+        ],
+        [
+          30,
+          36,
+          -8,
+          -4,
+          0,
+          0
+        ],
+        [
+          30,
+          36,
+          -9,
+          -5,
+          1,
+          1
+        ],
+        [
+          30,
+          36,
+          -10,
+          -6,
+          2,
+          2
+        ]
+      ],
+      "bbox": [
+        30,
+        36,
+        -10,
+        -3,
+        -1,
+        2
+      ],
+      "inner_dims": [
+        7,
+        8,
+        4
+      ],
+      "outer_dims": [
+        11,
+        8,
+        8
+      ],
+      "connects": [
+        "V12",
+        "LND12"
+      ],
+      "status": "APPROVED (P2-F1 candidate C, user decision; coordinates static-verified, P2 model not updated)",
+      "evidence": "P5 candidate C + P6 overlay",
+      "dependency": "worldgen: NBT not created; wall thickness 2 assumed (P2)",
+      "note": "Flight A (south, 4 treads, width 7)"
+    },
+    {
+      "id": "P2:LND12",
+      "stage": "P2",
+      "kind": "main",
+      "boxes": [
+        [
+          29,
+          37,
+          -10,
+          -6,
+          3,
+          11
+        ]
+      ],
+      "bbox": [
+        29,
+        37,
+        -10,
+        -6,
+        3,
+        11
+      ],
+      "inner_dims": [
+        9,
+        5,
+        9
+      ],
+      "outer_dims": [
+        13,
+        5,
+        13
+      ],
+      "connects": [
+        "FA",
+        "FB"
+      ],
+      "status": "APPROVED (P2-F1 candidate C, user decision; coordinates static-verified, P2 model not updated)",
+      "evidence": "P5 candidate C + P6 overlay",
+      "dependency": "worldgen: NBT not created; wall thickness 2 assumed (P2)",
+      "note": "Landing L1/L2 (9x9, F=-10)"
+    },
+    {
+      "id": "P2:FB",
+      "stage": "P2",
+      "kind": "stair",
+      "boxes": [
+        [
+          28,
+          28,
+          -11,
+          -7,
+          4,
+          10
+        ],
+        [
+          27,
+          27,
+          -12,
+          -8,
+          4,
+          10
+        ],
+        [
+          26,
+          26,
+          -13,
+          -9,
+          4,
+          10
+        ],
+        [
+          25,
+          25,
+          -14,
+          -10,
+          4,
+          10
+        ]
+      ],
+      "bbox": [
+        25,
+        28,
+        -14,
+        -7,
+        4,
+        10
+      ],
+      "inner_dims": [
+        4,
+        8,
+        7
+      ],
+      "outer_dims": [
+        8,
+        8,
+        11
+      ],
+      "connects": [
+        "LND12",
+        "C2"
+      ],
+      "status": "APPROVED (P2-F1 candidate C, user decision; coordinates static-verified, P2 model not updated)",
+      "evidence": "P5 candidate C + P6 overlay",
+      "dependency": "worldgen: NBT not created; wall thickness 2 assumed (P2)",
+      "note": "Flight B (west, 4 treads, width 7) - turn #1"
+    },
+    {
+      "id": "P2:C2",
+      "stage": "P2",
+      "kind": "main",
+      "boxes": [
+        [
+          14,
+          24,
+          -14,
+          -10,
+          4,
+          10
+        ]
+      ],
+      "bbox": [
+        14,
+        24,
+        -14,
+        -10,
+        4,
+        10
+      ],
+      "inner_dims": [
+        11,
+        5,
+        7
+      ],
+      "outer_dims": [
+        15,
+        5,
+        11
+      ],
+      "connects": [
+        "FB",
+        "BRB1",
+        "BRB2",
+        "BRB3",
+        "V23"
+      ],
+      "status": "APPROVED (P2-F1 candidate C, user decision; coordinates static-verified, P2 model not updated)",
+      "evidence": "P5 candidate C + P6 overlay",
+      "dependency": "worldgen: NBT not created; wall thickness 2 assumed (P2)",
+      "note": "L2 central passage 7 wide"
+    },
+    {
+      "id": "P2:BRB1",
+      "stage": "P2",
+      "kind": "optional",
+      "boxes": [
+        [
+          22,
+          24,
+          -14,
+          -10,
+          11,
+          14
+        ]
+      ],
+      "bbox": [
+        22,
+        24,
+        -14,
+        -10,
+        11,
+        14
+      ],
+      "inner_dims": [
+        3,
+        5,
+        4
+      ],
+      "outer_dims": [
+        7,
+        5,
+        8
+      ],
+      "connects": [
+        "C2",
+        "B1"
+      ],
+      "status": "APPROVED (P2-F1 candidate C, user decision; coordinates static-verified, P2 model not updated)",
+      "evidence": "P5 candidate C + P6 overlay",
+      "dependency": "worldgen: NBT not created; wall thickness 2 assumed (P2)",
+      "note": "L2 branch to B1"
+    },
+    {
+      "id": "P2:B1",
+      "stage": "P2",
+      "kind": "optional",
+      "boxes": [
+        [
+          22,
+          28,
+          -14,
+          -10,
+          15,
+          21
+        ]
+      ],
+      "bbox": [
+        22,
+        28,
+        -14,
+        -10,
+        15,
+        21
+      ],
+      "inner_dims": [
+        7,
+        5,
+        7
+      ],
+      "outer_dims": [
+        11,
+        5,
+        11
+      ],
+      "connects": [
+        "BRB1"
+      ],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P2 conditional approval record + P2 engine",
+      "dependency": "worldgen: NBT not created; wall thickness 2 assumed (P2)",
+      "note": "L2 storage B1 7x7 flat"
+    },
+    {
+      "id": "P2:BRB2",
+      "stage": "P2",
+      "kind": "optional",
+      "boxes": [
+        [
+          16,
+          18,
+          -14,
+          -10,
+          11,
+          14
+        ]
+      ],
+      "bbox": [
+        16,
+        18,
+        -14,
+        -10,
+        11,
+        14
+      ],
+      "inner_dims": [
+        3,
+        5,
+        4
+      ],
+      "outer_dims": [
+        7,
+        5,
+        8
+      ],
+      "connects": [
+        "C2",
+        "B2"
+      ],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P2 conditional approval record + P2 engine",
+      "dependency": "worldgen: NBT not created; wall thickness 2 assumed (P2)",
+      "note": "L2 branch to B2"
+    },
+    {
+      "id": "P2:B2",
+      "stage": "P2",
+      "kind": "optional",
+      "boxes": [
+        [
+          11,
+          19,
+          -14,
+          -7,
+          15,
+          21
+        ]
+      ],
+      "bbox": [
+        11,
+        19,
+        -14,
+        -7,
+        15,
+        21
+      ],
+      "inner_dims": [
+        9,
+        8,
+        7
+      ],
+      "outer_dims": [
+        13,
+        8,
+        11
+      ],
+      "connects": [
+        "BRB2"
+      ],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P2 conditional approval record + P2 engine",
+      "dependency": "worldgen: NBT not created; wall thickness 2 assumed (P2)",
+      "note": "L2 storage B2 9x7 large, taller (clear 8)"
+    },
+    {
+      "id": "P2:BRB3",
+      "stage": "P2",
+      "kind": "optional",
+      "boxes": [
+        [
+          19,
+          21,
+          -14,
+          -10,
+          0,
+          3
+        ]
+      ],
+      "bbox": [
+        19,
+        21,
+        -14,
+        -10,
+        0,
+        3
+      ],
+      "inner_dims": [
+        3,
+        5,
+        4
+      ],
+      "outer_dims": [
+        7,
+        5,
+        8
+      ],
+      "connects": [
+        "C2",
+        "B3"
+      ],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P2 conditional approval record + P2 engine",
+      "dependency": "worldgen: NBT not created; wall thickness 2 assumed (P2)",
+      "note": "L2 branch to B3"
+    },
+    {
+      "id": "P2:B3",
+      "stage": "P2",
+      "kind": "optional",
+      "boxes": [
+        [
+          17,
+          23,
+          -14,
+          -10,
+          -9,
+          -1
+        ]
+      ],
+      "bbox": [
+        17,
+        23,
+        -14,
+        -10,
+        -9,
+        -1
+      ],
+      "inner_dims": [
+        7,
+        5,
+        9
+      ],
+      "outer_dims": [
+        11,
+        5,
+        13
+      ],
+      "connects": [
+        "BRB3"
+      ],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P2 conditional approval record + P2 engine",
+      "dependency": "worldgen: NBT not created; wall thickness 2 assumed (P2)",
+      "note": "L2 storage B3 7x9 flat"
+    },
+    {
+      "id": "P2:V23",
+      "stage": "P2",
+      "kind": "main",
+      "boxes": [
+        [
+          3,
+          13,
+          -14,
+          -10,
+          3,
+          11
+        ]
+      ],
+      "bbox": [
+        3,
+        13,
+        -14,
+        -10,
+        3,
+        11
+      ],
+      "inner_dims": [
+        11,
+        5,
+        9
+      ],
+      "outer_dims": [
+        15,
+        5,
+        13
+      ],
+      "connects": [
+        "C2",
+        "FC"
+      ],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P2 conditional approval record + P2 engine",
+      "dependency": "worldgen: NBT not created; wall thickness 2 assumed (P2)",
+      "note": "L2->L3 transition vestibule 11x9"
+    },
+    {
+      "id": "P2:FC",
+      "stage": "P2",
+      "kind": "stair",
+      "boxes": [
+        [
+          5,
+          11,
+          -15,
+          -11,
+          2,
+          2
+        ],
+        [
+          5,
+          11,
+          -16,
+          -12,
+          1,
+          1
+        ],
+        [
+          5,
+          11,
+          -17,
+          -13,
+          0,
+          0
+        ],
+        [
+          5,
+          11,
+          -18,
+          -14,
+          -1,
+          -1
+        ]
+      ],
+      "bbox": [
+        5,
+        11,
+        -18,
+        -11,
+        -1,
+        2
+      ],
+      "inner_dims": [
+        7,
+        8,
+        4
+      ],
+      "outer_dims": [
+        11,
+        8,
+        8
+      ],
+      "connects": [
+        "V23",
+        "LND23"
+      ],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P2 conditional approval record + P2 engine",
+      "dependency": "worldgen: NBT not created; wall thickness 2 assumed (P2)",
+      "note": "Flight C (north, 4 treads, width 7)"
+    },
+    {
+      "id": "P2:LND23",
+      "stage": "P2",
+      "kind": "main",
+      "boxes": [
+        [
+          4,
+          12,
+          -18,
+          -14,
+          -10,
+          -2
+        ]
+      ],
+      "bbox": [
+        4,
+        12,
+        -18,
+        -14,
+        -10,
+        -2
+      ],
+      "inner_dims": [
+        9,
+        5,
+        9
+      ],
+      "outer_dims": [
+        13,
+        5,
+        13
+      ],
+      "connects": [
+        "FC",
+        "FD"
+      ],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P2 conditional approval record + P2 engine",
+      "dependency": "worldgen: NBT not created; wall thickness 2 assumed (P2)",
+      "note": "Landing L2/L3 (9x9, F=-18)"
+    },
+    {
+      "id": "P2:FD",
+      "stage": "P2",
+      "kind": "stair",
+      "boxes": [
+        [
+          3,
+          3,
+          -19,
+          -15,
+          -9,
+          -3
+        ],
+        [
+          2,
+          2,
+          -20,
+          -16,
+          -9,
+          -3
+        ],
+        [
+          1,
+          1,
+          -21,
+          -17,
+          -9,
+          -3
+        ],
+        [
+          0,
+          0,
+          -22,
+          -18,
+          -9,
+          -3
+        ]
+      ],
+      "bbox": [
+        0,
+        3,
+        -22,
+        -15,
+        -9,
+        -3
+      ],
+      "inner_dims": [
+        4,
+        8,
+        7
+      ],
+      "outer_dims": [
+        8,
+        8,
+        11
+      ],
+      "connects": [
+        "LND23",
+        "C3"
+      ],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P2 conditional approval record + P2 engine",
+      "dependency": "worldgen: NBT not created; wall thickness 2 assumed (P2)",
+      "note": "Flight D (west, 4 treads, width 7) - turn #2"
+    },
+    {
+      "id": "P2:C3",
+      "stage": "P2",
+      "kind": "main",
+      "boxes": [
+        [
+          -3,
+          -1,
+          -22,
+          -18,
+          -9,
+          -3
+        ]
+      ],
+      "bbox": [
+        -3,
+        -1,
+        -22,
+        -18,
+        -9,
+        -3
+      ],
+      "inner_dims": [
+        3,
+        5,
+        7
+      ],
+      "outer_dims": [
+        7,
+        5,
+        11
+      ],
+      "connects": [
+        "FD",
+        "R"
+      ],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P2 conditional approval record + P2 engine",
+      "dependency": "worldgen: NBT not created; wall thickness 2 assumed (P2)",
+      "note": "L3 main passage 7 wide"
+    },
+    {
+      "id": "P2:R",
+      "stage": "P2",
+      "kind": "main",
+      "boxes": [
+        [
+          -11,
+          -4,
+          -22,
+          -19,
+          -9,
+          -5
+        ]
+      ],
+      "bbox": [
+        -11,
+        -4,
+        -22,
+        -19,
+        -9,
+        -5
+      ],
+      "inner_dims": [
+        8,
+        4,
+        5
+      ],
+      "outer_dims": [
+        12,
+        4,
+        9
+      ],
+      "connects": [
+        "C3",
+        "A"
+      ],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P2 conditional approval record + P2 engine",
+      "dependency": "worldgen: NBT not created; wall thickness 2 assumed (P2)",
+      "note": "L3 royal approach 5 wide (Q40/Q26)"
+    },
+    {
+      "id": "P2:A",
+      "stage": "P2",
+      "kind": "main",
+      "boxes": [
+        [
+          -30,
+          -12,
+          -22,
+          -13,
+          -12,
+          -2
+        ]
+      ],
+      "bbox": [
+        -30,
+        -12,
+        -22,
+        -13,
+        -12,
+        -2
+      ],
+      "inner_dims": [
+        19,
+        10,
+        11
+      ],
+      "outer_dims": [
+        23,
+        10,
+        15
+      ],
+      "connects": [
+        "R",
+        "T"
+      ],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P2 conditional approval record + P2 engine",
+      "dependency": "worldgen: NBT not created; wall thickness 2 assumed (P2)",
+      "note": "Ceremonial antechamber 19x11, clear 10 (Q27/Q41)"
+    },
+    {
+      "id": "P2:T",
+      "stage": "P2",
+      "kind": "main",
+      "boxes": [
+        [
+          -22,
+          -20,
+          -22,
+          -20,
+          -1,
+          4
+        ]
+      ],
+      "bbox": [
+        -22,
+        -20,
+        -22,
+        -20,
+        -1,
+        4
+      ],
+      "inner_dims": [
+        3,
+        3,
+        6
+      ],
+      "outer_dims": [
+        7,
+        3,
+        10
+      ],
+      "connects": [
+        "A"
+      ],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P2 conditional approval record + P2 engine",
+      "dependency": "worldgen: NBT not created; wall thickness 2 assumed (P2)",
+      "note": "Exit threshold 3 wide, 6 long incl. 3-block hall-wall port (Q40/Q42)"
+    },
+    {
+      "id": "P3:HALL",
+      "stage": "P3",
+      "kind": "hall",
+      "boxes": [
+        [
+          -37,
+          -5,
+          -22,
+          -7,
+          5,
+          37
+        ]
+      ],
+      "bbox": [
+        -37,
+        -5,
+        -22,
+        -7,
+        5,
+        37
+      ],
+      "inner_dims": [
+        33,
+        16,
+        33
+      ],
+      "outer_dims": [
+        39,
+        20,
+        39
+      ],
+      "connects": [
+        "P3:DOOR"
+      ],
+      "status": "CONDITIONALLY APPROVED (Q43-Q62 values authority; coordinates = P4 provisional baseline)",
+      "evidence": "P3 conditional approval record + P3 verifier",
+      "dependency": "boss: royal chest anchor + emergence point must be supplied by structure",
+      "note": "33x33 interior; corbel ceiling is part of the hall envelope"
+    },
+    {
+      "id": "P3:DOOR",
+      "stage": "P3",
+      "kind": "port",
+      "boxes": [
+        [
+          -22,
+          -20,
+          -22,
+          -20,
+          2,
+          4
+        ]
+      ],
+      "bbox": [
+        -22,
+        -20,
+        -22,
+        -20,
+        2,
+        4
+      ],
+      "inner_dims": [
+        3,
+        3,
+        3
+      ],
+      "outer_dims": null,
+      "connects": [
+        "P2:T",
+        "P3:HALL"
+      ],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:P_N1:base",
+      "stage": "P3",
+      "kind": "pillar_base",
+      "boxes": [
+        [
+          -32,
+          -32,
+          -22,
+          -22,
+          7,
+          9
+        ],
+        [
+          -31,
+          -28,
+          -22,
+          -22,
+          7,
+          10
+        ]
+      ],
+      "bbox": [
+        -32,
+        -28,
+        -22,
+        -22,
+        7,
+        10
+      ],
+      "inner_dims": [
+        5,
+        1,
+        4
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:P_N1:shaft",
+      "stage": "P3",
+      "kind": "pillar_shaft",
+      "boxes": [
+        [
+          -31,
+          -29,
+          -21,
+          -21,
+          7,
+          9
+        ],
+        [
+          -31,
+          -29,
+          -20,
+          -20,
+          7,
+          9
+        ],
+        [
+          -31,
+          -29,
+          -19,
+          -19,
+          7,
+          9
+        ]
+      ],
+      "bbox": [
+        -31,
+        -29,
+        -21,
+        -19,
+        7,
+        9
+      ],
+      "inner_dims": [
+        3,
+        3,
+        3
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:P_N1:cap",
+      "stage": "P3",
+      "kind": "pillar_cap",
+      "boxes": [
+        [
+          -33,
+          -33,
+          -16,
+          -16,
+          7,
+          8
+        ],
+        [
+          -32,
+          -32,
+          -18,
+          -18,
+          7,
+          9
+        ],
+        [
+          -28,
+          -28,
+          -18,
+          -18,
+          7,
+          9
+        ],
+        [
+          -32,
+          -32,
+          -17,
+          -17,
+          6,
+          9
+        ],
+        [
+          -32,
+          -32,
+          -16,
+          -16,
+          6,
+          9
+        ],
+        [
+          -31,
+          -29,
+          -18,
+          -18,
+          6,
+          10
+        ],
+        [
+          -31,
+          -28,
+          -17,
+          -17,
+          6,
+          10
+        ],
+        [
+          -31,
+          -31,
+          -16,
+          -16,
+          6,
+          10
+        ],
+        [
+          -30,
+          -28,
+          -16,
+          -16,
+          6,
+          11
+        ],
+        [
+          -27,
+          -27,
+          -16,
+          -16,
+          7,
+          10
+        ]
+      ],
+      "bbox": [
+        -33,
+        -27,
+        -18,
+        -16,
+        6,
+        11
+      ],
+      "inner_dims": [
+        7,
+        3,
+        6
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:P_N2:base",
+      "stage": "P3",
+      "kind": "pillar_base",
+      "boxes": [
+        [
+          -14,
+          -11,
+          -22,
+          -22,
+          7,
+          10
+        ],
+        [
+          -10,
+          -10,
+          -22,
+          -22,
+          7,
+          9
+        ]
+      ],
+      "bbox": [
+        -14,
+        -10,
+        -22,
+        -22,
+        7,
+        10
+      ],
+      "inner_dims": [
+        5,
+        1,
+        4
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:P_N2:shaft",
+      "stage": "P3",
+      "kind": "pillar_shaft",
+      "boxes": [
+        [
+          -13,
+          -11,
+          -21,
+          -21,
+          7,
+          9
+        ],
+        [
+          -13,
+          -11,
+          -20,
+          -20,
+          7,
+          9
+        ],
+        [
+          -13,
+          -11,
+          -19,
+          -19,
+          7,
+          9
+        ]
+      ],
+      "bbox": [
+        -13,
+        -11,
+        -21,
+        -19,
+        7,
+        9
+      ],
+      "inner_dims": [
+        3,
+        3,
+        3
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:P_N2:cap",
+      "stage": "P3",
+      "kind": "pillar_cap",
+      "boxes": [
+        [
+          -15,
+          -15,
+          -16,
+          -16,
+          7,
+          10
+        ],
+        [
+          -14,
+          -14,
+          -18,
+          -18,
+          7,
+          9
+        ],
+        [
+          -10,
+          -10,
+          -18,
+          -18,
+          7,
+          9
+        ],
+        [
+          -14,
+          -11,
+          -17,
+          -17,
+          6,
+          10
+        ],
+        [
+          -14,
+          -12,
+          -16,
+          -16,
+          6,
+          11
+        ],
+        [
+          -13,
+          -11,
+          -18,
+          -18,
+          6,
+          10
+        ],
+        [
+          -11,
+          -11,
+          -16,
+          -16,
+          6,
+          10
+        ],
+        [
+          -10,
+          -10,
+          -17,
+          -17,
+          6,
+          9
+        ],
+        [
+          -10,
+          -10,
+          -16,
+          -16,
+          6,
+          9
+        ],
+        [
+          -9,
+          -9,
+          -16,
+          -16,
+          7,
+          8
+        ]
+      ],
+      "bbox": [
+        -15,
+        -9,
+        -18,
+        -16,
+        6,
+        11
+      ],
+      "inner_dims": [
+        7,
+        3,
+        6
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:P_S1:base",
+      "stage": "P3",
+      "kind": "pillar_base",
+      "boxes": [
+        [
+          -32,
+          -32,
+          -22,
+          -22,
+          33,
+          35
+        ],
+        [
+          -31,
+          -28,
+          -22,
+          -22,
+          32,
+          35
+        ]
+      ],
+      "bbox": [
+        -32,
+        -28,
+        -22,
+        -22,
+        32,
+        35
+      ],
+      "inner_dims": [
+        5,
+        1,
+        4
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:P_S1:shaft",
+      "stage": "P3",
+      "kind": "pillar_shaft",
+      "boxes": [
+        [
+          -31,
+          -29,
+          -21,
+          -21,
+          33,
+          35
+        ],
+        [
+          -31,
+          -29,
+          -20,
+          -20,
+          33,
+          35
+        ],
+        [
+          -31,
+          -29,
+          -19,
+          -19,
+          33,
+          35
+        ]
+      ],
+      "bbox": [
+        -31,
+        -29,
+        -21,
+        -19,
+        33,
+        35
+      ],
+      "inner_dims": [
+        3,
+        3,
+        3
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:P_S1:cap",
+      "stage": "P3",
+      "kind": "pillar_cap",
+      "boxes": [
+        [
+          -33,
+          -33,
+          -16,
+          -16,
+          34,
+          35
+        ],
+        [
+          -32,
+          -32,
+          -18,
+          -18,
+          33,
+          35
+        ],
+        [
+          -28,
+          -28,
+          -18,
+          -18,
+          33,
+          35
+        ],
+        [
+          -32,
+          -32,
+          -17,
+          -17,
+          33,
+          36
+        ],
+        [
+          -32,
+          -32,
+          -16,
+          -16,
+          33,
+          36
+        ],
+        [
+          -31,
+          -29,
+          -18,
+          -18,
+          32,
+          36
+        ],
+        [
+          -31,
+          -28,
+          -17,
+          -17,
+          32,
+          36
+        ],
+        [
+          -31,
+          -31,
+          -16,
+          -16,
+          32,
+          36
+        ],
+        [
+          -30,
+          -28,
+          -16,
+          -16,
+          31,
+          36
+        ],
+        [
+          -27,
+          -27,
+          -16,
+          -16,
+          32,
+          35
+        ]
+      ],
+      "bbox": [
+        -33,
+        -27,
+        -18,
+        -16,
+        31,
+        36
+      ],
+      "inner_dims": [
+        7,
+        3,
+        6
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:P_S2:base",
+      "stage": "P3",
+      "kind": "pillar_base",
+      "boxes": [
+        [
+          -14,
+          -11,
+          -22,
+          -22,
+          32,
+          35
+        ],
+        [
+          -10,
+          -10,
+          -22,
+          -22,
+          33,
+          35
+        ]
+      ],
+      "bbox": [
+        -14,
+        -10,
+        -22,
+        -22,
+        32,
+        35
+      ],
+      "inner_dims": [
+        5,
+        1,
+        4
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:P_S2:shaft",
+      "stage": "P3",
+      "kind": "pillar_shaft",
+      "boxes": [
+        [
+          -13,
+          -11,
+          -21,
+          -21,
+          33,
+          35
+        ],
+        [
+          -13,
+          -11,
+          -20,
+          -20,
+          33,
+          35
+        ],
+        [
+          -13,
+          -11,
+          -19,
+          -19,
+          33,
+          35
+        ]
+      ],
+      "bbox": [
+        -13,
+        -11,
+        -21,
+        -19,
+        33,
+        35
+      ],
+      "inner_dims": [
+        3,
+        3,
+        3
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:P_S2:cap",
+      "stage": "P3",
+      "kind": "pillar_cap",
+      "boxes": [
+        [
+          -15,
+          -15,
+          -16,
+          -16,
+          32,
+          35
+        ],
+        [
+          -14,
+          -14,
+          -18,
+          -18,
+          33,
+          35
+        ],
+        [
+          -10,
+          -10,
+          -18,
+          -18,
+          33,
+          35
+        ],
+        [
+          -14,
+          -11,
+          -17,
+          -17,
+          32,
+          36
+        ],
+        [
+          -14,
+          -12,
+          -16,
+          -16,
+          31,
+          36
+        ],
+        [
+          -13,
+          -11,
+          -18,
+          -18,
+          32,
+          36
+        ],
+        [
+          -11,
+          -11,
+          -16,
+          -16,
+          32,
+          36
+        ],
+        [
+          -10,
+          -10,
+          -17,
+          -17,
+          33,
+          36
+        ],
+        [
+          -10,
+          -10,
+          -16,
+          -16,
+          33,
+          36
+        ],
+        [
+          -9,
+          -9,
+          -16,
+          -16,
+          34,
+          35
+        ]
+      ],
+      "bbox": [
+        -15,
+        -9,
+        -18,
+        -16,
+        31,
+        36
+      ],
+      "inner_dims": [
+        7,
+        3,
+        6
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:P_W1:base",
+      "stage": "P3",
+      "kind": "pillar_base",
+      "boxes": [
+        [
+          -35,
+          -33,
+          -22,
+          -22,
+          10,
+          14
+        ],
+        [
+          -32,
+          -32,
+          -22,
+          -22,
+          11,
+          14
+        ]
+      ],
+      "bbox": [
+        -35,
+        -32,
+        -22,
+        -22,
+        10,
+        14
+      ],
+      "inner_dims": [
+        4,
+        1,
+        5
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:P_W1:shaft",
+      "stage": "P3",
+      "kind": "pillar_shaft",
+      "boxes": [
+        [
+          -35,
+          -33,
+          -21,
+          -21,
+          11,
+          13
+        ],
+        [
+          -35,
+          -33,
+          -20,
+          -20,
+          11,
+          13
+        ],
+        [
+          -35,
+          -33,
+          -19,
+          -19,
+          11,
+          13
+        ]
+      ],
+      "bbox": [
+        -35,
+        -33,
+        -21,
+        -19,
+        11,
+        13
+      ],
+      "inner_dims": [
+        3,
+        3,
+        3
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:P_W1:cap",
+      "stage": "P3",
+      "kind": "pillar_cap",
+      "boxes": [
+        [
+          -36,
+          -36,
+          -18,
+          -18,
+          11,
+          13
+        ],
+        [
+          -32,
+          -32,
+          -18,
+          -18,
+          11,
+          13
+        ],
+        [
+          -36,
+          -33,
+          -17,
+          -17,
+          10,
+          14
+        ],
+        [
+          -36,
+          -36,
+          -16,
+          -16,
+          10,
+          14
+        ],
+        [
+          -35,
+          -33,
+          -18,
+          -18,
+          10,
+          14
+        ],
+        [
+          -35,
+          -34,
+          -16,
+          -16,
+          9,
+          15
+        ],
+        [
+          -33,
+          -33,
+          -16,
+          -16,
+          10,
+          15
+        ],
+        [
+          -32,
+          -32,
+          -17,
+          -17,
+          11,
+          14
+        ],
+        [
+          -32,
+          -32,
+          -16,
+          -16,
+          11,
+          15
+        ],
+        [
+          -31,
+          -31,
+          -16,
+          -16,
+          12,
+          14
+        ]
+      ],
+      "bbox": [
+        -36,
+        -31,
+        -18,
+        -16,
+        9,
+        15
+      ],
+      "inner_dims": [
+        6,
+        3,
+        7
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:P_W2:base",
+      "stage": "P3",
+      "kind": "pillar_base",
+      "boxes": [
+        [
+          -35,
+          -32,
+          -22,
+          -22,
+          19,
+          23
+        ]
+      ],
+      "bbox": [
+        -35,
+        -32,
+        -22,
+        -22,
+        19,
+        23
+      ],
+      "inner_dims": [
+        4,
+        1,
+        5
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:P_W2:shaft",
+      "stage": "P3",
+      "kind": "pillar_shaft",
+      "boxes": [
+        [
+          -35,
+          -33,
+          -21,
+          -21,
+          20,
+          22
+        ],
+        [
+          -35,
+          -33,
+          -20,
+          -20,
+          20,
+          22
+        ],
+        [
+          -35,
+          -33,
+          -19,
+          -19,
+          20,
+          22
+        ]
+      ],
+      "bbox": [
+        -35,
+        -33,
+        -21,
+        -19,
+        20,
+        22
+      ],
+      "inner_dims": [
+        3,
+        3,
+        3
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:P_W2:cap",
+      "stage": "P3",
+      "kind": "pillar_cap",
+      "boxes": [
+        [
+          -36,
+          -36,
+          -18,
+          -18,
+          20,
+          22
+        ],
+        [
+          -32,
+          -32,
+          -18,
+          -18,
+          20,
+          22
+        ],
+        [
+          -36,
+          -32,
+          -17,
+          -17,
+          19,
+          23
+        ],
+        [
+          -36,
+          -36,
+          -16,
+          -16,
+          19,
+          23
+        ],
+        [
+          -31,
+          -31,
+          -16,
+          -16,
+          19,
+          23
+        ],
+        [
+          -35,
+          -33,
+          -18,
+          -18,
+          19,
+          23
+        ],
+        [
+          -35,
+          -32,
+          -16,
+          -16,
+          18,
+          24
+        ]
+      ],
+      "bbox": [
+        -36,
+        -31,
+        -18,
+        -16,
+        18,
+        24
+      ],
+      "inner_dims": [
+        6,
+        3,
+        7
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:P_W3:base",
+      "stage": "P3",
+      "kind": "pillar_base",
+      "boxes": [
+        [
+          -35,
+          -33,
+          -22,
+          -22,
+          28,
+          32
+        ],
+        [
+          -32,
+          -32,
+          -22,
+          -22,
+          28,
+          31
+        ]
+      ],
+      "bbox": [
+        -35,
+        -32,
+        -22,
+        -22,
+        28,
+        32
+      ],
+      "inner_dims": [
+        4,
+        1,
+        5
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:P_W3:shaft",
+      "stage": "P3",
+      "kind": "pillar_shaft",
+      "boxes": [
+        [
+          -35,
+          -33,
+          -21,
+          -21,
+          29,
+          31
+        ],
+        [
+          -35,
+          -33,
+          -20,
+          -20,
+          29,
+          31
+        ],
+        [
+          -35,
+          -33,
+          -19,
+          -19,
+          29,
+          31
+        ]
+      ],
+      "bbox": [
+        -35,
+        -33,
+        -21,
+        -19,
+        29,
+        31
+      ],
+      "inner_dims": [
+        3,
+        3,
+        3
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:P_W3:cap",
+      "stage": "P3",
+      "kind": "pillar_cap",
+      "boxes": [
+        [
+          -36,
+          -36,
+          -18,
+          -18,
+          29,
+          31
+        ],
+        [
+          -32,
+          -32,
+          -18,
+          -18,
+          29,
+          31
+        ],
+        [
+          -36,
+          -33,
+          -17,
+          -17,
+          28,
+          32
+        ],
+        [
+          -36,
+          -36,
+          -16,
+          -16,
+          28,
+          32
+        ],
+        [
+          -35,
+          -33,
+          -18,
+          -18,
+          28,
+          32
+        ],
+        [
+          -35,
+          -34,
+          -16,
+          -16,
+          27,
+          33
+        ],
+        [
+          -33,
+          -33,
+          -16,
+          -16,
+          27,
+          32
+        ],
+        [
+          -32,
+          -32,
+          -17,
+          -17,
+          28,
+          31
+        ],
+        [
+          -32,
+          -32,
+          -16,
+          -16,
+          27,
+          31
+        ],
+        [
+          -31,
+          -31,
+          -16,
+          -16,
+          28,
+          30
+        ]
+      ],
+      "bbox": [
+        -36,
+        -31,
+        -18,
+        -16,
+        27,
+        33
+      ],
+      "inner_dims": [
+        6,
+        3,
+        7
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:P_E1:base",
+      "stage": "P3",
+      "kind": "pillar_base",
+      "boxes": [
+        [
+          -10,
+          -10,
+          -22,
+          -22,
+          11,
+          14
+        ],
+        [
+          -9,
+          -7,
+          -22,
+          -22,
+          10,
+          14
+        ]
+      ],
+      "bbox": [
+        -10,
+        -7,
+        -22,
+        -22,
+        10,
+        14
+      ],
+      "inner_dims": [
+        4,
+        1,
+        5
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:P_E1:shaft",
+      "stage": "P3",
+      "kind": "pillar_shaft",
+      "boxes": [
+        [
+          -9,
+          -7,
+          -21,
+          -21,
+          11,
+          13
+        ],
+        [
+          -9,
+          -7,
+          -20,
+          -20,
+          11,
+          13
+        ],
+        [
+          -9,
+          -7,
+          -19,
+          -19,
+          11,
+          13
+        ]
+      ],
+      "bbox": [
+        -9,
+        -7,
+        -21,
+        -19,
+        11,
+        13
+      ],
+      "inner_dims": [
+        3,
+        3,
+        3
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:P_E1:cap",
+      "stage": "P3",
+      "kind": "pillar_cap",
+      "boxes": [
+        [
+          -11,
+          -11,
+          -16,
+          -16,
+          12,
+          14
+        ],
+        [
+          -10,
+          -10,
+          -18,
+          -18,
+          11,
+          13
+        ],
+        [
+          -6,
+          -6,
+          -18,
+          -18,
+          11,
+          13
+        ],
+        [
+          -10,
+          -10,
+          -17,
+          -17,
+          11,
+          14
+        ],
+        [
+          -10,
+          -10,
+          -16,
+          -16,
+          11,
+          15
+        ],
+        [
+          -9,
+          -7,
+          -18,
+          -18,
+          10,
+          14
+        ],
+        [
+          -9,
+          -6,
+          -17,
+          -17,
+          10,
+          14
+        ],
+        [
+          -9,
+          -9,
+          -16,
+          -16,
+          10,
+          15
+        ],
+        [
+          -8,
+          -7,
+          -16,
+          -16,
+          9,
+          15
+        ],
+        [
+          -6,
+          -6,
+          -16,
+          -16,
+          10,
+          14
+        ]
+      ],
+      "bbox": [
+        -11,
+        -6,
+        -18,
+        -16,
+        9,
+        15
+      ],
+      "inner_dims": [
+        6,
+        3,
+        7
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:P_E2:base",
+      "stage": "P3",
+      "kind": "pillar_base",
+      "boxes": [
+        [
+          -10,
+          -7,
+          -22,
+          -22,
+          19,
+          23
+        ]
+      ],
+      "bbox": [
+        -10,
+        -7,
+        -22,
+        -22,
+        19,
+        23
+      ],
+      "inner_dims": [
+        4,
+        1,
+        5
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:P_E2:shaft",
+      "stage": "P3",
+      "kind": "pillar_shaft",
+      "boxes": [
+        [
+          -9,
+          -7,
+          -21,
+          -21,
+          20,
+          22
+        ],
+        [
+          -9,
+          -7,
+          -20,
+          -20,
+          20,
+          22
+        ],
+        [
+          -9,
+          -7,
+          -19,
+          -19,
+          20,
+          22
+        ]
+      ],
+      "bbox": [
+        -9,
+        -7,
+        -21,
+        -19,
+        20,
+        22
+      ],
+      "inner_dims": [
+        3,
+        3,
+        3
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:P_E2:cap",
+      "stage": "P3",
+      "kind": "pillar_cap",
+      "boxes": [
+        [
+          -11,
+          -11,
+          -16,
+          -16,
+          19,
+          23
+        ],
+        [
+          -6,
+          -6,
+          -16,
+          -16,
+          19,
+          23
+        ],
+        [
+          -10,
+          -10,
+          -18,
+          -18,
+          20,
+          22
+        ],
+        [
+          -6,
+          -6,
+          -18,
+          -18,
+          20,
+          22
+        ],
+        [
+          -10,
+          -6,
+          -17,
+          -17,
+          19,
+          23
+        ],
+        [
+          -10,
+          -7,
+          -16,
+          -16,
+          18,
+          24
+        ],
+        [
+          -9,
+          -7,
+          -18,
+          -18,
+          19,
+          23
+        ]
+      ],
+      "bbox": [
+        -11,
+        -6,
+        -18,
+        -16,
+        18,
+        24
+      ],
+      "inner_dims": [
+        6,
+        3,
+        7
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:P_E3:base",
+      "stage": "P3",
+      "kind": "pillar_base",
+      "boxes": [
+        [
+          -10,
+          -10,
+          -22,
+          -22,
+          28,
+          31
+        ],
+        [
+          -9,
+          -7,
+          -22,
+          -22,
+          28,
+          32
+        ]
+      ],
+      "bbox": [
+        -10,
+        -7,
+        -22,
+        -22,
+        28,
+        32
+      ],
+      "inner_dims": [
+        4,
+        1,
+        5
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:P_E3:shaft",
+      "stage": "P3",
+      "kind": "pillar_shaft",
+      "boxes": [
+        [
+          -9,
+          -7,
+          -21,
+          -21,
+          29,
+          31
+        ],
+        [
+          -9,
+          -7,
+          -20,
+          -20,
+          29,
+          31
+        ],
+        [
+          -9,
+          -7,
+          -19,
+          -19,
+          29,
+          31
+        ]
+      ],
+      "bbox": [
+        -9,
+        -7,
+        -21,
+        -19,
+        29,
+        31
+      ],
+      "inner_dims": [
+        3,
+        3,
+        3
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:P_E3:cap",
+      "stage": "P3",
+      "kind": "pillar_cap",
+      "boxes": [
+        [
+          -11,
+          -11,
+          -16,
+          -16,
+          28,
+          30
+        ],
+        [
+          -10,
+          -10,
+          -18,
+          -18,
+          29,
+          31
+        ],
+        [
+          -6,
+          -6,
+          -18,
+          -18,
+          29,
+          31
+        ],
+        [
+          -10,
+          -10,
+          -17,
+          -17,
+          28,
+          31
+        ],
+        [
+          -10,
+          -10,
+          -16,
+          -16,
+          27,
+          31
+        ],
+        [
+          -9,
+          -7,
+          -18,
+          -18,
+          28,
+          32
+        ],
+        [
+          -9,
+          -6,
+          -17,
+          -17,
+          28,
+          32
+        ],
+        [
+          -9,
+          -9,
+          -16,
+          -16,
+          27,
+          32
+        ],
+        [
+          -8,
+          -7,
+          -16,
+          -16,
+          27,
+          33
+        ],
+        [
+          -6,
+          -6,
+          -16,
+          -16,
+          28,
+          32
+        ]
+      ],
+      "bbox": [
+        -11,
+        -6,
+        -18,
+        -16,
+        27,
+        33
+      ],
+      "inner_dims": [
+        6,
+        3,
+        7
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:L_N1",
+      "stage": "P3",
+      "kind": "lintel",
+      "boxes": [
+        [
+          -31,
+          -29,
+          -15,
+          -15,
+          7,
+          9
+        ]
+      ],
+      "bbox": [
+        -31,
+        -29,
+        -15,
+        -15,
+        7,
+        9
+      ],
+      "inner_dims": [
+        3,
+        1,
+        3
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:L_N2",
+      "stage": "P3",
+      "kind": "lintel",
+      "boxes": [
+        [
+          -13,
+          -11,
+          -15,
+          -15,
+          7,
+          9
+        ]
+      ],
+      "bbox": [
+        -13,
+        -11,
+        -15,
+        -15,
+        7,
+        9
+      ],
+      "inner_dims": [
+        3,
+        1,
+        3
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:L_S1",
+      "stage": "P3",
+      "kind": "lintel",
+      "boxes": [
+        [
+          -31,
+          -29,
+          -15,
+          -15,
+          33,
+          35
+        ]
+      ],
+      "bbox": [
+        -31,
+        -29,
+        -15,
+        -15,
+        33,
+        35
+      ],
+      "inner_dims": [
+        3,
+        1,
+        3
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:L_S2",
+      "stage": "P3",
+      "kind": "lintel",
+      "boxes": [
+        [
+          -13,
+          -11,
+          -15,
+          -15,
+          33,
+          35
+        ]
+      ],
+      "bbox": [
+        -13,
+        -11,
+        -15,
+        -15,
+        33,
+        35
+      ],
+      "inner_dims": [
+        3,
+        1,
+        3
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:L_W1",
+      "stage": "P3",
+      "kind": "lintel",
+      "boxes": [
+        [
+          -35,
+          -33,
+          -15,
+          -15,
+          11,
+          31
+        ]
+      ],
+      "bbox": [
+        -35,
+        -33,
+        -15,
+        -15,
+        11,
+        31
+      ],
+      "inner_dims": [
+        3,
+        1,
+        21
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:L_E1",
+      "stage": "P3",
+      "kind": "lintel",
+      "boxes": [
+        [
+          -9,
+          -7,
+          -15,
+          -15,
+          11,
+          31
+        ]
+      ],
+      "bbox": [
+        -9,
+        -7,
+        -15,
+        -15,
+        11,
+        31
+      ],
+      "inner_dims": [
+        3,
+        1,
+        21
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:OBELISK:plinth",
+      "stage": "P3",
+      "kind": "obelisk",
+      "boxes": [
+        [
+          -23,
+          -19,
+          -22,
+          -21,
+          19,
+          23
+        ]
+      ],
+      "bbox": [
+        -23,
+        -19,
+        -22,
+        -21,
+        19,
+        23
+      ],
+      "inner_dims": [
+        5,
+        2,
+        5
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:OBELISK:shaft",
+      "stage": "P3",
+      "kind": "obelisk",
+      "boxes": [
+        [
+          -22,
+          -20,
+          -20,
+          -12,
+          20,
+          22
+        ]
+      ],
+      "bbox": [
+        -22,
+        -20,
+        -20,
+        -12,
+        20,
+        22
+      ],
+      "inner_dims": [
+        3,
+        9,
+        3
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:OBELISK:tip",
+      "stage": "P3",
+      "kind": "obelisk",
+      "boxes": [
+        [
+          -21,
+          -21,
+          -11,
+          -10,
+          21,
+          21
+        ]
+      ],
+      "bbox": [
+        -21,
+        -21,
+        -11,
+        -10,
+        21,
+        21
+      ],
+      "inner_dims": [
+        1,
+        2,
+        1
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:DAIS",
+      "stage": "P3",
+      "kind": "dais",
+      "boxes": [
+        [
+          -26,
+          -16,
+          -22,
+          -21,
+          32,
+          37
+        ]
+      ],
+      "bbox": [
+        -26,
+        -16,
+        -22,
+        -21,
+        32,
+        37
+      ],
+      "inner_dims": [
+        11,
+        2,
+        6
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:DAIS:tread",
+      "stage": "P3",
+      "kind": "dais",
+      "boxes": [
+        [
+          -25,
+          -17,
+          -22,
+          -22,
+          30,
+          31
+        ]
+      ],
+      "bbox": [
+        -25,
+        -17,
+        -22,
+        -22,
+        30,
+        31
+      ],
+      "inner_dims": [
+        9,
+        1,
+        2
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:SARCOPHAGUS",
+      "stage": "P3",
+      "kind": "sarcophagus",
+      "boxes": [
+        [
+          -22,
+          -20,
+          -20,
+          -19,
+          34,
+          37
+        ]
+      ],
+      "bbox": [
+        -22,
+        -20,
+        -20,
+        -19,
+        34,
+        37
+      ],
+      "inner_dims": [
+        3,
+        2,
+        4
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:CHEST_PRIMARY",
+      "stage": "P3",
+      "kind": "chest_primary",
+      "boxes": [
+        [
+          -21,
+          -21,
+          -20,
+          -20,
+          33,
+          33
+        ]
+      ],
+      "bbox": [
+        -21,
+        -21,
+        -20,
+        -20,
+        33,
+        33
+      ],
+      "inner_dims": [
+        1,
+        1,
+        1
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED (size UNVERIFIED P3-F6)",
+      "evidence": "P3 verifier",
+      "dependency": "boss/loot: chest interaction hook (TombGuardianEncounters.onRoyalChestInteraction) not wired",
+      "note": ""
+    },
+    {
+      "id": "P3:ALCOVE_E:col1",
+      "stage": "P3",
+      "kind": "alcove_col",
+      "boxes": [
+        [
+          -4,
+          -4,
+          -22,
+          -19,
+          24,
+          24
+        ]
+      ],
+      "bbox": [
+        -4,
+        -4,
+        -22,
+        -19,
+        24,
+        24
+      ],
+      "inner_dims": [
+        1,
+        4,
+        1
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:ALCOVE_E:col2",
+      "stage": "P3",
+      "kind": "alcove_col",
+      "boxes": [
+        [
+          -4,
+          -4,
+          -22,
+          -19,
+          27,
+          27
+        ]
+      ],
+      "bbox": [
+        -4,
+        -4,
+        -22,
+        -19,
+        27,
+        27
+      ],
+      "inner_dims": [
+        1,
+        4,
+        1
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:CHEST_SECONDARY",
+      "stage": "P3",
+      "kind": "chest_secondary",
+      "boxes": [
+        [
+          -3,
+          -3,
+          -22,
+          -22,
+          25,
+          26
+        ]
+      ],
+      "bbox": [
+        -3,
+        -3,
+        -22,
+        -22,
+        25,
+        26
+      ],
+      "inner_dims": [
+        1,
+        1,
+        2
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED (size UNVERIFIED P3-F6)",
+      "evidence": "P3 verifier",
+      "dependency": "boss/loot: chest interaction hook (TombGuardianEncounters.onRoyalChestInteraction) not wired",
+      "note": ""
+    },
+    {
+      "id": "P3:NICHE_W:col1",
+      "stage": "P3",
+      "kind": "alcove_col",
+      "boxes": [
+        [
+          -38,
+          -38,
+          -22,
+          -19,
+          24,
+          24
+        ]
+      ],
+      "bbox": [
+        -38,
+        -38,
+        -22,
+        -19,
+        24,
+        24
+      ],
+      "inner_dims": [
+        1,
+        4,
+        1
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:NICHE_W:col2",
+      "stage": "P3",
+      "kind": "alcove_col",
+      "boxes": [
+        [
+          -38,
+          -38,
+          -22,
+          -19,
+          27,
+          27
+        ]
+      ],
+      "bbox": [
+        -38,
+        -38,
+        -22,
+        -19,
+        27,
+        27
+      ],
+      "inner_dims": [
+        1,
+        4,
+        1
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:STATUE_W",
+      "stage": "P3",
+      "kind": "statue",
+      "boxes": [
+        [
+          -39,
+          -39,
+          -22,
+          -18,
+          25,
+          26
+        ]
+      ],
+      "bbox": [
+        -39,
+        -39,
+        -22,
+        -18,
+        25,
+        26
+      ],
+      "inner_dims": [
+        1,
+        5,
+        2
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:NICHE_E_A:col1",
+      "stage": "P3",
+      "kind": "alcove_col",
+      "boxes": [
+        [
+          -4,
+          -4,
+          -22,
+          -19,
+          15,
+          15
+        ]
+      ],
+      "bbox": [
+        -4,
+        -4,
+        -22,
+        -19,
+        15,
+        15
+      ],
+      "inner_dims": [
+        1,
+        4,
+        1
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:NICHE_E_A:col2",
+      "stage": "P3",
+      "kind": "alcove_col",
+      "boxes": [
+        [
+          -4,
+          -4,
+          -22,
+          -19,
+          18,
+          18
+        ]
+      ],
+      "bbox": [
+        -4,
+        -4,
+        -22,
+        -19,
+        18,
+        18
+      ],
+      "inner_dims": [
+        1,
+        4,
+        1
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:STATUE_E_A",
+      "stage": "P3",
+      "kind": "statue",
+      "boxes": [
+        [
+          -3,
+          -3,
+          -22,
+          -18,
+          16,
+          17
+        ]
+      ],
+      "bbox": [
+        -3,
+        -3,
+        -22,
+        -18,
+        16,
+        17
+      ],
+      "inner_dims": [
+        1,
+        5,
+        2
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:NICHE_W_A:col1",
+      "stage": "P3",
+      "kind": "alcove_col",
+      "boxes": [
+        [
+          -38,
+          -38,
+          -22,
+          -19,
+          15,
+          15
+        ]
+      ],
+      "bbox": [
+        -38,
+        -38,
+        -22,
+        -19,
+        15,
+        15
+      ],
+      "inner_dims": [
+        1,
+        4,
+        1
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:NICHE_W_A:col2",
+      "stage": "P3",
+      "kind": "alcove_col",
+      "boxes": [
+        [
+          -38,
+          -38,
+          -22,
+          -19,
+          18,
+          18
+        ]
+      ],
+      "bbox": [
+        -38,
+        -38,
+        -22,
+        -19,
+        18,
+        18
+      ],
+      "inner_dims": [
+        1,
+        4,
+        1
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:STATUE_W_A",
+      "stage": "P3",
+      "kind": "statue",
+      "boxes": [
+        [
+          -39,
+          -39,
+          -22,
+          -18,
+          16,
+          17
+        ]
+      ],
+      "bbox": [
+        -39,
+        -39,
+        -22,
+        -18,
+        16,
+        17
+      ],
+      "inner_dims": [
+        1,
+        5,
+        2
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:BRAZ_NW:bowl",
+      "stage": "P3",
+      "kind": "brazier",
+      "boxes": [
+        [
+          -26,
+          -25,
+          -22,
+          -22,
+          4,
+          4
+        ]
+      ],
+      "bbox": [
+        -26,
+        -25,
+        -22,
+        -22,
+        4,
+        4
+      ],
+      "inner_dims": [
+        2,
+        1,
+        1
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:BRAZ_NE:bowl",
+      "stage": "P3",
+      "kind": "brazier",
+      "boxes": [
+        [
+          -17,
+          -16,
+          -22,
+          -22,
+          4,
+          4
+        ]
+      ],
+      "bbox": [
+        -17,
+        -16,
+        -22,
+        -22,
+        4,
+        4
+      ],
+      "inner_dims": [
+        2,
+        1,
+        1
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:BRAZ_SW:bowl",
+      "stage": "P3",
+      "kind": "brazier",
+      "boxes": [
+        [
+          -35,
+          -34,
+          -22,
+          -22,
+          38,
+          38
+        ]
+      ],
+      "bbox": [
+        -35,
+        -34,
+        -22,
+        -22,
+        38,
+        38
+      ],
+      "inner_dims": [
+        2,
+        1,
+        1
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:BRAZ_SE:bowl",
+      "stage": "P3",
+      "kind": "brazier",
+      "boxes": [
+        [
+          -8,
+          -7,
+          -22,
+          -22,
+          38,
+          38
+        ]
+      ],
+      "bbox": [
+        -8,
+        -7,
+        -22,
+        -22,
+        38,
+        38
+      ],
+      "inner_dims": [
+        2,
+        1,
+        1
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:ALCOVE_E",
+      "stage": "P3",
+      "kind": "alcove",
+      "boxes": [
+        [
+          -4,
+          -3,
+          -22,
+          -18,
+          24,
+          27
+        ]
+      ],
+      "bbox": [
+        -4,
+        -3,
+        -22,
+        -18,
+        24,
+        27
+      ],
+      "inner_dims": [
+        2,
+        5,
+        4
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:NICHE_W",
+      "stage": "P3",
+      "kind": "statue_niche",
+      "boxes": [
+        [
+          -39,
+          -38,
+          -22,
+          -17,
+          24,
+          27
+        ]
+      ],
+      "bbox": [
+        -39,
+        -38,
+        -22,
+        -17,
+        24,
+        27
+      ],
+      "inner_dims": [
+        2,
+        6,
+        4
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:NICHE_E_A",
+      "stage": "P3",
+      "kind": "statue_niche",
+      "boxes": [
+        [
+          -4,
+          -3,
+          -22,
+          -17,
+          15,
+          18
+        ]
+      ],
+      "bbox": [
+        -4,
+        -3,
+        -22,
+        -17,
+        15,
+        18
+      ],
+      "inner_dims": [
+        2,
+        6,
+        4
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:NICHE_W_A",
+      "stage": "P3",
+      "kind": "statue_niche",
+      "boxes": [
+        [
+          -39,
+          -38,
+          -22,
+          -17,
+          15,
+          18
+        ]
+      ],
+      "bbox": [
+        -39,
+        -38,
+        -22,
+        -17,
+        15,
+        18
+      ],
+      "inner_dims": [
+        2,
+        6,
+        4
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:BRAZ_NW",
+      "stage": "P3",
+      "kind": "brazier_recess",
+      "boxes": [
+        [
+          -26,
+          -25,
+          -22,
+          -20,
+          4,
+          4
+        ]
+      ],
+      "bbox": [
+        -26,
+        -25,
+        -22,
+        -20,
+        4,
+        4
+      ],
+      "inner_dims": [
+        2,
+        3,
+        1
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:BRAZ_NE",
+      "stage": "P3",
+      "kind": "brazier_recess",
+      "boxes": [
+        [
+          -17,
+          -16,
+          -22,
+          -20,
+          4,
+          4
+        ]
+      ],
+      "bbox": [
+        -17,
+        -16,
+        -22,
+        -20,
+        4,
+        4
+      ],
+      "inner_dims": [
+        2,
+        3,
+        1
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:BRAZ_SW",
+      "stage": "P3",
+      "kind": "brazier_recess",
+      "boxes": [
+        [
+          -35,
+          -34,
+          -22,
+          -20,
+          38,
+          38
+        ]
+      ],
+      "bbox": [
+        -35,
+        -34,
+        -22,
+        -20,
+        38,
+        38
+      ],
+      "inner_dims": [
+        2,
+        3,
+        1
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P3:BRAZ_SE",
+      "stage": "P3",
+      "kind": "brazier_recess",
+      "boxes": [
+        [
+          -8,
+          -7,
+          -22,
+          -20,
+          38,
+          38
+        ]
+      ],
+      "bbox": [
+        -8,
+        -7,
+        -22,
+        -20,
+        38,
+        38
+      ],
+      "inner_dims": [
+        2,
+        3,
+        1
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED",
+      "evidence": "P3 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P4:FA",
+      "stage": "P4",
+      "kind": "stair",
+      "boxes": [
+        [
+          -9,
+          -9,
+          -23,
+          -20,
+          33,
+          35
+        ],
+        [
+          -8,
+          -8,
+          -24,
+          -21,
+          33,
+          35
+        ],
+        [
+          -7,
+          -7,
+          -25,
+          -22,
+          33,
+          35
+        ],
+        [
+          -6,
+          -6,
+          -26,
+          -23,
+          33,
+          35
+        ],
+        [
+          -5,
+          -5,
+          -27,
+          -24,
+          33,
+          35
+        ],
+        [
+          -4,
+          -4,
+          -28,
+          -25,
+          33,
+          35
+        ],
+        [
+          -3,
+          -3,
+          -29,
+          -26,
+          33,
+          35
+        ]
+      ],
+      "bbox": [
+        -9,
+        -3,
+        -29,
+        -20,
+        33,
+        35
+      ],
+      "inner_dims": [
+        7,
+        10,
+        3
+      ],
+      "outer_dims": [
+        11,
+        14,
+        7
+      ],
+      "connects": [
+        "HALL",
+        "LA"
+      ],
+      "status": "CONDITIONALLY APPROVED (P4-B conditional adoption; connector geometry PROPOSED)",
+      "evidence": "P4 verifier + P5 integration",
+      "dependency": "worldgen: NBT/placement not implemented",
+      "note": ""
+    },
+    {
+      "id": "P4:LA",
+      "stage": "P4",
+      "kind": "landing",
+      "boxes": [
+        [
+          -2,
+          2,
+          -30,
+          -26,
+          32,
+          36
+        ]
+      ],
+      "bbox": [
+        -2,
+        2,
+        -30,
+        -26,
+        32,
+        36
+      ],
+      "inner_dims": [
+        5,
+        5,
+        5
+      ],
+      "outer_dims": [
+        9,
+        9,
+        9
+      ],
+      "connects": [
+        "FA",
+        "CB1"
+      ],
+      "status": "CONDITIONALLY APPROVED (P4-B conditional adoption; connector geometry PROPOSED)",
+      "evidence": "P4 verifier + P5 integration",
+      "dependency": "worldgen: NBT/placement not implemented",
+      "note": ""
+    },
+    {
+      "id": "P4:CB1",
+      "stage": "P4",
+      "kind": "corr",
+      "boxes": [
+        [
+          -2,
+          2,
+          -30,
+          -25,
+          24,
+          31
+        ]
+      ],
+      "bbox": [
+        -2,
+        2,
+        -30,
+        -25,
+        24,
+        31
+      ],
+      "inner_dims": [
+        5,
+        6,
+        8
+      ],
+      "outer_dims": [
+        9,
+        10,
+        12
+      ],
+      "connects": [
+        "LA",
+        "VAULT_ENT",
+        "CC"
+      ],
+      "status": "CONDITIONALLY APPROVED (P4-B conditional adoption; connector geometry PROPOSED)",
+      "evidence": "P4 verifier + P5 integration",
+      "dependency": "worldgen: NBT/placement not implemented",
+      "note": ""
+    },
+    {
+      "id": "P4:VAULT",
+      "stage": "P4",
+      "kind": "vault",
+      "boxes": [
+        [
+          6,
+          30,
+          -30,
+          -21,
+          22,
+          30
+        ],
+        [
+          6,
+          30,
+          -30,
+          -22,
+          31,
+          33
+        ],
+        [
+          6,
+          30,
+          -30,
+          -23,
+          34,
+          36
+        ],
+        [
+          6,
+          30,
+          -30,
+          -22,
+          19,
+          21
+        ],
+        [
+          6,
+          30,
+          -30,
+          -23,
+          16,
+          18
+        ]
+      ],
+      "bbox": [
+        6,
+        30,
+        -30,
+        -21,
+        16,
+        36
+      ],
+      "inner_dims": [
+        25,
+        10,
+        21
+      ],
+      "outer_dims": [
+        31,
+        14,
+        27
+      ],
+      "connects": [
+        "VAULT_ENT"
+      ],
+      "status": "CONDITIONALLY APPROVED (P4-B conditional adoption; internal dims partly Q65-Q93 authority)",
+      "evidence": "P4 verifier + P5 integration",
+      "dependency": "worldgen: NBT/placement not implemented",
+      "note": ""
+    },
+    {
+      "id": "P4:VAULT_ENT",
+      "stage": "P4",
+      "kind": "corr",
+      "boxes": [
+        [
+          3,
+          5,
+          -30,
+          -25,
+          24,
+          28
+        ]
+      ],
+      "bbox": [
+        3,
+        5,
+        -30,
+        -25,
+        24,
+        28
+      ],
+      "inner_dims": [
+        3,
+        6,
+        5
+      ],
+      "outer_dims": [
+        7,
+        10,
+        9
+      ],
+      "connects": [
+        "CB1",
+        "VAULT"
+      ],
+      "status": "CONDITIONALLY APPROVED (P4-B conditional adoption; connector geometry PROPOSED)",
+      "evidence": "P4 verifier + P5 integration",
+      "dependency": "worldgen: NBT/placement not implemented",
+      "note": ""
+    },
+    {
+      "id": "P4:CC",
+      "stage": "P4",
+      "kind": "corr",
+      "boxes": [
+        [
+          0,
+          2,
+          -30,
+          -26,
+          0,
+          23
+        ]
+      ],
+      "bbox": [
+        0,
+        2,
+        -30,
+        -26,
+        0,
+        23
+      ],
+      "inner_dims": [
+        3,
+        5,
+        24
+      ],
+      "outer_dims": [
+        7,
+        9,
+        28
+      ],
+      "connects": [
+        "CB1",
+        "CC3"
+      ],
+      "status": "CONDITIONALLY APPROVED (P4-B conditional adoption; connector geometry PROPOSED)",
+      "evidence": "P4 verifier + P5 integration",
+      "dependency": "worldgen: NBT/placement not implemented",
+      "note": ""
+    },
+    {
+      "id": "P4:CC3",
+      "stage": "P4",
+      "kind": "corr",
+      "boxes": [
+        [
+          3,
+          7,
+          -30,
+          -26,
+          0,
+          2
+        ]
+      ],
+      "bbox": [
+        3,
+        7,
+        -30,
+        -26,
+        0,
+        2
+      ],
+      "inner_dims": [
+        5,
+        5,
+        3
+      ],
+      "outer_dims": [
+        9,
+        9,
+        7
+      ],
+      "connects": [
+        "CC",
+        "CRYPT"
+      ],
+      "status": "CONDITIONALLY APPROVED (P4-B conditional adoption; connector geometry PROPOSED)",
+      "evidence": "P4 verifier + P5 integration",
+      "dependency": "worldgen: NBT/placement not implemented",
+      "note": ""
+    },
+    {
+      "id": "P4:CRYPT",
+      "stage": "P4",
+      "kind": "crypt",
+      "boxes": [
+        [
+          8,
+          22,
+          -30,
+          -24,
+          -7,
+          5
+        ]
+      ],
+      "bbox": [
+        8,
+        22,
+        -30,
+        -24,
+        -7,
+        5
+      ],
+      "inner_dims": [
+        15,
+        7,
+        13
+      ],
+      "outer_dims": [
+        21,
+        11,
+        19
+      ],
+      "connects": [
+        "CRYPT_NICHE_N0",
+        "CRYPT_NICHE_S0",
+        "CRYPT_NICHE_N1",
+        "CRYPT_NICHE_S1",
+        "CRYPT_NICHE_N2",
+        "CRYPT_NICHE_S2",
+        "CC3"
+      ],
+      "status": "PROPOSED",
+      "evidence": "P4 verifier + P5 integration",
+      "dependency": "worldgen: NBT/placement not implemented; crypt spec Q15 TBD",
+      "note": ""
+    },
+    {
+      "id": "P4:CRYPT_NICHE_N0",
+      "stage": "P4",
+      "kind": "niche",
+      "boxes": [
+        [
+          9,
+          11,
+          -30,
+          -28,
+          -9,
+          -8
+        ]
+      ],
+      "bbox": [
+        9,
+        11,
+        -30,
+        -28,
+        -9,
+        -8
+      ],
+      "inner_dims": [
+        3,
+        3,
+        2
+      ],
+      "outer_dims": null,
+      "connects": [
+        "CRYPT"
+      ],
+      "status": "PROPOSED",
+      "evidence": "P4 verifier + P5 integration",
+      "dependency": "worldgen: NBT/placement not implemented; crypt spec Q15 TBD",
+      "note": ""
+    },
+    {
+      "id": "P4:CRYPT_NICHE_S0",
+      "stage": "P4",
+      "kind": "niche",
+      "boxes": [
+        [
+          9,
+          11,
+          -30,
+          -28,
+          6,
+          7
+        ]
+      ],
+      "bbox": [
+        9,
+        11,
+        -30,
+        -28,
+        6,
+        7
+      ],
+      "inner_dims": [
+        3,
+        3,
+        2
+      ],
+      "outer_dims": null,
+      "connects": [
+        "CRYPT"
+      ],
+      "status": "PROPOSED",
+      "evidence": "P4 verifier + P5 integration",
+      "dependency": "worldgen: NBT/placement not implemented; crypt spec Q15 TBD",
+      "note": ""
+    },
+    {
+      "id": "P4:CRYPT_NICHE_N1",
+      "stage": "P4",
+      "kind": "niche",
+      "boxes": [
+        [
+          13,
+          15,
+          -30,
+          -28,
+          -9,
+          -8
+        ]
+      ],
+      "bbox": [
+        13,
+        15,
+        -30,
+        -28,
+        -9,
+        -8
+      ],
+      "inner_dims": [
+        3,
+        3,
+        2
+      ],
+      "outer_dims": null,
+      "connects": [
+        "CRYPT"
+      ],
+      "status": "PROPOSED",
+      "evidence": "P4 verifier + P5 integration",
+      "dependency": "worldgen: NBT/placement not implemented; crypt spec Q15 TBD",
+      "note": ""
+    },
+    {
+      "id": "P4:CRYPT_NICHE_S1",
+      "stage": "P4",
+      "kind": "niche",
+      "boxes": [
+        [
+          13,
+          15,
+          -30,
+          -28,
+          6,
+          7
+        ]
+      ],
+      "bbox": [
+        13,
+        15,
+        -30,
+        -28,
+        6,
+        7
+      ],
+      "inner_dims": [
+        3,
+        3,
+        2
+      ],
+      "outer_dims": null,
+      "connects": [
+        "CRYPT"
+      ],
+      "status": "PROPOSED",
+      "evidence": "P4 verifier + P5 integration",
+      "dependency": "worldgen: NBT/placement not implemented; crypt spec Q15 TBD",
+      "note": ""
+    },
+    {
+      "id": "P4:CRYPT_NICHE_N2",
+      "stage": "P4",
+      "kind": "niche",
+      "boxes": [
+        [
+          17,
+          19,
+          -30,
+          -28,
+          -9,
+          -8
+        ]
+      ],
+      "bbox": [
+        17,
+        19,
+        -30,
+        -28,
+        -9,
+        -8
+      ],
+      "inner_dims": [
+        3,
+        3,
+        2
+      ],
+      "outer_dims": null,
+      "connects": [
+        "CRYPT"
+      ],
+      "status": "PROPOSED",
+      "evidence": "P4 verifier + P5 integration",
+      "dependency": "worldgen: NBT/placement not implemented; crypt spec Q15 TBD",
+      "note": ""
+    },
+    {
+      "id": "P4:CRYPT_NICHE_S2",
+      "stage": "P4",
+      "kind": "niche",
+      "boxes": [
+        [
+          17,
+          19,
+          -30,
+          -28,
+          6,
+          7
+        ]
+      ],
+      "bbox": [
+        17,
+        19,
+        -30,
+        -28,
+        6,
+        7
+      ],
+      "inner_dims": [
+        3,
+        3,
+        2
+      ],
+      "outer_dims": null,
+      "connects": [
+        "CRYPT"
+      ],
+      "status": "PROPOSED",
+      "evidence": "P4 verifier + P5 integration",
+      "dependency": "worldgen: NBT/placement not implemented; crypt spec Q15 TBD",
+      "note": ""
+    },
+    {
+      "id": "P4E:COL0:base",
+      "stage": "P4",
+      "kind": "column_base",
+      "boxes": [
+        [
+          28,
+          30,
+          -30,
+          -30,
+          32,
+          34
+        ]
+      ],
+      "bbox": [
+        28,
+        30,
+        -30,
+        -30,
+        32,
+        34
+      ],
+      "inner_dims": [
+        3,
+        1,
+        3
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED (Q71-Q96 values)",
+      "evidence": "P4 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P4E:COL0:shaft",
+      "stage": "P4",
+      "kind": "column_shaft",
+      "boxes": [
+        [
+          28,
+          30,
+          -29,
+          -26,
+          32,
+          34
+        ]
+      ],
+      "bbox": [
+        28,
+        30,
+        -29,
+        -26,
+        32,
+        34
+      ],
+      "inner_dims": [
+        3,
+        4,
+        3
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED (Q71-Q96 values)",
+      "evidence": "P4 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P4E:COL0:cap",
+      "stage": "P4",
+      "kind": "column_cap",
+      "boxes": [
+        [
+          27,
+          27,
+          -25,
+          -25,
+          32,
+          34
+        ],
+        [
+          27,
+          30,
+          -24,
+          -24,
+          31,
+          35
+        ],
+        [
+          28,
+          30,
+          -25,
+          -25,
+          31,
+          35
+        ]
+      ],
+      "bbox": [
+        27,
+        30,
+        -25,
+        -24,
+        31,
+        35
+      ],
+      "inner_dims": [
+        4,
+        2,
+        5
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED (Q71-Q96 values)",
+      "evidence": "P4 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P4E:COL1:base",
+      "stage": "P4",
+      "kind": "column_base",
+      "boxes": [
+        [
+          28,
+          30,
+          -30,
+          -30,
+          18,
+          20
+        ]
+      ],
+      "bbox": [
+        28,
+        30,
+        -30,
+        -30,
+        18,
+        20
+      ],
+      "inner_dims": [
+        3,
+        1,
+        3
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED (Q71-Q96 values)",
+      "evidence": "P4 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P4E:COL1:shaft",
+      "stage": "P4",
+      "kind": "column_shaft",
+      "boxes": [
+        [
+          28,
+          30,
+          -29,
+          -26,
+          18,
+          20
+        ]
+      ],
+      "bbox": [
+        28,
+        30,
+        -29,
+        -26,
+        18,
+        20
+      ],
+      "inner_dims": [
+        3,
+        4,
+        3
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED (Q71-Q96 values)",
+      "evidence": "P4 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P4E:COL1:cap",
+      "stage": "P4",
+      "kind": "column_cap",
+      "boxes": [
+        [
+          27,
+          27,
+          -25,
+          -25,
+          18,
+          20
+        ],
+        [
+          27,
+          30,
+          -24,
+          -24,
+          17,
+          21
+        ],
+        [
+          28,
+          30,
+          -25,
+          -25,
+          17,
+          21
+        ]
+      ],
+      "bbox": [
+        27,
+        30,
+        -25,
+        -24,
+        17,
+        21
+      ],
+      "inner_dims": [
+        4,
+        2,
+        5
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED (Q71-Q96 values)",
+      "evidence": "P4 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P4E:COL2:base",
+      "stage": "P4",
+      "kind": "column_base",
+      "boxes": [
+        [
+          18,
+          20,
+          -30,
+          -30,
+          32,
+          34
+        ]
+      ],
+      "bbox": [
+        18,
+        20,
+        -30,
+        -30,
+        32,
+        34
+      ],
+      "inner_dims": [
+        3,
+        1,
+        3
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED (Q71-Q96 values)",
+      "evidence": "P4 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P4E:COL2:shaft",
+      "stage": "P4",
+      "kind": "column_shaft",
+      "boxes": [
+        [
+          18,
+          20,
+          -29,
+          -26,
+          32,
+          34
+        ]
+      ],
+      "bbox": [
+        18,
+        20,
+        -29,
+        -26,
+        32,
+        34
+      ],
+      "inner_dims": [
+        3,
+        4,
+        3
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED (Q71-Q96 values)",
+      "evidence": "P4 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P4E:COL2:cap",
+      "stage": "P4",
+      "kind": "column_cap",
+      "boxes": [
+        [
+          17,
+          17,
+          -25,
+          -25,
+          32,
+          34
+        ],
+        [
+          21,
+          21,
+          -25,
+          -25,
+          32,
+          34
+        ],
+        [
+          17,
+          21,
+          -24,
+          -24,
+          31,
+          35
+        ],
+        [
+          18,
+          20,
+          -25,
+          -25,
+          31,
+          35
+        ]
+      ],
+      "bbox": [
+        17,
+        21,
+        -25,
+        -24,
+        31,
+        35
+      ],
+      "inner_dims": [
+        5,
+        2,
+        5
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED (Q71-Q96 values)",
+      "evidence": "P4 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P4E:COL3:base",
+      "stage": "P4",
+      "kind": "column_base",
+      "boxes": [
+        [
+          18,
+          20,
+          -30,
+          -30,
+          18,
+          20
+        ]
+      ],
+      "bbox": [
+        18,
+        20,
+        -30,
+        -30,
+        18,
+        20
+      ],
+      "inner_dims": [
+        3,
+        1,
+        3
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED (Q71-Q96 values)",
+      "evidence": "P4 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P4E:COL3:shaft",
+      "stage": "P4",
+      "kind": "column_shaft",
+      "boxes": [
+        [
+          18,
+          20,
+          -29,
+          -26,
+          18,
+          20
+        ]
+      ],
+      "bbox": [
+        18,
+        20,
+        -29,
+        -26,
+        18,
+        20
+      ],
+      "inner_dims": [
+        3,
+        4,
+        3
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED (Q71-Q96 values)",
+      "evidence": "P4 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P4E:COL3:cap",
+      "stage": "P4",
+      "kind": "column_cap",
+      "boxes": [
+        [
+          17,
+          17,
+          -25,
+          -25,
+          18,
+          20
+        ],
+        [
+          21,
+          21,
+          -25,
+          -25,
+          18,
+          20
+        ],
+        [
+          17,
+          21,
+          -24,
+          -24,
+          17,
+          21
+        ],
+        [
+          18,
+          20,
+          -25,
+          -25,
+          17,
+          21
+        ]
+      ],
+      "bbox": [
+        17,
+        21,
+        -25,
+        -24,
+        17,
+        21
+      ],
+      "inner_dims": [
+        5,
+        2,
+        5
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED (Q71-Q96 values)",
+      "evidence": "P4 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P4E:DAIS",
+      "stage": "P4",
+      "kind": "dais",
+      "boxes": [
+        [
+          19,
+          20,
+          -30,
+          -30,
+          21,
+          22
+        ],
+        [
+          19,
+          20,
+          -30,
+          -30,
+          30,
+          31
+        ],
+        [
+          19,
+          20,
+          -29,
+          -29,
+          21,
+          22
+        ],
+        [
+          19,
+          20,
+          -29,
+          -29,
+          30,
+          31
+        ],
+        [
+          19,
+          20,
+          -28,
+          -28,
+          21,
+          22
+        ],
+        [
+          19,
+          20,
+          -28,
+          -28,
+          30,
+          31
+        ],
+        [
+          21,
+          21,
+          -30,
+          -30,
+          19,
+          22
+        ],
+        [
+          21,
+          21,
+          -30,
+          -30,
+          30,
+          33
+        ],
+        [
+          21,
+          21,
+          -29,
+          -29,
+          19,
+          22
+        ],
+        [
+          21,
+          21,
+          -29,
+          -29,
+          30,
+          33
+        ],
+        [
+          21,
+          21,
+          -28,
+          -28,
+          19,
+          22
+        ],
+        [
+          21,
+          21,
+          -28,
+          -28,
+          30,
+          33
+        ],
+        [
+          22,
+          27,
+          -30,
+          -30,
+          19,
+          33
+        ],
+        [
+          22,
+          27,
+          -29,
+          -29,
+          19,
+          33
+        ],
+        [
+          22,
+          27,
+          -28,
+          -28,
+          19,
+          33
+        ],
+        [
+          28,
+          29,
+          -30,
+          -30,
+          21,
+          31
+        ],
+        [
+          28,
+          29,
+          -29,
+          -29,
+          21,
+          31
+        ],
+        [
+          28,
+          29,
+          -28,
+          -28,
+          21,
+          31
+        ]
+      ],
+      "bbox": [
+        19,
+        29,
+        -30,
+        -28,
+        19,
+        33
+      ],
+      "inner_dims": [
+        11,
+        3,
+        15
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED (Q71-Q96 values)",
+      "evidence": "P4 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P4E:DAIS_STAIR",
+      "stage": "P4",
+      "kind": "dais_stair",
+      "boxes": [
+        [
+          17,
+          21,
+          -30,
+          -30,
+          23,
+          29
+        ],
+        [
+          19,
+          21,
+          -29,
+          -29,
+          23,
+          29
+        ],
+        [
+          21,
+          21,
+          -28,
+          -28,
+          23,
+          29
+        ]
+      ],
+      "bbox": [
+        17,
+        21,
+        -30,
+        -28,
+        23,
+        29
+      ],
+      "inner_dims": [
+        5,
+        3,
+        7
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED (Q71-Q96 values)",
+      "evidence": "P4 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P4E:BEAMS",
+      "stage": "P4",
+      "kind": "beam",
+      "boxes": [
+        [
+          29,
+          29,
+          -23,
+          -23,
+          19,
+          33
+        ],
+        [
+          19,
+          19,
+          -23,
+          -23,
+          19,
+          33
+        ],
+        [
+          20,
+          28,
+          -23,
+          -23,
+          33,
+          33
+        ],
+        [
+          20,
+          28,
+          -23,
+          -23,
+          19,
+          19
+        ]
+      ],
+      "bbox": [
+        19,
+        29,
+        -23,
+        -23,
+        19,
+        33
+      ],
+      "inner_dims": [
+        11,
+        1,
+        15
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "PROPOSED",
+      "evidence": "P4 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P4E:CHEST_BASE",
+      "stage": "P4",
+      "kind": "chest_base",
+      "boxes": [
+        [
+          24,
+          28,
+          -27,
+          -27,
+          23,
+          29
+        ]
+      ],
+      "bbox": [
+        24,
+        28,
+        -27,
+        -27,
+        23,
+        29
+      ],
+      "inner_dims": [
+        5,
+        1,
+        7
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED (Q71-Q96 values)",
+      "evidence": "P4 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P4E:CHEST_BODY",
+      "stage": "P4",
+      "kind": "chest_body",
+      "boxes": [
+        [
+          25,
+          27,
+          -26,
+          -25,
+          24,
+          28
+        ]
+      ],
+      "bbox": [
+        25,
+        27,
+        -26,
+        -25,
+        24,
+        28
+      ],
+      "inner_dims": [
+        3,
+        2,
+        5
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED (Q71-Q96 values)",
+      "evidence": "P4 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P4E:CHEST_LID",
+      "stage": "P4",
+      "kind": "chest_lid",
+      "boxes": [
+        [
+          25,
+          27,
+          -24,
+          -24,
+          24,
+          28
+        ]
+      ],
+      "bbox": [
+        25,
+        27,
+        -24,
+        -24,
+        24,
+        28
+      ],
+      "inner_dims": [
+        3,
+        1,
+        5
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED (Q71-Q96 values)",
+      "evidence": "P4 verifier",
+      "dependency": "",
+      "note": ""
+    },
+    {
+      "id": "P4E:PILES_P",
+      "stage": "P4",
+      "kind": "pile",
+      "boxes": [
+        [
+          6,
+          6,
+          -30,
+          -30,
+          29,
+          29
+        ],
+        [
+          12,
+          13,
+          -30,
+          -30,
+          29,
+          29
+        ],
+        [
+          6,
+          6,
+          -30,
+          -30,
+          31,
+          31
+        ],
+        [
+          6,
+          6,
+          -30,
+          -30,
+          33,
+          33
+        ],
+        [
+          12,
+          12,
+          -30,
+          -30,
+          33,
+          33
+        ],
+        [
+          6,
+          7,
+          -30,
+          -30,
+          35,
+          35
+        ],
+        [
+          12,
+          13,
+          -30,
+          -30,
+          35,
+          35
+        ],
+        [
+          18,
+          19,
+          -30,
+          -30,
+          35,
+          35
+        ],
+        [
+          24,
+          25,
+          -30,
+          -30,
+          35,
+          35
+        ],
+        [
+          28,
+          28,
+          -30,
+          -30,
+          35,
+          35
+        ],
+        [
+          30,
+          30,
+          -30,
+          -30,
+          35,
+          35
+        ],
+        [
+          6,
+          6,
+          -29,
+          -29,
+          29,
+          29
+        ],
+        [
+          12,
+          12,
+          -29,
+          -29,
+          29,
+          29
+        ],
+        [
+          6,
+          6,
+          -29,
+          -29,
+          31,
+          31
+        ],
+        [
+          6,
+          6,
+          -29,
+          -29,
+          33,
+          33
+        ],
+        [
+          12,
+          12,
+          -29,
+          -29,
+          33,
+          33
+        ],
+        [
+          6,
+          6,
+          -29,
+          -29,
+          35,
+          35
+        ],
+        [
+          12,
+          12,
+          -29,
+          -29,
+          35,
+          35
+        ],
+        [
+          18,
+          18,
+          -29,
+          -29,
+          35,
+          35
+        ],
+        [
+          24,
+          24,
+          -29,
+          -29,
+          35,
+          35
+        ],
+        [
+          28,
+          28,
+          -29,
+          -29,
+          35,
+          35
+        ],
+        [
+          30,
+          30,
+          -29,
+          -29,
+          35,
+          35
+        ],
+        [
+          7,
+          7,
+          -30,
+          -30,
+          31,
+          33
+        ],
+        [
+          13,
+          13,
+          -30,
+          -30,
+          31,
+          33
+        ],
+        [
+          7,
+          7,
+          -29,
+          -29,
+          31,
+          33
+        ],
+        [
+          13,
+          13,
+          -29,
+          -29,
+          31,
+          33
+        ],
+        [
+          7,
+          7,
+          -28,
+          -28,
+          31,
+          32
+        ],
+        [
+          13,
+          13,
+          -28,
+          -28,
+          31,
+          32
+        ],
+        [
+          7,
+          7,
+          -27,
+          -27,
+          32,
+          32
+        ],
+        [
+          13,
+          13,
+          -27,
+          -27,
+          32,
+          32
+        ],
+        [
+          8,
+          8,
+          -30,
+          -30,
+          31,
+          34
+        ],
+        [
+          14,
+          14,
+          -30,
+          -30,
+          31,
+          34
+        ],
+        [
+          8,
+          8,
+          -29,
+          -29,
+          32,
+          34
+        ],
+        [
+          14,
+          14,
+          -29,
+          -29,
+          32,
+          34
+        ],
+        [
+          8,
+          8,
+          -28,
+          -28,
+          32,
+          32
+        ],
+        [
+          14,
+          14,
+          -28,
+          -28,
+          32,
+          32
+        ],
+        [
+          8,
+          8,
+          -28,
+          -28,
+          34,
+          34
+        ],
+        [
+          14,
+          14,
+          -28,
+          -28,
+          34,
+          34
+        ],
+        [
+          8,
+          8,
+          -27,
+          -27,
+          34,
+          34
+        ],
+        [
+          14,
+          14,
+          -27,
+          -27,
+          34,
+          34
+        ],
+        [
+          9,
+          9,
+          -30,
+          -30,
+          30,
+          30
+        ],
+        [
+          15,
+          15,
+          -30,
+          -30,
+          30,
+          30
+        ],
+        [
+          9,
+          10,
+          -30,
+          -30,
+          32,
+          32
+        ],
+        [
+          15,
+          16,
+          -30,
+          -30,
+          32,
+          32
+        ],
+        [
+          9,
+          9,
+          -30,
+          -30,
+          36,
+          36
+        ],
+        [
+          15,
+          15,
+          -30,
+          -30,
+          36,
+          36
+        ],
+        [
+          22,
+          22,
+          -30,
+          -30,
+          36,
+          36
+        ],
+        [
+          27,
+          27,
+          -30,
+          -30,
+          36,
+          36
+        ],
+        [
+          29,
+          29,
+          -30,
+          -30,
+          36,
+          36
+        ],
+        [
+          9,
+          9,
+          -29,
+          -29,
+          30,
+          30
+        ],
+        [
+          15,
+          15,
+          -29,
+          -29,
+          30,
+          30
+        ],
+        [
+          9,
+          9,
+          -29,
+          -29,
+          32,
+          32
+        ],
+        [
+          15,
+          15,
+          -29,
+          -29,
+          32,
+          32
+        ],
+        [
+          9,
+          9,
+          -29,
+          -29,
+          36,
+          36
+        ],
+        [
+          15,
+          15,
+          -29,
+          -29,
+          36,
+          36
+        ],
+        [
+          22,
+          22,
+          -29,
+          -29,
+          36,
+          36
+        ],
+        [
+          27,
+          27,
+          -29,
+          -29,
+          36,
+          36
+        ],
+        [
+          29,
+          29,
+          -29,
+          -29,
+          36,
+          36
+        ],
+        [
+          10,
+          10,
+          -30,
+          -30,
+          29,
+          30
+        ],
+        [
+          16,
+          16,
+          -30,
+          -30,
+          29,
+          30
+        ],
+        [
+          10,
+          11,
+          -30,
+          -30,
+          34,
+          36
+        ],
+        [
+          10,
+          10,
+          -29,
+          -29,
+          29,
+          30
+        ],
+        [
+          16,
+          16,
+          -29,
+          -29,
+          29,
+          30
+        ],
+        [
+          10,
+          10,
+          -29,
+          -29,
+          34,
+          36
+        ],
+        [
+          10,
+          11,
+          -28,
+          -28,
+          29,
+          29
+        ],
+        [
+          16,
+          16,
+          -28,
+          -28,
+          29,
+          29
+        ],
+        [
+          10,
+          10,
+          -28,
+          -28,
+          34,
+          35
+        ],
+        [
+          10,
+          10,
+          -27,
+          -27,
+          29,
+          29
+        ],
+        [
+          16,
+          16,
+          -27,
+          -27,
+          29,
+          29
+        ],
+        [
+          10,
+          10,
+          -27,
+          -27,
+          35,
+          35
+        ],
+        [
+          16,
+          16,
+          -27,
+          -27,
+          35,
+          35
+        ],
+        [
+          28,
+          28,
+          -27,
+          -27,
+          35,
+          35
+        ],
+        [
+          11,
+          11,
+          -30,
+          -30,
+          29,
+          31
+        ],
+        [
+          11,
+          11,
+          -29,
+          -29,
+          29,
+          31
+        ],
+        [
+          11,
+          11,
+          -29,
+          -29,
+          35,
+          36
+        ],
+        [
+          16,
+          17,
+          -29,
+          -29,
+          35,
+          36
+        ],
+        [
+          23,
+          23,
+          -29,
+          -29,
+          35,
+          36
+        ],
+        [
+          11,
+          11,
+          -28,
+          -28,
+          31,
+          31
+        ],
+        [
+          11,
+          11,
+          -28,
+          -28,
+          35,
+          35
+        ],
+        [
+          16,
+          17,
+          -28,
+          -28,
+          35,
+          35
+        ],
+        [
+          23,
+          23,
+          -28,
+          -28,
+          35,
+          35
+        ],
+        [
+          28,
+          28,
+          -28,
+          -28,
+          35,
+          35
+        ],
+        [
+          11,
+          11,
+          -27,
+          -27,
+          31,
+          31
+        ],
+        [
+          15,
+          15,
+          -30,
+          -30,
+          34,
+          34
+        ],
+        [
+          15,
+          15,
+          -29,
+          -29,
+          34,
+          34
+        ],
+        [
+          16,
+          17,
+          -30,
+          -30,
+          35,
+          36
+        ],
+        [
+          23,
+          23,
+          -30,
+          -30,
+          35,
+          36
+        ]
+      ],
+      "bbox": [
+        6,
+        30,
+        -30,
+        -27,
+        29,
+        36
+      ],
+      "inner_dims": [
+        25,
+        4,
+        8
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "PROPOSED",
+      "evidence": "P4 verifier",
+      "dependency": "loot/decor: undecided (Q-doc: mineable or decoration UNDECIDED)",
+      "note": ""
+    },
+    {
+      "id": "P4E:PILES_N",
+      "stage": "P4",
+      "kind": "pile",
+      "boxes": [
+        [
+          6,
+          6,
+          -30,
+          -30,
+          17,
+          17
+        ],
+        [
+          12,
+          13,
+          -30,
+          -30,
+          17,
+          17
+        ],
+        [
+          18,
+          19,
+          -30,
+          -30,
+          17,
+          17
+        ],
+        [
+          24,
+          25,
+          -30,
+          -30,
+          17,
+          17
+        ],
+        [
+          30,
+          30,
+          -30,
+          -30,
+          17,
+          17
+        ],
+        [
+          6,
+          6,
+          -30,
+          -30,
+          19,
+          19
+        ],
+        [
+          12,
+          12,
+          -30,
+          -30,
+          19,
+          19
+        ],
+        [
+          6,
+          6,
+          -30,
+          -30,
+          21,
+          21
+        ],
+        [
+          12,
+          12,
+          -30,
+          -30,
+          21,
+          21
+        ],
+        [
+          6,
+          6,
+          -29,
+          -29,
+          17,
+          17
+        ],
+        [
+          12,
+          12,
+          -29,
+          -29,
+          17,
+          17
+        ],
+        [
+          18,
+          18,
+          -29,
+          -29,
+          17,
+          17
+        ],
+        [
+          24,
+          24,
+          -29,
+          -29,
+          17,
+          17
+        ],
+        [
+          30,
+          30,
+          -29,
+          -29,
+          17,
+          17
+        ],
+        [
+          6,
+          6,
+          -29,
+          -29,
+          19,
+          19
+        ],
+        [
+          12,
+          12,
+          -29,
+          -29,
+          19,
+          19
+        ],
+        [
+          6,
+          6,
+          -29,
+          -29,
+          21,
+          21
+        ],
+        [
+          12,
+          12,
+          -29,
+          -29,
+          21,
+          21
+        ],
+        [
+          7,
+          8,
+          -30,
+          -30,
+          19,
+          21
+        ],
+        [
+          13,
+          13,
+          -30,
+          -30,
+          19,
+          21
+        ],
+        [
+          7,
+          7,
+          -30,
+          -30,
+          23,
+          23
+        ],
+        [
+          12,
+          12,
+          -30,
+          -30,
+          23,
+          23
+        ],
+        [
+          7,
+          7,
+          -29,
+          -29,
+          19,
+          21
+        ],
+        [
+          13,
+          13,
+          -29,
+          -29,
+          19,
+          21
+        ],
+        [
+          7,
+          7,
+          -28,
+          -28,
+          20,
+          21
+        ],
+        [
+          13,
+          13,
+          -28,
+          -28,
+          20,
+          21
+        ],
+        [
+          7,
+          7,
+          -27,
+          -27,
+          20,
+          20
+        ],
+        [
+          13,
+          13,
+          -27,
+          -27,
+          20,
+          20
+        ],
+        [
+          8,
+          8,
+          -29,
+          -29,
+          19,
+          20
+        ],
+        [
+          8,
+          8,
+          -28,
+          -28,
+          20,
+          20
+        ],
+        [
+          14,
+          14,
+          -28,
+          -28,
+          20,
+          20
+        ],
+        [
+          9,
+          9,
+          -30,
+          -30,
+          16,
+          16
+        ],
+        [
+          15,
+          15,
+          -30,
+          -30,
+          16,
+          16
+        ],
+        [
+          21,
+          21,
+          -30,
+          -30,
+          16,
+          16
+        ],
+        [
+          28,
+          28,
+          -30,
+          -30,
+          16,
+          16
+        ],
+        [
+          9,
+          9,
+          -30,
+          -30,
+          18,
+          18
+        ],
+        [
+          9,
+          9,
+          -30,
+          -30,
+          20,
+          20
+        ],
+        [
+          15,
+          16,
+          -30,
+          -30,
+          20,
+          20
+        ],
+        [
+          9,
+          9,
+          -30,
+          -30,
+          22,
+          22
+        ],
+        [
+          15,
+          15,
+          -30,
+          -30,
+          22,
+          22
+        ],
+        [
+          9,
+          9,
+          -29,
+          -29,
+          16,
+          16
+        ],
+        [
+          15,
+          15,
+          -29,
+          -29,
+          16,
+          16
+        ],
+        [
+          21,
+          21,
+          -29,
+          -29,
+          16,
+          16
+        ],
+        [
+          28,
+          28,
+          -29,
+          -29,
+          16,
+          16
+        ],
+        [
+          9,
+          9,
+          -29,
+          -29,
+          18,
+          18
+        ],
+        [
+          9,
+          9,
+          -29,
+          -29,
+          20,
+          20
+        ],
+        [
+          15,
+          15,
+          -29,
+          -29,
+          20,
+          20
+        ],
+        [
+          9,
+          9,
+          -29,
+          -29,
+          22,
+          22
+        ],
+        [
+          15,
+          15,
+          -29,
+          -29,
+          22,
+          22
+        ],
+        [
+          10,
+          11,
+          -30,
+          -30,
+          16,
+          18
+        ],
+        [
+          16,
+          16,
+          -30,
+          -30,
+          16,
+          18
+        ],
+        [
+          10,
+          11,
+          -30,
+          -30,
+          22,
+          23
+        ],
+        [
+          16,
+          16,
+          -30,
+          -30,
+          22,
+          23
+        ],
+        [
+          10,
+          10,
+          -29,
+          -29,
+          16,
+          18
+        ],
+        [
+          16,
+          16,
+          -29,
+          -29,
+          16,
+          18
+        ],
+        [
+          10,
+          11,
+          -29,
+          -29,
+          22,
+          23
+        ],
+        [
+          16,
+          16,
+          -29,
+          -29,
+          22,
+          23
+        ],
+        [
+          10,
+          10,
+          -28,
+          -28,
+          17,
+          18
+        ],
+        [
+          16,
+          16,
+          -28,
+          -28,
+          17,
+          18
+        ],
+        [
+          10,
+          11,
+          -28,
+          -28,
+          23,
+          23
+        ],
+        [
+          16,
+          16,
+          -28,
+          -28,
+          23,
+          23
+        ],
+        [
+          10,
+          10,
+          -27,
+          -27,
+          17,
+          17
+        ],
+        [
+          16,
+          16,
+          -27,
+          -27,
+          17,
+          17
+        ],
+        [
+          22,
+          22,
+          -27,
+          -27,
+          17,
+          17
+        ],
+        [
+          10,
+          10,
+          -27,
+          -27,
+          23,
+          23
+        ],
+        [
+          16,
+          16,
+          -27,
+          -27,
+          23,
+          23
+        ],
+        [
+          11,
+          11,
+          -29,
+          -29,
+          16,
+          17
+        ],
+        [
+          17,
+          17,
+          -29,
+          -29,
+          16,
+          17
+        ],
+        [
+          22,
+          23,
+          -29,
+          -29,
+          16,
+          17
+        ],
+        [
+          29,
+          29,
+          -29,
+          -29,
+          16,
+          17
+        ],
+        [
+          11,
+          11,
+          -28,
+          -28,
+          17,
+          17
+        ],
+        [
+          17,
+          17,
+          -28,
+          -28,
+          17,
+          17
+        ],
+        [
+          22,
+          23,
+          -28,
+          -28,
+          17,
+          17
+        ],
+        [
+          29,
+          29,
+          -28,
+          -28,
+          17,
+          17
+        ],
+        [
+          12,
+          12,
+          -29,
+          -29,
+          23,
+          23
+        ],
+        [
+          14,
+          14,
+          -30,
+          -30,
+          18,
+          21
+        ],
+        [
+          14,
+          14,
+          -29,
+          -29,
+          18,
+          20
+        ],
+        [
+          14,
+          14,
+          -28,
+          -28,
+          18,
+          18
+        ],
+        [
+          14,
+          14,
+          -27,
+          -27,
+          18,
+          18
+        ],
+        [
+          17,
+          17,
+          -30,
+          -30,
+          16,
+          17
+        ],
+        [
+          22,
+          23,
+          -30,
+          -30,
+          16,
+          17
+        ],
+        [
+          29,
+          29,
+          -30,
+          -30,
+          16,
+          17
+        ]
+      ],
+      "bbox": [
+        6,
+        30,
+        -30,
+        -27,
+        16,
+        23
+      ],
+      "inner_dims": [
+        25,
+        4,
+        8
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "PROPOSED",
+      "evidence": "P4 verifier",
+      "dependency": "loot/decor: undecided (Q-doc: mineable or decoration UNDECIDED)",
+      "note": ""
+    },
+    {
+      "id": "P4E:CRYPT:SARC",
+      "stage": "P4",
+      "kind": "sarcophagus",
+      "boxes": [
+        [
+          14,
+          16,
+          -30,
+          -29,
+          -3,
+          1
+        ]
+      ],
+      "bbox": [
+        14,
+        16,
+        -30,
+        -29,
+        -3,
+        1
+      ],
+      "inner_dims": [
+        3,
+        2,
+        5
+      ],
+      "outer_dims": null,
+      "connects": [],
+      "status": "CONDITIONALLY APPROVED (Q71-Q96 values)",
+      "evidence": "P4 verifier",
+      "dependency": "",
+      "note": ""
+    }
+  ],
+  "excluded_from_construction": [
+    "P1R:S07",
+    "P3:HALL",
+    "P3:DOOR",
+    "P3:P_N1:base",
+    "P3:P_N1:shaft",
+    "P3:P_N1:cap",
+    "P3:P_N2:base",
+    "P3:P_N2:shaft",
+    "P3:P_N2:cap",
+    "P3:P_S1:base",
+    "P3:P_S1:shaft",
+    "P3:P_S1:cap",
+    "P3:P_S2:base",
+    "P3:P_S2:shaft",
+    "P3:P_S2:cap",
+    "P3:P_W1:base",
+    "P3:P_W1:shaft",
+    "P3:P_W1:cap",
+    "P3:P_W2:base",
+    "P3:P_W2:shaft",
+    "P3:P_W2:cap",
+    "P3:P_W3:base",
+    "P3:P_W3:shaft",
+    "P3:P_W3:cap",
+    "P3:P_E1:base",
+    "P3:P_E1:shaft",
+    "P3:P_E1:cap",
+    "P3:P_E2:base",
+    "P3:P_E2:shaft",
+    "P3:P_E2:cap",
+    "P3:P_E3:base",
+    "P3:P_E3:shaft",
+    "P3:P_E3:cap",
+    "P3:L_N1",
+    "P3:L_N2",
+    "P3:L_S1",
+    "P3:L_S2",
+    "P3:L_W1",
+    "P3:L_E1",
+    "P3:OBELISK:plinth",
+    "P3:OBELISK:shaft",
+    "P3:OBELISK:tip",
+    "P3:DAIS",
+    "P3:DAIS:tread",
+    "P3:SARCOPHAGUS",
+    "P3:CHEST_PRIMARY",
+    "P3:ALCOVE_E:col1",
+    "P3:ALCOVE_E:col2",
+    "P3:CHEST_SECONDARY",
+    "P3:NICHE_W:col1",
+    "P3:NICHE_W:col2",
+    "P3:STATUE_W",
+    "P3:NICHE_E_A:col1",
+    "P3:NICHE_E_A:col2",
+    "P3:STATUE_E_A",
+    "P3:NICHE_W_A:col1",
+    "P3:NICHE_W_A:col2",
+    "P3:STATUE_W_A",
+    "P3:BRAZ_NW:bowl",
+    "P3:BRAZ_NE:bowl",
+    "P3:BRAZ_SW:bowl",
+    "P3:BRAZ_SE:bowl",
+    "P3:ALCOVE_E",
+    "P3:NICHE_W",
+    "P3:NICHE_E_A",
+    "P3:NICHE_W_A",
+    "P3:BRAZ_NW",
+    "P3:BRAZ_NE",
+    "P3:BRAZ_SW",
+    "P3:BRAZ_SE"
+  ],
+  "exclusion_reason": "P3 reconstruction is replaced by immutable D1; old secondary placeholder must never be placed; S07 is reservation only.",
+  "adoption": "Freeze P1/P2 representative coordinates and P6 candidate-C overlay only after owner approval; D1 replaces all P3 reconstruction.",
+  "crypt_proposal": "Adopt current representative 15x13x7 cavity and six niches; remains owner decision.",
+  "secret_west": "UNRESOLVED: existing WEST source moves D1; no automatic mirroring permitted.",
+  "shell_proposal": {
+    "layers": "y=0..39; abs(x),abs(z)<=40-y; carve only explicitly specified cavities",
+    "base_bounds": [
+      -40,
+      40,
+      -32,
+      -1,
+      -40,
+      40
+    ]
+  },
+  "material_proposal": {
+    "mass": "minecraft:sandstone",
+    "columns": "minecraft:chiseled_sandstone",
+    "floor": "minecraft:smooth_sandstone",
+    "inlay": "minecraft:cut_sandstone",
+    "air": "minecraft:air",
+    "sarcophagus": "minecraft:cut_sandstone",
+    "stair_policy": "full-block stepped treads from source boxes; no implicit slab or stair substitution",
+    "block_entities": "D1 verbatim; non-D1 chest/loot/pile conversion unresolved",
+    "decoration": "No random decoration proposed; exact fixtures and region mapping remain incomplete"
+  }
+}

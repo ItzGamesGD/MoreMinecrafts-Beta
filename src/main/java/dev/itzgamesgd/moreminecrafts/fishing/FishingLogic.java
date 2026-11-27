@@ -2,14 +2,11 @@ package dev.itzgamesgd.moreminecrafts.fishing;
 
 import java.util.Arrays;
 import java.util.List;
+import dev.itzgamesgd.moreminecrafts.progression.Research23AEffectRules;
 import net.minecraft.util.RandomSource;
 
 /** Pure server-authoritative rolls. Species, grade, length and weight remain separate. */
 public final class FishingLogic {
-    private static final int[][] GRADE_WEIGHTS = {
-            {45, 30, 16, 7, 2}, {30, 32, 22, 12, 4},
-            {10, 25, 32, 24, 9}, {0, 8, 34, 38, 20}
-    };
     private FishingLogic() {}
 
     public static List<FishSpecies> accessibleSpecies(int reelTier) {
@@ -35,14 +32,21 @@ public final class FishingLogic {
 
     /** crankbaitTier zero means no active crankbait and uses the natural distribution. */
     public static int[] gradeWeights(int crankbaitTier) {
-        if (crankbaitTier < 0 || crankbaitTier > FishingEquipmentTier.MAX)
-            throw new IllegalArgumentException("Crankbait tier must be 0-3");
-        return GRADE_WEIGHTS[crankbaitTier].clone();
+        return gradeWeights(crankbaitTier, 0);
+    }
+
+    /** Fisheries Study changes only grade odds; level zero preserves the existing table. */
+    public static int[] gradeWeights(int crankbaitTier, int fisheriesStudyLevel) {
+        return Research23AEffectRules.fishGradeWeights(crankbaitTier, fisheriesStudyLevel);
     }
 
     public static int rollGrade(int crankbaitTier, RandomSource random) {
+        return rollGrade(crankbaitTier, 0, random);
+    }
+
+    public static int rollGrade(int crankbaitTier, int fisheriesStudyLevel, RandomSource random) {
         int roll = random.nextInt(100);
-        int[] weights = gradeWeights(crankbaitTier);
+        int[] weights = gradeWeights(crankbaitTier, fisheriesStudyLevel);
         for (int i = 0; i < weights.length; i++) {
             if (roll < weights[i]) return i + 1;
             roll -= weights[i];
@@ -60,7 +64,12 @@ public final class FishingLogic {
 
     /** Rolls every per-fish field from the caller's server RNG without reusing an ItemStack. */
     public static FishRoll rollFish(FishSpecies species, int crankbaitTier, RandomSource random) {
-        int grade = rollGrade(crankbaitTier, random);
+        return rollFish(species, crankbaitTier, 0, random);
+    }
+
+    public static FishRoll rollFish(FishSpecies species, int crankbaitTier, int fisheriesStudyLevel,
+            RandomSource random) {
+        int grade = rollGrade(crankbaitTier, fisheriesStudyLevel, random);
         int length = rollLength(species, random);
         int weight = rollWeight(species, length, random);
         return new FishRoll(species, grade, length, weight);
@@ -69,6 +78,11 @@ public final class FishingLogic {
     /** Selects a new species before rolling its independent quality and measurements. */
     public static FishRoll rollFish(List<FishSpecies> pool, int crankbaitTier, RandomSource random) {
         return rollFish(selectSpecies(pool, random), crankbaitTier, random);
+    }
+
+    public static FishRoll rollFish(List<FishSpecies> pool, int crankbaitTier, int fisheriesStudyLevel,
+            RandomSource random) {
+        return rollFish(selectSpecies(pool, random), crankbaitTier, fisheriesStudyLevel, random);
     }
 
     public record FishRoll(FishSpecies species, int grade, int lengthTenthsCm, int weightTenthsKg) {}

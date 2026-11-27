@@ -1,0 +1,109 @@
+{
+  "mode": "f-run",
+  "seed": 7001,
+  "y_band": "-48..0",
+  "reservations": 4,
+  "algo": "st05-stage0f-construction-v1",
+  "placements": [
+    {
+      "id": "20d89ee7a8aa754c",
+      "center": "-837,-1174",
+      "reserved_floorY": -25,
+      "state_at_entry": "RESERVED",
+      "snapshot_ms": 14608,
+      "structure_pieces_near": 37,
+      "structure_types_near": {
+        "minecraft:mineshaft": 1,
+        "minecraft:ocean_ruin_warm": 1,
+        "minecraft:trial_chambers": 1
+      },
+      "planning_ms": 1427,
+      "candidates": [
+        {
+          "idx": 0,
+          "floorY": -25,
+          "ok": false,
+          "reason": "UNSEALABLE_FLUID_UNBOUNDED(water)",
+          "score_milli": 0,
+          "parts": {},
+          "route_work": 39065
+        },
+        {
+          "idx": 1,
+          "floorY": -24,
+          "ok": false,
+          "reason": "UNSEALABLE_FLUID_UNBOUNDED(water)",
+          "score_milli": 0,
+          "parts": {},
+          "route_work": 39241
+        },
+        {
+          "idx": 2,
+          "floorY": -26,
+          "ok": false,
+          "reason": "UNSEALABLE_FLUID_UNBOUNDED(water)",
+          "score_milli": 0,
+          "parts": {},
+          "route_work": 38791
+        },
+        {
+          "idx": 3,
+          "floorY": -23,
+          "ok": false,
+          "reason": "UNSEALABLE_FLUID_UNBOUNDED(water)",
+          "score_milli": 0,
+          "parts": {},
+          "route_work": 39328
+        },
+        {
+          "idx": 4,
+          "floorY": -27,
+          "ok": false,
+          "reason": "UNSEALABLE_FLUID_UNBOUNDED(water)",
+          "score_milli": 0,
+          "parts": {},
+          "route_work": 38410
+        },
+        {
+          "idx": 5,
+          "floorY": -22,
+          "ok": false,
+          "reason": "UNSEALABLE_FLUID_UNBOUNDED(water)",
+          "score_milli": 0,
+          "parts": {},
+          "route_work": 39829
+        },
+        {
+          "idx": 6,
+          "floorY": -28,
+          "ok": false,
+          "reason": "UNSEALABLE_FLUID_UNBOUNDED(water)",
+          "score_milli": 0,
+          "parts": {},
+          "route_work": 37926
+        },
+        {
+          "idx": 7,
+          "floorY": -21,
+          "ok": false,
+          "reason": "UNSEALABLE_FLUID_UNBOUNDED(water)",
+          "score_milli": 0,
+          "parts": {},
+          "route_work": 40912
+        }
+      ],
+      "cave_components": 1027,
+      "cave_qualified_components": 9,
+      "action": "CONSTRUCTION_FAILED_NO_FIT",
+      "status": "CONSTRUCTION_FAILED_NO_FIT {UNSEALABLE_FLUID_UNBOUNDED=8}",
+      "writes": 0,
+      "ms": 16078,
+      "final_state": "CONSTRUCTION_FAILED",
+      "final_reason": "CONSTRUCTION_FAILED_NO_FIT {UNSEALABLE_FLUID_UNBOUNDED=8}",
+      "reservation_preserved": true
+    }
+  ],
+  "world_writes": 0,
+  "chunk_saves": 0,
+  "post_tick_reverification": []
+}

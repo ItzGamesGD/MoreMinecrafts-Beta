@@ -30,3 +30,24 @@ All `/mmtest` commands require game-master/operator permission.
 ## Scope
 
 This is validation infrastructure only. It does not alter natural spawn probabilities, progression, recipes, balance, or ordinary player access.
+
+## Grand Unified 2026-11-12 helpers (existing commands; no code change)
+
+Used by the ACT-03 / ACT-04 / ACT-05 checklist at the end of [`LIVE_VALIDATION_BACKLOG.md`](LIVE_VALIDATION_BACKLOG.md). All require operator permission. They exist in the baseline; this section only documents them.
+
+### `/mmtomb` — Tomb Guardian encounter (royal chest PRIMARY)
+
+- `/mmtomb status <x y z>` - prints `DORMANT`, `ACTIVE guardian=… presence=…` or `DEFEATED`, plus `sealed=true|false`, for the tomb whose anchor is the PRIMARY chest's **left half** position.
+- `/mmtomb end <x y z>` - removes the bound guardian without a kill and releases the binding (retry allowed). Not a defeat.
+- `/mmtomb start <anchor> [spawn]` - stands in for the royal-chest interaction (spawns the guardian) without needing a registered chest; does not exercise chest registration.
+- `/mmtomb spawn` - an unbound guardian for combat checks (no tomb, completes nothing). `/mmtomb attack melee|slam|statue` forces an attack from the nearest idle guardian.
+
+### `/mmskytower` — Sky Tower registry
+
+- `/mmskytower register <x> <y> <z> <rotation 0-3>` - registers an already placed `moreminecrafts:sky_tower/full_01` (absolute integer origin; `~` is not accepted) and configures its 8 normal vaults and the rooftop vault. Fails unless all 16 trial spawners and 8 vaults are present and loaded.
+- `/mmskytower status` - lists registered tower ids (`dimension|x,y,z|rotation`) with spawner completion masks.
+- Controlled placement: `/place template moreminecrafts:sky_tower/full_01 <x> <y> <z> [none|clockwise_90|180|counterclockwise_90]`, then register with rotation `0|1|2|3` respectively.
+
+### Vanilla commands the checklist relies on
+
+`/locate structure moreminecrafts:st01_pyramid` (and `moreminecrafts:sky_island_*`), `/forceload add`, `/loot give @s loot <table>` (T2 chest accessory pools), `/damage @s <n>` (HP thresholds), `/effect give`, `/gamerule keep_inventory`, `/gamerule natural_health_regeneration` (use tab-completion if the 26.x spelling differs).

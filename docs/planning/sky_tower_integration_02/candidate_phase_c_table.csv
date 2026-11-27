@@ -1,0 +1,73 @@
+candidate,style,offset,base_y,relative_rotation_quarters,overlap_count,overlap_by_category,base_columns,base_columns_with_nonair_below,entrance_center,deck_island_contacts,chunk_rectangle_min_max,route_status,support_status
+A_center,snowy,"[0, 0]",17,0,198,{'vegetation_or_snow': 198},863,728,"(46, 17, 21)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+A_center,meadow,"[0, 0]",17,0,220,"{'terrain_or_unclassified': 1, 'vegetation_or_snow': 219}",863,708,"(46, 17, 21)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+A_center,forest,"[0, 0]",17,0,334,{'vegetation_or_snow': 334},863,707,"(46, 17, 21)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+A_center,badlands,"[0, 0]",17,0,9,"{'terrain_or_unclassified': 4, 'vegetation_or_snow': 5}",863,699,"(46, 17, 21)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+A_center,desert,"[0, 0]",17,0,4,{'vegetation_or_snow': 4},863,729,"(46, 17, 21)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+A_center,rocky,"[0, 0]",17,0,11,{'terrain_or_unclassified': 11},863,704,"(46, 17, 21)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+A_center,snowy,"[0, 0]",17,1,177,{'vegetation_or_snow': 177},863,706,"(21, 17, 46)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+A_center,meadow,"[0, 0]",17,1,232,"{'terrain_or_unclassified': 2, 'vegetation_or_snow': 230}",863,725,"(21, 17, 46)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+A_center,forest,"[0, 0]",17,1,324,{'vegetation_or_snow': 324},863,734,"(21, 17, 46)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+A_center,badlands,"[0, 0]",17,1,9,"{'terrain_or_unclassified': 4, 'vegetation_or_snow': 5}",863,708,"(21, 17, 46)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+A_center,desert,"[0, 0]",17,1,3,{'vegetation_or_snow': 3},863,716,"(21, 17, 46)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+A_center,rocky,"[0, 0]",17,1,14,{'terrain_or_unclassified': 14},863,721,"(21, 17, 46)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+A_center,snowy,"[0, 0]",17,2,164,{'vegetation_or_snow': 164},863,700,"(-4, 17, 21)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+A_center,meadow,"[0, 0]",17,2,224,"{'terrain_or_unclassified': 1, 'vegetation_or_snow': 223}",863,724,"(-4, 17, 21)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+A_center,forest,"[0, 0]",17,2,314,{'vegetation_or_snow': 314},863,720,"(-4, 17, 21)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+A_center,badlands,"[0, 0]",17,2,8,"{'terrain_or_unclassified': 4, 'vegetation_or_snow': 4}",863,725,"(-4, 17, 21)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+A_center,desert,"[0, 0]",17,2,2,{'vegetation_or_snow': 2},863,704,"(-4, 17, 21)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+A_center,rocky,"[0, 0]",17,2,15,{'terrain_or_unclassified': 15},863,729,"(-4, 17, 21)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+A_center,snowy,"[0, 0]",17,3,173,{'vegetation_or_snow': 173},863,724,"(21, 17, -4)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+A_center,meadow,"[0, 0]",17,3,218,"{'terrain_or_unclassified': 3, 'vegetation_or_snow': 215}",863,706,"(21, 17, -4)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+A_center,forest,"[0, 0]",17,3,327,{'vegetation_or_snow': 327},863,705,"(21, 17, -4)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+A_center,badlands,"[0, 0]",17,3,9,"{'terrain_or_unclassified': 5, 'vegetation_or_snow': 4}",863,723,"(21, 17, -4)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+A_center,desert,"[0, 0]",17,3,6,{'vegetation_or_snow': 6},863,715,"(21, 17, -4)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+A_center,rocky,"[0, 0]",17,3,14,{'terrain_or_unclassified': 14},863,724,"(21, 17, -4)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+B_offset,snowy,"[-12, 0]",17,0,171,{'vegetation_or_snow': 171},863,581,"(34, 17, 21)","[(35, 16, 19), (35, 16, 20), (35, 16, 21), (35, 16, 22), (35, 16, 23), (36, 16, 19), (36, 16, 20), (36, 16, 21), (36, 16, 22), (36, 16, 23), (37, 16, 19), (37, 16, 20), (37, 16, 21)]","[16, 20]",UNVERIFIED,UNVERIFIED
+B_offset,meadow,"[-12, 0]",17,0,147,"{'terrain_or_unclassified': 1, 'vegetation_or_snow': 146}",863,606,"(34, 17, 21)","[(35, 16, 19), (35, 16, 20), (35, 16, 21), (35, 16, 22), (35, 16, 23), (36, 16, 19), (36, 16, 20), (36, 16, 21), (36, 16, 22), (36, 16, 23), (37, 16, 19), (37, 16, 20), (37, 16, 21), (37, 16, 22), (37, 16, 23), (38, 16, 19), (38, 16, 20), (38, 16, 21), (38, 16, 22), (38, 16, 23), (39, 16, 19), (39, 16, 20), (39, 16, 21), (40, 16, 19)]","[16, 20]",UNVERIFIED,UNVERIFIED
+B_offset,forest,"[-12, 0]",17,0,143,{'vegetation_or_snow': 143},863,600,"(34, 17, 21)","[(35, 16, 19), (35, 16, 20), (35, 16, 21), (35, 16, 22), (35, 16, 23), (36, 16, 19), (36, 16, 20), (36, 16, 21), (36, 16, 22), (36, 16, 23), (37, 16, 19), (37, 16, 20), (37, 16, 21), (37, 16, 22), (37, 16, 23), (38, 16, 19), (38, 16, 20), (38, 16, 21), (38, 16, 22), (38, 16, 23)]","[16, 20]",UNVERIFIED,UNVERIFIED
+B_offset,badlands,"[-12, 0]",17,0,6,"{'terrain_or_unclassified': 2, 'vegetation_or_snow': 4}",863,607,"(34, 17, 21)","[(35, 16, 19), (35, 16, 20), (35, 16, 21), (35, 16, 22), (35, 16, 23), (36, 16, 19), (36, 16, 20), (36, 16, 21), (36, 16, 22), (36, 16, 23), (37, 16, 19), (37, 16, 20), (37, 16, 21), (37, 16, 22)]","[16, 20]",UNVERIFIED,UNVERIFIED
+B_offset,desert,"[-12, 0]",17,0,1,{'vegetation_or_snow': 1},863,601,"(34, 17, 21)","[(35, 16, 19), (35, 16, 20), (35, 16, 21), (35, 16, 22), (35, 16, 23), (36, 16, 20), (36, 16, 21), (36, 16, 22), (36, 16, 23), (37, 16, 21), (37, 16, 22), (37, 16, 23), (38, 16, 22), (38, 16, 23), (39, 16, 23)]","[16, 20]",UNVERIFIED,UNVERIFIED
+B_offset,rocky,"[-12, 0]",17,0,15,{'terrain_or_unclassified': 15},863,602,"(34, 17, 21)","[(35, 16, 19), (35, 16, 20), (35, 16, 21), (35, 16, 22), (35, 16, 23), (36, 16, 19), (36, 16, 20), (36, 16, 21), (36, 16, 22), (36, 16, 23), (37, 16, 19), (37, 16, 20), (37, 16, 21), (37, 16, 22), (37, 16, 23)]","[16, 20]",UNVERIFIED,UNVERIFIED
+B_offset,snowy,"[-12, 0]",17,1,167,{'vegetation_or_snow': 167},863,405,"(9, 17, 46)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+B_offset,meadow,"[-12, 0]",17,1,125,"{'terrain_or_unclassified': 1, 'vegetation_or_snow': 124}",863,409,"(9, 17, 46)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+B_offset,forest,"[-12, 0]",17,1,126,{'vegetation_or_snow': 126},863,403,"(9, 17, 46)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+B_offset,badlands,"[-12, 0]",17,1,1,{'vegetation_or_snow': 1},863,410,"(9, 17, 46)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+B_offset,desert,"[-12, 0]",17,1,1,{'vegetation_or_snow': 1},863,416,"(9, 17, 46)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+B_offset,rocky,"[-12, 0]",17,1,9,{'terrain_or_unclassified': 9},863,404,"(9, 17, 46)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+B_offset,snowy,"[-12, 0]",17,2,157,{'vegetation_or_snow': 157},863,405,"(-16, 17, 21)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+B_offset,meadow,"[-12, 0]",17,2,127,"{'terrain_or_unclassified': 1, 'vegetation_or_snow': 126}",863,409,"(-16, 17, 21)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+B_offset,forest,"[-12, 0]",17,2,180,{'vegetation_or_snow': 180},863,403,"(-16, 17, 21)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+B_offset,badlands,"[-12, 0]",17,2,1,{'vegetation_or_snow': 1},863,410,"(-16, 17, 21)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+B_offset,desert,"[-12, 0]",17,2,1,{'vegetation_or_snow': 1},863,416,"(-16, 17, 21)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+B_offset,rocky,"[-12, 0]",17,2,9,{'terrain_or_unclassified': 9},863,404,"(-16, 17, 21)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+B_offset,snowy,"[-12, 0]",17,3,185,{'vegetation_or_snow': 185},863,500,"(9, 17, -4)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+B_offset,meadow,"[-12, 0]",17,3,160,"{'terrain_or_unclassified': 4, 'vegetation_or_snow': 156}",863,482,"(9, 17, -4)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+B_offset,forest,"[-12, 0]",17,3,201,{'vegetation_or_snow': 201},863,475,"(9, 17, -4)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+B_offset,badlands,"[-12, 0]",17,3,3,{'vegetation_or_snow': 3},863,475,"(9, 17, -4)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+B_offset,desert,"[-12, 0]",17,3,5,{'vegetation_or_snow': 5},863,510,"(9, 17, -4)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+B_offset,rocky,"[-12, 0]",17,3,11,{'terrain_or_unclassified': 11},863,469,"(9, 17, -4)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+C_offset_raised,snowy,"[-18, -8]",20,0,64,{'vegetation_or_snow': 64},863,14,"(28, 20, 13)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+C_offset_raised,meadow,"[-18, -8]",20,0,36,{'vegetation_or_snow': 36},863,24,"(28, 20, 13)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+C_offset_raised,forest,"[-18, -8]",20,0,100,{'vegetation_or_snow': 100},863,25,"(28, 20, 13)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+C_offset_raised,badlands,"[-18, -8]",20,0,0,{},863,0,"(28, 20, 13)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+C_offset_raised,desert,"[-18, -8]",20,0,0,{},863,0,"(28, 20, 13)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+C_offset_raised,rocky,"[-18, -8]",20,0,0,{},863,0,"(28, 20, 13)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+C_offset_raised,snowy,"[-18, -8]",20,1,62,{'vegetation_or_snow': 62},863,14,"(3, 20, 38)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+C_offset_raised,meadow,"[-18, -8]",20,1,36,{'vegetation_or_snow': 36},863,24,"(3, 20, 38)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+C_offset_raised,forest,"[-18, -8]",20,1,93,{'vegetation_or_snow': 93},863,25,"(3, 20, 38)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+C_offset_raised,badlands,"[-18, -8]",20,1,0,{},863,0,"(3, 20, 38)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+C_offset_raised,desert,"[-18, -8]",20,1,0,{},863,0,"(3, 20, 38)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+C_offset_raised,rocky,"[-18, -8]",20,1,0,{},863,0,"(3, 20, 38)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+C_offset_raised,snowy,"[-18, -8]",20,2,70,{'vegetation_or_snow': 70},863,14,"(-22, 20, 13)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+C_offset_raised,meadow,"[-18, -8]",20,2,36,{'vegetation_or_snow': 36},863,24,"(-22, 20, 13)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+C_offset_raised,forest,"[-18, -8]",20,2,94,{'vegetation_or_snow': 94},863,25,"(-22, 20, 13)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+C_offset_raised,badlands,"[-18, -8]",20,2,0,{},863,0,"(-22, 20, 13)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+C_offset_raised,desert,"[-18, -8]",20,2,0,{},863,0,"(-22, 20, 13)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+C_offset_raised,rocky,"[-18, -8]",20,2,0,{},863,0,"(-22, 20, 13)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+C_offset_raised,snowy,"[-18, -8]",20,3,88,{'vegetation_or_snow': 88},863,14,"(3, 20, -12)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+C_offset_raised,meadow,"[-18, -8]",20,3,36,{'vegetation_or_snow': 36},863,24,"(3, 20, -12)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+C_offset_raised,forest,"[-18, -8]",20,3,121,{'vegetation_or_snow': 121},863,25,"(3, 20, -12)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+C_offset_raised,badlands,"[-18, -8]",20,3,0,{},863,0,"(3, 20, -12)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+C_offset_raised,desert,"[-18, -8]",20,3,0,{},863,0,"(3, 20, -12)",[],"[16, 20]",UNVERIFIED,UNVERIFIED
+C_offset_raised,rocky,"[-18, -8]",20,3,0,{},863,0,"(3, 20, -12)",[],"[16, 20]",UNVERIFIED,UNVERIFIED

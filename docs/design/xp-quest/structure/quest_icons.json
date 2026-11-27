@@ -1,0 +1,1007 @@
+{
+  "schema": 1,
+  "count": 200,
+  "rule": "target item/entity, then related item, then category fallback; never completion-dependent",
+  "icons": [
+    {
+      "quest_id": "xpq.cmb.cave_dwellers",
+      "icon_item_id": "minecraft:cave_spider_spawn_egg",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.cmb.bestiary_25",
+      "icon_item_id": "minecraft:book",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.cmb.habitats_5",
+      "icon_item_id": "minecraft:map",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.exp.dungeon_loot",
+      "icon_item_id": "minecraft:spawner",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.exp.first_structure_loot",
+      "icon_item_id": "minecraft:chest",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.exp.mineshaft_loot",
+      "icon_item_id": "minecraft:minecart",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.exp.temples",
+      "icon_item_id": "minecraft:mossy_cobblestone",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.exp.archaeology_30",
+      "icon_item_id": "minecraft:brush",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.exp.ocean_relics",
+      "icon_item_id": "minecraft:heart_of_the_sea",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.exp.villages_5",
+      "icon_item_id": "minecraft:emerald",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.exp.grand_expedition",
+      "icon_item_id": "minecraft:filled_map",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.exp.sherds_15",
+      "icon_item_id": "minecraft:decorated_pot",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.exp.structures_15",
+      "icon_item_id": "minecraft:compass",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.exp.biomes_25",
+      "icon_item_id": "minecraft:grass_block",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.exp.explorer_maps",
+      "icon_item_id": "minecraft:map",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.exp.rare_biomes",
+      "icon_item_id": "minecraft:spyglass",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.exp.sleeping_bag_biomes",
+      "icon_item_id": "minecraft:red_bed",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.exp.biomes_40",
+      "icon_item_id": "minecraft:grass_block",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.exp.biomes_all_overworld",
+      "icon_item_id": "minecraft:oak_sapling",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.exp.walk_10k",
+      "icon_item_id": "minecraft:leather_boots",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.exp.height_extremes",
+      "icon_item_id": "minecraft:ladder",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.exp.parachute_landing",
+      "icon_item_id": "moreminecrafts:parachute",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.exp.elytra_25k",
+      "icon_item_id": "minecraft:elytra",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.exp.ride_10k",
+      "icon_item_id": "minecraft:saddle",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.exp.sail_20k",
+      "icon_item_id": "minecraft:oak_boat",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.exp.walk_50k",
+      "icon_item_id": "minecraft:leather_boots",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.exp.travel_250k",
+      "icon_item_id": "minecraft:ender_pearl",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.cmb.hostile_100",
+      "icon_item_id": "minecraft:rotten_flesh",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.cmb.hostile_500",
+      "icon_item_id": "minecraft:bone",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.cmb.hostile_2000",
+      "icon_item_id": "minecraft:gunpowder",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.cmb.hostile_5000",
+      "icon_item_id": "minecraft:skeleton_skull",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.cmb.bestiary_5",
+      "icon_item_id": "minecraft:spider_eye",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.cmb.bestiary_10",
+      "icon_item_id": "minecraft:bone_meal",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.cmb.vanilla_species_20",
+      "icon_item_id": "minecraft:zombie_spawn_egg",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.cmb.mm_arms",
+      "icon_item_id": "minecraft:iron_sword",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.cmb.dagger_100",
+      "icon_item_id": "moreminecrafts:iron_dagger",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.cmb.greatsword_100",
+      "icon_item_id": "moreminecrafts:iron_greatsword",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.cmb.shield_500",
+      "icon_item_id": "minecraft:shield",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.cmb.mace_smash_10",
+      "icon_item_id": "minecraft:mace",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.cmb.netherite_blades",
+      "icon_item_id": "moreminecrafts:netherite_greatsword",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.cmb.trident_50",
+      "icon_item_id": "minecraft:trident",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.cmb.long_shot_25",
+      "icon_item_id": "minecraft:bow",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.cmb.tactical_ammo",
+      "icon_item_id": "minecraft:arrow",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.cmb.gauntlet_50",
+      "icon_item_id": "moreminecrafts:gauntlet",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.cmb.bandits_20",
+      "icon_item_id": "minecraft:pillager_spawn_egg",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.cmb.brutes_3",
+      "icon_item_id": "minecraft:piglin_brute_spawn_egg",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.cmb.raids_3",
+      "icon_item_id": "minecraft:ominous_bottle",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.cmb.ravagers_5",
+      "icon_item_id": "minecraft:ravager_spawn_egg",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.cmb.breeze_10",
+      "icon_item_id": "minecraft:breeze_rod",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.cmb.guardians_30",
+      "icon_item_id": "minecraft:prismarine_shard",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.cmb.lesser_wither_10",
+      "icon_item_id": "minecraft:wither_skeleton_spawn_egg",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.cmb.wither_skulls_3",
+      "icon_item_id": "minecraft:wither_skeleton_skull",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.cmb.elemental_100",
+      "icon_item_id": "minecraft:blaze_powder",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.cmb.elemental_skills",
+      "icon_item_id": "minecraft:fire_charge",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.min.first_custom_ore",
+      "icon_item_id": "minecraft:raw_iron",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.min.custom_ore_survey",
+      "icon_item_id": "minecraft:copper_ore",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.min.deepslate_custom",
+      "icon_item_id": "minecraft:deepslate",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.min.ore_1000",
+      "icon_item_id": "minecraft:iron_ore",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.min.diamond_ore_64",
+      "icon_item_id": "minecraft:diamond",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.min.ore_5000",
+      "icon_item_id": "minecraft:coal_ore",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.min.ore_20000",
+      "icon_item_id": "minecraft:emerald_ore",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.min.obsidian_64",
+      "icon_item_id": "minecraft:obsidian",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.min.adamantium_debris",
+      "icon_item_id": "moreminecrafts:adamantium_ingot",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.min.adamantium_10",
+      "icon_item_id": "moreminecrafts:adamantium_ingot",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.min.debris_16",
+      "icon_item_id": "minecraft:ancient_debris",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.min.amethyst_spyglass",
+      "icon_item_id": "minecraft:spyglass",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.min.stone_10000",
+      "icon_item_id": "minecraft:stone",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.min.pickaxe_5000",
+      "icon_item_id": "minecraft:iron_pickaxe",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.min.vein_500",
+      "icon_item_id": "minecraft:raw_gold",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.min.drill_1000",
+      "icon_item_id": "moreminecrafts:mining_drill",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.min.logs_1000",
+      "icon_item_id": "minecraft:oak_log",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.min.all_wood",
+      "icon_item_id": "minecraft:oak_planks",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.min.lumberjack_200",
+      "icon_item_id": "minecraft:iron_axe",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.frm.composite_foods",
+      "icon_item_id": "minecraft:bread",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.frm.harvest_all_crops",
+      "icon_item_id": "minecraft:wheat",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.frm.harvest_1000",
+      "icon_item_id": "minecraft:wheat",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.frm.till_1000",
+      "icon_item_id": "minecraft:iron_hoe",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.frm.ancient_harvest",
+      "icon_item_id": "minecraft:sweet_berries",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.frm.harvest_5000",
+      "icon_item_id": "minecraft:carrot",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.frm.soil_study_harvest",
+      "icon_item_id": "minecraft:bone_meal",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.frm.tame_5",
+      "icon_item_id": "minecraft:lead",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.frm.breed_200",
+      "icon_item_id": "minecraft:golden_carrot",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.frm.honey_32",
+      "icon_item_id": "minecraft:honeycomb",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.frm.master_trade",
+      "icon_item_id": "minecraft:emerald",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.frm.mending_book",
+      "icon_item_id": "minecraft:enchanted_book",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.frm.professions_10",
+      "icon_item_id": "minecraft:lectern",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.frm.villager_discount_20",
+      "icon_item_id": "minecraft:emerald",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.frm.barter_200",
+      "icon_item_id": "minecraft:gold_ingot",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.frm.trades_200",
+      "icon_item_id": "minecraft:emerald",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.frm.auto_farm",
+      "icon_item_id": "minecraft:hopper",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.frm.first_capture",
+      "icon_item_id": "moreminecrafts:captured_mob_egg",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.frm.capture_10",
+      "icon_item_id": "moreminecrafts:mob_capture_tool",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.fsh.freshwater_4",
+      "icon_item_id": "moreminecrafts:bluegill",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.fsh.multi_catch",
+      "icon_item_id": "minecraft:fishing_rod",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.fsh.water_biomes_8",
+      "icon_item_id": "minecraft:lily_pad",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.fsh.ocean_trio",
+      "icon_item_id": "minecraft:prismarine_shard",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.fsh.catch_500",
+      "icon_item_id": "moreminecrafts:common_carp",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.fsh.full_catalogue",
+      "icon_item_id": "moreminecrafts:swordfish",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.fsh.giant_catch",
+      "icon_item_id": "moreminecrafts:beluga_sturgeon",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.fsh.first_sale",
+      "icon_item_id": "minecraft:cod",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.fsh.sale_64",
+      "icon_item_id": "minecraft:salmon",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.fsh.emerald_500",
+      "icon_item_id": "minecraft:emerald",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.fsh.first_module",
+      "icon_item_id": "minecraft:fishing_rod",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.fsh.grade_four",
+      "icon_item_id": "minecraft:fishing_rod",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.fsh.tier3_rig",
+      "icon_item_id": "moreminecrafts:reel_3",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.fsh.grade_five",
+      "icon_item_id": "minecraft:fishing_rod",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.fsh.grade_five_5",
+      "icon_item_id": "moreminecrafts:reel_5",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.fsh.fish_trap",
+      "icon_item_id": "minecraft:barrel",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.cft.sleeping_bag",
+      "icon_item_id": "minecraft:red_bed",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.cft.enchanting_30",
+      "icon_item_id": "minecraft:enchanting_table",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.cft.anvil_50",
+      "icon_item_id": "minecraft:anvil",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.cft.parachute",
+      "icon_item_id": "moreminecrafts:parachute",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.cft.smelt_1000",
+      "icon_item_id": "minecraft:furnace",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.cft.all_daggers",
+      "icon_item_id": "moreminecrafts:diamond_dagger",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.cft.all_greatswords",
+      "icon_item_id": "moreminecrafts:diamond_greatsword",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.cft.conduit",
+      "icon_item_id": "minecraft:conduit",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.cft.mm_metallurgy",
+      "icon_item_id": "moreminecrafts:titanium_ingot",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.cft.netherite_tools",
+      "icon_item_id": "minecraft:netherite_pickaxe",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.cft.mm_blocks",
+      "icon_item_id": "minecraft:bricks",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.cft.redstone_100",
+      "icon_item_id": "minecraft:redstone",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.cft.recipes_200",
+      "icon_item_id": "minecraft:crafting_table",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.cft.backpack_large",
+      "icon_item_id": "moreminecrafts:large_backpack",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.cft.portable_furnace",
+      "icon_item_id": "moreminecrafts:portable_furnace",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.bld.place_1000",
+      "icon_item_id": "minecraft:stone_bricks",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.bld.place_10000",
+      "icon_item_id": "minecraft:bricks",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.bld.place_50000",
+      "icon_item_id": "minecraft:stone_bricks",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.bld.place_200000",
+      "icon_item_id": "minecraft:smooth_stone",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.bld.variety_50",
+      "icon_item_id": "minecraft:chiseled_stone_bricks",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.bld.storage_50",
+      "icon_item_id": "minecraft:chest",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.bld.variety_150",
+      "icon_item_id": "minecraft:cobblestone_wall",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.bld.copper_ages",
+      "icon_item_id": "minecraft:copper_block",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.alc.shock_potion",
+      "icon_item_id": "minecraft:potion",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.alc.splash_lingering",
+      "icon_item_id": "minecraft:lingering_potion",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.alc.shock_10",
+      "icon_item_id": "minecraft:splash_potion",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.alc.ingredients_all",
+      "icon_item_id": "minecraft:glistering_melon_slice",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.alc.types_12",
+      "icon_item_id": "minecraft:brewing_stand",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.alc.effects_16",
+      "icon_item_id": "minecraft:fermented_spider_eye",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.alc.enhanced_3",
+      "icon_item_id": "minecraft:glowstone_dust",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.alc.injector",
+      "icon_item_id": "moreminecrafts:potion_injector",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.alc.potions_250",
+      "icon_item_id": "minecraft:potion",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.eqp.enhance_5",
+      "icon_item_id": "moreminecrafts:enhancement_stone",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.eqp.enhance_10",
+      "icon_item_id": "moreminecrafts:enhancement_stone",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.eqp.enhance_15",
+      "icon_item_id": "moreminecrafts:enhancement_stone",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.eqp.enhance_trio",
+      "icon_item_id": "moreminecrafts:enhancement_stone",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.eqp.enhance_20",
+      "icon_item_id": "minecraft:netherite_ingot",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.eqp.enhance_20_armor",
+      "icon_item_id": "minecraft:netherite_chestplate",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.eqp.custom_enchant",
+      "icon_item_id": "minecraft:enchanted_book",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.eqp.custom_enchant_5",
+      "icon_item_id": "minecraft:enchanted_book",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.eqp.custom_enchant_all",
+      "icon_item_id": "minecraft:enchanted_book",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.eqp.first_t2_core",
+      "icon_item_id": "moreminecrafts:heart_of_thunder",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.eqp.t2_cores_3",
+      "icon_item_id": "moreminecrafts:heart_of_currents",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.eqp.all_t2_cores",
+      "icon_item_id": "moreminecrafts:burning_heart",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.eqp.first_t2_weapon",
+      "icon_item_id": "moreminecrafts:flame_sword",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.eqp.t2_arsenal",
+      "icon_item_id": "moreminecrafts:wind_sword",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.eqp.t2_plus20",
+      "icon_item_id": "moreminecrafts:lightning_sword",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.eqp.accessory_first",
+      "icon_item_id": "moreminecrafts:gauntlet",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.eqp.accessory_full",
+      "icon_item_id": "moreminecrafts:gauntlet",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.eqp.accessory_all",
+      "icon_item_id": "moreminecrafts:gauntlet",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.eqp.t3_special",
+      "icon_item_id": "moreminecrafts:eye_of_typhoon",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.eqp.t3_set",
+      "icon_item_id": "moreminecrafts:dark_energy_staff",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.grw.knowledge_10",
+      "icon_item_id": "minecraft:book",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.grw.knowledge_20",
+      "icon_item_id": "minecraft:book",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.grw.knowledge_35",
+      "icon_item_id": "minecraft:book",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.grw.knowledge_50",
+      "icon_item_id": "minecraft:book",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.grw.knowledge_complete",
+      "icon_item_id": "minecraft:bookshelf",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.grw.first_research",
+      "icon_item_id": "minecraft:lectern",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.grw.seven_roots",
+      "icon_item_id": "minecraft:oak_sapling",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.grw.research_10",
+      "icon_item_id": "minecraft:enchanting_table",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.grw.discipline_breadth",
+      "icon_item_id": "minecraft:bookshelf",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.grw.research_25",
+      "icon_item_id": "minecraft:enchanting_table",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.grw.discipline_complete",
+      "icon_item_id": "minecraft:nether_star",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.grw.research_50",
+      "icon_item_id": "minecraft:enchanting_table",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.grw.first_t2",
+      "icon_item_id": "minecraft:amethyst_shard",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.grw.spent_10k",
+      "icon_item_id": "minecraft:emerald",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.grw.first_t3",
+      "icon_item_id": "minecraft:echo_shard",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.grw.spent_50k",
+      "icon_item_id": "minecraft:emerald_block",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.grw.t3_5",
+      "icon_item_id": "minecraft:echo_shard",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.grw.climbing_100",
+      "icon_item_id": "minecraft:ladder",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.grw.fall_roll_20",
+      "icon_item_id": "minecraft:feather",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.grw.throwable_pickaxe",
+      "icon_item_id": "minecraft:iron_pickaxe",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.grw.wall_jump_50",
+      "icon_item_id": "minecraft:slime_block",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.dim.fortress_loot",
+      "icon_item_id": "minecraft:nether_brick",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.dim.blaze_rods_32",
+      "icon_item_id": "minecraft:blaze_rod",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.dim.bastion_all",
+      "icon_item_id": "minecraft:gilded_blackstone",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.dim.nether_travel_50k",
+      "icon_item_id": "minecraft:soul_sand",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.dim.end_cities_3",
+      "icon_item_id": "minecraft:end_rod",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.dim.shulker_boxes",
+      "icon_item_id": "minecraft:shulker_box",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.dim.end_city_loot_10",
+      "icon_item_id": "minecraft:chorus_fruit",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.dim.trial_vaults_5",
+      "icon_item_id": "minecraft:trial_key",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.dim.ancient_city_loot",
+      "icon_item_id": "minecraft:echo_shard",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.dim.ominous_vaults_5",
+      "icon_item_id": "minecraft:ominous_trial_key",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.boss.elder_guardian",
+      "icon_item_id": "minecraft:elder_guardian_spawn_egg",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.boss.monument_clear",
+      "icon_item_id": "minecraft:prismarine",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.boss.monuments_3",
+      "icon_item_id": "minecraft:prismarine_crystals",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.boss.warden",
+      "icon_item_id": "minecraft:warden_spawn_egg",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.boss.warden_3",
+      "icon_item_id": "minecraft:sculk_catalyst",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.boss.wither",
+      "icon_item_id": "minecraft:nether_star",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.boss.dragon_rematch",
+      "icon_item_id": "minecraft:dragon_breath",
+      "source": "target"
+    },
+    {
+      "quest_id": "xpq.boss.twin_bosses",
+      "icon_item_id": "minecraft:end_crystal",
+      "source": "related"
+    },
+    {
+      "quest_id": "xpq.boss.omen_raid",
+      "icon_item_id": "minecraft:ominous_bottle",
+      "source": "related"
+    }
+  ]
+}

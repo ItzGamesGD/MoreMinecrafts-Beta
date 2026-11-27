@@ -1,0 +1,39 @@
+{
+  "kind": "SIMULATED_ONLY; no Minecraft cave qualification/roll/placement",
+  "closed_complete_graph_orders_in_parallel": 24,
+  "stable_ids": [
+    "3fa301792b33d2a0832f9c4fe19b8a8f158e0c9314b4d28592bec4826129914b",
+    "75993d3a1df252031fa253063f168894ccef0d66d9dfa906109fc3e4466fd984",
+    "9829193f06cdb6f548b85effcb1f7b391b33b2ca39a7647a51f6cf834de7298f"
+  ],
+  "sqlite_concurrent_claim_requests": 96,
+  "unique_claims": 3,
+  "second_process_retries_new_claims": [
+    0,
+    0,
+    0
+  ],
+  "candidate_priority": "SHA256(priority, canonical_id), canonical_id tie-break, greedy on complete winners",
+  "priority_order_results_equal": true,
+  "priority_adopted": false,
+  "synthetic_fit_eligible_denominator": 3,
+  "single_rolls": 3,
+  "roll_wins": 2,
+  "final_placements": 1,
+  "spacing_exclusions": 1,
+  "same_local_observation_global_component_counts": [
+    2,
+    1
+  ],
+  "old_ids_after_late_merge": [
+    "3fa301792b33d2a0832f9c4fe19b8a8f158e0c9314b4d28592bec4826129914b",
+    "6d43d054ca330b28873bd817981e80ab5d1bd7413e31a30575abdb42d736546b"
+  ],
+  "merged_ids": [
+    "ca6659527760b3f5485110d2e74e1a88098c40ab3905ba1957c96091e5d92875"
+  ],
+  "durable_claims_cannot_fix_changing_identity": true,
+  "real_75pct_denominator": "UNKNOWN; no real rolls drawn",
+  "stop": "OWNER_DECISION_REQUIRED before treating frontier components as eligible or adopting spacing priority",
+  "a02": "BLOCKER"
+}

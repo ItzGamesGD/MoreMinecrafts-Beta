@@ -110,8 +110,6 @@ public final class LiveTestCommand {
     private static int giveMaterials(ServerPlayer player) {
         give(player, ModItems.RAW_TITANIUM, 64);
         give(player, ModItems.TITANIUM_INGOT, 64);
-        give(player, ModItems.RAW_TUNGSTEN, 64);
-        give(player, ModItems.TUNGSTEN_INGOT, 64);
         give(player, ModItems.MYTHRIL, 64);
         give(player, ModItems.ETHERIUM, 64);
         give(player, ModItems.ADAMANTIUM_INGOT, 64);

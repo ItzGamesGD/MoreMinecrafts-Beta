@@ -1,0 +1,1550 @@
+{
+ "collisions": [],
+ "checks": [
+  {
+   "id": "A1",
+   "title": "Outer envelope 81x81x40 (layer 0 = X,Z -40..40; top layer 39)",
+   "verdict": "PASS",
+   "evidence": "solid bbox X[-40,40] Z[-40,40] Y[0,39] => 81x81x40; elements outside box: []"
+  },
+  {
+   "id": "A2",
+   "title": "Slope vs interior volumes: min horizontal shell >= 3 at every void voxel (voxel scan + analytic corner cross-check)",
+   "verdict": "PASS",
+   "evidence": "min shell per space {'S01': 3, 'S02': 5, 'S03': 10, 'S04': 5, 'S05': None, 'S06': None, 'S07': None, 'S08': 20, 'S09': 16, 'S10': 3}; violations []"
+  },
+  {
+   "id": "A3",
+   "title": "Facade door lintel above D1 (face z=28 top layer 12, door top layer 9)",
+   "verdict": "PASS",
+   "evidence": "lintel layers 10..12 = 3 blocks"
+  },
+  {
+   "id": "A4",
+   "title": "Upper-pyramid space: mass above hall (layers 18..39 at x=z=0) and no room needed above altar (layer 17)",
+   "verdict": "PASS",
+   "evidence": "22 solid layers above hall at centre; no program element is placed above layer 17, so no upper-level shortage. (Hollow attic NOT proposed: how much volume stays solid is an open prep-doc item.)"
+  },
+  {
+   "id": "A5",
+   "title": "Entrance/forecourt vs exterior form: aboveground voxel model X-mirror symmetric; forecourt carved inside footprint (no protrusion beyond z=40)",
+   "verdict": "PASS",
+   "evidence": "asymmetric solid voxels=0, asymmetric element voxels=0; forecourt X-12..12 x Z29..40 is carved INTO the south slope; facade face z=28 rises to layer 12 where the slope surface begins"
+  },
+  {
+   "id": "B1",
+   "title": "Every program space reachable on foot from outside the pyramid (4-neighbour, step<=1, 2-block headroom)",
+   "verdict": "PASS",
+   "evidence": "forecourt centre:Y; D1 door:Y; vestibule:Y; D2 portal:Y; hall centre:Y; descent stair head:Y; descent landing:Y; P2 exit E1 (x=8):Y; gallery W (stair top):Y; gallery E (stair top):Y; gallery rear centre:Y; altar portal:Y; altar stair mid:Y; altar chamber centre:Y"
+  },
+  {
+   "id": "B2",
+   "title": "Main routes passable by a 3-wide agent (3x3 footprint, +-1 level on stairs)",
+   "verdict": "PASS",
+   "evidence": "forecourt centre:Y; D1 door:Y; vestibule:Y; D2 portal:Y; hall centre:Y; descent stair head:Y; descent landing:Y; P2 exit E1 (x=8):Y; gallery W (stair top):Y; gallery E (stair top):Y; gallery rear centre:Y; altar portal:Y; altar stair mid:Y; altar chamber centre:Y"
+  },
+  {
+   "id": "C-U",
+   "title": "U-gallery continuity: left ledge -> rear ledge -> right ledge stays on one level (F=7) without stairs",
+   "verdict": "PASS",
+   "evidence": "connected at F=7: True; walkable rear depth at x=0: 8; walkable side width at z=5 (west): 6; walkable gallery cells: 358"
+  },
+  {
+   "id": "B3",
+   "title": "Altar chamber independent of descent: altar only via gallery; descent still reachable without gallery; Y-separation",
+   "verdict": "PASS",
+   "evidence": "gallery removed => altar reachable? False; descent reachable? True; altar floor feet Y=11 vs landing roof layer Y=-1: 11 blocks of solid between; plan XZ projections overlap (see D2) but 3D volumes do not"
+  },
+  {
+   "id": "D1",
+   "title": "3D volume overlap between distinct spaces (AABB, Y included)",
+   "verdict": "PASS",
+   "evidence": "overlapping pairs: []; voxel-level space/element collisions: []"
+  },
+  {
+   "id": "D2",
+   "title": "Plan-projection (XZ) overlaps that are NOT 3D overlaps (separated in Y)",
+   "verdict": "PASS",
+   "evidence": "S06/S08: 7 solid layers between; S06/S09: 8 solid layers between; S06/S10: 11 solid layers between"
+  },
+  {
+   "id": "D3",
+   "title": "Face contacts between spaces are all declared openings; none are accidental merges (shared wall vs opening vs collision)",
+   "verdict": "PASS",
+   "evidence": "declared openings 10, undeclared []"
+  },
+  {
+   "id": "D4",
+   "title": "Face-to-face wall between non-connected spaces >= 2 blocks (PROPOSED min wall)",
+   "verdict": "PASS",
+   "evidence": "thin walls: []"
+  },
+  {
+   "id": "B4",
+   "title": "Headroom >= 3 above every standable cell in every space (and stair-edge clearance)",
+   "verdict": "PASS",
+   "evidence": "min headroom per space: {'S00': 30, 'S01': 10, 'S02': 12, 'S03': 11, 'S04': 5, 'S05': 6, 'S06': 6, 'S07': 4, 'S08': 6, 'S09': 4, 'S10': 7}"
+  },
+  {
+   "id": "B5",
+   "title": "Hall columns vs circulation: clear gaps between 3x3 column bodies and open nave width",
+   "verdict": "PASS",
+   "evidence": "column z-spans 1..3 / 7..9 / 13..15 -> clear gaps 3 (z4..6), 3 (z10..12), south gap z16..18 = 3; open nave X-8..8 = 17 wide x Z1..18 = 18 deep; stair/portal axes (|x|<=6) never intersect a column"
+  },
+  {
+   "id": "C1",
+   "title": "Descent stair start (Q02): hall rear centre, wide, 1:1, intermediate landing, 90-degree turn to a 7-wide exit corridor",
+   "verdict": "PASS",
+   "evidence": "rise 6 over 5 treads + 1 flat block (run 6), gradient 1:1 (45 deg) for the 5 treads; width 11; landing 15x8 at feet Y=-6; min headroom on stair/landing 6; exit stub width 7 on landing east plane x=8; stair axis -Z, exit axis +X => 90-degree turn"
+  },
+  {
+   "id": "C2",
+   "title": "Altar chamber (Q05) separate from descent: separate entrance (rear gallery portal AP1), separate stair, Y-disjoint",
+   "verdict": "PASS",
+   "evidence": "AP1 X-3..3 Z-8..-7 Y7..12; 4 rises over 3 treads; altar floor feet Y11; descent landing roof layer -1 -> 11 solid layers separate them"
+  },
+  {
+   "id": "B6",
+   "title": "Gallery overlook (Q03/Q04): fraction of open-nave floor cells (17x18, head height) visible from at least one gallery rail position",
+   "verdict": "PASS",
+   "evidence": "rail treated see-through (wall/fence-type): 100%; rail as an opaque full 1x1x1 block: 59%. Requirement carried forward: gallery rail must be a see-through block type. Real-client visual check remains LIVE VALIDATION PENDING"
+  },
+  {
+   "id": "B9",
+   "title": "Gallery support buildability: every ledge slab block lies within 8 blocks (PROPOSED style limit) of a supporting wall or column in its layer; slabs 2 thick; 5 clear layers beneath",
+   "verdict": "PASS",
+   "evidence": "385 slab blocks (layer 5); worst distance to a wall/column = 7 blocks (rear/side ledges are 7 deep, anchored on the rear/side walls, inner edges flanked by the column line). Minecraft applies no structural load, so this is a visual-plausibility metric only; columns stand on the floor slab (layer -1)"
+  },
+  {
+   "id": "B7",
+   "title": "Hall zones nested inside hall, mutually disjoint; open central nave (X-8..8, Z1..18, Y0..17) contains zero solid blocks",
+   "verdict": "PASS",
+   "evidence": "zones ok=True []; solid blocks in nave volume: 0 of 5508"
+  },
+  {
+   "id": "B8",
+   "title": "Stair widths >= 3 (3x3-agent test treats tread cells analytically)",
+   "verdict": "PASS",
+   "evidence": "{'descent flight A': 11, 'gallery stairs': 7, 'altar ascent': 7}"
+  }
+ ],
+ "pairs": [
+  [
+   "S00",
+   "S01",
+   "Z",
+   90,
+   "declared opening"
+  ],
+  [
+   "S01",
+   "S02",
+   "Z",
+   90,
+   "declared opening"
+  ],
+  [
+   "S02",
+   "S03",
+   "Z",
+   143,
+   "declared opening"
+  ],
+  [
+   "S03",
+   "S04",
+   "Z",
+   143,
+   "declared opening"
+  ],
+  [
+   "S04",
+   "S05",
+   "Y",
+   66,
+   "declared opening"
+  ],
+  [
+   "S04",
+   "S08",
+   "Z",
+   42,
+   "declared opening"
+  ],
+  [
+   "S05",
+   "S06",
+   "Z",
+   66,
+   "declared opening"
+  ],
+  [
+   "S06",
+   "S07",
+   "X",
+   28,
+   "declared opening"
+  ],
+  [
+   "S08",
+   "S09",
+   "Z",
+   35,
+   "declared opening"
+  ],
+  [
+   "S09",
+   "S10",
+   "Z",
+   21,
+   "declared opening"
+  ]
+ ],
+ "plan_only": [
+  [
+   "S06",
+   "S08",
+   7
+  ],
+  [
+   "S06",
+   "S09",
+   8
+  ],
+  [
+   "S06",
+   "S10",
+   11
+  ]
+ ],
+ "openings": [
+  [
+   "S00",
+   "S01",
+   "Z",
+   [
+    [
+     -4,
+     4
+    ],
+    [
+     0,
+     9
+    ],
+    [
+     29,
+     28
+    ]
+   ],
+   90
+  ],
+  [
+   "S01",
+   "S02",
+   "Z",
+   [
+    [
+     -4,
+     4
+    ],
+    [
+     0,
+     9
+    ],
+    [
+     25,
+     24
+    ]
+   ],
+   90
+  ],
+  [
+   "S02",
+   "S03",
+   "Z",
+   [
+    [
+     -6,
+     6
+    ],
+    [
+     0,
+     10
+    ],
+    [
+     21,
+     20
+    ]
+   ],
+   143
+  ],
+  [
+   "S03",
+   "S04",
+   "Z",
+   [
+    [
+     -6,
+     6
+    ],
+    [
+     0,
+     10
+    ],
+    [
+     19,
+     18
+    ]
+   ],
+   143
+  ],
+  [
+   "S04",
+   "S05",
+   "Y",
+   [
+    [
+     -5,
+     5
+    ],
+    [
+     0,
+     -1
+    ],
+    [
+     -6,
+     -1
+    ]
+   ],
+   66
+  ],
+  [
+   "S04",
+   "S08",
+   "Z",
+   [
+    [
+     -3,
+     3
+    ],
+    [
+     7,
+     12
+    ],
+    [
+     -6,
+     -7
+    ]
+   ],
+   42
+  ],
+  [
+   "S05",
+   "S06",
+   "Z",
+   [
+    [
+     -5,
+     5
+    ],
+    [
+     -6,
+     -1
+    ],
+    [
+     -6,
+     -7
+    ]
+   ],
+   66
+  ],
+  [
+   "S06",
+   "S07",
+   "X",
+   [
+    [
+     8,
+     7
+    ],
+    [
+     -6,
+     -3
+    ],
+    [
+     -13,
+     -7
+    ]
+   ],
+   28
+  ],
+  [
+   "S08",
+   "S09",
+   "Z",
+   [
+    [
+     -3,
+     3
+    ],
+    [
+     8,
+     12
+    ],
+    [
+     -8,
+     -9
+    ]
+   ],
+   35
+  ],
+  [
+   "S09",
+   "S10",
+   "Z",
+   [
+    [
+     -3,
+     3
+    ],
+    [
+     11,
+     13
+    ],
+    [
+     -11,
+     -12
+    ]
+   ],
+   21
+  ]
+ ],
+ "table": [
+  {
+   "id": "S00",
+   "name": "forecourt (open-air sunken entrance court)",
+   "kind": "exterior",
+   "x": [
+    -12,
+    12
+   ],
+   "y": [
+    0,
+    11
+   ],
+   "z": [
+    29,
+    40
+   ],
+   "size": [
+    25,
+    12,
+    12
+   ],
+   "feet_floor_Y": 0,
+   "clear_h": 12,
+   "min_shell": null,
+   "min_roof_mass": 0,
+   "min_headroom_walked": 30,
+   "status": "PROPOSED"
+  },
+  {
+   "id": "S01",
+   "name": "D1 entrance door passage",
+   "kind": "opening",
+   "x": [
+    -4,
+    4
+   ],
+   "y": [
+    0,
+    9
+   ],
+   "z": [
+    25,
+    28
+   ],
+   "size": [
+    9,
+    10,
+    4
+   ],
+   "feet_floor_Y": 0,
+   "clear_h": 10,
+   "min_shell": 3,
+   "min_roof_mass": 3,
+   "min_headroom_walked": 10,
+   "status": "PROPOSED"
+  },
+  {
+   "id": "S02",
+   "name": "vestibule",
+   "kind": "room",
+   "x": [
+    -10,
+    10
+   ],
+   "y": [
+    0,
+    11
+   ],
+   "z": [
+    21,
+    24
+   ],
+   "size": [
+    21,
+    12,
+    4
+   ],
+   "feet_floor_Y": 0,
+   "clear_h": 12,
+   "min_shell": 5,
+   "min_roof_mass": 5,
+   "min_headroom_walked": 12,
+   "status": "PROPOSED"
+  },
+  {
+   "id": "S03",
+   "name": "D2 hall portal",
+   "kind": "opening",
+   "x": [
+    -6,
+    6
+   ],
+   "y": [
+    0,
+    10
+   ],
+   "z": [
+    19,
+    20
+   ],
+   "size": [
+    13,
+    11,
+    2
+   ],
+   "feet_floor_Y": 0,
+   "clear_h": 11,
+   "min_shell": 10,
+   "min_roof_mass": 10,
+   "min_headroom_walked": 11,
+   "status": "PROPOSED"
+  },
+  {
+   "id": "S04",
+   "name": "grand hall (nave + gallery air volume)",
+   "kind": "room",
+   "x": [
+    -18,
+    18
+   ],
+   "y": [
+    0,
+    17
+   ],
+   "z": [
+    -6,
+    18
+   ],
+   "size": [
+    37,
+    18,
+    25
+   ],
+   "feet_floor_Y": 0,
+   "clear_h": 18,
+   "min_shell": 5,
+   "min_roof_mass": 5,
+   "min_headroom_walked": 5,
+   "status": "PROPOSED (Q03 approved qualitatively)"
+  },
+  {
+   "id": "S05",
+   "name": "descent flight A (stair well, hall-floor cutout)",
+   "kind": "stair",
+   "x": [
+    -5,
+    5
+   ],
+   "y": [
+    -6,
+    -1
+   ],
+   "z": [
+    -6,
+    -1
+   ],
+   "size": [
+    11,
+    6,
+    6
+   ],
+   "feet_floor_Y": -6,
+   "clear_h": 6,
+   "min_shell": null,
+   "min_roof_mass": 0,
+   "min_headroom_walked": 6,
+   "status": "PROPOSED (Q02)"
+  },
+  {
+   "id": "S06",
+   "name": "descent landing",
+   "kind": "room",
+   "x": [
+    -7,
+    7
+   ],
+   "y": [
+    -6,
+    -1
+   ],
+   "z": [
+    -14,
+    -7
+   ],
+   "size": [
+    15,
+    6,
+    8
+   ],
+   "feet_floor_Y": -6,
+   "clear_h": 6,
+   "min_shell": null,
+   "min_roof_mass": 7,
+   "min_headroom_walked": 6,
+   "status": "PROPOSED (Q02)"
+  },
+  {
+   "id": "S07",
+   "name": "P2 interface stub U00 (reserved)",
+   "kind": "reserved",
+   "x": [
+    8,
+    15
+   ],
+   "y": [
+    -6,
+    -3
+   ],
+   "z": [
+    -13,
+    -7
+   ],
+   "size": [
+    8,
+    4,
+    7
+   ],
+   "feet_floor_Y": -6,
+   "clear_h": 4,
+   "min_shell": null,
+   "min_roof_mass": 28,
+   "min_headroom_walked": 4,
+   "status": "RESERVED for P2"
+  },
+  {
+   "id": "S08",
+   "name": "AP1 altar portal (rear wall)",
+   "kind": "opening",
+   "x": [
+    -3,
+    3
+   ],
+   "y": [
+    7,
+    12
+   ],
+   "z": [
+    -8,
+    -7
+   ],
+   "size": [
+    7,
+    6,
+    2
+   ],
+   "feet_floor_Y": 7,
+   "clear_h": 6,
+   "min_shell": 20,
+   "min_roof_mass": 20,
+   "min_headroom_walked": 6,
+   "status": "PROPOSED"
+  },
+  {
+   "id": "S09",
+   "name": "altar ascent passage + stair",
+   "kind": "stair",
+   "x": [
+    -3,
+    3
+   ],
+   "y": [
+    8,
+    13
+   ],
+   "z": [
+    -11,
+    -9
+   ],
+   "size": [
+    7,
+    6,
+    3
+   ],
+   "feet_floor_Y": 8,
+   "clear_h": 6,
+   "min_shell": 16,
+   "min_roof_mass": 16,
+   "min_headroom_walked": 4,
+   "status": "PROPOSED (Q05)"
+  },
+  {
+   "id": "S10",
+   "name": "altar chamber",
+   "kind": "room",
+   "x": [
+    -7,
+    7
+   ],
+   "y": [
+    11,
+    17
+   ],
+   "z": [
+    -20,
+    -12
+   ],
+   "size": [
+    15,
+    7,
+    9
+   ],
+   "feet_floor_Y": 11,
+   "clear_h": 7,
+   "min_shell": 3,
+   "min_roof_mass": 3,
+   "min_headroom_walked": 7,
+   "status": "PROPOSED (Q05)"
+  }
+ ],
+ "elems": [
+  [
+   "col_hall_W2",
+   "column",
+   "S04",
+   [
+    -11,
+    -9
+   ],
+   [
+    0,
+    17
+   ],
+   [
+    1,
+    3
+   ]
+  ],
+  [
+   "col_hall_W8",
+   "column",
+   "S04",
+   [
+    -11,
+    -9
+   ],
+   [
+    0,
+    17
+   ],
+   [
+    7,
+    9
+   ]
+  ],
+  [
+   "col_hall_W14",
+   "column",
+   "S04",
+   [
+    -11,
+    -9
+   ],
+   [
+    0,
+    17
+   ],
+   [
+    13,
+    15
+   ]
+  ],
+  [
+   "col_hall_E2",
+   "column",
+   "S04",
+   [
+    9,
+    11
+   ],
+   [
+    0,
+    17
+   ],
+   [
+    1,
+    3
+   ]
+  ],
+  [
+   "col_hall_E8",
+   "column",
+   "S04",
+   [
+    9,
+    11
+   ],
+   [
+    0,
+    17
+   ],
+   [
+    7,
+    9
+   ]
+  ],
+  [
+   "col_hall_E14",
+   "column",
+   "S04",
+   [
+    9,
+    11
+   ],
+   [
+    0,
+    17
+   ],
+   [
+    13,
+    15
+   ]
+  ],
+  [
+   "col_court_W32",
+   "column",
+   "S00",
+   [
+    -9,
+    -7
+   ],
+   [
+    0,
+    9
+   ],
+   [
+    31,
+    33
+   ]
+  ],
+  [
+   "col_court_W37",
+   "column",
+   "S00",
+   [
+    -9,
+    -7
+   ],
+   [
+    0,
+    9
+   ],
+   [
+    36,
+    38
+   ]
+  ],
+  [
+   "col_court_E32",
+   "column",
+   "S00",
+   [
+    7,
+    9
+   ],
+   [
+    0,
+    9
+   ],
+   [
+    31,
+    33
+   ]
+  ],
+  [
+   "col_court_E37",
+   "column",
+   "S00",
+   [
+    7,
+    9
+   ],
+   [
+    0,
+    9
+   ],
+   [
+    36,
+    38
+   ]
+  ],
+  [
+   "ledge_W",
+   "ledge",
+   "S04",
+   [
+    -18,
+    -12
+   ],
+   [
+    5,
+    6
+   ],
+   [
+    -6,
+    9
+   ]
+  ],
+  [
+   "ledge_E",
+   "ledge",
+   "S04",
+   [
+    12,
+    18
+   ],
+   [
+    5,
+    6
+   ],
+   [
+    -6,
+    9
+   ]
+  ],
+  [
+   "ledge_R",
+   "ledge",
+   "S04",
+   [
+    -11,
+    11
+   ],
+   [
+    5,
+    6
+   ],
+   [
+    -6,
+    0
+   ]
+  ],
+  [
+   "parapet_W",
+   "parapet",
+   "S04",
+   [
+    -12,
+    -12
+   ],
+   [
+    7,
+    7
+   ],
+   [
+    1,
+    9
+   ]
+  ],
+  [
+   "parapet_E",
+   "parapet",
+   "S04",
+   [
+    12,
+    12
+   ],
+   [
+    7,
+    7
+   ],
+   [
+    1,
+    9
+   ]
+  ],
+  [
+   "parapet_R",
+   "parapet",
+   "S04",
+   [
+    -11,
+    11
+   ],
+   [
+    7,
+    7
+   ],
+   [
+    0,
+    0
+   ]
+  ],
+  [
+   "galstair_W1",
+   "stair",
+   "S04",
+   [
+    -18,
+    -12
+   ],
+   [
+    0,
+    0
+   ],
+   [
+    15,
+    15
+   ]
+  ],
+  [
+   "galstair_W2",
+   "stair",
+   "S04",
+   [
+    -18,
+    -12
+   ],
+   [
+    0,
+    1
+   ],
+   [
+    14,
+    14
+   ]
+  ],
+  [
+   "galstair_W3",
+   "stair",
+   "S04",
+   [
+    -18,
+    -12
+   ],
+   [
+    0,
+    2
+   ],
+   [
+    13,
+    13
+   ]
+  ],
+  [
+   "galstair_W4",
+   "stair",
+   "S04",
+   [
+    -18,
+    -12
+   ],
+   [
+    0,
+    3
+   ],
+   [
+    12,
+    12
+   ]
+  ],
+  [
+   "galstair_W5",
+   "stair",
+   "S04",
+   [
+    -18,
+    -12
+   ],
+   [
+    0,
+    4
+   ],
+   [
+    11,
+    11
+   ]
+  ],
+  [
+   "galstair_W6",
+   "stair",
+   "S04",
+   [
+    -18,
+    -12
+   ],
+   [
+    0,
+    5
+   ],
+   [
+    10,
+    10
+   ]
+  ],
+  [
+   "galstair_E1",
+   "stair",
+   "S04",
+   [
+    12,
+    18
+   ],
+   [
+    0,
+    0
+   ],
+   [
+    15,
+    15
+   ]
+  ],
+  [
+   "galstair_E2",
+   "stair",
+   "S04",
+   [
+    12,
+    18
+   ],
+   [
+    0,
+    1
+   ],
+   [
+    14,
+    14
+   ]
+  ],
+  [
+   "galstair_E3",
+   "stair",
+   "S04",
+   [
+    12,
+    18
+   ],
+   [
+    0,
+    2
+   ],
+   [
+    13,
+    13
+   ]
+  ],
+  [
+   "galstair_E4",
+   "stair",
+   "S04",
+   [
+    12,
+    18
+   ],
+   [
+    0,
+    3
+   ],
+   [
+    12,
+    12
+   ]
+  ],
+  [
+   "galstair_E5",
+   "stair",
+   "S04",
+   [
+    12,
+    18
+   ],
+   [
+    0,
+    4
+   ],
+   [
+    11,
+    11
+   ]
+  ],
+  [
+   "galstair_E6",
+   "stair",
+   "S04",
+   [
+    12,
+    18
+   ],
+   [
+    0,
+    5
+   ],
+   [
+    10,
+    10
+   ]
+  ],
+  [
+   "descent_tread1",
+   "stair",
+   "S05",
+   [
+    -5,
+    5
+   ],
+   [
+    -6,
+    -2
+   ],
+   [
+    -1,
+    -1
+   ]
+  ],
+  [
+   "descent_tread2",
+   "stair",
+   "S05",
+   [
+    -5,
+    5
+   ],
+   [
+    -6,
+    -3
+   ],
+   [
+    -2,
+    -2
+   ]
+  ],
+  [
+   "descent_tread3",
+   "stair",
+   "S05",
+   [
+    -5,
+    5
+   ],
+   [
+    -6,
+    -4
+   ],
+   [
+    -3,
+    -3
+   ]
+  ],
+  [
+   "descent_tread4",
+   "stair",
+   "S05",
+   [
+    -5,
+    5
+   ],
+   [
+    -6,
+    -5
+   ],
+   [
+    -4,
+    -4
+   ]
+  ],
+  [
+   "descent_tread5",
+   "stair",
+   "S05",
+   [
+    -5,
+    5
+   ],
+   [
+    -6,
+    -6
+   ],
+   [
+    -5,
+    -5
+   ]
+  ],
+  [
+   "altar_tread1",
+   "stair",
+   "S09",
+   [
+    -3,
+    3
+   ],
+   [
+    8,
+    7
+   ],
+   [
+    -9,
+    -9
+   ]
+  ],
+  [
+   "altar_tread2",
+   "stair",
+   "S09",
+   [
+    -3,
+    3
+   ],
+   [
+    8,
+    8
+   ],
+   [
+    -10,
+    -10
+   ]
+  ],
+  [
+   "altar_tread3",
+   "stair",
+   "S09",
+   [
+    -3,
+    3
+   ],
+   [
+    8,
+    9
+   ],
+   [
+    -11,
+    -11
+   ]
+  ]
+ ],
+ "zones": {
+  "Z-LEFT": [
+   "U-gallery left ledge",
+   [
+    -18,
+    -12
+   ],
+   [
+    7,
+    17
+   ],
+   [
+    -6,
+    9
+   ]
+  ],
+  "Z-RIGHT": [
+   "U-gallery right ledge",
+   [
+    12,
+    18
+   ],
+   [
+    7,
+    17
+   ],
+   [
+    -6,
+    9
+   ]
+  ],
+  "Z-REAR": [
+   "U-gallery rear ledge",
+   [
+    -11,
+    11
+   ],
+   [
+    7,
+    17
+   ],
+   [
+    -6,
+    0
+   ]
+  ],
+  "Z-CENTER": [
+   "open central nave (no columns)",
+   [
+    -8,
+    8
+   ],
+   [
+    0,
+    17
+   ],
+   [
+    1,
+    18
+   ]
+  ]
+ },
+ "reach_rows": [
+  [
+   "forecourt centre",
+   [
+    0,
+    0,
+    35
+   ],
+   true,
+   true
+  ],
+  [
+   "D1 door",
+   [
+    0,
+    0,
+    27
+   ],
+   true,
+   true
+  ],
+  [
+   "vestibule",
+   [
+    0,
+    0,
+    22
+   ],
+   true,
+   true
+  ],
+  [
+   "D2 portal",
+   [
+    0,
+    0,
+    19.5
+   ],
+   true,
+   true
+  ],
+  [
+   "hall centre",
+   [
+    0,
+    0,
+    10
+   ],
+   true,
+   true
+  ],
+  [
+   "descent stair head",
+   [
+    0,
+    0,
+    1
+   ],
+   true,
+   true
+  ],
+  [
+   "descent landing",
+   [
+    0,
+    -6,
+    -10
+   ],
+   true,
+   true
+  ],
+  [
+   "P2 exit E1 (x=8)",
+   [
+    8,
+    -6,
+    -10
+   ],
+   true,
+   true
+  ],
+  [
+   "gallery W (stair top)",
+   [
+    -15,
+    7,
+    9
+   ],
+   true,
+   true
+  ],
+  [
+   "gallery E (stair top)",
+   [
+    15,
+    7,
+    9
+   ],
+   true,
+   true
+  ],
+  [
+   "gallery rear centre",
+   [
+    0,
+    7,
+    -3
+   ],
+   true,
+   true
+  ],
+  [
+   "altar portal",
+   [
+    0,
+    7,
+    -7
+   ],
+   true,
+   true
+  ],
+  [
+   "altar stair mid",
+   [
+    0,
+    9,
+    -10
+   ],
+   true,
+   true
+  ],
+  [
+   "altar chamber centre",
+   [
+    0,
+    11,
+    -16
+   ],
+   true,
+   true
+  ]
+ ]
+}

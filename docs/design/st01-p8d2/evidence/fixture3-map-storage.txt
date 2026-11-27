@@ -1,0 +1,69 @@
+files under world/data after create+save:
+data/fabric/registry_entries.dat
+data/minecraft/custom_boss_events.dat
+data/minecraft/game_rules.dat
+data/minecraft/maps/0.dat
+data/minecraft/maps/1.dat
+data/minecraft/maps/10.dat
+data/minecraft/maps/100.dat
+data/minecraft/maps/101.dat
+data/minecraft/maps/102.dat
+data/minecraft/maps/103.dat
+data/minecraft/maps/104.dat
+data/minecraft/maps/105.dat
+data/minecraft/maps/106.dat
+data/minecraft/maps/107.dat
+data/minecraft/maps/108.dat
+data/minecraft/maps/109.dat
+data/minecraft/maps/11.dat
+data/minecraft/maps/110.dat
+data/minecraft/maps/111.dat
+data/minecraft/maps/112.dat
+data/minecraft/maps/113.dat
+data/minecraft/maps/114.dat
+data/minecraft/maps/115.dat
+data/minecraft/maps/116.dat
+data/minecraft/maps/117.dat
+data/minecraft/maps/118.dat
+data/minecraft/maps/119.dat
+data/minecraft/maps/12.dat
+data/minecraft/maps/120.dat
+data/minecraft/maps/121.dat
+data/minecraft/maps/122.dat
+data/minecraft/maps/123.dat
+data/minecraft/maps/124.dat
+data/minecraft/maps/125.dat
+data/minecraft/maps/126.dat
+data/minecraft/maps/127.dat
+data/minecraft/maps/128.dat
+data/minecraft/maps/129.dat
+data/minecraft/maps/13.dat
+data/minecraft/maps/130.dat
+data/minecraft/maps/131.dat
+data/minecraft/maps/132.dat
+data/minecraft/maps/133.dat
+data/minecraft/maps/134.dat
+data/minecraft/maps/135.dat
+data/minecraft/maps/136.dat
+data/minecraft/maps/137.dat
+data/minecraft/maps/138.dat
+data/minecraft/maps/139.dat
+data/minecraft/maps/14.dat
+data/minecraft/maps/140.dat
+data/minecraft/maps/141.dat
+data/minecraft/maps/142.dat
+data/minecraft/maps/143.dat
+data/minecraft/maps/144.dat
+data/minecraft/maps/145.dat
+data/minecraft/maps/146.dat
+data/minecraft/maps/147.dat
+data/minecraft/maps/148.dat
+data/minecraft/maps/149.dat
+total_files 489
+map-like files: 5
+521 bytes /home/user/MoreMinecrafts-Beta/build/st01-p8c2b/run/world/datapacks/st01d2/data/st01d2/villager_trade/map_r20.json
+520 bytes /home/user/MoreMinecrafts-Beta/build/st01-p8c2b/run/world/datapacks/st01d2/data/st01d2/villager_trade/map_r5.json
+552 bytes /home/user/MoreMinecrafts-Beta/build/st01-p8c2b/run/world/datapacks/st01d2/data/st01d2/villager_trade/map_r20_noskip.json
+520 bytes /home/user/MoreMinecrafts-Beta/build/st01-p8c2b/run/world/datapacks/st01d2/data/st01d2/villager_trade/map_r2.json
+43 bytes /home/user/MoreMinecrafts-Beta/build/st01-p8c2b/run/world/datapacks/st01d2/data/st01d2/tags/worldgen/structure/on_st01_pyramid_maps.json
+647333	/home/user/MoreMinecrafts-Beta/build/st01-p8c2b/run/world/data

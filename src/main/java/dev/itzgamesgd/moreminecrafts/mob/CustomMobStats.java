@@ -1,6 +1,7 @@
 package dev.itzgamesgd.moreminecrafts.mob;
 
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
+import dev.itzgamesgd.moreminecrafts.mob.sky.SkyVariantMobs;
 import java.util.Collections;
 import java.util.Set;
 import java.util.WeakHashMap;
@@ -59,6 +60,11 @@ public final class CustomMobStats {
             case "giant_bee" -> { health = 1.65; damage = 1.25; }
             case "lesser_phantom" -> { health = 0.60; }
             case "cave_creeper" -> { health = 0.92; }
+            // Group B sky-island variants — PROVISIONAL (owner task 2026-11-14).
+            case "weathered_zombie" -> { health = 1.10; speed = 0.95; damage = 1.05; }
+            case "sky_archer" -> { health = 0.95; speed = 1.05; }
+            case "rock_creeper" -> { health = 1.15; speed = 0.95; }
+            case "pale_enderman" -> { health = 0.90; speed = 1.05; }
             default -> { return; }
         }
         multiply(mob, Attributes.MAX_HEALTH, health);
@@ -127,6 +133,10 @@ public final class CustomMobStats {
         if (type == CustomMobCatalog.GIANT_BEE) return "giant_bee";
         if (type == CustomMobCatalog.LESSER_PHANTOM) return "lesser_phantom";
         if (type == CustomMobCatalog.CAVE_CREEPER) return "cave_creeper";
+        if (type == SkyVariantMobs.WEATHERED_ZOMBIE) return "weathered_zombie";
+        if (type == SkyVariantMobs.SKY_ARCHER) return "sky_archer";
+        if (type == SkyVariantMobs.ROCK_CREEPER) return "rock_creeper";
+        if (type == SkyVariantMobs.PALE_ENDERMAN) return "pale_enderman";
         return null;
     }
 

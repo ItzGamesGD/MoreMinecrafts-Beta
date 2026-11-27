@@ -1,0 +1,7 @@
+ST05D-STATE-1 algo=st05-d01-bprime-core-opening-v1 params=C_24x24x12 seed=7002 snapshot=PLAN_BASE_COLUMN_v1 #89ce71a0fc9baf3a
+C id=162ceb3f9ef55d7d anchor=20000ef00008d7d4 owner=0,0 size=119216 set=4519062002f94607 suit=0 c=0,0 st=NOT_SUITABLE roll=0 final=1 proof=c2635c6f3d5322142f7a8f9e #03e125c76faa294d
+C id=3831aa658b1901a5 anchor=200000effffce7ce owner=0,-1 size=15760 set=1e16dc6af791d4f suit=0 c=0,0 st=OWNER_OUTSIDE_OBSERVED_UNIVERSE roll=0 final=0 proof=7865da02ffa14484155bd997 #a8c4c172927974bf
+C id=5f407df4f4a70ba5 anchor=20002b300015a7e9 owner=1,1 size=66251 set=21b9ff924f8d3f45 suit=1 c=390,383 st=BLOCKED_BY_UNRESOLVED roll=1 final=0 proof=294d921af347f43ac09f113a #76845a81958c774a
+B group=20003610001937fc used=20495 cap=50000000 exhausted=0 #e7668c7e68960858
+B group=200046f0002507cb used=20495 cap=50000000 exhausted=0 #ba142af20cc02222
+END n=5 chain=4c32c7d1a16989f39e8d68fe #92e0dfbafc810fe8

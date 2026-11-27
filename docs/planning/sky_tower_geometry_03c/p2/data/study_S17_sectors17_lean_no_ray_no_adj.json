@@ -1,0 +1,1 @@
+{"name":"S17_sectors17_lean_no_ray_no_adj","options":{"walk":"lean","emin":0,"pillars":"feas","ray":false,"adj":false,"sectors":17,"offset":0.0,"min_pillars":0,"balconies":false,"flat":true,"obj_elig":false,"contact_min":7,"bins":true,"domain":["disc",45],"portal":false,"rail":true},"status":"INFEASIBLE","seconds":0.5}

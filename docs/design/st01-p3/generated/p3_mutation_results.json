@@ -1,0 +1,262 @@
+{
+ "control_clean": true,
+ "results": [
+  {
+   "mutation": "corner pillars added on the north side (Q52)",
+   "expected": [
+    "K3",
+    "K4"
+   ],
+   "failed": [
+    "H1",
+    "H2",
+    "H3",
+    "K2",
+    "K3",
+    "K4",
+    "K5",
+    "K6",
+    "K7",
+    "K8"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "pillar base projects into the wall-side passage (Q54 trim removed)",
+   "expected": [
+    "K2"
+   ],
+   "failed": [
+    "A3",
+    "K2"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "west colonnade pitch changed (gaps 5 and 7, asymmetric) (Q51/Q47)",
+   "expected": [
+    "K3",
+    "K8"
+   ],
+   "failed": [
+    "K3",
+    "K8"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "lintel raised one layer into the stepped ceiling (Q60/Q61)",
+   "expected": [
+    "K1",
+    "K6"
+   ],
+   "failed": [
+    "K1",
+    "K5",
+    "K6"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "capital wallward projection 2: touches the wall (Q57)",
+   "expected": [
+    "K5"
+   ],
+   "failed": [
+    "K5",
+    "K6"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "corbel run 1 per 1 instead of 1 per 2 (Q46)",
+   "expected": [
+    "H2"
+   ],
+   "failed": [
+    "H2"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "vertical wall height 9 instead of 8 (Q45)",
+   "expected": [
+    "H1",
+    "H2"
+   ],
+   "failed": [
+    "H1",
+    "H2",
+    "H3"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "obelisk tip runs into the ceiling peak",
+   "expected": [
+    "K7",
+    "O1"
+   ],
+   "failed": [
+    "H2",
+    "H3",
+    "K7",
+    "O1"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "secondary-chest alcove opening walled up (independent access lost)",
+   "expected": [
+    "A2"
+   ],
+   "failed": [
+    "A2",
+    "A3"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "interior shrunk to 31x31 (Q43)",
+   "expected": [
+    "H1"
+   ],
+   "failed": [
+    "A1",
+    "A2",
+    "A3",
+    "B3",
+    "H1",
+    "H2",
+    "K1",
+    "K4",
+    "K7",
+    "K8",
+    "O1",
+    "R1"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "hall cavity shifted 2 east out of its reservation",
+   "expected": [
+    "H3"
+   ],
+   "failed": [
+    "H3",
+    "I3"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "hall and reservation slid 4 west past X=-40 (extension)",
+   "expected": [
+    "X1"
+   ],
+   "failed": [
+    "H3",
+    "I3",
+    "X1"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "hall slid north into the antechamber / P2 spaces",
+   "expected": [
+    "H3",
+    "I1"
+   ],
+   "failed": [
+    "A3",
+    "B2",
+    "B4",
+    "H1",
+    "H2",
+    "H3",
+    "I1",
+    "I3",
+    "K2",
+    "K5",
+    "K6",
+    "K7"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "secret-hatch zone overlapped by the colonnade and dais",
+   "expected": [
+    "R1"
+   ],
+   "failed": [
+    "A2",
+    "A3",
+    "R1"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "boss emergence candidate placed inside the obelisk",
+   "expected": [
+    "B1"
+   ],
+   "failed": [
+    "B1"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "dais frontal tread narrowed to 5 (Q32 broad stairs)",
+   "expected": [
+    "A1"
+   ],
+   "failed": [
+    "A1"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "statue dropped into the wall-side passage (east) blocking the 2-wide route",
+   "expected": [
+    "A3"
+   ],
+   "failed": [
+    "A3",
+    "K2"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "lintel carried across the door axis on the north side (Q49)",
+   "expected": [
+    "K6"
+   ],
+   "failed": [
+    "K6"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "obelisk plinth shifted one block off the hall centre",
+   "expected": [
+    "O1"
+   ],
+   "failed": [
+    "B1",
+    "O1"
+   ],
+   "detected": true
+  },
+  {
+   "mutation": "dais body raised to 4 high (Q10/Q32 low dais)",
+   "expected": [
+    "A1"
+   ],
+   "failed": [
+    "A1",
+    "A2",
+    "K7"
+   ],
+   "detected": true
+  }
+ ]
+}

@@ -91,11 +91,15 @@ public final class KnowledgeEventCollectors {
         String condition = null;
         ServerPlayer player = null;
         if (projectile instanceof net.minecraft.world.entity.projectile.arrow.AbstractArrow arrow) {
+            // Dispenser-fired arrows (and other weaponless projectiles) have no weapon item.
+            // They must not crash the entity's death event or earn bow/crossbow credit.
             var weapon = arrow.getWeaponItem();
-            if (weapon.getItem() instanceof net.minecraft.world.item.CrossbowItem)
-                condition = KnowledgeConditionSemantics.projectileKillCondition(true);
-            else if (weapon.getItem() instanceof net.minecraft.world.item.BowItem)
-                condition = KnowledgeConditionSemantics.projectileKillCondition(false);
+            if (weapon != null) {
+                if (weapon.getItem() instanceof net.minecraft.world.item.CrossbowItem)
+                    condition = KnowledgeConditionSemantics.projectileKillCondition(true);
+                else if (weapon.getItem() instanceof net.minecraft.world.item.BowItem)
+                    condition = KnowledgeConditionSemantics.projectileKillCondition(false);
+            }
             if (condition != null && arrow.getOwner() instanceof ServerPlayer owner) player = owner;
         } else {
             ProjectileWeaponOrigin origin = KNOWLEDGE_WEAPON_ORIGINS.get(projectile);

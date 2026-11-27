@@ -4,6 +4,7 @@ import dev.itzgamesgd.moreminecrafts.enchantment.EnchantmentRuntime;
 import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
@@ -22,8 +23,25 @@ abstract class BlockMixin {
             at = @At("RETURN"), cancellable = true)
     private static void moreminecrafts$smeltMinedBlockDrops(BlockState state, ServerLevel level, BlockPos pos,
             BlockEntity blockEntity, Entity entity, ItemInstance tool, CallbackInfoReturnable<List<ItemStack>> cir) {
-        cir.setReturnValue(cir.getReturnValue().stream()
+        List<ItemStack> drops = cir.getReturnValue();
+        List<ItemStack> vanillaDrops = drops;
+        if (entity instanceof ServerPlayer player) {
+            drops = dev.itzgamesgd.moreminecrafts.progression.ResearchContentRuntime
+                    .applySeedHarvestResearch(player, state, drops);
+            drops = dev.itzgamesgd.moreminecrafts.progression.SoilStudyRuntime
+                    .applySeedYield(player, state, vanillaDrops, drops);
+            // Lumbering extra logs enter the one enchantment pass alongside vanilla drops.
+            drops = dev.itzgamesgd.moreminecrafts.progression.ResearchContentRuntime
+                    .applyLumberingResearch(player, state, drops);
+        }
+        drops = drops.stream()
                 .map(stack -> EnchantmentRuntime.consumeReplantDrop(level, pos, entity,
-                        EnchantmentRuntime.autoSmeltDrop(level, pos, tool, stack))).toList());
+                        EnchantmentRuntime.autoSmeltDrop(level, pos, tool, stack))).toList();
+        if (entity instanceof ServerPlayer player) {
+            // Ore Mining must continue to copy the *processed* Fortune/Silk/Auto Smelt result.
+            drops = dev.itzgamesgd.moreminecrafts.progression.ResearchContentRuntime
+                    .applyOreResearch(player, state, drops);
+        }
+        cir.setReturnValue(drops);
     }
 }

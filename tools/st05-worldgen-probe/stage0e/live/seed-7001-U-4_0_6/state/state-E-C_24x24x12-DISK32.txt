@@ -1,0 +1,24 @@
+ST05D-STATE-1 algo=st05-d01-bprime-core-opening-v1+placement-v1 params=C_24x24x12/DISK32 seed=7001 snapshot=PLAN_BASE_COLUMN_v1|U-4,0,6 #a9df3b078792c625
+C id=2a698572438f3c9c anchor=200039b0001877cf owner=1,1 size=15736 set=a23d388ab486e2a8 suit=1 c=0,0 st=NOT_QUALIFYING roll=1 final=1 proof=0ebfd5b12c3acdc89d8c12ca #82b993b276282751
+C id=367bfaa655ca3c35 anchor=20001b90000bb7ea owner=0,0 size=7800 set=c0270c34ae2df7c5 suit=1 c=0,0 st=NOT_QUALIFYING roll=1 final=1 proof=274bf2412ee50a6574be999d #e19f0a8652f95d33
+C id=3ea492f479c36848 anchor=1fffdcd00003b7d7 owner=-2,0 size=16443 set=2667b06d1bc80c suit=1 c=0,0 st=NOT_QUALIFYING roll=1 final=1 proof=c697ecf100bd62d5107f0a0e #8ae2974a61a8f62e
+C id=43fe9cccc2a6214d anchor=1ffffe30005197f1 owner=-1,5 size=6912 set=f17e792ff7d8cbc3 suit=1 c=0,0 st=NOT_QUALIFYING roll=1 final=1 proof=e4b9e9c5dffe3ec50913214c #bc3825b2c2a66f19
+C id=4f3c0844e7ffd860 anchor=1fffc770005a97d7 owner=-2,5 size=9888 set=9964825b82012760 suit=1 c=0,0 st=NOT_QUALIFYING roll=1 final=1 proof=0c8a182589e4c41bb75122f8 #aa96c429785abb11
+C id=500d1bf3fb474a9d anchor=20000150004f27e0 owner=0,4 size=7488 set=ed75beada4c1a5ae suit=1 c=0,0 st=NOT_QUALIFYING roll=1 final=1 proof=e2270761d0b2d0e4a0217a66 #45613dcb71fbb8d4
+C id=5bcf6d221f5a2cd8 anchor=1ffff5f0004d17e2 owner=-1,4 size=98071 set=95ea2b35af7ce1fc suit=1 c=-66,1255 st=BLOCKED_BY_UNRESOLVED roll=1 final=0 proof=c9aab81cd01c35350b838b37 #c452422396a729d5
+C id=6779876ec428816e anchor=200016f0001027ee owner=0,1 size=18528 set=8636326b1114d116 suit=1 c=0,0 st=NOT_QUALIFYING roll=1 final=1 proof=36591c36dd24668890410790 #eca091d01274c6bc
+C id=84cb336b65c37d10 anchor=20001cf0004657d7 owner=0,4 size=32054 set=1e183a5566f5488d suit=1 c=246,1144 st=BLOCKED_BY_UNRESOLVED roll=1 final=0 proof=7ecdad5e3c25ba34211d4377 #1d74c3c6c24948e2
+C id=8dcb984e4e7592ca anchor=1fffa170001097dd owner=-3,1 size=17714 set=a90bd5621634eb21 suit=1 c=0,0 st=NOT_QUALIFYING roll=1 final=1 proof=7f4d5efebf56acb6826d514e #eb3c9b74cbe36b44
+C id=9d6b9b3bddb772f7 anchor=1fff8cf0001407e8 owner=-4,1 size=32483 set=ef3afdef058a4678 suit=1 c=0,0 st=NOT_QUALIFYING roll=0 final=1 proof=b0d4ec8239f062f96b04c739 #25bae0e9c50679a6
+C id=a3e2edb7ef5f31d4 anchor=1fffd090002367ea owner=-2,2 size=73046 set=9d2cbaa04a18de45 suit=1 c=0,0 st=NOT_QUALIFYING roll=1 final=1 proof=b13be98394d72fd5cb229208 #e71bd16cfad7e5d8
+C id=a795e49496ccb7a4 anchor=1fffe3700050e7d8 owner=-1,5 size=39793 set=a56d460233ceebea suit=1 c=-204,1314 st=BLOCKED_BY_UNRESOLVED roll=1 final=0 proof=527a835e622b8959d69ea900 #cc2a26b3e4f6d6e9
+C id=ab8f75a3d2256345 anchor=1fff8a300015f7e5 owner=-4,1 size=9277 set=7c38f235c4429ecc suit=1 c=0,0 st=NOT_QUALIFYING roll=0 final=1 proof=39e8832fc8e409f26cbe45b3 #a451179ce51ed69e
+C id=b156dd302a54f41a anchor=20002f90000a97d8 owner=1,0 size=8064 set=bb080f0b0000fa86 suit=1 c=0,0 st=NOT_QUALIFYING roll=1 final=1 proof=4e52ed4111ad1d94a56c1fb9 #e87f5c2ef3b9904b
+C id=bdeb7846814763f2 anchor=1fff8f90003527ec owner=-4,3 size=16178 set=e86cda52358ece71 suit=1 c=0,0 st=NOT_QUALIFYING roll=0 final=1 proof=ccd3f477cd2c50fa57754dde #85c8b59169f7183f
+C id=c40d883b259a1df6 anchor=1ffff4b0005997ce owner=-1,5 size=15910 set=ae83a2aa3be1d923 suit=1 c=0,0 st=NOT_QUALIFYING roll=1 final=1 proof=dc0c63442301131918d7bd3d #a02b4fd1642a4aa4
+C id=cc95a322990abd66 anchor=1ffff570000fe7d7 owner=-1,0 size=19856 set=2f93884364bf3809 suit=1 c=0,0 st=NOT_QUALIFYING roll=1 final=1 proof=223df2667e2b1ff2c3a4278e #79a285b464393ea9
+C id=d457cc3d4f4916de anchor=20002510002a37ea owner=1,2 size=34232 set=93056010aed7f8f9 suit=1 c=0,0 st=NOT_QUALIFYING roll=1 final=1 proof=862b9d5a08cf7b07d52ccb0d #a2d9bea4d848e1f2
+C id=d73b5003f58f8255 anchor=1fffce700032e7db owner=-2,3 size=7776 set=fa1c5b2c66fba644 suit=1 c=0,0 st=NOT_QUALIFYING roll=1 final=1 proof=83ef6c39c73af2d2d4753938 #a434c90cd6e21862
+C id=df9b70c2a6fbf876 anchor=20003cf0003487d1 owner=1,3 size=8987 set=d74c8816eff98ccf suit=1 c=0,0 st=NOT_QUALIFYING roll=0 final=1 proof=d59c33cec5dae31b8e306ded #47d0d56e3750fc9b
+C id=f6407851b51e13e7 anchor=1fffe7b0000db7f0 owner=-1,0 size=22421 set=72203a79e8479f24 suit=1 c=0,0 st=NOT_QUALIFYING roll=1 final=1 proof=8739c5b76b5b674a19d4cbd4 #936885edb4894d30
+END n=22 chain=4f8c2d3bb88599940f4ae7fe #2780c077b21cfade

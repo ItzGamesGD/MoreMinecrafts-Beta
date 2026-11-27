@@ -1,0 +1,15 @@
+{
+  "structures": [
+    {
+      "structure": "moreminecrafts:st01_pyramid",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 32,
+    "separation": 8,
+    "spread_type": "triangular",
+    "salt": 91401
+  }
+}
