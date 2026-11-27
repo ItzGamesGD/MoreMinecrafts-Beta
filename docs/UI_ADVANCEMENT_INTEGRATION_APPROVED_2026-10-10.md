@@ -170,3 +170,19 @@ Owner decision (2026-11-25): the seven-sector discipline selector hub used by bo
 - Navigation, sector order, geometry of the seven sectors, and sector titles are unchanged. The Quest selector is not affected.
 
 If an asset is needed beyond the approved research kit, it is created to this grammar and recorded here.
+
+### Enchanting and anvil layout and skin — keep current proportions — 2026-11-26/27 (owner decision)
+
+Owner decision (2026-11-26): the enchanting and anvil screens keep their current layout. Their screen sizes and slot coordinates do not change, including the anvil's vanilla proportions. A wide anvil layout from the reference images is not adopted.
+
+- Enchanting: the screen stays 330×360 GUI px, with the current equipment, book, and tree positions.
+- Anvil: the screen keeps the vanilla anvil proportions and the current input, output, catalyst, and inventory slot positions.
+- Visual skin follows the approved research grammar. Component art is produced to the current layout, so screen logic and slot mapping are not changed.
+- Decorative elements from the reference images (runes, gems, sparkles) are approximated per component unless the owner approves a specific element.
+
+Owner decisions (2026-11-27) for the skin assets:
+- Controls are plain (no ornament); decoration is concentrated in the two panel frames and a faint centre overlay.
+- Control states are derived from each control's normal state so silhouettes never change. Hover: brighter gold border and a faint inner glow. Pressed: one tone darker with a dark inner top shadow. Disabled: desaturated grey-purple with matte grey-gold border. Selected: bright gold border with a purple inner glow.
+- Assets are authored on the native art grid at 2 art px per GUI px. Frame thickness is 8 GUI px so it never overlaps content that starts at 8 GUI px.
+
+Changing any layout dimension or slot coordinate requires a new owner decision.
