@@ -48,7 +48,7 @@ jobs:
           '
           grep -q UTILITY_CAPTURE_COMPLETE build/utility-capture/client.log
           find . -path '*/screenshots/*utility-capture-*.png' -exec cp {} build/utility-capture/ \;
-          test "$(find build/utility-capture -name '*utility-capture-*.png' | wc -l)" -eq 14
+          test "$(find build/utility-capture -name '*utility-capture-*.png' | wc -l)" -eq 17
       - name: Upload captures and diagnostics
         if: always()
         uses: actions/upload-artifact@v4

@@ -32,8 +32,8 @@ public final class UtilityItemCapture implements FabricClientGameTest {
     private static final List<String> MODELS = List.of("mining_drill", "mob_capture_tool", "potion_injector");
     private static final List<String> FIRST_PERSON_MODELS = List.of("mining_drill", "mob_capture_tool", "potion_injector", "vanilla_pickaxe_reference", "flame_core", "parachute");
     private static final List<String> ICON_IDS = List.of("mining_drill", "mob_capture_tool", "potion_injector", "parachute", "gauntlet", "bounty_contract", "special_contract", "captured_mob_egg", "flame_core", "current_core", "wind_core", "earth_core", "thunder_core", "royal_tomb_relic_core", "forge_lord_relic_core", "abyssal_relic_core", "verdant_relic_core", "void_relic_core", "relic_catalyst");
-    private static final float[] ANGLES = {40, 0};
-    private static final String[] ANGLE_NAMES = {"three-quarter", "front"};
+    private static final float[] ANGLES = {40, 0, 90};
+    private static final String[] ANGLE_NAMES = {"three-quarter", "front", "side"};
 
     @Override
     public void runTest(ClientGameTestContext context) {
