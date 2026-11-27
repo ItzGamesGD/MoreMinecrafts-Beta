@@ -19,7 +19,7 @@ def rot(ax, ay, az):
     Rx = np.array([[1,0,0],[0,math.cos(ax),-math.sin(ax)],[0,math.sin(ax),math.cos(ax)]])
     Ry = np.array([[math.cos(ay),0,math.sin(ay)],[0,1,0],[-math.sin(ay),0,math.cos(ay)]])
     Rz = np.array([[math.cos(az),-math.sin(az),0],[math.sin(az),math.cos(az),0],[0,0,1]])
-    return Rx @ Ry @ Rz
+    return Rz @ Ry @ Rx  # Blockbench euler order ZYX: X applied first
 def sample(uuid, channel, t):
     if anim is None: return None
     an = anim['animators'].get(uuid)
