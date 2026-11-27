@@ -759,7 +759,7 @@ public final class VisualValidationHarness {
             }
             case 180 -> {
                 // Every state of the enchanting and anvil screens, with real menus and items placed client-side.
-                // Mode changes go through the menus' own clickMenuButton, so the same logic as the server runs.
+                // Mode changes set the menus' synchronized mode slot directly (the menu buttons are server-side only).
                 if (!takeCapture()) return;
                 try {
                     client.gui.setScreen(null);
@@ -777,7 +777,7 @@ public final class VisualValidationHarness {
                 if (!takeCapture()) return;
                 try {
                     if (client.gui.screen() instanceof EnchantingProgressionScreen screen) {
-                        screen.getMenu().clickMenuButton(client.player, 1);
+                        setMenuMode(screen.getMenu(), 1);
                         screen.tick(); // the screen refreshes its widgets for the new mode on tick
                         queueUiScreenshot("enchanting-equipment-option-tab.png");
                     } else MoreMinecrafts.LOGGER.error("REFERENCE_CAPTURE_FAILED screen=enchanting-equipment-option-tab missing");
@@ -806,7 +806,7 @@ public final class VisualValidationHarness {
                     client.gui.setScreen(null);
                     var inventory = client.player.getInventory();
                     var menu = new AnvilMenu(1, inventory);
-                    menu.clickMenuButton(client.player, 1);
+                    setMenuMode(menu, 1);
                     client.gui.setScreen(new T1AnvilScreen(menu, inventory, Component.literal("Anvil")));
                     queueUiScreenshot("anvil-normal-empty.png");
                 } catch (RuntimeException e) {
@@ -834,7 +834,7 @@ public final class VisualValidationHarness {
                     client.gui.setScreen(null);
                     var inventory = client.player.getInventory();
                     var menu = new AnvilMenu(1, inventory);
-                    menu.clickMenuButton(client.player, 2);
+                    setMenuMode(menu, 2);
                     menu.getSlot(0).set(new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.DIAMOND_SWORD));
                     menu.getSlot(1).set(new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.ENCHANTED_BOOK));
                     client.gui.setScreen(new T1AnvilScreen(menu, inventory, Component.literal("Anvil")));
@@ -1543,5 +1543,23 @@ public final class VisualValidationHarness {
                 .filter(type -> type.getCategory() == net.minecraft.world.entity.MobCategory.MONSTER)
                 .filter(type -> BuiltInRegistries.ENTITY_TYPE.getKey(type).getNamespace().equals("moreminecrafts"))
                 .count();
+    }
+
+    /** Menu buttons are server-side only (they return early on the client), so the capture sets the synchronized mode slot directly. */
+    private static void setMenuMode(net.minecraft.world.inventory.AbstractContainerMenu menu, int mode) {
+        for (Class<?> c = menu.getClass(); c != null; c = c.getSuperclass()) {
+            for (var field : c.getDeclaredFields()) {
+                if (field.getType() == net.minecraft.world.inventory.DataSlot.class && field.getName().toLowerCase().contains("mode")) {
+                    try {
+                        field.setAccessible(true);
+                        ((net.minecraft.world.inventory.DataSlot) field.get(menu)).set(mode);
+                        return;
+                    } catch (ReflectiveOperationException e) {
+                        throw new IllegalStateException(e);
+                    }
+                }
+            }
+        }
+        throw new IllegalStateException("no mode data slot on " + menu.getClass());
     }
 }
