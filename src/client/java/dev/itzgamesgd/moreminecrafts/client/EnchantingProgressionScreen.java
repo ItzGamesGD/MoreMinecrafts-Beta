@@ -20,7 +20,7 @@ import java.util.*;
 /** Native-style workstation tabs with compact, topology-derived enchantment nodes. */
 public final class EnchantingProgressionScreen extends AbstractContainerScreen<EnchantingProgressionMenu> {
     private static final int GUI_WIDTH = 330;
-    private static final int GUI_HEIGHT = 360;
+    private static final int GUI_HEIGHT = 368;
     private static final int TREE_PAGE_ROWS = 6;
     private static final int OPTION_PAGE_ROWS = 4;
     private static final int TREE_TOP = 76;

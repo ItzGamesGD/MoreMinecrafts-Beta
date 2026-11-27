@@ -19,7 +19,7 @@ final class EnchantAnvilSkinResourceTest {
 
     private static Map<String, int[]> expected() {
         Map<String, int[]> m = new LinkedHashMap<>();
-        for (String n : List.of("enchant_panel_frame", "enchant_panel_overlay")) m.put(n, new int[]{660, 720});
+        for (String n : List.of("enchant_panel_frame", "enchant_panel_overlay")) m.put(n, new int[]{660, 736});
         for (String n : List.of("anvil_panel_frame", "anvil_panel_overlay")) m.put(n, new int[]{352, 332});
         for (String s : List.of("normal", "hover", "pressed", "selected")) {
             m.put("anvil_tab_112_" + s, new int[]{112, 40});
