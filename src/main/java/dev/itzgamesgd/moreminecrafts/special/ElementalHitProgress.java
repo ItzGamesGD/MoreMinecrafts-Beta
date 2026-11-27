@@ -6,8 +6,10 @@ import dev.itzgamesgd.moreminecrafts.special.flame.FlameSwordItem;
 import dev.itzgamesgd.moreminecrafts.special.wind.WindSwordItem;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.EnumMap;
@@ -35,6 +37,12 @@ public final class ElementalHitProgress {
     public static void initialize() {
         ServerLifecycleEvents.SERVER_STARTING.register(ElementalHitProgress::onServerStarting);
         ServerLifecycleEvents.SERVER_STOPPED.register(ElementalHitProgress::onServerStopped);
+        AttackEntityCallback.EVENT.register((player, world, hand, target, hitResult) -> {
+            if (!world.isClientSide() && player instanceof ServerPlayer serverPlayer) {
+                synchronizeHeld(serverPlayer);
+            }
+            return InteractionResult.PASS;
+        });
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             Set<UUID> online = new HashSet<>();
             for (ServerPlayer player : server.getPlayerList().getPlayers()) {
@@ -68,10 +76,22 @@ public final class ElementalHitProgress {
         return !PROGRESS.isEmpty() || !HELD_FAMILY.isEmpty();
     }
 
+    public static float primaryHitBonusDamage(ServerPlayer player, Weapon weapon) {
+        synchronizeHeld(player);
+        if (heldFamily(player.getMainHandItem()) != weapon) return 0.0F;
+        return primaryHitBonusDamage(player.getUUID(), weapon);
+    }
+
     public static float primaryHitBonusDamage(UUID playerId, Weapon weapon) {
         if (weapon != Weapon.LIGHTNING) return 0.0F;
         return progress(playerId, weapon) == LIGHTNING_THRESHOLD - 1
                 ? LIGHTNING_PROC_BONUS_DAMAGE : 0.0F;
+    }
+
+    public static boolean record(ServerPlayer player, Weapon weapon) {
+        synchronizeHeld(player);
+        if (heldFamily(player.getMainHandItem()) != weapon) return false;
+        return record(player.getUUID(), weapon);
     }
 
     public static boolean record(UUID playerId, Weapon weapon) {
@@ -83,6 +103,10 @@ public final class ElementalHitProgress {
                 .recordSuccessfulHit(threshold);
         playerProgress.put(weapon, advance.counter());
         return advance.triggered();
+    }
+
+    private static void synchronizeHeld(ServerPlayer player) {
+        observeHeld(player.getUUID(), heldFamily(player.getMainHandItem()));
     }
 
     static void observeHeld(UUID playerId, Weapon currentFamily) {

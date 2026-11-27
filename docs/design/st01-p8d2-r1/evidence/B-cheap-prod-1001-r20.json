@@ -1,0 +1,109 @@
+{
+  "mode": "cheaplocate",
+  "instr_on": true,
+  "seed": 1001,
+  "radius_param": 20,
+  "eligibility": "production St01Eligibility.evaluate",
+  "wall_ms": 27976.92381,
+  "main_thread_blocked_ms": 27976.92381,
+  "eligibility_ms": 24944.998881,
+  "validation_getChunk_STRUCTURE_STARTS_ms": 3028.409161,
+  "candidates": 735,
+  "eligible": 1,
+  "validated_valid_starts": 1,
+  "verdicts": {
+    "ELIGIBLE": 1,
+    "REJECT_BIOME": 727,
+    "REJECT_HEIGHT_DIFFERENCE": 6,
+    "REJECT_SKIRT": 1
+  },
+  "height_computes": 56092,
+  "height_ms": 24741.182644,
+  "biome_lookups": 12906,
+  "biome_ms": 92.335156,
+  "production_fgp_evaluations_during_validation": 1,
+  "instr": {
+    "biome.lookup(getNoiseBiome)|worker": {
+      "n": 971,
+      "total_ms": 2.703999,
+      "max_ms": 0.085799
+    },
+    "desert.centreCellPassed|main": {
+      "n": 30,
+      "total_ms": 0.0,
+      "max_ms": 0.0
+    },
+    "desert.centreCellPassed|worker": {
+      "n": 1,
+      "total_ms": 0.0,
+      "max_ms": 0.0
+    },
+    "desert.rejectedAtCentreCell|main": {
+      "n": 705,
+      "total_ms": 0.0,
+      "max_ms": 0.0
+    },
+    "desert.sweepCellsChecked|main": {
+      "n": 6081,
+      "total_ms": 0.0,
+      "max_ms": 0.0
+    },
+    "desert.sweepCellsChecked|worker": {
+      "n": 484,
+      "total_ms": 0.0,
+      "max_ms": 0.0
+    },
+    "elig.stage1.desertFootprint.pass|main": {
+      "n": 8,
+      "total_ms": 2104.33041,
+      "max_ms": 280.352069
+    },
+    "elig.stage1.desertFootprint.pass|worker": {
+      "n": 1,
+      "total_ms": 266.366999,
+      "max_ms": 266.366999
+    },
+    "elig.stage1.desertFootprint.reject|main": {
+      "n": 727,
+      "total_ms": 1601.750643,
+      "max_ms": 200.009368
+    },
+    "elig.stage2.heightSampling6561|main": {
+      "n": 8,
+      "total_ms": 21231.84958,
+      "max_ms": 2712.128828
+    },
+    "elig.stage2.heightSampling6561|worker": {
+      "n": 1,
+      "total_ms": 2573.993062,
+      "max_ms": 2573.993062
+    },
+    "fgp.total|worker": {
+      "n": 1,
+      "total_ms": 2846.869043,
+      "max_ms": 2846.869043
+    },
+    "fgp.verdict.ELIGIBLE|worker": {
+      "n": 1,
+      "total_ms": 2846.869043,
+      "max_ms": 2846.869043
+    },
+    "height.calls|worker": {
+      "n": 7046,
+      "total_ms": 0.0,
+      "max_ms": 0.0
+    },
+    "height.compute(getBaseHeight)|worker": {
+      "n": 6645,
+      "total_ms": 2818.156853,
+      "max_ms": 1.505879
+    },
+    "pieces.addPieces(incl.template.load)|worker": {
+      "n": 1,
+      "total_ms": 172.006563,
+      "max_ms": 172.006563
+    }
+  },
+  "result_chunk": "-435,-279",
+  "ring": 14
+}

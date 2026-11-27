@@ -1,0 +1,35 @@
+{
+  "label": "flat_meadow_T201",
+  "radius": 300,
+  "candidates": 865,
+  "cases": [
+    {
+      "label": "flat_meadow_T201",
+      "eligible_candidates": 865
+    }
+  ],
+  "evaluations_prod_legacy": [
+    865,
+    865
+  ],
+  "total_time_ms_prod_legacy": [
+    107,
+    89
+  ],
+  "allocated_bytes_prod_legacy": [
+    23753648,
+    21854568
+  ],
+  "heightmap_base_height_queries_prod_legacy(controlled only)": [
+    0,
+    0
+  ],
+  "mountain_legacy_generated__prod_identical_vs_different_vs(prod_only_generated)": [
+    747,
+    0,
+    118
+  ],
+  "natural_checked": 865,
+  "natural_vs_replay_agree": 865,
+  "natural_vs_replay_disagree": 0
+}

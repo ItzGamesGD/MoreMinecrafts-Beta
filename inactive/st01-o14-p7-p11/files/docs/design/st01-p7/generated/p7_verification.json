@@ -1,0 +1,2259 @@
+{
+ "checks": [
+  {
+   "side": "-",
+   "id": "SM1",
+   "title": "Exhaustive exploration (fallback length D = 1..4 abstract units, all event orders, duplicates, restarts, chunk unload/reload, player leave/join, occupancy): invariants I1-I9 hold in every reachable state/transition",
+   "verdict": "PASS",
+   "evidence": "reachable states/edges per D [(1, 141, 2292), (2, 216, 3504), (3, 291, 4716), (4, 366, 5928)]; violations 0 []; invariants: I1 no opening before defeat, I2 monotone (no regress, no restore), I3 idempotent duplicate events, I4 restart keeps persistent data and deadline, I5 <=1 golem, I6 reward condition untouched, I7 liveness (benign events always open it), I8 cover only with an open record, I9 nobody buried"
+  },
+  {
+   "side": "-",
+   "id": "SM2",
+   "title": "Normal and failure scenario scripts (N1, F1-F6, E1-E6) end in the expected record/cover/golem state",
+   "verdict": "PASS",
+   "evidence": "N1=ok; F1=ok; F2=ok; F3=ok; F4=ok; F5=ok; F6=ok; E1=ok; E2=ok; E3=ok; E4=ok; E5=ok; E6=ok"
+  },
+  {
+   "side": "-",
+   "id": "SM3",
+   "title": "Persistence sufficiency: the 4 persisted fields (boss-defeated record, entrance state, remaining time, cover applied) serialised to JSON and restored reproduce exactly the post-restart state for every reachable state",
+   "verdict": "PASS",
+   "evidence": "216 reachable states, mismatches 0"
+  },
+  {
+   "side": "-",
+   "id": "SM4",
+   "title": "Tomb isolation: records keyed by tomb anchor; random event sequences on tomb A never open tomb B (4000 runs x 14 events, fixed seed)",
+   "verdict": "PASS",
+   "evidence": "leaks 0"
+  },
+  {
+   "side": "-",
+   "id": "SM5",
+   "title": "Before the guardian is defeated (any history of early chest touches, spoofed/stale defeat events, timers, restarts, chunk churn) the record stays SEALED, the cover stays closed and no golem exists",
+   "verdict": "PASS",
+   "evidence": "reachable pre-defeat states 6, leaking 0"
+  },
+  {
+   "side": "E",
+   "id": "GA1",
+   "title": "Player standing on a cover cell when the cover opens (FIND-P6-2): each of the 12 columns is standable while CLOSED, the player lands on a standable cell (no burial), headroom >= 4, can climb back to the hall floor and can walk on to the vault; drop <= 4 (FIND-P6-1)",
+   "verdict": "PASS",
+   "evidence": "max drop 4 (fall damage 1 under the vanilla 'above 3' rule); per column (drop/headroom): (-9, 33):1/5, (-9, 34):1/5, (-9, 35):1/5, (-8, 33):2/5, (-8, 34):2/5, (-8, 35):2/5, (-7, 33):3/5, (-7, 34):3/5, (-7, 35):3/5, (-6, 33):4/5, (-6, 34):4/5, (-6, 35):4/5; all can climb out True; all reach vault entry True"
+  },
+  {
+   "side": "E",
+   "id": "GA2",
+   "title": "Arrival-zone candidates: hall-floor cells reachable from the chest approach in CLOSED, binned by distance from the cover rectangle; the cover is a full rectangle, none lies on the cover, all standable in CLOSED; the analytic rectangle distance equals the per-cell minimum; r_safe = largest arrival radius (around the stop point) that keeps the golem body off the cover",
+   "verdict": "PASS",
+   "evidence": "Z0: 8 cells, nearest centre-to-cover 0.5, r_safe(w=1) 0.0, r_safe(w=2) -0.5; Z1: 9 cells, nearest centre-to-cover 0.707, r_safe(w=1) 0.207, r_safe(w=2) -0.293; Z2: 7 cells, nearest centre-to-cover 1.581, r_safe(w=1) 1.081, r_safe(w=2) 0.581; Z3: 6 cells, nearest centre-to-cover 2.55, r_safe(w=1) 2.05, r_safe(w=2) 1.55; Z4: 9 cells, nearest centre-to-cover 3.536, r_safe(w=1) 3.036, r_safe(w=2) 2.536"
+  },
+  {
+   "side": "E",
+   "id": "GA3",
+   "title": "Golem walking route in the CLOSED world: every emergence candidate, the chest approach and the hall door reach every arrival-zone class (shortest steps measured; inputs for the fallback timer)",
+   "verdict": "PASS",
+   "evidence": "unreachable []; steps to the rim zone Z0: BOSS_S=20, BOSS_N=32, BOSS_E=20, BOSS_W=32, CHEST_APPROACH=17, HALL_DOOR=42; overall max 42"
+  },
+  {
+   "side": "E",
+   "id": "GA4",
+   "title": "Agent footprint sensitivity (golem size UNDECIDED): number of zone classes reachable per start for 1x1x2, 1x1x3, 2x2x3, 3x3x4 agents (measurement, not a size proposal); the 1x1x2 agent reaches all classes",
+   "verdict": "PASS",
+   "evidence": "1x1x2: {'BOSS_S': 5, 'BOSS_N': 5, 'BOSS_E': 5, 'BOSS_W': 5, 'CHEST_APPROACH': 5, 'HALL_DOOR': 5}; 1x1x3: {'BOSS_S': 5, 'BOSS_N': 5, 'BOSS_E': 5, 'BOSS_W': 5, 'CHEST_APPROACH': 5, 'HALL_DOOR': 5}; 2x2x3: {'BOSS_S': 5, 'BOSS_N': 5, 'BOSS_E': 5, 'BOSS_W': 5, 'CHEST_APPROACH': 0, 'HALL_DOOR': 5}; 3x3x4: {'BOSS_S': 3, 'BOSS_N': 3, 'BOSS_E': 3, 'BOSS_W': 3, 'CHEST_APPROACH': 0, 'HALL_DOOR': 3}"
+  },
+  {
+   "side": "E",
+   "id": "GA5",
+   "title": "Cover cells relative to the royal-chest anchor (PROPOSED anchor = P3 CHEST_PRIMARY): dx 12..15 (east) / -15..-12 (west), dy -3, dz 0..2; 12 cells",
+   "verdict": "PASS",
+   "evidence": "anchor (-21, -20, 33); offsets dx (12, 15), dy [-3], dz (0, 2), count 12"
+  },
+  {
+   "side": "E",
+   "id": "GA6",
+   "title": "While SEALED / GUARDIAN_DEFEATED / GOLEM_GUIDING the world is the CLOSED world: hall voxel-identical to P3 above the floor top, so golem walking and boss/player movement see the P3-verified floor",
+   "verdict": "PASS",
+   "evidence": "differing cells 0"
+  },
+  {
+   "side": "W",
+   "id": "GA1",
+   "title": "Player standing on a cover cell when the cover opens (FIND-P6-2): each of the 12 columns is standable while CLOSED, the player lands on a standable cell (no burial), headroom >= 4, can climb back to the hall floor and can walk on to the vault; drop <= 4 (FIND-P6-1)",
+   "verdict": "PASS",
+   "evidence": "max drop 4 (fall damage 1 under the vanilla 'above 3' rule); per column (drop/headroom): (6, 33):4/5, (6, 34):4/5, (6, 35):4/5, (7, 33):3/5, (7, 34):3/5, (7, 35):3/5, (8, 33):2/5, (8, 34):2/5, (8, 35):2/5, (9, 33):1/5, (9, 34):1/5, (9, 35):1/5; all can climb out True; all reach vault entry True"
+  },
+  {
+   "side": "W",
+   "id": "GA2",
+   "title": "Arrival-zone candidates: hall-floor cells reachable from the chest approach in CLOSED, binned by distance from the cover rectangle; the cover is a full rectangle, none lies on the cover, all standable in CLOSED; the analytic rectangle distance equals the per-cell minimum; r_safe = largest arrival radius (around the stop point) that keeps the golem body off the cover",
+   "verdict": "PASS",
+   "evidence": "Z0: 8 cells, nearest centre-to-cover 0.5, r_safe(w=1) 0.0, r_safe(w=2) -0.5; Z1: 9 cells, nearest centre-to-cover 0.707, r_safe(w=1) 0.207, r_safe(w=2) -0.293; Z2: 7 cells, nearest centre-to-cover 1.581, r_safe(w=1) 1.081, r_safe(w=2) 0.581; Z3: 6 cells, nearest centre-to-cover 2.55, r_safe(w=1) 2.05, r_safe(w=2) 1.55; Z4: 9 cells, nearest centre-to-cover 3.536, r_safe(w=1) 3.036, r_safe(w=2) 2.536"
+  },
+  {
+   "side": "W",
+   "id": "GA3",
+   "title": "Golem walking route in the CLOSED world: every emergence candidate, the chest approach and the hall door reach every arrival-zone class (shortest steps measured; inputs for the fallback timer)",
+   "verdict": "PASS",
+   "evidence": "unreachable []; steps to the rim zone Z0: BOSS_S=20, BOSS_N=32, BOSS_E=20, BOSS_W=32, CHEST_APPROACH=17, HALL_DOOR=42; overall max 42"
+  },
+  {
+   "side": "W",
+   "id": "GA4",
+   "title": "Agent footprint sensitivity (golem size UNDECIDED): number of zone classes reachable per start for 1x1x2, 1x1x3, 2x2x3, 3x3x4 agents (measurement, not a size proposal); the 1x1x2 agent reaches all classes",
+   "verdict": "PASS",
+   "evidence": "1x1x2: {'BOSS_S': 5, 'BOSS_N': 5, 'BOSS_E': 5, 'BOSS_W': 5, 'CHEST_APPROACH': 5, 'HALL_DOOR': 5}; 1x1x3: {'BOSS_S': 5, 'BOSS_N': 5, 'BOSS_E': 5, 'BOSS_W': 5, 'CHEST_APPROACH': 5, 'HALL_DOOR': 5}; 2x2x3: {'BOSS_S': 5, 'BOSS_N': 5, 'BOSS_E': 5, 'BOSS_W': 5, 'CHEST_APPROACH': 0, 'HALL_DOOR': 5}; 3x3x4: {'BOSS_S': 3, 'BOSS_N': 3, 'BOSS_E': 3, 'BOSS_W': 3, 'CHEST_APPROACH': 0, 'HALL_DOOR': 3}"
+  },
+  {
+   "side": "W",
+   "id": "GA5",
+   "title": "Cover cells relative to the royal-chest anchor (PROPOSED anchor = P3 CHEST_PRIMARY): dx 12..15 (east) / -15..-12 (west), dy -3, dz 0..2; 12 cells",
+   "verdict": "PASS",
+   "evidence": "anchor (21, -20, 33); offsets dx (-15, -12), dy [-3], dz (0, 2), count 12"
+  },
+  {
+   "side": "W",
+   "id": "GA6",
+   "title": "While SEALED / GUARDIAN_DEFEATED / GOLEM_GUIDING the world is the CLOSED world: hall voxel-identical to P3 above the floor top, so golem walking and boss/player movement see the P3-verified floor",
+   "verdict": "PASS",
+   "evidence": "differing cells 0"
+  },
+  {
+   "side": "E/W",
+   "id": "EW1",
+   "title": "East and west geometric results are exact mirrors (drops, headroom, zone sizes/distances, route lengths, cover offsets)",
+   "verdict": "PASS",
+   "evidence": "{'ga1': True, 'zones': True, 'routes': True, 'offsets': True}"
+  },
+  {
+   "side": "-",
+   "id": "LV1",
+   "title": "Real-server behaviour: block removal timing, entity spawn/pathfinding, persistence across a real restart, chunk loading, multiplayer races, damage",
+   "verdict": "UNVERIFIED",
+   "evidence": "requires an implementation and a running server; not available in this design-only task"
+  }
+ ],
+ "metrics": {
+  "east": {
+   "ga1": [
+    {
+     "col": [
+      -9,
+      33
+     ],
+     "standable_closed": true,
+     "landing_y": -23,
+     "fall": 1,
+     "headroom": 5,
+     "climb_out_to_hall": true,
+     "reach_vault": true
+    },
+    {
+     "col": [
+      -9,
+      34
+     ],
+     "standable_closed": true,
+     "landing_y": -23,
+     "fall": 1,
+     "headroom": 5,
+     "climb_out_to_hall": true,
+     "reach_vault": true
+    },
+    {
+     "col": [
+      -9,
+      35
+     ],
+     "standable_closed": true,
+     "landing_y": -23,
+     "fall": 1,
+     "headroom": 5,
+     "climb_out_to_hall": true,
+     "reach_vault": true
+    },
+    {
+     "col": [
+      -8,
+      33
+     ],
+     "standable_closed": true,
+     "landing_y": -24,
+     "fall": 2,
+     "headroom": 5,
+     "climb_out_to_hall": true,
+     "reach_vault": true
+    },
+    {
+     "col": [
+      -8,
+      34
+     ],
+     "standable_closed": true,
+     "landing_y": -24,
+     "fall": 2,
+     "headroom": 5,
+     "climb_out_to_hall": true,
+     "reach_vault": true
+    },
+    {
+     "col": [
+      -8,
+      35
+     ],
+     "standable_closed": true,
+     "landing_y": -24,
+     "fall": 2,
+     "headroom": 5,
+     "climb_out_to_hall": true,
+     "reach_vault": true
+    },
+    {
+     "col": [
+      -7,
+      33
+     ],
+     "standable_closed": true,
+     "landing_y": -25,
+     "fall": 3,
+     "headroom": 5,
+     "climb_out_to_hall": true,
+     "reach_vault": true
+    },
+    {
+     "col": [
+      -7,
+      34
+     ],
+     "standable_closed": true,
+     "landing_y": -25,
+     "fall": 3,
+     "headroom": 5,
+     "climb_out_to_hall": true,
+     "reach_vault": true
+    },
+    {
+     "col": [
+      -7,
+      35
+     ],
+     "standable_closed": true,
+     "landing_y": -25,
+     "fall": 3,
+     "headroom": 5,
+     "climb_out_to_hall": true,
+     "reach_vault": true
+    },
+    {
+     "col": [
+      -6,
+      33
+     ],
+     "standable_closed": true,
+     "landing_y": -26,
+     "fall": 4,
+     "headroom": 5,
+     "climb_out_to_hall": true,
+     "reach_vault": true
+    },
+    {
+     "col": [
+      -6,
+      34
+     ],
+     "standable_closed": true,
+     "landing_y": -26,
+     "fall": 4,
+     "headroom": 5,
+     "climb_out_to_hall": true,
+     "reach_vault": true
+    },
+    {
+     "col": [
+      -6,
+      35
+     ],
+     "standable_closed": true,
+     "landing_y": -26,
+     "fall": 4,
+     "headroom": 5,
+     "climb_out_to_hall": true,
+     "reach_vault": true
+    }
+   ],
+   "max_fall": 4,
+   "zones": {
+    "Z0": {
+     "bin": [
+      0.0,
+      0.51
+     ],
+     "cells": 8,
+     "min_dist_to_cover": 0.5,
+     "r_safe_w1": 0.0,
+     "r_safe_w2": -0.5,
+     "on_cover": false,
+     "all_standable_closed": true
+    },
+    "Z1": {
+     "bin": [
+      0.51,
+      1.51
+     ],
+     "cells": 9,
+     "min_dist_to_cover": 0.707,
+     "r_safe_w1": 0.207,
+     "r_safe_w2": -0.293,
+     "on_cover": false,
+     "all_standable_closed": true
+    },
+    "Z2": {
+     "bin": [
+      1.51,
+      2.51
+     ],
+     "cells": 7,
+     "min_dist_to_cover": 1.581,
+     "r_safe_w1": 1.081,
+     "r_safe_w2": 0.581,
+     "on_cover": false,
+     "all_standable_closed": true
+    },
+    "Z3": {
+     "bin": [
+      2.51,
+      3.51
+     ],
+     "cells": 6,
+     "min_dist_to_cover": 2.55,
+     "r_safe_w1": 2.05,
+     "r_safe_w2": 1.55,
+     "on_cover": false,
+     "all_standable_closed": true
+    },
+    "Z4": {
+     "bin": [
+      3.51,
+      4.51
+     ],
+     "cells": 9,
+     "min_dist_to_cover": 3.536,
+     "r_safe_w1": 3.036,
+     "r_safe_w2": 2.536,
+     "on_cover": false,
+     "all_standable_closed": true
+    }
+   },
+   "route_len": {
+    "BOSS_S->Z4": 11,
+    "BOSS_S->Z3": 13,
+    "BOSS_S->Z2": 14,
+    "BOSS_S->Z1": 16,
+    "BOSS_S->Z0": 20,
+    "BOSS_N->Z4": 23,
+    "BOSS_N->Z3": 25,
+    "BOSS_N->Z2": 26,
+    "BOSS_N->Z1": 28,
+    "BOSS_N->Z0": 32,
+    "BOSS_E->Z4": 11,
+    "BOSS_E->Z3": 13,
+    "BOSS_E->Z2": 14,
+    "BOSS_E->Z1": 16,
+    "BOSS_E->Z0": 20,
+    "BOSS_W->Z4": 23,
+    "BOSS_W->Z3": 25,
+    "BOSS_W->Z2": 26,
+    "BOSS_W->Z1": 28,
+    "BOSS_W->Z0": 32,
+    "CHEST_APPROACH->Z4": 9,
+    "CHEST_APPROACH->Z3": 10,
+    "CHEST_APPROACH->Z2": 11,
+    "CHEST_APPROACH->Z1": 13,
+    "CHEST_APPROACH->Z0": 17,
+    "HALL_DOOR->Z4": 33,
+    "HALL_DOOR->Z3": 35,
+    "HALL_DOOR->Z2": 36,
+    "HALL_DOOR->Z1": 38,
+    "HALL_DOOR->Z0": 42
+   },
+   "Lmax": 42,
+   "Lmax_Z0": 42,
+   "agent_sensitivity": {
+    "1x1x2": {
+     "BOSS_S": 5,
+     "BOSS_N": 5,
+     "BOSS_E": 5,
+     "BOSS_W": 5,
+     "CHEST_APPROACH": 5,
+     "HALL_DOOR": 5
+    },
+    "1x1x3": {
+     "BOSS_S": 5,
+     "BOSS_N": 5,
+     "BOSS_E": 5,
+     "BOSS_W": 5,
+     "CHEST_APPROACH": 5,
+     "HALL_DOOR": 5
+    },
+    "2x2x3": {
+     "BOSS_S": 5,
+     "BOSS_N": 5,
+     "BOSS_E": 5,
+     "BOSS_W": 5,
+     "CHEST_APPROACH": 0,
+     "HALL_DOOR": 5
+    },
+    "3x3x4": {
+     "BOSS_S": 3,
+     "BOSS_N": 3,
+     "BOSS_E": 3,
+     "BOSS_W": 3,
+     "CHEST_APPROACH": 0,
+     "HALL_DOOR": 3
+    }
+   },
+   "anchor": [
+    -21,
+    -20,
+    33
+   ],
+   "cover_offsets": {
+    "dx": [
+     12,
+     15
+    ],
+    "dy": [
+     -3
+    ],
+    "dz": [
+     0,
+     2
+    ]
+   }
+  },
+  "west": {
+   "ga1": [
+    {
+     "col": [
+      6,
+      33
+     ],
+     "standable_closed": true,
+     "landing_y": -26,
+     "fall": 4,
+     "headroom": 5,
+     "climb_out_to_hall": true,
+     "reach_vault": true
+    },
+    {
+     "col": [
+      6,
+      34
+     ],
+     "standable_closed": true,
+     "landing_y": -26,
+     "fall": 4,
+     "headroom": 5,
+     "climb_out_to_hall": true,
+     "reach_vault": true
+    },
+    {
+     "col": [
+      6,
+      35
+     ],
+     "standable_closed": true,
+     "landing_y": -26,
+     "fall": 4,
+     "headroom": 5,
+     "climb_out_to_hall": true,
+     "reach_vault": true
+    },
+    {
+     "col": [
+      7,
+      33
+     ],
+     "standable_closed": true,
+     "landing_y": -25,
+     "fall": 3,
+     "headroom": 5,
+     "climb_out_to_hall": true,
+     "reach_vault": true
+    },
+    {
+     "col": [
+      7,
+      34
+     ],
+     "standable_closed": true,
+     "landing_y": -25,
+     "fall": 3,
+     "headroom": 5,
+     "climb_out_to_hall": true,
+     "reach_vault": true
+    },
+    {
+     "col": [
+      7,
+      35
+     ],
+     "standable_closed": true,
+     "landing_y": -25,
+     "fall": 3,
+     "headroom": 5,
+     "climb_out_to_hall": true,
+     "reach_vault": true
+    },
+    {
+     "col": [
+      8,
+      33
+     ],
+     "standable_closed": true,
+     "landing_y": -24,
+     "fall": 2,
+     "headroom": 5,
+     "climb_out_to_hall": true,
+     "reach_vault": true
+    },
+    {
+     "col": [
+      8,
+      34
+     ],
+     "standable_closed": true,
+     "landing_y": -24,
+     "fall": 2,
+     "headroom": 5,
+     "climb_out_to_hall": true,
+     "reach_vault": true
+    },
+    {
+     "col": [
+      8,
+      35
+     ],
+     "standable_closed": true,
+     "landing_y": -24,
+     "fall": 2,
+     "headroom": 5,
+     "climb_out_to_hall": true,
+     "reach_vault": true
+    },
+    {
+     "col": [
+      9,
+      33
+     ],
+     "standable_closed": true,
+     "landing_y": -23,
+     "fall": 1,
+     "headroom": 5,
+     "climb_out_to_hall": true,
+     "reach_vault": true
+    },
+    {
+     "col": [
+      9,
+      34
+     ],
+     "standable_closed": true,
+     "landing_y": -23,
+     "fall": 1,
+     "headroom": 5,
+     "climb_out_to_hall": true,
+     "reach_vault": true
+    },
+    {
+     "col": [
+      9,
+      35
+     ],
+     "standable_closed": true,
+     "landing_y": -23,
+     "fall": 1,
+     "headroom": 5,
+     "climb_out_to_hall": true,
+     "reach_vault": true
+    }
+   ],
+   "max_fall": 4,
+   "zones": {
+    "Z0": {
+     "bin": [
+      0.0,
+      0.51
+     ],
+     "cells": 8,
+     "min_dist_to_cover": 0.5,
+     "r_safe_w1": 0.0,
+     "r_safe_w2": -0.5,
+     "on_cover": false,
+     "all_standable_closed": true
+    },
+    "Z1": {
+     "bin": [
+      0.51,
+      1.51
+     ],
+     "cells": 9,
+     "min_dist_to_cover": 0.707,
+     "r_safe_w1": 0.207,
+     "r_safe_w2": -0.293,
+     "on_cover": false,
+     "all_standable_closed": true
+    },
+    "Z2": {
+     "bin": [
+      1.51,
+      2.51
+     ],
+     "cells": 7,
+     "min_dist_to_cover": 1.581,
+     "r_safe_w1": 1.081,
+     "r_safe_w2": 0.581,
+     "on_cover": false,
+     "all_standable_closed": true
+    },
+    "Z3": {
+     "bin": [
+      2.51,
+      3.51
+     ],
+     "cells": 6,
+     "min_dist_to_cover": 2.55,
+     "r_safe_w1": 2.05,
+     "r_safe_w2": 1.55,
+     "on_cover": false,
+     "all_standable_closed": true
+    },
+    "Z4": {
+     "bin": [
+      3.51,
+      4.51
+     ],
+     "cells": 9,
+     "min_dist_to_cover": 3.536,
+     "r_safe_w1": 3.036,
+     "r_safe_w2": 2.536,
+     "on_cover": false,
+     "all_standable_closed": true
+    }
+   },
+   "route_len": {
+    "BOSS_S->Z4": 11,
+    "BOSS_S->Z3": 13,
+    "BOSS_S->Z2": 14,
+    "BOSS_S->Z1": 16,
+    "BOSS_S->Z0": 20,
+    "BOSS_N->Z4": 23,
+    "BOSS_N->Z3": 25,
+    "BOSS_N->Z2": 26,
+    "BOSS_N->Z1": 28,
+    "BOSS_N->Z0": 32,
+    "BOSS_E->Z4": 11,
+    "BOSS_E->Z3": 13,
+    "BOSS_E->Z2": 14,
+    "BOSS_E->Z1": 16,
+    "BOSS_E->Z0": 20,
+    "BOSS_W->Z4": 23,
+    "BOSS_W->Z3": 25,
+    "BOSS_W->Z2": 26,
+    "BOSS_W->Z1": 28,
+    "BOSS_W->Z0": 32,
+    "CHEST_APPROACH->Z4": 9,
+    "CHEST_APPROACH->Z3": 10,
+    "CHEST_APPROACH->Z2": 11,
+    "CHEST_APPROACH->Z1": 13,
+    "CHEST_APPROACH->Z0": 17,
+    "HALL_DOOR->Z4": 33,
+    "HALL_DOOR->Z3": 35,
+    "HALL_DOOR->Z2": 36,
+    "HALL_DOOR->Z1": 38,
+    "HALL_DOOR->Z0": 42
+   },
+   "Lmax": 42,
+   "Lmax_Z0": 42,
+   "agent_sensitivity": {
+    "1x1x2": {
+     "BOSS_S": 5,
+     "BOSS_N": 5,
+     "BOSS_E": 5,
+     "BOSS_W": 5,
+     "CHEST_APPROACH": 5,
+     "HALL_DOOR": 5
+    },
+    "1x1x3": {
+     "BOSS_S": 5,
+     "BOSS_N": 5,
+     "BOSS_E": 5,
+     "BOSS_W": 5,
+     "CHEST_APPROACH": 5,
+     "HALL_DOOR": 5
+    },
+    "2x2x3": {
+     "BOSS_S": 5,
+     "BOSS_N": 5,
+     "BOSS_E": 5,
+     "BOSS_W": 5,
+     "CHEST_APPROACH": 0,
+     "HALL_DOOR": 5
+    },
+    "3x3x4": {
+     "BOSS_S": 3,
+     "BOSS_N": 3,
+     "BOSS_E": 3,
+     "BOSS_W": 3,
+     "CHEST_APPROACH": 0,
+     "HALL_DOOR": 3
+    }
+   },
+   "anchor": [
+    21,
+    -20,
+    33
+   ],
+   "cover_offsets": {
+    "dx": [
+     -15,
+     -12
+    ],
+    "dy": [
+     -3
+    ],
+    "dz": [
+     0,
+     2
+    ]
+   }
+  },
+  "model": {
+   "states": 216,
+   "edges": 3504
+  }
+ },
+ "scenarios": {
+  "N1 normal: kill -> golem spawns -> arrives -> OPEN": [
+   [
+    "-",
+    {
+     "boss": false,
+     "rec": "SEALED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "BOSS_KILL",
+    {
+     "boss": true,
+     "rec": "GUARDIAN_DEFEATED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": true,
+     "fell": false
+    }
+   ],
+   [
+    "DEFEATED_EVENT",
+    {
+     "boss": true,
+     "rec": "GUARDIAN_DEFEATED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": true,
+     "fell": false
+    }
+   ],
+   [
+    "SPAWN_OK",
+    {
+     "boss": true,
+     "rec": "GOLEM_GUIDING",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "alive",
+     "ngolem": 1,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "GOLEM_ARRIVE",
+    {
+     "boss": true,
+     "rec": "ENTRANCE_OPEN",
+     "remaining": 2,
+     "cover": true,
+     "trapped": false,
+     "golem": "alive",
+     "ngolem": 1,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ]
+  ],
+  "F1 golem spawn fails -> timer -> FALLBACK": [
+   [
+    "-",
+    {
+     "boss": false,
+     "rec": "SEALED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "BOSS_KILL",
+    {
+     "boss": true,
+     "rec": "GUARDIAN_DEFEATED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": true,
+     "fell": false
+    }
+   ],
+   [
+    "DEFEATED_EVENT",
+    {
+     "boss": true,
+     "rec": "GUARDIAN_DEFEATED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": true,
+     "fell": false
+    }
+   ],
+   [
+    "SPAWN_FAIL",
+    {
+     "boss": true,
+     "rec": "GUARDIAN_DEFEATED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "TICK",
+    {
+     "boss": true,
+     "rec": "GUARDIAN_DEFEATED",
+     "remaining": 1,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "TICK",
+    {
+     "boss": true,
+     "rec": "FALLBACK_OPEN",
+     "remaining": 0,
+     "cover": true,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ]
+  ],
+  "F2 path failure -> timer -> FALLBACK": [
+   [
+    "-",
+    {
+     "boss": false,
+     "rec": "SEALED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "BOSS_KILL",
+    {
+     "boss": true,
+     "rec": "GUARDIAN_DEFEATED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": true,
+     "fell": false
+    }
+   ],
+   [
+    "DEFEATED_EVENT",
+    {
+     "boss": true,
+     "rec": "GUARDIAN_DEFEATED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": true,
+     "fell": false
+    }
+   ],
+   [
+    "SPAWN_OK",
+    {
+     "boss": true,
+     "rec": "GOLEM_GUIDING",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "alive",
+     "ngolem": 1,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "GOLEM_PATH_FAIL",
+    {
+     "boss": true,
+     "rec": "GOLEM_GUIDING",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "stalled",
+     "ngolem": 1,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "TICK",
+    {
+     "boss": true,
+     "rec": "GOLEM_GUIDING",
+     "remaining": 1,
+     "cover": false,
+     "trapped": false,
+     "golem": "stalled",
+     "ngolem": 1,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "TICK",
+    {
+     "boss": true,
+     "rec": "FALLBACK_OPEN",
+     "remaining": 0,
+     "cover": true,
+     "trapped": false,
+     "golem": "stalled",
+     "ngolem": 1,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ]
+  ],
+  "F3 golem lost/dies while guiding -> timer -> FALLBACK": [
+   [
+    "-",
+    {
+     "boss": false,
+     "rec": "SEALED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "BOSS_KILL",
+    {
+     "boss": true,
+     "rec": "GUARDIAN_DEFEATED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": true,
+     "fell": false
+    }
+   ],
+   [
+    "DEFEATED_EVENT",
+    {
+     "boss": true,
+     "rec": "GUARDIAN_DEFEATED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": true,
+     "fell": false
+    }
+   ],
+   [
+    "SPAWN_OK",
+    {
+     "boss": true,
+     "rec": "GOLEM_GUIDING",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "alive",
+     "ngolem": 1,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "GOLEM_LOST",
+    {
+     "boss": true,
+     "rec": "GOLEM_GUIDING",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "TICK",
+    {
+     "boss": true,
+     "rec": "GOLEM_GUIDING",
+     "remaining": 1,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "TICK",
+    {
+     "boss": true,
+     "rec": "FALLBACK_OPEN",
+     "remaining": 0,
+     "cover": true,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ]
+  ],
+  "F4 server restart while guiding -> record kept -> FALLBACK": [
+   [
+    "-",
+    {
+     "boss": false,
+     "rec": "SEALED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "BOSS_KILL",
+    {
+     "boss": true,
+     "rec": "GUARDIAN_DEFEATED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": true,
+     "fell": false
+    }
+   ],
+   [
+    "DEFEATED_EVENT",
+    {
+     "boss": true,
+     "rec": "GUARDIAN_DEFEATED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": true,
+     "fell": false
+    }
+   ],
+   [
+    "SPAWN_OK",
+    {
+     "boss": true,
+     "rec": "GOLEM_GUIDING",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "alive",
+     "ngolem": 1,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "TICK",
+    {
+     "boss": true,
+     "rec": "GOLEM_GUIDING",
+     "remaining": 1,
+     "cover": false,
+     "trapped": false,
+     "golem": "alive",
+     "ngolem": 1,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "RESTART",
+    {
+     "boss": true,
+     "rec": "GOLEM_GUIDING",
+     "remaining": 1,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": false,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "TICK",
+    {
+     "boss": true,
+     "rec": "FALLBACK_OPEN",
+     "remaining": 0,
+     "cover": true,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": false,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ]
+  ],
+  "F5 chunk unloaded at deadline -> cover applied on reload": [
+   [
+    "-",
+    {
+     "boss": false,
+     "rec": "SEALED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "BOSS_KILL",
+    {
+     "boss": true,
+     "rec": "GUARDIAN_DEFEATED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": true,
+     "fell": false
+    }
+   ],
+   [
+    "DEFEATED_EVENT",
+    {
+     "boss": true,
+     "rec": "GUARDIAN_DEFEATED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": true,
+     "fell": false
+    }
+   ],
+   [
+    "SPAWN_OK",
+    {
+     "boss": true,
+     "rec": "GOLEM_GUIDING",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "alive",
+     "ngolem": 1,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "CHUNK_UNLOAD",
+    {
+     "boss": true,
+     "rec": "GOLEM_GUIDING",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "alive",
+     "ngolem": 1,
+     "chunk": false,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "TICK",
+    {
+     "boss": true,
+     "rec": "GOLEM_GUIDING",
+     "remaining": 1,
+     "cover": false,
+     "trapped": false,
+     "golem": "alive",
+     "ngolem": 1,
+     "chunk": false,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "TICK",
+    {
+     "boss": true,
+     "rec": "FALLBACK_OPEN",
+     "remaining": 0,
+     "cover": false,
+     "trapped": false,
+     "golem": "alive",
+     "ngolem": 1,
+     "chunk": false,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "CHUNK_LOAD",
+    {
+     "boss": true,
+     "rec": "FALLBACK_OPEN",
+     "remaining": 0,
+     "cover": true,
+     "trapped": false,
+     "golem": "alive",
+     "ngolem": 1,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ]
+  ],
+  "F6 DEFEATED event lost (listener failure) -> reconcile from boss record": [
+   [
+    "-",
+    {
+     "boss": false,
+     "rec": "SEALED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "BOSS_KILL",
+    {
+     "boss": true,
+     "rec": "GUARDIAN_DEFEATED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": true,
+     "fell": false
+    }
+   ],
+   [
+    "TICK",
+    {
+     "boss": true,
+     "rec": "GUARDIAN_DEFEATED",
+     "remaining": 1,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": true,
+     "fell": false
+    }
+   ],
+   [
+    "SPAWN_OK",
+    {
+     "boss": true,
+     "rec": "GOLEM_GUIDING",
+     "remaining": 1,
+     "cover": false,
+     "trapped": false,
+     "golem": "alive",
+     "ngolem": 1,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "GOLEM_ARRIVE",
+    {
+     "boss": true,
+     "rec": "ENTRANCE_OPEN",
+     "remaining": 1,
+     "cover": true,
+     "trapped": false,
+     "golem": "alive",
+     "ngolem": 1,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ]
+  ],
+  "E1 duplicate DEFEATED events -> one golem": [
+   [
+    "-",
+    {
+     "boss": false,
+     "rec": "SEALED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "BOSS_KILL",
+    {
+     "boss": true,
+     "rec": "GUARDIAN_DEFEATED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": true,
+     "fell": false
+    }
+   ],
+   [
+    "DEFEATED_EVENT",
+    {
+     "boss": true,
+     "rec": "GUARDIAN_DEFEATED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": true,
+     "fell": false
+    }
+   ],
+   [
+    "DEFEATED_EVENT",
+    {
+     "boss": true,
+     "rec": "GUARDIAN_DEFEATED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": true,
+     "fell": false
+    }
+   ],
+   [
+    "SPAWN_OK",
+    {
+     "boss": true,
+     "rec": "GOLEM_GUIDING",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "alive",
+     "ngolem": 1,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "DEFEATED_EVENT",
+    {
+     "boss": true,
+     "rec": "GOLEM_GUIDING",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "alive",
+     "ngolem": 1,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "GOLEM_ARRIVE",
+    {
+     "boss": true,
+     "rec": "ENTRANCE_OPEN",
+     "remaining": 2,
+     "cover": true,
+     "trapped": false,
+     "golem": "alive",
+     "ngolem": 1,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ]
+  ],
+  "E2 duplicate open requests": [
+   [
+    "-",
+    {
+     "boss": false,
+     "rec": "SEALED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "BOSS_KILL",
+    {
+     "boss": true,
+     "rec": "GUARDIAN_DEFEATED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": true,
+     "fell": false
+    }
+   ],
+   [
+    "DEFEATED_EVENT",
+    {
+     "boss": true,
+     "rec": "GUARDIAN_DEFEATED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": true,
+     "fell": false
+    }
+   ],
+   [
+    "SPAWN_OK",
+    {
+     "boss": true,
+     "rec": "GOLEM_GUIDING",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "alive",
+     "ngolem": 1,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "GOLEM_ARRIVE",
+    {
+     "boss": true,
+     "rec": "ENTRANCE_OPEN",
+     "remaining": 2,
+     "cover": true,
+     "trapped": false,
+     "golem": "alive",
+     "ngolem": 1,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "OPEN_REQUEST_DUP",
+    {
+     "boss": true,
+     "rec": "ENTRANCE_OPEN",
+     "remaining": 2,
+     "cover": true,
+     "trapped": false,
+     "golem": "alive",
+     "ngolem": 1,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "OPEN_REQUEST_DUP",
+    {
+     "boss": true,
+     "rec": "ENTRANCE_OPEN",
+     "remaining": 2,
+     "cover": true,
+     "trapped": false,
+     "golem": "alive",
+     "ngolem": 1,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ]
+  ],
+  "E3 chest touched before the kill": [
+   [
+    "-",
+    {
+     "boss": false,
+     "rec": "SEALED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "CHEST_INTERACT_EARLY",
+    {
+     "boss": false,
+     "rec": "SEALED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "TICK",
+    {
+     "boss": false,
+     "rec": "SEALED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "TICK",
+    {
+     "boss": false,
+     "rec": "SEALED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "TICK",
+    {
+     "boss": false,
+     "rec": "SEALED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "OPEN_REQUEST_DUP",
+    {
+     "boss": false,
+     "rec": "SEALED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ]
+  ],
+  "E4 player stands on the cover when it opens": [
+   [
+    "-",
+    {
+     "boss": false,
+     "rec": "SEALED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "BOSS_KILL",
+    {
+     "boss": true,
+     "rec": "GUARDIAN_DEFEATED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": true,
+     "fell": false
+    }
+   ],
+   [
+    "DEFEATED_EVENT",
+    {
+     "boss": true,
+     "rec": "GUARDIAN_DEFEATED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": true,
+     "fell": false
+    }
+   ],
+   [
+    "SPAWN_OK",
+    {
+     "boss": true,
+     "rec": "GOLEM_GUIDING",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "alive",
+     "ngolem": 1,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "PLAYER_STEP_ON_COVER",
+    {
+     "boss": true,
+     "rec": "GOLEM_GUIDING",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "alive",
+     "ngolem": 1,
+     "chunk": true,
+     "online": true,
+     "occupied": true,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "GOLEM_ARRIVE",
+    {
+     "boss": true,
+     "rec": "ENTRANCE_OPEN",
+     "remaining": 2,
+     "cover": true,
+     "trapped": false,
+     "golem": "alive",
+     "ngolem": 1,
+     "chunk": true,
+     "online": true,
+     "occupied": true,
+     "spawn_pending": false,
+     "fell": true
+    }
+   ]
+  ],
+  "E5 all players leave during guiding; timer still opens it": [
+   [
+    "-",
+    {
+     "boss": false,
+     "rec": "SEALED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "BOSS_KILL",
+    {
+     "boss": true,
+     "rec": "GUARDIAN_DEFEATED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": true,
+     "fell": false
+    }
+   ],
+   [
+    "DEFEATED_EVENT",
+    {
+     "boss": true,
+     "rec": "GUARDIAN_DEFEATED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": true,
+     "fell": false
+    }
+   ],
+   [
+    "SPAWN_OK",
+    {
+     "boss": true,
+     "rec": "GOLEM_GUIDING",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "alive",
+     "ngolem": 1,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "PLAYER_LEAVE",
+    {
+     "boss": true,
+     "rec": "GOLEM_GUIDING",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "alive",
+     "ngolem": 1,
+     "chunk": true,
+     "online": false,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "TICK",
+    {
+     "boss": true,
+     "rec": "GOLEM_GUIDING",
+     "remaining": 1,
+     "cover": false,
+     "trapped": false,
+     "golem": "alive",
+     "ngolem": 1,
+     "chunk": true,
+     "online": false,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "TICK",
+    {
+     "boss": true,
+     "rec": "FALLBACK_OPEN",
+     "remaining": 0,
+     "cover": true,
+     "trapped": false,
+     "golem": "alive",
+     "ngolem": 1,
+     "chunk": true,
+     "online": false,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "PLAYER_JOIN",
+    {
+     "boss": true,
+     "rec": "FALLBACK_OPEN",
+     "remaining": 0,
+     "cover": true,
+     "trapped": false,
+     "golem": "alive",
+     "ngolem": 1,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ]
+  ],
+  "E6 arrival after fallback is a no-op": [
+   [
+    "-",
+    {
+     "boss": false,
+     "rec": "SEALED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "BOSS_KILL",
+    {
+     "boss": true,
+     "rec": "GUARDIAN_DEFEATED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": true,
+     "fell": false
+    }
+   ],
+   [
+    "DEFEATED_EVENT",
+    {
+     "boss": true,
+     "rec": "GUARDIAN_DEFEATED",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "none",
+     "ngolem": 0,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": true,
+     "fell": false
+    }
+   ],
+   [
+    "SPAWN_OK",
+    {
+     "boss": true,
+     "rec": "GOLEM_GUIDING",
+     "remaining": 2,
+     "cover": false,
+     "trapped": false,
+     "golem": "alive",
+     "ngolem": 1,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "TICK",
+    {
+     "boss": true,
+     "rec": "GOLEM_GUIDING",
+     "remaining": 1,
+     "cover": false,
+     "trapped": false,
+     "golem": "alive",
+     "ngolem": 1,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "TICK",
+    {
+     "boss": true,
+     "rec": "FALLBACK_OPEN",
+     "remaining": 0,
+     "cover": true,
+     "trapped": false,
+     "golem": "alive",
+     "ngolem": 1,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ],
+   [
+    "GOLEM_ARRIVE",
+    {
+     "boss": true,
+     "rec": "FALLBACK_OPEN",
+     "remaining": 0,
+     "cover": true,
+     "trapped": false,
+     "golem": "alive",
+     "ngolem": 1,
+     "chunk": true,
+     "online": true,
+     "occupied": false,
+     "spawn_pending": false,
+     "fell": false
+    }
+   ]
+  ]
+ },
+ "transition_table": [
+  [
+   "GOLEM_GUIDING",
+   "GOLEM_ARRIVE",
+   "ENTRANCE_OPEN"
+  ],
+  [
+   "GOLEM_GUIDING",
+   "TICK",
+   "FALLBACK_OPEN"
+  ],
+  [
+   "GUARDIAN_DEFEATED",
+   "SPAWN_OK",
+   "GOLEM_GUIDING"
+  ],
+  [
+   "GUARDIAN_DEFEATED",
+   "TICK",
+   "FALLBACK_OPEN"
+  ],
+  [
+   "SEALED",
+   "BOSS_KILL",
+   "GUARDIAN_DEFEATED"
+  ]
+ ],
+ "fallback_sizing_illustrative": {
+  "0.1": 420,
+  "0.2": 210,
+  "0.3": 140
+ }
+}

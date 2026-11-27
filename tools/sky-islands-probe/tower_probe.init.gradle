@@ -1,0 +1,6 @@
+allprojects {
+    afterEvaluate { project ->
+        project.extensions.getByName('loom').runs.getByName('skyIslandsProbe')
+                .setRunDir('build/sky-tower-composite-probe/run')
+    }
+}

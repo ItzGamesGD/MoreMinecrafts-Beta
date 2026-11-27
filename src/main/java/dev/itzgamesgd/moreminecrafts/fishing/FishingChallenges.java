@@ -13,6 +13,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.item.ItemStack;
@@ -50,12 +51,14 @@ public final class FishingChallenges {
         rod.set(ModDataComponents.ROD_EQUIPMENT, worn);
 
         long startTick = player.level().getGameTime();
+        int fishingTechniqueLevel = dev.itzgamesgd.moreminecrafts.progression.ResearchRewards.level(
+                player, "v3.research.23", "fishing_technique_window");
         ACTIVE.put(player.getUUID(), new Challenge(startTick, species, List.copyOf(pool),
                 worn.tier(FishingEquipmentFamily.CRANKBAIT), worn.tier(FishingEquipmentFamily.MINNOW),
-                hook, player.level(), rod));
+                hook, player.level(), rod, fishingTechniqueLevel));
         ServerPlayNetworking.send(player, new FishingChallengePayload(true, startTick, species.fishingDifficulty(),
                 species.ordinal(), FishingLogic.canCapture(species, worn.tier(FishingEquipmentFamily.MINNOW)),
-                species.requiredMinnowTier()));
+                species.requiredMinnowTier(), fishingTechniqueLevel));
         return true;
     }
 
@@ -63,7 +66,8 @@ public final class FishingChallenges {
         Challenge challenge = ACTIVE.get(player.getUUID());
         if (challenge == null) return;
         long elapsed = player.level().getGameTime() - challenge.startTick();
-        FishingTiming.Zone zone = FishingTiming.zone(FishingTiming.position(elapsed, challenge.species().fishingDifficulty()));
+        FishingTiming.Zone zone = FishingTiming.zone(FishingTiming.position(elapsed, challenge.species().fishingDifficulty()),
+                challenge.fishingTechniqueLevel());
         boolean connected = player.connection != null;
         boolean valid = valid(player, challenge);
         boolean success = !FishingTiming.timedOut(elapsed) && FishingTiming.captures(zone, player.getRandom());
@@ -85,7 +89,7 @@ public final class FishingChallenges {
         if (!challenge.hook().isRemoved()) challenge.hook().discard();
         if (player.fishing == challenge.hook()) player.fishing = null;
         if (minigameSuccess) awardIfPermitted(player, challenge);
-        if (notify) ServerPlayNetworking.send(player, new FishingChallengePayload(false, 0, 1, 0, false, 1));
+        if (notify) ServerPlayNetworking.send(player, new FishingChallengePayload(false, 0, 1, 0, false, 1, 0));
     }
 
     private static void awardIfPermitted(ServerPlayer player, Challenge challenge) {
@@ -106,11 +110,8 @@ public final class FishingChallenges {
                 continue;
             }
             int crankbaitTier = equipment.tier(FishingEquipmentFamily.CRANKBAIT);
-            FishingLogic.FishRoll roll = FishingLogic.rollFish(species, crankbaitTier, player.getRandom());
-            ItemStack fish = new ItemStack(ModItems.fishItem(roll.species()));
-            fish.set(ModDataComponents.FISH_GRADE, roll.grade());
-            fish.set(ModDataComponents.FISH_LENGTH_TENTHS_CM, roll.lengthTenthsCm());
-            fish.set(ModDataComponents.FISH_WEIGHT_TENTHS_KG, roll.weightTenthsKg());
+            FishingLogic.FishRoll roll = rollFishForPlayer(player, species, crankbaitTier);
+            ItemStack fish = createFishStack(roll);
             equipment = captureWear(equipment, true);
             challenge.rod().set(ModDataComponents.ROD_EQUIPMENT, equipment);
             deliver(player, fish);
@@ -135,6 +136,29 @@ public final class FishingChallenges {
         if (!fish.isEmpty()) player.level().addFreshEntity(new ItemEntity(player.level(), player.getX(), player.getY(), player.getZ(), fish));
     }
 
+    /** Uses only the catching player's purchased Fisheries Study level. */
+    static int fisheriesStudyLevel(ServerPlayer player) {
+        return dev.itzgamesgd.moreminecrafts.progression.ResearchRewards.level(
+                player, "v3.research.19", "fisheries_grade");
+    }
+
+    static FishingLogic.FishRoll rollFishForPlayer(ServerPlayer player, FishSpecies species, int crankbaitTier) {
+        return rollFishForPlayer(player, species, crankbaitTier, player.getRandom());
+    }
+
+    static FishingLogic.FishRoll rollFishForPlayer(ServerPlayer player, FishSpecies species, int crankbaitTier,
+            RandomSource random) {
+        return FishingLogic.rollFish(species, crankbaitTier, fisheriesStudyLevel(player), random);
+    }
+
+    static ItemStack createFishStack(FishingLogic.FishRoll roll) {
+        ItemStack fish = new ItemStack(ModItems.fishItem(roll.species()));
+        fish.set(ModDataComponents.FISH_GRADE, roll.grade());
+        fish.set(ModDataComponents.FISH_LENGTH_TENTHS_CM, roll.lengthTenthsCm());
+        fish.set(ModDataComponents.FISH_WEIGHT_TENTHS_KG, roll.weightTenthsKg());
+        return fish;
+    }
+
     static RodEquipment captureWear(RodEquipment equipment, boolean capturePermitted) {
         return capturePermitted
                 ? equipment.withWear(FishingEquipmentFamily.MINNOW).withWear(FishingEquipmentFamily.CRANKBAIT)
@@ -143,5 +167,5 @@ public final class FishingChallenges {
 
     public record Challenge(long startTick, FishSpecies species, List<FishSpecies> speciesPool,
                             int crankbaitTier, int minnowTier,
-                            FishingHook hook, Level level, ItemStack rod) {}
+                            FishingHook hook, Level level, ItemStack rod, int fishingTechniqueLevel) {}
 }

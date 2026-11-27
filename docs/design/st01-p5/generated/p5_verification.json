@@ -1,0 +1,1102 @@
+{
+ "B|base": {
+  "east": {
+   "checks": [
+    {
+     "id": "K1",
+     "title": "Closed state: the royal hall (all cells of the P3 reservation at floor-top level and above) is voxel-identical to the P3 model - safe walking surface, no hole, no change to columns/dais/obelisk/arena",
+     "verdict": "PASS",
+     "evidence": "differing cells 0; cover cells placed 12; hidden cavity cells left below the cover (inside the 2-thick slab zone, y<-23) 12"
+    },
+    {
+     "id": "K4",
+     "title": "Open state: the only change to the hall at/above the floor-top level is the stair cut implied by the P4 stair boxes (voxel diff == analytic box intersection), inside the declared pierce volume, no extra holes",
+     "verdict": "PASS",
+     "evidence": "changed cells 12 (analytic 12) all inside pierce True; cut footprint at floor-top layer 12 cells"
+    },
+    {
+     "id": "K2",
+     "title": "Closed state: forecourt -> P1 hall -> P1 descent -> P2 L1-L3 -> royal hall (entrance, dais) all walkable; no walkable cell of the secret area is reachable (player cannot fall into / enter the stair)",
+     "verdict": "PASS",
+     "evidence": "unreachable hall goals []; secret-area walkable cells reachable below the hall floor 0; steps forecourt->hall entry 158, ->dais top 189; total walkable states 3904"
+    },
+    {
+     "id": "K3",
+     "title": "Open state: complete chain forecourt -> ... -> royal hall -> hidden stair -> landing(s) -> vault entrance -> aisle -> dais stair -> chest front (5 cells) and the crypt are reachable on foot",
+     "verdict": "PASS",
+     "evidence": "unreachable []; chain length forecourt->chest front 241 steps; goals checked 12"
+    },
+    {
+     "id": "S1",
+     "title": "Independent stair drop check: shortest walk hall floor -> vault entrance has only unit steps, no rise, no missing first/last step, consecutive heights, headroom >= 4 on stair cells; drop = number of unit descents",
+     "verdict": "PASS",
+     "evidence": "start Y -22 -> end Y -30; total drop 8; unit descents 8, rises 0, max |dy| 1; heights visited [-22, -23, -24, -25, -26, -27, -28, -29, -30]; stair-space treads (P4 definition) 7; descents per space {'FA': 7, 'LA': 1}; min headroom on stair cells 4, along whole path 4"
+    },
+    {
+     "id": "I1",
+     "title": "Whole-structure collision/contact scan on one combined voxel world (P1 context, P2, P3 hall cavity, P4): no overlap except the declared hatch pierce, face contacts only at the declared links (P1<->P2 landing, P2 port<->hall, hall<->stair cut)",
+     "verdict": "PASS",
+     "evidence": "overlap voxels per stage pair {(1, 2):0, (1, 3):0, (1, 4):0, (2, 3):0, (2, 4):0, (3, 4):18}; pierce overlap (3,4) 18, outside the pierce 0; face-contact voxels per pair {(1, 2):35, (1, 3):0, (1, 4):0, (2, 3):9, (2, 4):0, (3, 4):42}; unexpected contact pairs []; P4 internal overlaps 0; carved inside HALL_RES outside pierce 0"
+    },
+    {
+     "id": "P2R",
+     "title": "Re-run of the P2 engine on the P2 layout used in this integrated world (intra-P2 collisions, undeclared contacts, widths, reachability)",
+     "verdict": "PASS",
+     "evidence": "15 P2 engine checks, not PASS: []; P2 cavity overlaps 0"
+    },
+    {
+     "id": "I2",
+     "title": "Analytic (box arithmetic) minimum wall between cavities of different stages is >= 2 except at the declared links; P4 spaces other than the stair cut keep >= 2 to the hall",
+     "verdict": "PASS",
+     "evidence": "stage-pair minimum Chebyshev gaps {(1, 2):0, (1, 3):6, (1, 4):16, (2, 3):0, (2, 4):3, (3, 4):0}; hall<->(P4 except FA) 2; violations {}"
+    },
+    {
+     "id": "X1",
+     "title": "Whole generated underground structure (P2 cavities + wall 2, P3 reservation, P4 vault/crypt/corridor structures) stays inside X/Z +-40 (D01 whole-structure reading)",
+     "verdict": "FAIL",
+     "evidence": "max excess 1 blocks; voxels outside 140; P2 spaces whose wall-inclusive extent exceeds 40: ['LND12', 'V12']"
+    },
+    {
+     "id": "D1",
+     "title": "Lowest cavity and lowest structure block of the whole integrated structure recomputed from boxes and from voxels (Q98 input; not an approved maximum)",
+     "verdict": "PASS",
+     "evidence": "lowest P4 cavity Y -30 (box -30); lowest cavity overall -30; lowest structure block -32 = depth 32"
+    },
+    {
+     "id": "L1",
+     "title": "P2 transition spaces keep the approved-by-P2 proportions: landings 9x9, L1/L2 vestibule 9x11, 7-wide stair flights",
+     "verdict": "PASS",
+     "evidence": "landings ((9, 9), (9, 9)), V12 (9, 11), flight A width 7"
+    },
+    {
+     "id": "C1",
+     "title": "Cover candidates: spatial requirement of block removal (A), sliding panel (B), piston/structure (C) in the 2-thick hall slab",
+     "verdict": "UNVERIFIED",
+     "evidence": "cut at floor-top layer = 12 blocks. A needs 0 extra cells. B/C need >= 12 pocket cells beside the cut; a pocket in the lower slab layer (Y -24) leaves 1 solid layer(s) to the hall floor air (needs >= 2), so B/C require a thicker slab or outside-footprint pocket (not designed). Mechanism feasibility/in-game behaviour not verifiable here."
+    }
+   ],
+   "metrics": {
+    "chain_steps": 241,
+    "stair": {
+     "levels": [
+      -22,
+      -23,
+      -24,
+      -25,
+      -26,
+      -27,
+      -28,
+      -29,
+      -30
+     ],
+     "drop": 8,
+     "treads": 7,
+     "descents": 8,
+     "per_space": {
+      "FA": [
+       -23,
+       -24,
+       -25,
+       -26,
+       -27,
+       -28,
+       -29
+      ],
+      "LA": [
+       -30
+      ]
+     },
+     "path_len": 26
+    },
+    "excess": 1,
+    "voxels_outside": 140,
+    "lowest_cavity": -30,
+    "lowest_structure": -32,
+    "p2_route": 158,
+    "steps": {
+     "forecourt_to_hall": 158,
+     "forecourt_to_chest": 241,
+     "hall_to_chest": 42
+    },
+    "cover": {
+     "cells": 12,
+     "pocket_cells": 12,
+     "gap_to_hall_air_if_pocket_in_slab": 1
+    }
+   }
+  },
+  "west": {
+   "checks": [
+    {
+     "id": "K1",
+     "title": "Closed state: the royal hall (all cells of the P3 reservation at floor-top level and above) is voxel-identical to the P3 model - safe walking surface, no hole, no change to columns/dais/obelisk/arena",
+     "verdict": "PASS",
+     "evidence": "differing cells 0; cover cells placed 12; hidden cavity cells left below the cover (inside the 2-thick slab zone, y<-23) 12"
+    },
+    {
+     "id": "K4",
+     "title": "Open state: the only change to the hall at/above the floor-top level is the stair cut implied by the P4 stair boxes (voxel diff == analytic box intersection), inside the declared pierce volume, no extra holes",
+     "verdict": "PASS",
+     "evidence": "changed cells 12 (analytic 12) all inside pierce True; cut footprint at floor-top layer 12 cells"
+    },
+    {
+     "id": "K2",
+     "title": "Closed state: forecourt -> P1 hall -> P1 descent -> P2 L1-L3 -> royal hall (entrance, dais) all walkable; no walkable cell of the secret area is reachable (player cannot fall into / enter the stair)",
+     "verdict": "PASS",
+     "evidence": "unreachable hall goals []; secret-area walkable cells reachable below the hall floor 0; steps forecourt->hall entry 158, ->dais top 189; total walkable states 3904"
+    },
+    {
+     "id": "K3",
+     "title": "Open state: complete chain forecourt -> ... -> royal hall -> hidden stair -> landing(s) -> vault entrance -> aisle -> dais stair -> chest front (5 cells) and the crypt are reachable on foot",
+     "verdict": "PASS",
+     "evidence": "unreachable []; chain length forecourt->chest front 241 steps; goals checked 12"
+    },
+    {
+     "id": "S1",
+     "title": "Independent stair drop check: shortest walk hall floor -> vault entrance has only unit steps, no rise, no missing first/last step, consecutive heights, headroom >= 4 on stair cells; drop = number of unit descents",
+     "verdict": "PASS",
+     "evidence": "start Y -22 -> end Y -30; total drop 8; unit descents 8, rises 0, max |dy| 1; heights visited [-22, -23, -24, -25, -26, -27, -28, -29, -30]; stair-space treads (P4 definition) 7; descents per space {'FA': 7, 'LA': 1}; min headroom on stair cells 4, along whole path 4"
+    },
+    {
+     "id": "I1",
+     "title": "Whole-structure collision/contact scan on one combined voxel world (P1 context, P2, P3 hall cavity, P4): no overlap except the declared hatch pierce, face contacts only at the declared links (P1<->P2 landing, P2 port<->hall, hall<->stair cut)",
+     "verdict": "PASS",
+     "evidence": "overlap voxels per stage pair {(1, 2):0, (1, 3):0, (1, 4):0, (2, 3):0, (2, 4):0, (3, 4):18}; pierce overlap (3,4) 18, outside the pierce 0; face-contact voxels per pair {(1, 2):35, (1, 3):0, (1, 4):0, (2, 3):9, (2, 4):0, (3, 4):42}; unexpected contact pairs []; P4 internal overlaps 0; carved inside HALL_RES outside pierce 0"
+    },
+    {
+     "id": "P2R",
+     "title": "Re-run of the P2 engine on the P2 layout used in this integrated world (intra-P2 collisions, undeclared contacts, widths, reachability)",
+     "verdict": "PASS",
+     "evidence": "15 P2 engine checks, not PASS: []; P2 cavity overlaps 0"
+    },
+    {
+     "id": "I2",
+     "title": "Analytic (box arithmetic) minimum wall between cavities of different stages is >= 2 except at the declared links; P4 spaces other than the stair cut keep >= 2 to the hall",
+     "verdict": "PASS",
+     "evidence": "stage-pair minimum Chebyshev gaps {(1, 2):0, (1, 3):6, (1, 4):16, (2, 3):0, (2, 4):3, (3, 4):0}; hall<->(P4 except FA) 2; violations {}"
+    },
+    {
+     "id": "X1",
+     "title": "Whole generated underground structure (P2 cavities + wall 2, P3 reservation, P4 vault/crypt/corridor structures) stays inside X/Z +-40 (D01 whole-structure reading)",
+     "verdict": "FAIL",
+     "evidence": "max excess 1 blocks; voxels outside 140; P2 spaces whose wall-inclusive extent exceeds 40: ['LND12', 'V12']"
+    },
+    {
+     "id": "D1",
+     "title": "Lowest cavity and lowest structure block of the whole integrated structure recomputed from boxes and from voxels (Q98 input; not an approved maximum)",
+     "verdict": "PASS",
+     "evidence": "lowest P4 cavity Y -30 (box -30); lowest cavity overall -30; lowest structure block -32 = depth 32"
+    },
+    {
+     "id": "L1",
+     "title": "P2 transition spaces keep the approved-by-P2 proportions: landings 9x9, L1/L2 vestibule 9x11, 7-wide stair flights",
+     "verdict": "PASS",
+     "evidence": "landings ((9, 9), (9, 9)), V12 (9, 11), flight A width 7"
+    },
+    {
+     "id": "C1",
+     "title": "Cover candidates: spatial requirement of block removal (A), sliding panel (B), piston/structure (C) in the 2-thick hall slab",
+     "verdict": "UNVERIFIED",
+     "evidence": "cut at floor-top layer = 12 blocks. A needs 0 extra cells. B/C need >= 12 pocket cells beside the cut; a pocket in the lower slab layer (Y -24) leaves 1 solid layer(s) to the hall floor air (needs >= 2), so B/C require a thicker slab or outside-footprint pocket (not designed). Mechanism feasibility/in-game behaviour not verifiable here."
+    }
+   ],
+   "metrics": {
+    "chain_steps": 241,
+    "stair": {
+     "levels": [
+      -22,
+      -23,
+      -24,
+      -25,
+      -26,
+      -27,
+      -28,
+      -29,
+      -30
+     ],
+     "drop": 8,
+     "treads": 7,
+     "descents": 8,
+     "per_space": {
+      "FA": [
+       -23,
+       -24,
+       -25,
+       -26,
+       -27,
+       -28,
+       -29
+      ],
+      "LA": [
+       -30
+      ]
+     },
+     "path_len": 26
+    },
+    "excess": 1,
+    "voxels_outside": 140,
+    "lowest_cavity": -30,
+    "lowest_structure": -32,
+    "p2_route": null,
+    "steps": {
+     "forecourt_to_hall": 158,
+     "forecourt_to_chest": 241,
+     "hall_to_chest": 42
+    },
+    "cover": {
+     "cells": 12,
+     "pocket_cells": 12,
+     "gap_to_hall_air_if_pocket_in_slab": 1
+    }
+   }
+  },
+  "mirror": {
+   "closed_solid": true,
+   "open_solid": true,
+   "own": true,
+   "elem": true
+  },
+  "verdicts_equal": true
+ },
+ "A|base": {
+  "east": {
+   "checks": [
+    {
+     "id": "K1",
+     "title": "Closed state: the royal hall (all cells of the P3 reservation at floor-top level and above) is voxel-identical to the P3 model - safe walking surface, no hole, no change to columns/dais/obelisk/arena",
+     "verdict": "PASS",
+     "evidence": "differing cells 0; cover cells placed 12; hidden cavity cells left below the cover (inside the 2-thick slab zone, y<-23) 12"
+    },
+    {
+     "id": "K4",
+     "title": "Open state: the only change to the hall at/above the floor-top level is the stair cut implied by the P4 stair boxes (voxel diff == analytic box intersection), inside the declared pierce volume, no extra holes",
+     "verdict": "PASS",
+     "evidence": "changed cells 12 (analytic 12) all inside pierce True; cut footprint at floor-top layer 12 cells"
+    },
+    {
+     "id": "K2",
+     "title": "Closed state: forecourt -> P1 hall -> P1 descent -> P2 L1-L3 -> royal hall (entrance, dais) all walkable; no walkable cell of the secret area is reachable (player cannot fall into / enter the stair)",
+     "verdict": "PASS",
+     "evidence": "unreachable hall goals []; secret-area walkable cells reachable below the hall floor 0; steps forecourt->hall entry 158, ->dais top 189; total walkable states 3904"
+    },
+    {
+     "id": "K3",
+     "title": "Open state: complete chain forecourt -> ... -> royal hall -> hidden stair -> landing(s) -> vault entrance -> aisle -> dais stair -> chest front (5 cells) and the crypt are reachable on foot",
+     "verdict": "PASS",
+     "evidence": "unreachable []; chain length forecourt->chest front 252 steps; goals checked 13"
+    },
+    {
+     "id": "S1",
+     "title": "Independent stair drop check: shortest walk hall floor -> vault entrance has only unit steps, no rise, no missing first/last step, consecutive heights, headroom >= 4 on stair cells; drop = number of unit descents",
+     "verdict": "PASS",
+     "evidence": "start Y -22 -> end Y -37; total drop 15; unit descents 15, rises 0, max |dy| 1; heights visited [-22, -23, -24, -25, -26, -27, -28, -29, -30, -31, -32, -33, -34, -35, -36, -37]; stair-space treads (P4 definition) 14; descents per space {'FA': 9, 'LA': 1, 'FB': 5}; min headroom on stair cells 4, along whole path 4"
+    },
+    {
+     "id": "I1",
+     "title": "Whole-structure collision/contact scan on one combined voxel world (P1 context, P2, P3 hall cavity, P4): no overlap except the declared hatch pierce, face contacts only at the declared links (P1<->P2 landing, P2 port<->hall, hall<->stair cut)",
+     "verdict": "PASS",
+     "evidence": "overlap voxels per stage pair {(1, 2):0, (1, 3):0, (1, 4):0, (2, 3):0, (2, 4):0, (3, 4):18}; pierce overlap (3,4) 18, outside the pierce 0; face-contact voxels per pair {(1, 2):35, (1, 3):0, (1, 4):0, (2, 3):9, (2, 4):0, (3, 4):42}; unexpected contact pairs []; P4 internal overlaps 0; carved inside HALL_RES outside pierce 0"
+    },
+    {
+     "id": "P2R",
+     "title": "Re-run of the P2 engine on the P2 layout used in this integrated world (intra-P2 collisions, undeclared contacts, widths, reachability)",
+     "verdict": "PASS",
+     "evidence": "15 P2 engine checks, not PASS: []; P2 cavity overlaps 0"
+    },
+    {
+     "id": "I2",
+     "title": "Analytic (box arithmetic) minimum wall between cavities of different stages is >= 2 except at the declared links; P4 spaces other than the stair cut keep >= 2 to the hall",
+     "verdict": "PASS",
+     "evidence": "stage-pair minimum Chebyshev gaps {(1, 2):0, (1, 3):6, (1, 4):19, (2, 3):0, (2, 4):7, (3, 4):0}; hall<->(P4 except FA) 5; violations {}"
+    },
+    {
+     "id": "X1",
+     "title": "Whole generated underground structure (P2 cavities + wall 2, P3 reservation, P4 vault/crypt/corridor structures) stays inside X/Z +-40 (D01 whole-structure reading)",
+     "verdict": "FAIL",
+     "evidence": "max excess 1 blocks; voxels outside 140; P2 spaces whose wall-inclusive extent exceeds 40: ['LND12', 'V12']"
+    },
+    {
+     "id": "D1",
+     "title": "Lowest cavity and lowest structure block of the whole integrated structure recomputed from boxes and from voxels (Q98 input; not an approved maximum)",
+     "verdict": "PASS",
+     "evidence": "lowest P4 cavity Y -37 (box -37); lowest cavity overall -37; lowest structure block -39 = depth 39"
+    },
+    {
+     "id": "L1",
+     "title": "P2 transition spaces keep the approved-by-P2 proportions: landings 9x9, L1/L2 vestibule 9x11, 7-wide stair flights",
+     "verdict": "PASS",
+     "evidence": "landings ((9, 9), (9, 9)), V12 (9, 11), flight A width 7"
+    },
+    {
+     "id": "C1",
+     "title": "Cover candidates: spatial requirement of block removal (A), sliding panel (B), piston/structure (C) in the 2-thick hall slab",
+     "verdict": "UNVERIFIED",
+     "evidence": "cut at floor-top layer = 12 blocks. A needs 0 extra cells. B/C need >= 12 pocket cells beside the cut; a pocket in the lower slab layer (Y -24) leaves 1 solid layer(s) to the hall floor air (needs >= 2), so B/C require a thicker slab or outside-footprint pocket (not designed). Mechanism feasibility/in-game behaviour not verifiable here."
+    }
+   ],
+   "metrics": {
+    "chain_steps": 252,
+    "stair": {
+     "levels": [
+      -22,
+      -23,
+      -24,
+      -25,
+      -26,
+      -27,
+      -28,
+      -29,
+      -30,
+      -31,
+      -32,
+      -33,
+      -34,
+      -35,
+      -36,
+      -37
+     ],
+     "drop": 15,
+     "treads": 14,
+     "descents": 15,
+     "per_space": {
+      "FA": [
+       -23,
+       -24,
+       -25,
+       -26,
+       -27,
+       -28,
+       -29,
+       -30,
+       -31
+      ],
+      "LA": [
+       -32
+      ],
+      "FB": [
+       -33,
+       -34,
+       -35,
+       -36,
+       -37
+      ]
+     },
+     "path_len": 41
+    },
+    "excess": 1,
+    "voxels_outside": 140,
+    "lowest_cavity": -37,
+    "lowest_structure": -39,
+    "p2_route": 158,
+    "steps": {
+     "forecourt_to_hall": 158,
+     "forecourt_to_chest": 252,
+     "hall_to_chest": 53
+    },
+    "cover": {
+     "cells": 12,
+     "pocket_cells": 12,
+     "gap_to_hall_air_if_pocket_in_slab": 1
+    }
+   }
+  },
+  "west": {
+   "checks": [
+    {
+     "id": "K1",
+     "title": "Closed state: the royal hall (all cells of the P3 reservation at floor-top level and above) is voxel-identical to the P3 model - safe walking surface, no hole, no change to columns/dais/obelisk/arena",
+     "verdict": "PASS",
+     "evidence": "differing cells 0; cover cells placed 12; hidden cavity cells left below the cover (inside the 2-thick slab zone, y<-23) 12"
+    },
+    {
+     "id": "K4",
+     "title": "Open state: the only change to the hall at/above the floor-top level is the stair cut implied by the P4 stair boxes (voxel diff == analytic box intersection), inside the declared pierce volume, no extra holes",
+     "verdict": "PASS",
+     "evidence": "changed cells 12 (analytic 12) all inside pierce True; cut footprint at floor-top layer 12 cells"
+    },
+    {
+     "id": "K2",
+     "title": "Closed state: forecourt -> P1 hall -> P1 descent -> P2 L1-L3 -> royal hall (entrance, dais) all walkable; no walkable cell of the secret area is reachable (player cannot fall into / enter the stair)",
+     "verdict": "PASS",
+     "evidence": "unreachable hall goals []; secret-area walkable cells reachable below the hall floor 0; steps forecourt->hall entry 158, ->dais top 189; total walkable states 3904"
+    },
+    {
+     "id": "K3",
+     "title": "Open state: complete chain forecourt -> ... -> royal hall -> hidden stair -> landing(s) -> vault entrance -> aisle -> dais stair -> chest front (5 cells) and the crypt are reachable on foot",
+     "verdict": "PASS",
+     "evidence": "unreachable []; chain length forecourt->chest front 252 steps; goals checked 13"
+    },
+    {
+     "id": "S1",
+     "title": "Independent stair drop check: shortest walk hall floor -> vault entrance has only unit steps, no rise, no missing first/last step, consecutive heights, headroom >= 4 on stair cells; drop = number of unit descents",
+     "verdict": "PASS",
+     "evidence": "start Y -22 -> end Y -37; total drop 15; unit descents 15, rises 0, max |dy| 1; heights visited [-22, -23, -24, -25, -26, -27, -28, -29, -30, -31, -32, -33, -34, -35, -36, -37]; stair-space treads (P4 definition) 14; descents per space {'FA': 9, 'LA': 1, 'FB': 5}; min headroom on stair cells 4, along whole path 4"
+    },
+    {
+     "id": "I1",
+     "title": "Whole-structure collision/contact scan on one combined voxel world (P1 context, P2, P3 hall cavity, P4): no overlap except the declared hatch pierce, face contacts only at the declared links (P1<->P2 landing, P2 port<->hall, hall<->stair cut)",
+     "verdict": "PASS",
+     "evidence": "overlap voxels per stage pair {(1, 2):0, (1, 3):0, (1, 4):0, (2, 3):0, (2, 4):0, (3, 4):18}; pierce overlap (3,4) 18, outside the pierce 0; face-contact voxels per pair {(1, 2):35, (1, 3):0, (1, 4):0, (2, 3):9, (2, 4):0, (3, 4):42}; unexpected contact pairs []; P4 internal overlaps 0; carved inside HALL_RES outside pierce 0"
+    },
+    {
+     "id": "P2R",
+     "title": "Re-run of the P2 engine on the P2 layout used in this integrated world (intra-P2 collisions, undeclared contacts, widths, reachability)",
+     "verdict": "PASS",
+     "evidence": "15 P2 engine checks, not PASS: []; P2 cavity overlaps 0"
+    },
+    {
+     "id": "I2",
+     "title": "Analytic (box arithmetic) minimum wall between cavities of different stages is >= 2 except at the declared links; P4 spaces other than the stair cut keep >= 2 to the hall",
+     "verdict": "PASS",
+     "evidence": "stage-pair minimum Chebyshev gaps {(1, 2):0, (1, 3):6, (1, 4):19, (2, 3):0, (2, 4):7, (3, 4):0}; hall<->(P4 except FA) 5; violations {}"
+    },
+    {
+     "id": "X1",
+     "title": "Whole generated underground structure (P2 cavities + wall 2, P3 reservation, P4 vault/crypt/corridor structures) stays inside X/Z +-40 (D01 whole-structure reading)",
+     "verdict": "FAIL",
+     "evidence": "max excess 1 blocks; voxels outside 140; P2 spaces whose wall-inclusive extent exceeds 40: ['LND12', 'V12']"
+    },
+    {
+     "id": "D1",
+     "title": "Lowest cavity and lowest structure block of the whole integrated structure recomputed from boxes and from voxels (Q98 input; not an approved maximum)",
+     "verdict": "PASS",
+     "evidence": "lowest P4 cavity Y -37 (box -37); lowest cavity overall -37; lowest structure block -39 = depth 39"
+    },
+    {
+     "id": "L1",
+     "title": "P2 transition spaces keep the approved-by-P2 proportions: landings 9x9, L1/L2 vestibule 9x11, 7-wide stair flights",
+     "verdict": "PASS",
+     "evidence": "landings ((9, 9), (9, 9)), V12 (9, 11), flight A width 7"
+    },
+    {
+     "id": "C1",
+     "title": "Cover candidates: spatial requirement of block removal (A), sliding panel (B), piston/structure (C) in the 2-thick hall slab",
+     "verdict": "UNVERIFIED",
+     "evidence": "cut at floor-top layer = 12 blocks. A needs 0 extra cells. B/C need >= 12 pocket cells beside the cut; a pocket in the lower slab layer (Y -24) leaves 1 solid layer(s) to the hall floor air (needs >= 2), so B/C require a thicker slab or outside-footprint pocket (not designed). Mechanism feasibility/in-game behaviour not verifiable here."
+    }
+   ],
+   "metrics": {
+    "chain_steps": 252,
+    "stair": {
+     "levels": [
+      -22,
+      -23,
+      -24,
+      -25,
+      -26,
+      -27,
+      -28,
+      -29,
+      -30,
+      -31,
+      -32,
+      -33,
+      -34,
+      -35,
+      -36,
+      -37
+     ],
+     "drop": 15,
+     "treads": 14,
+     "descents": 15,
+     "per_space": {
+      "FA": [
+       -23,
+       -24,
+       -25,
+       -26,
+       -27,
+       -28,
+       -29,
+       -30,
+       -31
+      ],
+      "LA": [
+       -32
+      ],
+      "FB": [
+       -33,
+       -34,
+       -35,
+       -36,
+       -37
+      ]
+     },
+     "path_len": 41
+    },
+    "excess": 1,
+    "voxels_outside": 140,
+    "lowest_cavity": -37,
+    "lowest_structure": -39,
+    "p2_route": null,
+    "steps": {
+     "forecourt_to_hall": 158,
+     "forecourt_to_chest": 252,
+     "hall_to_chest": 53
+    },
+    "cover": {
+     "cells": 12,
+     "pocket_cells": 12,
+     "gap_to_hall_air_if_pocket_in_slab": 1
+    }
+   }
+  },
+  "mirror": {
+   "closed_solid": true,
+   "open_solid": true,
+   "own": true,
+   "elem": true
+  },
+  "verdicts_equal": true
+ },
+ "B|C": {
+  "east": {
+   "checks": [
+    {
+     "id": "K1",
+     "title": "Closed state: the royal hall (all cells of the P3 reservation at floor-top level and above) is voxel-identical to the P3 model - safe walking surface, no hole, no change to columns/dais/obelisk/arena",
+     "verdict": "PASS",
+     "evidence": "differing cells 0; cover cells placed 12; hidden cavity cells left below the cover (inside the 2-thick slab zone, y<-23) 12"
+    },
+    {
+     "id": "K4",
+     "title": "Open state: the only change to the hall at/above the floor-top level is the stair cut implied by the P4 stair boxes (voxel diff == analytic box intersection), inside the declared pierce volume, no extra holes",
+     "verdict": "PASS",
+     "evidence": "changed cells 12 (analytic 12) all inside pierce True; cut footprint at floor-top layer 12 cells"
+    },
+    {
+     "id": "K2",
+     "title": "Closed state: forecourt -> P1 hall -> P1 descent -> P2 L1-L3 -> royal hall (entrance, dais) all walkable; no walkable cell of the secret area is reachable (player cannot fall into / enter the stair)",
+     "verdict": "PASS",
+     "evidence": "unreachable hall goals []; secret-area walkable cells reachable below the hall floor 0; steps forecourt->hall entry 154, ->dais top 185; total walkable states 3876"
+    },
+    {
+     "id": "K3",
+     "title": "Open state: complete chain forecourt -> ... -> royal hall -> hidden stair -> landing(s) -> vault entrance -> aisle -> dais stair -> chest front (5 cells) and the crypt are reachable on foot",
+     "verdict": "PASS",
+     "evidence": "unreachable []; chain length forecourt->chest front 237 steps; goals checked 12"
+    },
+    {
+     "id": "S1",
+     "title": "Independent stair drop check: shortest walk hall floor -> vault entrance has only unit steps, no rise, no missing first/last step, consecutive heights, headroom >= 4 on stair cells; drop = number of unit descents",
+     "verdict": "PASS",
+     "evidence": "start Y -22 -> end Y -30; total drop 8; unit descents 8, rises 0, max |dy| 1; heights visited [-22, -23, -24, -25, -26, -27, -28, -29, -30]; stair-space treads (P4 definition) 7; descents per space {'FA': 7, 'LA': 1}; min headroom on stair cells 4, along whole path 4"
+    },
+    {
+     "id": "I1",
+     "title": "Whole-structure collision/contact scan on one combined voxel world (P1 context, P2, P3 hall cavity, P4): no overlap except the declared hatch pierce, face contacts only at the declared links (P1<->P2 landing, P2 port<->hall, hall<->stair cut)",
+     "verdict": "PASS",
+     "evidence": "overlap voxels per stage pair {(1, 2):0, (1, 3):0, (1, 4):0, (2, 3):0, (2, 4):0, (3, 4):18}; pierce overlap (3,4) 18, outside the pierce 0; face-contact voxels per pair {(1, 2):35, (1, 3):0, (1, 4):0, (2, 3):9, (2, 4):0, (3, 4):42}; unexpected contact pairs []; P4 internal overlaps 0; carved inside HALL_RES outside pierce 0"
+    },
+    {
+     "id": "P2R",
+     "title": "Re-run of the P2 engine on the P2 layout used in this integrated world (intra-P2 collisions, undeclared contacts, widths, reachability)",
+     "verdict": "PASS",
+     "evidence": "15 P2 engine checks, not PASS: []; P2 cavity overlaps 0"
+    },
+    {
+     "id": "I2",
+     "title": "Analytic (box arithmetic) minimum wall between cavities of different stages is >= 2 except at the declared links; P4 spaces other than the stair cut keep >= 2 to the hall",
+     "verdict": "PASS",
+     "evidence": "stage-pair minimum Chebyshev gaps {(1, 2):0, (1, 3):6, (1, 4):16, (2, 3):0, (2, 4):3, (3, 4):0}; hall<->(P4 except FA) 2; violations {}"
+    },
+    {
+     "id": "X1",
+     "title": "Whole generated underground structure (P2 cavities + wall 2, P3 reservation, P4 vault/crypt/corridor structures) stays inside X/Z +-40 (D01 whole-structure reading)",
+     "verdict": "PASS",
+     "evidence": "max excess 0 blocks; voxels outside 0; P2 spaces whose wall-inclusive extent exceeds 40: []"
+    },
+    {
+     "id": "D1",
+     "title": "Lowest cavity and lowest structure block of the whole integrated structure recomputed from boxes and from voxels (Q98 input; not an approved maximum)",
+     "verdict": "PASS",
+     "evidence": "lowest P4 cavity Y -30 (box -30); lowest cavity overall -30; lowest structure block -32 = depth 32"
+    },
+    {
+     "id": "L1",
+     "title": "P2 transition spaces keep the approved-by-P2 proportions: landings 9x9, L1/L2 vestibule 9x11, 7-wide stair flights",
+     "verdict": "PASS",
+     "evidence": "landings ((9, 9), (9, 9)), V12 (9, 11), flight A width 7"
+    },
+    {
+     "id": "C1",
+     "title": "Cover candidates: spatial requirement of block removal (A), sliding panel (B), piston/structure (C) in the 2-thick hall slab",
+     "verdict": "UNVERIFIED",
+     "evidence": "cut at floor-top layer = 12 blocks. A needs 0 extra cells. B/C need >= 12 pocket cells beside the cut; a pocket in the lower slab layer (Y -24) leaves 1 solid layer(s) to the hall floor air (needs >= 2), so B/C require a thicker slab or outside-footprint pocket (not designed). Mechanism feasibility/in-game behaviour not verifiable here."
+    }
+   ],
+   "metrics": {
+    "chain_steps": 237,
+    "stair": {
+     "levels": [
+      -22,
+      -23,
+      -24,
+      -25,
+      -26,
+      -27,
+      -28,
+      -29,
+      -30
+     ],
+     "drop": 8,
+     "treads": 7,
+     "descents": 8,
+     "per_space": {
+      "FA": [
+       -23,
+       -24,
+       -25,
+       -26,
+       -27,
+       -28,
+       -29
+      ],
+      "LA": [
+       -30
+      ]
+     },
+     "path_len": 26
+    },
+    "excess": 0,
+    "voxels_outside": 0,
+    "lowest_cavity": -30,
+    "lowest_structure": -32,
+    "p2_route": 154,
+    "steps": {
+     "forecourt_to_hall": 154,
+     "forecourt_to_chest": 237,
+     "hall_to_chest": 42
+    },
+    "cover": {
+     "cells": 12,
+     "pocket_cells": 12,
+     "gap_to_hall_air_if_pocket_in_slab": 1
+    }
+   }
+  },
+  "west": {
+   "checks": [
+    {
+     "id": "K1",
+     "title": "Closed state: the royal hall (all cells of the P3 reservation at floor-top level and above) is voxel-identical to the P3 model - safe walking surface, no hole, no change to columns/dais/obelisk/arena",
+     "verdict": "PASS",
+     "evidence": "differing cells 0; cover cells placed 12; hidden cavity cells left below the cover (inside the 2-thick slab zone, y<-23) 12"
+    },
+    {
+     "id": "K4",
+     "title": "Open state: the only change to the hall at/above the floor-top level is the stair cut implied by the P4 stair boxes (voxel diff == analytic box intersection), inside the declared pierce volume, no extra holes",
+     "verdict": "PASS",
+     "evidence": "changed cells 12 (analytic 12) all inside pierce True; cut footprint at floor-top layer 12 cells"
+    },
+    {
+     "id": "K2",
+     "title": "Closed state: forecourt -> P1 hall -> P1 descent -> P2 L1-L3 -> royal hall (entrance, dais) all walkable; no walkable cell of the secret area is reachable (player cannot fall into / enter the stair)",
+     "verdict": "PASS",
+     "evidence": "unreachable hall goals []; secret-area walkable cells reachable below the hall floor 0; steps forecourt->hall entry 154, ->dais top 185; total walkable states 3876"
+    },
+    {
+     "id": "K3",
+     "title": "Open state: complete chain forecourt -> ... -> royal hall -> hidden stair -> landing(s) -> vault entrance -> aisle -> dais stair -> chest front (5 cells) and the crypt are reachable on foot",
+     "verdict": "PASS",
+     "evidence": "unreachable []; chain length forecourt->chest front 237 steps; goals checked 12"
+    },
+    {
+     "id": "S1",
+     "title": "Independent stair drop check: shortest walk hall floor -> vault entrance has only unit steps, no rise, no missing first/last step, consecutive heights, headroom >= 4 on stair cells; drop = number of unit descents",
+     "verdict": "PASS",
+     "evidence": "start Y -22 -> end Y -30; total drop 8; unit descents 8, rises 0, max |dy| 1; heights visited [-22, -23, -24, -25, -26, -27, -28, -29, -30]; stair-space treads (P4 definition) 7; descents per space {'FA': 7, 'LA': 1}; min headroom on stair cells 4, along whole path 4"
+    },
+    {
+     "id": "I1",
+     "title": "Whole-structure collision/contact scan on one combined voxel world (P1 context, P2, P3 hall cavity, P4): no overlap except the declared hatch pierce, face contacts only at the declared links (P1<->P2 landing, P2 port<->hall, hall<->stair cut)",
+     "verdict": "PASS",
+     "evidence": "overlap voxels per stage pair {(1, 2):0, (1, 3):0, (1, 4):0, (2, 3):0, (2, 4):0, (3, 4):18}; pierce overlap (3,4) 18, outside the pierce 0; face-contact voxels per pair {(1, 2):35, (1, 3):0, (1, 4):0, (2, 3):9, (2, 4):0, (3, 4):42}; unexpected contact pairs []; P4 internal overlaps 0; carved inside HALL_RES outside pierce 0"
+    },
+    {
+     "id": "P2R",
+     "title": "Re-run of the P2 engine on the P2 layout used in this integrated world (intra-P2 collisions, undeclared contacts, widths, reachability)",
+     "verdict": "PASS",
+     "evidence": "15 P2 engine checks, not PASS: []; P2 cavity overlaps 0"
+    },
+    {
+     "id": "I2",
+     "title": "Analytic (box arithmetic) minimum wall between cavities of different stages is >= 2 except at the declared links; P4 spaces other than the stair cut keep >= 2 to the hall",
+     "verdict": "PASS",
+     "evidence": "stage-pair minimum Chebyshev gaps {(1, 2):0, (1, 3):6, (1, 4):16, (2, 3):0, (2, 4):3, (3, 4):0}; hall<->(P4 except FA) 2; violations {}"
+    },
+    {
+     "id": "X1",
+     "title": "Whole generated underground structure (P2 cavities + wall 2, P3 reservation, P4 vault/crypt/corridor structures) stays inside X/Z +-40 (D01 whole-structure reading)",
+     "verdict": "PASS",
+     "evidence": "max excess 0 blocks; voxels outside 0; P2 spaces whose wall-inclusive extent exceeds 40: []"
+    },
+    {
+     "id": "D1",
+     "title": "Lowest cavity and lowest structure block of the whole integrated structure recomputed from boxes and from voxels (Q98 input; not an approved maximum)",
+     "verdict": "PASS",
+     "evidence": "lowest P4 cavity Y -30 (box -30); lowest cavity overall -30; lowest structure block -32 = depth 32"
+    },
+    {
+     "id": "L1",
+     "title": "P2 transition spaces keep the approved-by-P2 proportions: landings 9x9, L1/L2 vestibule 9x11, 7-wide stair flights",
+     "verdict": "PASS",
+     "evidence": "landings ((9, 9), (9, 9)), V12 (9, 11), flight A width 7"
+    },
+    {
+     "id": "C1",
+     "title": "Cover candidates: spatial requirement of block removal (A), sliding panel (B), piston/structure (C) in the 2-thick hall slab",
+     "verdict": "UNVERIFIED",
+     "evidence": "cut at floor-top layer = 12 blocks. A needs 0 extra cells. B/C need >= 12 pocket cells beside the cut; a pocket in the lower slab layer (Y -24) leaves 1 solid layer(s) to the hall floor air (needs >= 2), so B/C require a thicker slab or outside-footprint pocket (not designed). Mechanism feasibility/in-game behaviour not verifiable here."
+    }
+   ],
+   "metrics": {
+    "chain_steps": 237,
+    "stair": {
+     "levels": [
+      -22,
+      -23,
+      -24,
+      -25,
+      -26,
+      -27,
+      -28,
+      -29,
+      -30
+     ],
+     "drop": 8,
+     "treads": 7,
+     "descents": 8,
+     "per_space": {
+      "FA": [
+       -23,
+       -24,
+       -25,
+       -26,
+       -27,
+       -28,
+       -29
+      ],
+      "LA": [
+       -30
+      ]
+     },
+     "path_len": 26
+    },
+    "excess": 0,
+    "voxels_outside": 0,
+    "lowest_cavity": -30,
+    "lowest_structure": -32,
+    "p2_route": null,
+    "steps": {
+     "forecourt_to_hall": 154,
+     "forecourt_to_chest": 237,
+     "hall_to_chest": 42
+    },
+    "cover": {
+     "cells": 12,
+     "pocket_cells": 12,
+     "gap_to_hall_air_if_pocket_in_slab": 1
+    }
+   }
+  },
+  "mirror": {
+   "closed_solid": true,
+   "open_solid": true,
+   "own": true,
+   "elem": true
+  },
+  "verdicts_equal": true
+ },
+ "A|C": {
+  "east": {
+   "checks": [
+    {
+     "id": "K1",
+     "title": "Closed state: the royal hall (all cells of the P3 reservation at floor-top level and above) is voxel-identical to the P3 model - safe walking surface, no hole, no change to columns/dais/obelisk/arena",
+     "verdict": "PASS",
+     "evidence": "differing cells 0; cover cells placed 12; hidden cavity cells left below the cover (inside the 2-thick slab zone, y<-23) 12"
+    },
+    {
+     "id": "K4",
+     "title": "Open state: the only change to the hall at/above the floor-top level is the stair cut implied by the P4 stair boxes (voxel diff == analytic box intersection), inside the declared pierce volume, no extra holes",
+     "verdict": "PASS",
+     "evidence": "changed cells 12 (analytic 12) all inside pierce True; cut footprint at floor-top layer 12 cells"
+    },
+    {
+     "id": "K2",
+     "title": "Closed state: forecourt -> P1 hall -> P1 descent -> P2 L1-L3 -> royal hall (entrance, dais) all walkable; no walkable cell of the secret area is reachable (player cannot fall into / enter the stair)",
+     "verdict": "PASS",
+     "evidence": "unreachable hall goals []; secret-area walkable cells reachable below the hall floor 0; steps forecourt->hall entry 154, ->dais top 185; total walkable states 3876"
+    },
+    {
+     "id": "K3",
+     "title": "Open state: complete chain forecourt -> ... -> royal hall -> hidden stair -> landing(s) -> vault entrance -> aisle -> dais stair -> chest front (5 cells) and the crypt are reachable on foot",
+     "verdict": "PASS",
+     "evidence": "unreachable []; chain length forecourt->chest front 248 steps; goals checked 13"
+    },
+    {
+     "id": "S1",
+     "title": "Independent stair drop check: shortest walk hall floor -> vault entrance has only unit steps, no rise, no missing first/last step, consecutive heights, headroom >= 4 on stair cells; drop = number of unit descents",
+     "verdict": "PASS",
+     "evidence": "start Y -22 -> end Y -37; total drop 15; unit descents 15, rises 0, max |dy| 1; heights visited [-22, -23, -24, -25, -26, -27, -28, -29, -30, -31, -32, -33, -34, -35, -36, -37]; stair-space treads (P4 definition) 14; descents per space {'FA': 9, 'LA': 1, 'FB': 5}; min headroom on stair cells 4, along whole path 4"
+    },
+    {
+     "id": "I1",
+     "title": "Whole-structure collision/contact scan on one combined voxel world (P1 context, P2, P3 hall cavity, P4): no overlap except the declared hatch pierce, face contacts only at the declared links (P1<->P2 landing, P2 port<->hall, hall<->stair cut)",
+     "verdict": "PASS",
+     "evidence": "overlap voxels per stage pair {(1, 2):0, (1, 3):0, (1, 4):0, (2, 3):0, (2, 4):0, (3, 4):18}; pierce overlap (3,4) 18, outside the pierce 0; face-contact voxels per pair {(1, 2):35, (1, 3):0, (1, 4):0, (2, 3):9, (2, 4):0, (3, 4):42}; unexpected contact pairs []; P4 internal overlaps 0; carved inside HALL_RES outside pierce 0"
+    },
+    {
+     "id": "P2R",
+     "title": "Re-run of the P2 engine on the P2 layout used in this integrated world (intra-P2 collisions, undeclared contacts, widths, reachability)",
+     "verdict": "PASS",
+     "evidence": "15 P2 engine checks, not PASS: []; P2 cavity overlaps 0"
+    },
+    {
+     "id": "I2",
+     "title": "Analytic (box arithmetic) minimum wall between cavities of different stages is >= 2 except at the declared links; P4 spaces other than the stair cut keep >= 2 to the hall",
+     "verdict": "PASS",
+     "evidence": "stage-pair minimum Chebyshev gaps {(1, 2):0, (1, 3):6, (1, 4):19, (2, 3):0, (2, 4):7, (3, 4):0}; hall<->(P4 except FA) 5; violations {}"
+    },
+    {
+     "id": "X1",
+     "title": "Whole generated underground structure (P2 cavities + wall 2, P3 reservation, P4 vault/crypt/corridor structures) stays inside X/Z +-40 (D01 whole-structure reading)",
+     "verdict": "PASS",
+     "evidence": "max excess 0 blocks; voxels outside 0; P2 spaces whose wall-inclusive extent exceeds 40: []"
+    },
+    {
+     "id": "D1",
+     "title": "Lowest cavity and lowest structure block of the whole integrated structure recomputed from boxes and from voxels (Q98 input; not an approved maximum)",
+     "verdict": "PASS",
+     "evidence": "lowest P4 cavity Y -37 (box -37); lowest cavity overall -37; lowest structure block -39 = depth 39"
+    },
+    {
+     "id": "L1",
+     "title": "P2 transition spaces keep the approved-by-P2 proportions: landings 9x9, L1/L2 vestibule 9x11, 7-wide stair flights",
+     "verdict": "PASS",
+     "evidence": "landings ((9, 9), (9, 9)), V12 (9, 11), flight A width 7"
+    },
+    {
+     "id": "C1",
+     "title": "Cover candidates: spatial requirement of block removal (A), sliding panel (B), piston/structure (C) in the 2-thick hall slab",
+     "verdict": "UNVERIFIED",
+     "evidence": "cut at floor-top layer = 12 blocks. A needs 0 extra cells. B/C need >= 12 pocket cells beside the cut; a pocket in the lower slab layer (Y -24) leaves 1 solid layer(s) to the hall floor air (needs >= 2), so B/C require a thicker slab or outside-footprint pocket (not designed). Mechanism feasibility/in-game behaviour not verifiable here."
+    }
+   ],
+   "metrics": {
+    "chain_steps": 248,
+    "stair": {
+     "levels": [
+      -22,
+      -23,
+      -24,
+      -25,
+      -26,
+      -27,
+      -28,
+      -29,
+      -30,
+      -31,
+      -32,
+      -33,
+      -34,
+      -35,
+      -36,
+      -37
+     ],
+     "drop": 15,
+     "treads": 14,
+     "descents": 15,
+     "per_space": {
+      "FA": [
+       -23,
+       -24,
+       -25,
+       -26,
+       -27,
+       -28,
+       -29,
+       -30,
+       -31
+      ],
+      "LA": [
+       -32
+      ],
+      "FB": [
+       -33,
+       -34,
+       -35,
+       -36,
+       -37
+      ]
+     },
+     "path_len": 41
+    },
+    "excess": 0,
+    "voxels_outside": 0,
+    "lowest_cavity": -37,
+    "lowest_structure": -39,
+    "p2_route": 154,
+    "steps": {
+     "forecourt_to_hall": 154,
+     "forecourt_to_chest": 248,
+     "hall_to_chest": 53
+    },
+    "cover": {
+     "cells": 12,
+     "pocket_cells": 12,
+     "gap_to_hall_air_if_pocket_in_slab": 1
+    }
+   }
+  },
+  "west": {
+   "checks": [
+    {
+     "id": "K1",
+     "title": "Closed state: the royal hall (all cells of the P3 reservation at floor-top level and above) is voxel-identical to the P3 model - safe walking surface, no hole, no change to columns/dais/obelisk/arena",
+     "verdict": "PASS",
+     "evidence": "differing cells 0; cover cells placed 12; hidden cavity cells left below the cover (inside the 2-thick slab zone, y<-23) 12"
+    },
+    {
+     "id": "K4",
+     "title": "Open state: the only change to the hall at/above the floor-top level is the stair cut implied by the P4 stair boxes (voxel diff == analytic box intersection), inside the declared pierce volume, no extra holes",
+     "verdict": "PASS",
+     "evidence": "changed cells 12 (analytic 12) all inside pierce True; cut footprint at floor-top layer 12 cells"
+    },
+    {
+     "id": "K2",
+     "title": "Closed state: forecourt -> P1 hall -> P1 descent -> P2 L1-L3 -> royal hall (entrance, dais) all walkable; no walkable cell of the secret area is reachable (player cannot fall into / enter the stair)",
+     "verdict": "PASS",
+     "evidence": "unreachable hall goals []; secret-area walkable cells reachable below the hall floor 0; steps forecourt->hall entry 154, ->dais top 185; total walkable states 3876"
+    },
+    {
+     "id": "K3",
+     "title": "Open state: complete chain forecourt -> ... -> royal hall -> hidden stair -> landing(s) -> vault entrance -> aisle -> dais stair -> chest front (5 cells) and the crypt are reachable on foot",
+     "verdict": "PASS",
+     "evidence": "unreachable []; chain length forecourt->chest front 248 steps; goals checked 13"
+    },
+    {
+     "id": "S1",
+     "title": "Independent stair drop check: shortest walk hall floor -> vault entrance has only unit steps, no rise, no missing first/last step, consecutive heights, headroom >= 4 on stair cells; drop = number of unit descents",
+     "verdict": "PASS",
+     "evidence": "start Y -22 -> end Y -37; total drop 15; unit descents 15, rises 0, max |dy| 1; heights visited [-22, -23, -24, -25, -26, -27, -28, -29, -30, -31, -32, -33, -34, -35, -36, -37]; stair-space treads (P4 definition) 14; descents per space {'FA': 9, 'LA': 1, 'FB': 5}; min headroom on stair cells 4, along whole path 4"
+    },
+    {
+     "id": "I1",
+     "title": "Whole-structure collision/contact scan on one combined voxel world (P1 context, P2, P3 hall cavity, P4): no overlap except the declared hatch pierce, face contacts only at the declared links (P1<->P2 landing, P2 port<->hall, hall<->stair cut)",
+     "verdict": "PASS",
+     "evidence": "overlap voxels per stage pair {(1, 2):0, (1, 3):0, (1, 4):0, (2, 3):0, (2, 4):0, (3, 4):18}; pierce overlap (3,4) 18, outside the pierce 0; face-contact voxels per pair {(1, 2):35, (1, 3):0, (1, 4):0, (2, 3):9, (2, 4):0, (3, 4):42}; unexpected contact pairs []; P4 internal overlaps 0; carved inside HALL_RES outside pierce 0"
+    },
+    {
+     "id": "P2R",
+     "title": "Re-run of the P2 engine on the P2 layout used in this integrated world (intra-P2 collisions, undeclared contacts, widths, reachability)",
+     "verdict": "PASS",
+     "evidence": "15 P2 engine checks, not PASS: []; P2 cavity overlaps 0"
+    },
+    {
+     "id": "I2",
+     "title": "Analytic (box arithmetic) minimum wall between cavities of different stages is >= 2 except at the declared links; P4 spaces other than the stair cut keep >= 2 to the hall",
+     "verdict": "PASS",
+     "evidence": "stage-pair minimum Chebyshev gaps {(1, 2):0, (1, 3):6, (1, 4):19, (2, 3):0, (2, 4):7, (3, 4):0}; hall<->(P4 except FA) 5; violations {}"
+    },
+    {
+     "id": "X1",
+     "title": "Whole generated underground structure (P2 cavities + wall 2, P3 reservation, P4 vault/crypt/corridor structures) stays inside X/Z +-40 (D01 whole-structure reading)",
+     "verdict": "PASS",
+     "evidence": "max excess 0 blocks; voxels outside 0; P2 spaces whose wall-inclusive extent exceeds 40: []"
+    },
+    {
+     "id": "D1",
+     "title": "Lowest cavity and lowest structure block of the whole integrated structure recomputed from boxes and from voxels (Q98 input; not an approved maximum)",
+     "verdict": "PASS",
+     "evidence": "lowest P4 cavity Y -37 (box -37); lowest cavity overall -37; lowest structure block -39 = depth 39"
+    },
+    {
+     "id": "L1",
+     "title": "P2 transition spaces keep the approved-by-P2 proportions: landings 9x9, L1/L2 vestibule 9x11, 7-wide stair flights",
+     "verdict": "PASS",
+     "evidence": "landings ((9, 9), (9, 9)), V12 (9, 11), flight A width 7"
+    },
+    {
+     "id": "C1",
+     "title": "Cover candidates: spatial requirement of block removal (A), sliding panel (B), piston/structure (C) in the 2-thick hall slab",
+     "verdict": "UNVERIFIED",
+     "evidence": "cut at floor-top layer = 12 blocks. A needs 0 extra cells. B/C need >= 12 pocket cells beside the cut; a pocket in the lower slab layer (Y -24) leaves 1 solid layer(s) to the hall floor air (needs >= 2), so B/C require a thicker slab or outside-footprint pocket (not designed). Mechanism feasibility/in-game behaviour not verifiable here."
+    }
+   ],
+   "metrics": {
+    "chain_steps": 248,
+    "stair": {
+     "levels": [
+      -22,
+      -23,
+      -24,
+      -25,
+      -26,
+      -27,
+      -28,
+      -29,
+      -30,
+      -31,
+      -32,
+      -33,
+      -34,
+      -35,
+      -36,
+      -37
+     ],
+     "drop": 15,
+     "treads": 14,
+     "descents": 15,
+     "per_space": {
+      "FA": [
+       -23,
+       -24,
+       -25,
+       -26,
+       -27,
+       -28,
+       -29,
+       -30,
+       -31
+      ],
+      "LA": [
+       -32
+      ],
+      "FB": [
+       -33,
+       -34,
+       -35,
+       -36,
+       -37
+      ]
+     },
+     "path_len": 41
+    },
+    "excess": 0,
+    "voxels_outside": 0,
+    "lowest_cavity": -37,
+    "lowest_structure": -39,
+    "p2_route": null,
+    "steps": {
+     "forecourt_to_hall": 154,
+     "forecourt_to_chest": 248,
+     "hall_to_chest": 53
+    },
+    "cover": {
+     "cells": 12,
+     "pocket_cells": 12,
+     "gap_to_hall_air_if_pocket_in_slab": 1
+    }
+   }
+  },
+  "mirror": {
+   "closed_solid": true,
+   "open_solid": true,
+   "own": true,
+   "elem": true
+  },
+  "verdicts_equal": true
+ }
+}

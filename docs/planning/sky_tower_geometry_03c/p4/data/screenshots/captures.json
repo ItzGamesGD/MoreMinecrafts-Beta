@@ -1,0 +1,322 @@
+{
+ "K2_01_overview_45deg_noon.png": {
+  "camera": [
+   1032.027,
+   120.0,
+   1033.027
+  ],
+  "target": [
+   999.5,
+   106.0,
+   1000.5
+  ],
+  "yaw": 135.0,
+  "pitch": 16.93,
+  "time": "noon",
+  "renderer": "Minecraft 26.3 client, Vulkan llvmpipe (Mesa) under Xvfb, HUD hidden (F1)"
+ },
+ "K2_02_wall_and_stair_noon.png": {
+  "camera": [
+   1012.063,
+   104.8,
+   1011.042
+  ],
+  "target": [
+   1005.827,
+   104.8,
+   1017.884
+  ],
+  "yaw": 42.34,
+  "pitch": -0.0,
+  "time": "noon",
+  "renderer": "Minecraft 26.3 client, Vulkan llvmpipe (Mesa) under Xvfb, HUD hidden (F1)"
+ },
+ "K2_03_pillar_rhythm_along_stair_noon.png": {
+  "camera": [
+   997.879,
+   106.2,
+   1019.029
+  ],
+  "target": [
+   986.966,
+   106.2,
+   1015.438
+  ],
+  "yaw": 108.22,
+  "pitch": -0.0,
+  "time": "noon",
+  "renderer": "Minecraft 26.3 client, Vulkan llvmpipe (Mesa) under Xvfb, HUD hidden (F1)"
+ },
+ "K2_04_pillar_arch_joint_noon.png": {
+  "camera": [
+   972.653,
+   111.5,
+   1016.0
+  ],
+  "target": [
+   981.746,
+   110.5,
+   1010.75
+  ],
+  "yaw": -120.0,
+  "pitch": 5.44,
+  "time": "noon",
+  "renderer": "Minecraft 26.3 client, Vulkan llvmpipe (Mesa) under Xvfb, HUD hidden (F1)"
+ },
+ "K2_05_curve_transition_diagonal_noon.png": {
+  "camera": [
+   1022.883,
+   117.0,
+   1014.0
+  ],
+  "target": [
+   1010.749,
+   103.0,
+   1013.906
+  ],
+  "yaw": 90.44,
+  "pitch": 49.08,
+  "time": "noon",
+  "renderer": "Minecraft 26.3 client, Vulkan llvmpipe (Mesa) under Xvfb, HUD hidden (F1)"
+ },
+ "K2_06_balcony_entrance_B2-1_noon.png": {
+  "camera": [
+   1007.575,
+   105.12,
+   1015.687
+  ],
+  "target": [
+   1005.151,
+   104.8,
+   1020.206
+  ],
+  "yaw": 28.21,
+  "pitch": 3.57,
+  "time": "noon",
+  "renderer": "Minecraft 26.3 client, Vulkan llvmpipe (Mesa) under Xvfb, HUD hidden (F1)"
+ },
+ "K2_07_from_balcony_B2-1_noon.png": {
+  "camera": [
+   1005.5,
+   105.62,
+   1022.1
+  ],
+  "target": [
+   1012.906,
+   103.0,
+   1011.749
+  ],
+  "yaw": -144.42,
+  "pitch": 11.63,
+  "time": "noon",
+  "renderer": "Minecraft 26.3 client, Vulkan llvmpipe (Mesa) under Xvfb, HUD hidden (F1)"
+ },
+ "K2_08_under_balcony_B2-1_noon.png": {
+  "camera": [
+   1005.5,
+   98.0,
+   1028.5
+  ],
+  "target": [
+   1004.5,
+   103.0,
+   1021.5
+  ],
+  "yaw": 171.87,
+  "pitch": -35.26,
+  "time": "noon",
+  "renderer": "Minecraft 26.3 client, Vulkan llvmpipe (Mesa) under Xvfb, HUD hidden (F1)"
+ },
+ "K2_09_far_arcade_rhythm_noon.png": {
+  "camera": [
+   986.476,
+   110.0,
+   1074.361
+  ],
+  "target": [
+   999.5,
+   108.0,
+   1000.5
+  ],
+  "yaw": -170.0,
+  "pitch": 1.53,
+  "time": "noon",
+  "renderer": "Minecraft 26.3 client, Vulkan llvmpipe (Mesa) under Xvfb, HUD hidden (F1)"
+ },
+ "K2_10_player_view_walk_noon.png": {
+  "camera": [
+   983.055,
+   110.12,
+   994.515
+  ],
+  "target": [
+   986.495,
+   110.12,
+   988.79
+  ],
+  "yaw": -149.0,
+  "pitch": -0.0,
+  "time": "noon",
+  "renderer": "Minecraft 26.3 client, Vulkan llvmpipe (Mesa) under Xvfb, HUD hidden (F1)"
+ },
+ "K2_01_overview_45deg_12800.png": {
+  "camera": [
+   1032.027,
+   120.0,
+   1033.027
+  ],
+  "target": [
+   999.5,
+   106.0,
+   1000.5
+  ],
+  "yaw": 135.0,
+  "pitch": 16.93,
+  "time": "12800",
+  "renderer": "Minecraft 26.3 client, Vulkan llvmpipe (Mesa) under Xvfb, HUD hidden (F1)"
+ },
+ "K2_09_far_arcade_rhythm_12800.png": {
+  "camera": [
+   986.476,
+   110.0,
+   1074.361
+  ],
+  "target": [
+   999.5,
+   108.0,
+   1000.5
+  ],
+  "yaw": -170.0,
+  "pitch": 1.53,
+  "time": "12800",
+  "renderer": "Minecraft 26.3 client, Vulkan llvmpipe (Mesa) under Xvfb, HUD hidden (F1)"
+ },
+ "K2_10_player_view_walk_12800.png": {
+  "camera": [
+   983.055,
+   110.12,
+   994.515
+  ],
+  "target": [
+   986.495,
+   110.12,
+   988.79
+  ],
+  "yaw": -149.0,
+  "pitch": -0.0,
+  "time": "12800",
+  "renderer": "Minecraft 26.3 client, Vulkan llvmpipe (Mesa) under Xvfb, HUD hidden (F1)"
+ },
+ "K1cmp_01_overview_45deg_noon.png": {
+  "camera": [
+   1132.027,
+   120.0,
+   1032.027
+  ],
+  "target": [
+   1099.5,
+   106.0,
+   999.5
+  ],
+  "yaw": 135.0,
+  "pitch": 16.93,
+  "time": "noon",
+  "renderer": "Minecraft 26.3 client, Vulkan llvmpipe (Mesa) under Xvfb, HUD hidden (F1)"
+ },
+ "K1cmp_03_pillar_rhythm_along_stair_noon.png": {
+  "camera": [
+   1097.879,
+   106.2,
+   1018.029
+  ],
+  "target": [
+   1086.966,
+   106.2,
+   1014.438
+  ],
+  "yaw": 108.22,
+  "pitch": -0.0,
+  "time": "noon",
+  "renderer": "Minecraft 26.3 client, Vulkan llvmpipe (Mesa) under Xvfb, HUD hidden (F1)"
+ },
+ "K1cmp_09_far_arcade_rhythm_noon.png": {
+  "camera": [
+   1086.476,
+   110.0,
+   1073.361
+  ],
+  "target": [
+   1099.5,
+   108.0,
+   999.5
+  ],
+  "yaw": -170.0,
+  "pitch": 1.53,
+  "time": "noon",
+  "renderer": "Minecraft 26.3 client, Vulkan llvmpipe (Mesa) under Xvfb, HUD hidden (F1)"
+ },
+ "K1cmp_10_player_view_walk_noon.png": {
+  "camera": [
+   1083.055,
+   110.12,
+   993.515
+  ],
+  "target": [
+   1086.495,
+   110.12,
+   987.79
+  ],
+  "yaw": -149.0,
+  "pitch": -0.0,
+  "time": "noon",
+  "renderer": "Minecraft 26.3 client, Vulkan llvmpipe (Mesa) under Xvfb, HUD hidden (F1)"
+ },
+ "K3cmp_01_overview_45deg_noon.png": {
+  "camera": [
+   1232.027,
+   120.0,
+   1032.027
+  ],
+  "target": [
+   1199.5,
+   106.0,
+   999.5
+  ],
+  "yaw": 135.0,
+  "pitch": 16.93,
+  "time": "noon",
+  "renderer": "Minecraft 26.3 client, Vulkan llvmpipe (Mesa) under Xvfb, HUD hidden (F1)"
+ },
+ "K3cmp_03_pillar_rhythm_along_stair_noon.png": {
+  "camera": [
+   1197.879,
+   106.2,
+   1018.029
+  ],
+  "target": [
+   1186.966,
+   106.2,
+   1014.438
+  ],
+  "yaw": 108.22,
+  "pitch": -0.0,
+  "time": "noon",
+  "renderer": "Minecraft 26.3 client, Vulkan llvmpipe (Mesa) under Xvfb, HUD hidden (F1)"
+ },
+ "K3cmp_10_player_view_walk_noon.png": {
+  "camera": [
+   1183.055,
+   110.12,
+   993.515
+  ],
+  "target": [
+   1186.495,
+   110.12,
+   987.79
+  ],
+  "yaw": -149.0,
+  "pitch": -0.0,
+  "time": "noon",
+  "renderer": "Minecraft 26.3 client, Vulkan llvmpipe (Mesa) under Xvfb, HUD hidden (F1)"
+ }
+}

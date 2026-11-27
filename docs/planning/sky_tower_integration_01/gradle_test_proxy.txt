@@ -1,0 +1,1184 @@
+Initialized native services in: /workspace/gradle-home/native
+Initialized jansi services in: /workspace/gradle-home/native
+The current JVM process isn't compatible with build requirement. The maximum heap size is insufficient.
+
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.6.0/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Starting process 'Gradle build daemon'. Working directory: /workspace/gradle-home/daemon/9.6.0 Command: /workspace/toolchains/jdk-25.0.4.1/bin/java --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED --add-opens=java.base/java.nio.charset=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens=java.xml/javax.xml.namespace=ALL-UNNAMED --add-opens=java.base/java.time=ALL-UNNAMED --enable-native-access=ALL-UNNAMED -Xmx2G -Dfile.encoding=UTF-8 -Djavax.net.ssl.trustStore=/etc/ssl/certs/java/cacerts -Duser.country -Duser.language=en -Duser.variant -cp /workspace/gradle-home/wrapper/dists/gradle-9.6.0-bin/42k10rwplmzkhuboz9kdazi7s/gradle-9.6.0/lib/gradle-daemon-main-9.6.0.jar -javaagent:/workspace/gradle-home/wrapper/dists/gradle-9.6.0-bin/42k10rwplmzkhuboz9kdazi7s/gradle-9.6.0/lib/agents/gradle-instrumentation-agent-9.6.0.jar org.gradle.launcher.daemon.bootstrap.GradleDaemon 9.6.0
+Successfully started process 'Gradle build daemon'
+An attempt to start the daemon took 2.372 secs.
+The client will now receive all logging from the daemon (pid: 3242). The daemon log file: /workspace/gradle-home/daemon/9.6.0/daemon-3242.out.log
+Daemon will be stopped at the end of the build
+Using 2 worker leases.
+Operational build model parameters: {cachingModelBuilding=false, configurationCache=false, configurationCacheDisabledReason=null, configurationCacheParallelLoad=false, configurationCacheParallelStore=false, configureOnDemand=false, invalidateCoupledProjects=false, isolatedProjects=false, isolatedProjectsDiagnostics=false, modelAsProjectDependency=false, modelBuilding=false, parallelModelBuilding=false, parallelProjectConfiguration=false, parallelProjectExecution=true, resilientModelBuilding=false, vintage=true}
+Received JVM installation metadata from '/workspace/toolchains/jdk-25.0.4.1': {JAVA_HOME=/workspace/toolchains/jdk-25.0.4.1, JAVA_VERSION=25.0.4.1, JAVA_VENDOR=Oracle Corporation, RUNTIME_NAME=Java(TM) SE Runtime Environment, RUNTIME_VERSION=25.0.4.1+1-LTS-5, VM_NAME=Java HotSpot(TM) 64-Bit Server VM, VM_VERSION=25.0.4.1+1-LTS-5, VM_VENDOR=Oracle Corporation, OS_ARCH=amd64}
+Watching the file system is configured to be enabled if available
+Not watching /workspace/MoreMinecrafts-Beta since the file system is not supported
+File system watching is active
+Starting Build
+Settings evaluated using settings file '/workspace/MoreMinecrafts-Beta/settings.gradle'.
+Projects loaded. Root project using build file '/workspace/MoreMinecrafts-Beta/build.gradle'.
+Included projects: [root project 'MoreMinecrafts-Beta']
+
+> Configure project :
+Evaluating root project 'MoreMinecrafts-Beta' using build file '/workspace/MoreMinecrafts-Beta/build.gradle'.
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-loom/net.fabricmc.fabric-loom.gradle.plugin/1.17.21/net.fabricmc.fabric-loom.gradle.plugin-1.17.21.pom to /workspace/gradle-home/.tmp/gradle_download9927496697789988930bin
+Resource missing. [HTTP HEAD: https://maven.fabricmc.net/net/fabricmc/fabric-loom/net.fabricmc.fabric-loom.gradle.plugin/1.17.21/net.fabricmc.fabric-loom.gradle.plugin-1.17.21.jar]
+Resolved plugin [id: 'net.fabricmc.fabric-loom', version: '1.17.21']
+Resolved plugin [id: 'maven-publish']
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-loom/1.17.21/fabric-loom-1.17.21.pom to /workspace/gradle-home/.tmp/gradle_download6733545495723913699bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-loom/1.17.21/fabric-loom-1.17.21.module to /workspace/gradle-home/.tmp/gradle_download2130682338641804858bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/com/google/code/gson/gson/2.14.0/gson-2.14.0.pom]
+Downloading https://maven.fabricmc.net/org/ow2/asm/asm-commons/9.10.1/asm-commons-9.10.1.pom to /workspace/gradle-home/.tmp/gradle_download4864767055510579709bin
+Downloading https://maven.fabricmc.net/org/ow2/asm/asm/9.10.1/asm-9.10.1.pom to /workspace/gradle-home/.tmp/gradle_download12620547225151116861bin
+Downloading https://maven.fabricmc.net/org/ow2/asm/asm-tree/9.10.1/asm-tree-9.10.1.pom to /workspace/gradle-home/.tmp/gradle_download6290606895755419159bin
+Downloading https://maven.fabricmc.net/net/fabricmc/mercury/0.4.3/mercury-0.4.3.pom to /workspace/gradle-home/.tmp/gradle_download5116407905182065815bin
+Downloading https://maven.fabricmc.net/org/ow2/asm/asm-analysis/9.10.1/asm-analysis-9.10.1.pom to /workspace/gradle-home/.tmp/gradle_download8203251575791414899bin
+Downloading https://maven.fabricmc.net/net/fabricmc/stitch/0.6.2/stitch-0.6.2.pom to /workspace/gradle-home/.tmp/gradle_download1863481586528904948bin
+Downloading https://maven.fabricmc.net/net/fabricmc/mapping-io/0.8.0/mapping-io-0.8.0.pom to /workspace/gradle-home/.tmp/gradle_download79828278763451402bin
+Downloading https://maven.fabricmc.net/org/ow2/asm/asm-util/9.10.1/asm-util-9.10.1.pom to /workspace/gradle-home/.tmp/gradle_download12144043419750400608bin
+Downloading https://maven.fabricmc.net/net/fabricmc/unpick/unpick/3.0.0-beta.13/unpick-3.0.0-beta.13.pom to /workspace/gradle-home/.tmp/gradle_download4958740350975527002bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/ow2/ow2/1.5.1/ow2-1.5.1.pom]
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-loom-native/0.2.0/fabric-loom-native-0.2.0.pom to /workspace/gradle-home/.tmp/gradle_download2257469707047365297bin
+Downloading https://maven.fabricmc.net/net/fabricmc/stitch/0.6.2/stitch-0.6.2.module to /workspace/gradle-home/.tmp/gradle_download3885223963577183292bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/jetbrains/kotlin/kotlin-metadata-jvm/2.3.20/kotlin-metadata-jvm-2.3.20.pom]
+Downloading https://maven.fabricmc.net/net/fabricmc/mercurymixin/0.2.2/mercurymixin-0.2.2.pom to /workspace/gradle-home/.tmp/gradle_download14363590562157915752bin
+Downloading https://maven.fabricmc.net/net/fabricmc/tiny-remapper/0.14.0/tiny-remapper-0.14.0.pom to /workspace/gradle-home/.tmp/gradle_download15544233311732740749bin
+Downloading https://maven.fabricmc.net/net/fabricmc/unpick/unpick-format-utils/3.0.0-beta.13/unpick-format-utils-3.0.0-beta.13.pom to /workspace/gradle-home/.tmp/gradle_download6140576202369084492bin
+Downloading https://maven.fabricmc.net/net/fabricmc/lorenz-tiny/4.0.2/lorenz-tiny-4.0.2.pom to /workspace/gradle-home/.tmp/gradle_download9453263339494687494bin
+Downloading https://maven.fabricmc.net/net/fabricmc/unpick/unpick/3.0.0-beta.13/unpick-3.0.0-beta.13.module to /workspace/gradle-home/.tmp/gradle_download12462387617126026185bin
+Downloading https://maven.fabricmc.net/net/fabricmc/mercurymixin/0.2.2/mercurymixin-0.2.2.module to /workspace/gradle-home/.tmp/gradle_download10652676901964398017bin
+Downloading https://maven.fabricmc.net/net/fabricmc/class-tweaker/0.3.0-beta.2/class-tweaker-0.3.0-beta.2.pom to /workspace/gradle-home/.tmp/gradle_download15748229585424869605bin
+Downloading https://maven.fabricmc.net/net/fabricmc/tiny-remapper/0.14.0/tiny-remapper-0.14.0.module to /workspace/gradle-home/.tmp/gradle_download4717874941813018824bin
+Downloading https://maven.fabricmc.net/net/fabricmc/lorenz-tiny/4.0.2/lorenz-tiny-4.0.2.module to /workspace/gradle-home/.tmp/gradle_download17381868552376209628bin
+Downloading https://maven.fabricmc.net/net/fabricmc/unpick/unpick-format-utils/3.0.0-beta.13/unpick-format-utils-3.0.0-beta.13.module to /workspace/gradle-home/.tmp/gradle_download17418114249492215011bin
+Downloading https://maven.fabricmc.net/net/fabricmc/class-tweaker/0.3.0-beta.2/class-tweaker-0.3.0-beta.2.module to /workspace/gradle-home/.tmp/gradle_download2642662879341651289bin
+Downloading https://plugins.gradle.org/m2/com/google/code/gson/gson/2.14.0/gson-2.14.0.pom to /workspace/gradle-home/.tmp/gradle_download8192490053974790642bin
+Downloading https://plugins.gradle.org/m2/org/ow2/ow2/1.5.1/ow2-1.5.1.pom to /workspace/gradle-home/.tmp/gradle_download2605003947848486402bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/com/google/code/gson/gson-parent/2.14.0/gson-parent-2.14.0.pom]
+Downloading https://plugins.gradle.org/m2/org/jetbrains/kotlin/kotlin-metadata-jvm/2.3.20/kotlin-metadata-jvm-2.3.20.pom to /workspace/gradle-home/.tmp/gradle_download12167391920598569007bin
+Downloading https://plugins.gradle.org/m2/com/google/code/gson/gson-parent/2.14.0/gson-parent-2.14.0.pom to /workspace/gradle-home/.tmp/gradle_download7479534542980823757bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/com/google/errorprone/error_prone_annotations/2.48.0/error_prone_annotations-2.48.0.pom]
+Downloading https://plugins.gradle.org/m2/com/google/errorprone/error_prone_annotations/2.48.0/error_prone_annotations-2.48.0.pom to /workspace/gradle-home/.tmp/gradle_download1581954399334787013bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/com/google/errorprone/error_prone_parent/2.48.0/error_prone_parent-2.48.0.pom]
+Downloading https://plugins.gradle.org/m2/com/google/errorprone/error_prone_parent/2.48.0/error_prone_parent-2.48.0.pom to /workspace/gradle-home/.tmp/gradle_download15568204392091650285bin
+Downloading https://maven.fabricmc.net/net/fabricmc/tiny-mappings-parser/0.3.0+build.17/tiny-mappings-parser-0.3.0+build.17.pom to /workspace/gradle-home/.tmp/gradle_download11738393495952986779bin
+Downloading https://maven.fabricmc.net/net/fabricmc/tiny-mappings-parser/0.3.0+build.17/tiny-mappings-parser-0.3.0+build.17.module to /workspace/gradle-home/.tmp/gradle_download12396373651155369546bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/cadixdev/at/0.1.0-rc1/at-0.1.0-rc1.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/cadixdev/lorenz/0.5.7/lorenz-0.5.7.pom]
+Downloading https://plugins.gradle.org/m2/org/cadixdev/at/0.1.0-rc1/at-0.1.0-rc1.pom to /workspace/gradle-home/.tmp/gradle_download5780561128747225911bin
+Downloading https://plugins.gradle.org/m2/org/cadixdev/lorenz/0.5.7/lorenz-0.5.7.pom to /workspace/gradle-home/.tmp/gradle_download14572819599995544330bin
+Downloading https://plugins.gradle.org/m2/org/cadixdev/lorenz/0.5.7/lorenz-0.5.7.module to /workspace/gradle-home/.tmp/gradle_download5222579967686201026bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/cadixdev/bombe/0.3.4/bombe-0.3.4.pom]
+Downloading https://plugins.gradle.org/m2/org/cadixdev/bombe/0.3.4/bombe-0.3.4.pom to /workspace/gradle-home/.tmp/gradle_download10433901009144793037bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-loom/1.17.21/fabric-loom-1.17.21.jar to /workspace/gradle-home/.tmp/gradle_download13397351939821711045bin
+Downloading https://plugins.gradle.org/m2/com/google/code/gson/gson/2.14.0/gson-2.14.0.jar to /workspace/gradle-home/.tmp/gradle_download16727579282373020082bin
+Downloading https://maven.fabricmc.net/net/fabricmc/stitch/0.6.2/stitch-0.6.2.jar to /workspace/gradle-home/.tmp/gradle_download10531299547109556551bin
+Downloading https://maven.fabricmc.net/net/fabricmc/class-tweaker/0.3.0-beta.2/class-tweaker-0.3.0-beta.2.jar to /workspace/gradle-home/.tmp/gradle_download12580177100724718600bin
+Downloading https://maven.fabricmc.net/net/fabricmc/tiny-remapper/0.14.0/tiny-remapper-0.14.0.jar to /workspace/gradle-home/.tmp/gradle_download942148057176929579bin
+Downloading https://maven.fabricmc.net/net/fabricmc/unpick/unpick/3.0.0-beta.13/unpick-3.0.0-beta.13.jar to /workspace/gradle-home/.tmp/gradle_download16847882224172115312bin
+Downloading https://maven.fabricmc.net/org/ow2/asm/asm-commons/9.10.1/asm-commons-9.10.1.jar to /workspace/gradle-home/.tmp/gradle_download6556527274552998221bin
+Downloading https://maven.fabricmc.net/net/fabricmc/unpick/unpick-format-utils/3.0.0-beta.13/unpick-format-utils-3.0.0-beta.13.jar to /workspace/gradle-home/.tmp/gradle_download4411438014396526147bin
+Downloading https://maven.fabricmc.net/org/ow2/asm/asm-util/9.10.1/asm-util-9.10.1.jar to /workspace/gradle-home/.tmp/gradle_download9876344521588885316bin
+Downloading https://maven.fabricmc.net/org/ow2/asm/asm-analysis/9.10.1/asm-analysis-9.10.1.jar to /workspace/gradle-home/.tmp/gradle_download3719758251875992407bin
+Downloading https://maven.fabricmc.net/org/ow2/asm/asm-tree/9.10.1/asm-tree-9.10.1.jar to /workspace/gradle-home/.tmp/gradle_download15944972588614941916bin
+Downloading https://maven.fabricmc.net/org/ow2/asm/asm/9.10.1/asm-9.10.1.jar to /workspace/gradle-home/.tmp/gradle_download7904737153043795470bin
+Downloading https://maven.fabricmc.net/net/fabricmc/mapping-io/0.8.0/mapping-io-0.8.0.jar to /workspace/gradle-home/.tmp/gradle_download715193244027927948bin
+Downloading https://maven.fabricmc.net/net/fabricmc/lorenz-tiny/4.0.2/lorenz-tiny-4.0.2.jar to /workspace/gradle-home/.tmp/gradle_download18293086993872469073bin
+Downloading https://maven.fabricmc.net/net/fabricmc/mercurymixin/0.2.2/mercurymixin-0.2.2.jar to /workspace/gradle-home/.tmp/gradle_download10443953204006196782bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-loom-native/0.2.0/fabric-loom-native-0.2.0.jar to /workspace/gradle-home/.tmp/gradle_download8101225250151928170bin
+Downloading https://maven.fabricmc.net/net/fabricmc/mercury/0.4.3/mercury-0.4.3.jar to /workspace/gradle-home/.tmp/gradle_download11887546020080816019bin
+Downloading https://plugins.gradle.org/m2/org/jetbrains/kotlin/kotlin-metadata-jvm/2.3.20/kotlin-metadata-jvm-2.3.20.jar to /workspace/gradle-home/.tmp/gradle_download13039151723090260640bin
+Downloading https://maven.fabricmc.net/net/fabricmc/tiny-mappings-parser/0.3.0+build.17/tiny-mappings-parser-0.3.0+build.17.jar to /workspace/gradle-home/.tmp/gradle_download14130170846455292440bin
+Downloading https://plugins.gradle.org/m2/com/google/errorprone/error_prone_annotations/2.48.0/error_prone_annotations-2.48.0.jar to /workspace/gradle-home/.tmp/gradle_download9311473994368680023bin
+Downloading https://plugins.gradle.org/m2/org/cadixdev/at/0.1.0-rc1/at-0.1.0-rc1.jar to /workspace/gradle-home/.tmp/gradle_download1201098270409209519bin
+Downloading https://plugins.gradle.org/m2/org/cadixdev/lorenz/0.5.7/lorenz-0.5.7.jar to /workspace/gradle-home/.tmp/gradle_download1981658973410232771bin
+Downloading https://plugins.gradle.org/m2/org/cadixdev/bombe/0.3.4/bombe-0.3.4.jar to /workspace/gradle-home/.tmp/gradle_download10226020296849565096bin
+Caching disabled for InstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc/fabric-loom/1.17.21/971f00d987dc10c381551ed8533bbbc768b9fe8/fabric-loom-1.17.21.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/com.google.code.gson/gson/2.14.0/efc0e34ede4e3204eaefb84a00e55e8c86634382/gson-2.14.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc/stitch/0.6.2/258353092961557791208c9653e7d93610dfe74a/stitch-0.6.2.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc/class-tweaker/0.3.0-beta.2/71c710f85eb78d1873f548bad325bdd6d8992f82/class-tweaker-0.3.0-beta.2.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc/tiny-remapper/0.14.0/e9249ca2d1503164c4d4c9891e683d776b95af76/tiny-remapper-0.14.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc.unpick/unpick/3.0.0-beta.13/29de601c914d8cbf5aa0af3b63c852e2d143248d/unpick-3.0.0-beta.13.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc.unpick/unpick-format-utils/3.0.0-beta.13/7a5ee3ff320e973a6a53f3d8557f17db6b92e698/unpick-format-utils-3.0.0-beta.13.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/org.ow2.asm/asm-commons/9.10.1/4229e4c55fd8e01c23f9fe9884075cc628aacc50/asm-commons-9.10.1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/org.ow2.asm/asm-util/9.10.1/7bb9d450e8d4cbf9f9e04096c44bbfe7fba80b15/asm-util-9.10.1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/org.ow2.asm/asm-analysis/9.10.1/8d49f14d51f632cb1d87c88d1ceaf50db0d8af1b/asm-analysis-9.10.1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/org.ow2.asm/asm-tree/9.10.1/e244332a17564c1d1572449399a842de35881be2/asm-tree-9.10.1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/org.ow2.asm/asm/9.10.1/ada2141c0cc52ee8f5c48cd5fa4ce0e794f22236/asm-9.10.1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc/mapping-io/0.8.0/6e572f573c1fcd4916a5a3f457f2a8a950eb31b9/mapping-io-0.8.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc/lorenz-tiny/4.0.2/1f5e748f1ff977a9ccbb3bdb35b2ec6a6e78d04a/lorenz-tiny-4.0.2.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc/fabric-loom-native/0.2.0/2b335b1b1918af7a7d6ae5c739c708a99b3c1f9e/fabric-loom-native-0.2.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc/mercurymixin/0.2.2/801fbebdd6a9ab19d142ba16bfd16cd15a8e4ebd/mercurymixin-0.2.2.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc/mercury/0.4.3/e007ec37a7e64ff6eaaa38413c202d38ea4f63bd/mercury-0.4.3.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-metadata-jvm/2.3.20/4b6dc7915d060ec8c619f4be820e85fa69d738d1/kotlin-metadata-jvm-2.3.20.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/com.google.errorprone/error_prone_annotations/2.48.0/bbe30942a31d1778c74cb272321267eca82dc708/error_prone_annotations-2.48.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc/tiny-mappings-parser/0.3.0+build.17/2f10540a290e382a7cd35c16ec3900046a4e252/tiny-mappings-parser-0.3.0+build.17.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/org.cadixdev/at/0.1.0-rc1/5265fad46414922d093c124dc3a6d247c1314ec3/at-0.1.0-rc1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/org.cadixdev/lorenz/0.5.7/68b615cec8ca89db6e55789b63046ccf363c8698/lorenz-0.5.7.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for InstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/org.cadixdev/bombe/0.3.4/5025aa95f382f9eeadc87eeb88dd2be0e08f17ec/bombe-0.3.4.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/cff13fd1e5aa9b82dfdd65fead9f1a59/transformed/.gradle-instrumented-classpath.marker because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/3f658a645405e69d854148b2683bdc22/transformed/analysis/instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/cff13fd1e5aa9b82dfdd65fead9f1a59/transformed/analysis/instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/3f658a645405e69d854148b2683bdc22/transformed/analysis/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/cff13fd1e5aa9b82dfdd65fead9f1a59/transformed/analysis/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/com.google.code.gson/gson/2.14.0/efc0e34ede4e3204eaefb84a00e55e8c86634382/gson-2.14.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/9.6.0/transforms/626af4329e7984f758695583883f90b8/transformed/.gradle-instrumented-classpath.marker because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc/fabric-loom/1.17.21/971f00d987dc10c381551ed8533bbbc768b9fe8/fabric-loom-1.17.21.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/9.6.0/transforms/626af4329e7984f758695583883f90b8/transformed/merge/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/9.6.0/transforms/ce51f7077a4217cd33fa5665dc4c4511/transformed/merge/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/modules-2/files-2.1/com.google.code.gson/gson/2.14.0/efc0e34ede4e3204eaefb84a00e55e8c86634382/gson-2.14.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/439d6774104bdebfa427420e8c5326e0/transformed/analysis/instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/439d6774104bdebfa427420e8c5326e0/transformed/analysis/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc/stitch/0.6.2/258353092961557791208c9653e7d93610dfe74a/stitch-0.6.2.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/9.6.0/transforms/38bd8ab82718a4894e0d46229686c50f/transformed/merge/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc/stitch/0.6.2/258353092961557791208c9653e7d93610dfe74a/stitch-0.6.2.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/b607fb8e4b4b4ee73d311c1e0b049135/transformed/analysis/instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/b607fb8e4b4b4ee73d311c1e0b049135/transformed/analysis/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc/class-tweaker/0.3.0-beta.2/71c710f85eb78d1873f548bad325bdd6d8992f82/class-tweaker-0.3.0-beta.2.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/9.6.0/transforms/5ba00235473b34e4e93be0d7be11d604/transformed/merge/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc/class-tweaker/0.3.0-beta.2/71c710f85eb78d1873f548bad325bdd6d8992f82/class-tweaker-0.3.0-beta.2.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/ac8ae072ee8df76c551baf326e4fe2be/transformed/analysis/instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/ac8ae072ee8df76c551baf326e4fe2be/transformed/analysis/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc/tiny-remapper/0.14.0/e9249ca2d1503164c4d4c9891e683d776b95af76/tiny-remapper-0.14.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/9.6.0/transforms/a3eba573ecaee5871d464674d760568e/transformed/merge/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc/fabric-loom/1.17.21/971f00d987dc10c381551ed8533bbbc768b9fe8/fabric-loom-1.17.21.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/32aa5daa0cd7e566e16e67f7ef361a54/transformed/analysis/instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/32aa5daa0cd7e566e16e67f7ef361a54/transformed/analysis/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc.unpick/unpick/3.0.0-beta.13/29de601c914d8cbf5aa0af3b63c852e2d143248d/unpick-3.0.0-beta.13.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/9.6.0/transforms/984c71ac944d19d2f86df374d562a6c0/transformed/merge/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc.unpick/unpick/3.0.0-beta.13/29de601c914d8cbf5aa0af3b63c852e2d143248d/unpick-3.0.0-beta.13.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/51c87439f1a5c95175db0e5900a55562/transformed/analysis/instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/51c87439f1a5c95175db0e5900a55562/transformed/analysis/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc.unpick/unpick-format-utils/3.0.0-beta.13/7a5ee3ff320e973a6a53f3d8557f17db6b92e698/unpick-format-utils-3.0.0-beta.13.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/9.6.0/transforms/56198c1e84e31ce6afadb62954ca895a/transformed/merge/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc.unpick/unpick-format-utils/3.0.0-beta.13/7a5ee3ff320e973a6a53f3d8557f17db6b92e698/unpick-format-utils-3.0.0-beta.13.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/8ac904ad725509cf87d0a3cd28d59400/transformed/analysis/instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/8ac904ad725509cf87d0a3cd28d59400/transformed/analysis/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc/tiny-remapper/0.14.0/e9249ca2d1503164c4d4c9891e683d776b95af76/tiny-remapper-0.14.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/2f024ea946a42bbd702b243482b9d217/transformed/analysis/instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/org.ow2.asm/asm-commons/9.10.1/4229e4c55fd8e01c23f9fe9884075cc628aacc50/asm-commons-9.10.1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/2f024ea946a42bbd702b243482b9d217/transformed/analysis/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/9.6.0/transforms/157f99a4fb3a9cf11d81f3c0af9f2244/transformed/merge/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/org.ow2.asm/asm-util/9.10.1/7bb9d450e8d4cbf9f9e04096c44bbfe7fba80b15/asm-util-9.10.1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/9.6.0/transforms/136b9ca49d0f5067280484880971d727/transformed/merge/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/modules-2/files-2.1/org.ow2.asm/asm-util/9.10.1/7bb9d450e8d4cbf9f9e04096c44bbfe7fba80b15/asm-util-9.10.1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/modules-2/files-2.1/org.ow2.asm/asm-commons/9.10.1/4229e4c55fd8e01c23f9fe9884075cc628aacc50/asm-commons-9.10.1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/c2f31d3b61a9c71d33065b63579dd957/transformed/analysis/instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/c2f31d3b61a9c71d33065b63579dd957/transformed/analysis/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/f148f1582dc1975af6d9a59b9a667769/transformed/analysis/instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/org.ow2.asm/asm-analysis/9.10.1/8d49f14d51f632cb1d87c88d1ceaf50db0d8af1b/asm-analysis-9.10.1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/9.6.0/transforms/2f12aae76dd9ed01e167c14883263fe8/transformed/merge/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/f148f1582dc1975af6d9a59b9a667769/transformed/analysis/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/modules-2/files-2.1/org.ow2.asm/asm-analysis/9.10.1/8d49f14d51f632cb1d87c88d1ceaf50db0d8af1b/asm-analysis-9.10.1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/513d3389843df09c822365da1cd8b0a6/transformed/analysis/instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/org.ow2.asm/asm-tree/9.10.1/e244332a17564c1d1572449399a842de35881be2/asm-tree-9.10.1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/513d3389843df09c822365da1cd8b0a6/transformed/analysis/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/9.6.0/transforms/fc7361c3db7cf47322995e36e4eec4f1/transformed/merge/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/org.ow2.asm/asm/9.10.1/ada2141c0cc52ee8f5c48cd5fa4ce0e794f22236/asm-9.10.1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/9.6.0/transforms/fc14792a98a776e892fa607ee6f885d4/transformed/merge/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/modules-2/files-2.1/org.ow2.asm/asm-tree/9.10.1/e244332a17564c1d1572449399a842de35881be2/asm-tree-9.10.1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/modules-2/files-2.1/org.ow2.asm/asm/9.10.1/ada2141c0cc52ee8f5c48cd5fa4ce0e794f22236/asm-9.10.1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/f1370e2180b41d0d3495ebd3b66a8c33/transformed/analysis/instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/f1370e2180b41d0d3495ebd3b66a8c33/transformed/analysis/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc/mapping-io/0.8.0/6e572f573c1fcd4916a5a3f457f2a8a950eb31b9/mapping-io-0.8.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/6948547dcad4be486ae1e0c348831714/transformed/analysis/instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/6948547dcad4be486ae1e0c348831714/transformed/analysis/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/9.6.0/transforms/c326463a86db84518047ab05ca998aac/transformed/merge/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc/lorenz-tiny/4.0.2/1f5e748f1ff977a9ccbb3bdb35b2ec6a6e78d04a/lorenz-tiny-4.0.2.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc/mapping-io/0.8.0/6e572f573c1fcd4916a5a3f457f2a8a950eb31b9/mapping-io-0.8.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/5367c01bbbaac13ce05c1207ca58a441/transformed/analysis/instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/5367c01bbbaac13ce05c1207ca58a441/transformed/analysis/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/9.6.0/transforms/8eece41d0f2a90da28a2e2e2d82e4368/transformed/merge/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc/fabric-loom-native/0.2.0/2b335b1b1918af7a7d6ae5c739c708a99b3c1f9e/fabric-loom-native-0.2.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/9.6.0/transforms/2823b79c7cd44abe68d33b2f67e61804/transformed/merge/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc/fabric-loom-native/0.2.0/2b335b1b1918af7a7d6ae5c739c708a99b3c1f9e/fabric-loom-native-0.2.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/0a15f340391377b77c8690bc39c420ae/transformed/analysis/instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc/lorenz-tiny/4.0.2/1f5e748f1ff977a9ccbb3bdb35b2ec6a6e78d04a/lorenz-tiny-4.0.2.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/0a15f340391377b77c8690bc39c420ae/transformed/analysis/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/9a4f9117160722748ed8b3ce10bba3b2/transformed/analysis/instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc/mercurymixin/0.2.2/801fbebdd6a9ab19d142ba16bfd16cd15a8e4ebd/mercurymixin-0.2.2.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/9.6.0/transforms/4c66ca08e53cb0826d6066cf18988be3/transformed/merge/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/9a4f9117160722748ed8b3ce10bba3b2/transformed/analysis/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc/mercurymixin/0.2.2/801fbebdd6a9ab19d142ba16bfd16cd15a8e4ebd/mercurymixin-0.2.2.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/febc31884f1647aff40f03899b683258/transformed/analysis/instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/febc31884f1647aff40f03899b683258/transformed/analysis/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc/mercury/0.4.3/e007ec37a7e64ff6eaaa38413c202d38ea4f63bd/mercury-0.4.3.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-metadata-jvm/2.3.20/4b6dc7915d060ec8c619f4be820e85fa69d738d1/kotlin-metadata-jvm-2.3.20.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/9.6.0/transforms/5b01afa23b4aedfa37afc4ac6a11ea45/transformed/merge/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/9.6.0/transforms/9b2a30a27e7992421fd44364eb7be954/transformed/merge/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-metadata-jvm/2.3.20/4b6dc7915d060ec8c619f4be820e85fa69d738d1/kotlin-metadata-jvm-2.3.20.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/f01b4b1c84cce460d008a40122afd135/transformed/analysis/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/com.google.errorprone/error_prone_annotations/2.48.0/bbe30942a31d1778c74cb272321267eca82dc708/error_prone_annotations-2.48.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/9.6.0/transforms/f8d98a655b47c3c709c89b45d8c1e611/transformed/merge/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/modules-2/files-2.1/com.google.errorprone/error_prone_annotations/2.48.0/bbe30942a31d1778c74cb272321267eca82dc708/error_prone_annotations-2.48.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/b64a6dc2e6801f498ec54fefdf3e045b/transformed/analysis/instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/b64a6dc2e6801f498ec54fefdf3e045b/transformed/analysis/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc/tiny-mappings-parser/0.3.0+build.17/2f10540a290e382a7cd35c16ec3900046a4e252/tiny-mappings-parser-0.3.0+build.17.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/9.6.0/transforms/5c3dd50364f6a7e5b63e8ad478991d53/transformed/merge/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc/tiny-mappings-parser/0.3.0+build.17/2f10540a290e382a7cd35c16ec3900046a4e252/tiny-mappings-parser-0.3.0+build.17.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/7a2a2374e9ccadab6cf3aacafeae4ca8/transformed/analysis/instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/7a2a2374e9ccadab6cf3aacafeae4ca8/transformed/analysis/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/org.cadixdev/at/0.1.0-rc1/5265fad46414922d093c124dc3a6d247c1314ec3/at-0.1.0-rc1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/9.6.0/transforms/d3364602062b4504b787074d5a2c318c/transformed/merge/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/modules-2/files-2.1/org.cadixdev/at/0.1.0-rc1/5265fad46414922d093c124dc3a6d247c1314ec3/at-0.1.0-rc1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/a39eb27634545447204fbaa8cac65354/transformed/analysis/instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/a39eb27634545447204fbaa8cac65354/transformed/analysis/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/org.cadixdev/lorenz/0.5.7/68b615cec8ca89db6e55789b63046ccf363c8698/lorenz-0.5.7.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/9.6.0/transforms/89e54eee5860c88da0d67bd220db98d3/transformed/merge/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/modules-2/files-2.1/org.cadixdev/lorenz/0.5.7/68b615cec8ca89db6e55789b63046ccf363c8698/lorenz-0.5.7.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/52ffd7576f4cf3717fba7374916cd98c/transformed/analysis/instrumentation-hierarchy.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/9.6.0/transforms/52ffd7576f4cf3717fba7374916cd98c/transformed/analysis/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for MergeInstrumentationAnalysisTransform: /workspace/gradle-home/caches/modules-2/files-2.1/org.cadixdev/bombe/0.3.4/5025aa95f382f9eeadc87eeb88dd2be0e08f17ec/bombe-0.3.4.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/9.6.0/transforms/87d956583010672d61e5b57f0b679191/transformed/merge/instrumentation-dependencies.bin because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/modules-2/files-2.1/org.cadixdev/bombe/0.3.4/5025aa95f382f9eeadc87eeb88dd2be0e08f17ec/bombe-0.3.4.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for ExternalDependencyInstrumentingArtifactTransform: /workspace/gradle-home/caches/modules-2/files-2.1/net.fabricmc/mercury/0.4.3/e007ec37a7e64ff6eaaa38413c202d38ea4f63bd/mercury-0.4.3.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Fabric Loom: 1.17.21
+(kotlin.metadata.jvm.KotlinClassMetadata) with version (2.3.20-release-208) was loaded from (/workspace/gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-metadata-jvm/2.3.20/4b6dc7915d060ec8c619f4be820e85fa69d738d1/kotlin-metadata-jvm-2.3.20.jar)
+(org.objectweb.asm.ClassVisitor) with version (9.10.1) was loaded from (/workspace/gradle-home/caches/modules-2/files-2.1/org.ow2.asm/asm/9.10.1/ada2141c0cc52ee8f5c48cd5fa4ce0e794f22236/asm-9.10.1.jar)
+(org.objectweb.asm.tree.analysis.Analyzer) with version (9.10.1) was loaded from (/workspace/gradle-home/caches/modules-2/files-2.1/org.ow2.asm/asm-analysis/9.10.1/8d49f14d51f632cb1d87c88d1ceaf50db0d8af1b/asm-analysis-9.10.1.jar)
+(org.objectweb.asm.commons.ClassRemapper) with version (9.10.1) was loaded from (/workspace/gradle-home/caches/modules-2/files-2.1/org.ow2.asm/asm-commons/9.10.1/4229e4c55fd8e01c23f9fe9884075cc628aacc50/asm-commons-9.10.1.jar)
+(org.objectweb.asm.tree.ClassNode) with version (9.10.1) was loaded from (/workspace/gradle-home/caches/modules-2/files-2.1/org.ow2.asm/asm-tree/9.10.1/e244332a17564c1d1572449399a842de35881be2/asm-tree-9.10.1.jar)
+(org.objectweb.asm.util.ASMifier) with version (9.10.1) was loaded from (/workspace/gradle-home/caches/modules-2/files-2.1/org.ow2.asm/asm-util/9.10.1/7bb9d450e8d4cbf9f9e04096c44bbfe7fba80b15/asm-util-9.10.1.jar)
+(com.google.gson.Gson) with version (null) was loaded from (/workspace/gradle-home/caches/modules-2/files-2.1/com.google.code.gson/gson/2.14.0/efc0e34ede4e3204eaefb84a00e55e8c86634382/gson-2.14.0.jar)
+Caching disabled for Groovy DSL script compilation (proj) because:
+  Build cache is disabled
+  Not worth caching.
+Compiling build file '/workspace/MoreMinecrafts-Beta/build.gradle' using BuildScriptTransformer.
+Caching disabled for Groovy DSL script compilation (cp_dsl) because:
+  Build cache is disabled
+  Not worth caching.
+Compiling script '/workspace/MoreMinecrafts-Beta/gradle/validate-flame-sword-production.gradle' using SubsetScriptTransformer.
+Caching disabled for Groovy DSL script compilation (dsl) because:
+  Build cache is disabled
+  Not worth caching.
+Compiling script '/workspace/MoreMinecrafts-Beta/gradle/validate-flame-sword-production.gradle' using BuildScriptTransformer.
+Caching disabled for Groovy DSL script compilation (cp_dsl) because:
+  Build cache is disabled
+  Not worth caching.
+Compiling script '/workspace/MoreMinecrafts-Beta/gradle/validate-fishing-resources.gradle' using SubsetScriptTransformer.
+Caching disabled for Groovy DSL script compilation (dsl) because:
+  Build cache is disabled
+  Not worth caching.
+Compiling script '/workspace/MoreMinecrafts-Beta/gradle/validate-fishing-resources.gradle' using BuildScriptTransformer.
+Caching disabled for Groovy DSL script compilation (cp_dsl) because:
+  Build cache is disabled
+  Not worth caching.
+Compiling script '/workspace/MoreMinecrafts-Beta/gradle/validate-accessory-resources.gradle' using SubsetScriptTransformer.
+Caching disabled for Groovy DSL script compilation (dsl) because:
+  Build cache is disabled
+  Not worth caching.
+Compiling script '/workspace/MoreMinecrafts-Beta/gradle/validate-accessory-resources.gradle' using BuildScriptTransformer.
+Downloaded new Minecraft jars
+:Extracting server jar from bootstrap
+Skipping Minecraft jar verification!
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-loader/0.19.5/fabric-loader-0.19.5.pom to /workspace/gradle-home/.tmp/gradle_download12042151576133876296bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api/0.161.0+26.3/fabric-api-0.161.0+26.3.pom to /workspace/gradle-home/.tmp/gradle_download9835916612755455550bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api-base/2.0.6+fcdff87f5d/fabric-api-base-2.0.6+fcdff87f5d.pom to /workspace/gradle-home/.tmp/gradle_download13932925611410518894bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-advancement-api-v1/1.0.0+38c7a2d55d/fabric-advancement-api-v1-1.0.0+38c7a2d55d.pom to /workspace/gradle-home/.tmp/gradle_download10609150552922452431bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api-lookup-api-v1/2.0.24+3434d6d95d/fabric-api-lookup-api-v1-2.0.24+3434d6d95d.pom to /workspace/gradle-home/.tmp/gradle_download15033372118217750723bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-block-api-v1/3.1.0+0ae6f9115d/fabric-block-api-v1-3.1.0+0ae6f9115d.pom to /workspace/gradle-home/.tmp/gradle_download8262764296617379213bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-block-getter-api-v2/2.0.9+3434d6d95d/fabric-block-getter-api-v2-2.0.9+3434d6d95d.pom to /workspace/gradle-home/.tmp/gradle_download12949832240785761013bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-biome-api-v1/20.0.9+74ed1ea55d/fabric-biome-api-v1-20.0.9+74ed1ea55d.pom to /workspace/gradle-home/.tmp/gradle_download17497332062307142011bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-loot-api-v3/4.0.8+4068fd645d/fabric-loot-api-v3-4.0.8+4068fd645d.pom to /workspace/gradle-home/.tmp/gradle_download15851765915738453294bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-lifecycle-events-v1/4.1.9+ffef5f675d/fabric-lifecycle-events-v1-4.1.9+ffef5f675d.pom to /workspace/gradle-home/.tmp/gradle_download16713796313552783147bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-command-api-v2/3.1.2+fcdff87f5d/fabric-command-api-v2-3.1.2+fcdff87f5d.pom to /workspace/gradle-home/.tmp/gradle_download9300670092470332701bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-client-gametest-api-v1/6.0.7+4be74c3f5d/fabric-client-gametest-api-v1-6.0.7+4be74c3f5d.pom to /workspace/gradle-home/.tmp/gradle_download15579543778706921938bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-crash-report-info-v1/1.0.7+fcdff87f5d/fabric-crash-report-info-v1-1.0.7+fcdff87f5d.pom to /workspace/gradle-home/.tmp/gradle_download17050956047384259327bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-convention-tags-v2/4.10.3+6b5b47fd5d/fabric-convention-tags-v2-4.10.3+6b5b47fd5d.pom to /workspace/gradle-home/.tmp/gradle_download18152086920442970759bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-entity-events-v1/6.0.4+3434d6d95d/fabric-entity-events-v1-6.0.4+3434d6d95d.pom to /workspace/gradle-home/.tmp/gradle_download10334076477653090673bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-data-attachment-api-v1/2.2.30+3434d6d95d/fabric-data-attachment-api-v1-2.2.30+3434d6d95d.pom to /workspace/gradle-home/.tmp/gradle_download8948150693324630721bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-game-rule-api-v1/4.0.10+3434d6d95d/fabric-game-rule-api-v1-4.0.10+3434d6d95d.pom to /workspace/gradle-home/.tmp/gradle_download985332602346949459bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-debug-api-v1/1.0.4+3434d6d95d/fabric-debug-api-v1-1.0.4+3434d6d95d.pom to /workspace/gradle-home/.tmp/gradle_download1843347029262377001bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-data-generation-api-v1/27.2.4+427eab975d/fabric-data-generation-api-v1-27.2.4+427eab975d.pom to /workspace/gradle-home/.tmp/gradle_download7211094891610512083bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-content-registries-v0/15.0.4+74ed1ea55d/fabric-content-registries-v0-15.0.4+74ed1ea55d.pom to /workspace/gradle-home/.tmp/gradle_download1539228209437024178bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-events-interaction-v0/5.3.6+3434d6d95d/fabric-events-interaction-v0-5.3.6+3434d6d95d.pom to /workspace/gradle-home/.tmp/gradle_download11950953371764265150bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-key-mapping-api-v1/2.0.8+3434d6d95d/fabric-key-mapping-api-v1-2.0.8+3434d6d95d.pom to /workspace/gradle-home/.tmp/gradle_download6241422949656593117bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-message-api-v1/7.0.10+3434d6d95d/fabric-message-api-v1-7.0.10+3434d6d95d.pom to /workspace/gradle-home/.tmp/gradle_download16352696330893643983bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-dimensions-v1/5.1.19+47f74c985d/fabric-dimensions-v1-5.1.19+47f74c985d.pom to /workspace/gradle-home/.tmp/gradle_download3464742530077349592bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-gametest-api-v1/4.0.32+3434d6d95d/fabric-gametest-api-v1-4.0.32+3434d6d95d.pom to /workspace/gradle-home/.tmp/gradle_download5828030920277639322bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-permission-api-v1/1.0.8+fcdff87f5d/fabric-permission-api-v1-1.0.8+fcdff87f5d.pom to /workspace/gradle-home/.tmp/gradle_download11587594241004013955bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-item-api-v1/14.7.0+cf6bc2db5d/fabric-item-api-v1-14.7.0+cf6bc2db5d.pom to /workspace/gradle-home/.tmp/gradle_download4521359228371706643bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-creative-tab-api-v1/5.0.21+fcdff87f5d/fabric-creative-tab-api-v1-5.0.21+fcdff87f5d.pom to /workspace/gradle-home/.tmp/gradle_download2569015921319467955bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-menu-api-v1/2.0.27+ed66f0a35d/fabric-menu-api-v1-2.0.27+ed66f0a35d.pom to /workspace/gradle-home/.tmp/gradle_download8967983063567796533bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-object-builder-api-v1/24.1.9+3434d6d95d/fabric-object-builder-api-v1-24.1.9+3434d6d95d.pom to /workspace/gradle-home/.tmp/gradle_download10602925017943140361bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-resource-loader-v1/3.0.4+fcdff87f5d/fabric-resource-loader-v1-3.0.4+fcdff87f5d.pom to /workspace/gradle-home/.tmp/gradle_download6381827900984588391bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-rendering-fluids-v1/6.0.6+3434d6d95d/fabric-rendering-fluids-v1-6.0.6+3434d6d95d.pom to /workspace/gradle-home/.tmp/gradle_download8322075749355320469bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-sound-api-v1/2.0.7+3434d6d95d/fabric-sound-api-v1-2.0.7+3434d6d95d.pom to /workspace/gradle-home/.tmp/gradle_download5537975365941737207bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-screen-api-v1/5.2.4+48607d035d/fabric-screen-api-v1-5.2.4+48607d035d.pom to /workspace/gradle-home/.tmp/gradle_download15576059219158403619bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-registry-sync-v0/8.0.1+fcdff87f5d/fabric-registry-sync-v0-8.0.1+fcdff87f5d.pom to /workspace/gradle-home/.tmp/gradle_download9919405776344392092bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-renderer-api-v1/17.0.15+79385d0b5d/fabric-renderer-api-v1-17.0.15+79385d0b5d.pom to /workspace/gradle-home/.tmp/gradle_download16083724279162575539bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-transitive-access-wideners-v1/8.1.16+52268a0e5d/fabric-transitive-access-wideners-v1-8.1.16+52268a0e5d.pom to /workspace/gradle-home/.tmp/gradle_download17483998968776184220bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-serialization-api-v1/2.0.7+74ed1ea55d/fabric-serialization-api-v1-2.0.7+74ed1ea55d.pom to /workspace/gradle-home/.tmp/gradle_download2141910864541105797bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-transfer-api-v1/8.0.25+fcdff87f5d/fabric-transfer-api-v1-8.0.25+fcdff87f5d.pom to /workspace/gradle-home/.tmp/gradle_download6726004146598698822bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api-deprecated/0.161.0+26.3/fabric-api-deprecated-0.161.0+26.3.pom to /workspace/gradle-home/.tmp/gradle_download17588237740262589412bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-particles-v1/5.0.24+3434d6d95d/fabric-particles-v1-5.0.24+3434d6d95d.pom to /workspace/gradle-home/.tmp/gradle_download15797154044575281608bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-networking-api-v1/6.3.8+fcdff87f5d/fabric-networking-api-v1-6.3.8+fcdff87f5d.pom to /workspace/gradle-home/.tmp/gradle_download11674794330466693889bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-tag-api-v1/2.1.10+fcdff87f5d/fabric-tag-api-v1-2.1.10+fcdff87f5d.pom to /workspace/gradle-home/.tmp/gradle_download7425060640847235384bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-renderer-indigo/9.1.23+b9d63e335d/fabric-renderer-indigo-9.1.23+b9d63e335d.pom to /workspace/gradle-home/.tmp/gradle_download11886354882561008231bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-resource-conditions-api-v1/6.1.5+3434d6d95d/fabric-resource-conditions-api-v1-6.1.5+3434d6d95d.pom to /workspace/gradle-home/.tmp/gradle_download6851686814563982101bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-recipe-api-v1/10.0.8+fcdff87f5d/fabric-recipe-api-v1-10.0.8+fcdff87f5d.pom to /workspace/gradle-home/.tmp/gradle_download10090657256371687436bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-rendering-v1/27.0.14+901a437c5d/fabric-rendering-v1-27.0.14+901a437c5d.pom to /workspace/gradle-home/.tmp/gradle_download2689110978177661013bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-model-loading-api-v1/8.0.35+fcdff87f5d/fabric-model-loading-api-v1-8.0.35+fcdff87f5d.pom to /workspace/gradle-home/.tmp/gradle_download7827677940685517087bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-resource-loader-v0/3.3.26+4fc5413f5d/fabric-resource-loader-v0-3.3.26+4fc5413f5d.pom to /workspace/gradle-home/.tmp/gradle_download6916217536188233565bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-loader/0.19.5/fabric-loader-0.19.5.jar to /workspace/gradle-home/.tmp/gradle_download11350148955941982554bin
+Resource missing. [HTTP HEAD: https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api-deprecated/0.161.0+26.3/fabric-api-deprecated-0.161.0+26.3.jar]
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api/0.161.0+26.3/fabric-api-0.161.0+26.3.jar to /workspace/gradle-home/.tmp/gradle_download17361004665039432638bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-advancement-api-v1/1.0.0+38c7a2d55d/fabric-advancement-api-v1-1.0.0+38c7a2d55d.jar to /workspace/gradle-home/.tmp/gradle_download10626564403825226147bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api-lookup-api-v1/2.0.24+3434d6d95d/fabric-api-lookup-api-v1-2.0.24+3434d6d95d.jar to /workspace/gradle-home/.tmp/gradle_download7641159203597076335bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-transfer-api-v1/8.0.25+fcdff87f5d/fabric-transfer-api-v1-8.0.25+fcdff87f5d.jar to /workspace/gradle-home/.tmp/gradle_download10461134718607468758bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-command-api-v2/3.1.2+fcdff87f5d/fabric-command-api-v2-3.1.2+fcdff87f5d.jar to /workspace/gradle-home/.tmp/gradle_download15289446321214932258bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-block-api-v1/3.1.0+0ae6f9115d/fabric-block-api-v1-3.1.0+0ae6f9115d.jar to /workspace/gradle-home/.tmp/gradle_download14754266622126489925bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-content-registries-v0/15.0.4+74ed1ea55d/fabric-content-registries-v0-15.0.4+74ed1ea55d.jar to /workspace/gradle-home/.tmp/gradle_download12821550373646209166bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-data-generation-api-v1/27.2.4+427eab975d/fabric-data-generation-api-v1-27.2.4+427eab975d.jar to /workspace/gradle-home/.tmp/gradle_download9401517931732929673bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-convention-tags-v2/4.10.3+6b5b47fd5d/fabric-convention-tags-v2-4.10.3+6b5b47fd5d.jar to /workspace/gradle-home/.tmp/gradle_download13304751691823176326bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-creative-tab-api-v1/5.0.21+fcdff87f5d/fabric-creative-tab-api-v1-5.0.21+fcdff87f5d.jar to /workspace/gradle-home/.tmp/gradle_download13858161903744824336bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-data-attachment-api-v1/2.2.30+3434d6d95d/fabric-data-attachment-api-v1-2.2.30+3434d6d95d.jar to /workspace/gradle-home/.tmp/gradle_download13080200427687074429bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-debug-api-v1/1.0.4+3434d6d95d/fabric-debug-api-v1-1.0.4+3434d6d95d.jar to /workspace/gradle-home/.tmp/gradle_download386258258273118223bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-dimensions-v1/5.1.19+47f74c985d/fabric-dimensions-v1-5.1.19+47f74c985d.jar to /workspace/gradle-home/.tmp/gradle_download1083614827978609791bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-entity-events-v1/6.0.4+3434d6d95d/fabric-entity-events-v1-6.0.4+3434d6d95d.jar to /workspace/gradle-home/.tmp/gradle_download2301680721493099146bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-events-interaction-v0/5.3.6+3434d6d95d/fabric-events-interaction-v0-5.3.6+3434d6d95d.jar to /workspace/gradle-home/.tmp/gradle_download9644442226453316579bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-game-rule-api-v1/4.0.10+3434d6d95d/fabric-game-rule-api-v1-4.0.10+3434d6d95d.jar to /workspace/gradle-home/.tmp/gradle_download12763776804860121547bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-gametest-api-v1/4.0.32+3434d6d95d/fabric-gametest-api-v1-4.0.32+3434d6d95d.jar to /workspace/gradle-home/.tmp/gradle_download6026698436387500252bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-item-api-v1/14.7.0+cf6bc2db5d/fabric-item-api-v1-14.7.0+cf6bc2db5d.jar to /workspace/gradle-home/.tmp/gradle_download5562419078790728019bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-recipe-api-v1/10.0.8+fcdff87f5d/fabric-recipe-api-v1-10.0.8+fcdff87f5d.jar to /workspace/gradle-home/.tmp/gradle_download5212050355904242405bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-model-loading-api-v1/8.0.35+fcdff87f5d/fabric-model-loading-api-v1-8.0.35+fcdff87f5d.jar to /workspace/gradle-home/.tmp/gradle_download3347568867446094973bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-renderer-indigo/9.1.23+b9d63e335d/fabric-renderer-indigo-9.1.23+b9d63e335d.jar to /workspace/gradle-home/.tmp/gradle_download7534094527461698505bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-renderer-api-v1/17.0.15+79385d0b5d/fabric-renderer-api-v1-17.0.15+79385d0b5d.jar to /workspace/gradle-home/.tmp/gradle_download6912538534203832652bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-rendering-v1/27.0.14+901a437c5d/fabric-rendering-v1-27.0.14+901a437c5d.jar to /workspace/gradle-home/.tmp/gradle_download7706291525728424458bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-lifecycle-events-v1/4.1.9+ffef5f675d/fabric-lifecycle-events-v1-4.1.9+ffef5f675d.jar to /workspace/gradle-home/.tmp/gradle_download10406307255182283846bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-loot-api-v3/4.0.8+4068fd645d/fabric-loot-api-v3-4.0.8+4068fd645d.jar to /workspace/gradle-home/.tmp/gradle_download3835542489059725344bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-menu-api-v1/2.0.27+ed66f0a35d/fabric-menu-api-v1-2.0.27+ed66f0a35d.jar to /workspace/gradle-home/.tmp/gradle_download12225543150187275075bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-message-api-v1/7.0.10+3434d6d95d/fabric-message-api-v1-7.0.10+3434d6d95d.jar to /workspace/gradle-home/.tmp/gradle_download5546533901111888916bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-client-gametest-api-v1/6.0.7+4be74c3f5d/fabric-client-gametest-api-v1-6.0.7+4be74c3f5d.jar to /workspace/gradle-home/.tmp/gradle_download2210325362984238884bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-particles-v1/5.0.24+3434d6d95d/fabric-particles-v1-5.0.24+3434d6d95d.jar to /workspace/gradle-home/.tmp/gradle_download9880824568652261890bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-object-builder-api-v1/24.1.9+3434d6d95d/fabric-object-builder-api-v1-24.1.9+3434d6d95d.jar to /workspace/gradle-home/.tmp/gradle_download8244559191496641126bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-registry-sync-v0/8.0.1+fcdff87f5d/fabric-registry-sync-v0-8.0.1+fcdff87f5d.jar to /workspace/gradle-home/.tmp/gradle_download16981036161550337739bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-networking-api-v1/6.3.8+fcdff87f5d/fabric-networking-api-v1-6.3.8+fcdff87f5d.jar to /workspace/gradle-home/.tmp/gradle_download1883537184502030638bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-permission-api-v1/1.0.8+fcdff87f5d/fabric-permission-api-v1-1.0.8+fcdff87f5d.jar to /workspace/gradle-home/.tmp/gradle_download14643523375126823486bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-rendering-fluids-v1/6.0.6+3434d6d95d/fabric-rendering-fluids-v1-6.0.6+3434d6d95d.jar to /workspace/gradle-home/.tmp/gradle_download2491473817934757287bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-tag-api-v1/2.1.10+fcdff87f5d/fabric-tag-api-v1-2.1.10+fcdff87f5d.jar to /workspace/gradle-home/.tmp/gradle_download6967465615363061385bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-resource-loader-v0/3.3.26+4fc5413f5d/fabric-resource-loader-v0-3.3.26+4fc5413f5d.jar to /workspace/gradle-home/.tmp/gradle_download17718232629498388600bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-resource-loader-v1/3.0.4+fcdff87f5d/fabric-resource-loader-v1-3.0.4+fcdff87f5d.jar to /workspace/gradle-home/.tmp/gradle_download9873293185225268332bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-screen-api-v1/5.2.4+48607d035d/fabric-screen-api-v1-5.2.4+48607d035d.jar to /workspace/gradle-home/.tmp/gradle_download11778188191864492630bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api-base/2.0.6+fcdff87f5d/fabric-api-base-2.0.6+fcdff87f5d.jar to /workspace/gradle-home/.tmp/gradle_download12153137103562060450bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-biome-api-v1/20.0.9+74ed1ea55d/fabric-biome-api-v1-20.0.9+74ed1ea55d.jar to /workspace/gradle-home/.tmp/gradle_download18281468068156102467bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-block-getter-api-v2/2.0.9+3434d6d95d/fabric-block-getter-api-v2-2.0.9+3434d6d95d.jar to /workspace/gradle-home/.tmp/gradle_download4440780400611116315bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-crash-report-info-v1/1.0.7+fcdff87f5d/fabric-crash-report-info-v1-1.0.7+fcdff87f5d.jar to /workspace/gradle-home/.tmp/gradle_download1151805204433492926bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-key-mapping-api-v1/2.0.8+3434d6d95d/fabric-key-mapping-api-v1-2.0.8+3434d6d95d.jar to /workspace/gradle-home/.tmp/gradle_download16309543332928713054bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-resource-conditions-api-v1/6.1.5+3434d6d95d/fabric-resource-conditions-api-v1-6.1.5+3434d6d95d.jar to /workspace/gradle-home/.tmp/gradle_download17447356537266450652bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-serialization-api-v1/2.0.7+74ed1ea55d/fabric-serialization-api-v1-2.0.7+74ed1ea55d.jar to /workspace/gradle-home/.tmp/gradle_download17666969575115552156bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-sound-api-v1/2.0.7+3434d6d95d/fabric-sound-api-v1-2.0.7+3434d6d95d.jar to /workspace/gradle-home/.tmp/gradle_download13090127550268300345bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-transitive-access-wideners-v1/8.1.16+52268a0e5d/fabric-transitive-access-wideners-v1-8.1.16+52268a0e5d.jar to /workspace/gradle-home/.tmp/gradle_download10468389624269832142bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/jetbrains/annotations/26.0.2/annotations-26.0.2.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/dev/lambdaurora/lambdynamiclights/lambdynamiclights-api/4.13.0+26.3/lambdynamiclights-api-4.13.0+26.3.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/dev/lambdaurora/lambdynamiclights/lambdynamiclights-api/4.13.0+26.3/lambdynamiclights-api-4.13.0+26.3.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/org/jetbrains/annotations/26.0.2/annotations-26.0.2.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/org/jetbrains/annotations/26.0.2/annotations-26.0.2.jar]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/dev/lambdaurora/lambdynamiclights/lambdynamiclights-api/4.13.0+26.3/lambdynamiclights-api-4.13.0+26.3.jar]
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/annotations/26.0.2/annotations-26.0.2.pom to /workspace/gradle-home/.tmp/gradle_download343756010172841928bin
+Resource missing. [HTTP GET: https://repo.maven.apache.org/maven2/dev/lambdaurora/lambdynamiclights/lambdynamiclights-api/4.13.0+26.3/lambdynamiclights-api-4.13.0+26.3.pom]
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/annotations/26.0.2/annotations-26.0.2.module to /workspace/gradle-home/.tmp/gradle_download9535467414767903614bin
+Downloading https://maven.gegy.dev/releases/dev/lambdaurora/lambdynamiclights/lambdynamiclights-api/4.13.0+26.3/lambdynamiclights-api-4.13.0+26.3.pom to /workspace/gradle-home/.tmp/gradle_download16334035835771239381bin
+Downloading https://maven.gegy.dev/releases/dev/lambdaurora/lambdynamiclights/lambdynamiclights-api/4.13.0+26.3/lambdynamiclights-api-4.13.0+26.3.module to /workspace/gradle-home/.tmp/gradle_download2867200452732361026bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/dev/yumi/commons/yumi-commons-event/2.0.0/yumi-commons-event-2.0.0.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/dev/yumi/commons/yumi-commons-event/2.0.0/yumi-commons-event-2.0.0.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/dev/yumi/commons/yumi-commons-event/2.0.0/yumi-commons-event-2.0.0.jar]
+Downloading https://repo.maven.apache.org/maven2/dev/yumi/commons/yumi-commons-event/2.0.0/yumi-commons-event-2.0.0.pom to /workspace/gradle-home/.tmp/gradle_download225199841803820185bin
+Downloading https://repo.maven.apache.org/maven2/dev/yumi/commons/yumi-commons-event/2.0.0/yumi-commons-event-2.0.0.module to /workspace/gradle-home/.tmp/gradle_download6564260772022975502bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.pom]
+Downloading https://libraries.minecraft.net/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.pom to /workspace/gradle-home/.tmp/gradle_download4004177087729426187bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/dev/yumi/commons/yumi-commons-collections/2.0.0/yumi-commons-collections-2.0.0.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/dev/yumi/commons/yumi-commons-collections/2.0.0/yumi-commons-collections-2.0.0.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/dev/yumi/commons/yumi-commons-collections/2.0.0/yumi-commons-collections-2.0.0.jar]
+Downloading https://repo.maven.apache.org/maven2/dev/yumi/commons/yumi-commons-collections/2.0.0/yumi-commons-collections-2.0.0.pom to /workspace/gradle-home/.tmp/gradle_download14727126845271611169bin
+Downloading https://repo.maven.apache.org/maven2/dev/yumi/commons/yumi-commons-collections/2.0.0/yumi-commons-collections-2.0.0.module to /workspace/gradle-home/.tmp/gradle_download13602205931044518608bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/dev/yumi/commons/yumi-commons-core/2.0.0/yumi-commons-core-2.0.0.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/dev/yumi/commons/yumi-commons-core/2.0.0/yumi-commons-core-2.0.0.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/dev/yumi/commons/yumi-commons-core/2.0.0/yumi-commons-core-2.0.0.jar]
+Downloading https://repo.maven.apache.org/maven2/dev/yumi/commons/yumi-commons-core/2.0.0/yumi-commons-core-2.0.0.pom to /workspace/gradle-home/.tmp/gradle_download4949302633540933398bin
+Downloading https://repo.maven.apache.org/maven2/dev/yumi/commons/yumi-commons-core/2.0.0/yumi-commons-core-2.0.0.module to /workspace/gradle-home/.tmp/gradle_download18219195502083621913bin
+Downloading https://repo.maven.apache.org/maven2/dev/yumi/commons/yumi-commons-event/2.0.0/yumi-commons-event-2.0.0.jar to /workspace/gradle-home/.tmp/gradle_download5043322088745661123bin
+Downloading https://repo.maven.apache.org/maven2/dev/yumi/commons/yumi-commons-collections/2.0.0/yumi-commons-collections-2.0.0.jar to /workspace/gradle-home/.tmp/gradle_download11916579568225312682bin
+Downloading https://repo.maven.apache.org/maven2/dev/yumi/commons/yumi-commons-core/2.0.0/yumi-commons-core-2.0.0.jar to /workspace/gradle-home/.tmp/gradle_download15323448238265532743bin
+Downloading https://maven.gegy.dev/releases/dev/lambdaurora/lambdynamiclights/lambdynamiclights-api/4.13.0+26.3/lambdynamiclights-api-4.13.0+26.3.jar to /workspace/gradle-home/.tmp/gradle_download6422690653186458707bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/annotations/26.0.2/annotations-26.0.2.jar to /workspace/gradle-home/.tmp/gradle_download8837268830229497665bin
+Downloading https://libraries.minecraft.net/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar to /workspace/gradle-home/.tmp/gradle_download12124475244471564197bin
+Refreshing outputs for mapped jar, as net.fabricmc.loom.configuration.providers.minecraft.MinecraftJar$Common@44cdf5a3 does not exist
+Refreshing outputs for mapped jar, as net.fabricmc.loom.configuration.providers.minecraft.MinecraftJar$Common@5e31d36 does not exist
+Found installer in mod fabricloader version 0.19.5
+Applying installer data from configuration 'mainCompileDependencyResolve'
+All projects evaluated.
+Task name matched 'compileJava'
+Task name matched 'test'
+Selected primary task 'compileJava' from project :
+Selected primary task 'test' from project :
+Tasks to be executed: [task ':compileJava', task ':processResources', task ':classes', task ':compileClientJava', task ':processClientResources', task ':clientClasses', task ':compileTestJava', task ':processTestResources', task ':testClasses', task ':test']
+Tasks that were excluded: []
+Resolve mutations for :compileJava (Thread[#3396,Execution worker,5,main]) started.
+destroyer locations for task group 0 (Thread[#3395,included builds,5,main]) started.
+:compileJava (Thread[#3395,included builds,5,main]) started.
+
+> Task :compileJava
+Downloading https://maven.fabricmc.net/net/fabricmc/sponge-mixin/0.17.4+mixin.0.8.7/sponge-mixin-0.17.4+mixin.0.8.7.pom to /workspace/gradle-home/.tmp/gradle_download10891458706175467986bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/com/mojang/authlib/10.0.77/authlib-10.0.77.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/com/mojang/blocklist/1.0.10/blocklist-1.0.10.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/com/mojang/datafixerupper/10.0.21/datafixerupper-10.0.21.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/com/github/oshi/oshi-core/6.9.0/oshi-core-6.9.0.pom]
+Downloading https://maven.fabricmc.net/io/github/llamalad7/mixinextras-fabric/0.5.5/mixinextras-fabric-0.5.5.pom to /workspace/gradle-home/.tmp/gradle_download6916241985023378598bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/com/mojang/brigadier/1.3.11/brigadier-1.3.11.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/com/azure/azure-json/1.4.0/azure-json-1.4.0.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/com/google/guava/guava/33.6.0-jre/guava-33.6.0-jre.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/com/mojang/patchy/2.2.10/patchy-2.2.10.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/com/mojang/jtracy/1.14.38/jtracy-1.14.38.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/com/ibm/icu/icu4j/78.3/icu4j-78.3.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/com/google/guava/failureaccess/1.0.3/failureaccess-1.0.3.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/com/mojang/text2speech/1.19.12/text2speech-1.19.12.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/io/netty/netty-buffer/4.2.16.Final/netty-buffer-4.2.16.Final.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/com/mojang/logging/1.7.12/logging-1.7.12.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/commons-codec/commons-codec/1.22.0/commons-codec-1.22.0.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/com/microsoft/azure/msal4j/1.24.1/msal4j-1.24.1.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/io/netty/netty-handler/4.2.16.Final/netty-handler-4.2.16.Final.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/io/netty/netty-codec-base/4.2.16.Final/netty-codec-base-4.2.16.Final.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/io/netty/netty-codec-http/4.2.16.Final/netty-codec-http-4.2.16.Final.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/io/netty/netty-transport/4.2.16.Final/netty-transport-4.2.16.Final.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/commons-io/commons-io/2.20.0/commons-io-2.20.0.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/at/yawk/lz4/lz4-java/1.10.1/lz4-java-1.10.1.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/lwjgl/lwjgl-freetype/3.4.3/lwjgl-freetype-3.4.3.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/lwjgl/lwjgl-openal/3.4.3/lwjgl-openal-3.4.3.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/net/java/dev/jna/jna-platform/5.17.0/jna-platform-5.17.0.pom]
+Found locally available resource with matching checksum: [https://libraries.minecraft.net/com/google/code/gson/gson/2.14.0/gson-2.14.0.pom, /workspace/gradle-home/caches/modules-2/files-2.1/com.google.code.gson/gson/2.14.0/b64d82caaaff2b6738542937315c4fbded69e4e5/gson-2.14.0.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/apache/commons/commons-compress/1.28.0/commons-compress-1.28.0.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/lwjgl/lwjgl-shaderc/3.4.3/lwjgl-shaderc-3.4.3.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/it/unimi/dsi/fastutil/8.5.18/fastutil-8.5.18.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/lwjgl/lwjgl-sdl/3.4.3/lwjgl-sdl-3.4.3.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/lwjgl/lwjgl-spvc/3.4.3/lwjgl-spvc-3.4.3.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/lwjgl/lwjgl-opengl/3.4.3/lwjgl-opengl-3.4.3.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/joml/joml/1.10.9/joml-1.10.9.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/lwjgl/lwjgl-stb/3.4.3/lwjgl-stb-3.4.3.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/lwjgl/lwjgl-vma/3.4.3/lwjgl-vma-3.4.3.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/lwjgl/lwjgl/3.4.3/lwjgl-3.4.3.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/lwjgl/lwjgl-vulkan/3.4.3/lwjgl-vulkan-3.4.3.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/io/netty/netty-common/4.2.16.Final/netty-common-4.2.16.Final.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/lwjgl/lwjgl-jemalloc/3.4.3/lwjgl-jemalloc-3.4.3.pom]
+Downloading https://libraries.minecraft.net/com/mojang/blocklist/1.0.10/blocklist-1.0.10.pom to /workspace/gradle-home/.tmp/gradle_download12919244959115429896bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/io/netty/netty-codec-compression/4.2.16.Final/netty-codec-compression-4.2.16.Final.pom]
+Downloading https://libraries.minecraft.net/com/mojang/datafixerupper/10.0.21/datafixerupper-10.0.21.pom to /workspace/gradle-home/.tmp/gradle_download3813529258285925907bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/io/netty/netty-resolver/4.2.16.Final/netty-resolver-4.2.16.Final.pom]
+Downloading https://libraries.minecraft.net/com/github/oshi/oshi-core/6.9.0/oshi-core-6.9.0.pom to /workspace/gradle-home/.tmp/gradle_download3868974309634832182bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/io/netty/netty-transport-classes-epoll/4.2.16.Final/netty-transport-classes-epoll-4.2.16.Final.pom]
+Downloading https://libraries.minecraft.net/com/mojang/authlib/10.0.77/authlib-10.0.77.pom to /workspace/gradle-home/.tmp/gradle_download11132597202515655470bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/io/netty/netty-transport-native-epoll/4.2.16.Final/netty-transport-native-epoll-4.2.16.Final.pom]
+Downloading https://libraries.minecraft.net/com/mojang/brigadier/1.3.11/brigadier-1.3.11.pom to /workspace/gradle-home/.tmp/gradle_download11631666547921675502bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/io/netty/netty-transport-classes-kqueue/4.2.16.Final/netty-transport-classes-kqueue-4.2.16.Final.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/io/netty/netty-transport-native-unix-common/4.2.16.Final/netty-transport-native-unix-common-4.2.16.Final.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/net/java/dev/jna/jna/5.17.0/jna-5.17.0.pom]
+Downloading https://libraries.minecraft.net/com/google/guava/guava/33.6.0-jre/guava-33.6.0-jre.pom to /workspace/gradle-home/.tmp/gradle_download2401264943401500803bin
+Downloading https://libraries.minecraft.net/io/netty/netty-transport/4.2.16.Final/netty-transport-4.2.16.Final.pom to /workspace/gradle-home/.tmp/gradle_download11947442379940496258bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/net/sf/jopt-simple/jopt-simple/5.0.4/jopt-simple-5.0.4.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/apache/logging/log4j/log4j-core/2.26.0/log4j-core-2.26.0.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/apache/logging/log4j/log4j-slf4j2-impl/2.26.0/log4j-slf4j2-impl-2.26.0.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/apache/logging/log4j/log4j-api/2.26.0/log4j-api-2.26.0.pom]
+Downloading https://libraries.minecraft.net/com/mojang/jtracy/1.14.38/jtracy-1.14.38.pom to /workspace/gradle-home/.tmp/gradle_download3818646416446258058bin
+Downloading https://libraries.minecraft.net/com/google/guava/failureaccess/1.0.3/failureaccess-1.0.3.pom to /workspace/gradle-home/.tmp/gradle_download16307144828717258243bin
+Downloading https://libraries.minecraft.net/com/ibm/icu/icu4j/78.3/icu4j-78.3.pom to /workspace/gradle-home/.tmp/gradle_download8145186132340517285bin
+Downloading https://libraries.minecraft.net/com/mojang/logging/1.7.12/logging-1.7.12.pom to /workspace/gradle-home/.tmp/gradle_download15856407578238823228bin
+Downloading https://libraries.minecraft.net/commons-codec/commons-codec/1.22.0/commons-codec-1.22.0.pom to /workspace/gradle-home/.tmp/gradle_download16926537816047990066bin
+Downloading https://libraries.minecraft.net/com/mojang/text2speech/1.19.12/text2speech-1.19.12.pom to /workspace/gradle-home/.tmp/gradle_download17451071586042878963bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/apache/commons/commons-lang3/3.20.0/commons-lang3-3.20.0.pom]
+Downloading https://libraries.minecraft.net/com/mojang/patchy/2.2.10/patchy-2.2.10.pom to /workspace/gradle-home/.tmp/gradle_download5163451583733000560bin
+Downloading https://libraries.minecraft.net/io/netty/netty-codec-http/4.2.16.Final/netty-codec-http-4.2.16.Final.pom to /workspace/gradle-home/.tmp/gradle_download4284818267542438168bin
+Downloading https://libraries.minecraft.net/com/azure/azure-json/1.4.0/azure-json-1.4.0.pom to /workspace/gradle-home/.tmp/gradle_download17941779022013822980bin
+Downloading https://libraries.minecraft.net/io/netty/netty-common/4.2.16.Final/netty-common-4.2.16.Final.pom to /workspace/gradle-home/.tmp/gradle_download737197561363126137bin
+Downloading https://libraries.minecraft.net/io/netty/netty-codec-base/4.2.16.Final/netty-codec-base-4.2.16.Final.pom to /workspace/gradle-home/.tmp/gradle_download5294582880637090934bin
+Downloading https://libraries.minecraft.net/commons-io/commons-io/2.20.0/commons-io-2.20.0.pom to /workspace/gradle-home/.tmp/gradle_download3587558124001729619bin
+Downloading https://libraries.minecraft.net/io/netty/netty-transport-native-epoll/4.2.16.Final/netty-transport-native-epoll-4.2.16.Final.pom to /workspace/gradle-home/.tmp/gradle_download5291430524443289093bin
+Downloading https://libraries.minecraft.net/io/netty/netty-buffer/4.2.16.Final/netty-buffer-4.2.16.Final.pom to /workspace/gradle-home/.tmp/gradle_download11697162780708779963bin
+Downloading https://libraries.minecraft.net/net/java/dev/jna/jna-platform/5.17.0/jna-platform-5.17.0.pom to /workspace/gradle-home/.tmp/gradle_download7702084724533319433bin
+Downloading https://libraries.minecraft.net/org/lwjgl/lwjgl-spvc/3.4.3/lwjgl-spvc-3.4.3.pom to /workspace/gradle-home/.tmp/gradle_download14604071419406312389bin
+Downloading https://libraries.minecraft.net/io/netty/netty-transport-classes-epoll/4.2.16.Final/netty-transport-classes-epoll-4.2.16.Final.pom to /workspace/gradle-home/.tmp/gradle_download1692234089774649018bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/com/google/guava/guava-parent/33.6.0-jre/guava-parent-33.6.0-jre.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/jcraft/jorbis/0.0.17/jorbis-0.0.17.pom]
+Downloading https://libraries.minecraft.net/io/netty/netty-transport-classes-kqueue/4.2.16.Final/netty-transport-classes-kqueue-4.2.16.Final.pom to /workspace/gradle-home/.tmp/gradle_download16871278404183102195bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/com/github/oshi/oshi-parent/6.9.0/oshi-parent-6.9.0.pom]
+Downloading https://libraries.minecraft.net/org/lwjgl/lwjgl-sdl/3.4.3/lwjgl-sdl-3.4.3.pom to /workspace/gradle-home/.tmp/gradle_download3818392244155314667bin
+Downloading https://libraries.minecraft.net/com/microsoft/azure/msal4j/1.24.1/msal4j-1.24.1.pom to /workspace/gradle-home/.tmp/gradle_download8099285889169799046bin
+Downloading https://libraries.minecraft.net/org/lwjgl/lwjgl-vma/3.4.3/lwjgl-vma-3.4.3.pom to /workspace/gradle-home/.tmp/gradle_download4954208693981994529bin
+Downloading https://libraries.minecraft.net/org/apache/logging/log4j/log4j-core/2.26.0/log4j-core-2.26.0.pom to /workspace/gradle-home/.tmp/gradle_download13477963278867677084bin
+Downloading https://libraries.minecraft.net/org/apache/commons/commons-compress/1.28.0/commons-compress-1.28.0.pom to /workspace/gradle-home/.tmp/gradle_download13011425823718241268bin
+Downloading https://libraries.minecraft.net/org/lwjgl/lwjgl-shaderc/3.4.3/lwjgl-shaderc-3.4.3.pom to /workspace/gradle-home/.tmp/gradle_download12821803317896042927bin
+Downloading https://libraries.minecraft.net/io/netty/netty-codec-compression/4.2.16.Final/netty-codec-compression-4.2.16.Final.pom to /workspace/gradle-home/.tmp/gradle_download15909992028475432901bin
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/com/google/code/gson/gson-parent/2.14.0/gson-parent-2.14.0.pom]
+Downloading https://libraries.minecraft.net/io/netty/netty-handler/4.2.16.Final/netty-handler-4.2.16.Final.pom to /workspace/gradle-home/.tmp/gradle_download6188390469955564784bin
+Downloading https://libraries.minecraft.net/org/lwjgl/lwjgl-stb/3.4.3/lwjgl-stb-3.4.3.pom to /workspace/gradle-home/.tmp/gradle_download11896696555285743007bin
+Downloading https://libraries.minecraft.net/org/joml/joml/1.10.9/joml-1.10.9.pom to /workspace/gradle-home/.tmp/gradle_download10527450365313304096bin
+Downloading https://libraries.minecraft.net/org/lwjgl/lwjgl-freetype/3.4.3/lwjgl-freetype-3.4.3.pom to /workspace/gradle-home/.tmp/gradle_download2494203008177974152bin
+Downloading https://libraries.minecraft.net/org/lwjgl/lwjgl-opengl/3.4.3/lwjgl-opengl-3.4.3.pom to /workspace/gradle-home/.tmp/gradle_download4793802441261030552bin
+Downloading https://libraries.minecraft.net/org/lwjgl/lwjgl/3.4.3/lwjgl-3.4.3.pom to /workspace/gradle-home/.tmp/gradle_download18019941411710451014bin
+Downloading https://libraries.minecraft.net/org/lwjgl/lwjgl-openal/3.4.3/lwjgl-openal-3.4.3.pom to /workspace/gradle-home/.tmp/gradle_download15105135669019621584bin
+Downloading https://libraries.minecraft.net/org/lwjgl/lwjgl-vulkan/3.4.3/lwjgl-vulkan-3.4.3.pom to /workspace/gradle-home/.tmp/gradle_download5672640524961340928bin
+Downloading https://libraries.minecraft.net/at/yawk/lz4/lz4-java/1.10.1/lz4-java-1.10.1.pom to /workspace/gradle-home/.tmp/gradle_download10797247264044193895bin
+Downloading https://libraries.minecraft.net/org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.pom to /workspace/gradle-home/.tmp/gradle_download16864045371805241363bin
+Downloading https://libraries.minecraft.net/io/netty/netty-resolver/4.2.16.Final/netty-resolver-4.2.16.Final.pom to /workspace/gradle-home/.tmp/gradle_download6026385835848937187bin
+Downloading https://libraries.minecraft.net/io/netty/netty-transport-native-unix-common/4.2.16.Final/netty-transport-native-unix-common-4.2.16.Final.pom to /workspace/gradle-home/.tmp/gradle_download6105667511840422600bin
+Downloading https://libraries.minecraft.net/it/unimi/dsi/fastutil/8.5.18/fastutil-8.5.18.pom to /workspace/gradle-home/.tmp/gradle_download17286100976275914265bin
+Downloading https://libraries.minecraft.net/org/apache/commons/commons-lang3/3.20.0/commons-lang3-3.20.0.pom to /workspace/gradle-home/.tmp/gradle_download134115237355274757bin
+Downloading https://libraries.minecraft.net/org/lwjgl/lwjgl-jemalloc/3.4.3/lwjgl-jemalloc-3.4.3.pom to /workspace/gradle-home/.tmp/gradle_download2043135124251883204bin
+Downloading https://libraries.minecraft.net/org/apache/logging/log4j/log4j-slf4j2-impl/2.26.0/log4j-slf4j2-impl-2.26.0.pom to /workspace/gradle-home/.tmp/gradle_download12187219177744015783bin
+Downloading https://libraries.minecraft.net/org/apache/logging/log4j/log4j-api/2.26.0/log4j-api-2.26.0.pom to /workspace/gradle-home/.tmp/gradle_download8855977143309189939bin
+Downloading https://libraries.minecraft.net/net/java/dev/jna/jna/5.17.0/jna-5.17.0.pom to /workspace/gradle-home/.tmp/gradle_download16948089400532620901bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/apache/commons/commons-parent/85/commons-parent-85.pom]
+Downloading https://libraries.minecraft.net/net/sf/jopt-simple/jopt-simple/5.0.4/jopt-simple-5.0.4.pom to /workspace/gradle-home/.tmp/gradle_download7928864644382043668bin
+Resource missing. [HTTP GET: https://libraries.minecraft.net/com/github/oshi/oshi-parent/6.9.0/oshi-parent-6.9.0.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/com/google/code/gson/gson-parent/2.14.0/gson-parent-2.14.0.jar]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/com/azure/azure-client-sdk-parent/1.7.0/azure-client-sdk-parent-1.7.0.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/com/google/guava/guava-parent/33.6.0-jre/guava-parent-33.6.0-jre.pom]
+Downloading https://libraries.minecraft.net/org/jcraft/jorbis/0.0.17/jorbis-0.0.17.pom to /workspace/gradle-home/.tmp/gradle_download13638218198110693826bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/com/google/guava/guava-parent/33.4.0-android/guava-parent-33.4.0-android.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/apache/commons/commons-parent/92/commons-parent-92.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/io/netty/netty-parent/4.2.16.Final/netty-parent-4.2.16.Final.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/apache/commons/commons-parent/98/commons-parent-98.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/io/netty/netty-transport-native-kqueue/4.2.16.Final/netty-transport-native-kqueue-4.2.16.Final.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/apache/logging/log4j/log4j/2.26.0/log4j-2.26.0.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/com/github/oshi/oshi-parent/6.9.0/oshi-parent-6.9.0.jar]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/org/apache/commons/commons-parent/85/commons-parent-85.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/com/azure/azure-client-sdk-parent/1.7.0/azure-client-sdk-parent-1.7.0.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/com/google/guava/guava-parent/33.6.0-jre/guava-parent-33.6.0-jre.jar]
+Downloading https://libraries.minecraft.net/io/netty/netty-transport-native-kqueue/4.2.16.Final/netty-transport-native-kqueue-4.2.16.Final.pom to /workspace/gradle-home/.tmp/gradle_download14881469944344057911bin
+Resource missing. [HTTP GET: https://libraries.minecraft.net/org/apache/commons/commons-parent/98/commons-parent-98.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/org/apache/commons/commons-parent/92/commons-parent-92.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/io/netty/netty-parent/4.2.16.Final/netty-parent-4.2.16.Final.pom]
+Found locally available resource with matching checksum: [https://repo.maven.apache.org/maven2/com/google/code/gson/gson-parent/2.14.0/gson-parent-2.14.0.pom, /workspace/gradle-home/caches/modules-2/files-2.1/com.google.code.gson/gson-parent/2.14.0/68e3b333bb1f2594e68d6daa05ed730118c3e394/gson-parent-2.14.0.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/org/apache/commons/commons-parent/85/commons-parent-85.jar]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/com/azure/azure-client-sdk-parent/1.7.0/azure-client-sdk-parent-1.7.0.jar]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/com/google/guava/guava-parent/33.4.0-android/guava-parent-33.4.0-android.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/org/apache/commons/commons-parent/98/commons-parent-98.jar]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/org/apache/logging/log4j/log4j/2.26.0/log4j-2.26.0.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/org/apache/commons/commons-parent/92/commons-parent-92.jar]
+Downloading https://repo.maven.apache.org/maven2/org/apache/commons/commons-parent/85/commons-parent-85.pom to /workspace/gradle-home/.tmp/gradle_download11761663767452328849bin
+Downloading https://repo.maven.apache.org/maven2/com/google/guava/guava-parent/33.6.0-jre/guava-parent-33.6.0-jre.pom to /workspace/gradle-home/.tmp/gradle_download15318056609623511882bin
+Downloading https://repo.maven.apache.org/maven2/com/github/oshi/oshi-parent/6.9.0/oshi-parent-6.9.0.pom to /workspace/gradle-home/.tmp/gradle_download1851584760368909215bin
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/com/google/guava/guava-parent/33.4.0-android/guava-parent-33.4.0-android.jar]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/io/netty/netty-parent/4.2.16.Final/netty-parent-4.2.16.Final.jar]
+Downloading https://repo.maven.apache.org/maven2/org/apache/commons/commons-parent/98/commons-parent-98.pom to /workspace/gradle-home/.tmp/gradle_download8313166279771861335bin
+Downloading https://repo.maven.apache.org/maven2/com/azure/azure-client-sdk-parent/1.7.0/azure-client-sdk-parent-1.7.0.pom to /workspace/gradle-home/.tmp/gradle_download4907351067959169513bin
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/org/apache/logging/log4j/log4j/2.26.0/log4j-2.26.0.jar]
+Downloading https://repo.maven.apache.org/maven2/com/google/guava/guava-parent/33.4.0-android/guava-parent-33.4.0-android.pom to /workspace/gradle-home/.tmp/gradle_download13382730766083937133bin
+Downloading https://repo.maven.apache.org/maven2/io/netty/netty-parent/4.2.16.Final/netty-parent-4.2.16.Final.pom to /workspace/gradle-home/.tmp/gradle_download14166719284217647444bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/apache/apache/35/apache-35.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/apache/apache/37/apache-37.pom]
+Downloading https://repo.maven.apache.org/maven2/org/apache/commons/commons-parent/92/commons-parent-92.pom to /workspace/gradle-home/.tmp/gradle_download4625015687293279521bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/sonatype/oss/oss-parent/9/oss-parent-9.pom]
+Downloading https://repo.maven.apache.org/maven2/org/apache/logging/log4j/log4j/2.26.0/log4j-2.26.0.pom to /workspace/gradle-home/.tmp/gradle_download6652018831614734031bin
+Resource missing. [HTTP GET: https://libraries.minecraft.net/org/sonatype/oss/oss-parent/9/oss-parent-9.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/org/apache/apache/37/apache-37.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/com/azure/azure-sdk-parent/1.6.0/azure-sdk-parent-1.6.0.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/org/sonatype/oss/oss-parent/9/oss-parent-9.jar]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/org/apache/apache/35/apache-35.pom]
+Downloading https://repo.maven.apache.org/maven2/org/sonatype/oss/oss-parent/9/oss-parent-9.pom to /workspace/gradle-home/.tmp/gradle_download16536405588845970325bin
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/org/apache/apache/37/apache-37.jar]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/com/azure/azure-sdk-parent/1.6.0/azure-sdk-parent-1.6.0.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/bouncycastle/bc-jdk18on-bom/1.84/bc-jdk18on-bom-1.84.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/apache/logging/log4j/log4j-bom/2.26.0/log4j-bom-2.26.0.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/org/apache/apache/35/apache-35.jar]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/com/azure/azure-sdk-parent/1.6.0/azure-sdk-parent-1.6.0.jar]
+Downloading https://repo.maven.apache.org/maven2/org/apache/apache/37/apache-37.pom to /workspace/gradle-home/.tmp/gradle_download4261965084489780325bin
+Resource missing. [HTTP GET: https://libraries.minecraft.net/org/bouncycastle/bc-jdk18on-bom/1.84/bc-jdk18on-bom-1.84.pom]
+Downloading https://repo.maven.apache.org/maven2/org/apache/apache/35/apache-35.pom to /workspace/gradle-home/.tmp/gradle_download402057210528750186bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/junit/junit-bom/5.14.2/junit-bom-5.14.2.pom]
+Downloading https://repo.maven.apache.org/maven2/com/azure/azure-sdk-parent/1.6.0/azure-sdk-parent-1.6.0.pom to /workspace/gradle-home/.tmp/gradle_download5049666788555285818bin
+Resource missing. [HTTP GET: https://libraries.minecraft.net/org/apache/logging/log4j/log4j-bom/2.26.0/log4j-bom-2.26.0.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/org/junit/junit-bom/5.14.2/junit-bom-5.14.2.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/org/bouncycastle/bc-jdk18on-bom/1.84/bc-jdk18on-bom-1.84.jar]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/junit/junit-bom/5.13.4/junit-bom-5.13.4.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/org/apache/logging/log4j/log4j-bom/2.26.0/log4j-bom-2.26.0.jar]
+Downloading https://repo.maven.apache.org/maven2/org/bouncycastle/bc-jdk18on-bom/1.84/bc-jdk18on-bom-1.84.pom to /workspace/gradle-home/.tmp/gradle_download11413652029402149415bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/junit/junit-bom/5.13.1/junit-bom-5.13.1.pom]
+Downloading https://repo.maven.apache.org/maven2/org/apache/logging/log4j/log4j-bom/2.26.0/log4j-bom-2.26.0.pom to /workspace/gradle-home/.tmp/gradle_download14606158462092913821bin
+Resource missing. [HTTP GET: https://libraries.minecraft.net/org/junit/junit-bom/5.13.1/junit-bom-5.13.1.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/org/junit/junit-bom/5.14.2/junit-bom-5.14.2.jar]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/apache/groovy/groovy-bom/4.0.27/groovy-bom-4.0.27.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/org/junit/junit-bom/5.13.4/junit-bom-5.13.4.pom]
+Downloading https://repo.maven.apache.org/maven2/org/bouncycastle/bc-jdk18on-bom/1.84/bc-jdk18on-bom-1.84.module to /workspace/gradle-home/.tmp/gradle_download10800552381347314152bin
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/org/junit/junit-bom/5.13.1/junit-bom-5.13.1.jar]
+Downloading https://repo.maven.apache.org/maven2/org/junit/junit-bom/5.14.2/junit-bom-5.14.2.pom to /workspace/gradle-home/.tmp/gradle_download16531503904241088368bin
+Resource missing. [HTTP GET: https://libraries.minecraft.net/org/apache/groovy/groovy-bom/4.0.27/groovy-bom-4.0.27.pom]
+Downloading https://repo.maven.apache.org/maven2/org/junit/junit-bom/5.13.1/junit-bom-5.13.1.pom to /workspace/gradle-home/.tmp/gradle_download15916783601090720756bin
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/org/apache/groovy/groovy-bom/4.0.27/groovy-bom-4.0.27.jar]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/org/junit/junit-bom/5.13.4/junit-bom-5.13.4.jar]
+Downloading https://repo.maven.apache.org/maven2/org/junit/junit-bom/5.13.1/junit-bom-5.13.1.module to /workspace/gradle-home/.tmp/gradle_download13517298670121094948bin
+Downloading https://repo.maven.apache.org/maven2/org/junit/junit-bom/5.14.2/junit-bom-5.14.2.module to /workspace/gradle-home/.tmp/gradle_download6551301973750344075bin
+Downloading https://repo.maven.apache.org/maven2/org/junit/junit-bom/5.13.4/junit-bom-5.13.4.pom to /workspace/gradle-home/.tmp/gradle_download12496810166371079474bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/groovy/groovy-bom/4.0.27/groovy-bom-4.0.27.pom to /workspace/gradle-home/.tmp/gradle_download17051135887263493757bin
+Downloading https://repo.maven.apache.org/maven2/org/junit/junit-bom/5.13.4/junit-bom-5.13.4.module to /workspace/gradle-home/.tmp/gradle_download9466523618837686946bin
+Downloading https://repo.maven.apache.org/maven2/org/apache/groovy/groovy-bom/4.0.27/groovy-bom-4.0.27.module to /workspace/gradle-home/.tmp/gradle_download7487188108036658172bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/com/fasterxml/jackson/jackson-bom/2.19.2/jackson-bom-2.19.2.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/com/fasterxml/jackson/jackson-bom/2.19.2/jackson-bom-2.19.2.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/com/fasterxml/jackson/jackson-bom/2.19.2/jackson-bom-2.19.2.jar]
+Downloading https://repo.maven.apache.org/maven2/com/fasterxml/jackson/jackson-bom/2.19.2/jackson-bom-2.19.2.pom to /workspace/gradle-home/.tmp/gradle_download4283188975773237714bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/com/fasterxml/jackson/jackson-parent/2.19.3/jackson-parent-2.19.3.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/com/fasterxml/jackson/jackson-parent/2.19.3/jackson-parent-2.19.3.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/com/fasterxml/jackson/jackson-parent/2.19.3/jackson-parent-2.19.3.jar]
+Downloading https://repo.maven.apache.org/maven2/com/fasterxml/jackson/jackson-parent/2.19.3/jackson-parent-2.19.3.pom to /workspace/gradle-home/.tmp/gradle_download13112137085264626563bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/com/fasterxml/oss-parent/69/oss-parent-69.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/com/fasterxml/oss-parent/69/oss-parent-69.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/com/fasterxml/oss-parent/69/oss-parent-69.jar]
+Downloading https://repo.maven.apache.org/maven2/com/fasterxml/oss-parent/69/oss-parent-69.pom to /workspace/gradle-home/.tmp/gradle_download9133838487843826016bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/jakarta/platform/jakarta.jakartaee-bom/9.1.0/jakarta.jakartaee-bom-9.1.0.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/jakarta/platform/jakarta.jakartaee-bom/9.1.0/jakarta.jakartaee-bom-9.1.0.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/jakarta/platform/jakarta.jakartaee-bom/9.1.0/jakarta.jakartaee-bom-9.1.0.jar]
+Downloading https://repo.maven.apache.org/maven2/jakarta/platform/jakarta.jakartaee-bom/9.1.0/jakarta.jakartaee-bom-9.1.0.pom to /workspace/gradle-home/.tmp/gradle_download4453484859334330545bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/jakarta/platform/jakartaee-api-parent/9.1.0/jakartaee-api-parent-9.1.0.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/jakarta/platform/jakartaee-api-parent/9.1.0/jakartaee-api-parent-9.1.0.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/jakarta/platform/jakartaee-api-parent/9.1.0/jakartaee-api-parent-9.1.0.jar]
+Downloading https://repo.maven.apache.org/maven2/jakarta/platform/jakartaee-api-parent/9.1.0/jakartaee-api-parent-9.1.0.pom to /workspace/gradle-home/.tmp/gradle_download14793358560020626408bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/eclipse/ee4j/project/1.0.7/project-1.0.7.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/org/eclipse/ee4j/project/1.0.7/project-1.0.7.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/org/eclipse/ee4j/project/1.0.7/project-1.0.7.jar]
+Downloading https://repo.maven.apache.org/maven2/org/eclipse/ee4j/project/1.0.7/project-1.0.7.pom to /workspace/gradle-home/.tmp/gradle_download703933498392657922bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/mockito/mockito-bom/4.11.0/mockito-bom-4.11.0.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/org/mockito/mockito-bom/4.11.0/mockito-bom-4.11.0.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/org/mockito/mockito-bom/4.11.0/mockito-bom-4.11.0.jar]
+Downloading https://repo.maven.apache.org/maven2/org/mockito/mockito-bom/4.11.0/mockito-bom-4.11.0.pom to /workspace/gradle-home/.tmp/gradle_download14181578191986640339bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/springframework/spring-framework-bom/5.3.39/spring-framework-bom-5.3.39.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/org/springframework/spring-framework-bom/5.3.39/spring-framework-bom-5.3.39.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/org/springframework/spring-framework-bom/5.3.39/spring-framework-bom-5.3.39.jar]
+Downloading https://repo.maven.apache.org/maven2/org/springframework/spring-framework-bom/5.3.39/spring-framework-bom-5.3.39.pom to /workspace/gradle-home/.tmp/gradle_download9061088159223278483bin
+Downloading https://repo.maven.apache.org/maven2/org/springframework/spring-framework-bom/5.3.39/spring-framework-bom-5.3.39.module to /workspace/gradle-home/.tmp/gradle_download1957282100988817863bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/slf4j/slf4j-parent/2.0.17/slf4j-parent-2.0.17.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/sonatype/oss/oss-parent/7/oss-parent-7.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/org/sonatype/oss/oss-parent/7/oss-parent-7.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/org/slf4j/slf4j-parent/2.0.17/slf4j-parent-2.0.17.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/org/sonatype/oss/oss-parent/7/oss-parent-7.jar]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/org/slf4j/slf4j-parent/2.0.17/slf4j-parent-2.0.17.jar]
+Downloading https://repo.maven.apache.org/maven2/org/sonatype/oss/oss-parent/7/oss-parent-7.pom to /workspace/gradle-home/.tmp/gradle_download11036676226771819538bin
+Downloading https://repo.maven.apache.org/maven2/org/slf4j/slf4j-parent/2.0.17/slf4j-parent-2.0.17.pom to /workspace/gradle-home/.tmp/gradle_download17185279729245196142bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/slf4j/slf4j-bom/2.0.17/slf4j-bom-2.0.17.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/org/slf4j/slf4j-bom/2.0.17/slf4j-bom-2.0.17.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/org/slf4j/slf4j-bom/2.0.17/slf4j-bom-2.0.17.jar]
+Downloading https://repo.maven.apache.org/maven2/org/slf4j/slf4j-bom/2.0.17/slf4j-bom-2.0.17.pom to /workspace/gradle-home/.tmp/gradle_download14908335256590749331bin
+Downloading https://maven.fabricmc.net/io/github/llamalad7/mixinextras-fabric/0.5.5/mixinextras-fabric-0.5.5.jar to /workspace/gradle-home/.tmp/gradle_download8049284861206785722bin
+Downloading https://maven.fabricmc.net/net/fabricmc/sponge-mixin/0.17.4+mixin.0.8.7/sponge-mixin-0.17.4+mixin.0.8.7.jar to /workspace/gradle-home/.tmp/gradle_download15696605690834259943bin
+Downloading https://libraries.minecraft.net/at/yawk/lz4/lz4-java/1.10.1/lz4-java-1.10.1.jar to /workspace/gradle-home/.tmp/gradle_download9855728627143320950bin
+Downloading https://libraries.minecraft.net/com/azure/azure-json/1.4.0/azure-json-1.4.0.jar to /workspace/gradle-home/.tmp/gradle_download10211754225342186527bin
+Downloading https://libraries.minecraft.net/com/github/oshi/oshi-core/6.9.0/oshi-core-6.9.0.jar to /workspace/gradle-home/.tmp/gradle_download11050460400194403768bin
+Downloading https://libraries.minecraft.net/com/google/guava/failureaccess/1.0.3/failureaccess-1.0.3.jar to /workspace/gradle-home/.tmp/gradle_download14180079036227994462bin
+Found locally available resource with matching checksum: [https://libraries.minecraft.net/com/google/code/gson/gson/2.14.0/gson-2.14.0.jar, /workspace/gradle-home/caches/modules-2/files-2.1/com.google.code.gson/gson/2.14.0/efc0e34ede4e3204eaefb84a00e55e8c86634382/gson-2.14.0.jar]
+Downloading https://libraries.minecraft.net/com/ibm/icu/icu4j/78.3/icu4j-78.3.jar to /workspace/gradle-home/.tmp/gradle_download11233422710345831986bin
+Downloading https://libraries.minecraft.net/com/google/guava/guava/33.6.0-jre/guava-33.6.0-jre.jar to /workspace/gradle-home/.tmp/gradle_download13639480625069714881bin
+Downloading https://libraries.minecraft.net/com/microsoft/azure/msal4j/1.24.1/msal4j-1.24.1.jar to /workspace/gradle-home/.tmp/gradle_download2827644396820207951bin
+Downloading https://libraries.minecraft.net/com/mojang/authlib/10.0.77/authlib-10.0.77.jar to /workspace/gradle-home/.tmp/gradle_download8223892262475916548bin
+Downloading https://libraries.minecraft.net/com/mojang/blocklist/1.0.10/blocklist-1.0.10.jar to /workspace/gradle-home/.tmp/gradle_download16376373738923696882bin
+Downloading https://libraries.minecraft.net/com/mojang/brigadier/1.3.11/brigadier-1.3.11.jar to /workspace/gradle-home/.tmp/gradle_download17673205739394401018bin
+Downloading https://libraries.minecraft.net/com/mojang/datafixerupper/10.0.21/datafixerupper-10.0.21.jar to /workspace/gradle-home/.tmp/gradle_download8000997017658601489bin
+Downloading https://libraries.minecraft.net/com/mojang/jtracy/1.14.38/jtracy-1.14.38.jar to /workspace/gradle-home/.tmp/gradle_download14328933405285752409bin
+Downloading https://libraries.minecraft.net/com/mojang/patchy/2.2.10/patchy-2.2.10.jar to /workspace/gradle-home/.tmp/gradle_download9552797273507331746bin
+Downloading https://libraries.minecraft.net/com/mojang/logging/1.7.12/logging-1.7.12.jar to /workspace/gradle-home/.tmp/gradle_download9793004507164659525bin
+Downloading https://libraries.minecraft.net/commons-codec/commons-codec/1.22.0/commons-codec-1.22.0.jar to /workspace/gradle-home/.tmp/gradle_download8431913199587007764bin
+Downloading https://libraries.minecraft.net/com/mojang/text2speech/1.19.12/text2speech-1.19.12.jar to /workspace/gradle-home/.tmp/gradle_download18168989988008375546bin
+Downloading https://libraries.minecraft.net/io/netty/netty-buffer/4.2.16.Final/netty-buffer-4.2.16.Final.jar to /workspace/gradle-home/.tmp/gradle_download3571090435000222382bin
+Downloading https://libraries.minecraft.net/commons-io/commons-io/2.20.0/commons-io-2.20.0.jar to /workspace/gradle-home/.tmp/gradle_download13310903069002141656bin
+Downloading https://libraries.minecraft.net/io/netty/netty-codec-base/4.2.16.Final/netty-codec-base-4.2.16.Final.jar to /workspace/gradle-home/.tmp/gradle_download8566366321280213844bin
+Downloading https://libraries.minecraft.net/io/netty/netty-codec-compression/4.2.16.Final/netty-codec-compression-4.2.16.Final.jar to /workspace/gradle-home/.tmp/gradle_download12627263557976849408bin
+Downloading https://libraries.minecraft.net/io/netty/netty-codec-http/4.2.16.Final/netty-codec-http-4.2.16.Final.jar to /workspace/gradle-home/.tmp/gradle_download487619221632317988bin
+Downloading https://libraries.minecraft.net/io/netty/netty-common/4.2.16.Final/netty-common-4.2.16.Final.jar to /workspace/gradle-home/.tmp/gradle_download7932542496769019972bin
+Downloading https://libraries.minecraft.net/io/netty/netty-handler/4.2.16.Final/netty-handler-4.2.16.Final.jar to /workspace/gradle-home/.tmp/gradle_download8418982824393934643bin
+Downloading https://libraries.minecraft.net/io/netty/netty-resolver/4.2.16.Final/netty-resolver-4.2.16.Final.jar to /workspace/gradle-home/.tmp/gradle_download6793551458403935801bin
+Downloading https://libraries.minecraft.net/io/netty/netty-transport-classes-kqueue/4.2.16.Final/netty-transport-classes-kqueue-4.2.16.Final.jar to /workspace/gradle-home/.tmp/gradle_download12014037911893581923bin
+Downloading https://libraries.minecraft.net/io/netty/netty-transport-classes-epoll/4.2.16.Final/netty-transport-classes-epoll-4.2.16.Final.jar to /workspace/gradle-home/.tmp/gradle_download9323435207587933589bin
+Downloading https://libraries.minecraft.net/io/netty/netty-transport-native-epoll/4.2.16.Final/netty-transport-native-epoll-4.2.16.Final-linux-aarch_64.jar to /workspace/gradle-home/.tmp/gradle_download18125125761238758020bin
+Downloading https://libraries.minecraft.net/io/netty/netty-transport-native-epoll/4.2.16.Final/netty-transport-native-epoll-4.2.16.Final-linux-x86_64.jar to /workspace/gradle-home/.tmp/gradle_download5254601381961363546bin
+Downloading https://libraries.minecraft.net/io/netty/netty-transport/4.2.16.Final/netty-transport-4.2.16.Final.jar to /workspace/gradle-home/.tmp/gradle_download15793357587413618074bin
+Downloading https://libraries.minecraft.net/io/netty/netty-transport-native-unix-common/4.2.16.Final/netty-transport-native-unix-common-4.2.16.Final.jar to /workspace/gradle-home/.tmp/gradle_download885851571598304648bin
+Downloading https://libraries.minecraft.net/it/unimi/dsi/fastutil/8.5.18/fastutil-8.5.18.jar to /workspace/gradle-home/.tmp/gradle_download16721258389323230851bin
+Downloading https://libraries.minecraft.net/net/java/dev/jna/jna-platform/5.17.0/jna-platform-5.17.0.jar to /workspace/gradle-home/.tmp/gradle_download3633585177746629945bin
+Downloading https://libraries.minecraft.net/net/java/dev/jna/jna/5.17.0/jna-5.17.0.jar to /workspace/gradle-home/.tmp/gradle_download5544698920018027542bin
+Downloading https://libraries.minecraft.net/net/sf/jopt-simple/jopt-simple/5.0.4/jopt-simple-5.0.4.jar to /workspace/gradle-home/.tmp/gradle_download11398168881429445876bin
+Downloading https://libraries.minecraft.net/org/apache/commons/commons-compress/1.28.0/commons-compress-1.28.0.jar to /workspace/gradle-home/.tmp/gradle_download15231524263664920854bin
+Downloading https://libraries.minecraft.net/org/apache/commons/commons-lang3/3.20.0/commons-lang3-3.20.0.jar to /workspace/gradle-home/.tmp/gradle_download15908062019945372537bin
+Downloading https://libraries.minecraft.net/org/apache/logging/log4j/log4j-api/2.26.0/log4j-api-2.26.0.jar to /workspace/gradle-home/.tmp/gradle_download16897704122120426802bin
+Downloading https://libraries.minecraft.net/org/apache/logging/log4j/log4j-core/2.26.0/log4j-core-2.26.0.jar to /workspace/gradle-home/.tmp/gradle_download11345585377413609388bin
+Downloading https://libraries.minecraft.net/org/apache/logging/log4j/log4j-slf4j2-impl/2.26.0/log4j-slf4j2-impl-2.26.0.jar to /workspace/gradle-home/.tmp/gradle_download17248736535665873037bin
+Downloading https://libraries.minecraft.net/org/jcraft/jorbis/0.0.17/jorbis-0.0.17.jar to /workspace/gradle-home/.tmp/gradle_download18276282874291177164bin
+Downloading https://libraries.minecraft.net/org/joml/joml/1.10.9/joml-1.10.9.jar to /workspace/gradle-home/.tmp/gradle_download4400126026927743061bin
+Downloading https://libraries.minecraft.net/org/lwjgl/lwjgl-freetype/3.4.3/lwjgl-freetype-3.4.3.jar to /workspace/gradle-home/.tmp/gradle_download9161816089475262831bin
+Downloading https://libraries.minecraft.net/org/lwjgl/lwjgl-jemalloc/3.4.3/lwjgl-jemalloc-3.4.3.jar to /workspace/gradle-home/.tmp/gradle_download10231660683608977124bin
+Downloading https://libraries.minecraft.net/org/lwjgl/lwjgl-openal/3.4.3/lwjgl-openal-3.4.3.jar to /workspace/gradle-home/.tmp/gradle_download13870342794456189773bin
+Downloading https://libraries.minecraft.net/org/lwjgl/lwjgl-sdl/3.4.3/lwjgl-sdl-3.4.3.jar to /workspace/gradle-home/.tmp/gradle_download9127141514045602092bin
+Downloading https://libraries.minecraft.net/org/lwjgl/lwjgl-opengl/3.4.3/lwjgl-opengl-3.4.3.jar to /workspace/gradle-home/.tmp/gradle_download15342145270160927174bin
+Downloading https://libraries.minecraft.net/org/lwjgl/lwjgl-spvc/3.4.3/lwjgl-spvc-3.4.3.jar to /workspace/gradle-home/.tmp/gradle_download12659751949919757928bin
+Downloading https://libraries.minecraft.net/org/lwjgl/lwjgl-shaderc/3.4.3/lwjgl-shaderc-3.4.3.jar to /workspace/gradle-home/.tmp/gradle_download7294331217025663038bin
+Downloading https://libraries.minecraft.net/org/lwjgl/lwjgl-vma/3.4.3/lwjgl-vma-3.4.3.jar to /workspace/gradle-home/.tmp/gradle_download5453529674174673044bin
+Downloading https://libraries.minecraft.net/org/lwjgl/lwjgl-stb/3.4.3/lwjgl-stb-3.4.3.jar to /workspace/gradle-home/.tmp/gradle_download14782720511191502102bin
+Downloading https://libraries.minecraft.net/org/lwjgl/lwjgl-vulkan/3.4.3/lwjgl-vulkan-3.4.3.jar to /workspace/gradle-home/.tmp/gradle_download9001625919364744615bin
+Downloading https://libraries.minecraft.net/org/lwjgl/lwjgl/3.4.3/lwjgl-3.4.3.jar to /workspace/gradle-home/.tmp/gradle_download6593033452252299173bin
+Downloading https://libraries.minecraft.net/org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.jar to /workspace/gradle-home/.tmp/gradle_download16519330769962650235bin
+Downloading https://libraries.minecraft.net/io/netty/netty-transport-native-kqueue/4.2.16.Final/netty-transport-native-kqueue-4.2.16.Final-osx-x86_64.jar to /workspace/gradle-home/.tmp/gradle_download17946554615159996719bin
+Downloading https://libraries.minecraft.net/io/netty/netty-transport-native-kqueue/4.2.16.Final/netty-transport-native-kqueue-4.2.16.Final-osx-aarch_64.jar to /workspace/gradle-home/.tmp/gradle_download16150451648481260205bin
+Caching disabled for task ':compileJava' because:
+  Build cache is disabled
+Task ':compileJava' is not up-to-date because:
+  No history is available.
+The input changes require a full rebuild for incremental task ':compileJava'.
+Compilation mode: in-process compilation
+Full recompilation is required because no incremental change information is available. This is usually caused by clean builds or changing compiler arguments.
+Compiling with toolchain '/workspace/toolchains/jdk-25.0.4.1'.
+Compiling with JDK Java compiler API.
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Class dependency analysis for incremental compilation took 0.451 secs.
+Created classpath snapshot for incremental compilation in 12.944 secs.
+Resolve mutations for :processResources (Thread[#3395,included builds,5,main]) started.
+:processResources (Thread[#3395,included builds,5,main]) started.
+
+> Task :processResources
+Caching disabled for task ':processResources' because:
+  Build cache is disabled
+  Not worth caching
+Task ':processResources' is not up-to-date because:
+  No history is available.
+Resolve mutations for :classes (Thread[#3396,Execution worker,5,main]) started.
+:classes (Thread[#3396,Execution worker,5,main]) started.
+
+> Task :classes
+Skipping task ':classes' as it has no actions.
+Resolve mutations for :compileClientJava (Thread[#3396,Execution worker,5,main]) started.
+:compileClientJava (Thread[#3395,included builds,5,main]) started.
+
+> Task :compileClientJava
+Caching disabled for task ':compileClientJava' because:
+  Build cache is disabled
+Task ':compileClientJava' is not up-to-date because:
+  No history is available.
+The input changes require a full rebuild for incremental task ':compileClientJava'.
+Compilation mode: in-process compilation
+Full recompilation is required because no incremental change information is available. This is usually caused by clean builds or changing compiler arguments.
+Compiling with toolchain '/workspace/toolchains/jdk-25.0.4.1'.
+Compiling with JDK Java compiler API.
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+Class dependency analysis for incremental compilation took 0.059 secs.
+Created classpath snapshot for incremental compilation in 1.197 secs.
+Resolve mutations for :processClientResources (Thread[#3395,included builds,5,main]) started.
+:processClientResources (Thread[#3395,included builds,5,main]) started.
+
+> Task :processClientResources NO-SOURCE
+Skipping task ':processClientResources' as it has no source files and no previous output files.
+Resolve mutations for :clientClasses (Thread[#3395,included builds,5,main]) started.
+:clientClasses (Thread[#3395,included builds,5,main]) started.
+
+> Task :clientClasses
+Skipping task ':clientClasses' as it has no actions.
+Resolve mutations for :compileTestJava (Thread[#3395,included builds,5,main]) started.
+:compileTestJava (Thread[#3395,included builds,5,main]) started.
+
+> Task :compileTestJava
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/junit/jupiter/junit-jupiter/5.11.4/junit-jupiter-5.11.4.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/org/junit/jupiter/junit-jupiter/5.11.4/junit-jupiter-5.11.4.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/org/junit/jupiter/junit-jupiter/5.11.4/junit-jupiter-5.11.4.jar]
+Downloading https://repo.maven.apache.org/maven2/org/junit/jupiter/junit-jupiter/5.11.4/junit-jupiter-5.11.4.pom to /workspace/gradle-home/.tmp/gradle_download11287019331896510693bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/junit/junit-bom/5.11.4/junit-bom-5.11.4.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/org/junit/junit-bom/5.11.4/junit-bom-5.11.4.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/org/junit/junit-bom/5.11.4/junit-bom-5.11.4.jar]
+Downloading https://repo.maven.apache.org/maven2/org/junit/junit-bom/5.11.4/junit-bom-5.11.4.pom to /workspace/gradle-home/.tmp/gradle_download380258221808752977bin
+Downloading https://repo.maven.apache.org/maven2/org/junit/junit-bom/5.11.4/junit-bom-5.11.4.module to /workspace/gradle-home/.tmp/gradle_download13753721322993245430bin
+Downloading https://repo.maven.apache.org/maven2/org/junit/jupiter/junit-jupiter/5.11.4/junit-jupiter-5.11.4.module to /workspace/gradle-home/.tmp/gradle_download3086113938920439719bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/junit/jupiter/junit-jupiter-api/5.11.4/junit-jupiter-api-5.11.4.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/junit/jupiter/junit-jupiter-params/5.11.4/junit-jupiter-params-5.11.4.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/org/junit/jupiter/junit-jupiter-api/5.11.4/junit-jupiter-api-5.11.4.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/org/junit/jupiter/junit-jupiter-params/5.11.4/junit-jupiter-params-5.11.4.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/org/junit/jupiter/junit-jupiter-api/5.11.4/junit-jupiter-api-5.11.4.jar]
+Downloading https://repo.maven.apache.org/maven2/org/junit/jupiter/junit-jupiter-api/5.11.4/junit-jupiter-api-5.11.4.pom to /workspace/gradle-home/.tmp/gradle_download331818227001581915bin
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/org/junit/jupiter/junit-jupiter-params/5.11.4/junit-jupiter-params-5.11.4.jar]
+Downloading https://repo.maven.apache.org/maven2/org/junit/jupiter/junit-jupiter-api/5.11.4/junit-jupiter-api-5.11.4.module to /workspace/gradle-home/.tmp/gradle_download11656548800416756359bin
+Downloading https://repo.maven.apache.org/maven2/org/junit/jupiter/junit-jupiter-params/5.11.4/junit-jupiter-params-5.11.4.pom to /workspace/gradle-home/.tmp/gradle_download3815924198189898071bin
+Downloading https://repo.maven.apache.org/maven2/org/junit/jupiter/junit-jupiter-params/5.11.4/junit-jupiter-params-5.11.4.module to /workspace/gradle-home/.tmp/gradle_download2748395997328748731bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.pom]
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.pom]
+Downloading https://repo.maven.apache.org/maven2/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.pom to /workspace/gradle-home/.tmp/gradle_download12512868159315455447bin
+Downloading https://repo.maven.apache.org/maven2/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.module to /workspace/gradle-home/.tmp/gradle_download17807032172840357811bin
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar]
+Downloading https://repo.maven.apache.org/maven2/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.pom to /workspace/gradle-home/.tmp/gradle_download1608198711913448691bin
+Downloading https://repo.maven.apache.org/maven2/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.module to /workspace/gradle-home/.tmp/gradle_download16584802122269247801bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/junit/platform/junit-platform-commons/1.11.4/junit-platform-commons-1.11.4.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/org/junit/platform/junit-platform-commons/1.11.4/junit-platform-commons-1.11.4.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/org/junit/platform/junit-platform-commons/1.11.4/junit-platform-commons-1.11.4.jar]
+Downloading https://repo.maven.apache.org/maven2/org/junit/platform/junit-platform-commons/1.11.4/junit-platform-commons-1.11.4.pom to /workspace/gradle-home/.tmp/gradle_download17852925841793478177bin
+Downloading https://repo.maven.apache.org/maven2/org/junit/platform/junit-platform-commons/1.11.4/junit-platform-commons-1.11.4.module to /workspace/gradle-home/.tmp/gradle_download13630152623040489400bin
+Downloading https://repo.maven.apache.org/maven2/org/junit/jupiter/junit-jupiter-params/5.11.4/junit-jupiter-params-5.11.4.jar to /workspace/gradle-home/.tmp/gradle_download8818345025846508043bin
+Downloading https://repo.maven.apache.org/maven2/org/junit/jupiter/junit-jupiter-api/5.11.4/junit-jupiter-api-5.11.4.jar to /workspace/gradle-home/.tmp/gradle_download2469178161109927993bin
+Downloading https://repo.maven.apache.org/maven2/org/junit/platform/junit-platform-commons/1.11.4/junit-platform-commons-1.11.4.jar to /workspace/gradle-home/.tmp/gradle_download14962837103978463088bin
+Downloading https://repo.maven.apache.org/maven2/org/junit/jupiter/junit-jupiter/5.11.4/junit-jupiter-5.11.4.jar to /workspace/gradle-home/.tmp/gradle_download7064694089896581696bin
+Downloading https://repo.maven.apache.org/maven2/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar to /workspace/gradle-home/.tmp/gradle_download4901182371094560019bin
+Downloading https://repo.maven.apache.org/maven2/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar to /workspace/gradle-home/.tmp/gradle_download14554590633771388173bin
+Caching disabled for task ':compileTestJava' because:
+  Build cache is disabled
+Task ':compileTestJava' is not up-to-date because:
+  No history is available.
+The input changes require a full rebuild for incremental task ':compileTestJava'.
+Compilation mode: in-process compilation
+Full recompilation is required because no incremental change information is available. This is usually caused by clean builds or changing compiler arguments.
+Compiling with toolchain '/workspace/toolchains/jdk-25.0.4.1'.
+Compiling with JDK Java compiler API.
+Class dependency analysis for incremental compilation took 0.081 secs.
+Created classpath snapshot for incremental compilation in 0.252 secs.
+Resolve mutations for :processTestResources (Thread[#3395,included builds,5,main]) started.
+:processTestResources (Thread[#3395,included builds,5,main]) started.
+
+> Task :processTestResources
+Caching disabled for task ':processTestResources' because:
+  Build cache is disabled
+  Not worth caching
+Task ':processTestResources' is not up-to-date because:
+  No history is available.
+Resolve mutations for :testClasses (Thread[#3395,included builds,5,main]) started.
+:testClasses (Thread[#3395,included builds,5,main]) started.
+
+> Task :testClasses
+Skipping task ':testClasses' as it has no actions.
+Resolve mutations for :test (Thread[#3395,included builds,5,main]) started.
+:test (Thread[#3395,included builds,5,main]) started.
+
+> Task :test
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-log4j-util/1.0.2/fabric-log4j-util-1.0.2.pom to /workspace/gradle-home/.tmp/gradle_download11275419880893588759bin
+Downloading https://maven.fabricmc.net/net/fabricmc/dev-launch-injector/0.2.1+build.8/dev-launch-injector-0.2.1+build.8.pom to /workspace/gradle-home/.tmp/gradle_download14026139264406406504bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-log4j-util/1.0.2/fabric-log4j-util-1.0.2.module to /workspace/gradle-home/.tmp/gradle_download6894281227963952112bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/junit/jupiter/junit-jupiter-engine/5.11.4/junit-jupiter-engine-5.11.4.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/org/junit/jupiter/junit-jupiter-engine/5.11.4/junit-jupiter-engine-5.11.4.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/org/junit/jupiter/junit-jupiter-engine/5.11.4/junit-jupiter-engine-5.11.4.jar]
+Downloading https://repo.maven.apache.org/maven2/org/junit/jupiter/junit-jupiter-engine/5.11.4/junit-jupiter-engine-5.11.4.pom to /workspace/gradle-home/.tmp/gradle_download87361985319678582bin
+Downloading https://repo.maven.apache.org/maven2/org/junit/jupiter/junit-jupiter-engine/5.11.4/junit-jupiter-engine-5.11.4.module to /workspace/gradle-home/.tmp/gradle_download16141471263078389231bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/junit/platform/junit-platform-launcher/1.11.4/junit-platform-launcher-1.11.4.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/org/junit/platform/junit-platform-launcher/1.11.4/junit-platform-launcher-1.11.4.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/org/junit/platform/junit-platform-launcher/1.11.4/junit-platform-launcher-1.11.4.jar]
+Downloading https://repo.maven.apache.org/maven2/org/junit/platform/junit-platform-launcher/1.11.4/junit-platform-launcher-1.11.4.pom to /workspace/gradle-home/.tmp/gradle_download2104660479604588020bin
+Downloading https://repo.maven.apache.org/maven2/org/junit/platform/junit-platform-launcher/1.11.4/junit-platform-launcher-1.11.4.module to /workspace/gradle-home/.tmp/gradle_download11483149595364477091bin
+Resource missing. [HTTP GET: https://maven.fabricmc.net/org/junit/platform/junit-platform-engine/1.11.4/junit-platform-engine-1.11.4.pom]
+Resource missing. [HTTP GET: https://libraries.minecraft.net/org/junit/platform/junit-platform-engine/1.11.4/junit-platform-engine-1.11.4.pom]
+Resource missing. [HTTP HEAD: https://libraries.minecraft.net/org/junit/platform/junit-platform-engine/1.11.4/junit-platform-engine-1.11.4.jar]
+Downloading https://repo.maven.apache.org/maven2/org/junit/platform/junit-platform-engine/1.11.4/junit-platform-engine-1.11.4.pom to /workspace/gradle-home/.tmp/gradle_download4750350652120285041bin
+Downloading https://repo.maven.apache.org/maven2/org/junit/platform/junit-platform-engine/1.11.4/junit-platform-engine-1.11.4.module to /workspace/gradle-home/.tmp/gradle_download1591538296872265031bin
+Downloading https://maven.fabricmc.net/net/fabricmc/fabric-log4j-util/1.0.2/fabric-log4j-util-1.0.2.jar to /workspace/gradle-home/.tmp/gradle_download5566128668870517824bin
+Downloading https://maven.fabricmc.net/net/fabricmc/dev-launch-injector/0.2.1+build.8/dev-launch-injector-0.2.1+build.8.jar to /workspace/gradle-home/.tmp/gradle_download9679234840477060279bin
+Downloading https://libraries.minecraft.net/com/mojang/jtracy/1.14.38/jtracy-1.14.38-natives-linux.jar to /workspace/gradle-home/.tmp/gradle_download14299476009136577826bin
+Downloading https://libraries.minecraft.net/org/lwjgl/lwjgl-freetype/3.4.3/lwjgl-freetype-3.4.3-natives-linux.jar to /workspace/gradle-home/.tmp/gradle_download14427730438827805318bin
+Downloading https://libraries.minecraft.net/org/lwjgl/lwjgl-jemalloc/3.4.3/lwjgl-jemalloc-3.4.3-natives-linux.jar to /workspace/gradle-home/.tmp/gradle_download17944550343864940990bin
+Downloading https://libraries.minecraft.net/org/lwjgl/lwjgl-openal/3.4.3/lwjgl-openal-3.4.3-natives-linux.jar to /workspace/gradle-home/.tmp/gradle_download3356922962839341839bin
+Downloading https://libraries.minecraft.net/org/lwjgl/lwjgl-opengl/3.4.3/lwjgl-opengl-3.4.3-natives-linux.jar to /workspace/gradle-home/.tmp/gradle_download5611155589152994563bin
+Downloading https://libraries.minecraft.net/org/lwjgl/lwjgl-sdl/3.4.3/lwjgl-sdl-3.4.3-natives-linux.jar to /workspace/gradle-home/.tmp/gradle_download5226045809243523496bin
+Downloading https://libraries.minecraft.net/org/lwjgl/lwjgl-shaderc/3.4.3/lwjgl-shaderc-3.4.3-natives-linux.jar to /workspace/gradle-home/.tmp/gradle_download4598479377934665324bin
+Downloading https://libraries.minecraft.net/org/lwjgl/lwjgl-spvc/3.4.3/lwjgl-spvc-3.4.3-natives-linux.jar to /workspace/gradle-home/.tmp/gradle_download18085983189124746970bin
+Downloading https://libraries.minecraft.net/org/lwjgl/lwjgl-stb/3.4.3/lwjgl-stb-3.4.3-natives-linux.jar to /workspace/gradle-home/.tmp/gradle_download10599051050925765071bin
+Downloading https://libraries.minecraft.net/org/lwjgl/lwjgl-vma/3.4.3/lwjgl-vma-3.4.3-natives-linux.jar to /workspace/gradle-home/.tmp/gradle_download2515296745538775449bin
+Downloading https://libraries.minecraft.net/org/lwjgl/lwjgl/3.4.3/lwjgl-3.4.3-natives-linux.jar to /workspace/gradle-home/.tmp/gradle_download12260331801744106564bin
+Downloading https://repo.maven.apache.org/maven2/org/junit/jupiter/junit-jupiter-engine/5.11.4/junit-jupiter-engine-5.11.4.jar to /workspace/gradle-home/.tmp/gradle_download5591522673747864953bin
+Downloading https://repo.maven.apache.org/maven2/org/junit/platform/junit-platform-launcher/1.11.4/junit-platform-launcher-1.11.4.jar to /workspace/gradle-home/.tmp/gradle_download10560928611913154764bin
+Downloading https://repo.maven.apache.org/maven2/org/junit/platform/junit-platform-engine/1.11.4/junit-platform-engine-1.11.4.jar to /workspace/gradle-home/.tmp/gradle_download6025254979313818353bin
+Custom actions are attached to task ':test'.
+Caching disabled for task ':test' because:
+  Build cache is disabled
+Task ':test' is not up-to-date because:
+  No history is available.
+Starting process 'Gradle Test Executor 1'. Working directory: /workspace/MoreMinecrafts-Beta Command: /workspace/toolchains/jdk-25.0.4.1/bin/java -Dfabric.classPathGroups=/workspace/MoreMinecrafts-Beta/build/classes/java/main:/workspace/MoreMinecrafts-Beta/build/resources/main:/workspace/MoreMinecrafts-Beta/build/classes/java/client:/workspace/MoreMinecrafts-Beta/build/resources/client::/workspace/MoreMinecrafts-Beta/build/classes/java/gametest:/workspace/MoreMinecrafts-Beta/build/resources/gametest -Dorg.gradle.internal.worker.tmpdir=/workspace/MoreMinecrafts-Beta/build/tmp/test/work @/workspace/gradle-home/.tmp/gradle-worker-classpath7066737972741275453txt -Xmx512m -Dfile.encoding=UTF-8 -Duser.country -Duser.language=en -Duser.variant -ea worker.org.gradle.process.internal.worker.GradleWorkerMain 'Gradle Test Executor 1'
+Successfully started process 'Gradle Test Executor 1'
+
+Gradle Test Executor 1 started executing tests.
+Gradle Test Executor 1 finished executing tests.
+
+> Task :test
+Generating HTML test report...
+Finished generating test html results (0.074 secs) into: /workspace/MoreMinecrafts-Beta/build/reports/tests/test
+Finished generating test XML results (0.009 secs) into: /workspace/MoreMinecrafts-Beta/build/test-results/test
+
+[Incubating] Problems report is available at: file:///workspace/MoreMinecrafts-Beta/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.6.0/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 1m 57s
+6 actionable tasks: 6 executed
+Some of the file system contents retained in the virtual file system are on file systems that Gradle doesn't support watching. The relevant state was discarded to ensure changes to these locations are properly detected. You can override this by explicitly enabling file system watching.

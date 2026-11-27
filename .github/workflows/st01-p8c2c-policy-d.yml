@@ -1,0 +1,166 @@
+name: ST-01 P8-C2-C Policy D Natural Worldgen
+on:
+  push:
+    branches: [work/st01-p8c2c-policy-d-20261111]
+    paths-ignore: ['docs/**']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install numpy==2.3.5
+      - name: Exported assets equal the exporter; D1 unchanged (P8-C2-A)
+        run: python tools/st01-p8c2a/export_assembly.py --check
+      - name: Build and all unit tests (eligibility boundaries, route selection, completion protocol, resources)
+        run: ./gradlew build compileGametestJava -x runGameTest --no-daemon --max-workers=2
+      - name: Natural-worldgen pieces, eight cases x NORMAL/REVERSE/RANDOM chunk order, in a real 26.3 server
+        env:
+          JAVA_TOOL_OPTIONS: '-Dmm.st01.c2b.pieces=true -Dmm.st01.c2b.pieces.out=${{ github.workspace }}/build/st01-p8c2b/pieces -Dfabric-api.gametest.filter=moreminecrafts-gametest:st01natural_piece_game_tests*'
+        run: ./gradlew runGameTest --no-daemon --max-workers=2 2>&1 | tee build/st01-p8c2b-pieces.log
+      - name: P8-C2-A verifier on the eight worldgen-piece placements
+        run: python tools/st01-p8c2a/verify_placement.py --dumps build/st01-p8c2b/pieces --out build/st01-p8c2b/pieces-verification.json
+      - name: P8-C2-A eight-case controlled placement (regression)
+        env:
+          JAVA_TOOL_OPTIONS: '-Dmm.st01.assembly=true -Dmm.st01.assembly.out=${{ github.workspace }}/build/st01-p8c2a/placement -Dfabric-api.gametest.filter=moreminecrafts-gametest:st01pyramid_assembly_game_tests*'
+        run: ./gradlew runGameTest --no-daemon --max-workers=2
+      - name: P8-C2-A verifier (regression)
+        run: python tools/st01-p8c2a/verify_placement.py --dumps build/st01-p8c2a/placement --out build/st01-p8c2a/verification.json
+      - name: Royal chest and actual D1 transform GameTests (P8-B2 regression)
+        env:
+          JAVA_TOOL_OPTIONS: '-Dmm.royal.placement=true -Dfabric-api.gametest.filter=moreminecrafts-gametest:*royal_chest_game_tests*'
+        run: ./gradlew runGameTest --no-daemon --max-workers=2
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: st01-p8c2c-regression
+          path: |
+            build/st01-p8c2b/pieces-verification.json
+            build/st01-p8c2b-pieces.log
+            build/st01-p8c2a/verification.json
+            build/test-results/
+          retention-days: 30
+
+  guardian-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Guardian regression GameTests
+        env:
+          JAVA_TOOL_OPTIONS: '-Dfabric-api.gametest.filter=moreminecrafts-gametest:tomb_guardian_game_tests_*'
+        run: ./gradlew runGameTest --no-daemon --max-workers=2 2>&1 | tee build-guardian.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: st01-p8c2c-guardian-regression
+          path: build-guardian.log
+
+  worldgen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        # The exact 20 seeds of the P8-C2-B worldgen matrix and the counterfactual audit (tools/st01-p8c2b-audit/seeds.json on PR #264).
+        seed: [1001, 1002, 1003, 1004, 1005, 527213223, 1034165336, 1541117449, 2048069562, 407538027, 914490140, 1421442253, 1928394366, 287862831, 794814944,
+               119599970, 218938829, 318277688, 417616547, 516955406]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install numpy==2.3.5
+      - name: Real server - scan, reverse and random chunk order, restart reload; P8-C2-A verifier on every natural start
+        run: tools/st01-p8c2b/run_validation.sh ${{ matrix.seed }} 10240
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: st01-p8c2c-seed-${{ matrix.seed }}
+          path: |
+            build/st01-p8c2b/results/${{ matrix.seed }}/*.json
+            build/st01-p8c2b/logs/${{ matrix.seed }}/
+          retention-days: 30
+
+  client-capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install numpy==2.3.5
+      - name: Install Xvfb and software GL
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers libvulkan1
+      - name: Find the natural starts of seed 1004 on a real server
+        run: tools/st01-p8c2b/run_validation.sh 1004 10240
+      - name: Rendered 26.3 client captures of the naturally generated pyramids (real client interaction)
+        run: tools/st01-p8c2b/run_client_capture.sh build/st01-p8c2b/results/1004/scan.json 2
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: st01-p8c2c-client-captures
+          path: build/st01-p8c2b/client/
+          retention-days: 30
+
+  aggregate:
+    needs: worldgen
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: st01-p8c2c-seed-*
+          path: seeds
+      - name: Aggregate per-seed statistics
+        run: |
+          mkdir -p agg
+          find seeds -name scan.json | while read -r f; do d=$(dirname "$f"); s=$(basename "$d"); s=${s#st01-p8c2c-seed-}; mkdir -p "agg/$s"; cp "$d"/*.json "agg/$s/"; done
+          ls agg
+          python3 -I tools/st01-p8c2b/aggregate.py agg agg/aggregate.json agg/aggregate.md
+          python3 -I tools/st01-p8c2c/compare_policy_d.py agg docs/design/st01-p8c2b/counterfactual-audit/candidates.csv agg/policy_d.json agg/policy_d.md
+      - uses: actions/upload-artifact@v4
+        with:
+          name: st01-p8c2c-aggregate
+          path: agg/
+          retention-days: 90

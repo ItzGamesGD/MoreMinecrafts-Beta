@@ -106,8 +106,8 @@ public final class ProgressionNodeLayoutCatalog {
                         || !node.discipline().equals(source.discipline()))
                     throw new IllegalStateException("Research layout/source mismatch for " + node.id());
                 if (!researchIds.add(node.id())) throw new IllegalStateException("Duplicate research layout node " + node.id());
-                if ("v3".equals(node.catalog()) && source.prerequisitesDefined())
-                    throw new IllegalStateException("V3 prerequisites unexpectedly defined for " + node.id());
+                if ("v3".equals(node.catalog()) && !source.prerequisitesDefined())
+                    throw new IllegalStateException("V3 prerequisites are incomplete for " + node.id());
                 if (source.knowledgePrerequisites().stream().anyMatch(number -> !knowledgeNumbers.contains(number)))
                     throw new IllegalStateException("Unknown knowledge reference for layout node " + node.id());
             } else if ("knowledge".equals(node.screen())) {

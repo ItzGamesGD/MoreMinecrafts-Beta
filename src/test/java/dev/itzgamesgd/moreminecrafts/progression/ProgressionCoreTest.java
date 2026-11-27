@@ -33,10 +33,11 @@ final class ProgressionCoreTest {
     @Test void purchaseRulesRejectEveryUnmetConditionWithoutMutatingResources() {
         ResearchDefinition definition = ResearchCatalog.byId("throwable_pickaxe");
         var allKnowledge = java.util.Set.of(9);
+        var ownedParents = java.util.Set.of("resources_root", "v3.research.01");
         var inventory = Map.of("minecraft:iron_block", 4, "minecraft:redstone", 64, "minecraft:diamond", 4);
         Map<String,Integer> originalInventory = Map.copyOf(inventory);
         assertEquals(ResearchPurchaseRules.Result.PURCHASED,
-                ResearchPurchaseRules.validate(definition, 1, 0, allKnowledge, java.util.Set.of(), inventory, 900));
+                ResearchPurchaseRules.validate(definition, 1, 0, allKnowledge, ownedParents, inventory, 900));
         assertEquals(ResearchPurchaseRules.Result.MISSING_KNOWLEDGE,
                 ResearchPurchaseRules.validate(definition, 1, 0, java.util.Set.of(), java.util.Set.of(), inventory, 900));
         ResearchDefinition dependent = new ResearchDefinition("dependent", "combat", "", "", 1,
@@ -44,13 +45,13 @@ final class ProgressionCoreTest {
         assertEquals(ResearchPurchaseRules.Result.MISSING_PREREQUISITE,
                 ResearchPurchaseRules.validate(dependent, 1, 0, allKnowledge, java.util.Set.of(), inventory, 900));
         assertEquals(ResearchPurchaseRules.Result.MISSING_MATERIALS,
-                ResearchPurchaseRules.validate(definition, 1, 0, allKnowledge, java.util.Set.of(), Map.of(), 900));
+                ResearchPurchaseRules.validate(definition, 1, 0, allKnowledge, ownedParents, Map.of(), 900));
         assertEquals(ResearchPurchaseRules.Result.INSUFFICIENT_XP,
-                ResearchPurchaseRules.validate(definition, 1, 0, allKnowledge, java.util.Set.of(), inventory, 899));
+                ResearchPurchaseRules.validate(definition, 1, 0, allKnowledge, ownedParents, inventory, 899));
         assertEquals(ResearchPurchaseRules.Result.ALREADY_PURCHASED,
-                ResearchPurchaseRules.validate(definition, 1, 1, allKnowledge, java.util.Set.of(), inventory, 900));
+                ResearchPurchaseRules.validate(definition, 1, 1, allKnowledge, ownedParents, inventory, 900));
         assertEquals(ResearchPurchaseRules.Result.INVALID_LEVEL,
-                ResearchPurchaseRules.validate(definition, 2, 0, allKnowledge, java.util.Set.of(), inventory, 900));
+                ResearchPurchaseRules.validate(definition, 2, 0, allKnowledge, ownedParents, inventory, 900));
         assertEquals(originalInventory, inventory, "Validation must not consume materials");
         assertNull(ResearchCatalog.byId("unknown_research"));
     }

@@ -1,0 +1,13 @@
+{
+ "mode": "restore",
+ "base_origin_x": 7000,
+ "scope": "actual Fabric26.3 server; synthetic cooldown states; no combat/client/gates/natural generation claim",
+ "commands": [
+  {
+   "command": "mmskytower status",
+   "response": "registry quarantined=falseminecraft:overworld|1000,65,1000|0 completedSpawnerMask=15minecraft:overworld|1300,65,1000|1 completedSpawnerMask=0minecraft:overworld|1600,65,1000|2 completedSpawnerMask=0minecraft:overworld|1900,65,1000|3 completedSpawnerMask=0minecraft:overworld|4000,65,1000|0 completedSpawnerMask=15minecraft:overworld|4300,65,1000|1 completedSpawnerMask=0minecraft:overworld|4600,65,1000|2 completedSpawnerMask=0minecraft:overworld|4900,65,1000|3 completedSpawnerMask=0minecraft:overworld|7000,65,1000|0 completedSpawnerMask=65535minecraft:overworld|7300,65,1000|1 completedSpawnerMask=0minecraft:overworld|7600,65,1000|2 completedSpawnerMask=0minecraft:overworld|7900,65,1000|3 completedSpawnerMask=0"
+  }
+ ],
+ "status": "registry quarantined=falseminecraft:overworld|1000,65,1000|0 completedSpawnerMask=15minecraft:overworld|1300,65,1000|1 completedSpawnerMask=0minecraft:overworld|1600,65,1000|2 completedSpawnerMask=0minecraft:overworld|1900,65,1000|3 completedSpawnerMask=0minecraft:overworld|4000,65,1000|0 completedSpawnerMask=15minecraft:overworld|4300,65,1000|1 completedSpawnerMask=0minecraft:overworld|4600,65,1000|2 completedSpawnerMask=0minecraft:overworld|4900,65,1000|3 completedSpawnerMask=0minecraft:overworld|7000,65,1000|0 completedSpawnerMask=65535minecraft:overworld|7300,65,1000|1 completedSpawnerMask=0minecraft:overworld|7600,65,1000|2 completedSpawnerMask=0minecraft:overworld|7900,65,1000|3 completedSpawnerMask=0",
+ "pass": true
+}

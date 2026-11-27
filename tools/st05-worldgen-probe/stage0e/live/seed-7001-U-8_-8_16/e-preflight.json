@@ -1,0 +1,152 @@
+{
+  "mode": "e-preflight",
+  "seed": 7001,
+  "y_band": "-48..0",
+  "source": "/home/user/MoreMinecrafts-Beta/tools/st05-worldgen-probe/stage0e/live/seed-7001-U-8_-8_16/e-run.json",
+  "verification": {
+    "A_10x10x6/BOX32": {
+      "v1_matches_json_counts": true,
+      "v1_loaded_ok": true,
+      "v1_records": 1700
+    },
+    "A_10x10x6/BOX32#v2": {
+      "written_reloaded_ok": true,
+      "status_changes_vs_v1": 0
+    },
+    "A_10x10x6/DISK32": {
+      "v1_matches_json_counts": true,
+      "v1_loaded_ok": true,
+      "v1_records": 1700
+    },
+    "A_10x10x6/DISK32#v2": {
+      "written_reloaded_ok": true,
+      "status_changes_vs_v1": 0
+    },
+    "B_16x16x8/BOX32": {
+      "v1_matches_json_counts": true,
+      "v1_loaded_ok": true,
+      "v1_records": 582
+    },
+    "B_16x16x8/BOX32#v2": {
+      "written_reloaded_ok": true,
+      "status_changes_vs_v1": 0
+    },
+    "B_16x16x8/DISK32": {
+      "v1_matches_json_counts": true,
+      "v1_loaded_ok": true,
+      "v1_records": 582
+    },
+    "B_16x16x8/DISK32#v2": {
+      "written_reloaded_ok": true,
+      "status_changes_vs_v1": 0
+    },
+    "C_24x24x12/BOX32": {
+      "v1_matches_json_counts": true,
+      "v1_loaded_ok": true,
+      "v1_records": 126
+    },
+    "C_24x24x12/BOX32#v2": {
+      "written_reloaded_ok": true,
+      "status_changes_vs_v1": 0
+    },
+    "C_24x24x12/DISK32": {
+      "v1_matches_json_counts": true,
+      "v1_loaded_ok": true,
+      "v1_records": 126
+    },
+    "C_24x24x12/DISK32#v2": {
+      "written_reloaded_ok": true,
+      "status_changes_vs_v1": 4
+    }
+  },
+  "preflight_rows": [
+    {
+      "param": "C_24x24x12",
+      "measure": "BOX32",
+      "id": "20d89ee7a8aa754c",
+      "center": "-833,-1179",
+      "floorY": -25,
+      "v1": "PLACEMENT_RESERVED",
+      "v2": "PLACEMENT_RESERVED",
+      "non_air_total": 0,
+      "solid": 0,
+      "water": 0,
+      "lava": 0,
+      "volume": 18432,
+      "blocks": {}
+    },
+    {
+      "param": "C_24x24x12",
+      "measure": "DISK32",
+      "id": "20d89ee7a8aa754c",
+      "center": "-837,-1174",
+      "floorY": -25,
+      "v1": "ROLL_WON_PREFLIGHT_FAILED",
+      "v2": "PLACEMENT_RESERVED",
+      "non_air_total": 4,
+      "solid": 4,
+      "water": 0,
+      "lava": 0,
+      "volume": 14616,
+      "blocks": {
+        "minecraft:deepslate": 4
+      }
+    },
+    {
+      "param": "C_24x24x12",
+      "measure": "DISK32",
+      "id": "2ac822e8f540f125",
+      "center": "1095,-647",
+      "floorY": -35,
+      "v1": "ROLL_WON_PREFLIGHT_FAILED",
+      "v2": "PLACEMENT_RESERVED",
+      "non_air_total": 23,
+      "solid": 23,
+      "water": 0,
+      "lava": 0,
+      "volume": 14616,
+      "blocks": {
+        "minecraft:sculk": 15,
+        "minecraft:sculk_sensor": 1,
+        "minecraft:sculk_vein": 7
+      }
+    },
+    {
+      "param": "C_24x24x12",
+      "measure": "DISK32",
+      "id": "77ba83e05adb296f",
+      "center": "-390,-720",
+      "floorY": -22,
+      "v1": "ROLL_WON_PREFLIGHT_FAILED",
+      "v2": "PLACEMENT_RESERVED",
+      "non_air_total": 11,
+      "solid": 11,
+      "water": 0,
+      "lava": 0,
+      "volume": 14616,
+      "blocks": {
+        "minecraft:cave_vines": 1,
+        "minecraft:cave_vines_plant": 2,
+        "minecraft:deepslate": 8
+      }
+    },
+    {
+      "param": "C_24x24x12",
+      "measure": "DISK32",
+      "id": "e1c48dbd0693d2e0",
+      "center": "-1147,-1157",
+      "floorY": -24,
+      "v1": "ROLL_WON_PREFLIGHT_FAILED",
+      "v2": "PLACEMENT_RESERVED",
+      "non_air_total": 10,
+      "solid": 10,
+      "water": 0,
+      "lava": 0,
+      "volume": 14616,
+      "blocks": {
+        "minecraft:deepslate": 9,
+        "minecraft:glow_lichen": 1
+      }
+    }
+  ]
+}

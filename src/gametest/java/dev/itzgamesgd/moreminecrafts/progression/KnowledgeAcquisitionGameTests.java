@@ -182,6 +182,166 @@ public final class KnowledgeAcquisitionGameTests implements CustomTestMethodInvo
     }
 
     @GameTest
+    public void precisionCraftingIsPurchaseGatedAndPreviewsDoNotConsumeInputs(GameTestHelper ctx) {
+        ServerPlayer researcher = ctx.makeMockServerPlayerInLevel();
+        researcher.setGameMode(GameType.SURVIVAL);
+        KnowledgeRuntime.updateState(researcher,
+                KnowledgeRuntime.state(researcher).with("research.v3.research.08", 5));
+        CraftingMenu researchedMenu = craftingMenu(ctx, researcher);
+        researchedMenu.getSlot(1).set(new ItemStack(Items.OAK_LOG));
+        researchedMenu.slotsChanged(researchedMenu.getSlot(1).container);
+        seedFirstPrecisionCraftingRoll(researcher, 300);
+        researchedMenu.clicked(0, 0, ContainerInput.PICKUP, researcher);
+        ctx.assertTrue(researchedMenu.getCarried().is(Items.OAK_PLANKS)
+                        && researchedMenu.getSlot(1).getItem().is(Items.OAK_LOG),
+                "the actual paid crafter receives one result and the successful preservation");
+
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+        player.setGameMode(GameType.SURVIVAL);
+        CraftingMenu menu = craftingMenu(ctx, player);
+        menu.getSlot(1).set(new ItemStack(Items.OAK_LOG));
+        menu.slotsChanged(menu.getSlot(1).container);
+
+        ctx.assertTrue(menu.getSlot(0).getItem().is(Items.OAK_PLANKS)
+                        && menu.getSlot(0).getItem().getCount() == 4,
+                "vanilla result preview remains available without a research purchase");
+        ctx.assertTrue(menu.getSlot(1).getItem().is(Items.OAK_LOG),
+                "preview calculation does not consume the crafting input");
+        menu.clicked(0, 0, ContainerInput.PICKUP, player);
+        ctx.assertTrue(menu.getCarried().is(Items.OAK_PLANKS)
+                        && menu.getCarried().getCount() == 4,
+                "an unpurchased player receives the unchanged vanilla recipe output");
+        ctx.assertTrue(menu.getSlot(1).getItem().isEmpty(),
+                "an actual unpurchased craft consumes the ingredient exactly once");
+        menu.clicked(0, 0, ContainerInput.PICKUP, player);
+        ctx.assertTrue(menu.getCarried().is(Items.OAK_PLANKS)
+                        && menu.getCarried().getCount() == 4
+                        && menu.getSlot(1).getItem().isEmpty(),
+                "repeated extraction of the cleared result cannot duplicate the output");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void precisionCraftingPreservesOneRarestSlotAndCakeBucketRemainders(GameTestHelper ctx) {
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+        player.setGameMode(GameType.SURVIVAL);
+        KnowledgeRuntime.updateState(player, KnowledgeRuntime.state(player).with("research.v3.research.08", 5));
+        CraftingMenu menu = craftingMenu(ctx, player);
+
+        menu.getSlot(1).set(new ItemStack(Items.MILK_BUCKET));
+        menu.getSlot(2).set(new ItemStack(Items.MILK_BUCKET));
+        menu.getSlot(3).set(new ItemStack(Items.MILK_BUCKET));
+        menu.getSlot(4).set(new ItemStack(Items.SUGAR));
+        menu.getSlot(5).set(new ItemStack(Items.EGG));
+        menu.getSlot(6).set(new ItemStack(Items.SUGAR));
+        menu.getSlot(7).set(new ItemStack(Items.WHEAT));
+        menu.getSlot(8).set(new ItemStack(Items.WHEAT));
+        menu.getSlot(9).set(new ItemStack(Items.WHEAT));
+        menu.slotsChanged(menu.getSlot(1).container);
+        ctx.assertTrue(menu.getSlot(0).getItem().is(Items.CAKE), "vanilla cake recipe produces its preview");
+        seedFirstPrecisionCraftingRoll(player, 300);
+
+        menu.clicked(0, 0, ContainerInput.PICKUP, player);
+        ctx.assertTrue(menu.getCarried().is(Items.CAKE), "normal result extraction completes one cake craft");
+        ctx.assertTrue(menu.getSlot(4).getItem().is(Items.SUGAR)
+                        && menu.getSlot(4).getItem().getCount() == 1,
+                "the first eligible slot wins the same-class tie and preserves one sugar");
+        ctx.assertTrue(menu.getSlot(6).getItem().isEmpty()
+                        && menu.getSlot(7).getItem().isEmpty()
+                        && menu.getSlot(8).getItem().isEmpty()
+                        && menu.getSlot(9).getItem().isEmpty(),
+                "one transaction preserves no more than one consumed ingredient");
+        ctx.assertTrue(menu.getSlot(1).getItem().is(Items.BUCKET)
+                        && menu.getSlot(2).getItem().is(Items.BUCKET)
+                        && menu.getSlot(3).getItem().is(Items.BUCKET),
+                "vanilla milk-bucket container remainders are still returned to their input slots");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void precisionCraftingShiftClickComposesWithWoodProcessingOnce(GameTestHelper ctx) {
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+        player.setGameMode(GameType.SURVIVAL);
+        KnowledgeRuntime.updateState(player, KnowledgeRuntime.state(player)
+                .with("research.v3.research.08", 5).with("research.v3.research.09", 2));
+        CraftingMenu menu = craftingMenu(ctx, player);
+        player.containerMenu = menu;
+        menu.getSlot(1).set(new ItemStack(Items.OAK_LOG));
+        menu.slotsChanged(menu.getSlot(1).container);
+        seedFirstPrecisionCraftingRoll(player, 300);
+
+        ItemStack moved = menu.quickMoveStack(player, 0);
+        ctx.assertTrue(moved.is(Items.OAK_PLANKS) && moved.getCount() == 6,
+                "Wood Processing changes the actual shift-click result from four planks to six");
+        ctx.assertTrue(player.getInventory().countItem(Items.OAK_PLANKS) == 6,
+                "the paired quick-craft and onTake callbacks transfer the augmented result once");
+        ctx.assertTrue(menu.getSlot(1).getItem().is(Items.OAK_LOG)
+                        && menu.getSlot(1).getItem().getCount() == 1,
+                "the successful roll retains exactly one consumed log for the actual crafter");
+        ctx.assertTrue(menu.getSlot(0).getItem().is(Items.OAK_PLANKS)
+                        && menu.getSlot(0).getItem().getCount() == 6,
+                "the preserved ingredient triggers one fresh server result preview");
+        ctx.assertTrue(KnowledgeRuntime.state(player).conditionProgress("recipes_completed") == 1,
+                "one successful shift-click remains one completed crafting transaction");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void precisionCraftingDoesNotRunWhenShiftClickCannotTransferTheResult(GameTestHelper ctx) {
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+        player.setGameMode(GameType.SURVIVAL);
+        KnowledgeRuntime.updateState(player, KnowledgeRuntime.state(player).with("research.v3.research.08", 5));
+        for (int slot = 0; slot < 36; slot++)
+            player.getInventory().setItem(slot, new ItemStack(Items.COBBLESTONE, 64));
+        CraftingMenu menu = craftingMenu(ctx, player);
+        menu.getSlot(1).set(new ItemStack(Items.OAK_LOG));
+        menu.slotsChanged(menu.getSlot(1).container);
+        seedFirstPrecisionCraftingRoll(player, 300);
+
+        ItemStack moved = menu.quickMoveStack(player, 0);
+        ctx.assertTrue(moved.isEmpty(), "a full inventory rejects the shift-click transfer");
+        ctx.assertTrue(menu.getSlot(1).getItem().is(Items.OAK_LOG)
+                        && menu.getSlot(1).getItem().getCount() == 1,
+                "failed extraction leaves the crafting grid unchanged");
+        ctx.assertTrue(menu.getSlot(0).getItem().is(Items.OAK_PLANKS)
+                        && menu.getSlot(0).getItem().getCount() == 4,
+                "failed extraction leaves only the vanilla preview and never applies preservation");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void precisionCraftingUsesExplicitVanillaMaterialClasses(GameTestHelper ctx) {
+        ctx.assertTrue(PrecisionCraftingRuntime.materialClass(new ItemStack(Items.OAK_LOG))
+                        == PrecisionCraftingRules.MaterialClass.ORDINARY,
+                "vanilla wood is explicitly tagged as ordinary material");
+        ctx.assertTrue(PrecisionCraftingRuntime.materialClass(new ItemStack(Items.IRON_INGOT))
+                        == PrecisionCraftingRules.MaterialClass.PROCESSED,
+                "processed iron is explicitly tagged");
+        ctx.assertTrue(PrecisionCraftingRuntime.materialClass(new ItemStack(Items.DIAMOND))
+                        == PrecisionCraftingRules.MaterialClass.PRECIOUS,
+                "diamond is explicitly tagged as precious");
+        ctx.assertTrue(PrecisionCraftingRuntime.materialClass(new ItemStack(Items.NETHERITE_INGOT))
+                        == PrecisionCraftingRules.MaterialClass.RARE,
+                "netherite is explicitly tagged as rare");
+        ctx.assertTrue(PrecisionCraftingRuntime.materialClass(new ItemStack(Items.NETHER_STAR)) == null,
+                "unique materials are never eligible for preservation");
+        ctx.assertTrue(PrecisionCraftingRuntime.materialClass(new ItemStack(Items.COD)) == null,
+                "unclassified ingredients are conservatively excluded");
+        ctx.succeed();
+    }
+
+    private static void seedFirstPrecisionCraftingRoll(ServerPlayer player, int threshold) {
+        for (long seed = 0; seed < 100_000; seed++) {
+            player.getRandom().setSeed(seed);
+            if (player.getRandom().nextInt(PrecisionCraftingRules.ROLL_RANGE) < threshold) {
+                player.getRandom().setSeed(seed);
+                return;
+            }
+        }
+        throw new AssertionError("could not find a deterministic successful crafting seed");
+    }
+
+    @GameTest
     public void legacyFishingItemAndComponentIdsRemainResolvable(GameTestHelper ctx) {
         String[] legacyItems = {
                 "bluegill", "perch", "trout", "catfish", "salmon", "pike", "sturgeon",

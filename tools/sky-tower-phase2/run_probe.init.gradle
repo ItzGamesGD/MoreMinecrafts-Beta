@@ -1,0 +1,9 @@
+// Phase 2 validation only: per-run server run directory (env P2_RUN_DIR) so several probe runs never share a world.
+allprojects {
+    afterEvaluate { project ->
+        def dir = System.getenv('P2_RUN_DIR')
+        if (dir != null) {
+            project.extensions.getByName('loom').runs.getByName('skyIslandsProbe').setRunDir(dir)
+        }
+    }
+}

@@ -1,0 +1,37 @@
+ALGO=st05-d01-bprime-core-opening-v1 params=Params[name=synthetic-8x8x6, cw=8, ch=6] seed=7001 band=-48..-12
+PASS F1.legacy_reproduces_duplicate_ids  [region0 id=bfd41da52c8a82ea region1 id=8671c130807262ea]
+PASS F1.d01_single_chamber_single_owner  [observers=[0,0, 1,0] owner=0,0]
+PASS F1.d01_single_finalization  [status=ACCEPTED]
+PASS F2.legacy_reproduces_false_merge  [legacy components=1]
+PASS F2.d01_two_distinct_chambers  [chambers=2]
+PASS F3.legacy_reproduces_clip_dependent_ids  [ids differ for one chamber]
+PASS F3.d01_no_false_finalization_deferred  [chambers=0 groups=1]
+PASS F4.naive_air_overlap_reproduces_false_merge  [air components share open voxels]
+PASS F4.d01_distinct_ids  [observers x=[0,0] y=[0,0, 1,0]]
+PASS F5.d01_four_views_one_canonical_owner  [observers=[0,0, 0,1, 1,0, 1,1]]
+PASS F5.order_independent_all_24_permutations  [permutations=24 distinct digests=1]
+PASS F5.parallel_extraction_identical
+PASS F5.component_order_irrelevant
+PASS F9.disjoint_partials_not_finalized_as_distinct  [groups=2 (each deferred, not proven distinct)]
+PASS F6.chain_spacing_invariant_no_accepted_pair_below_256  [accepted=45 rejected=55]
+PASS F6.unresolved_only_turns_outcomes_into_blocked_never_changes_decided  [blocked=7/100]
+PASS F6.insertion_order_independent
+PASS F6.denominator_excludes_blocked  [accepted=41]
+PASS F6.boundary_255_rejects_256_accepts  [REJECTED_SPACING,ACCEPTED,ACCEPTED,ACCEPTED]
+PASS E1.two_real_voxel_chambers_one_accepted_one_spacing_rejected  [{owned_chambers=2, qualifying_owned=2, accepted_denominator=1, rejected_spacing=1, roll_won=1, placement_reserved=1} []]
+PASS E2.only_survivors_are_rolled_once  [rolled=1]
+PASS E3.isolated_chamber_fails_64_block_path  [{owned_chambers=1, not_qualifying_path_under_64=1}]
+PASS E4.reference_y_band_enforced  [{owned_chambers=1, not_qualifying_reference_y_out_of_band=1}]
+PASS E5.structure_body_conflict_rejects_envelope_touch_does_not  [{owned_chambers=2, qualifying_owned=2, rejected_structure_body=1, accepted_denominator=1, roll_failed=1} | {owned_chambers=2, qualifying_owned=2, accepted_denominator=1, rejected_spacing=1, roll_won=1, placement_reserved=1}]
+PASS E6.universe_edge_blocks_instead_of_accepting  [{owned_chambers=2, qualifying_owned=2, blocked_by_unresolved=2}]
+PASS E7.denominator_invariant_under_preflight_failure_or_success  [[] []]
+PASS E8.chain_partition_and_order_independence  [{owned_chambers=100, qualifying_owned=100, blocked_by_unresolved=7, accepted_denominator=41, rejected_spacing=52, roll_won=31, placement_reserved=31, roll_failed=10}]
+PASS E9.post_roll_failures_never_reselect  [{owned_chambers=100, qualifying_owned=100, blocked_by_unresolved=7, accepted_denominator=41, rejected_spacing=52, roll_won=31, placement_reserved=31, roll_failed=10}]
+PASS P.roundtrip_verified
+PASS P.restart_restores_identical_decisions  [restored=6]
+PASS P.budget_cumulative_and_sticky_exhaustion  [used=110]
+PASS P.finalized_decision_not_overwritten  [[FINALIZED_DECISION_MISMATCH id=3e8 stored=ACCEPTED/0/1/0,0/0/1000 fresh=REJECTED_SPACING/1/1/0,0/0/1000]]
+PASS P.damaged_record_quarantined_and_held  [quarantined=1 held=1]
+PASS P.mismatched_world_quarantined_not_deleted
+PASS P.truncated_file_detected
+ALL_PASS

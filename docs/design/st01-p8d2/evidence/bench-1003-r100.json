@@ -1,0 +1,48 @@
+{
+  "mode": "bench",
+  "seed": 1003,
+  "radius_param": 100,
+  "jvm": {
+    "java": "25.0.5",
+    "cpus": 4,
+    "max_heap_mb": 3420
+  },
+  "calls": [
+    {
+      "origin": "0,0",
+      "origin_index": 0,
+      "state": "cold",
+      "wall_ms": 23298.299314,
+      "server_thread_blocked_ms": 23298.299314,
+      "thread_cpu_ms": 20405.633455,
+      "gc_ms_delta": 52,
+      "peak_heap_mb_during_call": 480,
+      "st01_start_evaluations_delta": 1759,
+      "loaded_chunks_delta": 1,
+      "found": true,
+      "result": "-1936,0,10976",
+      "result_chunk": "-121,686",
+      "result_is_valid_st01_start": true,
+      "result_distance_blocks": 11145.432786572264,
+      "result_ring_regions": 21
+    },
+    {
+      "origin": "0,0",
+      "origin_index": 0,
+      "state": "warm-repeat",
+      "wall_ms": 0.961339,
+      "server_thread_blocked_ms": 0.961339,
+      "thread_cpu_ms": 0.966135,
+      "gc_ms_delta": 0,
+      "peak_heap_mb_during_call": 317,
+      "st01_start_evaluations_delta": 0,
+      "loaded_chunks_delta": 0,
+      "found": true,
+      "result": "-1936,0,10976",
+      "result_chunk": "-121,686",
+      "result_is_valid_st01_start": true,
+      "result_distance_blocks": 11145.432786572264,
+      "result_ring_regions": 21
+    }
+  ]
+}

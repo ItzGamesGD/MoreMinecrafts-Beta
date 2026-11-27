@@ -1,0 +1,1035 @@
+{
+  "seed": 4242,
+  "radius_chunks": 700,
+  "candidates_per_terrain": 6487,
+  "cases": {
+    "controlled/jagged_peaks/T80": {
+      "candidates": 6487,
+      "eligible_candidates": 5307,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        5307,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          5307
+        ],
+        "COLUMN_BIOME_NONE": [
+          11273,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          5307
+        ]
+      },
+      "measured_top_block_y": 80
+    },
+    "controlled/jagged_peaks/T120": {
+      "candidates": 6487,
+      "eligible_candidates": 5307,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        5307,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          5307
+        ],
+        "COLUMN_BIOME_NONE": [
+          11273,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          5307
+        ]
+      },
+      "measured_top_block_y": 120
+    },
+    "controlled/jagged_peaks/T140": {
+      "candidates": 6487,
+      "eligible_candidates": 5307,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        5307,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          5307
+        ],
+        "COLUMN_BIOME_NONE": [
+          11273,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          5307
+        ]
+      },
+      "measured_top_block_y": 140
+    },
+    "controlled/jagged_peaks/T160": {
+      "candidates": 6487,
+      "eligible_candidates": 5307,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        5307,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          5162
+        ],
+        "COLUMN_BIOME_NONE": [
+          11411,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          5162
+        ],
+        "PADDING_REJECT": [
+          145,
+          0
+        ],
+        "PADDING_REJECT_LOGGED": [
+          0,
+          145
+        ]
+      },
+      "measured_top_block_y": 160
+    },
+    "controlled/jagged_peaks/T180": {
+      "candidates": 6487,
+      "eligible_candidates": 5307,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        5307,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          4868
+        ],
+        "COLUMN_BIOME_NONE": [
+          11712,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          4868
+        ],
+        "PADDING_REJECT": [
+          439,
+          0
+        ],
+        "PADDING_REJECT_LOGGED": [
+          0,
+          439
+        ]
+      },
+      "measured_top_block_y": 180
+    },
+    "controlled/jagged_peaks/T200": {
+      "candidates": 6487,
+      "eligible_candidates": 5307,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        5307,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          4533
+        ],
+        "COLUMN_BIOME_NONE": [
+          12014,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          4533
+        ],
+        "PADDING_REJECT": [
+          774,
+          0
+        ],
+        "PADDING_REJECT_LOGGED": [
+          0,
+          774
+        ]
+      },
+      "measured_top_block_y": 200
+    },
+    "controlled/jagged_peaks/T220": {
+      "candidates": 6487,
+      "eligible_candidates": 5307,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        5307,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          4272
+        ],
+        "COLUMN_BIOME_NONE": [
+          12277,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          4272
+        ],
+        "PADDING_REJECT": [
+          1035,
+          0
+        ],
+        "PADDING_REJECT_LOGGED": [
+          0,
+          1035
+        ]
+      },
+      "measured_top_block_y": 220
+    },
+    "controlled/jagged_peaks/T240": {
+      "candidates": 6487,
+      "eligible_candidates": 5307,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        5307,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          2641
+        ],
+        "COLUMN_BIOME_NONE": [
+          13874,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          2641
+        ],
+        "PADDING_REJECT": [
+          2666,
+          0
+        ],
+        "PADDING_REJECT_LOGGED": [
+          0,
+          2666
+        ]
+      },
+      "measured_top_block_y": 240
+    },
+    "controlled/jagged_peaks/T260": {
+      "candidates": 6487,
+      "eligible_candidates": 5307,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        5307,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          1001
+        ],
+        "COLUMN_BIOME_NONE": [
+          15518,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          1001
+        ],
+        "PADDING_REJECT": [
+          4306,
+          0
+        ],
+        "PADDING_REJECT_LOGGED": [
+          0,
+          4306
+        ]
+      },
+      "measured_top_block_y": 260
+    },
+    "controlled/stony_peaks/T80": {
+      "candidates": 6487,
+      "eligible_candidates": 5307,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        5307,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          5307
+        ],
+        "COLUMN_BIOME_NONE": [
+          11244,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          5307
+        ]
+      },
+      "measured_top_block_y": 80
+    },
+    "controlled/stony_peaks/T120": {
+      "candidates": 6487,
+      "eligible_candidates": 5307,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        5307,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          5307
+        ],
+        "COLUMN_BIOME_NONE": [
+          11244,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          5307
+        ]
+      },
+      "measured_top_block_y": 120
+    },
+    "controlled/stony_peaks/T140": {
+      "candidates": 6487,
+      "eligible_candidates": 5307,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        5307,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          5307
+        ],
+        "COLUMN_BIOME_NONE": [
+          11244,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          5307
+        ]
+      },
+      "measured_top_block_y": 140
+    },
+    "controlled/stony_peaks/T160": {
+      "candidates": 6487,
+      "eligible_candidates": 5307,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        5307,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          5162
+        ],
+        "COLUMN_BIOME_NONE": [
+          11381,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          5162
+        ],
+        "PADDING_REJECT": [
+          145,
+          0
+        ],
+        "PADDING_REJECT_LOGGED": [
+          0,
+          145
+        ]
+      },
+      "measured_top_block_y": 160
+    },
+    "controlled/stony_peaks/T180": {
+      "candidates": 6487,
+      "eligible_candidates": 5307,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        5307,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          4868
+        ],
+        "COLUMN_BIOME_NONE": [
+          11688,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          4868
+        ],
+        "PADDING_REJECT": [
+          439,
+          0
+        ],
+        "PADDING_REJECT_LOGGED": [
+          0,
+          439
+        ]
+      },
+      "measured_top_block_y": 180
+    },
+    "controlled/stony_peaks/T200": {
+      "candidates": 6487,
+      "eligible_candidates": 5307,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        5307,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          4533
+        ],
+        "COLUMN_BIOME_NONE": [
+          12029,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          4533
+        ],
+        "PADDING_REJECT": [
+          774,
+          0
+        ],
+        "PADDING_REJECT_LOGGED": [
+          0,
+          774
+        ]
+      },
+      "measured_top_block_y": 200
+    },
+    "controlled/stony_peaks/T220": {
+      "candidates": 6487,
+      "eligible_candidates": 5307,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        5307,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          4272
+        ],
+        "COLUMN_BIOME_NONE": [
+          12283,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          4272
+        ],
+        "PADDING_REJECT": [
+          1035,
+          0
+        ],
+        "PADDING_REJECT_LOGGED": [
+          0,
+          1035
+        ]
+      },
+      "measured_top_block_y": 220
+    },
+    "controlled/stony_peaks/T240": {
+      "candidates": 6487,
+      "eligible_candidates": 5307,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        5307,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          2641
+        ],
+        "COLUMN_BIOME_NONE": [
+          13910,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          2641
+        ],
+        "PADDING_REJECT": [
+          2666,
+          0
+        ],
+        "PADDING_REJECT_LOGGED": [
+          0,
+          2666
+        ]
+      },
+      "measured_top_block_y": 240
+    },
+    "controlled/stony_peaks/T260": {
+      "candidates": 6487,
+      "eligible_candidates": 5307,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        5307,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          1001
+        ],
+        "COLUMN_BIOME_NONE": [
+          15516,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          1001
+        ],
+        "PADDING_REJECT": [
+          4306,
+          0
+        ],
+        "PADDING_REJECT_LOGGED": [
+          0,
+          4306
+        ]
+      },
+      "measured_top_block_y": 260
+    },
+    "controlled/meadow/T80": {
+      "candidates": 6487,
+      "eligible_candidates": 5307,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        5307,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          5307
+        ],
+        "COLUMN_BIOME_NONE": [
+          11104,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          5307
+        ]
+      },
+      "measured_top_block_y": 80
+    },
+    "controlled/meadow/T120": {
+      "candidates": 6487,
+      "eligible_candidates": 5307,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        5307,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          5307
+        ],
+        "COLUMN_BIOME_NONE": [
+          11104,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          5307
+        ]
+      },
+      "measured_top_block_y": 120
+    },
+    "controlled/meadow/T140": {
+      "candidates": 6487,
+      "eligible_candidates": 5307,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        5307,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          5307
+        ],
+        "COLUMN_BIOME_NONE": [
+          11104,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          5307
+        ]
+      },
+      "measured_top_block_y": 140
+    },
+    "controlled/meadow/T160": {
+      "candidates": 6487,
+      "eligible_candidates": 5307,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        5307,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          5162
+        ],
+        "COLUMN_BIOME_NONE": [
+          11264,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          5162
+        ],
+        "PADDING_REJECT": [
+          145,
+          0
+        ],
+        "PADDING_REJECT_LOGGED": [
+          0,
+          145
+        ]
+      },
+      "measured_top_block_y": 160
+    },
+    "controlled/meadow/T180": {
+      "candidates": 6487,
+      "eligible_candidates": 5307,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        5307,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          4868
+        ],
+        "COLUMN_BIOME_NONE": [
+          11538,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          4868
+        ],
+        "PADDING_REJECT": [
+          439,
+          0
+        ],
+        "PADDING_REJECT_LOGGED": [
+          0,
+          439
+        ]
+      },
+      "measured_top_block_y": 180
+    },
+    "controlled/meadow/T200": {
+      "candidates": 6487,
+      "eligible_candidates": 5307,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        5307,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          4533
+        ],
+        "COLUMN_BIOME_NONE": [
+          11900,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          4533
+        ],
+        "PADDING_REJECT": [
+          774,
+          0
+        ],
+        "PADDING_REJECT_LOGGED": [
+          0,
+          774
+        ]
+      },
+      "measured_top_block_y": 200
+    },
+    "controlled/meadow/T220": {
+      "candidates": 6487,
+      "eligible_candidates": 5307,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        5307,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          4272
+        ],
+        "COLUMN_BIOME_NONE": [
+          12166,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          4272
+        ],
+        "PADDING_REJECT": [
+          1035,
+          0
+        ],
+        "PADDING_REJECT_LOGGED": [
+          0,
+          1035
+        ]
+      },
+      "measured_top_block_y": 220
+    },
+    "controlled/meadow/T240": {
+      "candidates": 6487,
+      "eligible_candidates": 5307,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        5307,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          2641
+        ],
+        "COLUMN_BIOME_NONE": [
+          13835,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          2641
+        ],
+        "PADDING_REJECT": [
+          2666,
+          0
+        ],
+        "PADDING_REJECT_LOGGED": [
+          0,
+          2666
+        ]
+      },
+      "measured_top_block_y": 240
+    },
+    "controlled/meadow/T260": {
+      "candidates": 6487,
+      "eligible_candidates": 5307,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        5307,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          1001
+        ],
+        "COLUMN_BIOME_NONE": [
+          15505,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          1001
+        ],
+        "PADDING_REJECT": [
+          4306,
+          0
+        ],
+        "PADDING_REJECT_LOGGED": [
+          0,
+          4306
+        ]
+      },
+      "measured_top_block_y": 260
+    },
+    "controlled/desert/T80": {
+      "candidates": 6487,
+      "eligible_candidates": 1180,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        0,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          1180
+        ],
+        "COLUMN_BIOME_NONE": [
+          18237,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          1180
+        ]
+      },
+      "measured_top_block_y": 80
+    },
+    "controlled/desert/T120": {
+      "candidates": 6487,
+      "eligible_candidates": 1180,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        0,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          1160
+        ],
+        "COLUMN_BIOME_NONE": [
+          18269,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          1160
+        ],
+        "PADDING_REJECT": [
+          20,
+          0
+        ],
+        "PADDING_REJECT_LOGGED": [
+          0,
+          20
+        ]
+      },
+      "measured_top_block_y": 120
+    },
+    "controlled/desert/T140": {
+      "candidates": 6487,
+      "eligible_candidates": 1180,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        0,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          1099
+        ],
+        "COLUMN_BIOME_NONE": [
+          18370,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          1099
+        ],
+        "PADDING_REJECT": [
+          81,
+          0
+        ],
+        "PADDING_REJECT_LOGGED": [
+          0,
+          81
+        ]
+      },
+      "measured_top_block_y": 140
+    },
+    "controlled/desert/T160": {
+      "candidates": 6487,
+      "eligible_candidates": 1180,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        0,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          1047
+        ],
+        "COLUMN_BIOME_NONE": [
+          18488,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          1047
+        ],
+        "PADDING_REJECT": [
+          133,
+          0
+        ],
+        "PADDING_REJECT_LOGGED": [
+          0,
+          133
+        ]
+      },
+      "measured_top_block_y": 160
+    },
+    "controlled/desert/T180": {
+      "candidates": 6487,
+      "eligible_candidates": 1180,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        0,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          959
+        ],
+        "COLUMN_BIOME_NONE": [
+          18679,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          959
+        ],
+        "PADDING_REJECT": [
+          221,
+          0
+        ],
+        "PADDING_REJECT_LOGGED": [
+          0,
+          221
+        ]
+      },
+      "measured_top_block_y": 180
+    },
+    "controlled/desert/T200": {
+      "candidates": 6487,
+      "eligible_candidates": 1180,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        0,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          668
+        ],
+        "COLUMN_BIOME_NONE": [
+          19261,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          668
+        ],
+        "PADDING_REJECT": [
+          512,
+          0
+        ],
+        "PADDING_REJECT_LOGGED": [
+          0,
+          512
+        ]
+      },
+      "measured_top_block_y": 200
+    },
+    "controlled/desert/T220": {
+      "candidates": 6487,
+      "eligible_candidates": 1180,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        0,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          407
+        ],
+        "COLUMN_BIOME_NONE": [
+          19787,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          407
+        ],
+        "PADDING_REJECT": [
+          773,
+          0
+        ],
+        "PADDING_REJECT_LOGGED": [
+          0,
+          773
+        ]
+      },
+      "measured_top_block_y": 220
+    },
+    "controlled/desert/T240": {
+      "candidates": 6487,
+      "eligible_candidates": 1180,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        0,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "ACCEPT": [
+          0,
+          129
+        ],
+        "COLUMN_BIOME_NONE": [
+          20368,
+          0
+        ],
+        "GEOMETRY_MATCH": [
+          0,
+          129
+        ],
+        "PADDING_REJECT": [
+          1051,
+          0
+        ],
+        "PADDING_REJECT_LOGGED": [
+          0,
+          1051
+        ]
+      },
+      "measured_top_block_y": 240
+    },
+    "controlled/desert/T260": {
+      "candidates": 6487,
+      "eligible_candidates": 1180,
+      "variant_draws_identical_vs_different_mountain_candidates": [
+        0,
+        0
+      ],
+      "replica_prediction__engine_[invalid,valid]": {
+        "COLUMN_BIOME_NONE": [
+          20641,
+          0
+        ],
+        "PADDING_REJECT": [
+          1180,
+          0
+        ],
+        "PADDING_REJECT_LOGGED": [
+          0,
+          1180
+        ]
+      },
+      "measured_top_block_y": 260
+    }
+  }
+}

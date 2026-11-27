@@ -18,6 +18,7 @@ abstract class K5ChunkGeneratorMixin {
         K5NaturalTreeProvenance.enterNaturalBiomeDecoration(level.registryAccess());
         try {
             original.call(level, chunk, structureManager);
+            dev.itzgamesgd.moreminecrafts.colosseum.ArenaNaturalBlocks.generated(chunk);
         } finally {
             K5NaturalTreeProvenance.exitNaturalBiomeDecoration();
         }

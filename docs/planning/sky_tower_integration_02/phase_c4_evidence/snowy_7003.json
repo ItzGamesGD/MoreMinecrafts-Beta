@@ -1,0 +1,33 @@
+{
+  "seed": 7003,
+  "styles_found": [],
+  "automatic_registration_site_count": 0,
+  "styles": {
+    "snowy": {
+      "reason": "no natural start found in scan radius",
+      "pass": false
+    },
+    "meadow": {
+      "reason": "no natural start found in scan radius",
+      "pass": false
+    },
+    "forest": {
+      "reason": "no natural start found in scan radius",
+      "pass": false
+    },
+    "badlands": {
+      "reason": "no natural start found in scan radius",
+      "pass": false
+    },
+    "desert": {
+      "reason": "no natural start found in scan radius",
+      "pass": false
+    },
+    "rocky": {
+      "reason": "no natural start found in scan radius",
+      "pass": false
+    }
+  },
+  "pass": false,
+  "client_movement_visual_and_restart": "not tested by this fresh-world server probe"
+}

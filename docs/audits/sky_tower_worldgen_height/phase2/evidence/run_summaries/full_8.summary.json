@@ -1,0 +1,46 @@
+{
+  "label": "full_8",
+  "seed": 8,
+  "world": "OVERWORLD",
+  "radius_chunks": 2500,
+  "level_min_y": -64,
+  "level_max_y_inclusive": 319,
+  "candidates": 78916,
+  "eligible_candidates": 9526,
+  "variant_draws_identical_vs_different_mountain_candidates": [
+    2238,
+    0
+  ],
+  "replica_prediction__engine_[invalid,valid]": {
+    "ACCEPT": [
+      0,
+      9501
+    ],
+    "COLUMN_BIOME_NONE": [
+      240901,
+      0
+    ],
+    "GEOMETRY_MATCH": [
+      0,
+      9501
+    ],
+    "PADDING_REJECT": [
+      25,
+      0
+    ],
+    "PADDING_REJECT_LOGGED": [
+      0,
+      25
+    ]
+  },
+  "replay_ms": 365888,
+  "active_start_height_mountain_snowy": "[18 absolute-70 absolute]",
+  "natural_eligible_in_scope": 9526,
+  "natural_candidates_checked": 9926,
+  "natural_generated_starts": 9501,
+  "natural_vs_replay_agree": 9926,
+  "natural_vs_replay_disagree": 0,
+  "natural_ms": 42497,
+  "natural_padding_log_lines": 50,
+  "tower_starts_natural": 1307
+}

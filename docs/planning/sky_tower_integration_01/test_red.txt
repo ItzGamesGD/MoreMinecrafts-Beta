@@ -1,0 +1,56 @@
+src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerProgressTest.java:8: error: cannot find symbol
+        var a = new SkyTowerProgress(0); var b = new SkyTowerProgress(0);
+                    ^
+  symbol:   class SkyTowerProgress
+  location: class SkyTowerProgressTest
+src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerProgressTest.java:8: error: cannot find symbol
+        var a = new SkyTowerProgress(0); var b = new SkyTowerProgress(0);
+                                                     ^
+  symbol:   class SkyTowerProgress
+  location: class SkyTowerProgressTest
+src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerProgressTest.java:14: error: cannot find symbol
+        var p = new SkyTowerProgress(0);
+                    ^
+  symbol:   class SkyTowerProgress
+  location: class SkyTowerProgressTest
+src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerProgressTest.java:19: error: cannot find symbol
+        var p = new SkyTowerProgress(0);
+                    ^
+  symbol:   class SkyTowerProgress
+  location: class SkyTowerProgressTest
+src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerProgressTest.java:21: error: cannot find symbol
+        var restored = new SkyTowerProgress(p.completedMask());
+                           ^
+  symbol:   class SkyTowerProgress
+  location: class SkyTowerProgressTest
+src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerProgressTest.java:26: error: cannot find symbol
+        assertThrows(IllegalArgumentException.class,()->new SkyTowerProgress(-1));
+                                                            ^
+  symbol:   class SkyTowerProgress
+  location: class SkyTowerProgressTest
+src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerProgressTest.java:27: error: cannot find symbol
+        assertThrows(IllegalArgumentException.class,()->new SkyTowerProgress(65536));
+                                                            ^
+  symbol:   class SkyTowerProgress
+  location: class SkyTowerProgressTest
+src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerProgressTest.java:28: error: cannot find symbol
+        assertThrows(IllegalArgumentException.class,()->new SkyTowerProgress(0).completeVanillaTrial(16));
+                                                            ^
+  symbol:   class SkyTowerProgress
+  location: class SkyTowerProgressTest
+src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerProgressTest.java:32: error: package SkyTowerLayout does not exist
+            var site = new SkyTowerLayout.Site("minecraft:overworld",100,70,-200,r);
+                                         ^
+src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerProgressTest.java:34: error: package SkyTowerLayout does not exist
+            assertEquals(-1,site.spawnerIndex(new SkyTowerLayout.Point(0,0,0)));
+                                                                ^
+src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerProgressTest.java:35: error: package SkyTowerLayout does not exist
+            assertNotEquals(site.id(),new SkyTowerLayout.Site("minecraft:the_nether",100,70,-200,r).id());
+                                                        ^
+src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerProgressTest.java:37: error: package SkyTowerLayout does not exist
+        var s=new SkyTowerLayout.Site("minecraft:overworld",0,0,0,1);
+                                ^
+src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerProgressTest.java:38: error: package SkyTowerLayout does not exist
+        assertEquals(new SkyTowerLayout.Point(-17,12,17),s.spawner(0));
+                                       ^
+13 errors

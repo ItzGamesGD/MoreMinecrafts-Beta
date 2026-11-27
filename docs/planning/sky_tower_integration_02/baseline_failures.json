@@ -1,0 +1,116 @@
+{
+ "status": "18 preexisting tests failed with reused recovery journals",
+ "journals": [
+  {
+   "file": "e407949b61180dd36702f125edabf49584665628db49e503ced08f056f73286e.json",
+   "mtime_utc": "2026-11-08T07:18:49.266403+00:00",
+   "sha256": "a07007a36369d9348332e944510da6173ff36cd4379c0e63e3ee2e7416bb0153"
+  },
+  {
+   "file": "3f788ea7b18f72f90c83896fa91f59851636918723e82a41cb08a03bfa2e9322.json",
+   "mtime_utc": "2026-11-08T07:18:49.272898+00:00",
+   "sha256": "e1fb044cb51d0afb6e9d248c9176d5715c046bf9f710226b31154686fe3f6427"
+  },
+  {
+   "file": "53df979b13de4ea37a8174a10ee48d0f53b224113a9856916064a9b0f0aa07df.json",
+   "mtime_utc": "2026-11-08T01:04:50.090070+00:00",
+   "sha256": "a3233b5965fb35fda871373acb7003c401af6f50103bd5d4ef22c8d16c4085dd"
+  },
+  {
+   "file": "060b778c093d774f25a393577b98f77c4ca2633d1d09b2ceece018d92bf7acf7.json",
+   "mtime_utc": "2026-11-08T07:18:49.264205+00:00",
+   "sha256": "3d22d5b340ab0dc269b40b5e2b1fc18662dc415bb30413107d4c379b60d4ed65"
+  },
+  {
+   "file": "997c974a4e46d51cfdd86aecc460b42e99407e340d1788216586074961ca88c6.json",
+   "mtime_utc": "2026-11-08T07:18:49.252351+00:00",
+   "sha256": "a749ffd093aa4412d3144d5e78ee17872bc7776c99ded1c1b3eb22ee73d94d7f"
+  },
+  {
+   "file": "af4fb5e402e26f16ef3286e864ab8d3d25df66b047865451d601b7c09c10ff4e.json",
+   "mtime_utc": "2026-11-08T07:18:49.254984+00:00",
+   "sha256": "409fa25141b263188b8801caeb43e2c19830682a9949e4fb2211ed7f76e4eeec"
+  },
+  {
+   "file": "13825f9f144061616e2074afb4d1ef433416eb56522187605ed720b4236337ef.json",
+   "mtime_utc": "2026-11-08T07:18:49.275143+00:00",
+   "sha256": "a984d1d56c1035a8ce6e24f49e23d9a8a2fbd997d488dd3275161e20c90187dc"
+  },
+  {
+   "file": "97ed0e1395c2d2b5408dafb5fd53e2b8312fd2b6100fbe949456892a24a4a31a.json",
+   "mtime_utc": "2026-11-08T07:18:49.257472+00:00",
+   "sha256": "845c6d4d06dd251b1d71b5f8a05f33a7e7f84f025c70bc6d0e30601adac6ca2b"
+  },
+  {
+   "file": "4dda054e5afe233871242083b741b33f907449ec89738027c1d3d80a2b3cd62f.json",
+   "mtime_utc": "2026-11-08T07:18:49.259773+00:00",
+   "sha256": "ed514d60bd1714efcdab7ee1523d98f91f75ff52eed19b0286dc066007dd340e"
+  },
+  {
+   "file": "b38346bd27bc569ea921ce75cbb5b6b4e9ed7837f4c0c37a083fa748575d7e7e.json",
+   "mtime_utc": "2026-11-08T07:18:49.277420+00:00",
+   "sha256": "36bd2c6f6f5e37c2abf80e2a8be9b661e5938618c51286b515777202f2c0febe"
+  },
+  {
+   "file": "8c4b3b9509c0219215fb4ccead17ff0149ca2325df6725f974cb7824e584a503.json",
+   "mtime_utc": "2026-11-08T01:04:50.110070+00:00",
+   "sha256": "9a5b788faaa687a477574f0ccd4e78fc1e7b2fd7cc06fb3fd27c00c22d733623"
+  },
+  {
+   "file": "7baa3d78c929a2733462af9ea246b396f7a583f66a021f530d01e2207da9a013.json",
+   "mtime_utc": "2026-11-08T07:18:49.270816+00:00",
+   "sha256": "e5826e9f6f2b06aed72591d90f351d50d454e7f4b7d3fdc903f3ab4a35dda8c8"
+  },
+  {
+   "file": "9527add02b61ac8f4a2a10e31debec83719e2ec47dd03f9b0edffd2105ce71a8.json",
+   "mtime_utc": "2026-11-08T07:18:49.239559+00:00",
+   "sha256": "8d30a9d2eb0cd02890efbc4dd1c2bef7ba73c9926640b06d17b4976e1ff051a8"
+  },
+  {
+   "file": "b3f5b4802dccb87e7bd077bc631f9987d37747c0a9c5ad019a8918b0ea765e32.json",
+   "mtime_utc": "2026-11-08T07:18:49.268625+00:00",
+   "sha256": "bc2d4dc45d97d48b7348f85433f330feda1a5ae925f519e51afbe359680570aa"
+  },
+  {
+   "file": "45a24b22b731c65ac530266cc7bcfa89e594d71857792cbcfe6808e4f8073927.json",
+   "mtime_utc": "2026-11-08T07:18:49.261799+00:00",
+   "sha256": "af3883eb184c1e3feb496271f056554dee6dfd0cc41bcac410ddfcebc1c0304d"
+  },
+  {
+   "file": "537e1a7270cd4c2618920cee9506534db2dd48d9a0b027d647ee7e2859fac5ab.json",
+   "mtime_utc": "2026-11-08T07:18:49.249045+00:00",
+   "sha256": "569f24b183e4bf939f295a1d7c80a0ee15bab5249d0f7da3ea7def7b94ee7ca3"
+  },
+  {
+   "file": "cc8435978a6b9fecb98fb41178b2366266a78c526b28d00a136d8659992f18a0.json",
+   "mtime_utc": "2026-11-08T07:18:49.280194+00:00",
+   "sha256": "7b44396179e36ef790515260de5b1a0be08edbcf76419cd49b1838b8e88c58d1"
+  },
+  {
+   "file": "1889ff98f8e40e90b3016dfb94b934d8ac21573e4d1c737f574a8db60c67326f.json",
+   "mtime_utc": "2026-11-08T07:18:49.283106+00:00",
+   "sha256": "4174230eecab887b37fd2570c2ed9ec50f728aac614477dfe94e5e72b5951155"
+  }
+ ],
+ "failed_lines": [
+  "[07:11:34] [Server thread/ERROR] (Minecraft) moreminecrafts-gametest:colosseum_combat_game_tests_occupied_terrain_is_never_overwritten_and_conflict_persists failed at 13386479, 4, -3258898! Cannot read field \"terrain\" because \"at\" is null",
+  "[07:11:34] [Server thread/ERROR] (Minecraft) moreminecrafts-gametest:colosseum_combat_game_tests_boss_timeout_vanishes_without_success_or_key failed at 13386539, 4, -3258898! Cannot read field \"allocs\" because \"at\" is null",
+  "[07:11:34] [Server thread/ERROR] (Minecraft) moreminecrafts-gametest:colosseum_combat_game_tests_boss_wipe_cleans_without_success_or_key failed at 13386554, 4, -3258898! Cannot read field \"allocs\" because \"at\" is null",
+  "[07:11:36] [Server thread/ERROR] (Minecraft) moreminecrafts-gametest:colosseum_combat_game_tests_duplicate_world_allocation_quarantines_without_spawn_or_reward failed at 13386509, 4, -3258898! net.minecraft.gametest.framework.UnknownGameTestException",
+  "[07:11:36] [Server thread/ERROR] (Minecraft) moreminecrafts-gametest:colosseum_combat_game_tests_in_flight_owned_arrow_freezes_and_cannot_damage_during_absence failed at 13386569, 4, -3258898! net.minecraft.gametest.framework.UnknownGameTestException",
+  "[07:11:36] [Server thread/ERROR] (Minecraft) moreminecrafts-gametest:colosseum_reward_game_tests_planned_shared_key_is_inserted_once_and_receipt_survives_repeat_reconcile failed at 13386464, 4, -3258881! Cannot read field \"keysAwarded\" because \"attempt\" is null",
+  "[07:11:36] [Server thread/ERROR] (Minecraft) moreminecrafts-gametest:colosseum_reward_game_tests_saved_entity_completes_an_interrupted_insert_without_creating_another failed at 13386479, 4, -3258881! Cannot read field \"keysAwarded\" because \"attempt\" is null",
+  "[07:11:36] [Server thread/ERROR] (Minecraft) moreminecrafts-gametest:colosseum_reward_game_tests_uncertain_insert_without_entity_is_quarantined_and_not_reissued failed at 13386494, 4, -3258881! Cannot read field \"keysAwarded\" because \"attempt\" is null",
+  "[07:11:36] [Server thread/ERROR] (Minecraft) moreminecrafts-gametest:colosseum_reward_game_tests_duplicate_world_entities_for_one_reward_are_quarantined failed at 13386509, 4, -3258881! Cannot read field \"keysAwarded\" because \"attempt\" is null",
+  "[07:11:37] [Server thread/ERROR] (Minecraft) moreminecrafts-gametest:colosseum_combat_game_tests_owned_tickets_hold_combat_then_unload_reload_does_not_replenish failed at 13386494, 4, -3258898! spawned before unload test on tick 59",
+  "[07:18:33] [Server thread/ERROR] (Minecraft) moreminecrafts-gametest:colosseum_combat_game_tests_six_rounds_lead_to_single_bound_boss_and_normal_death_ends_the_attempt failed at 13386464, 4, -3258898! Didn't succeed or fail within 4200 ticks",
+  "[07:18:42] [Server thread/ERROR] (Minecraft) moreminecrafts-gametest:colosseum_game_tests_entry_is_detected_only_inside_the_arena_interior_and_starts_round_one failed at 13386539, 4, -3258881! first entry starts round 1 on tick 17",
+  "[07:18:42] [Server thread/ERROR] (Minecraft) moreminecrafts-gametest:colosseum_game_tests_two_players_entering_in_the_same_tick_are_both_in_the_first_roster failed at 13386554, 4, -3258881! both in the first roster, none pending on tick 19",
+  "[07:18:46] [Server thread/ERROR] (Minecraft) moreminecrafts-gametest:colosseum_game_tests_absence_grace_resumes_on_return_and_expires_otherwise failed at 13386494, 4, -3258864! Cannot read field \"attemptId\" because the return value of \"dev.itzgamesgd.moreminecrafts.colosseum.ColosseumGameTests$Arena.attempt()\" is null",
+  "[07:18:46] [Server thread/ERROR] (Minecraft) moreminecrafts-gametest:colosseum_game_tests_wall_clock_limit_times_out_and_leaves_ordinary_mobs failed at 13386509, 4, -3258864! Cannot invoke \"dev.itzgamesgd.moreminecrafts.colosseum.ArenaAttempt.ended()\" because the return value of \"dev.itzgamesgd.moreminecrafts.colosseum.ColosseumGameTests$Arena.attempt()\" is null",
+  "[07:18:46] [Server thread/ERROR] (Minecraft) moreminecrafts-gametest:colosseum_game_tests_reentering_an_admitted_participant_is_areturn_not_anew_admission failed at 13386464, 4, -3258864! Cannot invoke \"dev.itzgamesgd.moreminecrafts.colosseum.ArenaAttempt.rosterIds()\" because \"at\" is null",
+  "[07:18:47] [Server thread/ERROR] (Minecraft) moreminecrafts-gametest:colosseum_game_tests_entry_during_around_is_pending_and_admitted_at_the_next_round_boundary failed at 13386569, 4, -3258881! Cannot invoke \"dev.itzgamesgd.moreminecrafts.colosseum.ArenaAttempt.round()\" because \"at\" is null",
+  "[07:18:48] [Server thread/ERROR] (Minecraft) moreminecrafts-gametest:colosseum_game_tests_wipe_of_the_whole_roster_fails_immediately_and_removes_only_trial_mobs failed at 13386479, 4, -3258864! trial mobs exist before the wipe on tick 69"
+ ],
+ "preserved_directory": "build/run/gameTest.integration02-contaminated-20261108-0719"
+}

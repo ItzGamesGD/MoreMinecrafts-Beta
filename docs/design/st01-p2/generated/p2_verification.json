@@ -1,0 +1,799 @@
+{
+ "east": {
+  "checks": [
+   {
+    "id": "X1",
+    "title": "Cavities and reserved volumes stay within the pyramid projection X/Z +-40 (D01-B: extension only if needed)",
+    "verdict": "PASS",
+    "evidence": "max excess 0 blocks; cavity voxels outside 0; reserved voxels outside 0; analytic outside-volume 0 (must equal voxel count 0); cavity X[-30,39] Z[-26,21], reserved X[-40,-2] Z[2,40]"
+   },
+   {
+    "id": "C1",
+    "title": "No voxel shared by two different cavities (3D, Y included), P1 context included",
+    "verdict": "PASS",
+    "evidence": "overlaps: []"
+   },
+   {
+    "id": "C2",
+    "title": "Reserved volumes (royal hall, secret candidates) free of cavities except declared entrance ports",
+    "verdict": "PASS",
+    "evidence": "violations: []; declared ports: [('T', 'HALL_RES', [-22, -20, -22, -20, 2, 4])]"
+   },
+   {
+    "id": "C3",
+    "title": "Every face contact between cavities is a declared connection and every declared connection has real face contact",
+    "verdict": "PASS",
+    "evidence": "undeclared contacts []; declared-without-contact []; 26 declared links"
+   },
+   {
+    "id": "C4",
+    "title": "Face-to-face wall/slab between unconnected cavities >= 2 blocks (all axes, P1 context included)",
+    "verdict": "PASS",
+    "evidence": "thin: []"
+   },
+   {
+    "id": "C5",
+    "title": "Cover above cavities: top <= -2 (<= -3 where the plan overlaps the surface hall zone X-18..18 Z-6..18)",
+    "verdict": "PASS",
+    "evidence": "violations []"
+   },
+   {
+    "id": "R1",
+    "title": "Every program space (incl. optional rooms and the royal-hall entrance port) reachable on foot from the P1 landing",
+    "verdict": "PASS",
+    "evidence": "16 goals; unreachable []"
+   },
+   {
+    "id": "R2",
+    "title": "Royal hall port reachable with ALL optional rooms/branches blocked (optional exploration not required)",
+    "verdict": "PASS",
+    "evidence": "main goals missing when optional blocked: []"
+   },
+   {
+    "id": "R3",
+    "title": "Return path from every optional room to the main route / start exists",
+    "verdict": "PASS",
+    "evidence": "rooms without return: []"
+   },
+   {
+    "id": "W1",
+    "title": "Actual clear passage width (contiguous walkable cells across the corridor, per cross-section) and walked headroom meet Q40/Q41 targets",
+    "verdict": "PASS",
+    "evidence": "C1: w 7>=7, h 5>=5; FA: w 7>=7, h 5>=5; FB: w 7>=7, h 5>=5; C2: w 7>=7, h 5>=5; FC: w 7>=7, h 5>=5; FD: w 7>=7, h 5>=5; C3: w 7>=7, h 5>=5; R: w 5>=5, h 4>=4; T: w 3>=3, h 3>=3; violations []"
+   },
+   {
+    "id": "S1",
+    "title": "Stairs: 1:1 gradient (every tread rises exactly 1), each connection is two flights with different axes (one turn) and the planned total rise",
+    "verdict": "PASS",
+    "evidence": "flights [('FA', 4, 4, True, 'z'), ('FB', 4, 4, True, 'x'), ('FC', 4, 4, True, 'z'), ('FD', 4, 4, True, 'x')]; connections {'L1-L2': ('FA', 'FB', 8), 'L2-L3': ('FC', 'FD', 8)}; bad [] []"
+   },
+   {
+    "id": "S2",
+    "title": "Landings are broad (both plan dimensions >= 7, wider than the 7-wide main passage)",
+    "verdict": "PASS",
+    "evidence": "landings (name, X, Z): [('L1/L2', 9, 9), ('L2/L3', 9, 9)]"
+   },
+   {
+    "id": "Q1",
+    "title": "Q40-Q42: 7-wide passage -> 5-wide royal approach -> 3-wide threshold of 5..7 blocks; ceiling lowers with narrowing; antechamber tall",
+    "verdict": "PASS",
+    "evidence": "widths [('C3', 7), ('R', 5), ('T', 3)]; walked headroom along approach [5, 4, 3] (non-increasing); threshold length 6 (cavity + hall-wall port); antechamber clear height 10"
+   },
+   {
+    "id": "H1",
+    "title": "Royal hall reservation contains the Q43/Q44 clear interior 33x33 and 16 high, with >=3 lateral and >=2 vertical structural thickness (PROPOSED thickness)",
+    "verdict": "PASS",
+    "evidence": "interior 33x33x16 at X[-37,-5] Z[5,37] Y[-22,-7]; reservation X[-40,-2] Z[2,40] Y[-24,-5]; shell thickness W/E/N/S/floor/roof = (3, 3, 3, 3, 2, 2)"
+   },
+   {
+    "id": "Q2",
+    "title": "Q37: L1/L2/L3 are horizontally staggered (distinct plan centres, monotone drift) - exact centres are PROPOSED",
+    "verdict": "PASS",
+    "evidence": "plan bounding-corner centroids {'L1': (20.333333333333332, -10.916666666666666), 'L2': (18.75, 8.9375), 'L3': (-12.875, -4.625)}"
+   },
+   {
+    "id": "I1",
+    "title": "Independent AABB geometry agrees with the voxel model (cavity extents, lowest Y)",
+    "verdict": "PASS",
+    "evidence": "analytic {'x': [-30, 39], 'z': [-26, 21], 'ymin': -22} vs voxel X[-30, 39] Z[-26, 21] Ymin -22"
+   },
+   {
+    "id": "I2",
+    "title": "Independent pairwise AABB intersection volume between different cavities is zero (no collision, Y included)",
+    "verdict": "PASS",
+    "evidence": "intersections: []"
+   },
+   {
+    "id": "I3",
+    "title": "Independent analytic corridor widths (union of box extents per cross-section) meet Q40",
+    "verdict": "PASS",
+    "evidence": "analytic min widths {'C1': 7, 'C2': 7, 'C3': 7, 'R': 5, 'T': 3}; violations []"
+   }
+  ],
+  "metrics": {
+   "cavity_x": [
+    -30,
+    39
+   ],
+   "cavity_z": [
+    -26,
+    21
+   ],
+   "cavity_y": [
+    -22,
+    -2
+   ],
+   "reserve_x": [
+    -40,
+    -2
+   ],
+   "reserve_z": [
+    2,
+    40
+   ],
+   "lowest_cavity_Y": -22,
+   "lowest_reserved_Y": -39,
+   "ext_blocks": 0,
+   "cavity_voxels_outside_pm40": 0,
+   "reserved_voxels_outside_pm40": 0,
+   "analytic_cavity_outside": 0,
+   "p2_cavity_voxels": 8195,
+   "width_rows": [
+    [
+     "C1",
+     7,
+     7,
+     5,
+     5
+    ],
+    [
+     "FA",
+     7,
+     7,
+     5,
+     5
+    ],
+    [
+     "FB",
+     7,
+     7,
+     5,
+     5
+    ],
+    [
+     "C2",
+     7,
+     7,
+     5,
+     5
+    ],
+    [
+     "FC",
+     7,
+     7,
+     5,
+     5
+    ],
+    [
+     "FD",
+     7,
+     7,
+     5,
+     5
+    ],
+    [
+     "C3",
+     7,
+     7,
+     5,
+     5
+    ],
+    [
+     "R",
+     5,
+     5,
+     4,
+     4
+    ],
+    [
+     "T",
+     3,
+     3,
+     3,
+     3
+    ]
+   ],
+   "centroids": {
+    "L1": [
+     20.333333333333332,
+     -10.916666666666666
+    ],
+    "L2": [
+     18.75,
+     8.9375
+    ],
+    "L3": [
+     -12.875,
+     -4.625
+    ]
+   }
+  },
+  "reach": 1605,
+  "independent": {
+   "box_intersections": [],
+   "cavity_extent": {
+    "x": [
+     -30,
+     39
+    ],
+    "z": [
+     -26,
+     21
+    ],
+    "ymin": -22
+   },
+   "analytic_widths": {
+    "C1": 7,
+    "C2": 7,
+    "C3": 7,
+    "R": 5,
+    "T": 3
+   }
+  },
+  "route_distance": {
+   "MAIN:C1": 20,
+   "MAIN:V12": 38,
+   "MAIN:LND12": 52,
+   "MAIN:C2": 61,
+   "MAIN:V23": 73,
+   "MAIN:LND23": 80,
+   "MAIN:C3": 90,
+   "MAIN:R": 97,
+   "MAIN:A": 110,
+   "MAIN:PORT": 117,
+   "OPT:T1": 23,
+   "OPT:T2": 33,
+   "OPT:T3": 22,
+   "OPT:B1": 67,
+   "OPT:B2": 77,
+   "OPT:B3": 67
+  },
+  "vsep": [
+   [
+    2,
+    "BR3",
+    "P1:S04"
+   ],
+   [
+    2,
+    "T3",
+    "P1:S04"
+   ],
+   [
+    3,
+    "C1",
+    "B3"
+   ],
+   [
+    3,
+    "C1",
+    "B3"
+   ],
+   [
+    3,
+    "T3",
+    "V23"
+   ],
+   [
+    4,
+    "T3",
+    "FC"
+   ]
+  ]
+ },
+ "west": {
+  "checks": [
+   {
+    "id": "X1",
+    "title": "Cavities and reserved volumes stay within the pyramid projection X/Z +-40 (D01-B: extension only if needed)",
+    "verdict": "PASS",
+    "evidence": "max excess 0 blocks; cavity voxels outside 0; reserved voxels outside 0; analytic outside-volume 0 (must equal voxel count 0); cavity X[-39,30] Z[-26,21], reserved X[2,40] Z[2,40]"
+   },
+   {
+    "id": "C1",
+    "title": "No voxel shared by two different cavities (3D, Y included), P1 context included",
+    "verdict": "PASS",
+    "evidence": "overlaps: []"
+   },
+   {
+    "id": "C2",
+    "title": "Reserved volumes (royal hall, secret candidates) free of cavities except declared entrance ports",
+    "verdict": "PASS",
+    "evidence": "violations: []; declared ports: [('T', 'HALL_RES', [20, 22, -22, -20, 2, 4])]"
+   },
+   {
+    "id": "C3",
+    "title": "Every face contact between cavities is a declared connection and every declared connection has real face contact",
+    "verdict": "PASS",
+    "evidence": "undeclared contacts []; declared-without-contact []; 26 declared links"
+   },
+   {
+    "id": "C4",
+    "title": "Face-to-face wall/slab between unconnected cavities >= 2 blocks (all axes, P1 context included)",
+    "verdict": "PASS",
+    "evidence": "thin: []"
+   },
+   {
+    "id": "C5",
+    "title": "Cover above cavities: top <= -2 (<= -3 where the plan overlaps the surface hall zone X-18..18 Z-6..18)",
+    "verdict": "PASS",
+    "evidence": "violations []"
+   },
+   {
+    "id": "R1",
+    "title": "Every program space (incl. optional rooms and the royal-hall entrance port) reachable on foot from the P1 landing",
+    "verdict": "PASS",
+    "evidence": "16 goals; unreachable []"
+   },
+   {
+    "id": "R2",
+    "title": "Royal hall port reachable with ALL optional rooms/branches blocked (optional exploration not required)",
+    "verdict": "PASS",
+    "evidence": "main goals missing when optional blocked: []"
+   },
+   {
+    "id": "R3",
+    "title": "Return path from every optional room to the main route / start exists",
+    "verdict": "PASS",
+    "evidence": "rooms without return: []"
+   },
+   {
+    "id": "W1",
+    "title": "Actual clear passage width (contiguous walkable cells across the corridor, per cross-section) and walked headroom meet Q40/Q41 targets",
+    "verdict": "PASS",
+    "evidence": "C1: w 7>=7, h 5>=5; FA: w 7>=7, h 5>=5; FB: w 7>=7, h 5>=5; C2: w 7>=7, h 5>=5; FC: w 7>=7, h 5>=5; FD: w 7>=7, h 5>=5; C3: w 7>=7, h 5>=5; R: w 5>=5, h 4>=4; T: w 3>=3, h 3>=3; violations []"
+   },
+   {
+    "id": "S1",
+    "title": "Stairs: 1:1 gradient (every tread rises exactly 1), each connection is two flights with different axes (one turn) and the planned total rise",
+    "verdict": "PASS",
+    "evidence": "flights [('FA', 4, 4, True, 'z'), ('FB', 4, 4, True, 'x'), ('FC', 4, 4, True, 'z'), ('FD', 4, 4, True, 'x')]; connections {'L1-L2': ('FA', 'FB', 8), 'L2-L3': ('FC', 'FD', 8)}; bad [] []"
+   },
+   {
+    "id": "S2",
+    "title": "Landings are broad (both plan dimensions >= 7, wider than the 7-wide main passage)",
+    "verdict": "PASS",
+    "evidence": "landings (name, X, Z): [('L1/L2', 9, 9), ('L2/L3', 9, 9)]"
+   },
+   {
+    "id": "Q1",
+    "title": "Q40-Q42: 7-wide passage -> 5-wide royal approach -> 3-wide threshold of 5..7 blocks; ceiling lowers with narrowing; antechamber tall",
+    "verdict": "PASS",
+    "evidence": "widths [('C3', 7), ('R', 5), ('T', 3)]; walked headroom along approach [5, 4, 3] (non-increasing); threshold length 6 (cavity + hall-wall port); antechamber clear height 10"
+   },
+   {
+    "id": "H1",
+    "title": "Royal hall reservation contains the Q43/Q44 clear interior 33x33 and 16 high, with >=3 lateral and >=2 vertical structural thickness (PROPOSED thickness)",
+    "verdict": "PASS",
+    "evidence": "interior 33x33x16 at X[5,37] Z[5,37] Y[-22,-7]; reservation X[2,40] Z[2,40] Y[-24,-5]; shell thickness W/E/N/S/floor/roof = (3, 3, 3, 3, 2, 2)"
+   },
+   {
+    "id": "Q2",
+    "title": "Q37: L1/L2/L3 are horizontally staggered (distinct plan centres, monotone drift) - exact centres are PROPOSED",
+    "verdict": "PASS",
+    "evidence": "plan bounding-corner centroids {'L1': (-20.333333333333332, -10.916666666666666), 'L2': (-18.75, 8.9375), 'L3': (12.875, -4.625)}"
+   },
+   {
+    "id": "I1",
+    "title": "Independent AABB geometry agrees with the voxel model (cavity extents, lowest Y)",
+    "verdict": "PASS",
+    "evidence": "analytic {'x': [-39, 30], 'z': [-26, 21], 'ymin': -22} vs voxel X[-39, 30] Z[-26, 21] Ymin -22"
+   },
+   {
+    "id": "I2",
+    "title": "Independent pairwise AABB intersection volume between different cavities is zero (no collision, Y included)",
+    "verdict": "PASS",
+    "evidence": "intersections: []"
+   },
+   {
+    "id": "I3",
+    "title": "Independent analytic corridor widths (union of box extents per cross-section) meet Q40",
+    "verdict": "PASS",
+    "evidence": "analytic min widths {'C1': 7, 'C2': 7, 'C3': 7, 'R': 5, 'T': 3}; violations []"
+   }
+  ],
+  "metrics": {
+   "cavity_x": [
+    -39,
+    30
+   ],
+   "cavity_z": [
+    -26,
+    21
+   ],
+   "cavity_y": [
+    -22,
+    -2
+   ],
+   "reserve_x": [
+    2,
+    40
+   ],
+   "reserve_z": [
+    2,
+    40
+   ],
+   "lowest_cavity_Y": -22,
+   "lowest_reserved_Y": -39,
+   "ext_blocks": 0,
+   "cavity_voxels_outside_pm40": 0,
+   "reserved_voxels_outside_pm40": 0,
+   "analytic_cavity_outside": 0,
+   "p2_cavity_voxels": 8195,
+   "width_rows": [
+    [
+     "C1",
+     7,
+     7,
+     5,
+     5
+    ],
+    [
+     "FA",
+     7,
+     7,
+     5,
+     5
+    ],
+    [
+     "FB",
+     7,
+     7,
+     5,
+     5
+    ],
+    [
+     "C2",
+     7,
+     7,
+     5,
+     5
+    ],
+    [
+     "FC",
+     7,
+     7,
+     5,
+     5
+    ],
+    [
+     "FD",
+     7,
+     7,
+     5,
+     5
+    ],
+    [
+     "C3",
+     7,
+     7,
+     5,
+     5
+    ],
+    [
+     "R",
+     5,
+     5,
+     4,
+     4
+    ],
+    [
+     "T",
+     3,
+     3,
+     3,
+     3
+    ]
+   ],
+   "centroids": {
+    "L1": [
+     -20.333333333333332,
+     -10.916666666666666
+    ],
+    "L2": [
+     -18.75,
+     8.9375
+    ],
+    "L3": [
+     12.875,
+     -4.625
+    ]
+   }
+  },
+  "reach": 1605,
+  "independent": {
+   "box_intersections": [],
+   "cavity_extent": {
+    "x": [
+     -39,
+     30
+    ],
+    "z": [
+     -26,
+     21
+    ],
+    "ymin": -22
+   },
+   "analytic_widths": {
+    "C1": 7,
+    "C2": 7,
+    "C3": 7,
+    "R": 5,
+    "T": 3
+   }
+  },
+  "route_distance": {
+   "MAIN:C1": 20,
+   "MAIN:V12": 38,
+   "MAIN:LND12": 52,
+   "MAIN:C2": 61,
+   "MAIN:V23": 73,
+   "MAIN:LND23": 80,
+   "MAIN:C3": 90,
+   "MAIN:R": 97,
+   "MAIN:A": 110,
+   "MAIN:PORT": 117,
+   "OPT:T1": 23,
+   "OPT:T2": 33,
+   "OPT:T3": 22,
+   "OPT:B1": 67,
+   "OPT:B2": 77,
+   "OPT:B3": 67
+  },
+  "vsep": [
+   [
+    2,
+    "BR3",
+    "P1:S04"
+   ],
+   [
+    2,
+    "T3",
+    "P1:S04"
+   ],
+   [
+    3,
+    "C1",
+    "B3"
+   ],
+   [
+    3,
+    "C1",
+    "B3"
+   ],
+   [
+    3,
+    "T3",
+    "V23"
+   ],
+   [
+    4,
+    "T3",
+    "FC"
+   ]
+  ]
+ },
+ "equivalence": {
+  "voxel_solid": true,
+  "voxel_owner": true,
+  "voxel_reserved": true,
+  "metrics_mirrored": true,
+  "same_verdicts": true
+ },
+ "hall_corner_search": [
+  {
+   "corner": "SW",
+   "x": [
+    -40,
+    -2
+   ],
+   "z": [
+    2,
+    40
+   ],
+   "conflicts_at_design_depth": [],
+   "extra_depth_to_clear": 0,
+   "lowest_Y_if_cleared": -24
+  },
+  {
+   "corner": "SE",
+   "x": [
+    2,
+    40
+   ],
+   "z": [
+    2,
+    40
+   ],
+   "conflicts_at_design_depth": [
+    "B1",
+    "B2",
+    "BRB1",
+    "BRB2",
+    "BRB3",
+    "C2",
+    "FA",
+    "FB",
+    "FC",
+    "LND12",
+    "T3",
+    "V23"
+   ],
+   "extra_depth_to_clear": 15,
+   "lowest_Y_if_cleared": -39
+  },
+  {
+   "corner": "NW",
+   "x": [
+    -40,
+    -2
+   ],
+   "z": [
+    -40,
+    -2
+   ],
+   "conflicts_at_design_depth": [
+    "P1:S05",
+    "P1:S06"
+   ],
+   "extra_depth_to_clear": 4,
+   "lowest_Y_if_cleared": -28
+  },
+  {
+   "corner": "NE",
+   "x": [
+    2,
+    40
+   ],
+   "z": [
+    -40,
+    -2
+   ],
+   "conflicts_at_design_depth": [
+    "B3",
+    "BR1",
+    "BR2",
+    "BR3",
+    "BRB3",
+    "C1",
+    "FA",
+    "FC",
+    "LND23",
+    "P1:S05",
+    "P1:S06",
+    "T1",
+    "T2",
+    "T3",
+    "V12"
+   ],
+   "extra_depth_to_clear": 16,
+   "lowest_Y_if_cleared": -40
+  }
+ ],
+ "vault_search": {
+  "L3-level (lateral, vault interior at F=-22)": {
+   "e": 0,
+   "placements": 40,
+   "first": [
+    -9,
+    21,
+    -40,
+    -14
+   ],
+   "nearest_to_hall": {
+    "plan_gap_blocks": 14,
+    "x_z": [
+     -9,
+     21,
+     -39,
+     -13
+    ]
+   },
+   "y": [
+    -24,
+    -11
+   ]
+  },
+  "stacked below royal hall (vault interior F=-37)": {
+   "e": 0,
+   "placements": 2248,
+   "first": [
+    -40,
+    -14,
+    -40,
+    -10
+   ],
+   "nearest_to_hall": {
+    "plan_gap_blocks": 2,
+    "x_z": [
+     -40,
+     -14,
+     -31,
+     -1
+    ]
+   },
+   "y": [
+    -39,
+    -26
+   ]
+  }
+ },
+ "depth": [
+  [
+   "L1 floor (E1, from P1)",
+   -6,
+   "P1 interface (sourced)"
+  ],
+  [
+   "L1->L2 total rise",
+   8,
+   "2 flights x 4 risers, 1:1 (PROPOSED)"
+  ],
+  [
+   "L2 floor",
+   -14,
+   "derived"
+  ],
+  [
+   "L2->L3 total rise",
+   8,
+   "2 flights x 4 risers, 1:1 (PROPOSED)"
+  ],
+  [
+   "L3 floor / royal-hall floor",
+   -22,
+   "derived"
+  ],
+  [
+   "Floor slab beneath L3 (2) -> lowest placed block, L1-L3 + hall",
+   -24,
+   "PROPOSED slab 2"
+  ],
+  [
+   "Hall reservation bottom",
+   -24,
+   "interior floor -22, slab 2"
+  ],
+  [
+   "Secret-vault candidate A bottom (stacked under hall)",
+   -39,
+   "UNVERIFIED stage-P4 candidate"
+  ]
+ ],
+ "secret_candidate": {
+  "vault_plan": [
+   27,
+   31
+  ],
+  "interior": [
+   21,
+   25,
+   10
+  ],
+  "inside_hall_footprint": true,
+  "solid_between_vault_void_and_hall_bottom": 3,
+  "stair_overlaps_vault": false,
+  "stair_box": [
+   -13,
+   -3,
+   -39,
+   -25,
+   9,
+   39
+  ],
+  "strip_width_for_stair": 11,
+  "rise_hall_to_vault": 15,
+  "horizontal_run_available": 31,
+  "ok": true
+ }
+}

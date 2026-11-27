@@ -1,0 +1,24 @@
+diff --git a/docs/STRUCTURE_AUTHORITY_INDEX.md b/docs/STRUCTURE_AUTHORITY_INDEX.md
+index 2ab2dbe0..5d24bfea 100644
+--- a/docs/STRUCTURE_AUTHORITY_INDEX.md
++++ b/docs/STRUCTURE_AUTHORITY_INDEX.md
+@@ -39,3 +39,19 @@ On the Wave 10 integration branch (PR #182) the three pinned records are also pr
+ ## Acquisition constraint carried by structure work
+ 
+ The Ancient City remains an **Ancient Heart** source, as recorded in [CONTENT_FINALIZATION_IMPLEMENTATION_2026-10-07.md](CONTENT_FINALIZATION_IMPLEMENTATION_2026-10-07.md). Neither the Ancient City expansion nor the pyramid may remove that route (F-2).
++
++## Status corrections (2026-11-10)
++
++Historical text above is preserved unchanged. These corrections come from the repository state audit
++(`docs/audit/REPO-STATE-20261110/REPORT.md` on the audit branch) and were verified against the remote on 2026-11-10:
++
++- **PR #219** (cited as the ST-05 implementation on "Draft PR #219") is **closed, not merged**. Its base branch
++  (`probe/st05-stage0-a02-a03-20261030`) and head branch (`claude/st05-stage1a-integration-ydvo8d`) no longer exist.
++  Its head commit `8a1ae3d1` **is contained in `checkpoint/wave16-unified-20261104`**, so the implementation is integrated
++  there; the PR reference is stale, the code is not.
++- **PR #83** (Ancient City arena prototype, branch `codex/ancient-city-arena-prototype-20261013`) is **closed**. The branch no
++  longer exists. Its head `e7dc53f9f4` is reachable only through `refs/pull/83/head`; it is contained in no branch.
++- **PR #181** (Wave 9 release candidate) is **closed**. Branch `release/wave9-rc-20261025` still exists at the pinned commit
++  `268ec65bb8827c3f627d076188c7924225b8afa0`; that commit is contained in neither `main` nor `checkpoint/wave16-unified-20261104`.
++  The pins above stay valid only while that branch exists.
++

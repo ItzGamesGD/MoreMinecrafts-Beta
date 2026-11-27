@@ -1,0 +1,71 @@
+{
+ "results": [
+  {
+   "style": "snowy",
+   "independent_cardinal_and_half_height": "PASS",
+   "server_sampled_ids_match": "PASS",
+   "nonair_head_blocks": [],
+   "actual_movement": "UNVERIFIED",
+   "island_network_and_floor_1": "UNVERIFIED"
+  },
+  {
+   "style": "meadow",
+   "independent_cardinal_and_half_height": "PASS",
+   "server_sampled_ids_match": "PASS",
+   "nonair_head_blocks": [
+    {
+     "pos": [
+      34,
+      18,
+      21
+     ],
+     "id": "minecraft:tall_grass"
+    }
+   ],
+   "actual_movement": "UNVERIFIED",
+   "island_network_and_floor_1": "UNVERIFIED"
+  },
+  {
+   "style": "forest",
+   "independent_cardinal_and_half_height": "PASS",
+   "server_sampled_ids_match": "PASS",
+   "nonair_head_blocks": [
+    {
+     "pos": [
+      34,
+      19,
+      21
+     ],
+     "id": "minecraft:oak_leaves"
+    }
+   ],
+   "actual_movement": "UNVERIFIED",
+   "island_network_and_floor_1": "UNVERIFIED"
+  },
+  {
+   "style": "badlands",
+   "independent_cardinal_and_half_height": "PASS",
+   "server_sampled_ids_match": "PASS",
+   "nonair_head_blocks": [],
+   "actual_movement": "UNVERIFIED",
+   "island_network_and_floor_1": "UNVERIFIED"
+  },
+  {
+   "style": "desert",
+   "independent_cardinal_and_half_height": "PASS",
+   "server_sampled_ids_match": "PASS",
+   "nonair_head_blocks": [],
+   "actual_movement": "UNVERIFIED",
+   "island_network_and_floor_1": "UNVERIFIED"
+  },
+  {
+   "style": "rocky",
+   "independent_cardinal_and_half_height": "PASS",
+   "server_sampled_ids_match": "PASS",
+   "nonair_head_blocks": [],
+   "actual_movement": "UNVERIFIED",
+   "island_network_and_floor_1": "UNVERIFIED"
+  }
+ ],
+ "scope": "coordinate and server ID checks only; no collision shape or player movement"
+}

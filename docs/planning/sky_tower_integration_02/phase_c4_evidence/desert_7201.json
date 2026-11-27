@@ -1,0 +1,47 @@
+{
+  "seed": 7201,
+  "styles_found": [
+    "desert"
+  ],
+  "automatic_registration_site_count": 1,
+  "styles": {
+    "snowy": {
+      "reason": "no natural start found in scan radius",
+      "pass": false
+    },
+    "meadow": {
+      "reason": "no natural start found in scan radius",
+      "pass": false
+    },
+    "forest": {
+      "reason": "no natural start found in scan radius",
+      "pass": false
+    },
+    "badlands": {
+      "reason": "no natural start found in scan radius",
+      "pass": false
+    },
+    "desert": {
+      "blocked_barrier_cells": 0,
+      "piece_bounds": "BoundingBox{minX\u003d-176, minY\u003d-2, minZ\u003d-560, maxX\u003d-119, maxY\u003d94, maxZ\u003d-512}",
+      "rotation": 0,
+      "runtime_barrier_air_cells": 72,
+      "composite_piece_count": 1,
+      "seen_chunk": "-11,-35",
+      "legacy_tower_child_count": 0,
+      "automatically_registered": true,
+      "chunks_loaded": true,
+      "trial_spawners": 16,
+      "site": "minecraft:overworld|-176,15,-560|0",
+      "vaults": 8,
+      "pass": true,
+      "structure": "moreminecrafts:sky_island_desert"
+    },
+    "rocky": {
+      "reason": "no natural start found in scan radius",
+      "pass": false
+    }
+  },
+  "pass": false,
+  "client_movement_visual_and_restart": "not tested by this fresh-world server probe"
+}

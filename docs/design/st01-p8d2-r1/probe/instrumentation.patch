@@ -1,0 +1,143 @@
+diff --git a/src/gametest/resources/fabric.mod.json b/src/gametest/resources/fabric.mod.json
+index 3db6545d..1774a192 100644
+--- a/src/gametest/resources/fabric.mod.json
++++ b/src/gametest/resources/fabric.mod.json
+@@ -12,7 +12,9 @@
+       "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01p8a.RoyalHallPlacementProbe",
+       "dev.itzgamesgd.moreminecrafts.worldgenprobe.St05CavernIdentityProbe",
+       "dev.itzgamesgd.moreminecrafts.worldgenprobe.SkyHabitatNaturalProbe",
+-      "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01c2b.St01C2BProbe"
++      "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01c2b.St01C2BProbe",
++      "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01d2.St01D2Probe",
++      "dev.itzgamesgd.moreminecrafts.worldgenprobe.st01r1.St01R1Probe"
+     ],
+     "fabric-gametest": [
+       "dev.itzgamesgd.moreminecrafts.material.EtheriumFortuneGameTests",
+diff --git a/src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01Eligibility.java b/src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01Eligibility.java
+index bda72b26..7dc14d23 100644
+--- a/src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01Eligibility.java
++++ b/src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01Eligibility.java
+@@ -52,7 +52,11 @@ public final class St01Eligibility {
+     private static final Result BIOME_REJECT = new Result(Verdict.REJECT_BIOME, 0, 0, 0, 0, 0, 0);
+ 
+     public static Result evaluate(Terrain terrain, int centerX, int centerZ) {
+-        if (!fullFootprintDesert(terrain, centerX, centerZ)) return BIOME_REJECT;
++        long iT0 = System.nanoTime();
++        boolean desertOk = fullFootprintDesert(terrain, centerX, centerZ);
++        if (St01Instr.ON) St01Instr.time(desertOk ? "elig.stage1.desertFootprint.pass" : "elig.stage1.desertFootprint.reject", System.nanoTime() - iT0);
++        if (!desertOk) return BIOME_REJECT;
++        long iT1 = System.nanoTime();
+ 
+         int half = St01PlacementConfig.FOOTPRINT_HALF_WIDTH;
+         int step = St01PlacementConfig.HEIGHT_SAMPLE_STEP;
+@@ -62,6 +66,7 @@ public final class St01Eligibility {
+         for (int dx = -half; dx <= half; dx += step) {
+             for (int dz = -half; dz <= half; dz += step) heights[n++] = terrain.surfaceHeight(centerX + dx, centerZ + dz);
+         }
++        if (St01Instr.ON) St01Instr.time("elig.stage2.heightSampling6561", System.nanoTime() - iT1);
+         Arrays.sort(heights);
+         int min = heights[0], max = heights[heights.length - 1];
+         int yf = heights[heights.length / 2];
+@@ -86,9 +91,11 @@ public final class St01Eligibility {
+         int qx0 = Math.floorDiv(centerX - half - 2, 4), qx1 = Math.floorDiv(centerX + half - 2, 4) + 1;
+         int qz0 = Math.floorDiv(centerZ - half - 2, 4), qz1 = Math.floorDiv(centerZ + half - 2, 4) + 1;
+         // Cheap early exit on the centre cell before the full sweep.
+-        if (!cellColumnDesert(terrain, Math.floorDiv(centerX, 4), Math.floorDiv(centerZ, 4))) return false;
++        if (!cellColumnDesert(terrain, Math.floorDiv(centerX, 4), Math.floorDiv(centerZ, 4))) { if (St01Instr.ON) St01Instr.count("desert.rejectedAtCentreCell", 1); return false; }
++        if (St01Instr.ON) St01Instr.count("desert.centreCellPassed", 1);
+         for (int qx = qx0; qx <= qx1; qx++) {
+             for (int qz = qz0; qz <= qz1; qz++) {
++                if (St01Instr.ON) St01Instr.count("desert.sweepCellsChecked", 1);
+                 if (!cellColumnDesert(terrain, qx, qz)) return false;
+             }
+         }
+diff --git a/src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01PyramidStructure.java b/src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01PyramidStructure.java
+index 89a2bed4..632b2f6c 100644
+--- a/src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01PyramidStructure.java
++++ b/src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01PyramidStructure.java
+@@ -54,9 +54,11 @@ public final class St01PyramidStructure extends Structure {
+ 
+     @Override
+     protected Optional<GenerationStub> findGenerationPoint(GenerationContext context) {
++        long instrT0 = System.nanoTime();
+         Rotation rotation = Rotation.getRandom(context.random());
+         St01Candidate.Decision decision = St01Candidate.decide(new GeneratorTerrain(context), context.chunkPos(), rotation, context.seed());
+         VERDICT_COUNTS.get(decision.result().verdict()).incrementAndGet();
++        if (St01Instr.ON) { long d = System.nanoTime() - instrT0; St01Instr.time("fgp.total", d); St01Instr.time("fgp.verdict." + decision.result().verdict(), d); }
+         if (decision.ground().isEmpty()) return Optional.empty();
+         BlockPos ground = decision.ground().get();
+         AccessRoute route = decision.route().orElseThrow();
+@@ -67,10 +69,12 @@ public final class St01PyramidStructure extends Structure {
+     /** Correction first, then ASSEMBLY, D1_ROYAL_HALL, D1_SEAM_EXCEPTION: the approved P8-C2-A order. */
+     public static void addPieces(StructurePiecesBuilder builder, StructureTemplateManager templates, BlockPos ground,
+             Orientation orientation, AccessRoute route) {
++        long instrT0 = System.nanoTime();
+         builder.addPiece(new St01FootprintCorrectionPiece(ground.getX(), ground.getY(), ground.getZ()));
+         for (int i = 0; i < St01PyramidAssembly.pieces(route).size(); i++) {
+             builder.addPiece(new St01AssemblyPiece(templates, ground, orientation, route, i));
+         }
++        if (St01Instr.ON) St01Instr.time("pieces.addPieces(incl.template.load)", System.nanoTime() - instrT0);
+     }
+ 
+     @Override
+@@ -91,12 +95,26 @@ public final class St01PyramidStructure extends Structure {
+ 
+         @Override
+         public int surfaceHeight(int x, int z) {
+-            return heights.computeIfAbsent(key(x, z), k -> context.chunkGenerator().getBaseHeight(x, z,
++            if (St01Instr.ON) St01Instr.count("height.calls", 1);
++            return heights.computeIfAbsent(key(x, z), k -> St01Instr.ON ? timedHeight(x, z) : context.chunkGenerator().getBaseHeight(x, z,
+                     Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor(), context.randomState()));
+         }
+ 
++        private int timedHeight(int x, int z) {
++            long t0 = System.nanoTime();
++            int h = context.chunkGenerator().getBaseHeight(x, z, Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor(), context.randomState());
++            St01Instr.time("height.compute(getBaseHeight)", System.nanoTime() - t0);
++            return h;
++        }
++
+         @Override
+         public boolean isDesertCell(int quartX, int quartY, int quartZ) {
++            if (St01Instr.ON) {
++                long t0 = System.nanoTime();
++                boolean b = context.biomeResolver().getNoiseBiome(quartX, quartY, quartZ).is(Biomes.DESERT);
++                St01Instr.time("biome.lookup(getNoiseBiome)", System.nanoTime() - t0);
++                return b;
++            }
+             return context.biomeResolver().getNoiseBiome(quartX, quartY, quartZ).is(Biomes.DESERT);
+         }
+     }
+diff --git a/src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01Instr.java b/src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01Instr.java
+new file mode 100644
+index 00000000..1617b2d3
+--- /dev/null
++++ b/src/main/java/dev/itzgamesgd/moreminecrafts/pyramid/worldgen/St01Instr.java
+@@ -0,0 +1,27 @@
++package dev.itzgamesgd.moreminecrafts.pyramid.worldgen;
++
++import java.util.Map;
++import java.util.TreeMap;
++import java.util.concurrent.ConcurrentHashMap;
++import java.util.concurrent.atomic.AtomicLong;
++
++/** P8-D2-R1 DISPOSABLE instrumentation (worktree only; never committed to production). Off unless -Dmm.st01.instr=true. */
++public final class St01Instr {
++    public static final boolean ON = Boolean.getBoolean("mm.st01.instr");
++    private St01Instr() {}
++    static final class C { final AtomicLong n = new AtomicLong(), ns = new AtomicLong(), max = new AtomicLong(); }
++    private static final Map<String, C> M = new ConcurrentHashMap<>();
++    private static String thr() { return Thread.currentThread().getName().startsWith("Server thread") ? "main" : "worker"; }
++    public static void time(String k, long ns) {
++        C c = M.computeIfAbsent(k + "|" + thr(), x -> new C());
++        c.n.incrementAndGet(); c.ns.addAndGet(ns); c.max.accumulateAndGet(ns, Math::max);
++    }
++    public static void count(String k, long v) { M.computeIfAbsent(k + "|" + thr(), x -> new C()).n.addAndGet(v); }
++    public static void reset() { M.clear(); }
++    /** key -> {count, total ns, max ns} */
++    public static Map<String, long[]> snapshot() {
++        Map<String, long[]> out = new TreeMap<>();
++        M.forEach((k, c) -> out.put(k, new long[]{c.n.get(), c.ns.get(), c.max.get()}));
++        return out;
++    }
++}

@@ -1,0 +1,113 @@
+package dev.itzgamesgd.moreminecrafts.worldgenprobe.st01d1;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import dev.itzgamesgd.moreminecrafts.pyramid.worldgen.St01Worldgen;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.chunk.status.ChunkStatus;
+import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadStructurePlacement;
+
+/**
+ * ST-01 P8-D1 READ-ONLY feasibility probe (not production, not committed as code; see docs). Inert unless -Dmm.st01.d1.out is set.
+ * Question: does vanilla ServerLevel.findNearestMapStructure return an ACTUAL valid ST-01 start (not a merely eligible candidate),
+ * what does it return relative to the anchor, and what does a call cost? Cold calls run BEFORE the ground-truth enumeration.
+ */
+public final class St01LocateProbe implements ModInitializer {
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
+
+    @Override
+    public void onInitialize() {
+        String out = System.getProperty("mm.st01.d1.out");
+        if (out == null) return;
+        ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+            Map<String, Object> res = new LinkedHashMap<>();
+            try { run(server.overworld(), res); } catch (Throwable t) { res.put("error", t.toString()); t.printStackTrace(); }
+            try {
+                Files.writeString(Path.of(out), GSON.toJson(res), StandardCharsets.UTF_8);
+            } catch (Exception e) { e.printStackTrace(); }
+            Runtime.getRuntime().halt(0);
+        });
+    }
+
+    private static void run(ServerLevel level, Map<String, Object> res) {
+        long seed = level.getSeed();
+        res.put("seed", seed);
+        var structures = level.registryAccess().lookupOrThrow(Registries.STRUCTURE);
+        var holder = structures.get(St01Worldgen.STRUCTURE_ID).orElseThrow();
+        var set = HolderSet.direct(holder);
+        int radius = Integer.getInteger("mm.st01.d1.radius", 20);
+        int[][] origins = {{0, 0}, {-8000, 8000}, {4000, -4000}, {-1700, 2600}};
+        List<Map<String, Object>> cold = new ArrayList<>();
+        for (int[] o : origins) {
+            Map<String, Object> r = new LinkedHashMap<>();
+            r.put("origin", o[0] + "," + o[1]); r.put("radius_param", radius);
+            long t0 = System.nanoTime();
+            BlockPos found = level.findNearestMapStructure(set, new BlockPos(o[0], 64, o[1]), radius, false);
+            r.put("cold_ms", (System.nanoTime() - t0) / 1_000_000.0);
+            r.put("result", found == null ? null : found.getX() + "," + found.getY() + "," + found.getZ());
+            long t1 = System.nanoTime();
+            BlockPos again = level.findNearestMapStructure(set, new BlockPos(o[0], 64, o[1]), radius, false);
+            r.put("repeat_ms", (System.nanoTime() - t1) / 1_000_000.0);
+            r.put("repeat_same", found == null ? again == null : found.equals(again));
+            cold.add(r);
+        }
+        res.put("locate_calls", cold);
+        // ground truth: every potential anchor in +-10240 and its REAL start
+        var placement = (RandomSpreadStructurePlacement) level.registryAccess().lookupOrThrow(Registries.STRUCTURE_SET)
+                .get(net.minecraft.resources.Identifier.fromNamespaceAndPath("moreminecrafts", "st01_pyramid")).orElseThrow().value().placement();
+        int spacing = placement.spacing(), radiusChunks = 10240 / 16;
+        int r0 = Math.floorDiv(-radiusChunks, spacing), r1 = Math.floorDiv(radiusChunks - 1, spacing);
+        List<Map<String, Object>> starts = new ArrayList<>();
+        int potential = 0;
+        for (int rx = r0; rx <= r1; rx++) for (int rz = r0; rz <= r1; rz++) {
+            ChunkPos pc = placement.getPotentialStructureChunk(seed, rx * spacing, rz * spacing);
+            if (Math.abs(pc.getMiddleBlockX()) > 10240 || Math.abs(pc.getMiddleBlockZ()) > 10240) continue;
+            potential++;
+            var start = level.getChunk(pc.x(), pc.z(), ChunkStatus.STRUCTURE_STARTS).getStartForStructure(holder.value());
+            if (start != null && start.isValid()) {
+                Map<String, Object> s = new LinkedHashMap<>();
+                s.put("chunk", pc.x() + "," + pc.z());
+                s.put("anchor_xz", (pc.getMinBlockX() + 8) + "," + (pc.getMinBlockZ() + 8));
+                s.put("box_center_xz", start.getBoundingBox().getCenter().getX() + "," + start.getBoundingBox().getCenter().getZ());
+                starts.add(s);
+            }
+        }
+        res.put("potential_anchors", potential);
+        res.put("actual_valid_starts", starts);
+        // verdict per call: is the returned block inside the chunk of an actual valid start, and is it the true nearest start by chunk distance?
+        for (Map<String, Object> r : cold) {
+            String result = (String) r.get("result");
+            String[] og = ((String) r.get("origin")).split(",");
+            double ox = Double.parseDouble(og[0]), oz = Double.parseDouble(og[1]);
+            String nearest = null; double best = Double.MAX_VALUE;
+            for (Map<String, Object> s : starts) {
+                String[] a = ((String) s.get("anchor_xz")).split(",");
+                double d = Math.hypot(Double.parseDouble(a[0]) - ox, Double.parseDouble(a[1]) - oz);
+                if (d < best) { best = d; nearest = (String) s.get("chunk"); }
+            }
+            r.put("true_nearest_start_chunk_within_enumerated_area", nearest);
+            r.put("true_nearest_distance_blocks", nearest == null ? null : best);
+            if (result != null) {
+                String[] p = result.split(",");
+                ChunkPos rc = ChunkPos.containing(new BlockPos(Integer.parseInt(p[0]), 0, Integer.parseInt(p[2])));
+                r.put("result_chunk", rc.x() + "," + rc.z());
+                r.put("result_chunk_is_actual_valid_start", starts.stream().anyMatch(s -> s.get("chunk").equals(rc.x() + "," + rc.z())));
+                r.put("result_chunk_equals_true_nearest", (rc.x() + "," + rc.z()).equals(nearest));
+            }
+        }
+        res.put("note", "radius_param semantics, result offset from anchor and costs are read from these numbers only");
+    }
+}

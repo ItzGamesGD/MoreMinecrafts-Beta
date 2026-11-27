@@ -1,4 +1,3 @@
-
 > **HISTORICAL DECISION — SUPERSEDED (2026-10-10):** The three-choice selector correction below is retained as an earlier record. The later approved concept reference and direct clarification specify four visible cards, with XP Quest disabled and marked for later.
 
 # MoreMinecrafts — Approved Advancement / Knowledge / Research UI (2026-10-10)
@@ -15,7 +14,7 @@ The selected discipline's tree reuses vanilla advancement box/frame sprites, ite
 
 ## Superseding selector and device decisions — 2026-10-10
 
-- Pressing the vanilla advancement key opens a selector with four visible cards: **발전 과제**, **지식**, and **연구** are active; **XP 퀘스트** is visibly disabled and marked as coming later. The disabled Quest card opens no screen. The first three cards each open their corresponding separate screen. Vanilla Advancements content remains accessible.
+- Pressing the vanilla advancement key opens a selector with four visible cards: **발전 과제**, **지식**, and **연구** are active; **XP 퀘스트** is visibly disabled and marked as coming later. The disabled Quest card opens no screen. The first three cards each open their corresponding separate screen. Vanilla Advancements content remains accessible. *(Superseded for the XP Quest card by the XP Quest amendment — 2026-10-17 at the end of this document.)*
 - Use the attached selector concept art for the card composition, borders, colors, Korean labels, disabled Quest treatment, and close button. Exact texture assets may use compatible vanilla resources when the concept illustration files are not available in the repository.
 - Chest sorting uses the standalone chest reference and its four controls: sort by type, merge identical items, tidy empty slots, and toggle sort direction. The combined chest/hopper image is not the chest authority.
 - Hopper filtering uses only the hopper portion of the combined reference: hopper slots, allow-list selector, filter slots, and NBT-ignore toggle. Matching and transfer behavior remain governed by gameplay authority; the picture does not define additional mechanics.
@@ -26,7 +25,7 @@ The selected discipline's tree reuses vanilla advancement box/frame sprites, ite
 ## Main experience
 
 - Use the **vanilla Minecraft Advancements screen** as the authoritative layout, textures, visual language, connected-node tree and navigation reference. Avoid a new RPG dashboard, decorative custom art, floating purchase side-panel or unrelated visual theme.
-- The **same advancement key** opens the four-card selector described above. 발전 과제 opens vanilla Advancements, 지식 opens its own screen, and 연구 opens its own screen. XP 퀘스트 remains a disabled, visible future placeholder and has no functioning screen.
+- The **same advancement key** opens the four-card selector described above. 발전 과제 opens vanilla Advancements, 지식 opens its own screen, and 연구 opens its own screen. XP 퀘스트 remains a disabled, visible future placeholder and has no functioning screen. *(Superseded for the XP Quest card by the XP Quest amendment — 2026-10-17 at the end of this document.)*
 - Existing 7 disciplines: 자원학 / 생산공학 / 생활기술학 / 전투학 / 생태학 / 세계학 / 연금·마법학. Retain them as navigation/grouping within the vanilla-advancement-like layout; distinguish knowledge and research through **node size, icon and click behavior**, rather than wholesale redesign. The exact screen dimensions are not yet pixel-locked.
 - Existing vanilla advancement content and mechanics remain accessible and intact.
 - Keep ordinary vanilla-style connected nodes and pan/navigation behavior. The later seven-sector navigation follow-up above supersedes the earlier sentence that rejected a separate radial discipline selector.
@@ -36,7 +35,7 @@ The selected discipline's tree reuses vanilla advancement box/frame sprites, ite
   Show achieved/not-achieved state. No knowledge purchase button.
 - Research nodes show **선행 조건 + 재료/XP 연구 비용 + 구매 버튼**, using an advancement-like detail presentation; button only enabled when all conditions are met. Server-authoritative validation/deduction, explicit confirmation and per-player synchronization remain required. Clicking a node must not silently purchase it.
 - T1/T2/T3 are **classification labels**, NOT a mandatory continuous prerequisite chain. Preserve only real logical dependencies, including permitted T1 -> T3 paths.
-- XP quest objectives and rewards remain **DEFERRED**; only the disabled selector placeholder is approved.
+- XP quest objectives and rewards remain **DEFERRED**; only the disabled selector placeholder is approved. *(Superseded for the XP Quest card by the XP Quest amendment — 2026-10-17 at the end of this document.)*
 - No extra visual effects or animations, custom large configuration panels, or newly invented node families without further approval.
 
 ## Approval boundary and current code
@@ -45,3 +44,79 @@ The selected discipline's tree reuses vanilla advancement box/frame sprites, ite
 - The illustrative mockup's sample names, sample icons, XP values, example item costs and arbitrary example connections are **NOT authoritative content or economy**. Source actual node names, prerequisites and prices from the V4 research authority document.
 - Existing Draft PR #75 contains earlier provisional gameplay/UI work. Apply the attached Auto Farm reference to its existing supported menu, and retain the backend limitations for device screens with no functioning feature implementation.
 - Runtime capture and interaction evidence must be reported separately. A render or successful CI job alone does not prove gameplay interaction or visual match.
+
+## XP Quest amendment — 2026-10-17 (user-approved)
+
+This amendment supersedes, for the XP Quest card only, the earlier lines stating that the XP Quest card is a disabled placeholder and that XP quest objectives and rewards are DEFERRED. The approved items below are design authority, not implementation.
+
+### Approved UI
+
+- The XP Quest screen **directly reuses the vanilla Advancements screen** (`AdvancementsScreen`) through client-side synthesis. The server keeps quest progress, completion and claim state in the existing `quest.progress.*`, `quest.complete.*` and `quest.claimed.*` keys of the player progression attachment and syncs them as today. The client builds a separate `ClientAdvancements` instance from the quest catalog and that synced state, then opens `AdvancementsScreen` with it.
+- Kept vanilla: tabs, nodes, connector lines, tooltips, scrolling/dragging, frame types and obtained/unobtained display. No custom UI design is added.
+- The only interaction added is **clicking a completed, unclaimed node to claim its XP**. Clicking any other node does nothing beyond vanilla behaviour.
+- Three node states must be distinguishable:
+  1. **Not achieved** — vanilla unobtained display.
+  2. **Achieved, unclaimed** — vanilla obtained display plus a claim indicator.
+  3. **Claimed** — vanilla obtained display plus a claimed indicator.
+  The exact indicator art is an implementation detail and stays LIVE VALIDATION PENDING.
+- On completion, the client shows a **vanilla-style toast**. Completing a quest grants no XP. XP is granted **only** when the player clicks to claim.
+- Visual node connections are not unlock locks.
+
+### Approved reward and transaction rules
+
+- Claims are server-authoritative and claim-once. The existing `QuestProgressService.claim` order is retained: check claimed → record claimed → grant XP, on the server thread. Duplicate requests return `ALREADY_CLAIMED`. **Grant-failure rollback (approved 2026-10-17):** if the XP grant fails after `claimed` has been recorded, the claim is rolled back in the same server operation — `quest.claimed.<id>` is cleared and the player's level, progress and `totalExperience` are restored to their pre-claim values — and the request returns a failure result. A claim must never end with `claimed` set and the XP not granted, or the XP granted twice. Claim state persists across death, relog and restart through the persistent, copy-on-death attachment.
+- **Unclaimed quests may be held as an XP store.** Claiming at any later time is allowed.
+- Quest XP grants and all MoreMinecrafts XP deductions use **exact raw-XP calculation**.
+  - **Implementation requirement:**
+    1. Compute the new total raw XP (current `RawXp.available` ± amount).
+    2. Convert it to level + remaining points.
+    3. Apply `ServerPlayer.setExperienceLevels(level)` **first**, then `setExperiencePoints(remainingPoints)`.
+    4. **Set `player.totalExperience` to the same new total in the same operation.** Neither setter updates `totalExperience` (verified in 26.3 bytecode).
+  - The setters reset the server's experience sync marker, so the client receives the updated level, progress and total on the next tick.
+  - The float-accumulating `giveExperiencePoints(±n)` path is not used for these transactions.
+- Quest rewards are delivered directly, not as experience orbs, so Research XP-acquisition multipliers and Mending do not apply.
+- **XP Quest reward scope (decided 2026-10-17): 180,000 raw XP across the 180 active quests (NOW + VERIFY), exactly.**
+  - Rounding loss from 50-XP rounding is redistributed across individual quest rewards so the active sum is exactly 180,000. Method: largest remainder in 50-XP units; ties go to catalog order.
+  - The 20 FUTURE / SURVIVAL-LOCKED quests add **29,100 raw XP** on top, for a target of **209,100 raw XP across all 200 quests**.
+  - When new content or quests are added, existing rewards are, in principle, **not reduced**. New rewards are added on top.
+  - FUTURE quests are not registered until their survival acquisition route exists.
+  - **VERIFY quests (20) are not registered until they pass verification.**
+  - **Registration rule (approved 2026-10-17):** the 160 NOW quests are registered **individually, each only after its own automated test passes**. A NOW quest without a passing test is not registered. VERIFY → NOW moves follow the same rule. Moving a quest between NOW and VERIFY never changes its reward or the 180,000 active ledger.
+  - Individual quest content and values in the working catalog remain subject to approval.
+- No separate research-only XP currency is introduced.
+- No dedicated Creative-mode design or validation is required for XP Quests.
+
+### Owner-locked XP Quest tracking policies (approved 2026-10-17)
+
+These six policies are design authority. They may be reopened only on a concrete technical impossibility.
+
+1. **Ore mining:**
+   - Player-placed ores never count toward mining quests.
+   - An ore counts only when it is **verified naturally generated**.
+   - An ore of unknown origin is **not** assumed natural; it does not count.
+   - A mining condition whose naturalness cannot be determined exactly stays VERIFY.
+2. **Building:** every successful server-authoritative block placement counts, including repeated placement of the same block. Failed or cancelled placement does not count.
+3. **Retroactivity:**
+   - Historical progress is fully recognised when supported by reliable persisted evidence.
+   - Unrecorded historical events are never invented.
+4. **Ocean monument:**
+   - All verified participants are credited, not only the final killer.
+   - A participant qualifies through valid Elder Guardian damage or verified combat participation inside the monument.
+   - Mere presence is insufficient.
+   - Credit is given once per player per unique monument.
+5. **Enhancement quests:** possession of qualifying equipment is sufficient, regardless of who performed the enhancement.
+6. **Research expenditure quests:**
+   - These quests evaluate the cumulative approved raw-XP cost of currently owned research.
+   - They do not use historical purchase transactions.
+
+## XP Quest UI architecture amendment — 2026-10-24 (owner-approved)
+
+**Current authority for XP Quest screen architecture.** The owner approves retaining the existing custom `ProgressionBrowseScreen` and `ProgressionTreeCanvas` for XP Quest. This amendment supersedes **only** the 2026-10-17 instruction above to directly open vanilla `AdvancementsScreen` with a synthesized `ClientAdvancements` tree. That earlier instruction remains in this document as an audit record. Precedence: **2026-10-24 XP Quest UI architecture > 2026-10-17 vanilla-screen architecture**.
+
+The four-card selector and its vanilla Advancements destination remain. Knowledge and Research retain their seven-discipline navigation and their separately approved interaction rules. Vanilla visual conventions remain preferred where practical; the custom Quest chapter index, semantic zoom and hysteresis, sub-branch layout, tooltips, node rendering and input handling are approved as the Quest presentation architecture. Architectural approval is **not** physical-input verification or owner acceptance of every visual or interaction.
+
+Keep the 200-slot presentation model. The current 75 registered quests are the implementation baseline; this decision registers no additional quest. It approves no new prerequisites, objectives, rewards, XP costs, economy rules or content release. Visual connectors and grouping remain presentation, not gameplay locks.
+
+All other 2026-10-17 Quest rules remain authoritative, including server-owned `quest.progress.*`, `quest.complete.*` and `quest.claimed.*` state; completion without XP; completed-unclaimed claim interaction; claim-once ordering and grant-failure rollback; persistent state; exact raw-XP accounting; registration and reward gates; and the six owner-locked tracking policies. The custom client must continue to enforce those rules through server validation. No code change or live acceptance is implied by this documentation decision.
+
+Historical design and handoff records on the protected #156 branch that prescribe `QuestClientAdvancements` or a vanilla Quest `AdvancementsScreen`—notably `docs/design/xp-quest/D_UI_XP_COST_UNIT_DESIGN.md` and `docs/design/xp-quest/XP_QUEST_IMPLEMENTATION_HANDOFF.md`—remain source evidence. Their screen-architecture prescriptions are superseded by this amendment; their independent transaction and tracking content is not.

@@ -1,0 +1,496 @@
+package dev.itzgamesgd.moreminecrafts.progression;
+
+import java.lang.reflect.Method;
+import net.fabricmc.fabric.api.gametest.v1.CustomTestMethodInvoker;
+import net.fabricmc.fabric.api.gametest.v1.GameTest;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.ProblemReporter;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.GameType;
+import net.minecraft.world.level.storage.TagValueInput;
+import net.minecraft.world.level.storage.TagValueOutput;
+import net.minecraft.world.level.storage.loot.LootTable;
+
+/**
+ * {@code xpq.cmb.wither_skulls_3}: genuine Wither Skeleton drops are marked on the item entity and credited
+ * once, on the first player pickup, to whichever player collects them.
+ */
+public final class QuestWitherSkullGameTests implements CustomTestMethodInvoker {
+    private static final String QUEST = "xpq.cmb.wither_skulls_3";
+    private static final java.util.UUID HALT_PLAYER = java.util.UUID.fromString("b16cb186-70ce-4dcc-9bfa-d2728c3d4b01");
+    private static final java.nio.file.Path HALT_FIXTURE = java.nio.file.Path.of("quest-skull-halt-fixture.txt");
+    private static final BlockPos HALT_POS = new BlockPos(6408, 100, 6408);
+    private static final ResourceKey<LootTable> ALWAYS_SKULL = ResourceKey.create(Registries.LOOT_TABLE,
+            Identifier.parse("moreminecrafts-gametest:wither_skull_always"));
+
+    private static BlockPos at(GameTestHelper ctx) { return ctx.absolutePos(new BlockPos(1, 1, 1)); }
+
+    /** Spawns {@code type} whose death loot is a guaranteed skull, and kills it. Returns the dropped item entities. */
+    private static java.util.List<ItemEntity> killDroppingSkull(GameTestHelper ctx, ServerPlayer killer,
+                                                                EntityType<? extends LivingEntity> type) {
+        return kill(ctx, killer, type, ALWAYS_SKULL.identifier().toString());
+    }
+
+    private static java.util.List<ItemEntity> kill(GameTestHelper ctx, ServerPlayer killer,
+                                                   EntityType<? extends LivingEntity> type, String lootTable) {
+        ServerLevel level = ctx.getLevel();
+        LivingEntity victim = type.create(level, EntitySpawnReason.COMMAND);
+        BlockPos pos = at(ctx);
+        victim.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+        TagValueOutput out = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, level.registryAccess());
+        victim.saveWithoutId(out);
+        var tag = out.buildResult();
+        tag.putString("DeathLootTable", lootTable);
+        victim.load(TagValueInput.create(ProblemReporter.DISCARDING, level.registryAccess(), tag));
+        level.addFreshEntity(victim);
+        victim.hurtServer(level, killer.damageSources().playerAttack(killer), 100_000F);
+        return items(ctx);
+    }
+
+    private static java.util.List<ItemEntity> items(GameTestHelper ctx) {
+        var box = new net.minecraft.world.phys.AABB(at(ctx)).inflate(4.0D);
+        return ctx.getLevel().getEntitiesOfClass(ItemEntity.class, box,
+                e -> e.getItem().is(Items.WITHER_SKELETON_SKULL));
+    }
+
+    private static void clearItems(GameTestHelper ctx) { items(ctx).forEach(ItemEntity::discard); }
+
+    private static ItemEntity plainSkull(GameTestHelper ctx, int count) {
+        BlockPos pos = at(ctx);
+        ItemEntity item = new ItemEntity(ctx.getLevel(), pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D,
+                new ItemStack(Items.WITHER_SKELETON_SKULL, count));
+        item.setNoPickUpDelay();
+        ctx.getLevel().addFreshEntity(item);
+        return item;
+    }
+
+    private static void touch(ItemEntity item, ServerPlayer player) {
+        item.setNoPickUpDelay();
+        item.playerTouch(player);
+    }
+
+    private static int credited(ServerPlayer player) {
+        return QuestRules.counter(KnowledgeRuntime.state(player), QuestWitherSkullProvenance.DROPS);
+    }
+
+    private static int progress(ServerPlayer player) {
+        XpQuestTracking.reconcile(player);
+        return KnowledgeRuntime.state(player).questProgress(QUEST);
+    }
+
+    private static int skulls(ServerPlayer player) {
+        int total = 0;
+        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+            ItemStack stack = player.getInventory().getItem(i);
+            if (stack.is(Items.WITHER_SKELETON_SKULL)) total += stack.getCount();
+        }
+        return total;
+    }
+
+    private static ServerPlayer fullInventory(GameTestHelper ctx, GameType mode) {
+        ServerPlayer player = QuestPersistentPlayers.mock(ctx.getLevel(), mode);
+        player.getAbilities().instabuild = mode == GameType.CREATIVE;
+        player.getInventory().clearContent();
+        for (int i = 0; i < 36; i++)
+            player.getInventory().setItem(i, new ItemStack(Items.STONE, 64));
+        return player;
+    }
+
+    /** Merge real death-loot drops, keeping this fixture valid when provenance becomes per-unit. */
+    private static ItemEntity mergedDrops(GameTestHelper ctx, ServerPlayer killer, int count) throws Exception {
+        Method merge = ItemEntity.class.getDeclaredMethod("tryToMerge", ItemEntity.class);
+        merge.setAccessible(true);
+        ItemEntity survivor = killDroppingSkull(ctx, killer, EntityTypes.WITHER_SKELETON).getFirst();
+        for (int i = 1; i < count; i++) {
+            ItemEntity previous = survivor;
+            ItemEntity next = killDroppingSkull(ctx, killer, EntityTypes.WITHER_SKELETON).stream()
+                    .filter(e -> e != previous).findFirst().orElseThrow();
+            merge.invoke(survivor, next);
+            if (survivor.isRemoved()) survivor = next;
+        }
+        ctx.assertTrue(survivor.getItem().getCount() == count, "fixture merged genuine drops");
+        return survivor;
+    }
+
+    @GameTest
+    public void fullCreativeInventoryDeletesSkullWithoutCrediting(GameTestHelper ctx) {
+        ServerPlayer player = fullInventory(ctx, GameType.CREATIVE);
+        ItemEntity drop = killDroppingSkull(ctx, player, EntityTypes.WITHER_SKELETON).getFirst();
+        touch(drop, player);
+        ctx.assertTrue(drop.isRemoved(), "vanilla creative overflow removes the item entity");
+        ctx.assertTrue(skulls(player) == 0 && credited(player) == 0 && progress(player) == 0,
+                "no actual receipt must mean no credit: held=" + skulls(player) + " credited=" + credited(player));
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void partialCreativePickupCreditsOnlyInventoryIncrease(GameTestHelper ctx) throws Exception {
+        ServerPlayer player = fullInventory(ctx, GameType.CREATIVE);
+        player.getInventory().setItem(5, new ItemStack(Items.WITHER_SKELETON_SKULL, 63));
+        ItemEntity drop = mergedDrops(ctx, player, 3);
+        touch(drop, player);
+        ctx.assertTrue(drop.isRemoved() && skulls(player) == 64, "one fits; creative overflow deletes two");
+        ctx.assertTrue(credited(player) == 1 && progress(player) == 1, "credit only the one actually received");
+        touch(drop, player);
+        ctx.assertTrue(credited(player) == 1, "repeat callback cannot credit deleted overflow");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void creativeWithCapacityStillCreditsGenuineReceipt(GameTestHelper ctx) {
+        ServerPlayer player = fullInventory(ctx, GameType.CREATIVE);
+        player.getInventory().setItem(5, ItemStack.EMPTY);
+        ItemEntity drop = killDroppingSkull(ctx, player, EntityTypes.WITHER_SKELETON).getFirst();
+        touch(drop, player);
+        ctx.assertTrue(skulls(player) == 1 && credited(player) == 1 && progress(player) == 1,
+                "creative mode is eligible when an item actually enters inventory");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void partialMergedPickupCreditsEachActualRecipient(GameTestHelper ctx) throws Exception {
+        ServerPlayer first = fullInventory(ctx, GameType.SURVIVAL);
+        first.getInventory().setItem(5, new ItemStack(Items.WITHER_SKELETON_SKULL, 63));
+        ServerPlayer second = QuestPersistentPlayers.mock(ctx.getLevel(), GameType.SURVIVAL);
+        second.getAbilities().instabuild = false;
+        second.getInventory().clearContent();
+        ItemEntity drop = mergedDrops(ctx, first, 3);
+        touch(drop, first);
+        ctx.assertTrue(skulls(first) == 64 && credited(first) == 1 && drop.getItem().getCount() == 2,
+                "first recipient gets exactly one into an existing stack");
+        touch(drop, second);
+        ctx.assertTrue(skulls(second) == 2 && credited(second) == 2 && credited(first) == 1,
+                "second recipient receives and gets credit for only the remaining two");
+        touch(drop, first);
+        touch(drop, second);
+        ctx.assertTrue(credited(first) + credited(second) == 3, "repeat callbacks do not change either total");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void fullSurvivalInventoryLeavesSkullForAnotherPlayer(GameTestHelper ctx) {
+        ServerPlayer first = fullInventory(ctx, GameType.SURVIVAL);
+        ServerPlayer second = QuestPersistentPlayers.mock(ctx.getLevel(), GameType.SURVIVAL);
+        second.getAbilities().instabuild = false;
+        second.getInventory().clearContent();
+        ItemEntity drop = killDroppingSkull(ctx, first, EntityTypes.WITHER_SKELETON).getFirst();
+        touch(drop, first);
+        ctx.assertTrue(!drop.isRemoved() && skulls(first) == 0 && credited(first) == 0,
+                "full survival inventory receives and credits nothing");
+        touch(drop, second);
+        ctx.assertTrue(skulls(second) == 1 && credited(second) == 1 && credited(first) == 0,
+                "only the later actual recipient gets credit");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void componentMismatchDoesNotCreateInventoryCapacity(GameTestHelper ctx) {
+        ServerPlayer player = fullInventory(ctx, GameType.SURVIVAL);
+        ItemStack named = new ItemStack(Items.WITHER_SKELETON_SKULL, 63);
+        named.set(net.minecraft.core.component.DataComponents.CUSTOM_NAME,
+                net.minecraft.network.chat.Component.literal("Different components"));
+        player.getInventory().setItem(5, named);
+        ItemEntity drop = killDroppingSkull(ctx, player, EntityTypes.WITHER_SKELETON).getFirst();
+        touch(drop, player);
+        ctx.assertTrue(!drop.isRemoved() && skulls(player) == 63 && credited(player) == 0,
+                "an unrelated component identity cannot accept this skull or earn credit");
+        player.getInventory().setItem(5, ItemStack.EMPTY);
+        touch(drop, player);
+        ctx.assertTrue(skulls(player) == 1 && credited(player) == 1, "actual receipt after space opens credits once");
+        ctx.succeed();
+    }
+
+    /**
+     * Opt-in acceptance test: two actual Minecraft JVMs sharing a world, never an NBT simulation.
+     * Write saves the ground entity, picks it up, saves only players, then halts the game JVM.
+     * Read must recover A's credit and reject B's pickup of the restored identical entity UUID.
+     * This remains RED while P1 is unresolved. Run only in a disposable dedicated fixture world.
+     */
+    @GameTest(maxTicks = 600)
+    public void playerOnlySaveThenForcedHaltCannotCreditSecondRecipient(GameTestHelper ctx) throws java.io.IOException {
+        String phase = System.getProperty("moreminecrafts.questskull.halt.phase");
+        if (phase == null) { ctx.succeed(); return; }
+        if (!phase.equals("write") && !phase.equals("read"))
+            throw new IllegalArgumentException("questskull halt phase must be write or read");
+        ServerLevel level = ctx.getLevel();
+        var chunk = new net.minecraft.world.level.ChunkPos(HALT_POS.getX() >> 4, HALT_POS.getZ() >> 4);
+        level.getChunkSource().addTicketWithRadius(net.minecraft.server.level.TicketType.FORCED, chunk, 0);
+        level.getChunk(chunk.x(), chunk.z());
+        if (phase.equals("write")) {
+            ServerPlayer first = QuestPersistentPlayers.join(ctx, HALT_PLAYER, "xpq-skull-halt-A", false);
+            first.getInventory().clearContent();
+            KnowledgeRuntime.updateState(first, ResearchProgressState.empty());
+            ItemEntity drop = killDroppingSkull(ctx, first, EntityTypes.WITHER_SKELETON).getFirst();
+            drop.setPos(HALT_POS.getX() + 0.5D, HALT_POS.getY(), HALT_POS.getZ() + 0.5D);
+            drop.setNoGravity(true);
+            drop.setDeltaMovement(net.minecraft.world.phys.Vec3.ZERO);
+            ctx.runAfterDelay(5, () -> {
+                level.save(null, true, false); // flush chunks AND persistent entity sections before pickup
+                try { java.nio.file.Files.writeString(HALT_FIXTURE, drop.getUUID().toString()); }
+                catch (java.io.IOException error) { throw new IllegalStateException("cannot save halt fixture", error); }
+                touch(drop, first);
+                ctx.assertTrue(credited(first) == 1 && skulls(first) == 1, "A really received and was credited");
+                level.getServer().getPlayerList().saveAll(); // deliberately do not save the changed ground entity
+                System.out.println("QUEST_SKULL_HALT_WRITE pid=" + ProcessHandle.current().pid()
+                        + " entity=" + drop.getUUID() + " A=" + credited(first) + " heldA=" + skulls(first));
+                System.out.flush();
+                Runtime.getRuntime().halt(77);
+            });
+            return;
+        }
+        java.util.UUID expected = java.util.UUID.fromString(java.nio.file.Files.readString(HALT_FIXTURE).trim());
+        ServerPlayer first = QuestPersistentPlayers.join(ctx, HALT_PLAYER, "xpq-skull-halt-A", true);
+        ServerPlayer second = QuestPersistentPlayers.mock(level, GameType.SURVIVAL);
+        second.getAbilities().instabuild = false;
+        second.getInventory().clearContent();
+        ctx.runAfterDelay(20, () -> {
+            var restored = level.getEntitiesOfClass(ItemEntity.class, new net.minecraft.world.phys.AABB(HALT_POS).inflate(3),
+                    entity -> entity.getUUID().equals(expected));
+            ctx.assertTrue(restored.size() == 1, "the identical saved ground entity UUID restored from world storage");
+            touch(restored.getFirst(), second);
+            System.out.println("QUEST_SKULL_HALT_READ pid=" + ProcessHandle.current().pid()
+                    + " entity=" + expected + " A=" + credited(first) + " B=" + credited(second)
+                    + " heldA=" + skulls(first) + " heldB=" + skulls(second));
+            ctx.assertTrue(credited(first) == 1, "A's durable credit must recover without loss");
+            ctx.assertTrue(credited(second) == 0, "B cannot credit the same restored skull a second time");
+            ctx.succeed();
+        });
+    }
+
+    @GameTest
+    public void questIsRegisteredWithApprovedIdentity(GameTestHelper ctx) {
+        QuestDefinition quest = QuestCatalog.byId(QUEST);
+        ctx.assertTrue(quest != null && quest.objectiveTarget() == 3 && quest.rewardRawXp() == 1_100,
+                "registered with target 3 and 1,100 raw XP");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void firstPickupCreditsTheCollectorNotTheKiller(GameTestHelper ctx) {
+        ServerPlayer killer = ctx.makeMockServerPlayerInLevel();
+        ServerPlayer collector = ctx.makeMockServerPlayerInLevel();
+        var drops = killDroppingSkull(ctx, killer, EntityTypes.WITHER_SKELETON);
+        ctx.assertTrue(drops.size() == 1 && QuestWitherSkullProvenance.isGenuine(drops.getFirst()),
+                "the Wither Skeleton's loot-table skull is marked as a genuine drop");
+        touch(drops.getFirst(), collector);
+        ctx.assertTrue(skulls(collector) == 1 && credited(collector) == 1 && progress(collector) == 1,
+                "the collector is credited");
+        ctx.assertTrue(credited(killer) == 0 && progress(killer) == 0, "the killer, who collected nothing, is not");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void threeDistinctDropsCompleteTheQuestAndMoreDoNotOvercount(GameTestHelper ctx) {
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+        for (int i = 1; i <= 3; i++) {
+            clearItems(ctx);
+            var drops = killDroppingSkull(ctx, player, EntityTypes.WITHER_SKELETON);
+            touch(drops.getFirst(), player);
+            ctx.assertTrue(progress(player) == i, "progress after drop " + i + " was " + progress(player));
+        }
+        ctx.assertTrue(KnowledgeRuntime.state(player).questComplete(QUEST), "three credited drops complete the quest");
+        ctx.assertTrue(QuestProgressService.claim(player, QUEST) == QuestProgressService.ClaimResult.CLAIMED,
+                "the completed quest claims");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void duplicatePickupCallbacksAndRepickupOfADroppedSkullCreditOnce(GameTestHelper ctx) {
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+        var drop = killDroppingSkull(ctx, player, EntityTypes.WITHER_SKELETON).getFirst();
+        touch(drop, player);
+        touch(drop, player);
+        touch(drop, player);
+        ctx.assertTrue(credited(player) == 1, "repeated callbacks for one pickup credit once");
+        clearItems(ctx);
+        int heldBeforeDrop = skulls(player);
+        ItemStack held = ItemStack.EMPTY;
+        for (int slot = 0; slot < player.getInventory().getContainerSize(); slot++) {
+            if (player.getInventory().getItem(slot).is(Items.WITHER_SKELETON_SKULL)) {
+                held = player.getInventory().removeItem(slot, 1);
+                break;
+            }
+        }
+        ctx.assertTrue(!held.isEmpty(), "the actual received skull was removed from inventory for Player.drop");
+        ItemEntity redropped = player.drop(held, false, net.minecraft.util.Prediction.SERVER_ONLY);
+        ctx.assertTrue(redropped != null && !QuestWitherSkullProvenance.isGenuine(redropped),
+                "a skull the player dropped has no provenance");
+        touch(redropped, player);
+        ctx.assertTrue(skulls(player) == heldBeforeDrop && credited(player) == 1 && progress(player) == 1,
+                "dropping and re-picking an already credited skull grants nothing");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void unknownOriginSkullsNeverCredit(GameTestHelper ctx) {
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+        ServerPlayer creative = QuestPersistentPlayers.mock(ctx.getLevel(), GameType.CREATIVE);
+        // Command / chest / unknown source: an item entity nobody marked.
+        touch(plainSkull(ctx, 1), player);
+        // A real item entity with the right stack, spawned outside a Wither Skeleton's death loot.
+        touch(plainSkull(ctx, 2), creative);
+        ctx.assertTrue(credited(player) == 0 && credited(creative) == 0, "unmarked skull entities never credit");
+        // A different mob whose loot table yields a skull is not a Wither Skeleton.
+        clearItems(ctx);
+        var zombie = killDroppingSkull(ctx, player, EntityTypes.ZOMBIE);
+        ctx.assertTrue(zombie.size() == 1 && !QuestWitherSkullProvenance.isGenuine(zombie.getFirst()),
+                "a non-Wither-Skeleton drop is not genuine");
+        touch(zombie.getFirst(), player);
+        // A Wither Skeleton's equipment drop (not its death loot table) is not a genuine drop either.
+        clearItems(ctx);
+        ServerLevel level = ctx.getLevel();
+        Mob skeleton = (Mob) EntityTypes.WITHER_SKELETON.create(level, EntitySpawnReason.COMMAND);
+        BlockPos pos = at(ctx);
+        skeleton.setPos(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D);
+        skeleton.setItemSlot(EquipmentSlot.HEAD, new ItemStack(Items.WITHER_SKELETON_SKULL));
+        skeleton.setDropChance(EquipmentSlot.HEAD, 1.0F);
+        TagValueOutput saved = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, level.registryAccess());
+        skeleton.saveWithoutId(saved);
+        var skeletonTag = saved.buildResult();
+        skeletonTag.putString("DeathLootTable", "moreminecrafts-gametest:no_loot"); // only the equipment can drop
+        skeleton.load(TagValueInput.create(ProblemReporter.DISCARDING, level.registryAccess(), skeletonTag));
+        level.addFreshEntity(skeleton);
+        skeleton.hurtServer(level, player.damageSources().playerAttack(player), 100_000F);
+        ctx.assertTrue(!items(ctx).isEmpty(), "the equipment skull dropped");
+        for (ItemEntity item : items(ctx)) {
+            ctx.assertTrue(!QuestWitherSkullProvenance.isGenuine(item), "equipment-slot skull is not a loot drop: " + item
+                    + " attached=" + item.getAttached(QuestWitherSkullProvenance.GENUINE_DROP) + " n=" + items(ctx).size());
+            touch(item, player);
+        }
+        ctx.assertTrue(credited(player) == 0, "no invalid origin ever credits: " + credited(player));
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void genuineAndOrdinarySkullsNeverMergeButGenuineDropsDo(GameTestHelper ctx) throws Exception {
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+        var first = killDroppingSkull(ctx, player, EntityTypes.WITHER_SKELETON).getFirst();
+        ItemEntity ordinary = plainSkull(ctx, 1);
+        Method merge = ItemEntity.class.getDeclaredMethod("tryToMerge", ItemEntity.class);
+        merge.setAccessible(true);
+        merge.invoke(first, ordinary);
+        ctx.assertTrue(!first.isRemoved() && !ordinary.isRemoved() && first.getItem().getCount() == 1
+                && ordinary.getItem().getCount() == 1, "a genuine and an ordinary skull stay separate entities");
+        ordinary.discard();
+        var second = killDroppingSkull(ctx, player, EntityTypes.WITHER_SKELETON).stream()
+                .filter(e -> e != first).findFirst().orElseThrow();
+        merge.invoke(first, second);
+        ItemEntity survivor = first.isRemoved() ? second : first;
+        ctx.assertTrue(survivor.getItem().getCount() == 2 && QuestWitherSkullProvenance.isGenuine(survivor),
+                "two genuine drops merge into one genuine stack of two");
+        touch(survivor, player);
+        ctx.assertTrue(credited(player) == 2 && progress(player) == 2, "the merged stack credits both skulls");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void partialPickupCreditsOnlyWhatTransferredAndKeepsTheRestGenuine(GameTestHelper ctx) {
+        ServerPlayer player = QuestPersistentPlayers.mock(ctx.getLevel(), GameType.SURVIVAL);
+        player.getAbilities().instabuild = false; // the mock joins with the server's default creative abilities
+        player.getInventory().clearContent();
+        for (int i = 0; i < 36; i++)
+            player.getInventory().setItem(i, new ItemStack(Items.STONE, 64));
+        player.getInventory().setItem(5, new ItemStack(Items.WITHER_SKELETON_SKULL, 63));
+        var drop = killDroppingSkull(ctx, player, EntityTypes.WITHER_SKELETON).getFirst();
+        drop.setItem(new ItemStack(Items.WITHER_SKELETON_SKULL, 3)); // split across stacks: only one fits
+        touch(drop, player);
+        ctx.assertTrue(credited(player) == 1 && drop.getItem().getCount() == 2 && !drop.isRemoved()
+                && QuestWitherSkullProvenance.isGenuine(drop), "one transferred, two remain genuine: credited=" + credited(player)
+                + " left=" + drop.getItem().getCount() + " removed=" + drop.isRemoved()
+                + " genuine=" + QuestWitherSkullProvenance.isGenuine(drop) + " held=" + skulls(player));
+        player.getInventory().setItem(5, ItemStack.EMPTY);
+        touch(drop, player);
+        ctx.assertTrue(credited(player) == 3, "the remainder is credited when later collected: " + credited(player));
+        touch(drop, player);
+        ctx.assertTrue(credited(player) == 3, "nothing further to credit");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void provenanceSurvivesEntitySaveAndReload(GameTestHelper ctx) {
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+        var drop = killDroppingSkull(ctx, player, EntityTypes.WITHER_SKELETON).getFirst();
+        ServerLevel level = ctx.getLevel();
+        TagValueOutput out = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, level.registryAccess());
+        drop.saveWithoutId(out);
+        var tag = out.buildResult();
+        drop.discard();
+        ItemEntity reloaded = new ItemEntity(EntityTypes.ITEM, level);
+        reloaded.load(TagValueInput.create(ProblemReporter.DISCARDING, level.registryAccess(), tag));
+        level.addFreshEntity(reloaded);
+        ctx.assertTrue(QuestWitherSkullProvenance.isGenuine(reloaded), "provenance written to and read from entity NBT");
+        touch(reloaded, player);
+        ctx.assertTrue(credited(player) == 1, "a reloaded genuine drop still credits its first pickup");
+        // An ordinary skull saved and reloaded stays ordinary.
+        ItemEntity ordinary = plainSkull(ctx, 1);
+        TagValueOutput out2 = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, level.registryAccess());
+        ordinary.saveWithoutId(out2);
+        ordinary.discard();
+        ItemEntity reloadedOrdinary = new ItemEntity(EntityTypes.ITEM, level);
+        reloadedOrdinary.load(TagValueInput.create(ProblemReporter.DISCARDING, level.registryAccess(), out2.buildResult()));
+        level.addFreshEntity(reloadedOrdinary);
+        touch(reloadedOrdinary, player);
+        ctx.assertTrue(!QuestWitherSkullProvenance.isGenuine(reloadedOrdinary) && credited(player) == 1,
+                "reload never invents provenance");
+        ctx.succeed();
+    }
+
+    @GameTest
+    public void hopperIntakeDropsProvenanceAndFailsClosed(GameTestHelper ctx) {
+        ServerPlayer player = ctx.makeMockServerPlayerInLevel();
+        var drop = killDroppingSkull(ctx, player, EntityTypes.WITHER_SKELETON).getFirst();
+        var container = new net.minecraft.world.SimpleContainer(5);
+        ctx.assertTrue(net.minecraft.world.level.block.entity.HopperBlockEntity.addItem(container, drop),
+                "the hopper path consumes the item entity");
+        ItemStack held = container.getItem(0);
+        ctx.assertTrue(held.is(Items.WITHER_SKELETON_SKULL), "skull moved into the container");
+        // Once out of the item entity the skull is an ordinary item: dropping it again carries no provenance.
+        ItemEntity out = new ItemEntity(ctx.getLevel(), at(ctx).getX() + 0.5D, at(ctx).getY(), at(ctx).getZ() + 0.5D, held.copy());
+        ctx.getLevel().addFreshEntity(out);
+        touch(out, player);
+        ctx.assertTrue(credited(player) == 0, "a skull that left its item entity via a hopper never credits");
+        ctx.succeed();
+    }
+
+    @GameTest(maxTicks = 100)
+    public void actualHopperBlockTickRemovesProvenance(GameTestHelper ctx) {
+        ServerPlayer player = QuestPersistentPlayers.mock(ctx.getLevel(), GameType.SURVIVAL);
+        player.getAbilities().instabuild = false;
+        player.getInventory().clearContent();
+        ItemEntity drop = killDroppingSkull(ctx, player, EntityTypes.WITHER_SKELETON).getFirst();
+        BlockPos hopperPos = at(ctx);
+        ctx.getLevel().setBlock(hopperPos, net.minecraft.world.level.block.Blocks.HOPPER.defaultBlockState(), 3);
+        drop.setPos(hopperPos.getX() + 0.5D, hopperPos.getY() + 1.2D, hopperPos.getZ() + 0.5D);
+        drop.setDeltaMovement(net.minecraft.world.phys.Vec3.ZERO);
+        ctx.runAfterDelay(40, () -> {
+            var hopper = (net.minecraft.world.level.block.entity.HopperBlockEntity) ctx.getLevel().getBlockEntity(hopperPos);
+            ctx.assertTrue(hopper != null && drop.isRemoved() && hopper.getItem(0).is(Items.WITHER_SKELETON_SKULL),
+                    "a real scheduled hopper block tick took the genuine item entity");
+            ItemStack extracted = hopper.removeItem(0, 1);
+            ItemEntity out = new ItemEntity(ctx.getLevel(), hopperPos.getX(), hopperPos.getY() + 2, hopperPos.getZ(), extracted);
+            ctx.getLevel().addFreshEntity(out);
+            touch(out, player);
+            ctx.assertTrue(skulls(player) == 1 && credited(player) == 0,
+                    "hopper output is physically received but has no genuine provenance");
+            ctx.succeed();
+        });
+    }
+
+    @Override public void invokeTestMethod(GameTestHelper context, Method method) throws ReflectiveOperationException {
+        method.invoke(this, context);
+    }
+}

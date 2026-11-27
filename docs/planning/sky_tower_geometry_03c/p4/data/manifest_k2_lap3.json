@@ -1,0 +1,59 @@
+{
+ "source": "docs/planning/sky_tower_geometry_03c/p3/data/candidates/K2_8balc_A5relaxed_slab_land3",
+ "lap_index": 2,
+ "y_window": [
+  31,
+  56
+ ],
+ "origin_offset_C1": [
+  -22,
+  31,
+  -23
+ ],
+ "size": [
+  45,
+  26,
+  47
+ ],
+ "blocks": 9762,
+ "groups": {
+  "arcade_arch": 752,
+  "balcony_floor": 82,
+  "balcony_rail": 80,
+  "balcony_support": 82,
+  "pillar": 573,
+  "rail": 149,
+  "stairs": 514,
+  "tower": 7530
+ },
+ "pillars": [
+  "P3-0",
+  "P3-1",
+  "P3-10",
+  "P3-11",
+  "P3-2",
+  "P3-3",
+  "P3-4",
+  "P3-5",
+  "P3-6",
+  "P3-7",
+  "P3-8",
+  "P3-9"
+ ],
+ "balconies": [
+  "B3-2",
+  "B3-6"
+ ],
+ "materials_experimental": {
+  "stairs": "stone_bricks",
+  "pillar": "polished_andesite",
+  "rail": "stone_bricks",
+  "arcade_arch": "chiseled_stone_bricks",
+  "balcony_floor": "smooth_stone",
+  "balcony_rail": "stone_bricks",
+  "balcony_support": "andesite",
+  "tower": "cracked_stone_bricks",
+  "portal": "stone_bricks"
+ },
+ "note": "positions copied from P3 export; cut faces (lap 0 below / lap 2 above) are open; materials are not design decisions"
+}

@@ -1,0 +1,3170 @@
+{
+ "scope": "3D candidate side openings; block-id based conservative occupancy; not a Minecraft collision-shape model",
+ "candidates": [
+  {
+   "style": "snowy",
+   "id": "snowy_side_opening_trial",
+   "base_candidate": "snowy_dx-12_dz0_r0_w3",
+   "removed_rail_positions": [
+    [
+     35,
+     18,
+     23
+    ],
+    [
+     36,
+     18,
+     23
+    ]
+   ],
+   "bridge_and_support_voxels": [
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      35,
+      17,
+      20
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      35,
+      17,
+      21
+     ]
+    },
+    {
+     "before": "minecraft:snow",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      35,
+      17,
+      22
+     ]
+    },
+    {
+     "before": "minecraft:snow",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      36,
+      17,
+      20
+     ]
+    },
+    {
+     "before": "minecraft:snow",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      36,
+      17,
+      21
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      36,
+      17,
+      22
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      37,
+      17,
+      20
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      37,
+      17,
+      21
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      37,
+      17,
+      22
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      38,
+      17,
+      20
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      38,
+      17,
+      21
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      38,
+      17,
+      22
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      35,
+      18,
+      19
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      36,
+      18,
+      19
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      37,
+      18,
+      19
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      37,
+      18,
+      23
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      38,
+      18,
+      19
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      38,
+      18,
+      23
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      -1,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      0,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      1,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      2,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      3,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      4,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      5,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      6,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      7,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      8,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      -1,
+      16,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      -1,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      0,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      1,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      2,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      3,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      4,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      5,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      -1,
+      16,
+      31
+     ]
+    }
+   ],
+   "route": [
+    {
+     "kind": "parent_ground",
+     "floor": [
+      35,
+      16,
+      23
+     ],
+     "top_y": 17.0,
+     "floor_id": "minecraft:snow_block",
+     "head_blocks": [
+      {
+       "pos": [
+        35,
+        17,
+        23
+       ],
+       "id": "minecraft:air"
+      },
+      {
+       "pos": [
+        35,
+        18,
+        23
+       ],
+       "id": "minecraft:air"
+      }
+     ],
+     "head_nonair": []
+    },
+    {
+     "kind": "slab",
+     "floor": [
+      35,
+      17,
+      22
+     ],
+     "top_y": 17.5,
+     "floor_id": "minecraft:stone_brick_slab",
+     "head_blocks": [
+      {
+       "pos": [
+        35,
+        18,
+        22
+       ],
+       "id": "minecraft:air"
+      },
+      {
+       "pos": [
+        35,
+        19,
+        22
+       ],
+       "id": "minecraft:air"
+      }
+     ],
+     "head_nonair": []
+    },
+    {
+     "kind": "slab",
+     "floor": [
+      35,
+      17,
+      21
+     ],
+     "top_y": 17.5,
+     "floor_id": "minecraft:stone_brick_slab",
+     "head_blocks": [
+      {
+       "pos": [
+        35,
+        18,
+        21
+       ],
+       "id": "minecraft:air"
+      },
+      {
+       "pos": [
+        35,
+        19,
+        21
+       ],
+       "id": "minecraft:air"
+      }
+     ],
+     "head_nonair": []
+    },
+    {
+     "kind": "slab",
+     "floor": [
+      34,
+      17,
+      21
+     ],
+     "top_y": 17.5,
+     "floor_id": "minecraft:stone_brick_slab",
+     "head_blocks": [
+      {
+       "pos": [
+        34,
+        18,
+        21
+       ],
+       "id": "minecraft:air"
+      },
+      {
+       "pos": [
+        34,
+        19,
+        21
+       ],
+       "id": "minecraft:air"
+      }
+     ],
+     "head_nonair": []
+    }
+   ],
+   "head_nonair_cells": [],
+   "land_top_y": 17.0,
+   "bridge_top_y": 17.5,
+   "actual_player_route": "UNVERIFIED",
+   "fall_protection": "UNVERIFIED",
+   "existing_island_route": "UNVERIFIED",
+   "first_floor": "UNVERIFIED"
+  },
+  {
+   "style": "meadow",
+   "id": "meadow_side_opening_trial",
+   "base_candidate": "meadow_dx-12_dz0_r0_w3",
+   "removed_rail_positions": [
+    [
+     36,
+     18,
+     19
+    ],
+    [
+     37,
+     18,
+     19
+    ]
+   ],
+   "bridge_and_support_voxels": [
+    {
+     "before": "minecraft:short_grass",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      35,
+      17,
+      20
+     ]
+    },
+    {
+     "before": "minecraft:short_grass",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      35,
+      17,
+      21
+     ]
+    },
+    {
+     "before": "minecraft:short_grass",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      35,
+      17,
+      22
+     ]
+    },
+    {
+     "before": "minecraft:short_grass",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      36,
+      17,
+      20
+     ]
+    },
+    {
+     "before": "minecraft:short_grass",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      36,
+      17,
+      21
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      36,
+      17,
+      22
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      37,
+      17,
+      20
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      37,
+      17,
+      21
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      37,
+      17,
+      22
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      38,
+      17,
+      20
+     ]
+    },
+    {
+     "before": "minecraft:short_grass",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      38,
+      17,
+      21
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      38,
+      17,
+      22
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      35,
+      18,
+      19
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      35,
+      18,
+      23
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      36,
+      18,
+      23
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      37,
+      18,
+      23
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      38,
+      18,
+      19
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      38,
+      18,
+      23
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      -1,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      0,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      1,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      2,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      3,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      -1,
+      16,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      -1,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      0,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      1,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      2,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      3,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      4,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      5,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      6,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      -1,
+      16,
+      31
+     ]
+    }
+   ],
+   "route": [
+    {
+     "kind": "parent_ground",
+     "floor": [
+      36,
+      16,
+      19
+     ],
+     "top_y": 17.0,
+     "floor_id": "minecraft:grass_block",
+     "head_blocks": [
+      {
+       "pos": [
+        36,
+        17,
+        19
+       ],
+       "id": "minecraft:air"
+      },
+      {
+       "pos": [
+        36,
+        18,
+        19
+       ],
+       "id": "minecraft:air"
+      }
+     ],
+     "head_nonair": []
+    },
+    {
+     "kind": "slab",
+     "floor": [
+      36,
+      17,
+      20
+     ],
+     "top_y": 17.5,
+     "floor_id": "minecraft:stone_brick_slab",
+     "head_blocks": [
+      {
+       "pos": [
+        36,
+        18,
+        20
+       ],
+       "id": "minecraft:air"
+      },
+      {
+       "pos": [
+        36,
+        19,
+        20
+       ],
+       "id": "minecraft:air"
+      }
+     ],
+     "head_nonair": []
+    },
+    {
+     "kind": "slab",
+     "floor": [
+      36,
+      17,
+      21
+     ],
+     "top_y": 17.5,
+     "floor_id": "minecraft:stone_brick_slab",
+     "head_blocks": [
+      {
+       "pos": [
+        36,
+        18,
+        21
+       ],
+       "id": "minecraft:air"
+      },
+      {
+       "pos": [
+        36,
+        19,
+        21
+       ],
+       "id": "minecraft:air"
+      }
+     ],
+     "head_nonair": []
+    },
+    {
+     "kind": "slab",
+     "floor": [
+      35,
+      17,
+      21
+     ],
+     "top_y": 17.5,
+     "floor_id": "minecraft:stone_brick_slab",
+     "head_blocks": [
+      {
+       "pos": [
+        35,
+        18,
+        21
+       ],
+       "id": "minecraft:air"
+      },
+      {
+       "pos": [
+        35,
+        19,
+        21
+       ],
+       "id": "minecraft:air"
+      }
+     ],
+     "head_nonair": []
+    },
+    {
+     "kind": "slab",
+     "floor": [
+      34,
+      17,
+      21
+     ],
+     "top_y": 17.5,
+     "floor_id": "minecraft:stone_brick_slab",
+     "head_blocks": [
+      {
+       "pos": [
+        34,
+        18,
+        21
+       ],
+       "id": "minecraft:tall_grass"
+      },
+      {
+       "pos": [
+        34,
+        19,
+        21
+       ],
+       "id": "minecraft:air"
+      }
+     ],
+     "head_nonair": [
+      {
+       "pos": [
+        34,
+        18,
+        21
+       ],
+       "id": "minecraft:tall_grass"
+      }
+     ]
+    }
+   ],
+   "head_nonair_cells": [
+    {
+     "pos": [
+      34,
+      18,
+      21
+     ],
+     "id": "minecraft:tall_grass"
+    }
+   ],
+   "land_top_y": 17.0,
+   "bridge_top_y": 17.5,
+   "actual_player_route": "UNVERIFIED",
+   "fall_protection": "UNVERIFIED",
+   "existing_island_route": "UNVERIFIED",
+   "first_floor": "UNVERIFIED"
+  },
+  {
+   "style": "forest",
+   "id": "forest_side_opening_trial",
+   "base_candidate": "forest_dx-12_dz0_r0_w3",
+   "removed_rail_positions": [
+    [
+     36,
+     18,
+     19
+    ],
+    [
+     37,
+     18,
+     19
+    ]
+   ],
+   "bridge_and_support_voxels": [
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      35,
+      17,
+      20
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      35,
+      17,
+      21
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      35,
+      17,
+      22
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      36,
+      17,
+      20
+     ]
+    },
+    {
+     "before": "minecraft:short_grass",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      36,
+      17,
+      21
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      36,
+      17,
+      22
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      37,
+      17,
+      20
+     ]
+    },
+    {
+     "before": "minecraft:short_grass",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      37,
+      17,
+      21
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      37,
+      17,
+      22
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      38,
+      17,
+      20
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      38,
+      17,
+      21
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      38,
+      17,
+      22
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      35,
+      18,
+      19
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      35,
+      18,
+      23
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      36,
+      18,
+      23
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      37,
+      18,
+      23
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      38,
+      18,
+      19
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      38,
+      18,
+      23
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      -1,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      0,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      1,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      2,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      3,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      4,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      5,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      -1,
+      16,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      -1,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      0,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      1,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      2,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      3,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      4,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      5,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      6,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      -1,
+      16,
+      31
+     ]
+    }
+   ],
+   "route": [
+    {
+     "kind": "parent_ground",
+     "floor": [
+      36,
+      16,
+      19
+     ],
+     "top_y": 17.0,
+     "floor_id": "minecraft:grass_block",
+     "head_blocks": [
+      {
+       "pos": [
+        36,
+        17,
+        19
+       ],
+       "id": "minecraft:air"
+      },
+      {
+       "pos": [
+        36,
+        18,
+        19
+       ],
+       "id": "minecraft:air"
+      }
+     ],
+     "head_nonair": []
+    },
+    {
+     "kind": "slab",
+     "floor": [
+      36,
+      17,
+      20
+     ],
+     "top_y": 17.5,
+     "floor_id": "minecraft:stone_brick_slab",
+     "head_blocks": [
+      {
+       "pos": [
+        36,
+        18,
+        20
+       ],
+       "id": "minecraft:air"
+      },
+      {
+       "pos": [
+        36,
+        19,
+        20
+       ],
+       "id": "minecraft:air"
+      }
+     ],
+     "head_nonair": []
+    },
+    {
+     "kind": "slab",
+     "floor": [
+      36,
+      17,
+      21
+     ],
+     "top_y": 17.5,
+     "floor_id": "minecraft:stone_brick_slab",
+     "head_blocks": [
+      {
+       "pos": [
+        36,
+        18,
+        21
+       ],
+       "id": "minecraft:air"
+      },
+      {
+       "pos": [
+        36,
+        19,
+        21
+       ],
+       "id": "minecraft:air"
+      }
+     ],
+     "head_nonair": []
+    },
+    {
+     "kind": "slab",
+     "floor": [
+      35,
+      17,
+      21
+     ],
+     "top_y": 17.5,
+     "floor_id": "minecraft:stone_brick_slab",
+     "head_blocks": [
+      {
+       "pos": [
+        35,
+        18,
+        21
+       ],
+       "id": "minecraft:air"
+      },
+      {
+       "pos": [
+        35,
+        19,
+        21
+       ],
+       "id": "minecraft:air"
+      }
+     ],
+     "head_nonair": []
+    },
+    {
+     "kind": "slab",
+     "floor": [
+      34,
+      17,
+      21
+     ],
+     "top_y": 17.5,
+     "floor_id": "minecraft:stone_brick_slab",
+     "head_blocks": [
+      {
+       "pos": [
+        34,
+        18,
+        21
+       ],
+       "id": "minecraft:air"
+      },
+      {
+       "pos": [
+        34,
+        19,
+        21
+       ],
+       "id": "minecraft:oak_leaves"
+      }
+     ],
+     "head_nonair": [
+      {
+       "pos": [
+        34,
+        19,
+        21
+       ],
+       "id": "minecraft:oak_leaves"
+      }
+     ]
+    }
+   ],
+   "head_nonair_cells": [
+    {
+     "pos": [
+      34,
+      19,
+      21
+     ],
+     "id": "minecraft:oak_leaves"
+    }
+   ],
+   "land_top_y": 17.0,
+   "bridge_top_y": 17.5,
+   "actual_player_route": "UNVERIFIED",
+   "fall_protection": "UNVERIFIED",
+   "existing_island_route": "UNVERIFIED",
+   "first_floor": "UNVERIFIED"
+  },
+  {
+   "style": "badlands",
+   "id": "badlands_side_opening_trial",
+   "base_candidate": "badlands_dx-12_dz0_r0_w3",
+   "removed_rail_positions": [
+    [
+     35,
+     18,
+     19
+    ],
+    [
+     36,
+     18,
+     19
+    ]
+   ],
+   "bridge_and_support_voxels": [
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      35,
+      17,
+      20
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      35,
+      17,
+      21
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      35,
+      17,
+      22
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      36,
+      17,
+      20
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      36,
+      17,
+      21
+     ]
+    },
+    {
+     "before": "minecraft:dead_bush",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      36,
+      17,
+      22
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      37,
+      17,
+      20
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      37,
+      17,
+      21
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      37,
+      17,
+      22
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      38,
+      17,
+      20
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      38,
+      17,
+      21
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      38,
+      17,
+      22
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      35,
+      18,
+      23
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      36,
+      18,
+      23
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      37,
+      18,
+      19
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      37,
+      18,
+      23
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      38,
+      18,
+      19
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      38,
+      18,
+      23
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      -1,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      0,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      1,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      2,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      3,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      4,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      5,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      -1,
+      16,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      -1,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      0,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      1,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      2,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      3,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      4,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      5,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      6,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      -1,
+      16,
+      31
+     ]
+    }
+   ],
+   "route": [
+    {
+     "kind": "parent_ground",
+     "floor": [
+      36,
+      16,
+      19
+     ],
+     "top_y": 17.0,
+     "floor_id": "minecraft:red_sand",
+     "head_blocks": [
+      {
+       "pos": [
+        36,
+        17,
+        19
+       ],
+       "id": "minecraft:air"
+      },
+      {
+       "pos": [
+        36,
+        18,
+        19
+       ],
+       "id": "minecraft:air"
+      }
+     ],
+     "head_nonair": []
+    },
+    {
+     "kind": "slab",
+     "floor": [
+      36,
+      17,
+      20
+     ],
+     "top_y": 17.5,
+     "floor_id": "minecraft:stone_brick_slab",
+     "head_blocks": [
+      {
+       "pos": [
+        36,
+        18,
+        20
+       ],
+       "id": "minecraft:air"
+      },
+      {
+       "pos": [
+        36,
+        19,
+        20
+       ],
+       "id": "minecraft:air"
+      }
+     ],
+     "head_nonair": []
+    },
+    {
+     "kind": "slab",
+     "floor": [
+      36,
+      17,
+      21
+     ],
+     "top_y": 17.5,
+     "floor_id": "minecraft:stone_brick_slab",
+     "head_blocks": [
+      {
+       "pos": [
+        36,
+        18,
+        21
+       ],
+       "id": "minecraft:air"
+      },
+      {
+       "pos": [
+        36,
+        19,
+        21
+       ],
+       "id": "minecraft:air"
+      }
+     ],
+     "head_nonair": []
+    },
+    {
+     "kind": "slab",
+     "floor": [
+      35,
+      17,
+      21
+     ],
+     "top_y": 17.5,
+     "floor_id": "minecraft:stone_brick_slab",
+     "head_blocks": [
+      {
+       "pos": [
+        35,
+        18,
+        21
+       ],
+       "id": "minecraft:air"
+      },
+      {
+       "pos": [
+        35,
+        19,
+        21
+       ],
+       "id": "minecraft:air"
+      }
+     ],
+     "head_nonair": []
+    },
+    {
+     "kind": "slab",
+     "floor": [
+      34,
+      17,
+      21
+     ],
+     "top_y": 17.5,
+     "floor_id": "minecraft:stone_brick_slab",
+     "head_blocks": [
+      {
+       "pos": [
+        34,
+        18,
+        21
+       ],
+       "id": "minecraft:air"
+      },
+      {
+       "pos": [
+        34,
+        19,
+        21
+       ],
+       "id": "minecraft:air"
+      }
+     ],
+     "head_nonair": []
+    }
+   ],
+   "head_nonair_cells": [],
+   "land_top_y": 17.0,
+   "bridge_top_y": 17.5,
+   "actual_player_route": "UNVERIFIED",
+   "fall_protection": "UNVERIFIED",
+   "existing_island_route": "UNVERIFIED",
+   "first_floor": "UNVERIFIED"
+  },
+  {
+   "style": "desert",
+   "id": "desert_side_opening_trial",
+   "base_candidate": "desert_dx-12_dz0_r0_w3",
+   "removed_rail_positions": [
+    [
+     36,
+     18,
+     23
+    ],
+    [
+     37,
+     18,
+     23
+    ]
+   ],
+   "bridge_and_support_voxels": [
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      35,
+      17,
+      20
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      35,
+      17,
+      21
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      35,
+      17,
+      22
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      36,
+      17,
+      20
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      36,
+      17,
+      21
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      36,
+      17,
+      22
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      37,
+      17,
+      20
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      37,
+      17,
+      21
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      37,
+      17,
+      22
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      38,
+      17,
+      20
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      38,
+      17,
+      21
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      38,
+      17,
+      22
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      35,
+      18,
+      19
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      35,
+      18,
+      23
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      36,
+      18,
+      19
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      37,
+      18,
+      19
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      38,
+      18,
+      19
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      38,
+      18,
+      23
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      -1,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      0,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      1,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      2,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      3,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      4,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      5,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      6,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      7,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      -1,
+      16,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      -1,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      0,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      1,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      2,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      3,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      -1,
+      16,
+      31
+     ]
+    }
+   ],
+   "route": [
+    {
+     "kind": "parent_ground",
+     "floor": [
+      36,
+      16,
+      23
+     ],
+     "top_y": 17.0,
+     "floor_id": "minecraft:sand",
+     "head_blocks": [
+      {
+       "pos": [
+        36,
+        17,
+        23
+       ],
+       "id": "minecraft:air"
+      },
+      {
+       "pos": [
+        36,
+        18,
+        23
+       ],
+       "id": "minecraft:air"
+      }
+     ],
+     "head_nonair": []
+    },
+    {
+     "kind": "slab",
+     "floor": [
+      36,
+      17,
+      22
+     ],
+     "top_y": 17.5,
+     "floor_id": "minecraft:stone_brick_slab",
+     "head_blocks": [
+      {
+       "pos": [
+        36,
+        18,
+        22
+       ],
+       "id": "minecraft:air"
+      },
+      {
+       "pos": [
+        36,
+        19,
+        22
+       ],
+       "id": "minecraft:air"
+      }
+     ],
+     "head_nonair": []
+    },
+    {
+     "kind": "slab",
+     "floor": [
+      36,
+      17,
+      21
+     ],
+     "top_y": 17.5,
+     "floor_id": "minecraft:stone_brick_slab",
+     "head_blocks": [
+      {
+       "pos": [
+        36,
+        18,
+        21
+       ],
+       "id": "minecraft:air"
+      },
+      {
+       "pos": [
+        36,
+        19,
+        21
+       ],
+       "id": "minecraft:air"
+      }
+     ],
+     "head_nonair": []
+    },
+    {
+     "kind": "slab",
+     "floor": [
+      35,
+      17,
+      21
+     ],
+     "top_y": 17.5,
+     "floor_id": "minecraft:stone_brick_slab",
+     "head_blocks": [
+      {
+       "pos": [
+        35,
+        18,
+        21
+       ],
+       "id": "minecraft:air"
+      },
+      {
+       "pos": [
+        35,
+        19,
+        21
+       ],
+       "id": "minecraft:air"
+      }
+     ],
+     "head_nonair": []
+    },
+    {
+     "kind": "slab",
+     "floor": [
+      34,
+      17,
+      21
+     ],
+     "top_y": 17.5,
+     "floor_id": "minecraft:stone_brick_slab",
+     "head_blocks": [
+      {
+       "pos": [
+        34,
+        18,
+        21
+       ],
+       "id": "minecraft:air"
+      },
+      {
+       "pos": [
+        34,
+        19,
+        21
+       ],
+       "id": "minecraft:air"
+      }
+     ],
+     "head_nonair": []
+    }
+   ],
+   "head_nonair_cells": [],
+   "land_top_y": 17.0,
+   "bridge_top_y": 17.5,
+   "actual_player_route": "UNVERIFIED",
+   "fall_protection": "UNVERIFIED",
+   "existing_island_route": "UNVERIFIED",
+   "first_floor": "UNVERIFIED"
+  },
+  {
+   "style": "rocky",
+   "id": "rocky_side_opening_trial",
+   "base_candidate": "rocky_dx-12_dz0_r0_w3",
+   "removed_rail_positions": [
+    [
+     35,
+     18,
+     19
+    ],
+    [
+     36,
+     18,
+     19
+    ]
+   ],
+   "bridge_and_support_voxels": [
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      35,
+      17,
+      20
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      35,
+      17,
+      21
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      35,
+      17,
+      22
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      36,
+      17,
+      20
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      36,
+      17,
+      21
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      36,
+      17,
+      22
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      37,
+      17,
+      20
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      37,
+      17,
+      21
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      37,
+      17,
+      22
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      38,
+      17,
+      20
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      38,
+      17,
+      21
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_slab",
+     "component": "deck",
+     "pos": [
+      38,
+      17,
+      22
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      35,
+      18,
+      23
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      36,
+      18,
+      23
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      37,
+      18,
+      19
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      37,
+      18,
+      23
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      38,
+      18,
+      19
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_brick_wall",
+     "component": "rail",
+     "pos": [
+      38,
+      18,
+      23
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      -1,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      0,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      1,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      2,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      3,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      4,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      5,
+      15,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      -1,
+      16,
+      11
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      -1,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      0,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      1,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      2,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      3,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      4,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      5,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      6,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      7,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      8,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      9,
+      15,
+      31
+     ]
+    },
+    {
+     "before": "minecraft:air",
+     "block": "minecraft:stone_bricks",
+     "component": "support",
+     "pos": [
+      -1,
+      16,
+      31
+     ]
+    }
+   ],
+   "route": [
+    {
+     "kind": "parent_ground",
+     "floor": [
+      36,
+      16,
+      19
+     ],
+     "top_y": 17.0,
+     "floor_id": "minecraft:gravel",
+     "head_blocks": [
+      {
+       "pos": [
+        36,
+        17,
+        19
+       ],
+       "id": "minecraft:air"
+      },
+      {
+       "pos": [
+        36,
+        18,
+        19
+       ],
+       "id": "minecraft:air"
+      }
+     ],
+     "head_nonair": []
+    },
+    {
+     "kind": "slab",
+     "floor": [
+      36,
+      17,
+      20
+     ],
+     "top_y": 17.5,
+     "floor_id": "minecraft:stone_brick_slab",
+     "head_blocks": [
+      {
+       "pos": [
+        36,
+        18,
+        20
+       ],
+       "id": "minecraft:air"
+      },
+      {
+       "pos": [
+        36,
+        19,
+        20
+       ],
+       "id": "minecraft:air"
+      }
+     ],
+     "head_nonair": []
+    },
+    {
+     "kind": "slab",
+     "floor": [
+      36,
+      17,
+      21
+     ],
+     "top_y": 17.5,
+     "floor_id": "minecraft:stone_brick_slab",
+     "head_blocks": [
+      {
+       "pos": [
+        36,
+        18,
+        21
+       ],
+       "id": "minecraft:air"
+      },
+      {
+       "pos": [
+        36,
+        19,
+        21
+       ],
+       "id": "minecraft:air"
+      }
+     ],
+     "head_nonair": []
+    },
+    {
+     "kind": "slab",
+     "floor": [
+      35,
+      17,
+      21
+     ],
+     "top_y": 17.5,
+     "floor_id": "minecraft:stone_brick_slab",
+     "head_blocks": [
+      {
+       "pos": [
+        35,
+        18,
+        21
+       ],
+       "id": "minecraft:air"
+      },
+      {
+       "pos": [
+        35,
+        19,
+        21
+       ],
+       "id": "minecraft:air"
+      }
+     ],
+     "head_nonair": []
+    },
+    {
+     "kind": "slab",
+     "floor": [
+      34,
+      17,
+      21
+     ],
+     "top_y": 17.5,
+     "floor_id": "minecraft:stone_brick_slab",
+     "head_blocks": [
+      {
+       "pos": [
+        34,
+        18,
+        21
+       ],
+       "id": "minecraft:air"
+      },
+      {
+       "pos": [
+        34,
+        19,
+        21
+       ],
+       "id": "minecraft:air"
+      }
+     ],
+     "head_nonair": []
+    }
+   ],
+   "head_nonair_cells": [],
+   "land_top_y": 17.0,
+   "bridge_top_y": 17.5,
+   "actual_player_route": "UNVERIFIED",
+   "fall_protection": "UNVERIFIED",
+   "existing_island_route": "UNVERIFIED",
+   "first_floor": "UNVERIFIED"
+  }
+ ]
+}

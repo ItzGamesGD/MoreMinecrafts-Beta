@@ -1,0 +1,1 @@
+{"status":"INFEASIBLE","seconds":0.0,"gap_deg":10,"balconies_required":false,"contact_min":3,"a5_strict":true,"sequential_fixed_pillars":false,"name":"T3_disc46_pillars_only_gap10","geometry":{"rb":19.5,"domain":["disc",46]},"pillar_candidates":112,"band_columns":452,"ring_columns":448}

@@ -1,0 +1,77 @@
+{
+  "seed": 7202,
+  "styles_found": [
+    "desert"
+  ],
+  "automatic_registration_site_count": 1,
+  "styles": {
+    "snowy": {
+      "pass": false,
+      "reason": "no natural start found in scan radius"
+    },
+    "meadow": {
+      "pass": false,
+      "reason": "no natural start found in scan radius"
+    },
+    "forest": {
+      "pass": false,
+      "reason": "no natural start found in scan radius"
+    },
+    "badlands": {
+      "pass": false,
+      "reason": "no natural start found in scan radius"
+    },
+    "desert": {
+      "site": "minecraft:overworld|1008,20,-160|2",
+      "vaults": 8,
+      "pass": true,
+      "structure": "moreminecrafts:sky_island_desert",
+      "blocked_barrier_cells": 0,
+      "piece_bounds": "BoundingBox{minX\u003d951, minY\u003d3, minZ\u003d-208, maxX\u003d1008, maxY\u003d99, maxZ\u003d-160}",
+      "rotation": 2,
+      "runtime_barrier_air_cells": 72,
+      "composite_piece_count": 1,
+      "seen_chunk": "63,-10",
+      "legacy_tower_child_count": 0,
+      "automatically_registered": true,
+      "chunks_loaded": true,
+      "trial_spawners": 16
+    },
+    "rocky": {
+      "pass": false,
+      "reason": "no natural start found in scan radius"
+    }
+  },
+  "pass": false,
+  "client_movement_visual_and_restart": "not tested by this fresh-world server probe",
+  "floor_clear_fixture_before_removal": {
+    "site": "minecraft:overworld|1008,20,-160|2",
+    "completed_mask": 0,
+    "destroyed_mask": 0,
+    "diag_floor0_cells_without_block_chunk": 0,
+    "diag_floor0_entity_chunk_checks_not_loaded": 0,
+    "diag_floor0_chunk_source_checks_missing": 0,
+    "diag_server_tick_count": 63,
+    "floor0_barrier_cells": 18,
+    "floor0_air_cells": 0,
+    "floor0_owned_cells": 18,
+    "floor1_barrier_cells": 18,
+    "floor1_air_cells": 0,
+    "floor1_owned_cells": 18
+  },
+  "floor_clear_fixture_after_removal": {
+    "site": "minecraft:overworld|1008,20,-160|2",
+    "completed_mask": 15,
+    "destroyed_mask": 15,
+    "diag_floor0_cells_without_block_chunk": 0,
+    "diag_floor0_entity_chunk_checks_not_loaded": 0,
+    "diag_floor0_chunk_source_checks_missing": 0,
+    "diag_server_tick_count": 123,
+    "floor0_barrier_cells": 0,
+    "floor0_air_cells": 18,
+    "floor0_owned_cells": 0,
+    "floor1_barrier_cells": 18,
+    "floor1_air_cells": 0,
+    "floor1_owned_cells": 18
+  }
+}

@@ -3,6 +3,8 @@ package dev.itzgamesgd.moreminecrafts.registry;
 import dev.itzgamesgd.moreminecrafts.MoreMinecrafts;
 import dev.itzgamesgd.moreminecrafts.core.ModIds;
 import dev.itzgamesgd.moreminecrafts.item.FoundationProbeItem;
+import dev.itzgamesgd.moreminecrafts.accessory.AccessoryDefinition;
+import dev.itzgamesgd.moreminecrafts.accessory.AccessoryItem;
 import dev.itzgamesgd.moreminecrafts.fishing.*;
 import java.util.EnumMap;
 import java.util.Map;
@@ -21,23 +23,59 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.MaceItem;
+import net.minecraft.world.item.component.Weapon;
 import dev.itzgamesgd.moreminecrafts.equipment.*;
+import dev.itzgamesgd.moreminecrafts.bounty.ContractItem;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.util.Unit;
 
 public final class ModItems {
+    public static final Item BOUNTY_CONTRACT = register("bounty_contract", key ->
+            new ContractItem(false, new Item.Properties().stacksTo(1).setId(key)));
+    public static final Item SPECIAL_CONTRACT = register("special_contract", key ->
+            new ContractItem(true, new Item.Properties().stacksTo(1).setId(key)));
     public static final Item RAW_TITANIUM = material("raw_titanium");
     public static final Item TITANIUM_INGOT = material("titanium_ingot");
-    public static final Item RAW_TUNGSTEN = material("raw_tungsten");
-    public static final Item TUNGSTEN_INGOT = material("tungsten_ingot");
     public static final Item MYTHRIL = material("mythril");
+    /** Raw drop of the etherium ore; smelted into {@link #ETHERIUM_SHARD}. Not a finished ingot. */
     public static final Item ETHERIUM = material("etherium");
+    public static final Item ETHERIUM_SHARD = material("etherium_shard");
+    public static final Item ETHERIUM_INGOT = material("etherium_ingot");
+    public static final Item GALE_SHARD = material("gale_shard");
+    public static final Item COLONY_CRYSTAL = material("colony_crystal");
+    /** Approved T2 sky material (wind sword, wind bow). Acquisition routes are not implemented yet (BLOCKED_DEPENDENCY). */
+    public static final Item SKY_FEATHER = material("sky_feather");
     public static final Item ADAMANTIUM_INGOT = fireResistantMaterial("adamantium_ingot");
     public static final Item EYE_OF_TYPHOON = core("eye_of_typhoon");
     public static final Item HEART_OF_THUNDER = core("heart_of_thunder");
     public static final Item BURNING_HEART = core("burning_heart");
     public static final Item HEART_OF_CURRENTS = core("heart_of_currents");
     public static final Item ANCIENT_HEART = core("ancient_heart");
+    public static final Item EARTHEN_RELIC_CORE = material("earthen_relic_core");
+    public static final Item ABYSSAL_RELIC_CORE = material("abyssal_relic_core");
+    public static final Item GLACIAL_RELIC_CORE = material("glacial_relic_core");
+    public static final Item TIDAL_RELIC_CORE = material("tidal_relic_core");
+    public static final Item BLAZING_RELIC_CORE = material("blazing_relic_core");
+    /** T2 accessory ingredients (2026-11-13 T2 record). Registry ids are implementation choices pending owner confirmation; textures are placeholders. */
+    public static final Item SKELETON_KING_CHAIN = material("skeleton_king_chain");
+    public static final Item GLADIATOR_BLOOD_CREST = material("gladiator_blood_crest");
+    public static final Item ANCIENT_CLOCK_SPRING = material("ancient_clock_spring");
+    public static final Item ANCIENT_WORLD_TREE_SAP = material("ancient_world_tree_sap");
+    public static final Item LAVA_HEARTSTONE = material("lava_heartstone");
+    public static final Item PERMAFROST_CRYSTAL = material("permafrost_crystal");
+    public static final Item ABYSSAL_PEARL_CORE = material("abyssal_pearl_core");
+    public static final Item MERMAID_SCALE = material("mermaid_scale");
+    public static final Item VOID_STAR_SHARD = material("void_star_shard");
+    public static final Item VOID_GRAVITY_CORE = material("void_gravity_core");
+    public static final Item SHIMMERING_SOUL_GLASS = material("shimmering_soul_glass");
+    public static final Item FORGEMASTER_SUMMON_EMBER = register("forgemaster_summon_ember", key ->
+            new dev.itzgamesgd.moreminecrafts.boss.BossSummonItem(
+                    dev.itzgamesgd.moreminecrafts.boss.PiglinForgemasterEntities.PIGLIN_FORGEMASTER,
+                    new Item.Properties().setId(key)));
+    public static final Item POSEIDON_SUMMON_CONCH = register("poseidon_summon_conch", key ->
+            new dev.itzgamesgd.moreminecrafts.boss.BossSummonItem(
+                    dev.itzgamesgd.moreminecrafts.mob.bone.BoneMobs.DEEP_SEA_POSEIDON,
+                    new Item.Properties().setId(key)));
     private static final ResourceKey<Item> FOUNDATION_PROBE_KEY =
             ResourceKey.create(Registries.ITEM, ModIds.id("foundation_probe"));
     public static final ResourceKey<Item> ENHANCEMENT_STONE_KEY =
@@ -62,12 +100,15 @@ public final class ModItems {
             ENHANCEMENT_STONE_KEY,
             new Item(new Item.Properties().setId(ENHANCEMENT_STONE_KEY))
     );
+    public static final Item RELIC_CATALYST = register("relic_catalyst",
+            key -> new Item(new Item.Properties().stacksTo(1).setId(key)));
     public static final Item FLAME_SWORD = Registry.register(
             BuiltInRegistries.ITEM,
             FLAME_SWORD_KEY,
             new FlameSwordItem(new Item.Properties()
                     .sword(ToolMaterial.NETHERITE, 4.0F, -2.6F)
                     .fireResistant()
+                    .component(DataComponents.UNBREAKABLE, Unit.INSTANCE)
                     .setId(FLAME_SWORD_KEY))
     );
     public static final Item WIND_SWORD = Registry.register(
@@ -75,16 +116,19 @@ public final class ModItems {
             WIND_SWORD_KEY,
             new WindSwordItem(new Item.Properties()
                     .sword(ToolMaterial.DIAMOND, 4.0F, -2.2F)
+                    .component(DataComponents.UNBREAKABLE, Unit.INSTANCE)
                     .setId(WIND_SWORD_KEY))
     );
     public static final Item FLOWING_WATER_SWORD = Registry.register(BuiltInRegistries.ITEM, FLOWING_WATER_SWORD_KEY,
-            new ElementalSwordItem(ElementalSwordItem.Element.WATER, new Item.Properties().sword(ToolMaterial.DIAMOND, 4.0F, -2.0F).setId(FLOWING_WATER_SWORD_KEY)));
+            new ElementalSwordItem(ElementalSwordItem.Element.WATER, new Item.Properties().sword(ToolMaterial.DIAMOND, 4.0F, -2.0F).component(DataComponents.UNBREAKABLE, Unit.INSTANCE).setId(FLOWING_WATER_SWORD_KEY)));
     public static final Item WIND_ARCHERS_BOW = Registry.register(BuiltInRegistries.ITEM, WIND_ARCHERS_BOW_KEY,
-            new BowItem(new Item.Properties().durability(465).enchantable(1).setId(WIND_ARCHERS_BOW_KEY)));
+            new BowItem(new Item.Properties().stacksTo(1).enchantable(1).component(DataComponents.UNBREAKABLE, Unit.INSTANCE).setId(WIND_ARCHERS_BOW_KEY)));
     public static final Item EARTH_MACE = Registry.register(BuiltInRegistries.ITEM, EARTH_MACE_KEY,
-            new EarthMaceItem(new Item.Properties().durability(600).attributes(MaceItem.createAttributes()).setId(EARTH_MACE_KEY)));
+            new EarthMaceItem(new Item.Properties().stacksTo(1).attributes(MaceItem.createAttributes())
+                    .component(DataComponents.WEAPON, new Weapon(1))
+                    .component(DataComponents.UNBREAKABLE, Unit.INSTANCE).setId(EARTH_MACE_KEY)));
     public static final Item LIGHTNING_SWORD = Registry.register(BuiltInRegistries.ITEM, LIGHTNING_SWORD_KEY,
-            new ElementalSwordItem(ElementalSwordItem.Element.LIGHTNING, new Item.Properties().sword(ToolMaterial.DIAMOND, 4.0F, -2.2F).setId(LIGHTNING_SWORD_KEY)));
+            new ElementalSwordItem(ElementalSwordItem.Element.LIGHTNING, new Item.Properties().sword(ToolMaterial.DIAMOND, 4.0F, -2.2F).component(DataComponents.UNBREAKABLE, Unit.INSTANCE).setId(LIGHTNING_SWORD_KEY)));
     public static final Item DARK_ENERGY_STAFF = Registry.register(BuiltInRegistries.ITEM, DARK_ENERGY_STAFF_KEY,
             new DarkEnergyStaffItem(new Item.Properties().durability(420).setId(DARK_ENERGY_STAFF_KEY)));
 
@@ -112,7 +156,13 @@ public final class ModItems {
 
     public static final Map<FishSpecies, Item> FISH = new EnumMap<>(FishSpecies.class);
     public static final Item[][] FISHING_EQUIPMENT = new Item[FishingEquipmentFamily.values().length][FishingEquipmentTier.MAX];
+    public static final Map<AccessoryDefinition, AccessoryItem> ACCESSORIES = new EnumMap<>(AccessoryDefinition.class);
     static {
+        for (AccessoryDefinition definition : AccessoryDefinition.ALL) {
+            ResourceKey<Item> accessoryKey = key(definition.registryId());
+            ACCESSORIES.put(definition, Registry.register(BuiltInRegistries.ITEM, accessoryKey,
+                    new AccessoryItem(definition, new Item.Properties().stacksTo(1).setId(accessoryKey))));
+        }
         for (WeaponBalance.Values value : WeaponBalance.VALUES) {
             String tier = value.tier().name().toLowerCase();
             DAGGERS.put(value.tier(), register(tier + "_dagger", key -> new BasicWeaponItem(BasicWeaponItem.Kind.DAGGER,
@@ -190,6 +240,15 @@ public final class ModItems {
     }
 
     public static void initialize() {
+        for (AccessoryDefinition definition : AccessoryDefinition.ALL) {
+            Item item = ACCESSORIES.get(definition);
+            if (!(item instanceof AccessoryItem accessory)
+                    || accessory.definition() != definition
+                    || !ModIds.id(definition.registryId()).equals(BuiltInRegistries.ITEM.getKey(item))) {
+                throw new IllegalStateException("Accessory registration mismatch for " + definition.registryId());
+            }
+        }
+
         var registeredId = BuiltInRegistries.ITEM.getKey(FOUNDATION_PROBE);
 
         if (!ModIds.id("foundation_probe").equals(registeredId)) {
@@ -205,6 +264,10 @@ public final class ModItems {
         }
 
         MoreMinecrafts.LOGGER.info("Item registration OK: {}", enhancementStoneId);
+
+        if (!ModIds.id("relic_catalyst").equals(BuiltInRegistries.ITEM.getKey(RELIC_CATALYST))) {
+            throw new IllegalStateException("MoreMinecrafts relic catalyst was not registered correctly.");
+        }
 
         var flameSwordId = BuiltInRegistries.ITEM.getKey(FLAME_SWORD);
         if (!ModIds.id("flame_sword").equals(flameSwordId)) {
@@ -233,10 +296,12 @@ public final class ModItems {
             for (Item[] family : FISHING_EQUIPMENT) for (Item item : family) entries.accept(item);
             entries.accept(RAW_TITANIUM);
             entries.accept(TITANIUM_INGOT);
-            entries.accept(RAW_TUNGSTEN);
-            entries.accept(TUNGSTEN_INGOT);
             entries.accept(MYTHRIL);
             entries.accept(ETHERIUM);
+            entries.accept(ETHERIUM_SHARD);
+            entries.accept(ETHERIUM_INGOT);
+            entries.accept(GALE_SHARD);
+            entries.accept(SKY_FEATHER);
             entries.accept(ADAMANTIUM_INGOT);
             entries.accept(MINER_LANTERN);
             entries.accept(PARACHUTE);
@@ -254,19 +319,34 @@ public final class ModItems {
             entries.accept(BURNING_HEART);
             entries.accept(HEART_OF_CURRENTS);
             entries.accept(ANCIENT_HEART);
+            entries.accept(EARTHEN_RELIC_CORE);
+            entries.accept(ABYSSAL_RELIC_CORE);
+            entries.accept(GLACIAL_RELIC_CORE);
+            entries.accept(TIDAL_RELIC_CORE);
+            entries.accept(BLAZING_RELIC_CORE);
+            entries.accept(SKELETON_KING_CHAIN);
+            entries.accept(GLADIATOR_BLOOD_CREST);
+            entries.accept(ANCIENT_CLOCK_SPRING);
+            entries.accept(ANCIENT_WORLD_TREE_SAP);
+            entries.accept(LAVA_HEARTSTONE);
+            entries.accept(PERMAFROST_CRYSTAL);
+            entries.accept(ABYSSAL_PEARL_CORE);
+            entries.accept(MERMAID_SCALE);
+            entries.accept(VOID_STAR_SHARD);
+            entries.accept(VOID_GRAVITY_CORE);
+            entries.accept(SHIMMERING_SOUL_GLASS);
+            entries.accept(FORGEMASTER_SUMMON_EMBER);
+            entries.accept(POSEIDON_SUMMON_CONCH);
         });
         CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.NATURAL_BLOCKS).register(entries -> {
             entries.accept(ModBlocks.TITANIUM_ORE);
             entries.accept(ModBlocks.DEEPSLATE_TITANIUM_ORE);
-            entries.accept(ModBlocks.TUNGSTEN_ORE);
-            entries.accept(ModBlocks.DEEPSLATE_TUNGSTEN_ORE);
             entries.accept(ModBlocks.MYTHRIL_ORE);
             entries.accept(ModBlocks.DEEPSLATE_MYTHRIL_ORE);
             entries.accept(ModBlocks.ETHERIUM_ORE);
             entries.accept(ModBlocks.DEEPSLATE_ETHERIUM_ORE);
             entries.accept(ModBlocks.ADAMANTIUM_DEBRIS);
             entries.accept(ModBlocks.TITANIUM_BLOCK);
-            entries.accept(ModBlocks.TUNGSTEN_BLOCK);
             entries.accept(ModBlocks.MYTHRIL_BLOCK);
             entries.accept(ModBlocks.ETHERIUM_BLOCK);
             entries.accept(ModBlocks.ADAMANTIUM_BLOCK);

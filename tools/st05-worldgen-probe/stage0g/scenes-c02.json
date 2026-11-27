@@ -1,0 +1,44 @@
+{
+ "worlds": [
+  {
+   "level": "capw-c",
+   "state_dir": "tools/st05-worldgen-probe/stage0f/live/seed-7001/state-h",
+   "seed": 7001,
+   "arena": "built-2ac822e8",
+   "id": "2ac822e8f540f125",
+   "variant": "RUINED_NATURAL_CEILING",
+   "center": [
+    1095,
+    -35,
+    -647
+   ],
+   "scenes": [
+    {
+     "name": "2ac822e8_ruined_natural_ceiling__02_interior_overview",
+     "x": 1070.5,
+     "y": -34.12,
+     "z": -638.5,
+     "yaw": -111.7,
+     "pitch": -13.6,
+     "what": "interior from the combat floor, far dome / wall",
+     "cutaway": "",
+     "cx": 1095,
+     "cz": -647,
+     "fy": -35,
+     "eye": [
+      1070.5,
+      -32.5,
+      -638.5
+     ],
+     "target": [
+      1107,
+      -23,
+      -653
+     ],
+     "wait": 600,
+     "nightvision": true
+    }
+   ]
+  }
+ ]
+}

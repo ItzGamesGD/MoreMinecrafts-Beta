@@ -1,0 +1,243 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.6.0/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build
+
+> Configure project :
+Fabric Loom: 1.17.21
+
+> Task :compileJava UP-TO-DATE
+> Task :processResources UP-TO-DATE
+> Task :classes UP-TO-DATE
+> Task :compileClientJava UP-TO-DATE
+> Task :processClientResources NO-SOURCE
+> Task :clientClasses UP-TO-DATE
+
+> Task :compileTestJava
+/workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:10: error: cannot find symbol
+            for(int f=0;f<4;f++)for(int i=0;i<18;i++)assertTrue(cells.add(s.barrier(f,i)));
+                                                                           ^
+  symbol:   method barrier(int,int)
+  location: variable s of type Site
+/workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:12: error: cannot find symbol
+            assertEquals(s.at(39,11,27),s.barrier(0,0));assertEquals(s.at(44,50,27),s.barrier(3,17));
+                                         ^
+  symbol:   method barrier(int,int)
+  location: variable s of type Site
+/workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:12: error: cannot find symbol
+            assertEquals(s.at(39,11,27),s.barrier(0,0));assertEquals(s.at(44,50,27),s.barrier(3,17));
+                                                                                     ^
+  symbol:   method barrier(int,int)
+  location: variable s of type Site
+/workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:17: error: cannot find symbol
+        assertTrue(d.recordDestruction(s.id(),s.spawner(0)));
+                    ^
+  symbol:   method recordDestruction(String,Point)
+  location: variable d of type SkyTowerData
+/workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:20: error: cannot find symbol
+        assertFalse(d.recordDestruction(s.id(),s.spawner(1)));
+                     ^
+  symbol:   method recordDestruction(String,Point)
+  location: variable d of type SkyTowerData
+/workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:21: error: cannot find symbol
+        assertFalse(d.recordDestruction(s.id(),site(500,0).spawner(2)));
+                     ^
+  symbol:   method recordDestruction(String,Point)
+  location: variable d of type SkyTowerData
+/workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:22: error: cannot find symbol
+        assertEquals(3,d.completedMask(s.id()));assertEquals(1,d.destroyedMask(s.id()));
+                                                                ^
+  symbol:   method destroyedMask(String)
+  location: variable d of type SkyTowerData
+/workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:23: error: cannot find symbol
+        for(int i=2;i<4;i++)d.recordDestruction(s.id(),s.spawner(i));
+                             ^
+  symbol:   method recordDestruction(String,Point)
+  location: variable d of type SkyTowerData
+/workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:24: error: cannot find symbol
+        assertTrue(d.floorCleared(s.id(),0));assertFalse(d.floorCleared(s.id(),1));
+                    ^
+  symbol:   method floorCleared(String,int)
+  location: variable d of type SkyTowerData
+/workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:24: error: cannot find symbol
+        assertTrue(d.floorCleared(s.id(),0));assertFalse(d.floorCleared(s.id(),1));
+                                                          ^
+  symbol:   method floorCleared(String,int)
+  location: variable d of type SkyTowerData
+/workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:26: error: cannot find symbol
+        assertEquals(15,restored.completedMask(s.id()));assertEquals(13,restored.destroyedMask(s.id()));
+                                                                                ^
+  symbol:   method destroyedMask(String)
+  location: variable restored of type SkyTowerData
+/workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:27: error: cannot find symbol
+        assertFalse(restored.recordDestruction(s.id(),s.spawner(0)));
+                            ^
+  symbol:   method recordDestruction(String,Point)
+  location: variable restored of type SkyTowerData
+/workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:31: error: cannot find symbol
+        assertFalse(d.ownsBarrier(a.id(),0,0));d.setBarrierOwned(a.id(),0,0,true);
+                     ^
+  symbol:   method ownsBarrier(String,int,int)
+  location: variable d of type SkyTowerData
+/workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:31: error: cannot find symbol
+        assertFalse(d.ownsBarrier(a.id(),0,0));d.setBarrierOwned(a.id(),0,0,true);
+                                                ^
+  symbol:   method setBarrierOwned(String,int,int,boolean)
+  location: variable d of type SkyTowerData
+/workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:32: error: cannot find symbol
+        assertTrue(d.ownsBarrier(a.id(),0,0));assertFalse(d.ownsBarrier(b.id(),0,0));
+                    ^
+  symbol:   method ownsBarrier(String,int,int)
+  location: variable d of type SkyTowerData
+/workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:32: error: cannot find symbol
+        assertTrue(d.ownsBarrier(a.id(),0,0));assertFalse(d.ownsBarrier(b.id(),0,0));
+                                                           ^
+  symbol:   method ownsBarrier(String,int,int)
+  location: variable d of type SkyTowerData
+/workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:34: error: cannot find symbol
+        assertTrue(restored.ownsBarrier(a.id(),0,0));
+                           ^
+  symbol:   method ownsBarrier(String,int,int)
+  location: variable restored of type SkyTowerData
+/workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:35: error: cannot find symbol
+        restored.setBarrierOwned(a.id(),0,0,false);assertFalse(restored.ownsBarrier(a.id(),0,0));
+                ^
+  symbol:   method setBarrierOwned(String,int,int,boolean)
+  location: variable restored of type SkyTowerData
+/workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:35: error: cannot find symbol
+        restored.setBarrierOwned(a.id(),0,0,false);assertFalse(restored.ownsBarrier(a.id(),0,0));
+                                                                       ^
+  symbol:   method ownsBarrier(String,int,int)
+  location: variable restored of type SkyTowerData
+/workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:43: error: cannot find symbol
+        assertEquals(0,d.destroyedMask(site(0,0).id()));assertFalse(d.ownsBarrier(site(0,0).id(),0,0));
+                        ^
+  symbol:   method destroyedMask(String)
+  location: variable d of type SkyTowerData
+/workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:43: error: cannot find symbol
+        assertEquals(0,d.destroyedMask(site(0,0).id()));assertFalse(d.ownsBarrier(site(0,0).id(),0,0));
+                                                                     ^
+  symbol:   method ownsBarrier(String,int,int)
+  location: variable d of type SkyTowerData
+21 errors
+
+> Task :compileTestJava FAILED
+
+[Incubating] Problems report is available at: file:///workspace/MoreMinecrafts-Beta/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileTestJava' (registered by plugin class 'org.gradle.api.plugins.JavaBasePlugin').
+> Compilation failed; see the compiler output below.
+  /workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:10: error: cannot find symbol
+              for(int f=0;f<4;f++)for(int i=0;i<18;i++)assertTrue(cells.add(s.barrier(f,i)));
+                                                                             ^
+    symbol:   method barrier(int,int)
+    location: variable s of type Site
+  /workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:12: error: cannot find symbol
+              assertEquals(s.at(39,11,27),s.barrier(0,0));assertEquals(s.at(44,50,27),s.barrier(3,17));
+                                           ^
+    symbol:   method barrier(int,int)
+    location: variable s of type Site
+  /workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:12: error: cannot find symbol
+              assertEquals(s.at(39,11,27),s.barrier(0,0));assertEquals(s.at(44,50,27),s.barrier(3,17));
+                                                                                       ^
+    symbol:   method barrier(int,int)
+    location: variable s of type Site
+  /workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:17: error: cannot find symbol
+          assertTrue(d.recordDestruction(s.id(),s.spawner(0)));
+                      ^
+    symbol:   method recordDestruction(String,Point)
+    location: variable d of type SkyTowerData
+  /workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:20: error: cannot find symbol
+          assertFalse(d.recordDestruction(s.id(),s.spawner(1)));
+                       ^
+    symbol:   method recordDestruction(String,Point)
+    location: variable d of type SkyTowerData
+  /workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:21: error: cannot find symbol
+          assertFalse(d.recordDestruction(s.id(),site(500,0).spawner(2)));
+                       ^
+    symbol:   method recordDestruction(String,Point)
+    location: variable d of type SkyTowerData
+  /workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:22: error: cannot find symbol
+          assertEquals(3,d.completedMask(s.id()));assertEquals(1,d.destroyedMask(s.id()));
+                                                                  ^
+    symbol:   method destroyedMask(String)
+    location: variable d of type SkyTowerData
+  /workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:23: error: cannot find symbol
+          for(int i=2;i<4;i++)d.recordDestruction(s.id(),s.spawner(i));
+                               ^
+    symbol:   method recordDestruction(String,Point)
+    location: variable d of type SkyTowerData
+  /workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:24: error: cannot find symbol
+          assertTrue(d.floorCleared(s.id(),0));assertFalse(d.floorCleared(s.id(),1));
+                      ^
+    symbol:   method floorCleared(String,int)
+    location: variable d of type SkyTowerData
+  /workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:24: error: cannot find symbol
+          assertTrue(d.floorCleared(s.id(),0));assertFalse(d.floorCleared(s.id(),1));
+                                                            ^
+    symbol:   method floorCleared(String,int)
+    location: variable d of type SkyTowerData
+  /workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:26: error: cannot find symbol
+          assertEquals(15,restored.completedMask(s.id()));assertEquals(13,restored.destroyedMask(s.id()));
+                                                                                  ^
+    symbol:   method destroyedMask(String)
+    location: variable restored of type SkyTowerData
+  /workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:27: error: cannot find symbol
+          assertFalse(restored.recordDestruction(s.id(),s.spawner(0)));
+                              ^
+    symbol:   method recordDestruction(String,Point)
+    location: variable restored of type SkyTowerData
+  /workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:31: error: cannot find symbol
+          assertFalse(d.ownsBarrier(a.id(),0,0));d.setBarrierOwned(a.id(),0,0,true);
+                       ^
+    symbol:   method ownsBarrier(String,int,int)
+    location: variable d of type SkyTowerData
+  /workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:31: error: cannot find symbol
+          assertFalse(d.ownsBarrier(a.id(),0,0));d.setBarrierOwned(a.id(),0,0,true);
+                                                  ^
+    symbol:   method setBarrierOwned(String,int,int,boolean)
+    location: variable d of type SkyTowerData
+  /workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:32: error: cannot find symbol
+          assertTrue(d.ownsBarrier(a.id(),0,0));assertFalse(d.ownsBarrier(b.id(),0,0));
+                      ^
+    symbol:   method ownsBarrier(String,int,int)
+    location: variable d of type SkyTowerData
+  /workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:32: error: cannot find symbol
+          assertTrue(d.ownsBarrier(a.id(),0,0));assertFalse(d.ownsBarrier(b.id(),0,0));
+                                                             ^
+    symbol:   method ownsBarrier(String,int,int)
+    location: variable d of type SkyTowerData
+  /workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:34: error: cannot find symbol
+          assertTrue(restored.ownsBarrier(a.id(),0,0));
+                             ^
+    symbol:   method ownsBarrier(String,int,int)
+    location: variable restored of type SkyTowerData
+  /workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:35: error: cannot find symbol
+          restored.setBarrierOwned(a.id(),0,0,false);assertFalse(restored.ownsBarrier(a.id(),0,0));
+                  ^
+    symbol:   method setBarrierOwned(String,int,int,boolean)
+    location: variable restored of type SkyTowerData
+  /workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:35: error: cannot find symbol
+          restored.setBarrierOwned(a.id(),0,0,false);assertFalse(restored.ownsBarrier(a.id(),0,0));
+                                                                         ^
+    symbol:   method ownsBarrier(String,int,int)
+    location: variable restored of type SkyTowerData
+  /workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:43: error: cannot find symbol
+          assertEquals(0,d.destroyedMask(site(0,0).id()));assertFalse(d.ownsBarrier(site(0,0).id(),0,0));
+                          ^
+    symbol:   method destroyedMask(String)
+    location: variable d of type SkyTowerData
+  /workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:43: error: cannot find symbol
+          assertEquals(0,d.destroyedMask(site(0,0).id()));assertFalse(d.ownsBarrier(site(0,0).id(),0,0));
+                                                                       ^
+    symbol:   method ownsBarrier(String,int,int)
+    location: variable d of type SkyTowerData
+  21 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+
+BUILD FAILED in 1m 3s
+4 actionable tasks: 1 executed, 3 up-to-date

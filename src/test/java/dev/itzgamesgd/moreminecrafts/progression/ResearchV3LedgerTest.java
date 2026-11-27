@@ -27,8 +27,11 @@ final class ResearchV3LedgerTest {
             for (var costElement : costs) nodeXp += costElement.getAsJsonObject().get("rawXp").getAsInt();
             rawXp += nodeXp;
             assertEquals(node.get("approvedTotalRawXp").getAsInt(), nodeXp, node.get("id").getAsString());
-            assertFalse(node.get("prerequisitesDefined").getAsBoolean(),
-                    "the current authority marks the V3 research graph as follow-up");
+            assertTrue(node.get("prerequisitesDefined").getAsBoolean(),
+                    "Stage 22 requires every V3 node to have explicit prerequisites");
+            assertFalse(node.getAsJsonArray("knowledgePrerequisites").isEmpty());
+            assertTrue(node.getAsJsonArray("researchPrerequisites").size() >= 1,
+                    "each V3 node requires its discipline root");
         }
         assertEquals(70, entries.size());
         assertEquals(178, purchases);

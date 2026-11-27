@@ -11,8 +11,10 @@ import dev.itzgamesgd.moreminecrafts.special.elemental.EarthSeismicRuntime;
 import dev.itzgamesgd.moreminecrafts.special.ElementalHitProgress;
 import dev.itzgamesgd.moreminecrafts.equipment.EquipmentAttachments;
 import dev.itzgamesgd.moreminecrafts.equipment.EquipmentRuntime;
+import dev.itzgamesgd.moreminecrafts.accessory.AccessoryEquipmentRuntime;
 import dev.itzgamesgd.moreminecrafts.mob.CustomMobCatalog;
 import dev.itzgamesgd.moreminecrafts.progression.T2CoreAcquisition;
+import dev.itzgamesgd.moreminecrafts.bounty.ContractObjectives;
 
 public final class ModRegistries {
     private ModRegistries() {
@@ -20,6 +22,15 @@ public final class ModRegistries {
 
     public static void initialize() {
         CustomMobCatalog.initialize();
+        dev.itzgamesgd.moreminecrafts.mob.pyramid.PyramidMobs.initialize();
+        dev.itzgamesgd.moreminecrafts.spidercolony.SpiderColonyEntities.initialize();
+        dev.itzgamesgd.moreminecrafts.mob.sky.SkyNormalMobs.initialize();
+        dev.itzgamesgd.moreminecrafts.mob.sky.SkyVariantMobs.initialize();
+        dev.itzgamesgd.moreminecrafts.mob.sky.SkyIslandHabitat.initialize();
+        dev.itzgamesgd.moreminecrafts.boss.TombGuardianEntities.initialize();
+        dev.itzgamesgd.moreminecrafts.boss.PiglinForgemasterEntities.initialize();
+        dev.itzgamesgd.moreminecrafts.mob.bone.BoneMobs.initialize();
+        dev.itzgamesgd.moreminecrafts.pyramid.entrance.SecretEntranceEntities.initialize();
         ModAlchemy.initialize();
         EnchantmentRuntime.initialize();
         ModBlocks.initialize();
@@ -28,10 +39,12 @@ public final class ModRegistries {
         AbilityAttachments.initialize();
         ModDataComponents.initialize();
         dev.itzgamesgd.moreminecrafts.progression.KnowledgeRuntime.initialize();
+        dev.itzgamesgd.moreminecrafts.progression.XpQuestTracking.initialize();
         dev.itzgamesgd.moreminecrafts.progression.ResearchMovementRuntime.initialize();
         dev.itzgamesgd.moreminecrafts.progression.ResearchDebugCommands.initialize();
         ModItems.initialize();
         T2CoreAcquisition.initialize();
+        dev.itzgamesgd.moreminecrafts.accessory.ArtifactCoreDrops.initialize();
         ModOreGeneration.initialize();
         FishingChallenges.initialize();
         FishermanFishSale.initialize();
@@ -39,7 +52,10 @@ public final class ModRegistries {
         EarthSeismicRuntime.initialize();
         ElementalHitProgress.initialize();
         EquipmentAttachments.initialize();
+        AccessoryEquipmentRuntime.initialize();
         EquipmentRuntime.initialize();
+        ContractObjectives.initialize();
+        dev.itzgamesgd.moreminecrafts.bounty.ContractLootIntegration.initialize();
         dev.itzgamesgd.moreminecrafts.equipment.MobCaptureRuntime.initialize();
         dev.itzgamesgd.moreminecrafts.trade.PiglinTrading.initialize();
     }

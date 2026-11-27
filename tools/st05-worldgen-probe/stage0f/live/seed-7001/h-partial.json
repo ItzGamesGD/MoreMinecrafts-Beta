@@ -1,0 +1,265 @@
+{
+  "mode": "f-run",
+  "seed": 7001,
+  "y_band": "-48..0",
+  "reservations": 1,
+  "algo": "st05-stage0f-construction-v1",
+  "placements": [
+    {
+      "id": "77ba83e05adb2600",
+      "center": "-390,-720",
+      "reserved_floorY": -22,
+      "state_at_entry": "RESERVED",
+      "block_entity_provenance": {
+        "protected_block_entity_chest": 5,
+        "protected_block_entity_spawner": 6,
+        "rejected_not_patch_type": 11
+      },
+      "snapshot_ms": 17871,
+      "structure_pieces_near": 40,
+      "structure_types_near": {
+        "minecraft:abandoned_camp_sparse_jungle": 1,
+        "minecraft:mineshaft": 2
+      },
+      "planning_ms": 1665,
+      "candidates": [
+        {
+          "idx": 0,
+          "floorY": -22,
+          "ok": true,
+          "reason": "",
+          "score_milli": 79400,
+          "parts": {
+            "C": 65,
+            "T": 93,
+            "F": 100,
+            "E": 62
+          },
+          "route_work": 1199,
+          "hash": "2cd2cf9bfa56329aedede2f0e09cac34a303709ccaf30610237c3f8a702b7423",
+          "cells": 72207,
+          "stats": {
+            "arena_variant_1": 1,
+            "dome_holes": 438
+          },
+          "routes": [
+            "dir=0 len=13 stairs=3 turns=1",
+            "dir=1 len=9 stairs=5 turns=1"
+          ]
+        },
+        {
+          "idx": 1,
+          "floorY": -21,
+          "ok": true,
+          "reason": "",
+          "score_milli": 79400,
+          "parts": {
+            "C": 65,
+            "T": 93,
+            "F": 100,
+            "E": 62
+          },
+          "route_work": 1074,
+          "hash": "4f6caf490a077404fe17bb703621089925d1c3e6013bda59f225ccd4cd614e1e",
+          "cells": 72209,
+          "stats": {
+            "arena_variant_1": 1,
+            "dome_holes": 436
+          },
+          "routes": [
+            "dir=0 len=13 stairs=2 turns=1",
+            "dir=1 len=9 stairs=4 turns=1"
+          ]
+        },
+        {
+          "idx": 2,
+          "floorY": -23,
+          "ok": true,
+          "reason": "",
+          "score_milli": 76600,
+          "parts": {
+            "C": 58,
+            "T": 93,
+            "F": 100,
+            "E": 62
+          },
+          "route_work": 1391,
+          "hash": "cd4fa44b8f077378be2ecc777f2ac4aff47a239d924e383a9f2457ff1a6cedcf",
+          "cells": 72222,
+          "stats": {
+            "arena_variant_1": 1,
+            "dome_holes": 438
+          },
+          "routes": [
+            "dir=0 len=13 stairs=4 turns=1",
+            "dir=1 len=10 stairs=1 turns=1"
+          ]
+        },
+        {
+          "idx": 3,
+          "floorY": -20,
+          "ok": true,
+          "reason": "",
+          "score_milli": 79000,
+          "parts": {
+            "C": 65,
+            "T": 92,
+            "F": 100,
+            "E": 62
+          },
+          "route_work": 808,
+          "hash": "859087134beef2d979b40dea845c5a24001ee3bcb14842020f9cfbe60349ca2e",
+          "cells": 72143,
+          "stats": {
+            "arena_variant_1": 1,
+            "dome_holes": 435
+          },
+          "routes": [
+            "dir=0 len=13 stairs=1 turns=1",
+            "dir=1 len=7 stairs=6 turns=0"
+          ]
+        },
+        {
+          "idx": 4,
+          "floorY": -24,
+          "ok": true,
+          "reason": "",
+          "score_milli": 76200,
+          "parts": {
+            "C": 58,
+            "T": 92,
+            "F": 100,
+            "E": 62
+          },
+          "route_work": 1521,
+          "hash": "8dec60b45d548cdb59e9ae7afe34f020c402f702bfe4ffdb9f669e68d5403c2e",
+          "cells": 72220,
+          "stats": {
+            "arena_variant_1": 1,
+            "dome_holes": 439
+          },
+          "routes": [
+            "dir=0 len=13 stairs=5 turns=1",
+            "dir=1 len=10 stairs=0 turns=1"
+          ]
+        },
+        {
+          "idx": 5,
+          "floorY": -19,
+          "ok": true,
+          "reason": "",
+          "score_milli": 80600,
+          "parts": {
+            "C": 69,
+            "T": 92,
+            "F": 100,
+            "E": 62
+          },
+          "route_work": 774,
+          "hash": "7413e0e2177cbc3dc16eb3fced7211a5245eb183cea84c832d18935f8c90e4a0",
+          "cells": 72146,
+          "stats": {
+            "arena_variant_1": 1,
+            "dome_holes": 434
+          },
+          "routes": [
+            "dir=0 len=13 stairs=0 turns=1",
+            "dir=1 len=7 stairs=5 turns=0"
+          ]
+        },
+        {
+          "idx": 6,
+          "floorY": -25,
+          "ok": true,
+          "reason": "",
+          "score_milli": 76200,
+          "parts": {
+            "C": 58,
+            "T": 92,
+            "F": 100,
+            "E": 62
+          },
+          "route_work": 1703,
+          "hash": "c8b7706849d8e70e01b43a220df9bc21d8477126835e3febf5f819336dbd6909",
+          "cells": 72216,
+          "stats": {
+            "arena_variant_1": 1,
+            "dome_holes": 441
+          },
+          "routes": [
+            "dir=0 len=13 stairs=6 turns=1",
+            "dir=1 len=10 stairs=1 turns=1"
+          ]
+        },
+        {
+          "idx": 7,
+          "floorY": -18,
+          "ok": true,
+          "reason": "",
+          "score_milli": 78600,
+          "parts": {
+            "C": 65,
+            "T": 91,
+            "F": 100,
+            "E": 62
+          },
+          "route_work": 781,
+          "hash": "46c03f4025d4458e15c39671650fd9cb7af931584994e19236471604436d98fc",
+          "cells": 72146,
+          "stats": {
+            "arena_variant_1": 1,
+            "dome_holes": 436
+          },
+          "routes": [
+            "dir=0 len=13 stairs=1 turns=1",
+            "dir=1 len=7 stairs=4 turns=0"
+          ]
+        }
+      ],
+      "cave_components": 1021,
+      "cave_qualified_components": 21,
+      "chosen_candidate": 5,
+      "chosen_floorY": -19,
+      "variant": "RUINED_PARTIAL_DOME",
+      "plan_hash": "7413e0e2177cbc3dc16eb3fced7211a5245eb183cea84c832d18935f8c90e4a0",
+      "plan_cells": 72146,
+      "plan_ops": 75420,
+      "plan_stats": {
+        "arena_variant_1": 1,
+        "dome_holes": 434
+      },
+      "batches": 66,
+      "apply_ms": 5507,
+      "action": "CONSTRUCTED",
+      "plan_mismatches": 0,
+      "verify_failures": [],
+      "measured": {
+        "fluid_adjacent_open_cells": 0,
+        "min_floor_block_light": 8,
+        "exterior_radius": 34,
+        "max_solid_offset": 22,
+        "vault_blocks_expected": 7,
+        "walk_arena_to_cave_dir0": 19,
+        "walk_arena_to_cave_dir1": 13,
+        "corridors": 2,
+        "vault_blocks": 7,
+        "ominous_vault_at_exact_center": true
+      },
+      "writes": 75420,
+      "ms": 25848,
+      "final_state": "VERIFIED",
+      "final_reason": "",
+      "reservation_preserved": true
+    }
+  ],
+  "world_writes": 75420,
+  "chunk_saves": 17,
+  "post_tick_reverification": [
+    {
+      "id": "77ba83e05adb2600",
+      "ticks_waited": 200,
+      "plan_mismatches": 0,
+      "verify_failures": []
+    }
+  ]
+}

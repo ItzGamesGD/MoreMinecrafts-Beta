@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "D4D",
+    "gIg",
+    "EgY"
+  ],
+  "key": {
+    "4": "moreminecrafts:ancient_clock_spring",
+    "D": "minecraft:diamond",
+    "E": "minecraft:echo_shard",
+    "I": "moreminecrafts:etherium_ingot",
+    "Y": "moreminecrafts:mythril",
+    "g": "moreminecrafts:glacial_relic_core"
+  },
+  "result": {
+    "id": "moreminecrafts:ring_of_time",
+    "count": 1
+  }
+}

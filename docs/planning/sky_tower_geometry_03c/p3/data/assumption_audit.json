@@ -1,0 +1,55 @@
+{
+ "A1": {
+  "p2_model": "4-column frames + flat 4x4 turn pads; walk = union of 4x4 anchor pads",
+  "design_text": "Q43: effective walking width 4 (rails/pillars excluded). No frame/pad geometry in Q01-Q118.",
+  "code": [
+   "p2/p2_search.py:104 walk == pads (union of pad(p))",
+   "sky_tower_geometry_03b/verify.py:91-133 width_certificate (len(cells)==4 axis frames, 16-cell flat turn_pad)"
+  ],
+  "category": "implementation convenience (03B certificate); not design text; not a Minecraft movement requirement",
+  "over_constraint": "YES - on diagonals the pad union is ~5.7 blocks wide, consuming the radial room for pillars",
+  "experiment": "ANN radial band 15.5<=r<19.5 + 4 disjoint 1-block radial lanes traversed by independent AABB BFS: 4/4 lanes x 4 laps PASS (K1,K2); pillar room rises from 12 (P2, proved) to 16/lap (K1)"
+ },
+ "A2": {
+  "p2_model": "rise only at stations with 11 consecutive same-direction steps; 1 block per station (whole-block stair risers)",
+  "design_text": "Q29 about one turn per floor; Q30 rising and flat sections alternate. No riser type or straight-run length.",
+  "code": [
+   "p2/p2_search.py:135 window range(-5,7)",
+   "p2/p2_build3d.py:27-31 schedule() eligible window range(-5,6)"
+  ],
+  "category": "implementation convenience; partly physical for whole-block stair risers",
+  "over_constraint": "YES for half-step treads; NO-ish for stair blocks on a curve (K3: 6 of 16 lanes fail)",
+  "experiment": "slab half-steps (0.5 <= MC step 0.6) rise anywhere incl. curves: max neighbour step 0.5, capacity ~47 blocks/lap vs 17 needed; stair-block variant on the same band breaks 4-lane width"
+ },
+ "A3": {
+  "p2_model": "rail on every non-walk non-wall 4-neighbour; walk columns need all 4-neighbours inside D45",
+  "design_text": "Q26 max 45 incl. stairs, railing, eaves; Q31 open railing between low stone posts; Q77 (balconies) no fall gaps",
+  "code": [
+   "p2/p2_search.py:37 FREE_R",
+   "p2/p2_build3d.py:165 rail rule"
+  ],
+  "category": "design-backed (railing inside 45); exact rail footprint is implementation",
+  "over_constraint": "NOT binding: P2 N1 (no rails) also 12 pillars; P3 keeps the same rule (2-high rails) and V9 finds 0 unguarded edges",
+  "experiment": "kept; rails are ring columns inside D45 in every P3 candidate"
+ },
+ "A4": {
+  "p2_model": "balcony contact stations +-1 must be flat; contact = full 7-cell side",
+  "design_text": "Q73 balconies on main FLAT sections; Q74 two per inter-floor stair; Q80 7x3; Q82 positions follow flats/pillars/arches",
+  "code": [
+   "p2/p2_search.py:187-194 touchsel/eligibility exclusion"
+  ],
+  "category": "flat landing = design (Q73); +-1 margin and full-7 contact = implementation",
+  "over_constraint": "margin/contact were not the binding cause; the binding cause was A2 (rise capacity only on straight runs)",
+  "experiment": "B1 (9-cell flat), B2 (3-cell flat) both: 8 balconies, all flat, all reachable, 7x3 standable. B3 (no flat) works for access but leaves a sloped landing -> violates Q73. Full 7-cell contact impossible on a curved band (Q3 INFEASIBLE). B4 branch NOT RUN."
+ },
+ "A5": {
+  "p2_model": "pillar plan identical on every lap",
+  "design_text": "Q84 repeated arcade pillars evenly placed; Q85 about 7 along the stair path; Q81 rotation is stated for balconies only",
+  "code": [
+   "p2/p2_build3d.py:99 for lap in range(4) same plan"
+  ],
+  "category": "not in design text (unspecified)",
+  "over_constraint": "binding once balconies are added: A5 strict best window 53deg (K4, arch collisions) vs per-lap phase 34deg (K2)",
+  "experiment": "per-lap pillar phase = experimental only; needs user approval"
+ }
+}

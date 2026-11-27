@@ -1,0 +1,54 @@
+PLAN Y=-30 X[-12,34] Z[-11,40] north(-Z) up, east(+X) right. .=vault ,=corridor s=stair l=landing c=crypt n=niche D/d=dais/stair P=column K=capital B=beam X=chest m=mineral pile S=sarcophagus :=P1-P3 void #=wall/slab
+   Z\X   '         '         '         '         '    
+ -11                                                 
+ -10                   #####################         
+  -9                   ####nnn#nnn#nnn######         
+  -8                   ####nnn#nnn#nnn######         
+  -7                   ###ccccccccccccccc###         
+  -6                   ###ccccccccccccccc###         
+  -5                   ###ccccccccccccccc###         
+  -4                   ###ccccccccccccccc###         
+  -3                   ###ccccccSSScccccc###         
+  -2            ##########ccccccSSScccccc###         
+  -1            ##########ccccccSSScccccc###         
+  +0            ##,,,,,,,,ccccccSSScccccc###         
+  +1            ##,,,,,,,,ccccccSSScccccc###         
+  +2            ##,,,,,,,,ccccccccccccccc###         
+  +3            ##,,,#####ccccccccccccccc###         
+  +4            ##,,,#####ccccccccccccccc###         
+  +5            ##,,,#####ccccccccccccccc###         
+  +6            ##,,,######nnn#nnn#nnn######         
+  +7            ##,,,######nnn#nnn#nnn######         
+  +8            ##,,,#######################         
+  +9            ##,,,##                              
+ +10            ##,,,##                              
+ +11            ##,,,##                              
+ +12            ##,,,##                              
+ +13            ##,,,############################### 
+ +14            ##,,,############################### 
+ +15            ##,,,############################### 
+ +16            ##,,,###...mmm...mmm...mmm....mm.### 
+ +17            ##,,,###m...mmmm..mmmm..mmmm...mm### 
+ +18            ##,,,###...mmm..m.m.PPP.......PPP### 
+ +19            ##,,,###mmm...mmm...PPPDDDDDDDPPP### 
+ +20            ##,,,###.mmm...mmmm.PPPDDDDDDDPPP### 
+ +21            ##,,,###mmm...mmm....DDDDDDDDDDD.### 
+ +22          ####,,,###...mmm...mm..DDDDDDDDDDD.### 
+ +23          ####,,,###.m..mmm...mdddddDDDDDDDD.### 
+ +24          ##,,,,,,,,...........dddddDDDDDDDD.### 
+ +25          ##,,,,,,,,...........dddddDDDDDDDD.### 
+ +26          ##,,,,,,,,...........dddddDDDDDDDD.### 
+ +27          ##,,,,,,,,...........dddddDDDDDDDD.### 
+ +28          ##,,,,,,,,...........dddddDDDDDDDD.### 
+ +29          ##,,,,,###m...mmmm..mdddddDDDDDDDD.### 
+ +30          ##,,,,,###...mmm...mm..DDDDDDDDDDD.### 
+ +31   #########,,,,,###mmm..m.mm....DDDDDDDDDDD.### 
+ +32   #########lllll###.mmmm..mmmm.PPPDDDDDDDPPP### 
+ +33   #########lllll###mmm...mmm...PPPDDDDDDDPPP### 
+ +34   #########lllll###..m.mm..mm..PPP.......PPP### 
+ +35   #########lllll###mm..mmmm..mmmm...mmm..m.m### 
+ +36   #########lllll###...mmm...mmm....mm...m.m.### 
+ +37   ############################################# 
+ +38          ###################################### 
+ +39                 ############################### 
+ +40                                                 

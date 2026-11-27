@@ -1,0 +1,46 @@
+| study | status | optimum/bound | rise stations | pillars | balconies |
+|---|---|---|---|---|---|
+| A0_loop_only | OPTIMAL |  | 17 |  |  |
+| B1_max_pillars_pads | OPTIMAL | 12/12 | 17 | 12 |  |
+| B2_max_pillars_pads_no_ray | OPTIMAL | 12/12 | 17 | 12 |  |
+| B3_max_pillars_pads_no_ray_no_adj | OPTIMAL | 12/12 | 17 | 12 |  |
+| B4_max_pillars_pads_no_constraints_but_loop | OPTIMAL | 12/12 | 0 | 12 |  |
+| B5_max_pillars_lean_walk | OPTIMAL | 12/12 | 17 | 12 |  |
+| B6_max_pillars_lean_no_ray_no_adj | OPTIMAL | 12/12 | 0 | 12 |  |
+| BEST_max_pillars_sectors8 | OPTIMAL | 12/12 | 17 | 12 |  |
+| C0_max_rise_stations_no_balconies | OPTIMAL | 21/21 | 21 |  |  |
+| C1_loop_8_balconies_flat_landings | INFEASIBLE |  |  |  |  |
+| C2_max_rise_stations_with_8_balconies_flat | OPTIMAL | 6/6 | 6 |  | 8 |
+| C3_max_balconies_with_17_rise_stations | OPTIMAL | 4/4 | 17 |  | 4 |
+| C4_loop_8_balconies_NOT_flat_diagnostic | OPTIMAL |  | 0 |  | 8 |
+| C5_max_pillars_with_8_balconies_NOT_flat_diagnostic | OPTIMAL | 4/4 | 0 | 4 | 8 |
+| D1_RELAXED_contact1_loop_8_balconies_flat | INFEASIBLE |  |  |  |  |
+| D2_RELAXED_contact1_max_rise_with_8_balconies | OPTIMAL | 6/6 | 6 |  | 8 |
+| D3_RELAXED_contact1_max_pillars_with_8_balconies_17_rise | INFEASIBLE |  |  |  |  |
+| D4_RELAXED_contact3_max_pillars_with_8_balconies_17_rise | INFEASIBLE |  |  |  |  |
+| E1_NOBINS_max_balconies_with_17_rise_contact7 | OPTIMAL | 4/4 | 17 |  | 4 |
+| E2_NOBINS_max_balconies_with_17_rise_contact1 | OPTIMAL | 4/4 | 17 |  | 4 |
+| E3_NOBINS_8_balconies_max_rise_contact1 | OPTIMAL | 6/6 | 6 |  | 8 |
+| F1_4_balconies_max_pillars_17_rise | OPTIMAL | 8/8 | 17 | 8 | 4 |
+| F2_4_balconies_loop_17_rise | OPTIMAL |  | 17 |  | 4 |
+| G1_SENS_disc47_max_pillars | OPTIMAL | 25/25 | 17 | 25 |  |
+| G2_SENS_disc49_max_pillars | OPTIMAL | 42/42 | 17 | 42 |  |
+| G3_SENS_disc51_max_pillars | UNKNOWN |  |  |  |  |
+| G4_SENS_disc53_max_pillars | UNKNOWN |  |  |  |  |
+| G5_SENS_box45_max_pillars | OPTIMAL | 54/54 | 17 | 54 |  |
+| G6_SENS_box45_sectors17 | OPTIMAL |  | 17 | 19 |  |
+| G7_SENS_disc51_sectors17 | OPTIMAL |  | 17 | 17 |  |
+| H1_SENS_disc46_sectors17 | INFEASIBLE |  |  |  |  |
+| H2_SENS_disc47_sectors17 | INFEASIBLE |  |  |  |  |
+| H3_SENS_disc48_sectors17 | OPTIMAL |  | 17 | 17 |  |
+| H4_SENS_disc49_sectors17 | OPTIMAL |  | 17 | 18 |  |
+| H5_SENS_disc46_max_pillars | OPTIMAL | 16/16 | 17 | 16 |  |
+| N1_NORAIL_max_pillars_pads | OPTIMAL | 12/12 | 17 | 12 |  |
+| N2_NORAIL_loop_only | OPTIMAL |  | 17 |  |  |
+| S10_sectors10_pads | INFEASIBLE |  |  |  |  |
+| S10b_sectors10_offset_half | INFEASIBLE |  |  |  |  |
+| S12_sectors12_pads | INFEASIBLE |  |  |  |  |
+| S17_sectors17_lean_no_ray_no_adj | INFEASIBLE |  |  |  |  |
+| S17_sectors17_pads | INFEASIBLE |  |  |  |  |
+| S8_sectors8_pads | OPTIMAL |  | 17 | 8 |  |
+| S9_sectors9_pads | INFEASIBLE |  |  |  |  |

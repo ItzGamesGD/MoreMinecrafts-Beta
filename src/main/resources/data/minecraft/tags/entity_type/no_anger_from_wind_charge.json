@@ -22,6 +22,10 @@
     "moreminecrafts:ice_spider",
     "moreminecrafts:wild_slime",
     "moreminecrafts:mud_slime",
-    "moreminecrafts:sand_slime"
+    "moreminecrafts:sand_slime",
+    "moreminecrafts:buried_mummy",
+    "moreminecrafts:crypt_archer",
+    "moreminecrafts:funeral_servant",
+    "moreminecrafts:gilded_mummy"
   ]
 }

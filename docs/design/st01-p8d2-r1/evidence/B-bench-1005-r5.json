@@ -1,0 +1,62 @@
+{
+  "mode": "bench",
+  "instr_on": true,
+  "seed": 1005,
+  "radius_param": 5,
+  "calls": [
+    {
+      "origin": "0,0",
+      "state": "cold",
+      "wall_ms": 96.612768,
+      "main_thread_cpu_ms": 87.967091,
+      "st01_evaluations": 121,
+      "instr": {
+        "biome.lookup(getNoiseBiome)|main": {
+          "n": 121,
+          "total_ms": 1.853335,
+          "max_ms": 0.27323
+        },
+        "desert.rejectedAtCentreCell|main": {
+          "n": 121,
+          "total_ms": 0.0,
+          "max_ms": 0.0
+        },
+        "elig.stage1.desertFootprint.reject|main": {
+          "n": 121,
+          "total_ms": 78.603562,
+          "max_ms": 2.199402
+        },
+        "fgp.total|main": {
+          "n": 121,
+          "total_ms": 80.382801,
+          "max_ms": 3.441671
+        },
+        "fgp.verdict.REJECT_BIOME|main": {
+          "n": 121,
+          "total_ms": 80.382801,
+          "max_ms": 3.441671
+        },
+        "height.calls|main": {
+          "n": 121,
+          "total_ms": 0.0,
+          "max_ms": 0.0
+        },
+        "height.compute(getBaseHeight)|main": {
+          "n": 121,
+          "total_ms": 74.940417,
+          "max_ms": 1.03578
+        }
+      },
+      "found": false
+    },
+    {
+      "origin": "0,0",
+      "state": "warm-repeat",
+      "wall_ms": 0.179725,
+      "main_thread_cpu_ms": 0.182232,
+      "st01_evaluations": 0,
+      "instr": {},
+      "found": false
+    }
+  ]
+}

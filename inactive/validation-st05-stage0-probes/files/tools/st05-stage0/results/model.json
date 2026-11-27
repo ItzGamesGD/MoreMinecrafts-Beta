@@ -1,0 +1,43 @@
+{
+  "kind": "SIMULATED_ONLY",
+  "complete_graph_input_orders_in_parallel_workers": 6,
+  "complete_graph_canonical_ids_identical": true,
+  "json_restart_identical": true,
+  "bounded_local_id_changes_when_frontier_expands": [
+    [
+      [
+        [
+          512,
+          0
+        ],
+        13
+      ]
+    ],
+    [
+      [
+        [
+          500,
+          0
+        ],
+        27
+      ]
+    ]
+  ],
+  "late_bridge_merges_two_previous_ids": true,
+  "first_arrival_spacing_outcomes": [
+    [
+      "A",
+      "C"
+    ],
+    [
+      "B"
+    ]
+  ],
+  "proposal_only": "canonical minimum after proven closed component; lexicographic priority among competing roll winners",
+  "proposal_adopted": false,
+  "owner_decision_required": "closed-component/budget-exhaustion semantics; spacing precedence; all fit-eligible roll denominator vs spacing exclusions",
+  "a02": "BLOCKER",
+  "a03": "NOT_PROVEN_BY_MODEL",
+  "elapsed_ms": 24.073,
+  "peak_bytes": 505270
+}

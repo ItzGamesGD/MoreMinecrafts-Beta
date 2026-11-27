@@ -22,6 +22,7 @@ abstract class K5LevelBlockMutationMixin {
         boolean changed = original.call(pos, state, updateFlags, updateLimit);
         if (changed && !previous.equals(state)) {
             K5NaturalTreeProvenance.invalidatePosition((Level) (Object) this, pos);
+            dev.itzgamesgd.moreminecrafts.colosseum.ArenaNaturalBlocks.changed((Level) (Object) this, pos, previous, state);
         }
         return changed;
     }

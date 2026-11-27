@@ -1,0 +1,106 @@
+{
+ "0": {
+  "physical_width": {
+   "lap": 0,
+   "angle_deg": 246.75,
+   "feet_y": 17.5,
+   "physical_lo": 15.7816050478434,
+   "physical_hi": 19.046764712914445,
+   "physical_width": 3.265159665071046,
+   "centre_lo": 16.108121014350505,
+   "centre_hi": 18.72024874640734,
+   "centre_width": 2.612127732056834,
+   "limiting_boxes": "[[-8,17,-18,\"pillar\"],[-8,18,-18,\"pillar\"],[-8,19,-18,\"pillar\"],[-6,17,-14,\"tower_wall\"],[-6,18,-14,\"tower_wall\"],[-6,19,-14,\"tower_wall\"]]"
+  },
+  "centre_width": {
+   "lap": 0,
+   "angle_deg": 87.75,
+   "feet_y": 12,
+   "physical_lo": 15.511959158346471,
+   "physical_hi": 19.515045392758463,
+   "physical_width": 4.003086234411992,
+   "centre_lo": 0.0,
+   "centre_hi": 0.0,
+   "centre_width": 0.0,
+   "limiting_boxes": "[[1,12,15,\"tower_wall\"],[1,13,15,\"tower_wall\"],[1,12,20,\"pillar\"],[1,13,20,\"pillar\"]]"
+  }
+ },
+ "1": {
+  "physical_width": {
+   "lap": 1,
+   "angle_deg": 246.75,
+   "feet_y": 29.5,
+   "physical_lo": 15.7816050478434,
+   "physical_hi": 19.046764712914445,
+   "physical_width": 3.265159665071046,
+   "centre_lo": 16.108121014350505,
+   "centre_hi": 18.72024874640734,
+   "centre_width": 2.612127732056834,
+   "limiting_boxes": "[[-8,29,-18,\"rail\"],[-8,30,-18,\"rail\"],[-6,29,-14,\"tower_wall\"],[-6,30,-14,\"tower_wall\"],[-6,31,-14,\"tower_wall\"]]"
+  },
+  "centre_width": {
+   "lap": 1,
+   "angle_deg": 87.75,
+   "feet_y": 23,
+   "physical_lo": 15.511959158346471,
+   "physical_hi": 19.515045392758463,
+   "physical_width": 4.003086234411992,
+   "centre_lo": 0.0,
+   "centre_hi": 0.0,
+   "centre_width": 0.0,
+   "limiting_boxes": "[[1,23,15,\"tower_wall\"],[1,24,15,\"tower_wall\"],[1,23,20,\"balcony_rail\"],[1,24,20,\"balcony_rail\"]]"
+  }
+ },
+ "2": {
+  "physical_width": {
+   "lap": 2,
+   "angle_deg": 246.75,
+   "feet_y": 43,
+   "physical_lo": 15.7816050478434,
+   "physical_hi": 19.046764712914445,
+   "physical_width": 3.265159665071046,
+   "centre_lo": 16.108121014350505,
+   "centre_hi": 18.72024874640734,
+   "centre_width": 2.612127732056834,
+   "limiting_boxes": "[[-8,43,-18,\"rail\"],[-8,44,-18,\"rail\"],[-6,43,-14,\"tower_wall\"],[-6,44,-14,\"tower_wall\"]]"
+  },
+  "centre_width": {
+   "lap": 2,
+   "angle_deg": 90.75,
+   "feet_y": 36,
+   "physical_lo": 15.50132803637899,
+   "physical_hi": 19.501670755444536,
+   "physical_width": 4.0003427190655465,
+   "centre_lo": 0.0,
+   "centre_hi": 0.0,
+   "centre_width": 0.0,
+   "limiting_boxes": "[[0,36,15,\"tower_wall\"],[0,37,15,\"tower_wall\"],[0,36,20,\"pillar\"],[0,37,20,\"pillar\"]]"
+  }
+ },
+ "3": {
+  "physical_width": {
+   "lap": 3,
+   "angle_deg": 358.25,
+   "feet_y": 64,
+   "physical_lo": 16.37276826689696,
+   "physical_hi": 19.50909922264492,
+   "physical_width": 3.1363309557479617,
+   "centre_lo": 16.37276826689696,
+   "centre_hi": 19.208959234604226,
+   "centre_width": 2.8361909677072674,
+   "limiting_boxes": "[[20,64,-1,\"balcony_rail\"],[20,65,-1,\"balcony_rail\"]]"
+  },
+  "centre_width": {
+   "lap": 3,
+   "angle_deg": 87.75,
+   "feet_y": 50.5,
+   "physical_lo": 15.511959158346471,
+   "physical_hi": 19.515045392758463,
+   "physical_width": 4.003086234411992,
+   "centre_lo": 0.0,
+   "centre_hi": 0.0,
+   "centre_width": 0.0,
+   "limiting_boxes": "[[1,50,15,\"tower_wall\"],[1,51,15,\"tower_wall\"],[1,52,15,\"tower_wall\"],[1,50,20,\"pillar\"],[1,51,20,\"pillar\"],[1,52,20,\"pillar\"]]"
+  }
+ }
+}

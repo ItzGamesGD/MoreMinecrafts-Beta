@@ -1,0 +1,28 @@
+{
+  "mode": "overlap",
+  "seed": 119599970,
+  "overlap_cases": [
+    {
+      "st01_start_chunk": "-311,559",
+      "vanilla": "minecraft:mineshaft@-315,560",
+      "box_intersection_cells": 10935,
+      "cells_with_pieces_of_both": 0,
+      "getStructureWithPieceAt_returned": {},
+      "st01_masked_by_vanilla_cells": 0,
+      "st01_returned_cells": 0,
+      "st01_specific_lookup_found_cells": 0
+    },
+    {
+      "st01_start_chunk": "355,-15",
+      "vanilla": "minecraft:village_desert@358,-16",
+      "box_intersection_cells": 120960,
+      "cells_with_pieces_of_both": 13038,
+      "getStructureWithPieceAt_returned": {
+        "minecraft:village_desert": 13038
+      },
+      "st01_masked_by_vanilla_cells": 13038,
+      "st01_returned_cells": 0,
+      "st01_specific_lookup_found_cells": 13038
+    }
+  ]
+}

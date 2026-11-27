@@ -1,0 +1,87 @@
+{
+  "mode": "bench",
+  "instr_on": true,
+  "seed": 1003,
+  "radius_param": 10,
+  "calls": [
+    {
+      "origin": "0,0",
+      "state": "cold",
+      "wall_ms": 6869.271451,
+      "main_thread_cpu_ms": 6801.825175,
+      "st01_evaluations": 441,
+      "instr": {
+        "biome.lookup(getNoiseBiome)|main": {
+          "n": 4621,
+          "total_ms": 15.606479,
+          "max_ms": 0.134933
+        },
+        "desert.centreCellPassed|main": {
+          "n": 14,
+          "total_ms": 0.0,
+          "max_ms": 0.0
+        },
+        "desert.rejectedAtCentreCell|main": {
+          "n": 427,
+          "total_ms": 0.0,
+          "max_ms": 0.0
+        },
+        "desert.sweepCellsChecked|main": {
+          "n": 2089,
+          "total_ms": 0.0,
+          "max_ms": 0.0
+        },
+        "elig.stage1.desertFootprint.pass|main": {
+          "n": 2,
+          "total_ms": 554.722193,
+          "max_ms": 294.409242
+        },
+        "elig.stage1.desertFootprint.reject|main": {
+          "n": 439,
+          "total_ms": 853.963007,
+          "max_ms": 187.65894
+        },
+        "elig.stage2.heightSampling6561|main": {
+          "n": 2,
+          "total_ms": 5389.352887,
+          "max_ms": 2718.344133
+        },
+        "fgp.total|main": {
+          "n": 441,
+          "total_ms": 6803.797451,
+          "max_ms": 3014.245199
+        },
+        "fgp.verdict.REJECT_BIOME|main": {
+          "n": 439,
+          "total_ms": 857.766779,
+          "max_ms": 187.67932
+        },
+        "fgp.verdict.REJECT_HEIGHT_DIFFERENCE|main": {
+          "n": 2,
+          "total_ms": 5946.030672,
+          "max_ms": 3014.245199
+        },
+        "height.calls|main": {
+          "n": 15652,
+          "total_ms": 0.0,
+          "max_ms": 0.0
+        },
+        "height.compute(getBaseHeight)|main": {
+          "n": 14848,
+          "total_ms": 6738.217615,
+          "max_ms": 7.555067
+        }
+      },
+      "found": false
+    },
+    {
+      "origin": "0,0",
+      "state": "warm-repeat",
+      "wall_ms": 0.422925,
+      "main_thread_cpu_ms": 0.426452,
+      "st01_evaluations": 0,
+      "instr": {},
+      "found": false
+    }
+  ]
+}

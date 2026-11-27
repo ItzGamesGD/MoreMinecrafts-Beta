@@ -133,7 +133,8 @@ jobs:
     if: github.event_name == 'workflow_dispatch'
     name: actions-exposure-audit
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    # Full retained artifacts and logs are paced to avoid GitHub REST secondary limits.
+    timeout-minutes: 120
     permissions:
       contents: read
       actions: read
@@ -143,5 +144,6 @@ jobs:
       - name: Scan all retained artifact archives and accessible workflow logs
         shell: bash
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.EXPOSURE_AUDIT_TOKEN || github.token }}
+          AUDIT_TOKEN_SOURCE: ${{ secrets.EXPOSURE_AUDIT_TOKEN != '' && 'EXPOSURE_AUDIT_TOKEN' || 'GITHUB_TOKEN' }}
         run: python3 scripts/security/audit_actions_exposure.py

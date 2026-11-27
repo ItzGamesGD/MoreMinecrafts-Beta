@@ -1,0 +1,1 @@
+{"name":"G4_SENS_disc53_max_pillars","options":{"walk":"pads","emin":17,"pillars":"max","ray":true,"adj":true,"sectors":0,"offset":0.0,"min_pillars":0,"balconies":false,"flat":true,"obj_elig":false,"contact_min":7,"bins":true,"domain":["disc",53],"portal":true,"rail":true},"status":"UNKNOWN","seconds":120.0}

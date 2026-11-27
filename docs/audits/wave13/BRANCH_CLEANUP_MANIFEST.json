@@ -1,0 +1,2740 @@
+{
+ "checkpoint": "origin/checkpoint/wave12-unified-20261027",
+ "checkpoint_sha": "3c8186b7af3e9fc771feaf427214ed448366dd81",
+ "branches": 143,
+ "pr_refs": 194,
+ "summary": {
+  "DELETE ELIGIBLE": 87,
+  "RETAIN — ACTIVE DEPENDENCY": 16,
+  "RETAIN — CHECKPOINT": 31,
+  "RETAIN — UNRESOLVED AUTHORITY": 5,
+  "RETAIN — UNPRESERVED FUNCTIONALITY": 4
+ },
+ "delete_eligible_zero_orphans": 81,
+ "delete_eligible_with_orphans": 6,
+ "pr_heads_kept_only_by_refs_pull": [
+  {
+   "pr": 34,
+   "sha": "3e1922770493304d88bcf5962791fe7ac27e6d73"
+  },
+  {
+   "pr": 39,
+   "sha": "2a327923ed88a46235d49e35806683fa4a9e6832"
+  },
+  {
+   "pr": 65,
+   "sha": "9ba8f422aefb52f43a7440b69f952bd17f66a70a"
+  },
+  {
+   "pr": 70,
+   "sha": "7c164fe36856f7d45b3f5bd95af65d0ba5f134f3"
+  },
+  {
+   "pr": 73,
+   "sha": "3a0cd8cc279c6419cf48e684a3d6df95765a4618"
+  },
+  {
+   "pr": 74,
+   "sha": "a5a217e10199e5edee67945a83505048efdd92c3"
+  },
+  {
+   "pr": 78,
+   "sha": "d90eb70b10332c05ea12224b09b6d3f32b889db1"
+  },
+  {
+   "pr": 81,
+   "sha": "be0b6c7874a5c78e4e87fee4431c2a1c78ae3c86"
+  },
+  {
+   "pr": 85,
+   "sha": "bc092d8c3067611458c72509e271c0f51d49e173"
+  },
+  {
+   "pr": 139,
+   "sha": "526416b16a590abf558534a8426625508c23ad99"
+  },
+  {
+   "pr": 154,
+   "sha": "84550ad4ef0a09248934641e26dab61c4f2cd13b"
+  },
+  {
+   "pr": 157,
+   "sha": "cce99b6cc7bb84c03fd8c4d7fe2a58c309ec4b43"
+  },
+  {
+   "pr": 158,
+   "sha": "c9e29c56804198a07d7fdb0f7c9007f801cc6936"
+  },
+  {
+   "pr": 159,
+   "sha": "5a0ede40519bd15715900482d8816c025e74c99c"
+  },
+  {
+   "pr": 163,
+   "sha": "01a36b0cafaa5f3ca89cb7f2833b11d8ddf401c1"
+  }
+ ],
+ "rows": [
+  {
+   "branch": "audit/bc01-bc02-20261022",
+   "sha": "1269cdbacc7c6b75d8aa3cce1352de9432a61914",
+   "prs": [
+    150
+   ],
+   "ahead": 0,
+   "behind": 198,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "audit/prc-p5-pre-research-preservation-20261026",
+   "sha": "e00d65cbd87e484859a3d49445cdc5ff5cf47bb6",
+   "prs": [],
+   "ahead": 0,
+   "behind": 19,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "audit/prc-p6-pre-preservation-20261027",
+   "sha": "13c190d1abf0a9dc6936b8dbc5eac50be4e63319",
+   "prs": [],
+   "ahead": 0,
+   "behind": 17,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "audit/prc-p6-remaining-preservation-20261027",
+   "sha": "73dcc8f4d139c1688352068b397dab040208253b",
+   "prs": [
+    191
+   ],
+   "ahead": 3,
+   "behind": 17,
+   "patch_unique": 0,
+   "patch_equivalent": 3,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED — EQUIVALENT COMMITS",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #191 (merged into Wave 10). All 3 commits patch-equivalent to Wave 11 d44a83c/7ff1d14/45fd25f; 90 files blob-identical.",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "audit/stage23-pr92-pr93-reconciliation-20261019",
+   "sha": "079d36ac3bd2d8950118e30647d5f2efad19f947",
+   "prs": [
+    125
+   ],
+   "ahead": 145,
+   "behind": 205,
+   "patch_unique": 142,
+   "patch_equivalent": 0,
+   "open_pr_roles": [
+    "base of open #126",
+    "base of open #127"
+   ],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "RETAIN — ACTIVE DEPENDENCY",
+   "evidence": "PR #125 (closed) — base of open PRs #126/#127. Cumulative donor for Batch A; Stage 22/23-A research chain. Its retained runtime reached Wave 11 through #125 → Batch A #156 → Wave 5R composition a13d9777; every research effect it implemented has a live handler in the checkpoint (ResearchRewards + mixins, verified per ID) and renamed regression tests (Research23AEffectRulesTest, Research23AXpCollectionGameTests, Research23AMovementExhaustionGameTests, ResearchContentGameTests). Branch-only lines are older test fixtures/keys repaired by #166.",
+   "tier": ""
+  },
+  {
+   "branch": "checkpoint/wave10-unified-20261026",
+   "sha": "73dcc8f4d139c1688352068b397dab040208253b",
+   "prs": [],
+   "ahead": 3,
+   "behind": 17,
+   "patch_unique": 0,
+   "patch_equivalent": 3,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED — EQUIVALENT COMMITS",
+   "verdict": "RETAIN — CHECKPOINT",
+   "evidence": "Wave 10 checkpoint. Its 3 post-#191 commits are patch-equivalent in Wave 11; trusted checkpoint ref.",
+   "tier": ""
+  },
+  {
+   "branch": "checkpoint/wave11-unified-20261027",
+   "sha": "c47c69f3e3553819432905197599443288669bb5",
+   "prs": [
+    192
+   ],
+   "ahead": 0,
+   "behind": 10,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [
+    "head of open #192"
+   ],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "RETAIN — CHECKPOINT",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": ""
+  },
+  {
+   "branch": "checkpoint/wave12-unified-20261027",
+   "sha": "3c8186b7af3e9fc771feaf427214ed448366dd81",
+   "prs": [
+    193
+   ],
+   "ahead": 0,
+   "behind": 0,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [
+    "head of open #193",
+    "base of open #194",
+    "base of open #195"
+   ],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "CHECKPOINT (Wave 12)",
+   "verdict": "RETAIN — CHECKPOINT",
+   "evidence": "Validated Wave 12 checkpoint, head of open PR #193 and base of PRs #194 and #195. Never rewritten.",
+   "tier": ""
+  },
+  {
+   "branch": "claude/q1c-skull-provenance-20261019",
+   "sha": "6ba15ac2cb40cc919dfee41b24f7813231d11efb",
+   "prs": [
+    128
+   ],
+   "ahead": 147,
+   "behind": 205,
+   "patch_unique": 144,
+   "patch_equivalent": 0,
+   "open_pr_roles": [
+    "head of open #128",
+    "base of open #130"
+   ],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "UNRESOLVED — BLOCKED (owner decision / design)",
+   "verdict": "RETAIN — UNRESOLVED AUTHORITY",
+   "evidence": "PR #128 (open draft). Wither-skull provenance (4 mixins, QuestWitherSkullProvenance, 13 tests) and registration of xpq.cmb.wither_skulls_3. Owner F-1: rule approved but #128/#130 NOT release-ready; crash-consistency defect must be fixed before registration.",
+   "tier": ""
+  },
+  {
+   "branch": "claude/stage23a-economy-soil-20261017",
+   "sha": "9ec91dc53512796748a6cfc0980cda0b65e764e6",
+   "prs": [
+    110
+   ],
+   "ahead": 87,
+   "behind": 205,
+   "patch_unique": 86,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #110. .53 Villager Trading + .16 Soil Study. Wave 11 has both (ResearchVillagerDiscount with owner-approved ceil rounding 2026-10-26; SoilStudyRuntime + 14 Soil tests). Branch's round-to-nearest test superseded.",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "claude/wave-7b-decisions-reconciliation-xjdmva",
+   "sha": "0fb34bc512d97422383ce0c2b01a399deb54e00d",
+   "prs": [
+    175
+   ],
+   "ahead": 0,
+   "behind": 100,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "claude/xp-quest-authority-20261017",
+   "sha": "63107098fcde6742704a07394439e5cdf9c6ad49",
+   "prs": [
+    111,
+    112
+   ],
+   "ahead": 96,
+   "behind": 205,
+   "patch_unique": 95,
+   "patch_equivalent": 0,
+   "open_pr_roles": [
+    "base of open #118"
+   ],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "RETAIN — ACTIVE DEPENDENCY",
+   "evidence": "PR #111/#112 (closed) — base of open PR #118. XP Quest authority docs present in Wave 11 (UI_ADVANCEMENT_INTEGRATION amendment, docs/design/xp-quest/*).",
+   "tier": ""
+  },
+  {
+   "branch": "claude/xp-quest-q1-integration",
+   "sha": "c40ee6b1656800f016644893f5bac7a9c90827b2",
+   "prs": [
+    118
+   ],
+   "ahead": 101,
+   "behind": 205,
+   "patch_unique": 98,
+   "patch_equivalent": 0,
+   "open_pr_roles": [
+    "head of open #118",
+    "base of open #119"
+   ],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "RETAIN — ACTIVE DEPENDENCY",
+   "evidence": "PR #118 (open draft) — base of open #119. XP Quest Q1 chain. Wave 11 carries the Q1-C/Batch A catalog (200 ids, 75 registered), exact raw-XP claim service (RawXp/QuestProgressService) and all Q1 hooks; #120 intentionally unregistered nine Q1-B quests lacking attribution tests (authority: register only after own test passes) and replaced the chunk-generator ore mixin with positive provenance.",
+   "tier": ""
+  },
+  {
+   "branch": "claude/xp-quest-q1a-core",
+   "sha": "78d1495402de6f3d7328fcd3117a4996137a05e2",
+   "prs": [
+    114
+   ],
+   "ahead": 96,
+   "behind": 205,
+   "patch_unique": 95,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #114. Catalog ledger/tracking reached Wave 11 via #118→#121→#156. XpLevels replaced by exact RawXp (authority: exact raw XP). XP Quest Q1 chain. Wave 11 carries the Q1-C/Batch A catalog (200 ids, 75 registered), exact raw-XP claim service (RawXp/QuestProgressService) and all Q1 hooks; #120 intentionally unregistered nine Q1-B quests lacking attribution tests (authority: register only after own test passes) and replaced the chunk-generator ore mixin with positive provenance.",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "claude/xp-quest-q1a2-exact-xp",
+   "sha": "f30d263c93b89b1bab844893bdb82084bfe209bd",
+   "prs": [
+    115
+   ],
+   "ahead": 97,
+   "behind": 205,
+   "patch_unique": 96,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #115. Exact raw-XP transactions + claim rollback present (RawXp, ExactXpTransactionGameTests, EnhancementTransactionGameTests).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "claude/xp-quest-q1b-tracking",
+   "sha": "c7fe7fabc5a3bc486e2be0aed8f793628f42ec72",
+   "prs": [
+    119
+   ],
+   "ahead": 103,
+   "behind": 205,
+   "patch_unique": 100,
+   "patch_equivalent": 0,
+   "open_pr_roles": [
+    "head of open #119"
+   ],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "RETAIN — ACTIVE DEPENDENCY",
+   "evidence": "PR #119 (open draft). XP Quest Q1 chain. Wave 11 carries the Q1-C/Batch A catalog (200 ids, 75 registered), exact raw-XP claim service (RawXp/QuestProgressService) and all Q1 hooks; #120 intentionally unregistered nine Q1-B quests lacking attribution tests (authority: register only after own test passes) and replaced the chunk-generator ore mixin with positive provenance.",
+   "tier": ""
+  },
+  {
+   "branch": "codex/accessory-client-acceptance-20261021",
+   "sha": "d7e8effd4052313e9965ff417001e5c2ad489c06",
+   "prs": [
+    145
+   ],
+   "ahead": 0,
+   "behind": 167,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "codex/accessory-client-lifecycle-final-20261022",
+   "sha": "6d37a73f11befea3288e028590c540dc31deda61",
+   "prs": [
+    149
+   ],
+   "ahead": 0,
+   "behind": 138,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "codex/accessory-client-repair-20261022",
+   "sha": "b7f72fdae46428110079641c681eabdde175e79c",
+   "prs": [
+    146
+   ],
+   "ahead": 0,
+   "behind": 158,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "codex/accessory-enhancement-20261022",
+   "sha": "f9a31c7117198550c0d5b984b4019af6f164cd94",
+   "prs": [
+    153
+   ],
+   "ahead": 0,
+   "behind": 127,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "codex/accessory-infrastructure-20261021",
+   "sha": "9b79f9be03d3227f1e295dda36ddc2dbc09ccabb",
+   "prs": [
+    142
+   ],
+   "ahead": 0,
+   "behind": 204,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "codex/accessory-inventory-ui-redesign-20261023",
+   "sha": "ed4cc92aa55f5f4ced95dccfca1cbf062d485ec5",
+   "prs": [
+    160
+   ],
+   "ahead": 0,
+   "behind": 133,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "codex/accessory-lifecycle-qa-20261021",
+   "sha": "2083cf37d163398c953995223be35f1d3ba50f02",
+   "prs": [
+    144
+   ],
+   "ahead": 0,
+   "behind": 193,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "codex/accessory-persistence-inventory-20261021",
+   "sha": "f2e6e87fe95ee4454f4b365c569ecfefae619e9e",
+   "prs": [
+    143
+   ],
+   "ahead": 0,
+   "behind": 202,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "codex/accessory-visual-assets-20261022",
+   "sha": "9f6fba5fcccb385c0e40d4e0000ade0322e2bdb4",
+   "prs": [
+    152
+   ],
+   "ahead": 0,
+   "behind": 131,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "codex/ancient-city-arena-prototype-20261013",
+   "sha": "e7dc53f9f48dfece8a5723debd5526dc061107d1",
+   "prs": [
+    83
+   ],
+   "ahead": 5,
+   "behind": 577,
+   "patch_unique": 1,
+   "patch_equivalent": 4,
+   "open_pr_roles": [
+    "head of open #83"
+   ],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "RECOVERED IN WAVE 12",
+   "verdict": "RETAIN — ACTIVE DEPENDENCY",
+   "evidence": "PR #83 (open draft). Its 5 commits were cherry-picked with -x into Wave 12 (6bb483e1..209c251e), so all are patch-equivalent there. Kept: open PR head, and the base of the real-terrain evidence history.",
+   "tier": ""
+  },
+  {
+   "branch": "codex/bc03-bounty-contract-20261022",
+   "sha": "5ad001b091ea24705834a1caab94335a6abcc445",
+   "prs": [
+    151,
+    162
+   ],
+   "ahead": 0,
+   "behind": 187,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "codex/q1c-pr128-p1-p2-repair-20261019",
+   "sha": "9c9f22577370cd0160dd2b43b0e92caa7832f420",
+   "prs": [
+    130
+   ],
+   "ahead": 154,
+   "behind": 205,
+   "patch_unique": 151,
+   "patch_equivalent": 0,
+   "open_pr_roles": [
+    "head of open #130"
+   ],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "UNRESOLVED — BLOCKED (owner decision / design)",
+   "verdict": "RETAIN — UNRESOLVED AUTHORITY",
+   "evidence": "PR #130 (open draft). P2 pickup accounting fixed; P1 forced-halt receipt protocol still RED by its own acceptance test (A=1,B=1) and needs a durability-protocol design. Not integrated.",
+   "tier": ""
+  },
+  {
+   "branch": "codex/q1c-recovery-20261019-079d36a",
+   "sha": "334997d2f81d6b324b0cccd3f40b538c921edadc",
+   "prs": [
+    127
+   ],
+   "ahead": 146,
+   "behind": 205,
+   "patch_unique": 143,
+   "patch_equivalent": 0,
+   "open_pr_roles": [
+    "head of open #127",
+    "base of open #128"
+   ],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "RETAIN — ACTIVE DEPENDENCY",
+   "evidence": "PR #127 (open draft) — base of #128. Skull decision recorded in Phase 2 F-1; build blocker report historical.",
+   "tier": ""
+  },
+  {
+   "branch": "codex/review-claude-pr110-20261017",
+   "sha": "8f33e72c8a71d29e132050457535ac8a0092a7b0",
+   "prs": [
+    116
+   ],
+   "ahead": 88,
+   "behind": 205,
+   "patch_unique": 87,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #116. Villager pricing repair carried by #123/#124 into #125; Wave 11 test villagerDiscountRoundsReductionUp… matches 2026-10-26 ceil authority.",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "codex/stage22-research-implementation-20261015",
+   "sha": "53c2374e84356ff3b5ccaa84df26897dd7ce4b5b",
+   "prs": [
+    89
+   ],
+   "ahead": 22,
+   "behind": 205,
+   "patch_unique": 22,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #89. Roots/passives/C-Lite present (ResearchRewards root effects, ResearchCatalog). Stage 22/23-A research chain. Its retained runtime reached Wave 11 through #125 → Batch A #156 → Wave 5R composition a13d9777; every research effect it implemented has a live handler in the checkpoint (ResearchRewards + mixins, verified per ID) and renamed regression tests (Research23AEffectRulesTest, Research23AXpCollectionGameTests, Research23AMovementExhaustionGameTests, ResearchContentGameTests). Branch-only lines are older test fixtures/keys repaired by #166.",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "codex/stage23-livefix-a-20261016",
+   "sha": "eb80a148065c29394f7a46650c05ab72dda9140d",
+   "prs": [
+    99
+   ],
+   "ahead": 48,
+   "behind": 205,
+   "patch_unique": 48,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #99. Model/viewport repair retained via #125 (Batch A manifest).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "codex/stage23-livefix-b-20261016",
+   "sha": "5682be107145b9e4f3f7c4acc6e6dd8835ebe01b",
+   "prs": [
+    105
+   ],
+   "ahead": 82,
+   "behind": 205,
+   "patch_unique": 81,
+   "patch_equivalent": 0,
+   "open_pr_roles": [
+    "base of open #107"
+   ],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "RETAIN — ACTIVE DEPENDENCY",
+   "evidence": "PR #105 — base of open PR #107. Portable furnace persistence present (PortableFurnaceContents, PortableFurnaceRestartFixture; authority amendment 2026-10-16).",
+   "tier": ""
+  },
+  {
+   "branch": "codex/stage23-pr105-bundle-export-20261016",
+   "sha": "c035946fb883a471cec422a6cca0710302b1adb6",
+   "prs": [],
+   "ahead": 83,
+   "behind": 205,
+   "patch_unique": 82,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 1,
+   "orphaned_commit_shas": [
+    "c035946fb883a471cec422a6cca0710302b1adb6"
+   ],
+   "provenance": "VALIDATION TOOLING — NOT PRODUCT FUNCTIONALITY",
+   "verdict": "RETAIN — UNPRESERVED FUNCTIONALITY",
+   "evidence": "No PR. One-off CI workflow (c035946f) that exported a PR #105 git bundle; no product code or authority. The workflow file exists only on this branch (no PR ref keeps it), so deletion would discard it; owner discard needed.",
+   "tier": ""
+  },
+  {
+   "branch": "codex/stage23a-batch2-20261015",
+   "sha": "68a7fafb4ed5f2f0fd52211a22a6785f9b5e4fb3",
+   "prs": [
+    91
+   ],
+   "ahead": 36,
+   "behind": 205,
+   "patch_unique": 36,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #91. .17/.28/.64 + wall_jump/fall_roll present (ResearchLivestockRuntime, ResearchAxeCombatRuntime, ResearchXpAcquisition, ResearchMovementRuntime).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "codex/stage23a-batch3-20261015",
+   "sha": "c3683de7338a40143ee45dbcc76918c9cb363390",
+   "prs": [
+    95
+   ],
+   "ahead": 60,
+   "behind": 205,
+   "patch_unique": 60,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #95. Precision crafting .08 present (PrecisionCraftingRulesTest, k5-stage23a-batch3-crafting-probe workflow).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "codex/stage23a-expanded-batch2-20261017",
+   "sha": "2c8e984314bb079378cffc95c4f48982a962173b",
+   "prs": [
+    108
+   ],
+   "ahead": 83,
+   "behind": 205,
+   "patch_unique": 82,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #108. .38/.39/.40/.51/.62 present (ResearchCreeperMixin, ResearchSpiderLeapMixin, ResearchEndermanMixin, ResearchBatch2Runtime, ResearchStatusEffectMixin).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "codex/stage23a-expanded-research-20261015",
+   "sha": "7231c7aad598e9cada152537dfece7cfad2756dc",
+   "prs": [
+    98
+   ],
+   "ahead": 67,
+   "behind": 205,
+   "patch_unique": 67,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #98. .06/.07/.11/.44/.45/.47 on furnace infrastructure present (FurnaceResearchRules, Research23AExpandedGameTests).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "codex/stage23a-fisheries-hotfix-20261015",
+   "sha": "df960d6511fbf9bbe0a649d8f68de6c12362d458",
+   "prs": [
+    97
+   ],
+   "ahead": 42,
+   "behind": 205,
+   "patch_unique": 42,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #97. Exact-fifths/largest-remainder Fisheries arithmetic present (Research23AEffectRulesTest.fisheriesUsesApprovedLargestRemainderTables…).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "codex/stage23a-furnace-infrastructure-20261015",
+   "sha": "f28658e5e03ae2e78a44af8e921d06b6f2cdbb47",
+   "prs": [
+    96
+   ],
+   "ahead": 66,
+   "behind": 205,
+   "patch_unique": 66,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #96. Furnace attribution present; branch's 'latest open wins' rule superseded by authority 'actual interaction outranks opening' (RESEARCH_KNOWLEDGE_TIER Batch 3 amendment) as implemented in Wave 11.",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "codex/stage23a-integrated-research-20261015",
+   "sha": "5e48deacbeed95783902f2b71e04e2ae25005606",
+   "prs": [
+    94
+   ],
+   "ahead": 41,
+   "behind": 205,
+   "patch_unique": 41,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #94. Selective #92 import (.19/.55/.67) present.",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "codex/stage23a-reconcile-20261015",
+   "sha": "803d2e5df5fe2f990ff2f2e5ef3e01c6dcf37955",
+   "prs": [
+    93
+   ],
+   "ahead": 51,
+   "behind": 205,
+   "patch_unique": 51,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #93. ResearchParallelBranchRules/ResearchMovementExhaustion folded into Research23AEffectRules + ResearchMovementExhaustionMixin; manifest preserved (docs/preservation/PR93_…). Its RESEARCH 67 authority text restored in Wave 12 (0d035c84).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "codex/stage23a-remaining-research-20261017",
+   "sha": "9376777264136b37e10071adf8ed59c08da9b6ee",
+   "prs": [
+    109
+   ],
+   "ahead": 86,
+   "behind": 205,
+   "patch_unique": 85,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #109. .33 sweeps, .61 potions, .50 Riding, mob_capture gate present (ResearchConsecutiveSweep, ResearchSplash/LingeringPotionMixin, ResearchRidingRuntime, MobCaptureRuntime).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "codex/stage23a-research-content-20261015",
+   "sha": "1edbdb6bc6bbd82c22f5e0865c6dd0d8c70a2469",
+   "prs": [
+    90
+   ],
+   "ahead": 30,
+   "behind": 205,
+   "patch_unique": 30,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #90. Batch 1 effects .02/.03/.18/.23 present (ResearchContentRuntime, ItemStackMixin, ResearchBeehiveMixin, FishingChallenges).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "codex/stage23a-research-implementation-20261015",
+   "sha": "f632f4f521c782c9614a3bbb71f1ab5579a3358d",
+   "prs": [
+    92
+   ],
+   "ahead": 33,
+   "behind": 205,
+   "patch_unique": 33,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #92. Six effects present through evolved paths (ResearchBeehiveHarvestMixin → ResearchBeehiveMixin+ResearchBeehiveHarvestGuard). Manifest preserved (docs/preservation/PR92_…). RESEARCH 67 authority text restored in Wave 12.",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "codex/stage23b-cloud-client-qa-design",
+   "sha": "9b66f49657c084c29873990c0ff8b92d6a0ab620",
+   "prs": [
+    106
+   ],
+   "ahead": 84,
+   "behind": 205,
+   "patch_unique": 83,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "PRESERVED AS DOCUMENTATION",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #106. QA design preserved in docs/preservation/prc-p6/PR106 (Wave 11 45fd25f).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "codex/stage23b-cloud-live-client-qa",
+   "sha": "dad054c7cb5e5d672a0ef96bfdeffc482e1c48f6",
+   "prs": [
+    107
+   ],
+   "ahead": 137,
+   "behind": 205,
+   "patch_unique": 136,
+   "patch_equivalent": 0,
+   "open_pr_roles": [
+    "head of open #107"
+   ],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "VALIDATION TOOLING — NOT PRODUCT FUNCTIONALITY",
+   "verdict": "RETAIN — ACTIVE DEPENDENCY",
+   "evidence": "PR #107 (open draft). Test-only clientQa source set + workflow; approved as validation tooling, not gameplay. Not integrated (would add a new source set/CI lane; real-client coverage in Wave 11 comes from client-visual-validation + Wave 7 A/E SDL input + accessory client gametests).",
+   "tier": ""
+  },
+  {
+   "branch": "codex/xp-quest-200-content-audit-20261020",
+   "sha": "3e66cfbdfa6a12576ecf0162108250691318c8db",
+   "prs": [
+    140
+   ],
+   "ahead": 26,
+   "behind": 205,
+   "patch_unique": 26,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "PRESERVED AS DOCUMENTATION",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #140. All 8 review records imported byte-for-byte by Batch A (docs/design/xp-quest/audit-200).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "codex/xp-quest-q1b-correction",
+   "sha": "fd4aa831139054f6c736edf58fa6fe5f8cc77814",
+   "prs": [
+    120
+   ],
+   "ahead": 108,
+   "behind": 205,
+   "patch_unique": 105,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #120. XP Quest Q1 chain. Wave 11 carries the Q1-C/Batch A catalog (200 ids, 75 registered), exact raw-XP claim service (RawXp/QuestProgressService) and all Q1 hooks; #120 intentionally unregistered nine Q1-B quests lacking attribution tests (authority: register only after own test passes) and replaced the chunk-generator ore mixin with positive provenance.",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "codex/xp-quest-q1c",
+   "sha": "17e980912d636b0572a3f25b24995ffde31c754c",
+   "prs": [
+    121
+   ],
+   "ahead": 139,
+   "behind": 205,
+   "patch_unique": 136,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #121. Structure/combat/raid/monument tracking and 75 registrations present.",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "codex/xp-quest-ui-integration-20261020",
+   "sha": "a124ccfc2e7e3bc826c04705fa98f69a102a2636",
+   "prs": [],
+   "ahead": 2,
+   "behind": 205,
+   "patch_unique": 2,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 2,
+   "orphaned_commit_shas": [
+    "a124ccfc2e7e3bc826c04705fa98f69a102a2636",
+    "eced18223e471bd7aad64c71781357da0b151a7e"
+   ],
+   "provenance": "PRESERVED AS DOCUMENTATION",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "No PR. Only a checkpoint doc, preserved blob-identical in docs/audit/BRANCH-W11-20261027/preserved/92c8a0f9….md.",
+   "tier": "2 commit(s) orphaned; content preserved"
+  },
+  {
+   "branch": "design/bounty-contract-approved-20261022",
+   "sha": "b7cedf199a5f1eda341ce3bd27eabb22eeb309e1",
+   "prs": [
+    148
+   ],
+   "ahead": 0,
+   "behind": 200,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "design/pillager-headquarters-concept-20261022",
+   "sha": "55df673a83cbb85136438a9662f862a09f8f44f4",
+   "prs": [
+    147
+   ],
+   "ahead": 15,
+   "behind": 205,
+   "patch_unique": 15,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "PRESERVED AS DOCUMENTATION",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #147. PILLAGER_HEADQUARTERS_DESIGN blob 904d16c4 identical in Wave 11; pyramid prep superseded by #181 version.",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "design/pyramid-mob-roster-20261026",
+   "sha": "a86c6d5beb336eb14c0459200434b0f6304398c5",
+   "prs": [],
+   "ahead": 1,
+   "behind": 203,
+   "patch_unique": 1,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 1,
+   "orphaned_commit_shas": [
+    "a86c6d5beb336eb14c0459200434b0f6304398c5"
+   ],
+   "provenance": "PRESERVED AS DOCUMENTATION",
+   "verdict": "RETAIN — UNRESOLVED AUTHORITY",
+   "evidence": "No PR. STRUCTURE_AUTHORITY_INDEX routes ST-01 roster to this branch as an active design branch (not reviewed into authority). Copy preserved in docs/audit/BRANCH-W11-20261027/preserved/ad8d2e31….md.",
+   "tier": ""
+  },
+  {
+   "branch": "design/spider-colony-biome-20261026",
+   "sha": "68d852be5616421a3c9a41dc5570b419a12f8db0",
+   "prs": [],
+   "ahead": 43,
+   "behind": 203,
+   "patch_unique": 43,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 43,
+   "orphaned_commit_shas": [
+    "68d852be5616421a3c9a41dc5570b419a12f8db0",
+    "779cb11bfc45bbe0f7803b973a5f8b505609e692",
+    "945802a44bdbd5ff4cf002bcfa43ac630078f27f",
+    "fa2209f6a1cac3bbd16ab71bc6565929b8d70715",
+    "f75638670f4c5b3724deb2ab7e84496c86676bfb",
+    "44c2edbc57f1e04d10849655a44cca568eebb329",
+    "b86d2a2f519135cbdad4b7b8d86862be62bf81d1",
+    "053bbb6a8370a2d7472b9355d840aafb79fe468f",
+    "e95e180e590afe03d5dcc1a8b072033babf22116",
+    "d4cb12dddb5368c949a77884e4131c55cc92becb",
+    "62d43f5699e9391e6efc7c8631acc4209b17cc0e",
+    "789bf69087accc7c4823237dac578e04cb9f4c7c",
+    "3653ff674513eb43572b3efcddd7169b9b7f0c2d",
+    "53cb2da68e3869e3a0ee4ef10b50fa33b31ad65b",
+    "e5214650408424844de5cfc7ff58dcf3cfa5d3fe",
+    "62bd8c544534e779c17a1af8027bf9f513616d1c",
+    "36d689b43f53e2983d7934b07fdb8425c9f1004b",
+    "cb7a5c6f4629746611f9b4e34f0f2faacfd653a1",
+    "8f03add18de3e8d582db0a153aa8ad74520ccc7f",
+    "f137badde1d8d7a814b63b8f1dcb9e3e9bc5573e",
+    "529d5f227f9a0d7ae5f3d67139d975ad45c8d215",
+    "119c161577844ddf8f8fd04f20a7029cc378a3a6",
+    "d70a4561f7d3c3a67b533b88f8fcebd0cbd19f05",
+    "0ab520fe38ef8031aec21312cadca969edacd950",
+    "8b076dfd7a7862b3ce115811f4446bedf3235641",
+    "14a9ff1d249d580a75e70c9630afeb0d9419b2f7",
+    "9ff33a05e78198cae69446597a20445917681af4",
+    "c5730301963fdce353e14b4ae70dc3b9d0be6ee6",
+    "b8e73f03821c25bdd8a1fe17c52b3eb00950de45",
+    "54b75b12bcf3ee62bd9b153ba819ebd12a8bc93b",
+    "c987cced93305022327c07818d872cc7ac57fb16",
+    "d5a01c958bcbf86f7736b7487dd6340d45adced9",
+    "c576128097a956fc6fd9fd98d02a9f3ad88a9b1a",
+    "d138239b4f238fc3532bda81ed305e375457afb2",
+    "13723b37e42650b9512d0475afdc242e22a3e673",
+    "aeaa0902f0ff54c089ffa54e3986f3f73c9e89f1",
+    "b618d3623173971775f0f8888b9658ed02b8660f",
+    "7fa26231b00d76d6fd81106565a411263ab6da03",
+    "c09a1436bc45aa33f2d71331c518d095295b9c77",
+    "89742de33dd5d0608c6b899bab772cb88e991394",
+    "277e2fa87ba13b46bcacbd38d33a163181c0ee25",
+    "dcf133fce805e8abaf0cbe175a93f11e972e1945",
+    "c129a5c9d8fd60d104f2ed969ae77af9b4ae5d41"
+   ],
+   "provenance": "PRESERVED AS DOCUMENTATION",
+   "verdict": "RETAIN — UNRESOLVED AUTHORITY",
+   "evidence": "No PR. STRUCTURE_AUTHORITY_INDEX routes ST-04 and ST-02 cancellation to this branch (active design). Copy preserved (fb5611f5….md).",
+   "tier": ""
+  },
+  {
+   "branch": "design/stage23a-remaining-approval-20261017",
+   "sha": "67d6c1fdd1203b4e1416e1977b785f0ad7096665",
+   "prs": [],
+   "ahead": 88,
+   "behind": 205,
+   "patch_unique": 87,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 2,
+   "orphaned_commit_shas": [
+    "67d6c1fdd1203b4e1416e1977b785f0ad7096665",
+    "8277836824d4c830117887cb2bcfbe218e4c2e65"
+   ],
+   "provenance": "PRESERVED AS DOCUMENTATION",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "No PR. RESEARCH_STAGE23A_REMAINING_USER_DECISIONS preserved at docs/preservation/recovered/stage23a-remaining-approval/ and routed by the index.",
+   "tier": "2 commit(s) orphaned; content preserved"
+  },
+  {
+   "branch": "design/territory-d79-d80-reconcile-20261020",
+   "sha": "d641075f2078697e432f123d61178a73d26fbdf8",
+   "prs": [
+    136
+   ],
+   "ahead": 39,
+   "behind": 205,
+   "patch_unique": 39,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTENTIONALLY ABANDONED / REJECTED",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #136. Territory design chain. Territory is SHELVED (TERRITORY_SHELVED_INDEPENDENT_CONTENT_2026-10-21); every doc is preserved under docs/preservation/recovered/territory-chain or prc-p6/territory-versions (blob-verified). No code.",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "design/territory-d81-d84-facility-prep-20261021",
+   "sha": "f2cc4f06db44f4125b3987c4b92d2ba8711df06b",
+   "prs": [
+    137
+   ],
+   "ahead": 41,
+   "behind": 205,
+   "patch_unique": 41,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTENTIONALLY ABANDONED / REJECTED",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #137. Territory design chain. Territory is SHELVED (TERRITORY_SHELVED_INDEPENDENT_CONTENT_2026-10-21); every doc is preserved under docs/preservation/recovered/territory-chain or prc-p6/territory-versions (blob-verified). No code.",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "design/territory-economy-bounty-approved-20261019",
+   "sha": "befa4c8a44c8e3556be2dca9af502d36b0cf11ad",
+   "prs": [
+    131
+   ],
+   "ahead": 25,
+   "behind": 205,
+   "patch_unique": 25,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTENTIONALLY ABANDONED / REJECTED",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #131. Territory design chain. Territory is SHELVED (TERRITORY_SHELVED_INDEPENDENT_CONTENT_2026-10-21); every doc is preserved under docs/preservation/recovered/territory-chain or prc-p6/territory-versions (blob-verified). No code. Commission board is historical-only (Q1).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "design/territory-owner-decisions-d01-d78-20261020",
+   "sha": "09b33f39f6c0d75f6d1ef837edcdc6d8d8753776",
+   "prs": [
+    133
+   ],
+   "ahead": 27,
+   "behind": 205,
+   "patch_unique": 27,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTENTIONALLY ABANDONED / REJECTED",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #133. Territory design chain. Territory is SHELVED (TERRITORY_SHELVED_INDEPENDENT_CONTENT_2026-10-21); every doc is preserved under docs/preservation/recovered/territory-chain or prc-p6/territory-versions (blob-verified). No code.",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "design/territory-owner-decisions-reconcile-20261020",
+   "sha": "e0428763cfd1f720a4da20e1bcc4d561fd153261",
+   "prs": [
+    134
+   ],
+   "ahead": 28,
+   "behind": 205,
+   "patch_unique": 28,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTENTIONALLY ABANDONED / REJECTED",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #134. Territory design chain. Territory is SHELVED (TERRITORY_SHELVED_INDEPENDENT_CONTENT_2026-10-21); every doc is preserved under docs/preservation/recovered/territory-chain or prc-p6/territory-versions (blob-verified). No code.",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "design/territory-registration-recovery-d2a-20261019",
+   "sha": "a1e0aeb0ab8ba90419b714a42502cbe8db9d770c",
+   "prs": [
+    132
+   ],
+   "ahead": 26,
+   "behind": 205,
+   "patch_unique": 26,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTENTIONALLY ABANDONED / REJECTED",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #132. Territory design chain. Territory is SHELVED (TERRITORY_SHELVED_INDEPENDENT_CONTENT_2026-10-21); every doc is preserved under docs/preservation/recovered/territory-chain or prc-p6/territory-versions (blob-verified). No code.",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "design/territory-shelved-independent-content-20261021",
+   "sha": "284ce62ff54247cc0a4e96693c34c190b49c4bbf",
+   "prs": [
+    138
+   ],
+   "ahead": 44,
+   "behind": 205,
+   "patch_unique": 44,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "PRESERVED AS DOCUMENTATION",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #138. Shelving decision preserved and routed as current authority (docs/preservation/recovered/territory-chain/TERRITORY_SHELVED_…).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "design/xp-quest-selector-redesign-20261019",
+   "sha": "a9b89755f7c4e924243fa4229a90177433712be4",
+   "prs": [
+    126
+   ],
+   "ahead": 156,
+   "behind": 205,
+   "patch_unique": 153,
+   "patch_equivalent": 0,
+   "open_pr_roles": [
+    "head of open #126",
+    "base of open #129"
+   ],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "RETAIN — ACTIVE DEPENDENCY",
+   "evidence": "PR #126 (open draft) — base of open #129. XP Quest UI stack (#126 → #129 → #135). Batch A #156 recovered the exact #125→#135 file delta; Wave 4B custom screen authority (2026-10-24) and Wave 7 A/D input/contrast fixes then evolved the same files. Branch-only lines are pre-Wave-7 click/contrast code; QuestStructurePreview/QuestTreeLayout/Structure are present in Wave 11.",
+   "tier": ""
+  },
+  {
+   "branch": "design/xp-quest-structure-200-20261019",
+   "sha": "2176935929c990a210fae64582d524d30993bc8a",
+   "prs": [
+    129
+   ],
+   "ahead": 160,
+   "behind": 205,
+   "patch_unique": 157,
+   "patch_equivalent": 0,
+   "open_pr_roles": [
+    "head of open #129"
+   ],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "RETAIN — ACTIVE DEPENDENCY",
+   "evidence": "PR #129 (open draft). XP Quest UI stack (#126 → #129 → #135). Batch A #156 recovered the exact #125→#135 file delta; Wave 4B custom screen authority (2026-10-24) and Wave 7 A/D input/contrast fixes then evolved the same files. Branch-only lines are pre-Wave-7 click/contrast code; QuestStructurePreview/QuestTreeLayout/Structure are present in Wave 11.",
+   "tier": ""
+  },
+  {
+   "branch": "design/xp-quest-usability-d1-d5-20261019",
+   "sha": "9a246f1e0cef5e3f39c4bf47b34df6e63877df30",
+   "prs": [
+    135
+   ],
+   "ahead": 172,
+   "behind": 205,
+   "patch_unique": 169,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #135. XP Quest UI stack (#126 → #129 → #135). Batch A #156 recovered the exact #125→#135 file delta; Wave 4B custom screen authority (2026-10-24) and Wave 7 A/D input/contrast fixes then evolved the same files. Branch-only lines are pre-Wave-7 click/contrast code; QuestStructurePreview/QuestTreeLayout/Structure are present in Wave 11.",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "docs/2026-10-07-content-first-axis-review",
+   "sha": "8bf157f7988569c715bde4dfd298e9af20305415",
+   "prs": [
+    71
+   ],
+   "ahead": 15,
+   "behind": 825,
+   "patch_unique": 15,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 15,
+   "orphaned_commit_shas": [
+    "8bf157f7988569c715bde4dfd298e9af20305415",
+    "00e19b4dad46aa374aac881747fe273e1d640775",
+    "1602837b36aded07192f8bb0b71d2d204f2952d8",
+    "d97c2598195454cef73585186c392c4e227697d2",
+    "43c7609f8853dc63d1279190b3b34b99e644bf28",
+    "8200c7d499998f85ab11faa4a4edc836fecbc58b",
+    "81c3d0d4ac4a11cc384d7e4a5644eccf99a539a5",
+    "ba1ee2f4ecf7c5a5a7f485218e7061345b4e8496",
+    "d6ccd1f23aabf66865b460a7cda0ef6e34ad38b9",
+    "6df69cc43bd9315c3b6ed54ca70e8d1fd435d88b",
+    "e94d086539b4d8f47c1635446ca8c8365f0b81cd",
+    "1e710507dbed787451a2344913d1e8e6bc4a6d3b",
+    "cc20ad0c9426acabc28c6635889c6beaff17e81d",
+    "d50e9017041ca20ce23f84155184a21d0abd49c2",
+    "746ad6319622366a89f7071d0e77436df57f012c"
+   ],
+   "provenance": "PRESERVED AS DOCUMENTATION",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #71 (merged into main). Old pre-recovery lineage; its two unique docs preserved in docs/preservation/recovered/content-first-axis-review. Villager −2/−4/−6% line superseded by 5/10/15%. Old-lineage code (F/Shift+F, Wind Step, +30/+40 enhancement, Tier IV–V fishing) superseded by current authority.",
+   "tier": "15 commit(s) orphaned; content preserved"
+  },
+  {
+   "branch": "docs/accessory-enhancement-approved-20261017",
+   "sha": "32cbca0a3fe57db86262bca7a865573071763640",
+   "prs": [
+    113
+   ],
+   "ahead": 88,
+   "behind": 205,
+   "patch_unique": 87,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #113. ACCESSORY_ENHANCEMENT_DECISIONS present; implementation present (AccessoryEnhancement*).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "docs/alchemy-plot-notes",
+   "sha": "cc1a96b062696bb5420ec0631883f0d1f59aa89e",
+   "prs": [],
+   "ahead": 1,
+   "behind": 708,
+   "patch_unique": 1,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 1,
+   "orphaned_commit_shas": [
+    "cc1a96b062696bb5420ec0631883f0d1f59aa89e"
+   ],
+   "provenance": "PRESERVED AS DOCUMENTATION",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "No PR. Single idea note preserved blob-identical (preserved/020ce8e8….md).",
+   "tier": "1 commit(s) orphaned; content preserved"
+  },
+  {
+   "branch": "docs/phase2-preservation-decisions-20261026",
+   "sha": "6f9c3ac2ad3f68b48e8428a3840ce6da7ec551a9",
+   "prs": [
+    189
+   ],
+   "ahead": 5,
+   "behind": 203,
+   "patch_unique": 0,
+   "patch_equivalent": 5,
+   "open_pr_roles": [
+    "head of open #189"
+   ],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "RETAIN — ACTIVE DEPENDENCY",
+   "evidence": "PR #189 (open draft). All 5 commits patch-equivalent in Wave 11; Wave 11 then applied owner Q1–Q4 (which changed Q3 Feather Boots wording) — branch-only lines are the superseded pre-Q3 text.",
+   "tier": ""
+  },
+  {
+   "branch": "docs/ring-life-authority-option-a-20261025",
+   "sha": "bacb9546c98139a614f726355dac8ad317bf73cc",
+   "prs": [
+    183
+   ],
+   "ahead": 10,
+   "behind": 53,
+   "patch_unique": 3,
+   "patch_equivalent": 5,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED — EQUIVALENT COMMITS",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #183 (merged into #181). Ring of Life Option A present in ACCESSORY_COOLDOWN_DECISION + regression test; all files identical/zero unique lines.",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "docs/sky-islands-design-context-20261027",
+   "sha": "631d95044aab4b06728f6d35a8d66b819fa3ec2d",
+   "prs": [],
+   "ahead": 2,
+   "behind": 203,
+   "patch_unique": 2,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 2,
+   "orphaned_commit_shas": [
+    "631d95044aab4b06728f6d35a8d66b819fa3ec2d",
+    "8ceff945ab67d8ed903058dabf32ed0007ada383"
+   ],
+   "provenance": "RECOVERED IN WAVE 12",
+   "verdict": "RETAIN — UNRESOLVED AUTHORITY",
+   "evidence": "No PR. LIVE design branch: head moved 8ceff945 -> 631d9504 after Wave 12 preserved 8ceff945 (owner replaced section 5). Wave 12's copy (blob a91e385d) is a stale snapshot; the current blob f5aa758e is preserved as a snapshot in docs/preservation/snapshots/. Not routed as authority; owner is still editing.",
+   "tier": ""
+  },
+  {
+   "branch": "docs/stage23-accessories-approved-20261016",
+   "sha": "e532fa3034deb4eff53eacd0f90af02dc8369d8b",
+   "prs": [
+    101
+   ],
+   "ahead": 68,
+   "behind": 205,
+   "patch_unique": 68,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #101. 12-accessory design present (ACCESSORY_RELIC_SYSTEM_DECISIONS_2026-10-16).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "docs/ui-piglin-mob-tracker-20261010",
+   "sha": "6fe1a308c9c72d63b48be6c7a8590e44e46a55bd",
+   "prs": [],
+   "ahead": 1,
+   "behind": 544,
+   "patch_unique": 1,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 1,
+   "orphaned_commit_shas": [
+    "6fe1a308c9c72d63b48be6c7a8590e44e46a55bd"
+   ],
+   "provenance": "PRESERVED AS DOCUMENTATION",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "No PR. Piglin trade/mob tracker UI record preserved (preserved/ba6dbd84….md); summarized in UI_SYSTEM_FULL_AUDIT.",
+   "tier": "1 commit(s) orphaned; content preserved"
+  },
+  {
+   "branch": "docs/wave13-prep-audit-20261027",
+   "sha": "9a33a64827904052d3b3ff82abd81783eafae98a",
+   "prs": [
+    195
+   ],
+   "ahead": 2,
+   "behind": 0,
+   "patch_unique": 2,
+   "patch_equivalent": 0,
+   "open_pr_roles": [
+    "head of open #195"
+   ],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "WAVE 13 WORKING BRANCH",
+   "verdict": "RETAIN — ACTIVE DEPENDENCY",
+   "evidence": "Head of open Draft PR #195: verified CI record, F-3 and F-1 analyses, cleanup manifest, Sky Islands snapshot.",
+   "tier": ""
+  },
+  {
+   "branch": "docs/wave4b-custom-quest-ui-authority-20261024",
+   "sha": "2e847d4956fc4e67c9019f0dc174b5499446bd3d",
+   "prs": [
+    164
+   ],
+   "ahead": 3,
+   "behind": 203,
+   "patch_unique": 3,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #164. Custom Quest UI authority present as 'XP Quest UI architecture (2026-10-24)' in the index and the UI amendment.",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "docs/world-events-patrol-design-20261018",
+   "sha": "ad778059718b0a1b911264b72818bbaca8026fcd",
+   "prs": [
+    122
+   ],
+   "ahead": 93,
+   "behind": 205,
+   "patch_unique": 92,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "PRESERVED AS DOCUMENTATION",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #122. Patrol design preserved (docs/preservation/recovered/territory-chain/WORLD_EVENT_PILLAGER_PATROL_DESIGN_2026-10-18.md). Design only; no implementation exists on any branch.",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "experiment/cloud-free-model-delegation-phase0",
+   "sha": "aa376713aedcd7fecd769af39e18f8532b9e147d",
+   "prs": [
+    141
+   ],
+   "ahead": 1,
+   "behind": 205,
+   "patch_unique": 1,
+   "patch_equivalent": 0,
+   "open_pr_roles": [
+    "head of open #141"
+   ],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTENTIONALLY ABANDONED / REJECTED",
+   "verdict": "RETAIN — ACTIVE DEPENDENCY",
+   "evidence": "PR #141 (open draft). Delegation experiment (OpenRouter scripts/workflow); explicitly excluded from production (PR #154 plan).",
+   "tier": ""
+  },
+  {
+   "branch": "experiment/ponytail-skill-2-20261021",
+   "sha": "f864df45ef0dad33a898a7f6aaf066b6b345bb5a",
+   "prs": [],
+   "ahead": 4,
+   "behind": 205,
+   "patch_unique": 4,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 4,
+   "orphaned_commit_shas": [
+    "f864df45ef0dad33a898a7f6aaf066b6b345bb5a",
+    "286faa0e7ce4d05b7a9744dc80faf8e6c528acd3",
+    "93ad0c0600b6f231fa071b619f2c13f96314a043",
+    "769057b108cccfb1448220f55e745b28bde7da7c"
+   ],
+   "provenance": "INTENTIONALLY ABANDONED / REJECTED",
+   "verdict": "RETAIN — UNPRESERVED FUNCTIONALITY",
+   "evidence": "No PR. Experimental agent-skill files only; excluded from production (PR #154 plan). Files exist only on this branch (no PR ref).",
+   "tier": ""
+  },
+  {
+   "branch": "experiment/underground-kingdom-worldgen-probe",
+   "sha": "991b20c8a052ecf5d73c5130d2d9e0eb4338c041",
+   "prs": [
+    117
+   ],
+   "ahead": 77,
+   "behind": 205,
+   "patch_unique": 76,
+   "patch_equivalent": 0,
+   "open_pr_roles": [
+    "head of open #117"
+   ],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "VALIDATION TOOLING — NOT PRODUCT FUNCTIONALITY",
+   "verdict": "RETAIN — ACTIVE DEPENDENCY",
+   "evidence": "PR #117 (open draft). Feasibility probe; STRUCTURE_AUTHORITY_INDEX: 'experiment evidence only'.",
+   "tier": ""
+  },
+  {
+   "branch": "feature/bc03-approved-reconciliation-20261025",
+   "sha": "35c97ff413e0158bc9cfb2891ec2d54f3ed0983a",
+   "prs": [
+    178
+   ],
+   "ahead": 0,
+   "behind": 184,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "feature/wave7a-star-covenant-20261024",
+   "sha": "b6a03f4e5a8addfea9ae8410b8e0249083b5a562",
+   "prs": [
+    171
+   ],
+   "ahead": 0,
+   "behind": 102,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "feature/wave7b-accessory-abilities-20261025",
+   "sha": "91faed1092b6811db085fd0c55dbd3b66a71a21d",
+   "prs": [
+    174
+   ],
+   "ahead": 0,
+   "behind": 101,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "feature/wave7b-snow-charm-20261025",
+   "sha": "e72be040703d39be6fa7482400e7c15eeaa912c3",
+   "prs": [
+    173
+   ],
+   "ahead": 0,
+   "behind": 102,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "fix/bc04-contract-structure-names-20261025",
+   "sha": "f3604c459369e26188df3329d870e7ae3d956e45",
+   "prs": [
+    180
+   ],
+   "ahead": 0,
+   "behind": 183,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "fix/exposure-audit-parallel-20261025",
+   "sha": "6d456e6fca5150e2a84c1ffa25f44d86f0c255a5",
+   "prs": [
+    184
+   ],
+   "ahead": 1,
+   "behind": 203,
+   "patch_unique": 0,
+   "patch_equivalent": 1,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #184 (closed). Parallel downloads superseded by #186 paced audit (merged).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "fix/qm01-quest-monument-test-isolation",
+   "sha": "baa06dc4aee9686936e723de598ccaf46d5be449",
+   "prs": [
+    179
+   ],
+   "ahead": 0,
+   "behind": 57,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "fix/wave9-live-input-harness-20261026",
+   "sha": "eb88cf81474ee46d5e8a3cf8e08fdc247a45d10f",
+   "prs": [
+    188
+   ],
+   "ahead": 25,
+   "behind": 51,
+   "patch_unique": 9,
+   "patch_equivalent": 9,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED — EQUIVALENT COMMITS",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #188. Patch-equivalent 295634f in Wave 11; remaining diff is the superseded parallel-audit variant.",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "integration/accessory-bounty-20261023",
+   "sha": "63efc3ca0a71d369d9e7aa25b9e5231e6a7b29ac",
+   "prs": [],
+   "ahead": 0,
+   "behind": 84,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "integration/accessory-system-20261023",
+   "sha": "0e9ccc5af9313d3648d4bce98a8ee33b1f2dba82",
+   "prs": [
+    161
+   ],
+   "ahead": 0,
+   "behind": 103,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "integration/batch-a-recovery-20261022",
+   "sha": "05a378211a6e4576609416096d3515a6b1dee36f",
+   "prs": [
+    156
+   ],
+   "ahead": 149,
+   "behind": 205,
+   "patch_unique": 146,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #156. Composed into Wave 11 by a13d9777; branch-only lines are pre-#166 test keys and pre-Wave-7 input code.",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "integration/q1b-villager-discount-pr116-20261019",
+   "sha": "4fbb036e0158098f4b9d6733c68ddd73b87db826",
+   "prs": [
+    123
+   ],
+   "ahead": 112,
+   "behind": 205,
+   "patch_unique": 109,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #123. Pricing repair retained via #124/#125.",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "integration/q1c-pr116-discount-20261019",
+   "sha": "5ea5f54614943c8fd00f047b7f8379f385d6e5e8",
+   "prs": [
+    124
+   ],
+   "ahead": 143,
+   "behind": 205,
+   "patch_unique": 140,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #124. Pricing repair retained via #125.",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "integration/stage23-final-reconciliation-20261016",
+   "sha": "bdffa599e1197e66d60a99064dd17a0c8209b9ef",
+   "prs": [
+    103
+   ],
+   "ahead": 76,
+   "behind": 205,
+   "patch_unique": 75,
+   "patch_equivalent": 0,
+   "open_pr_roles": [
+    "base of open #117"
+   ],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "RETAIN — ACTIVE DEPENDENCY",
+   "evidence": "PR #103 — base of open PR #117. Sibling fixes retained via #125.",
+   "tier": ""
+  },
+  {
+   "branch": "integration/stage23-linear-chain-20261016",
+   "sha": "7231c7aad598e9cada152537dfece7cfad2756dc",
+   "prs": [
+    100
+   ],
+   "ahead": 67,
+   "behind": 205,
+   "patch_unique": 67,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #100. Linear chain retained via #103/#125.",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "integration/stage23-mobs-accessories-20261016",
+   "sha": "b0de6b754859e090427ff310887ca04188310a8a",
+   "prs": [
+    104
+   ],
+   "ahead": 75,
+   "behind": 205,
+   "patch_unique": 75,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #104 (merged into #103). 40-mob resources present (CustomMobRenderers, textures).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "integration/stage23-reconciliation-audit-20261016",
+   "sha": "601cc28b9d078b01f1d01451fd07f278839eb4b0",
+   "prs": [
+    102
+   ],
+   "ahead": 69,
+   "behind": 205,
+   "patch_unique": 69,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "PRESERVED AS DOCUMENTATION",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #102. Audit preserved in docs/preservation/prc-p6/PR102.",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "integration/wave10-unified-20261025",
+   "sha": "13c190d1abf0a9dc6936b8dbc5eac50be4e63319",
+   "prs": [
+    182
+   ],
+   "ahead": 0,
+   "behind": 17,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [
+    "head of open #182"
+   ],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "RETAIN — CHECKPOINT",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": ""
+  },
+  {
+   "branch": "integration/wave12-functional-preservation-20261027",
+   "sha": "3c8186b7af3e9fc771feaf427214ed448366dd81",
+   "prs": [],
+   "ahead": 0,
+   "behind": 0,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "CHECKPOINT (Wave 12 working branch)",
+   "verdict": "RETAIN — CHECKPOINT",
+   "evidence": "Same commit as checkpoint/wave12-unified-20261027. Technically contains nothing unique, but it is the ref that CI run 40431019466 and the earlier arena evidence ran on; kept as evidence anchor. The owner may delete it later without loss.",
+   "tier": ""
+  },
+  {
+   "branch": "integration/wave5r-combined-20261024",
+   "sha": "a33d03ba1c2153cc2e8ae935267632a29645be13",
+   "prs": [
+    165
+   ],
+   "ahead": 0,
+   "behind": 82,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "integration/wave8-wave7-repairs-20261025",
+   "sha": "cb6412e204c71248662968beab6b40d0189f6706",
+   "prs": [
+    172
+   ],
+   "ahead": 0,
+   "behind": 69,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "integration/wave9-accessory-abilities-20261025",
+   "sha": "decb3efa1932a1f683dbbeb53221ccf1f36829bf",
+   "prs": [
+    176
+   ],
+   "ahead": 0,
+   "behind": 56,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "main",
+   "sha": "cde842dd2cd3d472515aaecb80ad7e78f5da5ce3",
+   "prs": [],
+   "ahead": 0,
+   "behind": 203,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [
+    "base of open #141",
+    "base of open #181",
+    "base of open #182",
+    "base of open #189",
+    "base of open #192",
+    "base of open #193"
+   ],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "RETAIN — CHECKPOINT",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": ""
+  },
+  {
+   "branch": "prototype/stage20-vanilla-sweep-texture",
+   "sha": "b1830ce606627ed692ced4425f06ac94f761eeca",
+   "prs": [],
+   "ahead": 1,
+   "behind": 577,
+   "patch_unique": 1,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 1,
+   "orphaned_commit_shas": [
+    "b1830ce606627ed692ced4425f06ac94f761eeca"
+   ],
+   "provenance": "INTENTIONALLY ABANDONED / REJECTED",
+   "verdict": "RETAIN — UNPRESERVED FUNCTIONALITY",
+   "evidence": "No PR. Global vanilla sweep-texture override prototype; T2 VFX deferred and override excluded by PR #154 plan. Its sprites exist only on this branch (no PR ref).",
+   "tier": ""
+  },
+  {
+   "branch": "prototype/vanilla-sweep-texture",
+   "sha": "fe9d441f57414f129b00129fc058404168cf5339",
+   "prs": [],
+   "ahead": 2,
+   "behind": 824,
+   "patch_unique": 2,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 2,
+   "orphaned_commit_shas": [
+    "fe9d441f57414f129b00129fc058404168cf5339",
+    "6c9c2e8e25dcfa9e2617b70d87e44fef48339c7e"
+   ],
+   "provenance": "INTENTIONALLY ABANDONED / REJECTED",
+   "verdict": "RETAIN — UNPRESERVED FUNCTIONALITY",
+   "evidence": "No PR. Same sweep prototype on older lineage; sprites exist only on this branch.",
+   "tier": ""
+  },
+  {
+   "branch": "recovery/vanilla-model-custom-mob-roster-base",
+   "sha": "cf4360b228589e538f831aae34e378330fabf670",
+   "prs": [],
+   "ahead": 1,
+   "behind": 600,
+   "patch_unique": 1,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 1,
+   "orphaned_commit_shas": [
+    "cf4360b228589e538f831aae34e378330fabf670"
+   ],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "No PR. One commit cf4360b2 (roster approval doc) whose content reached Wave 11 through #69; only the 'Baseline:' line differs. Pre-#69 test name superseded by portableFurnaceRetainsItsApprovedProcessingContract. Loss on deletion: one superseded doc revision.",
+   "tier": "1 commit(s) orphaned; content preserved"
+  },
+  {
+   "branch": "release/wave9-rc-20261025",
+   "sha": "268ec65bb8827c3f627d076188c7924225b8afa0",
+   "prs": [
+    181
+   ],
+   "ahead": 44,
+   "behind": 51,
+   "patch_unique": 23,
+   "patch_equivalent": 11,
+   "open_pr_roles": [
+    "head of open #181"
+   ],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED — EQUIVALENT COMMITS",
+   "verdict": "RETAIN — CHECKPOINT",
+   "evidence": "PR #181 (open draft). All files identical in Wave 11 (pyramid docs, #183/#185/#186/#187); release candidate ref pinned by STRUCTURE_AUTHORITY_INDEX.",
+   "tier": ""
+  },
+  {
+   "branch": "resources/40-custom-mob-production-textures",
+   "sha": "0cc0a9eaf58290bbde2a4b45f68df101f8f7c6d2",
+   "prs": [
+    72
+   ],
+   "ahead": 4,
+   "behind": 577,
+   "patch_unique": 4,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #72 (closed). Textures integrated via #104; remaining diffs are formatting-only.",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "security/exposure-audit-pacing-20261025",
+   "sha": "97797b5deb1d7138862e18b4006d7618144d9dd5",
+   "prs": [
+    186
+   ],
+   "ahead": 35,
+   "behind": 51,
+   "patch_unique": 15,
+   "patch_equivalent": 11,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED — EQUIVALENT COMMITS",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #186 (merged into #181). Content identical in Wave 11.",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "security/gitleaks-historical-findings-20261022",
+   "sha": "b2f2f8f9bfb1c9d72b7e87a06a6c91ef66150113",
+   "prs": [
+    155
+   ],
+   "ahead": 0,
+   "behind": 204,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "stage-1/fabric-foundation",
+   "sha": "ab5e2a57905d994a6cd6a66e97e8327addf3a74e",
+   "prs": [
+    1
+   ],
+   "ahead": 0,
+   "behind": 930,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "RETAIN — CHECKPOINT",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": ""
+  },
+  {
+   "branch": "stage-10/draft-content",
+   "sha": "a2acc715ad2ee9e7af06d84dab7d25e7b84e31c8",
+   "prs": [],
+   "ahead": 0,
+   "behind": 807,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "RETAIN — CHECKPOINT",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": ""
+  },
+  {
+   "branch": "stage-11/checkpoint",
+   "sha": "3cb27187e3be0141bcd175e4e355f9fa9cdc6300",
+   "prs": [],
+   "ahead": 0,
+   "behind": 793,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "RETAIN — CHECKPOINT",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": ""
+  },
+  {
+   "branch": "stage-12/checkpoint",
+   "sha": "a8b6299f16a491aa3dc885360325427a29190763",
+   "prs": [],
+   "ahead": 7,
+   "behind": 827,
+   "patch_unique": 6,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "RETAIN — CHECKPOINT",
+   "evidence": "Pre-recovery checkpoint (#36). Fishing core superseded by Stage 3 reconciliation; all 36 approved PNGs blob-identical in Wave 11.",
+   "tier": ""
+  },
+  {
+   "branch": "stage-13/checkpoint",
+   "sha": "94a264c2c6758aeed32be4af6c5ef18795bbca7d",
+   "prs": [],
+   "ahead": 20,
+   "behind": 827,
+   "patch_unique": 16,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "RETAIN — CHECKPOINT",
+   "evidence": "Pre-recovery checkpoint (#37/#38). Flame Sword C1-A/B: approved PNG identical; two-face model superseded by Stage 18 six-face contract.",
+   "tier": ""
+  },
+  {
+   "branch": "stage-14/checkpoint",
+   "sha": "94a264c2c6758aeed32be4af6c5ef18795bbca7d",
+   "prs": [],
+   "ahead": 20,
+   "behind": 827,
+   "patch_unique": 16,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "RETAIN — CHECKPOINT",
+   "evidence": "Pre-recovery checkpoint (#39 base). Same content as stage-13.",
+   "tier": ""
+  },
+  {
+   "branch": "stage-15/checkpoint",
+   "sha": "c39313e7d19ef688ac4b528d18cd4cb458ef6e65",
+   "prs": [],
+   "ahead": 0,
+   "behind": 768,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "RETAIN — CHECKPOINT",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": ""
+  },
+  {
+   "branch": "stage-16/checkpoint",
+   "sha": "70e470deb272c944e65d47ba18802c89e26d761e",
+   "prs": [],
+   "ahead": 0,
+   "behind": 739,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "RETAIN — CHECKPOINT",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": ""
+  },
+  {
+   "branch": "stage-17/checkpoint",
+   "sha": "d8493c62bb71fd148845830d6d2259e0eac573fb",
+   "prs": [],
+   "ahead": 0,
+   "behind": 719,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "RETAIN — CHECKPOINT",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": ""
+  },
+  {
+   "branch": "stage-18/checkpoint",
+   "sha": "93d264a8f78d5f4aaa52ae5be80526cbb921f29f",
+   "prs": [],
+   "ahead": 0,
+   "behind": 634,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "RETAIN — CHECKPOINT",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": ""
+  },
+  {
+   "branch": "stage-18/integration",
+   "sha": "e4e99c36c138d2c83d3e4c9d450a61092c5be587",
+   "prs": [],
+   "ahead": 0,
+   "behind": 711,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "RETAIN — CHECKPOINT",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": ""
+  },
+  {
+   "branch": "stage-19/checkpoint",
+   "sha": "984418d302cf865b5654fac0a0dcb28449fb6118",
+   "prs": [],
+   "ahead": 0,
+   "behind": 624,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "RETAIN — CHECKPOINT",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": ""
+  },
+  {
+   "branch": "stage-2/enhancement-stone",
+   "sha": "6ae717c92d47ad036be0f9c6926254fbbd435cc7",
+   "prs": [
+    3
+   ],
+   "ahead": 0,
+   "behind": 926,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "RETAIN — CHECKPOINT",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": ""
+  },
+  {
+   "branch": "stage-20/checkpoint",
+   "sha": "20121ca7cceae03602038de31076bd9ace115208",
+   "prs": [],
+   "ahead": 0,
+   "behind": 577,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [
+    "base of open #83"
+   ],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "RETAIN — CHECKPOINT",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": ""
+  },
+  {
+   "branch": "stage-21/knowledge-checkpoint",
+   "sha": "c0ce63cb73cea42446bedbaece3bb49a9ce71bf8",
+   "prs": [],
+   "ahead": 0,
+   "behind": 206,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "RETAIN — CHECKPOINT",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": ""
+  },
+  {
+   "branch": "stage-22/research-restructure",
+   "sha": "d65f59059314b6e7b4e7ae4f534a12a7342d4171",
+   "prs": [
+    88
+   ],
+   "ahead": 7,
+   "behind": 205,
+   "patch_unique": 7,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "SUPERSEDED / REIMPLEMENTED IN CHECKPOINT",
+   "verdict": "RETAIN — CHECKPOINT",
+   "evidence": "PR #88 (closed). V3-inclusive prerequisite validation (purchasedResearch over allCatalogEntries) present in Wave 11 ResearchPurchaseService; docs present.",
+   "tier": ""
+  },
+  {
+   "branch": "stage-3/enhancement-vertical-slice",
+   "sha": "1f05e53fbadea0d1ca8c49c00a64b62edd622174",
+   "prs": [
+    5
+   ],
+   "ahead": 0,
+   "behind": 920,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "RETAIN — CHECKPOINT",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": ""
+  },
+  {
+   "branch": "stage-4/equipment-foundation",
+   "sha": "8a3159c5a33c18f89baa654ae7c3d550fae6a628",
+   "prs": [
+    11
+   ],
+   "ahead": 0,
+   "behind": 888,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "RETAIN — CHECKPOINT",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": ""
+  },
+  {
+   "branch": "stage-5/special-equipment",
+   "sha": "e66bf7ecb39a14be5313818e917596b7abfa1ac4",
+   "prs": [
+    14
+   ],
+   "ahead": 0,
+   "behind": 876,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "RETAIN — CHECKPOINT",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": ""
+  },
+  {
+   "branch": "stage-6/materials-crafting-progression",
+   "sha": "c8705f4c3969920967f027bbfcddd72fda1338cb",
+   "prs": [
+    16
+   ],
+   "ahead": 0,
+   "behind": 861,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "RETAIN — CHECKPOINT",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": ""
+  },
+  {
+   "branch": "stage-7/life-content",
+   "sha": "a62a65e10c569ac655fe43545058a40eea2ed8a6",
+   "prs": [
+    18
+   ],
+   "ahead": 0,
+   "behind": 854,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "RETAIN — CHECKPOINT",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": ""
+  },
+  {
+   "branch": "stage-8/entity-mob",
+   "sha": "5541ad505aeb5e4839d0027ed944e3f7c60810c4",
+   "prs": [
+    21
+   ],
+   "ahead": 0,
+   "behind": 847,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "RETAIN — CHECKPOINT",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": ""
+  },
+  {
+   "branch": "stage-9/skeleton-king",
+   "sha": "ec1b6ce9182795bdd26123a184d58ae5b8c21dd5",
+   "prs": [
+    23
+   ],
+   "ahead": 0,
+   "behind": 837,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "RETAIN — CHECKPOINT",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": ""
+  },
+  {
+   "branch": "stage-ci/accessory-bounty-20261023",
+   "sha": "63efc3ca0a71d369d9e7aa25b9e5231e6a7b29ac",
+   "prs": [],
+   "ahead": 0,
+   "behind": 84,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "RETAIN — CHECKPOINT",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": ""
+  },
+  {
+   "branch": "test/bc03-validation-hardening-20261025",
+   "sha": "cc058692ca38f76c18b598658733beb8f8a4fb10",
+   "prs": [
+    177
+   ],
+   "ahead": 0,
+   "behind": 186,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "test/k5-reused-world-determinism-20261025",
+   "sha": "9f565a664a5c76895f0888b45174281548a654f7",
+   "prs": [
+    187
+   ],
+   "ahead": 22,
+   "behind": 51,
+   "patch_unique": 8,
+   "patch_equivalent": 8,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED — EQUIVALENT COMMITS",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #187 (merged into #181). Equivalent commits in Wave 11 (f4a49bd, ff249bf).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "test/ring-life-option-a-regression-20261025",
+   "sha": "efc77967c9c246d28afaa5e7ca5756e4a2dd4c33",
+   "prs": [
+    185
+   ],
+   "ahead": 13,
+   "behind": 53,
+   "patch_unique": 4,
+   "patch_equivalent": 6,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED — EQUIVALENT COMMITS",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "PR #185 (merged into #181). Regression test present (5622585).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "test/wave13-f3-f1-evidence-20261027",
+   "sha": "4e6901c08e67485190ed0697d328ee21e408cccf",
+   "prs": [
+    194
+   ],
+   "ahead": 4,
+   "behind": 0,
+   "patch_unique": 4,
+   "patch_equivalent": 0,
+   "open_pr_roles": [
+    "head of open #194"
+   ],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "WAVE 13 WORKING BRANCH",
+   "verdict": "RETAIN — ACTIVE DEPENDENCY",
+   "evidence": "Head of open Draft PR #194: unit tests, ore-sampling probe, candidate set and skull protocol model. Test/tooling only.",
+   "tier": ""
+  },
+  {
+   "branch": "tooling/integration-gametest-coverage-20261024",
+   "sha": "741a1be90074c3f0086c048d77e9dbabf4947cf1",
+   "prs": [
+    170
+   ],
+   "ahead": 0,
+   "behind": 202,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "wave7/a-e-real-mouse-input",
+   "sha": "0f466b96df9832c2c5a0bf83fd885ca1c278095d",
+   "prs": [
+    168
+   ],
+   "ahead": 0,
+   "behind": 77,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "wave7/b-gametest-recovery",
+   "sha": "e5982f3c2f6981d25fea0210a1c3b49df7069ae1",
+   "prs": [
+    166
+   ],
+   "ahead": 0,
+   "behind": 81,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "wave7/c-accessory-raw-xp",
+   "sha": "06be9f53ffa8069465e9e197417cdcd4fb32a1c7",
+   "prs": [
+    167
+   ],
+   "ahead": 0,
+   "behind": 81,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  },
+  {
+   "branch": "wave7/d-ui-cleanup",
+   "sha": "8f53b48816c0c3264ed748e7fffc340c5c229839",
+   "prs": [
+    169
+   ],
+   "ahead": 0,
+   "behind": 80,
+   "patch_unique": 0,
+   "patch_equivalent": 0,
+   "open_pr_roles": [],
+   "orphaned_commits_if_deleted": 0,
+   "orphaned_commit_shas": [],
+   "provenance": "INTEGRATED (ancestor of Wave 11)",
+   "verdict": "DELETE ELIGIBLE",
+   "evidence": "Every commit is an ancestor of Wave 11 (git merge-base --is-ancestor).",
+   "tier": "0 commits orphaned"
+  }
+ ]
+}

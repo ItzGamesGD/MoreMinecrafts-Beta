@@ -1,0 +1,196 @@
+package dev.itzgamesgd.moreminecrafts.boss;
+
+import com.mojang.math.Transformation;
+import dev.itzgamesgd.moreminecrafts.core.ModIds;
+import dev.itzgamesgd.moreminecrafts.mixin.DisplayAccessor;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Brightness;
+import net.minecraft.world.entity.Display;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
+
+/**
+ * Temporary, never-saved item display used for the floor telegraphs and the risen spike body. Tomb Spikes keep the
+ * gold magic circle. The direct attacks (sweep, ground slam, ultimate) use the red telegraph of spec 4.2: a light red
+ * area (a round zone or the 120 degree sweep fan) plus a dark red charge gauge that grows with the windup. Purely visual (the solid body is {@link TombStatueCollider}): it edits no blocks and removes itself after its lifetime,
+ * so a chunk save or restart can never leave a stale telegraph in the world.
+ */
+public final class TombVfxDisplay extends Display.ItemDisplay {
+    private static final int RISE_TICKS = TombStatueShape.RISE_TICKS;
+    private static final float STATUE_SCALE = (float) (TombGuardianTuning.SPIKE_HEIGHT / 2.0D);
+    private static final float CIRCLE_SCALE = (float) (TombGuardianTuning.SPIKE_RADIUS * 2.0D);
+    private static final float FAN_AREA_LIFT = 0.03F;
+    private static final float FILL_LIFT = 0.06F;
+
+    /** The fill gauge starts at this fraction of the area and grows to full size over the windup. */
+    private static final float FILL_START_SCALE = 0.06F;
+
+    private boolean statue;
+    private boolean fill;
+    /** True for the gold Tomb Spikes circle, which keeps its slow spin. */
+    private boolean magic;
+    /** Edge length of the flat plate in blocks (zone diameter, or twice the sweep reach for the fan). */
+    private float plate = CIRCLE_SCALE;
+    /** Plate yaw in radians for the fan; zero for round zones. */
+    private float plateYaw;
+    private int lifetime = 1;
+    private int age;
+
+    public TombVfxDisplay(EntityType<?> type, Level level) {
+        super(type, level);
+    }
+
+    /** Gold magic circle that marks the fixed Tomb Spikes site for the whole warning (it spins slowly). */
+    static TombVfxDisplay magicCircle(ServerLevel level, Vec3 point, int lifetime) {
+        TombVfxDisplay display = create(level, point, "tomb_magic_circle", lifetime, false);
+        if (display == null) return null;
+        display.magic = true;
+        display.accessor().moreminecrafts$setBrightnessOverride(Brightness.FULL_BRIGHT);
+        display.accessor().moreminecrafts$setTransformation(display.plateTransform(1.0F, 0.03F));
+        level.addFreshEntity(display);
+        return display;
+    }
+
+    /** Light red floor tint over a round strike zone of the given radius; visible for the whole warning. */
+    static TombVfxDisplay redArea(ServerLevel level, Vec3 point, double radius, int lifetime) {
+        return red(level, point, "tomb_telegraph_area", radius * 2.0D, 0.0F, false, 1.0F, FAN_AREA_LIFT, lifetime);
+    }
+
+    /** Dark red gauge that fills a round zone in proportion to the windup progress. */
+    static TombVfxDisplay redFill(ServerLevel level, Vec3 point, double radius, int lifetime) {
+        return red(level, point, "tomb_telegraph_fill", radius * 2.0D, 0.0F, true, FILL_START_SCALE, FILL_LIFT, lifetime);
+    }
+
+    /** Light red 120 degree fan in front of the guardian (sweep); {@link #turnTo} keeps it on the guardian's facing. */
+    static TombVfxDisplay fanArea(ServerLevel level, Vec3 point, float yawDegrees, int lifetime) {
+        return red(level, point, "tomb_telegraph_fan_area", TombGuardianTuning.SWEEP_REACH * 2.0D,
+                fanPlateYaw(yawDegrees), false, 1.0F, FAN_AREA_LIFT, lifetime);
+    }
+
+    /** Dark red fan gauge that grows out of the apex over the sweep windup. */
+    static TombVfxDisplay fanFill(ServerLevel level, Vec3 point, float yawDegrees, int lifetime) {
+        return red(level, point, "tomb_telegraph_fan_fill", TombGuardianTuning.SWEEP_REACH * 2.0D,
+                fanPlateYaw(yawDegrees), true, FILL_START_SCALE, FILL_LIFT, lifetime);
+    }
+
+    /**
+     * The fan texture points to the plate's +Z when the plate is not rotated (verified in the real client), so a plate
+     * yaw of {@code -guardianYaw} turns it to the guardian's forward vector (-sin yaw, cos yaw).
+     */
+    private static float fanPlateYaw(float guardianYawDegrees) {
+        return (float) -Math.toRadians(guardianYawDegrees);
+    }
+
+    private static TombVfxDisplay red(ServerLevel level, Vec3 point, String model, double diameter, float plateYaw,
+                                      boolean fill, float startScale, float lift, int lifetime) {
+        TombVfxDisplay display = create(level, point, model, lifetime, false);
+        if (display == null) return null;
+        display.fill = fill;
+        display.plate = (float) diameter;
+        display.plateYaw = plateYaw;
+        display.accessor().moreminecrafts$setBrightnessOverride(Brightness.FULL_BRIGHT);
+        display.accessor().moreminecrafts$setTransformation(display.plateTransform(startScale, lift));
+        level.addFreshEntity(display);
+        return display;
+    }
+
+    /**
+     * Re-aims a fan display at a new guardian yaw (the sweep tracks its target during the windup). The gauge keeps
+     * growing: its interpolation target stays the full size, reached over the ticks that remain.
+     */
+    void turnTo(float guardianYawDegrees) {
+        plateYaw = fanPlateYaw(guardianYawDegrees);
+        accessor().moreminecrafts$setTransformationInterpolationDelay(0);
+        accessor().moreminecrafts$setTransformationInterpolationDuration(fill ? Math.max(1, lifetime - age - 1) : 2);
+        accessor().moreminecrafts$setTransformation(plateTransform(1.0F, fill ? FILL_LIFT : FAN_AREA_LIFT));
+    }
+
+    static TombVfxDisplay statue(ServerLevel level, Vec3 point, int lifetime) {
+        TombVfxDisplay display = create(level, point, "tomb_statue", lifetime, true);
+        if (display == null) return null;
+        display.accessor().moreminecrafts$setTransformation(statueTransform(true));
+        level.addFreshEntity(display);
+        return display;
+    }
+
+    private static TombVfxDisplay create(ServerLevel level, Vec3 point, String model, int lifetime, boolean statue) {
+        TombVfxDisplay display = TombGuardianEntities.TOMB_VFX.create(level, EntitySpawnReason.TRIGGERED);
+        if (display == null) return null;
+        display.statue = statue;
+        display.lifetime = Math.max(1, lifetime);
+        display.setPos(point.x, point.y, point.z);
+        ItemStack stack = new ItemStack(Items.PAPER);
+        stack.set(DataComponents.ITEM_MODEL, ModIds.id(model));
+        display.getSlot(0).set(stack);
+        display.accessor().moreminecrafts$setViewRange(2.0F);
+        return display;
+    }
+
+    private DisplayAccessor accessor() { return (DisplayAccessor) (Object) this; }
+
+    public boolean isStatue() { return statue; }
+
+    /** True for the dark red charge gauge, false for area displays, the gold circle and the risen spike body. */
+    public boolean isFill() { return fill; }
+
+    public int lifetime() { return lifetime; }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (level().isClientSide()) return;
+        age++;
+        if (age >= lifetime) {
+            discard();
+            return;
+        }
+        if (statue) {
+            // Rise out of the floor right after spawning and sink back just before removal.
+            if (age == 1 || age == lifetime - RISE_TICKS) {
+                accessor().moreminecrafts$setTransformationInterpolationDelay(0);
+                accessor().moreminecrafts$setTransformationInterpolationDuration(RISE_TICKS);
+                accessor().moreminecrafts$setTransformation(statueTransform(age != 1));
+            }
+        } else if (magic && age % 5 == 0) {
+            // Slow spin keeps the glyph ring readable as a moving magic circle, not a static floor decal.
+            accessor().moreminecrafts$setTransformationInterpolationDelay(0);
+            accessor().moreminecrafts$setTransformationInterpolationDuration(5);
+            accessor().moreminecrafts$setTransformation(plateTransform(1.0F, 0.03F, age * 0.06F));
+        } else if (fill && age == 1) {
+            // One interpolation from the small start size to the full area over the whole warning.
+            accessor().moreminecrafts$setTransformationInterpolationDelay(0);
+            accessor().moreminecrafts$setTransformationInterpolationDuration(Math.max(1, lifetime - 2));
+            accessor().moreminecrafts$setTransformation(plateTransform(1.0F, FILL_LIFT));
+        }
+    }
+
+    private Transformation plateTransform(float relativeScale, float lift) {
+        return plateTransform(relativeScale, lift, plateYaw);
+    }
+
+    private Transformation plateTransform(float relativeScale, float lift, float yaw) {
+        // The telegraph model is a flat 16x16 plate; item rendering centres the model on the entity, so the plate is
+        // raised by half its scaled height plus a small lift (the fill sits above the area to avoid z-fighting).
+        float scale = plate * relativeScale;
+        return new Transformation(new Vector3f(0.0F, scale * 0.5F + lift, 0.0F), new Quaternionf().rotationY(yaw),
+                new Vector3f(scale, scale, scale), null);
+    }
+
+    private static Transformation statueTransform(boolean buried) {
+        // The statue model spans 32 units (two blocks) upward; scaled so its base sits on the floor when risen.
+        float base = STATUE_SCALE * 0.5F;
+        float y = buried ? base - (float) TombGuardianTuning.SPIKE_HEIGHT - (float) TombStatueShape.BURY_DEPTH : base;
+        return new Transformation(new Vector3f(0.0F, y, 0.0F), null,
+                new Vector3f(STATUE_SCALE, STATUE_SCALE, STATUE_SCALE), null);
+    }
+
+    @Override
+    public boolean shouldBeSaved() { return false; }
+}

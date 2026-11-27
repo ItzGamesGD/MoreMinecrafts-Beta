@@ -1,0 +1,77 @@
+{
+  "mode": "cheaplocate",
+  "instr_on": true,
+  "seed": 407538027,
+  "radius_param": 10,
+  "eligibility": "experimental exact-equivalent cheap-first",
+  "wall_ms": 6135.065398,
+  "main_thread_blocked_ms": 6135.065398,
+  "eligibility_ms": 3073.23868,
+  "validation_getChunk_STRUCTURE_STARTS_ms": 3060.346359,
+  "candidates": 243,
+  "eligible": 1,
+  "validated_valid_starts": 1,
+  "verdicts": {
+    "ELIGIBLE": 1,
+    "REJECT_BIOME": 242
+  },
+  "height_computes": 6891,
+  "height_ms": 3023.264938,
+  "biome_lookups": 1219,
+  "biome_ms": 12.589263,
+  "production_fgp_evaluations_during_validation": 1,
+  "instr": {
+    "biome.lookup(getNoiseBiome)|worker": {
+      "n": 971,
+      "max_ms": 0.101855,
+      "total_ms": 5.619967
+    },
+    "desert.centreCellPassed|worker": {
+      "n": 1,
+      "max_ms": 0.0,
+      "total_ms": 0.0
+    },
+    "desert.sweepCellsChecked|worker": {
+      "n": 484,
+      "max_ms": 0.0,
+      "total_ms": 0.0
+    },
+    "elig.stage1.desertFootprint.pass|worker": {
+      "n": 1,
+      "max_ms": 308.817589,
+      "total_ms": 308.817589
+    },
+    "elig.stage2.heightSampling6561|worker": {
+      "n": 1,
+      "max_ms": 2596.771795,
+      "total_ms": 2596.771795
+    },
+    "fgp.total|worker": {
+      "n": 1,
+      "max_ms": 2912.548338,
+      "total_ms": 2912.548338
+    },
+    "fgp.verdict.ELIGIBLE|worker": {
+      "n": 1,
+      "max_ms": 2912.548338,
+      "total_ms": 2912.548338
+    },
+    "height.calls|worker": {
+      "n": 7046,
+      "max_ms": 0.0,
+      "total_ms": 0.0
+    },
+    "height.compute(getBaseHeight)|worker": {
+      "n": 6645,
+      "max_ms": 1.432547,
+      "total_ms": 2873.170856
+    },
+    "pieces.addPieces(incl.template.load)|worker": {
+      "n": 1,
+      "max_ms": 141.129603,
+      "total_ms": 141.129603
+    }
+  },
+  "result_chunk": "-210,-241",
+  "ring": 8
+}

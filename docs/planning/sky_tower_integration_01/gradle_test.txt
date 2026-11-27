@@ -1,0 +1,25 @@
+Starting a Gradle Daemon (subsequent builds will be faster)
+
+FAILURE: Build failed with an exception.
+
+* Where:
+Build file '/workspace/MoreMinecrafts-Beta/build.gradle' line: 2
+
+* What went wrong:
+Plugin [id: 'net.fabricmc.fabric-loom', version: '1.17.21'] was not found in any of the following sources:
+
+- Gradle Core Plugins (plugin is not in 'org.gradle' namespace)
+- Included Builds (No included builds contain this plugin)
+- Plugin Repositories (could not resolve plugin artifact 'net.fabricmc.fabric-loom:net.fabricmc.fabric-loom.gradle.plugin:1.17.21')
+  Searched in the following repositories:
+    Fabric(https://maven.fabricmc.net/)
+    Gradle Central Plugin Repository
+    MavenRepo
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 33s

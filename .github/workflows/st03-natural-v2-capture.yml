@@ -1,0 +1,46 @@
+name: ST-03 V2 Natural Client Capture
+on:
+  push:
+    branches: [codex/st03-v2-natural-placement-20261116]
+    paths: ['.github/workflows/st03-natural-v2-capture.yml']
+  workflow_dispatch:
+    inputs:
+      survey_run:
+        description: 'Successful ST-03 survey run containing the seed 10079 capture plan'
+        type: string
+        required: true
+permissions:
+  contents: read
+  actions: read
+jobs:
+  capture:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-java@v5
+        with: {distribution: temurin, java-version: '25'}
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Download actual normal-world start coordinates
+        uses: actions/download-artifact@v4
+        with:
+          name: st03-natural-10079
+          path: build/st03-natural/survey
+          run-id: ${{ inputs.survey_run }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install software graphics and PNG palette conversion
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb openbox libgl1-mesa-dri libglx-mesa0 mesa-vulkan-drivers libvulkan1 python3-pil
+      - name: Capture three naturally generated headquarters
+        run: bash tools/st03-natural-v2/capture.sh
+      - name: Upload palette PNGs, manifest and logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: st03-natural-client-captures
+          path: build/st03-natural/captures/
+          if-no-files-found: error
+          retention-days: 30

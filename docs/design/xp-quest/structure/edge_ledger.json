@@ -1,0 +1,266 @@
+{
+  "schema": 1,
+  "status": "PROPOSAL",
+  "edges": [
+    {
+      "id": "edge.presentation.01",
+      "parent": "xpq.cmb.hostile_100",
+      "child": "xpq.cmb.hostile_500",
+      "kind": "suggested_progression",
+      "enforcement": "presentation-only",
+      "status": "proposed",
+      "rationale": "Same kill-count ladder; visual reading order only.",
+      "retroactive_completion": "none: presentation-only edges never block or unlock a claim"
+    },
+    {
+      "id": "edge.presentation.02",
+      "parent": "xpq.cmb.hostile_500",
+      "child": "xpq.cmb.hostile_2000",
+      "kind": "suggested_progression",
+      "enforcement": "presentation-only",
+      "status": "proposed",
+      "rationale": "Same kill-count ladder; visual reading order only.",
+      "retroactive_completion": "none: presentation-only edges never block or unlock a claim"
+    },
+    {
+      "id": "edge.presentation.03",
+      "parent": "xpq.cmb.hostile_2000",
+      "child": "xpq.cmb.hostile_5000",
+      "kind": "suggested_progression",
+      "enforcement": "presentation-only",
+      "status": "proposed",
+      "rationale": "Same kill-count ladder; visual reading order only.",
+      "retroactive_completion": "none: presentation-only edges never block or unlock a claim"
+    },
+    {
+      "id": "edge.presentation.04",
+      "parent": "xpq.exp.walk_10k",
+      "child": "xpq.exp.walk_50k",
+      "kind": "suggested_progression",
+      "enforcement": "presentation-only",
+      "status": "proposed",
+      "rationale": "Same walking ladder; visual reading order only.",
+      "retroactive_completion": "none: presentation-only edges never block or unlock a claim"
+    },
+    {
+      "id": "edge.presentation.05",
+      "parent": "xpq.min.ore_1000",
+      "child": "xpq.min.ore_5000",
+      "kind": "suggested_progression",
+      "enforcement": "presentation-only",
+      "status": "proposed",
+      "rationale": "Same ore counter ladder; visual reading order only.",
+      "retroactive_completion": "none: presentation-only edges never block or unlock a claim"
+    },
+    {
+      "id": "edge.presentation.06",
+      "parent": "xpq.min.ore_5000",
+      "child": "xpq.min.ore_20000",
+      "kind": "suggested_progression",
+      "enforcement": "presentation-only",
+      "status": "proposed",
+      "rationale": "Same ore counter ladder; visual reading order only.",
+      "retroactive_completion": "none: presentation-only edges never block or unlock a claim"
+    },
+    {
+      "id": "edge.presentation.07",
+      "parent": "xpq.frm.harvest_1000",
+      "child": "xpq.frm.harvest_5000",
+      "kind": "suggested_progression",
+      "enforcement": "presentation-only",
+      "status": "proposed",
+      "rationale": "Same harvest counter ladder; visual reading order only.",
+      "retroactive_completion": "none: presentation-only edges never block or unlock a claim"
+    },
+    {
+      "id": "edge.presentation.08",
+      "parent": "xpq.bld.place_1000",
+      "child": "xpq.bld.place_10000",
+      "kind": "suggested_progression",
+      "enforcement": "presentation-only",
+      "status": "proposed",
+      "rationale": "Same placement ladder; visual reading order only.",
+      "retroactive_completion": "none: presentation-only edges never block or unlock a claim"
+    },
+    {
+      "id": "edge.presentation.09",
+      "parent": "xpq.bld.place_10000",
+      "child": "xpq.bld.place_50000",
+      "kind": "suggested_progression",
+      "enforcement": "presentation-only",
+      "status": "proposed",
+      "rationale": "Same placement ladder; visual reading order only.",
+      "retroactive_completion": "none: presentation-only edges never block or unlock a claim"
+    },
+    {
+      "id": "edge.presentation.10",
+      "parent": "xpq.bld.place_50000",
+      "child": "xpq.bld.place_200000",
+      "kind": "suggested_progression",
+      "enforcement": "presentation-only",
+      "status": "proposed",
+      "rationale": "Same placement ladder; visual reading order only.",
+      "retroactive_completion": "none: presentation-only edges never block or unlock a claim"
+    },
+    {
+      "id": "edge.presentation.11",
+      "parent": "xpq.grw.knowledge_10",
+      "child": "xpq.grw.knowledge_20",
+      "kind": "suggested_progression",
+      "enforcement": "presentation-only",
+      "status": "proposed",
+      "rationale": "Same knowledge ladder; visual reading order only.",
+      "retroactive_completion": "none: presentation-only edges never block or unlock a claim"
+    },
+    {
+      "id": "edge.presentation.12",
+      "parent": "xpq.grw.knowledge_20",
+      "child": "xpq.grw.knowledge_35",
+      "kind": "suggested_progression",
+      "enforcement": "presentation-only",
+      "status": "proposed",
+      "rationale": "Same knowledge ladder; visual reading order only.",
+      "retroactive_completion": "none: presentation-only edges never block or unlock a claim"
+    },
+    {
+      "id": "edge.presentation.13",
+      "parent": "xpq.grw.knowledge_35",
+      "child": "xpq.grw.knowledge_50",
+      "kind": "suggested_progression",
+      "enforcement": "presentation-only",
+      "status": "proposed",
+      "rationale": "Same knowledge ladder; visual reading order only.",
+      "retroactive_completion": "none: presentation-only edges never block or unlock a claim"
+    },
+    {
+      "id": "edge.presentation.14",
+      "parent": "xpq.grw.knowledge_50",
+      "child": "xpq.grw.knowledge_complete",
+      "kind": "suggested_progression",
+      "enforcement": "presentation-only",
+      "status": "proposed",
+      "rationale": "Same knowledge ladder; visual reading order only.",
+      "retroactive_completion": "none: presentation-only edges never block or unlock a claim"
+    },
+    {
+      "id": "edge.presentation.15",
+      "parent": "xpq.eqp.enhance_5",
+      "child": "xpq.eqp.enhance_10",
+      "kind": "suggested_progression",
+      "enforcement": "presentation-only",
+      "status": "proposed",
+      "rationale": "Enhancement milestones in ascending order.",
+      "retroactive_completion": "none: presentation-only edges never block or unlock a claim"
+    },
+    {
+      "id": "edge.presentation.16",
+      "parent": "xpq.eqp.enhance_10",
+      "child": "xpq.eqp.enhance_15",
+      "kind": "suggested_progression",
+      "enforcement": "presentation-only",
+      "status": "proposed",
+      "rationale": "Enhancement milestones in ascending order.",
+      "retroactive_completion": "none: presentation-only edges never block or unlock a claim"
+    },
+    {
+      "id": "edge.presentation.17",
+      "parent": "xpq.eqp.enhance_15",
+      "child": "xpq.eqp.enhance_20",
+      "kind": "suggested_progression",
+      "enforcement": "presentation-only",
+      "status": "proposed",
+      "rationale": "Enhancement milestones in ascending order.",
+      "retroactive_completion": "none: presentation-only edges never block or unlock a claim"
+    },
+    {
+      "id": "edge.presentation.18",
+      "parent": "xpq.eqp.first_t2_core",
+      "child": "xpq.eqp.t2_cores_3",
+      "kind": "suggested_progression",
+      "enforcement": "presentation-only",
+      "status": "proposed",
+      "rationale": "Core collection starts with the first core.",
+      "retroactive_completion": "none: presentation-only edges never block or unlock a claim"
+    },
+    {
+      "id": "edge.presentation.19",
+      "parent": "xpq.eqp.t2_cores_3",
+      "child": "xpq.eqp.all_t2_cores",
+      "kind": "suggested_progression",
+      "enforcement": "presentation-only",
+      "status": "proposed",
+      "rationale": "Core collection starts with the first core.",
+      "retroactive_completion": "none: presentation-only edges never block or unlock a claim"
+    },
+    {
+      "id": "edge.presentation.20",
+      "parent": "xpq.dim.fortress_loot",
+      "child": "xpq.dim.blaze_rods_32",
+      "kind": "suggested_progression",
+      "enforcement": "presentation-only",
+      "status": "proposed",
+      "rationale": "Fortresses are the usual blaze-rod source.",
+      "retroactive_completion": "none: presentation-only edges never block or unlock a claim"
+    },
+    {
+      "id": "edge.presentation.21",
+      "parent": "xpq.boss.monument_clear",
+      "child": "xpq.boss.monuments_3",
+      "kind": "suggested_progression",
+      "enforcement": "presentation-only",
+      "status": "proposed",
+      "rationale": "Single-monument clear before three-monument clear.",
+      "retroactive_completion": "none: presentation-only edges never block or unlock a claim"
+    },
+    {
+      "id": "edge.presentation.22",
+      "parent": "xpq.cft.parachute",
+      "child": "xpq.exp.parachute_landing",
+      "kind": "cross_chapter_presentation",
+      "enforcement": "presentation-only",
+      "status": "proposed",
+      "rationale": "Craft the parachute, then land with it. Presentation link only.",
+      "retroactive_completion": "none: presentation-only edges never block or unlock a claim"
+    },
+    {
+      "id": "edge.presentation.23",
+      "parent": "xpq.dim.blaze_rods_32",
+      "child": "xpq.alc.shock_potion",
+      "kind": "cross_chapter_presentation",
+      "enforcement": "presentation-only",
+      "status": "proposed",
+      "rationale": "Blaze rods feed brewing. Presentation link only.",
+      "retroactive_completion": "none: presentation-only edges never block or unlock a claim"
+    },
+    {
+      "id": "edge.presentation.24",
+      "parent": "xpq.eqp.first_t2_core",
+      "child": "xpq.grw.first_t2",
+      "kind": "cross_chapter_presentation",
+      "enforcement": "presentation-only",
+      "status": "proposed",
+      "rationale": "Reading order: T2 research sits before T2 core work. Presentation link only.",
+      "retroactive_completion": "none: presentation-only edges never block or unlock a claim"
+    },
+    {
+      "id": "edge.gameplay.01",
+      "parent": "xpq.grw.first_t2",
+      "child": "xpq.eqp.first_t2_weapon",
+      "kind": "gameplay_candidate",
+      "enforcement": "gameplay-enforced (NOT ENABLED)",
+      "status": "awaiting_owner_approval",
+      "rationale": "T2 weapons are planned as knowledge-gated. The gate is not yet verified in current authority.",
+      "retroactive_completion": "If enabled: a child already claimed keeps its claim. An unclaimed child waits until the parent is completed. A parent completed before the rule activates counts immediately. No XP is granted retroactively to unclaimed children."
+    },
+    {
+      "id": "edge.gameplay.02",
+      "parent": "xpq.grw.first_t3",
+      "child": "xpq.eqp.t3_special",
+      "kind": "gameplay_candidate",
+      "enforcement": "gameplay-enforced (NOT ENABLED)",
+      "status": "awaiting_owner_approval",
+      "rationale": "T3 specials are planned as knowledge-gated. The gate is not yet verified in current authority.",
+      "retroactive_completion": "If enabled: a child already claimed keeps its claim. An unclaimed child waits until the parent is completed. A parent completed before the rule activates counts immediately. No XP is granted retroactively to unclaimed children."
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.6.0/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build
+
+> Configure project :
+Fabric Loom: 1.17.21
+
+> Task :compileJava UP-TO-DATE
+> Task :processResources UP-TO-DATE
+> Task :classes UP-TO-DATE
+> Task :compileClientJava UP-TO-DATE
+> Task :processClientResources NO-SOURCE
+> Task :clientClasses UP-TO-DATE
+
+> Task :compileTestJava
+/workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:48: error: cannot find symbol
+        assertFalse(SkyTowerBarriers.entityQueryReady(p,chunk->chunk!=absent));
+                                    ^
+  symbol:   method entityQueryReady(Point,(chunk)->c[...]bsent)
+  location: class SkyTowerBarriers
+/workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:50: error: cannot find symbol
+        assertTrue(SkyTowerBarriers.entityQueryReady(p,chunk->{queried.add(chunk);return true;}));
+                                   ^
+  symbol:   method entityQueryReady(Point,(chunk)->{[...]ue; })
+  location: class SkyTowerBarriers
+2 errors
+
+> Task :compileTestJava FAILED
+
+[Incubating] Problems report is available at: file:///workspace/MoreMinecrafts-Beta/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileTestJava' (registered by plugin class 'org.gradle.api.plugins.JavaBasePlugin').
+> Compilation failed; see the compiler output below.
+  /workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:48: error: cannot find symbol
+          assertFalse(SkyTowerBarriers.entityQueryReady(p,chunk->chunk!=absent));
+                                      ^
+    symbol:   method entityQueryReady(Point,(chunk)->c[...]bsent)
+    location: class SkyTowerBarriers
+  /workspace/MoreMinecrafts-Beta/src/test/java/dev/itzgamesgd/moreminecrafts/skytower/SkyTowerLifecycleTest.java:50: error: cannot find symbol
+          assertTrue(SkyTowerBarriers.entityQueryReady(p,chunk->{queried.add(chunk);return true;}));
+                                     ^
+    symbol:   method entityQueryReady(Point,(chunk)->{[...]ue; })
+    location: class SkyTowerBarriers
+  2 errors
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+
+BUILD FAILED in 26s
+4 actionable tasks: 1 executed, 3 up-to-date

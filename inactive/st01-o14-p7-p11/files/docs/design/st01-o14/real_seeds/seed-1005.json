@@ -1,0 +1,30 @@
+{
+  "provenance": "REAL_MINECRAFT_26_3_WORLDGEN_MEASUREMENT",
+  "generator": "net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator",
+  "minecraft_version": "26.3",
+  "world_seed": 1005,
+  "heightmap_type": "WORLD_SURFACE_WG",
+  "sampling_grid": {
+    "biome_sample_points_per_candidate": 81,
+    "height_sample_points_per_candidate": 441,
+    "area_radius_blocks": 4096,
+    "grid_step_blocks": 256,
+    "footprint_span_blocks": "81x81 (-40..+40)"
+  },
+  "performance_metrics": {
+    "duration_ms": 356,
+    "total_candidates_evaluated": 500,
+    "peak_memory_mb": 271
+  },
+  "candidate_counts": {
+    "center_and_corners_in_desert": 0,
+    "eligible_under_exploratory_limits": 0,
+    "full_100_percent_in_desert": 0,
+    "total_grid_candidates": 500,
+    "center_in_desert": 0
+  },
+  "rejection_breakdown": {
+    "REJECT_NOT_DESERT": 500
+  },
+  "sample_candidate_records": []
+}

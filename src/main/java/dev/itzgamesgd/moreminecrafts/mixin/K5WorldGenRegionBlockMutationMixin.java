@@ -3,6 +3,7 @@ package dev.itzgamesgd.moreminecrafts.mixin;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import dev.itzgamesgd.moreminecrafts.progression.K5NaturalTreeProvenance;
+import dev.itzgamesgd.moreminecrafts.progression.QuestOreProvenance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.world.level.block.state.BlockState;
@@ -21,7 +22,9 @@ abstract class K5WorldGenRegionBlockMutationMixin {
         boolean changed = original.call(pos, state, updateFlags, updateLimit);
         if (changed && !previous.equals(state)) {
             WorldGenRegion region = (WorldGenRegion) (Object) this;
-            K5NaturalTreeProvenance.invalidatePosition(region.getChunk(pos.getX() >> 4, pos.getZ() >> 4), pos);
+            var chunk = region.getChunk(pos.getX() >> 4, pos.getZ() >> 4);
+            K5NaturalTreeProvenance.invalidatePosition(chunk, pos);
+            if (previous.getBlock() != state.getBlock()) QuestOreProvenance.invalidate(chunk, pos);
         }
         return changed;
     }

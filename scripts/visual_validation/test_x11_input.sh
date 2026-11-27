@@ -9,7 +9,11 @@ trap 'rm -rf "$fixture_dir"' EXIT
 
 cat > "$fixture_dir/xwininfo" <<'EOF'
 #!/usr/bin/env bash
-echo 'xwininfo: Window id: 543 (the root window)'
+if [[ "$1" == '-id' ]]; then
+  if [[ "$2" == 888 ]]; then echo '  Map State: IsUnMapped'; else echo '  Map State: IsViewable'; fi
+else
+  echo 'xwininfo: Window id: 543 (the root window)'
+fi
 EOF
 
 cat > "$fixture_dir/xdotool" <<'EOF'
@@ -20,12 +24,17 @@ if [[ "$*" == 'search --onlyvisible --name .*' ]]; then
   else
     printf '543\n2097439\n777\n'
   fi
+elif [[ "$*" == 'search --class com.mojang.minecraft' ]]; then
+  # A second, unmapped SDL window must never be selected.
+  if [[ "${X11_FIXTURE_NO_GAME:-0}" == 1 ]]; then printf '888\n'; else printf '777\n888\n'; fi
 elif [[ "$*" == 'windowactivate --sync 777' || "$*" == 'windowfocus --sync 777' ]]; then
   exit 0
 elif [[ "$*" == 'getwindowfocus' || "$*" == 'getactivewindow' ]]; then
   if [[ "$*" == 'getwindowfocus' ]]; then echo "${X11_FIXTURE_FOCUS:-777}"; else echo "${X11_FIXTURE_ACTIVE:-777}"; fi
 elif [[ "$*" == 'getwindowgeometry --shell 777' ]]; then
   printf 'WINDOW=777\nX=18\nY=36\nWIDTH=1280\nHEIGHT=720\nSCREEN=0\n'
+elif [[ "$*" == 'getwindowgeometry --shell 888' ]]; then
+  printf 'WINDOW=888\nX=0\nY=0\nWIDTH=1280\nHEIGHT=720\nSCREEN=0\n'
 elif [[ "$*" == 'getwindowgeometry --shell 2097439' ]]; then
   printf 'WINDOW=2097439\nX=0\nY=0\nWIDTH=1\nHEIGHT=1\nSCREEN=0\n'
 else
@@ -44,6 +53,8 @@ case "$id:$property" in
   2097439:_NET_WM_PID) echo '_NET_WM_PID(CARDINAL) = 100' ;;
   777:WM_CLASS) echo 'WM_CLASS(STRING) = "java", "Minecraft"' ;;
   777:_NET_WM_PID) echo '_NET_WM_PID(CARDINAL) = 4242' ;;
+  888:WM_CLASS) echo 'WM_CLASS(STRING) = "java", "com.mojang.minecraft"' ;;
+  888:_NET_WM_PID) echo '_NET_WM_PID(CARDINAL) = 4242' ;;
   *) exit 1 ;;
 esac
 EOF
@@ -90,4 +101,4 @@ if x11_transform_coordinates 640 183 640 360; then
   echo 'FAIL: accepted an out-of-bounds render coordinate' >&2
   exit 1
 fi
-echo 'PASS: selects the visible Minecraft process window, excluding root and Openbox'
+echo 'PASS: selects the viewable Minecraft process window, excluding root, Openbox and unmapped windows'

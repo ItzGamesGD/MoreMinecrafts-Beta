@@ -1,0 +1,1925 @@
+{
+  "version": "1.0-phase3.1",
+  "provenance": "REAL_MINECRAFT_26_3_MULTISEED_VALIDATION",
+  "replay_verification": {
+    "status": "BIT_FOR_BIT_MATCH_CONFIRMED",
+    "seed": 1002
+  },
+  "seeds_evaluated": [
+    1001,
+    1002,
+    1003,
+    1004,
+    1005
+  ],
+  "total_seeds": 5,
+  "seed_runs": [
+    {
+      "provenance": "REAL_MINECRAFT_26_3_PHASE3_CALIBRATION_REPORT",
+      "minecraft_version": "26.3",
+      "world_seed": 1001,
+      "generator": "net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator",
+      "performance_metrics": {
+        "peak_memory_mb": 205,
+        "exploration_area_sq_blocks": 419430400,
+        "duration_ms": 9221,
+        "exploration_radius_blocks": 10240,
+        "exploration_area_sq_km": 419.4304
+      },
+      "stage1_seed1002_real_replay_verification": {
+        "finding": "Verified bit-for-bit repeatability of NoiseBasedChunkGenerator elevations on real desert terrain candidates.",
+        "status": "REPLAY_PASS",
+        "verified_candidate_sample_size": 20,
+        "target_seed": 1002
+      },
+      "stage2_woodland_mansion_baseline": {
+        "structure_id": "minecraft:mansion",
+        "structure_set_id": "minecraft:mansions",
+        "registry_configuration": {
+          "allowed_biomes": [
+            "minecraft:dark_forest",
+            "minecraft:pale_garden"
+          ],
+          "spacing_chunks": 80,
+          "spread_type": "TRIANGULAR",
+          "salt": 10387319,
+          "separation_chunks": 20
+        },
+        "placement_metrics": {
+          "potential_candidate_anchors": 256,
+          "structure_density_per_100_sq_km": 0.72,
+          "search_radius_blocks": 10240,
+          "biome_qualified_anchors": 2,
+          "zero_structure_in_search_area": false,
+          "valid_placed_structures": 3,
+          "total_regions_evaluated": 289,
+          "area_sq_km": 419.4304
+        },
+        "nearest_structure_cross_check": {
+          "distance_from_origin": 9381,
+          "block_x": 5936,
+          "block_y": 0,
+          "block_z": 7264
+        },
+        "observed_structures": [
+          {
+            "region_x": -8,
+            "region_z": -3,
+            "chunk_x": -608,
+            "chunk_z": -218,
+            "block_x": -9720,
+            "block_z": -3480,
+            "biome": "minecraft:dark_forest",
+            "distance_from_origin": 10324,
+            "detection_method": "grid_structure_start"
+          },
+          {
+            "region_x": 4,
+            "region_z": 5,
+            "chunk_x": 371,
+            "chunk_z": 454,
+            "block_x": 5944,
+            "block_z": 7272,
+            "biome": "minecraft:dark_forest",
+            "distance_from_origin": 9392,
+            "detection_method": "grid_structure_start"
+          },
+          {
+            "region_x": -4,
+            "region_z": -8,
+            "chunk_x": -305,
+            "chunk_z": -607,
+            "block_x": -4880,
+            "block_z": -9712,
+            "biome": "minecraft:dark_forest",
+            "distance_from_origin": 10869,
+            "detection_method": "findNearestMapStructure_sweep"
+          }
+        ]
+      },
+      "stage3_st01_placement_simulation": {
+        "exploration_area_sq_km": 419.4304,
+        "configurations": {
+          "CFG_80_20_TRI": {
+            "config": "CFG_80_20_TRI",
+            "parameters": {
+              "spacing_chunks": 80,
+              "spread_type": "TRIANGULAR",
+              "separation_chunks": 20,
+              "salt": 10387319
+            },
+            "counts": {
+              "eligible_strict": 0,
+              "full_100_percent_desert": 3,
+              "total_regions": 289,
+              "center_in_desert": 12,
+              "total_potential_anchors": 256,
+              "eligible_exploratory": 0,
+              "eligible_moderate": 1,
+              "corners_in_desert": 5,
+              "eligible_generous": 2
+            },
+            "rates": {
+              "overall_exploratory_rate": 0.0,
+              "exploratory_given_full_desert_rate": 0.0,
+              "full_desert_given_center_rate": 0.25,
+              "center_desert_rate": 0.0469
+            },
+            "densities_per_100_sq_km": {
+              "generous_density": 0.48,
+              "strict_density": 0.0,
+              "exploratory_density": 0.0,
+              "moderate_density": 0.24
+            },
+            "sample_eligible_placements": []
+          },
+          "CFG_64_20_TRI": {
+            "config": "CFG_64_20_TRI",
+            "parameters": {
+              "spacing_chunks": 64,
+              "spread_type": "TRIANGULAR",
+              "separation_chunks": 20,
+              "salt": 91401
+            },
+            "counts": {
+              "eligible_strict": 0,
+              "full_100_percent_desert": 7,
+              "total_regions": 441,
+              "center_in_desert": 15,
+              "total_potential_anchors": 400,
+              "eligible_exploratory": 2,
+              "eligible_moderate": 3,
+              "corners_in_desert": 10,
+              "eligible_generous": 4
+            },
+            "rates": {
+              "overall_exploratory_rate": 0.005,
+              "exploratory_given_full_desert_rate": 0.2857,
+              "full_desert_given_center_rate": 0.4667,
+              "center_desert_rate": 0.0375
+            },
+            "densities_per_100_sq_km": {
+              "generous_density": 0.95,
+              "strict_density": 0.0,
+              "exploratory_density": 0.48,
+              "moderate_density": 0.72
+            },
+            "sample_eligible_placements": [
+              {
+                "region_x": -8,
+                "region_z": 7,
+                "anchor_x": -7784,
+                "anchor_z": 7448,
+                "distance_from_origin": 10773,
+                "delta_h": 10,
+                "max_cut_depth": 7,
+                "max_skirt_depth": 3,
+                "cut_volume": 9280,
+                "fill_volume": 6416,
+                "fluid_collision": false
+              },
+              {
+                "region_x": -7,
+                "region_z": -5,
+                "anchor_x": -6696,
+                "anchor_z": -4568,
+                "distance_from_origin": 8106,
+                "delta_h": 10,
+                "max_cut_depth": 7,
+                "max_skirt_depth": 3,
+                "cut_volume": 11280,
+                "fill_volume": 6992,
+                "fluid_collision": false
+              }
+            ]
+          },
+          "CFG_48_16_TRI": {
+            "config": "CFG_48_16_TRI",
+            "parameters": {
+              "spacing_chunks": 48,
+              "spread_type": "TRIANGULAR",
+              "separation_chunks": 16,
+              "salt": 91401
+            },
+            "counts": {
+              "eligible_strict": 1,
+              "full_100_percent_desert": 9,
+              "total_regions": 729,
+              "center_in_desert": 30,
+              "total_potential_anchors": 699,
+              "eligible_exploratory": 2,
+              "eligible_moderate": 3,
+              "corners_in_desert": 17,
+              "eligible_generous": 5
+            },
+            "rates": {
+              "overall_exploratory_rate": 0.0029,
+              "exploratory_given_full_desert_rate": 0.2222,
+              "full_desert_given_center_rate": 0.3,
+              "center_desert_rate": 0.0429
+            },
+            "densities_per_100_sq_km": {
+              "generous_density": 1.19,
+              "strict_density": 0.24,
+              "exploratory_density": 0.48,
+              "moderate_density": 0.72
+            },
+            "sample_eligible_placements": [
+              {
+                "region_x": -10,
+                "region_z": -5,
+                "anchor_x": -7240,
+                "anchor_z": -3464,
+                "distance_from_origin": 8026,
+                "delta_h": 8,
+                "max_cut_depth": 6,
+                "max_skirt_depth": 2,
+                "cut_volume": 8720,
+                "fill_volume": 2576,
+                "fluid_collision": false
+              },
+              {
+                "region_x": -9,
+                "region_z": 7,
+                "anchor_x": -6808,
+                "anchor_z": 5800,
+                "distance_from_origin": 8944,
+                "delta_h": 2,
+                "max_cut_depth": 1,
+                "max_skirt_depth": 1,
+                "cut_volume": 2384,
+                "fill_volume": 544,
+                "fluid_collision": false
+              }
+            ]
+          },
+          "CFG_32_08_TRI": {
+            "config": "CFG_32_08_TRI",
+            "parameters": {
+              "spacing_chunks": 32,
+              "spread_type": "TRIANGULAR",
+              "separation_chunks": 8,
+              "salt": 91401
+            },
+            "counts": {
+              "eligible_strict": 0,
+              "full_100_percent_desert": 16,
+              "total_regions": 1681,
+              "center_in_desert": 59,
+              "total_potential_anchors": 1600,
+              "eligible_exploratory": 1,
+              "eligible_moderate": 4,
+              "corners_in_desert": 21,
+              "eligible_generous": 4
+            },
+            "rates": {
+              "overall_exploratory_rate": 0.0006,
+              "exploratory_given_full_desert_rate": 0.0625,
+              "full_desert_given_center_rate": 0.2712,
+              "center_desert_rate": 0.0369
+            },
+            "densities_per_100_sq_km": {
+              "generous_density": 0.95,
+              "strict_density": 0.0,
+              "exploratory_density": 0.24,
+              "moderate_density": 0.95
+            },
+            "sample_eligible_placements": [
+              {
+                "region_x": 1,
+                "region_z": -14,
+                "anchor_x": 776,
+                "anchor_z": -6936,
+                "distance_from_origin": 6979,
+                "delta_h": 9,
+                "max_cut_depth": 3,
+                "max_skirt_depth": 6,
+                "cut_volume": 3888,
+                "fill_volume": 6624,
+                "fluid_collision": false
+              }
+            ]
+          },
+          "CFG_32_08_LIN": {
+            "config": "CFG_32_08_LIN",
+            "parameters": {
+              "spacing_chunks": 32,
+              "spread_type": "LINEAR",
+              "separation_chunks": 8,
+              "salt": 91401
+            },
+            "counts": {
+              "eligible_strict": 2,
+              "full_100_percent_desert": 14,
+              "total_regions": 1681,
+              "center_in_desert": 67,
+              "total_potential_anchors": 1600,
+              "eligible_exploratory": 2,
+              "eligible_moderate": 2,
+              "corners_in_desert": 21,
+              "eligible_generous": 4
+            },
+            "rates": {
+              "overall_exploratory_rate": 0.0013,
+              "exploratory_given_full_desert_rate": 0.1429,
+              "full_desert_given_center_rate": 0.209,
+              "center_desert_rate": 0.0419
+            },
+            "densities_per_100_sq_km": {
+              "generous_density": 0.95,
+              "strict_density": 0.48,
+              "exploratory_density": 0.48,
+              "moderate_density": 0.48
+            },
+            "sample_eligible_placements": [
+              {
+                "region_x": -14,
+                "region_z": 11,
+                "anchor_x": -6792,
+                "anchor_z": 5768,
+                "distance_from_origin": 8911,
+                "delta_h": 3,
+                "max_cut_depth": 1,
+                "max_skirt_depth": 2,
+                "cut_volume": 3232,
+                "fill_volume": 848,
+                "fluid_collision": false
+              },
+              {
+                "region_x": 3,
+                "region_z": -11,
+                "anchor_x": 1848,
+                "anchor_z": -5304,
+                "distance_from_origin": 5617,
+                "delta_h": 6,
+                "max_cut_depth": 3,
+                "max_skirt_depth": 3,
+                "cut_volume": 3120,
+                "fill_volume": 3568,
+                "fluid_collision": false
+              }
+            ]
+          },
+          "CFG_24_06_TRI": {
+            "config": "CFG_24_06_TRI",
+            "parameters": {
+              "spacing_chunks": 24,
+              "spread_type": "TRIANGULAR",
+              "separation_chunks": 6,
+              "salt": 91401
+            },
+            "counts": {
+              "eligible_strict": 0,
+              "full_100_percent_desert": 35,
+              "total_regions": 2809,
+              "center_in_desert": 114,
+              "total_potential_anchors": 2808,
+              "eligible_exploratory": 4,
+              "eligible_moderate": 9,
+              "corners_in_desert": 47,
+              "eligible_generous": 10
+            },
+            "rates": {
+              "overall_exploratory_rate": 0.0014,
+              "exploratory_given_full_desert_rate": 0.1143,
+              "full_desert_given_center_rate": 0.307,
+              "center_desert_rate": 0.0406
+            },
+            "densities_per_100_sq_km": {
+              "generous_density": 2.38,
+              "strict_density": 0.0,
+              "exploratory_density": 0.95,
+              "moderate_density": 2.15
+            },
+            "sample_eligible_placements": [
+              {
+                "region_x": -18,
+                "region_z": -10,
+                "anchor_x": -6776,
+                "anchor_z": -3672,
+                "distance_from_origin": 7707,
+                "delta_h": 9,
+                "max_cut_depth": 4,
+                "max_skirt_depth": 5,
+                "cut_volume": 4592,
+                "fill_volume": 6352,
+                "fluid_collision": false
+              },
+              {
+                "region_x": -18,
+                "region_z": 15,
+                "anchor_x": -6760,
+                "anchor_z": 5880,
+                "distance_from_origin": 8959,
+                "delta_h": 6,
+                "max_cut_depth": 5,
+                "max_skirt_depth": 1,
+                "cut_volume": 4640,
+                "fill_volume": 1488,
+                "fluid_collision": false
+              },
+              {
+                "region_x": -16,
+                "region_z": -7,
+                "anchor_x": -6024,
+                "anchor_z": -2504,
+                "distance_from_origin": 6524,
+                "delta_h": 8,
+                "max_cut_depth": 3,
+                "max_skirt_depth": 5,
+                "cut_volume": 3472,
+                "fill_volume": 8144,
+                "fluid_collision": false
+              },
+              {
+                "region_x": 5,
+                "region_z": -14,
+                "anchor_x": 2008,
+                "anchor_z": -5256,
+                "distance_from_origin": 5627,
+                "delta_h": 12,
+                "max_cut_depth": 7,
+                "max_skirt_depth": 5,
+                "cut_volume": 13856,
+                "fill_volume": 3120,
+                "fluid_collision": false
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "provenance": "REAL_MINECRAFT_26_3_PHASE3_CALIBRATION_REPORT",
+      "minecraft_version": "26.3",
+      "world_seed": 1002,
+      "generator": "net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator",
+      "performance_metrics": {
+        "exploration_area_sq_blocks": 419430400,
+        "peak_memory_mb": 453,
+        "exploration_area_sq_km": 419.4304,
+        "exploration_radius_blocks": 10240,
+        "duration_ms": 7076
+      },
+      "stage1_seed1002_real_replay_verification": {
+        "verified_candidate_sample_size": 20,
+        "status": "REPLAY_PASS",
+        "finding": "Verified bit-for-bit repeatability of NoiseBasedChunkGenerator elevations on real desert terrain candidates.",
+        "target_seed": 1002
+      },
+      "stage2_woodland_mansion_baseline": {
+        "structure_id": "minecraft:mansion",
+        "structure_set_id": "minecraft:mansions",
+        "registry_configuration": {
+          "spacing_chunks": 80,
+          "allowed_biomes": [
+            "minecraft:dark_forest",
+            "minecraft:pale_garden"
+          ],
+          "separation_chunks": 20,
+          "salt": 10387319,
+          "spread_type": "TRIANGULAR"
+        },
+        "placement_metrics": {
+          "structure_density_per_100_sq_km": 0.72,
+          "potential_candidate_anchors": 256,
+          "area_sq_km": 419.4304,
+          "total_regions_evaluated": 289,
+          "valid_placed_structures": 3,
+          "zero_structure_in_search_area": false,
+          "biome_qualified_anchors": 3,
+          "search_radius_blocks": 10240
+        },
+        "nearest_structure_cross_check": {
+          "distance_from_origin": 5695,
+          "block_z": -3536,
+          "block_y": 0,
+          "block_x": -4464
+        },
+        "observed_structures": [
+          {
+            "region_x": -4,
+            "region_z": -3,
+            "chunk_x": -279,
+            "chunk_z": -221,
+            "block_x": -4456,
+            "block_z": -3528,
+            "biome": "minecraft:dark_forest",
+            "distance_from_origin": 5684,
+            "detection_method": "grid_structure_start"
+          },
+          {
+            "region_x": -3,
+            "region_z": -6,
+            "chunk_x": -217,
+            "chunk_z": -475,
+            "block_x": -3464,
+            "block_z": -7592,
+            "biome": "minecraft:dark_forest",
+            "distance_from_origin": 8345,
+            "detection_method": "grid_structure_start"
+          },
+          {
+            "region_x": 4,
+            "region_z": -4,
+            "chunk_x": 365,
+            "chunk_z": -301,
+            "block_x": 5848,
+            "block_z": -4808,
+            "biome": "minecraft:dark_forest",
+            "distance_from_origin": 7571,
+            "detection_method": "grid_structure_start"
+          }
+        ]
+      },
+      "stage3_st01_placement_simulation": {
+        "exploration_area_sq_km": 419.4304,
+        "configurations": {
+          "CFG_80_20_TRI": {
+            "config": "CFG_80_20_TRI",
+            "parameters": {
+              "spacing_chunks": 80,
+              "salt": 10387319,
+              "separation_chunks": 20,
+              "spread_type": "TRIANGULAR"
+            },
+            "counts": {
+              "full_100_percent_desert": 4,
+              "eligible_strict": 0,
+              "eligible_generous": 1,
+              "corners_in_desert": 6,
+              "eligible_moderate": 1,
+              "eligible_exploratory": 0,
+              "total_potential_anchors": 256,
+              "center_in_desert": 10,
+              "total_regions": 289
+            },
+            "rates": {
+              "exploratory_given_full_desert_rate": 0.0,
+              "overall_exploratory_rate": 0.0,
+              "center_desert_rate": 0.0391,
+              "full_desert_given_center_rate": 0.4
+            },
+            "densities_per_100_sq_km": {
+              "exploratory_density": 0.0,
+              "strict_density": 0.0,
+              "generous_density": 0.24,
+              "moderate_density": 0.24
+            },
+            "sample_eligible_placements": []
+          },
+          "CFG_64_20_TRI": {
+            "config": "CFG_64_20_TRI",
+            "parameters": {
+              "spacing_chunks": 64,
+              "salt": 91401,
+              "separation_chunks": 20,
+              "spread_type": "TRIANGULAR"
+            },
+            "counts": {
+              "full_100_percent_desert": 1,
+              "eligible_strict": 0,
+              "eligible_generous": 0,
+              "corners_in_desert": 2,
+              "eligible_moderate": 0,
+              "eligible_exploratory": 0,
+              "total_potential_anchors": 400,
+              "center_in_desert": 9,
+              "total_regions": 441
+            },
+            "rates": {
+              "exploratory_given_full_desert_rate": 0.0,
+              "overall_exploratory_rate": 0.0,
+              "center_desert_rate": 0.0225,
+              "full_desert_given_center_rate": 0.1111
+            },
+            "densities_per_100_sq_km": {
+              "exploratory_density": 0.0,
+              "strict_density": 0.0,
+              "generous_density": 0.0,
+              "moderate_density": 0.0
+            },
+            "sample_eligible_placements": []
+          },
+          "CFG_48_16_TRI": {
+            "config": "CFG_48_16_TRI",
+            "parameters": {
+              "spacing_chunks": 48,
+              "salt": 91401,
+              "separation_chunks": 16,
+              "spread_type": "TRIANGULAR"
+            },
+            "counts": {
+              "full_100_percent_desert": 7,
+              "eligible_strict": 0,
+              "eligible_generous": 3,
+              "corners_in_desert": 11,
+              "eligible_moderate": 0,
+              "eligible_exploratory": 0,
+              "total_potential_anchors": 704,
+              "center_in_desert": 24,
+              "total_regions": 729
+            },
+            "rates": {
+              "exploratory_given_full_desert_rate": 0.0,
+              "overall_exploratory_rate": 0.0,
+              "center_desert_rate": 0.0341,
+              "full_desert_given_center_rate": 0.2917
+            },
+            "densities_per_100_sq_km": {
+              "exploratory_density": 0.0,
+              "strict_density": 0.0,
+              "generous_density": 0.72,
+              "moderate_density": 0.0
+            },
+            "sample_eligible_placements": []
+          },
+          "CFG_32_08_TRI": {
+            "config": "CFG_32_08_TRI",
+            "parameters": {
+              "spacing_chunks": 32,
+              "salt": 91401,
+              "separation_chunks": 8,
+              "spread_type": "TRIANGULAR"
+            },
+            "counts": {
+              "full_100_percent_desert": 18,
+              "eligible_strict": 0,
+              "eligible_generous": 7,
+              "corners_in_desert": 23,
+              "eligible_moderate": 6,
+              "eligible_exploratory": 4,
+              "total_potential_anchors": 1600,
+              "center_in_desert": 46,
+              "total_regions": 1681
+            },
+            "rates": {
+              "exploratory_given_full_desert_rate": 0.2222,
+              "overall_exploratory_rate": 0.0025,
+              "center_desert_rate": 0.0288,
+              "full_desert_given_center_rate": 0.3913
+            },
+            "densities_per_100_sq_km": {
+              "exploratory_density": 0.95,
+              "strict_density": 0.0,
+              "generous_density": 1.67,
+              "moderate_density": 1.43
+            },
+            "sample_eligible_placements": [
+              {
+                "region_x": 1,
+                "region_z": -5,
+                "anchor_x": 712,
+                "anchor_z": -2344,
+                "distance_from_origin": 2450,
+                "delta_h": 10,
+                "max_cut_depth": 4,
+                "max_skirt_depth": 6,
+                "cut_volume": 2960,
+                "fill_volume": 7616,
+                "fluid_collision": false
+              },
+              {
+                "region_x": 6,
+                "region_z": 2,
+                "anchor_x": 3336,
+                "anchor_z": 1128,
+                "distance_from_origin": 3522,
+                "delta_h": 10,
+                "max_cut_depth": 4,
+                "max_skirt_depth": 6,
+                "cut_volume": 4112,
+                "fill_volume": 6816,
+                "fluid_collision": false
+              },
+              {
+                "region_x": 16,
+                "region_z": -7,
+                "anchor_x": 8344,
+                "anchor_z": -3352,
+                "distance_from_origin": 8992,
+                "delta_h": 9,
+                "max_cut_depth": 6,
+                "max_skirt_depth": 3,
+                "cut_volume": 9504,
+                "fill_volume": 5712,
+                "fluid_collision": false
+              },
+              {
+                "region_x": 19,
+                "region_z": -6,
+                "anchor_x": 9816,
+                "anchor_z": -2744,
+                "distance_from_origin": 10192,
+                "delta_h": 11,
+                "max_cut_depth": 7,
+                "max_skirt_depth": 4,
+                "cut_volume": 6768,
+                "fill_volume": 6976,
+                "fluid_collision": false
+              }
+            ]
+          },
+          "CFG_32_08_LIN": {
+            "config": "CFG_32_08_LIN",
+            "parameters": {
+              "spacing_chunks": 32,
+              "salt": 91401,
+              "separation_chunks": 8,
+              "spread_type": "LINEAR"
+            },
+            "counts": {
+              "full_100_percent_desert": 13,
+              "eligible_strict": 0,
+              "eligible_generous": 2,
+              "corners_in_desert": 18,
+              "eligible_moderate": 2,
+              "eligible_exploratory": 2,
+              "total_potential_anchors": 1600,
+              "center_in_desert": 49,
+              "total_regions": 1681
+            },
+            "rates": {
+              "exploratory_given_full_desert_rate": 0.1538,
+              "overall_exploratory_rate": 0.0013,
+              "center_desert_rate": 0.0306,
+              "full_desert_given_center_rate": 0.2653
+            },
+            "densities_per_100_sq_km": {
+              "exploratory_density": 0.48,
+              "strict_density": 0.0,
+              "generous_density": 0.48,
+              "moderate_density": 0.48
+            },
+            "sample_eligible_placements": [
+              {
+                "region_x": -2,
+                "region_z": -6,
+                "anchor_x": -680,
+                "anchor_z": -2872,
+                "distance_from_origin": 2951,
+                "delta_h": 9,
+                "max_cut_depth": 5,
+                "max_skirt_depth": 4,
+                "cut_volume": 2048,
+                "fill_volume": 3536,
+                "fluid_collision": false
+              },
+              {
+                "region_x": 1,
+                "region_z": -5,
+                "anchor_x": 680,
+                "anchor_z": -2328,
+                "distance_from_origin": 2425,
+                "delta_h": 11,
+                "max_cut_depth": 5,
+                "max_skirt_depth": 6,
+                "cut_volume": 4880,
+                "fill_volume": 5712,
+                "fluid_collision": false
+              }
+            ]
+          },
+          "CFG_24_06_TRI": {
+            "config": "CFG_24_06_TRI",
+            "parameters": {
+              "spacing_chunks": 24,
+              "salt": 91401,
+              "separation_chunks": 6,
+              "spread_type": "TRIANGULAR"
+            },
+            "counts": {
+              "full_100_percent_desert": 17,
+              "eligible_strict": 0,
+              "eligible_generous": 4,
+              "corners_in_desert": 31,
+              "eligible_moderate": 2,
+              "eligible_exploratory": 0,
+              "total_potential_anchors": 2809,
+              "center_in_desert": 80,
+              "total_regions": 2809
+            },
+            "rates": {
+              "exploratory_given_full_desert_rate": 0.0,
+              "overall_exploratory_rate": 0.0,
+              "center_desert_rate": 0.0285,
+              "full_desert_given_center_rate": 0.2125
+            },
+            "densities_per_100_sq_km": {
+              "exploratory_density": 0.0,
+              "strict_density": 0.0,
+              "generous_density": 0.95,
+              "moderate_density": 0.48
+            },
+            "sample_eligible_placements": []
+          }
+        }
+      }
+    },
+    {
+      "provenance": "REAL_MINECRAFT_26_3_PHASE3_CALIBRATION_REPORT",
+      "minecraft_version": "26.3",
+      "world_seed": 1003,
+      "generator": "net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator",
+      "performance_metrics": {
+        "duration_ms": 3399,
+        "exploration_radius_blocks": 10240,
+        "exploration_area_sq_km": 419.4304,
+        "peak_memory_mb": 225,
+        "exploration_area_sq_blocks": 419430400
+      },
+      "stage1_seed1002_real_replay_verification": {
+        "verified_candidate_sample_size": 20,
+        "target_seed": 1002,
+        "finding": "Verified bit-for-bit repeatability of NoiseBasedChunkGenerator elevations on real desert terrain candidates.",
+        "status": "REPLAY_PASS"
+      },
+      "stage2_woodland_mansion_baseline": {
+        "structure_id": "minecraft:mansion",
+        "structure_set_id": "minecraft:mansions",
+        "registry_configuration": {
+          "spacing_chunks": 80,
+          "spread_type": "TRIANGULAR",
+          "salt": 10387319,
+          "separation_chunks": 20,
+          "allowed_biomes": [
+            "minecraft:dark_forest",
+            "minecraft:pale_garden"
+          ]
+        },
+        "placement_metrics": {
+          "search_radius_blocks": 10240,
+          "biome_qualified_anchors": 1,
+          "zero_structure_in_search_area": false,
+          "valid_placed_structures": 2,
+          "total_regions_evaluated": 289,
+          "area_sq_km": 419.4304,
+          "potential_candidate_anchors": 256,
+          "structure_density_per_100_sq_km": 0.48
+        },
+        "nearest_structure_cross_check": {
+          "block_x": 2864,
+          "block_y": 0,
+          "block_z": -784,
+          "distance_from_origin": 2969
+        },
+        "observed_structures": [
+          {
+            "region_x": 2,
+            "region_z": -1,
+            "chunk_x": 179,
+            "chunk_z": -49,
+            "block_x": 2872,
+            "block_z": -776,
+            "biome": "minecraft:dark_forest",
+            "distance_from_origin": 2975,
+            "detection_method": "grid_structure_start"
+          },
+          {
+            "region_x": 5,
+            "region_z": 0,
+            "chunk_x": 432,
+            "chunk_z": 17,
+            "block_x": 6912,
+            "block_z": 272,
+            "biome": "minecraft:lush_caves",
+            "distance_from_origin": 6917,
+            "detection_method": "findNearestMapStructure_sweep"
+          }
+        ]
+      },
+      "stage3_st01_placement_simulation": {
+        "exploration_area_sq_km": 419.4304,
+        "configurations": {
+          "CFG_80_20_TRI": {
+            "config": "CFG_80_20_TRI",
+            "parameters": {
+              "spread_type": "TRIANGULAR",
+              "separation_chunks": 20,
+              "salt": 10387319,
+              "spacing_chunks": 80
+            },
+            "counts": {
+              "full_100_percent_desert": 0,
+              "total_regions": 289,
+              "center_in_desert": 3,
+              "total_potential_anchors": 256,
+              "eligible_exploratory": 0,
+              "eligible_moderate": 0,
+              "corners_in_desert": 0,
+              "eligible_generous": 0,
+              "eligible_strict": 0
+            },
+            "rates": {
+              "full_desert_given_center_rate": 0.0,
+              "center_desert_rate": 0.0117,
+              "overall_exploratory_rate": 0.0,
+              "exploratory_given_full_desert_rate": 0.0
+            },
+            "densities_per_100_sq_km": {
+              "exploratory_density": 0.0,
+              "moderate_density": 0.0,
+              "generous_density": 0.0,
+              "strict_density": 0.0
+            },
+            "sample_eligible_placements": []
+          },
+          "CFG_64_20_TRI": {
+            "config": "CFG_64_20_TRI",
+            "parameters": {
+              "spread_type": "TRIANGULAR",
+              "separation_chunks": 20,
+              "salt": 91401,
+              "spacing_chunks": 64
+            },
+            "counts": {
+              "full_100_percent_desert": 1,
+              "total_regions": 441,
+              "center_in_desert": 6,
+              "total_potential_anchors": 400,
+              "eligible_exploratory": 0,
+              "eligible_moderate": 0,
+              "corners_in_desert": 2,
+              "eligible_generous": 0,
+              "eligible_strict": 0
+            },
+            "rates": {
+              "full_desert_given_center_rate": 0.1667,
+              "center_desert_rate": 0.015,
+              "overall_exploratory_rate": 0.0,
+              "exploratory_given_full_desert_rate": 0.0
+            },
+            "densities_per_100_sq_km": {
+              "exploratory_density": 0.0,
+              "moderate_density": 0.0,
+              "generous_density": 0.0,
+              "strict_density": 0.0
+            },
+            "sample_eligible_placements": []
+          },
+          "CFG_48_16_TRI": {
+            "config": "CFG_48_16_TRI",
+            "parameters": {
+              "spread_type": "TRIANGULAR",
+              "separation_chunks": 16,
+              "salt": 91401,
+              "spacing_chunks": 48
+            },
+            "counts": {
+              "full_100_percent_desert": 2,
+              "total_regions": 729,
+              "center_in_desert": 15,
+              "total_potential_anchors": 703,
+              "eligible_exploratory": 0,
+              "eligible_moderate": 0,
+              "corners_in_desert": 3,
+              "eligible_generous": 0,
+              "eligible_strict": 0
+            },
+            "rates": {
+              "full_desert_given_center_rate": 0.1333,
+              "center_desert_rate": 0.0213,
+              "overall_exploratory_rate": 0.0,
+              "exploratory_given_full_desert_rate": 0.0
+            },
+            "densities_per_100_sq_km": {
+              "exploratory_density": 0.0,
+              "moderate_density": 0.0,
+              "generous_density": 0.0,
+              "strict_density": 0.0
+            },
+            "sample_eligible_placements": []
+          },
+          "CFG_32_08_TRI": {
+            "config": "CFG_32_08_TRI",
+            "parameters": {
+              "spread_type": "TRIANGULAR",
+              "separation_chunks": 8,
+              "salt": 91401,
+              "spacing_chunks": 32
+            },
+            "counts": {
+              "full_100_percent_desert": 4,
+              "total_regions": 1681,
+              "center_in_desert": 33,
+              "total_potential_anchors": 1600,
+              "eligible_exploratory": 0,
+              "eligible_moderate": 0,
+              "corners_in_desert": 9,
+              "eligible_generous": 0,
+              "eligible_strict": 0
+            },
+            "rates": {
+              "full_desert_given_center_rate": 0.1212,
+              "center_desert_rate": 0.0206,
+              "overall_exploratory_rate": 0.0,
+              "exploratory_given_full_desert_rate": 0.0
+            },
+            "densities_per_100_sq_km": {
+              "exploratory_density": 0.0,
+              "moderate_density": 0.0,
+              "generous_density": 0.0,
+              "strict_density": 0.0
+            },
+            "sample_eligible_placements": []
+          },
+          "CFG_32_08_LIN": {
+            "config": "CFG_32_08_LIN",
+            "parameters": {
+              "spread_type": "LINEAR",
+              "separation_chunks": 8,
+              "salt": 91401,
+              "spacing_chunks": 32
+            },
+            "counts": {
+              "full_100_percent_desert": 6,
+              "total_regions": 1681,
+              "center_in_desert": 28,
+              "total_potential_anchors": 1600,
+              "eligible_exploratory": 0,
+              "eligible_moderate": 1,
+              "corners_in_desert": 10,
+              "eligible_generous": 1,
+              "eligible_strict": 0
+            },
+            "rates": {
+              "full_desert_given_center_rate": 0.2143,
+              "center_desert_rate": 0.0175,
+              "overall_exploratory_rate": 0.0,
+              "exploratory_given_full_desert_rate": 0.0
+            },
+            "densities_per_100_sq_km": {
+              "exploratory_density": 0.0,
+              "moderate_density": 0.24,
+              "generous_density": 0.24,
+              "strict_density": 0.0
+            },
+            "sample_eligible_placements": []
+          },
+          "CFG_24_06_TRI": {
+            "config": "CFG_24_06_TRI",
+            "parameters": {
+              "spread_type": "TRIANGULAR",
+              "separation_chunks": 6,
+              "salt": 91401,
+              "spacing_chunks": 24
+            },
+            "counts": {
+              "full_100_percent_desert": 15,
+              "total_regions": 2809,
+              "center_in_desert": 48,
+              "total_potential_anchors": 2808,
+              "eligible_exploratory": 3,
+              "eligible_moderate": 4,
+              "corners_in_desert": 20,
+              "eligible_generous": 5,
+              "eligible_strict": 0
+            },
+            "rates": {
+              "full_desert_given_center_rate": 0.3125,
+              "center_desert_rate": 0.0171,
+              "overall_exploratory_rate": 0.0011,
+              "exploratory_given_full_desert_rate": 0.2
+            },
+            "densities_per_100_sq_km": {
+              "exploratory_density": 0.72,
+              "moderate_density": 0.95,
+              "generous_density": 1.19,
+              "strict_density": 0.0
+            },
+            "sample_eligible_placements": [
+              {
+                "region_x": -26,
+                "region_z": -25,
+                "anchor_x": -9976,
+                "anchor_z": -9496,
+                "distance_from_origin": 13773,
+                "delta_h": 10,
+                "max_cut_depth": 7,
+                "max_skirt_depth": 3,
+                "cut_volume": 6912,
+                "fill_volume": 3136,
+                "fluid_collision": false
+              },
+              {
+                "region_x": 0,
+                "region_z": -4,
+                "anchor_x": 216,
+                "anchor_z": -1432,
+                "distance_from_origin": 1448,
+                "delta_h": 9,
+                "max_cut_depth": 6,
+                "max_skirt_depth": 3,
+                "cut_volume": 9456,
+                "fill_volume": 6224,
+                "fluid_collision": false
+              },
+              {
+                "region_x": 26,
+                "region_z": 3,
+                "anchor_x": 10200,
+                "anchor_z": 1320,
+                "distance_from_origin": 10285,
+                "delta_h": 9,
+                "max_cut_depth": 7,
+                "max_skirt_depth": 2,
+                "cut_volume": 11456,
+                "fill_volume": 5168,
+                "fluid_collision": false
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "provenance": "REAL_MINECRAFT_26_3_PHASE3_CALIBRATION_REPORT",
+      "minecraft_version": "26.3",
+      "world_seed": 1004,
+      "generator": "net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator",
+      "performance_metrics": {
+        "exploration_area_sq_blocks": 419430400,
+        "peak_memory_mb": 350,
+        "exploration_area_sq_km": 419.4304,
+        "exploration_radius_blocks": 10240,
+        "duration_ms": 4523
+      },
+      "stage1_seed1002_real_replay_verification": {
+        "status": "REPLAY_PASS",
+        "finding": "Verified bit-for-bit repeatability of NoiseBasedChunkGenerator elevations on real desert terrain candidates.",
+        "target_seed": 1002,
+        "verified_candidate_sample_size": 20
+      },
+      "stage2_woodland_mansion_baseline": {
+        "structure_id": "minecraft:mansion",
+        "structure_set_id": "minecraft:mansions",
+        "registry_configuration": {
+          "allowed_biomes": [
+            "minecraft:dark_forest",
+            "minecraft:pale_garden"
+          ],
+          "separation_chunks": 20,
+          "salt": 10387319,
+          "spread_type": "TRIANGULAR",
+          "spacing_chunks": 80
+        },
+        "placement_metrics": {
+          "structure_density_per_100_sq_km": 0.24,
+          "potential_candidate_anchors": 256,
+          "area_sq_km": 419.4304,
+          "total_regions_evaluated": 289,
+          "valid_placed_structures": 1,
+          "zero_structure_in_search_area": false,
+          "biome_qualified_anchors": 1,
+          "search_radius_blocks": 10240
+        },
+        "nearest_structure_cross_check": {
+          "distance_from_origin": 7173,
+          "block_z": 544,
+          "block_y": 0,
+          "block_x": -7152
+        },
+        "observed_structures": [
+          {
+            "region_x": -6,
+            "region_z": 0,
+            "chunk_x": -447,
+            "chunk_z": 34,
+            "block_x": -7144,
+            "block_z": 552,
+            "biome": "minecraft:dark_forest",
+            "distance_from_origin": 7165,
+            "detection_method": "grid_structure_start"
+          }
+        ]
+      },
+      "stage3_st01_placement_simulation": {
+        "exploration_area_sq_km": 419.4304,
+        "configurations": {
+          "CFG_80_20_TRI": {
+            "config": "CFG_80_20_TRI",
+            "parameters": {
+              "spacing_chunks": 80,
+              "salt": 10387319,
+              "separation_chunks": 20,
+              "spread_type": "TRIANGULAR"
+            },
+            "counts": {
+              "eligible_strict": 0,
+              "eligible_generous": 1,
+              "corners_in_desert": 1,
+              "eligible_moderate": 1,
+              "eligible_exploratory": 1,
+              "total_potential_anchors": 256,
+              "center_in_desert": 7,
+              "total_regions": 289,
+              "full_100_percent_desert": 1
+            },
+            "rates": {
+              "exploratory_given_full_desert_rate": 1.0,
+              "overall_exploratory_rate": 0.0039,
+              "center_desert_rate": 0.0273,
+              "full_desert_given_center_rate": 0.1429
+            },
+            "densities_per_100_sq_km": {
+              "strict_density": 0.0,
+              "generous_density": 0.24,
+              "moderate_density": 0.24,
+              "exploratory_density": 0.24
+            },
+            "sample_eligible_placements": [
+              {
+                "region_x": 4,
+                "region_z": -4,
+                "anchor_x": 5528,
+                "anchor_z": -4456,
+                "distance_from_origin": 7100,
+                "delta_h": 11,
+                "max_cut_depth": 5,
+                "max_skirt_depth": 6,
+                "cut_volume": 6000,
+                "fill_volume": 5440,
+                "fluid_collision": false
+              }
+            ]
+          },
+          "CFG_64_20_TRI": {
+            "config": "CFG_64_20_TRI",
+            "parameters": {
+              "spacing_chunks": 64,
+              "salt": 91401,
+              "separation_chunks": 20,
+              "spread_type": "TRIANGULAR"
+            },
+            "counts": {
+              "eligible_strict": 0,
+              "eligible_generous": 0,
+              "corners_in_desert": 2,
+              "eligible_moderate": 0,
+              "eligible_exploratory": 0,
+              "total_potential_anchors": 400,
+              "center_in_desert": 8,
+              "total_regions": 441,
+              "full_100_percent_desert": 1
+            },
+            "rates": {
+              "exploratory_given_full_desert_rate": 0.0,
+              "overall_exploratory_rate": 0.0,
+              "center_desert_rate": 0.02,
+              "full_desert_given_center_rate": 0.125
+            },
+            "densities_per_100_sq_km": {
+              "strict_density": 0.0,
+              "generous_density": 0.0,
+              "moderate_density": 0.0,
+              "exploratory_density": 0.0
+            },
+            "sample_eligible_placements": []
+          },
+          "CFG_48_16_TRI": {
+            "config": "CFG_48_16_TRI",
+            "parameters": {
+              "spacing_chunks": 48,
+              "salt": 91401,
+              "separation_chunks": 16,
+              "spread_type": "TRIANGULAR"
+            },
+            "counts": {
+              "eligible_strict": 0,
+              "eligible_generous": 1,
+              "corners_in_desert": 3,
+              "eligible_moderate": 1,
+              "eligible_exploratory": 1,
+              "total_potential_anchors": 700,
+              "center_in_desert": 10,
+              "total_regions": 729,
+              "full_100_percent_desert": 1
+            },
+            "rates": {
+              "exploratory_given_full_desert_rate": 1.0,
+              "overall_exploratory_rate": 0.0014,
+              "center_desert_rate": 0.0143,
+              "full_desert_given_center_rate": 0.1
+            },
+            "densities_per_100_sq_km": {
+              "strict_density": 0.0,
+              "generous_density": 0.24,
+              "moderate_density": 0.24,
+              "exploratory_density": 0.24
+            },
+            "sample_eligible_placements": [
+              {
+                "region_x": -13,
+                "region_z": -10,
+                "anchor_x": -9704,
+                "anchor_z": -7464,
+                "distance_from_origin": 12243,
+                "delta_h": 9,
+                "max_cut_depth": 3,
+                "max_skirt_depth": 6,
+                "cut_volume": 3872,
+                "fill_volume": 5216,
+                "fluid_collision": false
+              }
+            ]
+          },
+          "CFG_32_08_TRI": {
+            "config": "CFG_32_08_TRI",
+            "parameters": {
+              "spacing_chunks": 32,
+              "salt": 91401,
+              "separation_chunks": 8,
+              "spread_type": "TRIANGULAR"
+            },
+            "counts": {
+              "eligible_strict": 0,
+              "eligible_generous": 3,
+              "corners_in_desert": 9,
+              "eligible_moderate": 3,
+              "eligible_exploratory": 2,
+              "total_potential_anchors": 1600,
+              "center_in_desert": 30,
+              "total_regions": 1681,
+              "full_100_percent_desert": 8
+            },
+            "rates": {
+              "exploratory_given_full_desert_rate": 0.25,
+              "overall_exploratory_rate": 0.0013,
+              "center_desert_rate": 0.0188,
+              "full_desert_given_center_rate": 0.2667
+            },
+            "densities_per_100_sq_km": {
+              "strict_density": 0.0,
+              "generous_density": 0.72,
+              "moderate_density": 0.72,
+              "exploratory_density": 0.48
+            },
+            "sample_eligible_placements": [
+              {
+                "region_x": -18,
+                "region_z": -16,
+                "anchor_x": -9128,
+                "anchor_z": -8008,
+                "distance_from_origin": 12143,
+                "delta_h": 10,
+                "max_cut_depth": 6,
+                "max_skirt_depth": 4,
+                "cut_volume": 5968,
+                "fill_volume": 7808,
+                "fluid_collision": false
+              },
+              {
+                "region_x": -4,
+                "region_z": 5,
+                "anchor_x": -1768,
+                "anchor_z": 2696,
+                "distance_from_origin": 3224,
+                "delta_h": 9,
+                "max_cut_depth": 4,
+                "max_skirt_depth": 5,
+                "cut_volume": 5616,
+                "fill_volume": 6160,
+                "fluid_collision": false
+              }
+            ]
+          },
+          "CFG_32_08_LIN": {
+            "config": "CFG_32_08_LIN",
+            "parameters": {
+              "spacing_chunks": 32,
+              "salt": 91401,
+              "separation_chunks": 8,
+              "spread_type": "LINEAR"
+            },
+            "counts": {
+              "eligible_strict": 3,
+              "eligible_generous": 7,
+              "corners_in_desert": 14,
+              "eligible_moderate": 5,
+              "eligible_exploratory": 4,
+              "total_potential_anchors": 1600,
+              "center_in_desert": 31,
+              "total_regions": 1681,
+              "full_100_percent_desert": 11
+            },
+            "rates": {
+              "exploratory_given_full_desert_rate": 0.3636,
+              "overall_exploratory_rate": 0.0025,
+              "center_desert_rate": 0.0194,
+              "full_desert_given_center_rate": 0.3548
+            },
+            "densities_per_100_sq_km": {
+              "strict_density": 0.72,
+              "generous_density": 1.67,
+              "moderate_density": 1.19,
+              "exploratory_density": 0.95
+            },
+            "sample_eligible_placements": [
+              {
+                "region_x": -15,
+                "region_z": -11,
+                "anchor_x": -7512,
+                "anchor_z": -5592,
+                "distance_from_origin": 9365,
+                "delta_h": 10,
+                "max_cut_depth": 6,
+                "max_skirt_depth": 4,
+                "cut_volume": 10656,
+                "fill_volume": 3536,
+                "fluid_collision": false
+              },
+              {
+                "region_x": -8,
+                "region_z": 8,
+                "anchor_x": -3992,
+                "anchor_z": 4248,
+                "distance_from_origin": 5829,
+                "delta_h": 8,
+                "max_cut_depth": 4,
+                "max_skirt_depth": 4,
+                "cut_volume": 4416,
+                "fill_volume": 6928,
+                "fluid_collision": false
+              },
+              {
+                "region_x": -3,
+                "region_z": 7,
+                "anchor_x": -1416,
+                "anchor_z": 3896,
+                "distance_from_origin": 4145,
+                "delta_h": 8,
+                "max_cut_depth": 4,
+                "max_skirt_depth": 4,
+                "cut_volume": 4944,
+                "fill_volume": 5136,
+                "fluid_collision": false
+              },
+              {
+                "region_x": 10,
+                "region_z": -10,
+                "anchor_x": 5240,
+                "anchor_z": -5000,
+                "distance_from_origin": 7243,
+                "delta_h": 6,
+                "max_cut_depth": 4,
+                "max_skirt_depth": 2,
+                "cut_volume": 7648,
+                "fill_volume": 2896,
+                "fluid_collision": false
+              }
+            ]
+          },
+          "CFG_24_06_TRI": {
+            "config": "CFG_24_06_TRI",
+            "parameters": {
+              "spacing_chunks": 24,
+              "salt": 91401,
+              "separation_chunks": 6,
+              "spread_type": "TRIANGULAR"
+            },
+            "counts": {
+              "eligible_strict": 1,
+              "eligible_generous": 3,
+              "corners_in_desert": 21,
+              "eligible_moderate": 3,
+              "eligible_exploratory": 2,
+              "total_potential_anchors": 2809,
+              "center_in_desert": 50,
+              "total_regions": 2809,
+              "full_100_percent_desert": 17
+            },
+            "rates": {
+              "exploratory_given_full_desert_rate": 0.1176,
+              "overall_exploratory_rate": 0.0007,
+              "center_desert_rate": 0.0178,
+              "full_desert_given_center_rate": 0.34
+            },
+            "densities_per_100_sq_km": {
+              "strict_density": 0.24,
+              "generous_density": 0.72,
+              "moderate_density": 0.72,
+              "exploratory_density": 0.48
+            },
+            "sample_eligible_placements": [
+              {
+                "region_x": -22,
+                "region_z": -16,
+                "anchor_x": -8328,
+                "anchor_z": -6040,
+                "distance_from_origin": 10288,
+                "delta_h": 9,
+                "max_cut_depth": 8,
+                "max_skirt_depth": 1,
+                "cut_volume": 9744,
+                "fill_volume": 624,
+                "fluid_collision": false
+              },
+              {
+                "region_x": 17,
+                "region_z": -10,
+                "anchor_x": 6648,
+                "anchor_z": -3752,
+                "distance_from_origin": 7634,
+                "delta_h": 6,
+                "max_cut_depth": 3,
+                "max_skirt_depth": 3,
+                "cut_volume": 3712,
+                "fill_volume": 4176,
+                "fluid_collision": false
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "provenance": "REAL_MINECRAFT_26_3_PHASE3_CALIBRATION_REPORT",
+      "minecraft_version": "26.3",
+      "world_seed": 1005,
+      "generator": "net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator",
+      "performance_metrics": {
+        "exploration_area_sq_blocks": 419430400,
+        "duration_ms": 5761,
+        "exploration_radius_blocks": 10240,
+        "exploration_area_sq_km": 419.4304,
+        "peak_memory_mb": 437
+      },
+      "stage1_seed1002_real_replay_verification": {
+        "verified_candidate_sample_size": 20,
+        "target_seed": 1002,
+        "finding": "Verified bit-for-bit repeatability of NoiseBasedChunkGenerator elevations on real desert terrain candidates.",
+        "status": "REPLAY_PASS"
+      },
+      "stage2_woodland_mansion_baseline": {
+        "structure_id": "minecraft:mansion",
+        "structure_set_id": "minecraft:mansions",
+        "registry_configuration": {
+          "spacing_chunks": 80,
+          "spread_type": "TRIANGULAR",
+          "salt": 10387319,
+          "separation_chunks": 20,
+          "allowed_biomes": [
+            "minecraft:dark_forest",
+            "minecraft:pale_garden"
+          ]
+        },
+        "placement_metrics": {
+          "search_radius_blocks": 10240,
+          "biome_qualified_anchors": 4,
+          "zero_structure_in_search_area": false,
+          "valid_placed_structures": 6,
+          "total_regions_evaluated": 289,
+          "area_sq_km": 419.4304,
+          "potential_candidate_anchors": 256,
+          "structure_density_per_100_sq_km": 1.43
+        },
+        "nearest_structure_cross_check": {
+          "block_x": -2128,
+          "block_y": 0,
+          "block_z": -496,
+          "distance_from_origin": 2185
+        },
+        "observed_structures": [
+          {
+            "region_x": -4,
+            "region_z": -1,
+            "chunk_x": -287,
+            "chunk_z": -60,
+            "block_x": -4584,
+            "block_z": -952,
+            "biome": "minecraft:dark_forest",
+            "distance_from_origin": 4682,
+            "detection_method": "grid_structure_start"
+          },
+          {
+            "region_x": 2,
+            "region_z": 2,
+            "chunk_x": 204,
+            "chunk_z": 184,
+            "block_x": 3272,
+            "block_z": 2952,
+            "biome": "minecraft:dark_forest",
+            "distance_from_origin": 4407,
+            "detection_method": "grid_structure_start"
+          },
+          {
+            "region_x": 6,
+            "region_z": -7,
+            "chunk_x": 487,
+            "chunk_z": -521,
+            "block_x": 7800,
+            "block_z": -8328,
+            "biome": "minecraft:dark_forest",
+            "distance_from_origin": 11410,
+            "detection_method": "grid_structure_start"
+          },
+          {
+            "region_x": 6,
+            "region_z": 2,
+            "chunk_x": 524,
+            "chunk_z": 181,
+            "block_x": 8392,
+            "block_z": 2904,
+            "biome": "minecraft:dark_forest",
+            "distance_from_origin": 8880,
+            "detection_method": "grid_structure_start"
+          },
+          {
+            "region_x": -2,
+            "region_z": -1,
+            "chunk_x": -133,
+            "chunk_z": -31,
+            "block_x": -2128,
+            "block_z": -496,
+            "biome": "minecraft:dripstone_caves",
+            "distance_from_origin": 2185,
+            "detection_method": "findNearestMapStructure_sweep"
+          },
+          {
+            "region_x": 3,
+            "region_z": 5,
+            "chunk_x": 250,
+            "chunk_z": 400,
+            "block_x": 4000,
+            "block_z": 6400,
+            "biome": "minecraft:lush_caves",
+            "distance_from_origin": 7547,
+            "detection_method": "findNearestMapStructure_sweep"
+          }
+        ]
+      },
+      "stage3_st01_placement_simulation": {
+        "exploration_area_sq_km": 419.4304,
+        "configurations": {
+          "CFG_80_20_TRI": {
+            "config": "CFG_80_20_TRI",
+            "parameters": {
+              "spread_type": "TRIANGULAR",
+              "separation_chunks": 20,
+              "salt": 10387319,
+              "spacing_chunks": 80
+            },
+            "counts": {
+              "full_100_percent_desert": 2,
+              "total_regions": 289,
+              "center_in_desert": 6,
+              "total_potential_anchors": 256,
+              "eligible_exploratory": 0,
+              "eligible_moderate": 1,
+              "corners_in_desert": 2,
+              "eligible_generous": 2,
+              "eligible_strict": 0
+            },
+            "rates": {
+              "full_desert_given_center_rate": 0.3333,
+              "center_desert_rate": 0.0234,
+              "overall_exploratory_rate": 0.0,
+              "exploratory_given_full_desert_rate": 0.0
+            },
+            "densities_per_100_sq_km": {
+              "exploratory_density": 0.0,
+              "moderate_density": 0.24,
+              "generous_density": 0.48,
+              "strict_density": 0.0
+            },
+            "sample_eligible_placements": []
+          },
+          "CFG_64_20_TRI": {
+            "config": "CFG_64_20_TRI",
+            "parameters": {
+              "spread_type": "TRIANGULAR",
+              "separation_chunks": 20,
+              "salt": 91401,
+              "spacing_chunks": 64
+            },
+            "counts": {
+              "full_100_percent_desert": 3,
+              "total_regions": 441,
+              "center_in_desert": 13,
+              "total_potential_anchors": 400,
+              "eligible_exploratory": 1,
+              "eligible_moderate": 1,
+              "corners_in_desert": 3,
+              "eligible_generous": 1,
+              "eligible_strict": 0
+            },
+            "rates": {
+              "full_desert_given_center_rate": 0.2308,
+              "center_desert_rate": 0.0325,
+              "overall_exploratory_rate": 0.0025,
+              "exploratory_given_full_desert_rate": 0.3333
+            },
+            "densities_per_100_sq_km": {
+              "exploratory_density": 0.24,
+              "moderate_density": 0.24,
+              "generous_density": 0.24,
+              "strict_density": 0.0
+            },
+            "sample_eligible_placements": [
+              {
+                "region_x": -1,
+                "region_z": 7,
+                "anchor_x": -488,
+                "anchor_z": 7384,
+                "distance_from_origin": 7400,
+                "delta_h": 9,
+                "max_cut_depth": 5,
+                "max_skirt_depth": 4,
+                "cut_volume": 9040,
+                "fill_volume": 5120,
+                "fluid_collision": false
+              }
+            ]
+          },
+          "CFG_48_16_TRI": {
+            "config": "CFG_48_16_TRI",
+            "parameters": {
+              "spread_type": "TRIANGULAR",
+              "separation_chunks": 16,
+              "salt": 91401,
+              "spacing_chunks": 48
+            },
+            "counts": {
+              "full_100_percent_desert": 5,
+              "total_regions": 729,
+              "center_in_desert": 16,
+              "total_potential_anchors": 703,
+              "eligible_exploratory": 1,
+              "eligible_moderate": 2,
+              "corners_in_desert": 7,
+              "eligible_generous": 2,
+              "eligible_strict": 0
+            },
+            "rates": {
+              "full_desert_given_center_rate": 0.3125,
+              "center_desert_rate": 0.0228,
+              "overall_exploratory_rate": 0.0014,
+              "exploratory_given_full_desert_rate": 0.2
+            },
+            "densities_per_100_sq_km": {
+              "exploratory_density": 0.24,
+              "moderate_density": 0.48,
+              "generous_density": 0.48,
+              "strict_density": 0.0
+            },
+            "sample_eligible_placements": [
+              {
+                "region_x": -1,
+                "region_z": 9,
+                "anchor_x": -456,
+                "anchor_z": 7160,
+                "distance_from_origin": 7175,
+                "delta_h": 9,
+                "max_cut_depth": 4,
+                "max_skirt_depth": 5,
+                "cut_volume": 5616,
+                "fill_volume": 6272,
+                "fluid_collision": false
+              }
+            ]
+          },
+          "CFG_32_08_TRI": {
+            "config": "CFG_32_08_TRI",
+            "parameters": {
+              "spread_type": "TRIANGULAR",
+              "separation_chunks": 8,
+              "salt": 91401,
+              "spacing_chunks": 32
+            },
+            "counts": {
+              "full_100_percent_desert": 10,
+              "total_regions": 1681,
+              "center_in_desert": 51,
+              "total_potential_anchors": 1600,
+              "eligible_exploratory": 0,
+              "eligible_moderate": 2,
+              "corners_in_desert": 15,
+              "eligible_generous": 2,
+              "eligible_strict": 0
+            },
+            "rates": {
+              "full_desert_given_center_rate": 0.1961,
+              "center_desert_rate": 0.0319,
+              "overall_exploratory_rate": 0.0,
+              "exploratory_given_full_desert_rate": 0.0
+            },
+            "densities_per_100_sq_km": {
+              "exploratory_density": 0.0,
+              "moderate_density": 0.48,
+              "generous_density": 0.48,
+              "strict_density": 0.0
+            },
+            "sample_eligible_placements": []
+          },
+          "CFG_32_08_LIN": {
+            "config": "CFG_32_08_LIN",
+            "parameters": {
+              "spread_type": "LINEAR",
+              "separation_chunks": 8,
+              "salt": 91401,
+              "spacing_chunks": 32
+            },
+            "counts": {
+              "full_100_percent_desert": 15,
+              "total_regions": 1681,
+              "center_in_desert": 46,
+              "total_potential_anchors": 1600,
+              "eligible_exploratory": 2,
+              "eligible_moderate": 2,
+              "corners_in_desert": 18,
+              "eligible_generous": 2,
+              "eligible_strict": 0
+            },
+            "rates": {
+              "full_desert_given_center_rate": 0.3261,
+              "center_desert_rate": 0.0288,
+              "overall_exploratory_rate": 0.0013,
+              "exploratory_given_full_desert_rate": 0.1333
+            },
+            "densities_per_100_sq_km": {
+              "exploratory_density": 0.48,
+              "moderate_density": 0.48,
+              "generous_density": 0.48,
+              "strict_density": 0.0
+            },
+            "sample_eligible_placements": [
+              {
+                "region_x": 0,
+                "region_z": 9,
+                "anchor_x": 232,
+                "anchor_z": 4632,
+                "distance_from_origin": 4638,
+                "delta_h": 8,
+                "max_cut_depth": 7,
+                "max_skirt_depth": 1,
+                "cut_volume": 5248,
+                "fill_volume": 1888,
+                "fluid_collision": false
+              },
+              {
+                "region_x": 1,
+                "region_z": 16,
+                "anchor_x": 568,
+                "anchor_z": 8568,
+                "distance_from_origin": 8587,
+                "delta_h": 9,
+                "max_cut_depth": 5,
+                "max_skirt_depth": 4,
+                "cut_volume": 6624,
+                "fill_volume": 2368,
+                "fluid_collision": false
+              }
+            ]
+          },
+          "CFG_24_06_TRI": {
+            "config": "CFG_24_06_TRI",
+            "parameters": {
+              "spread_type": "TRIANGULAR",
+              "separation_chunks": 6,
+              "salt": 91401,
+              "spacing_chunks": 24
+            },
+            "counts": {
+              "full_100_percent_desert": 17,
+              "total_regions": 2809,
+              "center_in_desert": 66,
+              "total_potential_anchors": 2807,
+              "eligible_exploratory": 1,
+              "eligible_moderate": 2,
+              "corners_in_desert": 28,
+              "eligible_generous": 3,
+              "eligible_strict": 0
+            },
+            "rates": {
+              "full_desert_given_center_rate": 0.2576,
+              "center_desert_rate": 0.0235,
+              "overall_exploratory_rate": 0.0004,
+              "exploratory_given_full_desert_rate": 0.0588
+            },
+            "densities_per_100_sq_km": {
+              "exploratory_density": 0.24,
+              "moderate_density": 0.48,
+              "generous_density": 0.72,
+              "strict_density": 0.0
+            },
+            "sample_eligible_placements": [
+              {
+                "region_x": 7,
+                "region_z": -12,
+                "anchor_x": 2872,
+                "anchor_z": -4344,
+                "distance_from_origin": 5208,
+                "delta_h": 6,
+                "max_cut_depth": 5,
+                "max_skirt_depth": 1,
+                "cut_volume": 3312,
+                "fill_volume": 32,
+                "fluid_collision": false
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

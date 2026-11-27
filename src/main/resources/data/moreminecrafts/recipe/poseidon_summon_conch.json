@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "moreminecrafts:tidal_relic_core",
+    "moreminecrafts:tidal_relic_core",
+    "minecraft:prismarine_crystals",
+    "minecraft:nautilus_shell"
+  ],
+  "result": {
+    "id": "moreminecrafts:poseidon_summon_conch",
+    "count": 1
+  }
+}

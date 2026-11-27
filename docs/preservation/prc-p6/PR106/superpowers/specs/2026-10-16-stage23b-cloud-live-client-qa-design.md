@@ -1,0 +1,94 @@
+# Stage 23-B Cloud Live Client QA Design
+
+**상태:** 설계 검토용 — 구현 승인 전
+**기준:** Draft PR #105, 5682be107145b9e4f3f7c4acc6e6dd8835ebe01b
+**후속 브랜치:** codex/stage23b-cloud-client-qa-design
+**범위:** 재현 가능한 실제 클라이언트 QA와 증거 수집. 제품 동작 수정은 포함하지 않는다.
+
+## 1. 승인 범위와 불변 조건
+
+이 문서는 Stage 23-B에서 요청한 일곱 사례의 클라우드 클라이언트 QA 설계다. 다음 조건을 유지한다.
+
+- PR #105, 그 브랜치, 기존 CI 워크플로 파일은 수정하지 않는다. 이 문서는 검증된 #105 HEAD에서 분기한 별도 Draft PR에만 올린다.
+- 테스트 대상 사례는 4카드 선택기, 대형 배낭, 불꽃검, 대검 스윕 VFX, 인챈트 GUI, 휴대용 화로, 광부 랜턴 모두다.
+- 결함을 재현해도 QA 작업에서 제품 동작을 바꾸지 않는다. 재현한 결함은 입력 경로, 재현 조건, 관찰 결과, 캡처 및 로그와 함께 별도 결함으로 기록한다.
+- 기존 113개 GameTest 및 필수 Java 25/Fabric/서버·클라이언트 스모크/재시작/매핑 검증을 보존한다. 새 검증은 기존 검증을 대체하거나 약화하지 않는다.
+- 새 QA 전용 클래스·리소스는 별도 test-only 모드/산출물에 두고 배포용 JAR에 포함하지 않는다. 기존 VisualValidationHarness는 PR #105의 기존 코드로 그대로 두며 수정·이동하지 않는다. 배포 JAR의 QA 클래스·메타데이터 누락과 개발 런타임의 QA 모드 로딩을 최소 검증으로 먼저 입증한다.
+- 기존 시각 검증 워크플로 YAML은 그대로 둔다. 새 작업은 별도 QA 워크플로와 전용 스크립트/소스셋에서 오케스트레이션하고, 기존 Xvfb·Openbox·llvmpipe 및 고정 테스트 서버 구성을 재사용한다.
+- 사용자 요청 외의 미해결 게임 규칙은 이 QA에서 결정하지 않는다.
+
+## 2. 현재 근거와 입력 경로
+
+PR #105의 현재 원격 상태는 open/Draft이며 HEAD는 위 SHA다. 부모 통합 브랜치는 integration/stage23-final-reconciliation-20261016이다. 기준 PR은 [#105](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/pull/105)다.
+
+기존 client-visual-validation.yml은 결정적 테스트 서버와 실제 runClient를 시작하고 Minecraft Screenshot.grab으로 화면을 캡처한다. 세 GUI 배율을 위해 현재 클라이언트를 순차 실행한다. 이 확인은 픽셀 파일 생성과 기본 구조를 보장하지만 화면의 의미상 정확성은 보장하지 않는다. 기존 UI 여정은 명시적으로 synthetic Screen 콜백이고, 테스트 서버/RCON은 직접 fixture 상태를 만든다.
+
+기존 X11 진단은 SDL 3.4.14 클라이언트의 큰 가시 창을 찾지 못했다. 이전 CI의 트리에는 Openbox 외 Minecraft PID에 속한 실제 크기 창이 없었다. 따라서 현재 근거로는 XTest/xdotool 포인터 입력을 시도하거나 통과로 표시할 수 없다. 앞으로도 먼저 실제 실행 중인 Minecraft PID와 연결된 가시 창을 확인하고, 창 크기/포커스/좌표 변환을 검증한 경우에만 OS 수준 주입을 허용한다. 창 탐색이 실패하면 그 입력 경로를 BLOCKED로 남긴다. 프로그램이 SDL 이벤트 큐에 넣은 입력은 별도 소프트웨어 synthetic 경로로 기록한다.
+
+각 결과에는 입력 경로를 다음 값 중 하나로 명시한다.
+
+| 경로 | 의미 | 물리 입력 PASS 가능 여부 |
+|---|---|---|
+| os_input_xtest_xdotool | OS 입력 스택에 주입한 XTest/xdotool 포인터·키보드 이벤트. 대상 Minecraft 창·포커스와 후속 GUI/게임 상태 전환을 확인 | 검증된 OS 전달 경로로만 별도 보고; 실제 마우스/키보드 사용으로 표기하지 않음 |
+| synthetic_screen_callback | Screen/위젯의 콜백을 직접 호출 | 불가 |
+| direct_state_fixture | RCON, 서버 테스트 fixture, 메뉴·아이템·컴포넌트 상태를 코드로 설정 | 불가 |
+| synthetic_sdl_event | SDL/LWJGL 이벤트 큐에 소프트웨어로 넣은 이벤트 | 불가; 별도 보조 증거 |
+| human_manual_play | 사람이 클라이언트 앞에서 마우스/키보드로 실제 조작하고, 입력 절차와 관찰 결과를 기록 | 가능; 조작자·환경·관찰 증거를 기록해야 함 |
+
+네 입력/준비 경로는 서로 대체할 수 없다. OS 수준 XTest/xdotool은 실제 장치 조작과 구분하며, human_manual_play만 실제 사람의 직접 플레이로 보고한다. 물리 장치/OS 입력 경로가 막혀도 합성 콜백 및 직접 fixture로 가능한 렌더링·상태 검증은 계속 실행한다.
+
+## 3. 하네스와 CI 구조
+
+### 클라이언트 QA 구성
+
+최소 검증을 먼저 수행한다. 별도 QA source set/test mod에 아주 작은 client entrypoint를 만들고 Loom의 개발용 runClient에서 해당 entrypoint가 실제 초기화 로그를 남기는지 확인한다. 그 다음 remapJar를 만들고 JAR 목록에서 QA 클래스, QA mod metadata, 테스트 전용 리소스가 없는지 assertion한다. 두 조건을 증명한 뒤에만 전체 시나리오 코드를 추가한다. 최소 검증이 실패하면 API/Gradle wiring을 재평가하고 제품 코드나 PR #105의 VisualValidationHarness를 수정하지 않는다.
+
+QA 시나리오 코드는 별도 client QA source set/test mod 산출물로 분리한다. 개발용 runClient에서만 QA 모드를 함께 로드하고 배포용 remapJar에는 포함하지 않는다. 기존 VisualValidationHarness와 production client 초기화 경로는 수정·이동하지 않는다. QA mod 로딩 확인과 배포 JAR 경계는 위 최소 검증 및 아카이브 assertion으로 고정한다.
+
+하네스는 한 번의 클라이언트 실행에서 독립된 시나리오 상태 머신을 실행한다. 각 사례는 fixture 준비 → BEFORE 캡처와 상태 스냅샷 → 조작 → 서버/클라이언트 상태 assertion → AFTER 캡처와 상태 스냅샷 → 결과 로그 순으로 동작한다. 한 사례 실패나 환경 차단은 다음 사례를 중단하지 않는다. 치명적인 클라이언트 종료 등으로 더 이상 진행할 수 없을 때만 남은 사례를 LIVE PENDING으로 기록한다.
+
+CI 산출물은 시나리오별 폴더에 before.png, after.png, 입력 경로, 설정/버전, 클라이언트·서버 로그 발췌, assertion JSON을 둔다. 시작/종료 로그에는 QA_CASE_BEGIN, QA_ASSERT, QA_CASE_RESULT를 사용하고, 각 레코드는 case, status, input_path, expected, observed, evidence를 포함한다. 스크린샷 저장 성공, 픽셀 통계, 렌더러/파티클 수신 로그 각각만으로 visual PASS를 기록하지 않는다. 실제 게임 상태 assertion과 화면 의미를 판별할 수 있는 검토가 함께 있어야 한다. 자동화가 화면 의미를 신뢰성 있게 확인하지 못하면 visual 결과는 LIVE PENDING으로 남긴다. 픽셀 통계는 회귀 가드일 뿐 의미상 육안 확인의 대체물이 아니다.
+
+### 워크플로 격리와 비용
+
+기존 워크플로 YAML은 변경하지 않고 .github/workflows/client-live-qa.yml을 별도로 추가한다. 결정적 테스트 서버, 기존 테스트 월드 구성, Xvfb/llvmpipe, Gradle 캐시와 Minecraft 다운로드 캐시를 재사용한다. LambDynamicLights는 production dependency/JAR에 넣지 않는다. Lantern 전용 테스트 런타임만 버전과 SHA-256이 고정된 모드 JAR를 추가하며, 다운로드·검증·로딩이 실패하면 Lantern 사례를 BLOCKED로 기록하고 나머지는 실행한다.
+
+기존 GUI 배율별 재시작 비용을 고려해 기본 장면은 한 client session에서 실행한다. 인챈트 GUI는 승인된 범위인 GUI scale 1–3에서 검사한다. 물리 해상도 1280×720에서 배율을 바꾸는 동안 가능한 범위는 재시작 없는 Window 설정을 먼저 검토한다. 실제 클라이언트에서 설정을 안정적으로 적용할 수 없으면 scale 별 실행을 사용하고 실행 시간을 측정한다. 작은 화면 요구를 함께 충족하기 위해 854×480과 640×360도 포함하며, 각각의 조합이 모두 필요할 때 세션 수/비용을 CI 결과에 기록한다. 예상 전체 비용은 현재 세 GUI 배율 실행을 기준선으로 측정하고, 새 QA 세션/옵션 모드 설치 시간을 별도로 보고한다. 워크플로 시간 제한을 늘리거나 조합 수를 줄이는 결정은 구현 승인 때 실측치와 함께 제안한다.
+
+새 Draft PR이 #105의 검증 HEAD에서 시작한 점과 기존 시각 워크플로의 base-branch 필터를 고려해 새 워크플로의 PR 트리거·대상 브랜치가 해당 stacked PR에서 실제 실행되는지 확인한다. 기존 워크플로를 고치거나 건너뛰어 CI를 통과시키지 않는다. 필요한 CI가 새 Draft PR에서 실행되지 않는 구조라면 구현 전에 대안을 제시한다.
+
+## 4. 결정적 시나리오와 관찰 가능한 assertion
+
+| 사례 | 캡처와 입력 | 필수 관찰 결과 / 회귀 assertion |
+|---|---|---|
+| 4카드 선택기 | 선택기 화면 전·후. 네 카드의 실제 bounds와 enabled 상태를 기록한다. OS XTest/xdotool, synthetic callback, 사람의 수동 플레이를 각각 따로 실행·기록한다. | 활성 카드가 각각 의도된 화면으로 전환되는지 확인한다. XP Quest는 비활성 상태에서 클릭/콜백 후에도 비활성 동작을 유지하는지 확인한다. 각 전환의 실제 client.gui.screen() 타입과 대상 ID를 검사한다. 물리 경로가 막히면 클릭 결함을 통과 처리하지 않는다. |
+| 대형 배낭 | 대조색/고정 배경의 6행 메뉴를 열고 빈 슬롯과 아이템 슬롯을 전·후 캡처한다. 서버 fixture로 알려진 아이템/수량을 준비하고, 이동은 입력 경로를 표기해 수행한다. | 실제 렌더 결과의 아이콘 영역에 비투명 픽셀과 배경 대비가 있는지 검사한다. 전후 서버 인벤토리와 배낭 저장소의 아이템 ID·수량 합을 비교해 이동, 중복, 삭제, ghost stack을 확인한다. 투명 아이콘 또는 이동 실패는 별도 FAIL 결함으로 남기며 제품 코드를 수정하지 않는다. |
+| 불꽃검 모델/텍스처 | 고정된 카메라·조명 장면에서 1인칭과 3인칭 손 모델을 각각 전·후 캡처한다. 검과 플레이어 포즈는 직접 fixture로 준비한다. | 실제 rendered frame의 앞/뒤 양면과 옆면이 보이고 텍스처가 누락/반전되지 않는지 확인한다. 기존 JSON/텍스처 자원 테스트는 보조 assertion으로 유지한다. 캡처 파일 생성이나 JSON 검사만으로 시각 PASS를 주지 않는다. |
+| 대검 스윕 VFX | 대상을 정면 범위 안에 둔 hit 장면, 범위 밖/시야 차단 miss 장면을 각각 전·후 캡처한다. 공격 조작 경로를 명시한다. | hit에서는 대상 체력 감소, 성공 결과, 내구도/쿨다운 규칙과 스윕 파티클의 클라이언트 도착·화면 표시를 관찰한다. miss에서는 대상 체력과 내구도가 그대로이고 성공 스윕 파티클이 없음을 확인한다. 관찰 가능한 파티클 수신 경로를 계측하지 못하면 이를 시각 PASS로 승격하지 않는다. |
+| 인챈트 GUI | GUI scale 1, 2, 3, 해상도 854×480, 640×360의 조합을 화면별로 캡처한다. 최소·최대 viewport bounds와 모든 조작 대상의 hit bounds를 기록한다. | 모든 주요 버튼·탭·슬롯·툴팁이 viewport 밖으로 잘리지 않고 도달 가능한지 확인한다. 선택/스크롤/구매 또는 책 옵션 적용은 합성 콜백과 실제 서버 결과를 분리해 기록하고, 자원/아이템 변화 및 서버 승인 상태를 assertion한다. |
+| 휴대용 화로 | 단일 화로 아이템에 input/fuel을 넣고 진행 중 상태와 닫기 전·후·같은 아이템 재열기 후를 캡처한다. 오프너 아이템 이동/교체는 별도 상태 assertion으로 확인한다. | PORTABLE_FURNACE_CONTENTS의 input/fuel/output, burn/cook progress가 닫기/재열기와 아이템 직렬화/이동 후 보존되는지 확인한다. 오프너 중복/유실, 닫을 때 추가 드롭, 잘못된 아이템에 진행 데이터 잔존을 검사한다. 휴대용 화로에 연구 보너스가 적용되지 않는 기존 권한을 보존한다. |
+| 광부 랜턴 | Lantern 옵션 런타임에서 모드 로딩 여부, 소켓 장착/해제, 동일 위치 주변의 전·후 화면/블록 상태를 기록한다. 장착 상태는 실제 소켓 UI 입력과 별도 직접 fixture 결과를 둔다. | 모드가 로드된 경우 player-centered level 15 dynamic light 동작 및 해제를 API manager/실제 화면에서 관찰한다. 주변 블록 상태가 장착 전후 불변인지 확인한다. 모드가 없거나 API를 사용할 수 없으면 Lantern 사례만 BLOCKED; 나머지 여섯 사례는 계속 실행한다. |
+
+고정 fixture는 테스트용 월드/아이템/좌표를 사용하고 각 시나리오 로그에 초기 상태를 저장한다. RCON이나 코드로 준비한 장면은 direct_state_fixture로, 실제 GUI 콜백은 synthetic_screen_callback으로 남긴다. 물리 입력 검증에는 입력을 보낸 사실뿐 아니라 기대한 화면 전환·아이템/게임 상태 변화를 연결한다.
+
+## 5. 결과 분류와 보고
+
+- PASS: 지정한 입력 경로와 실제 상태 assertion이 성공했다. 시각 사례는 화면 의미를 확인할 콘텐츠 assertion과 캡처 검토까지 있어야 한다.
+- FAIL: 실제 상태/화면이 승인된 결과와 다르거나 회귀 assertion이 실패했다. 재현 로그와 캡처를 보존하고 제품 수정 없이 별도 결함으로 정리한다.
+- BLOCKED: 해당 사례의 입력/선택적 런타임/창 접근 등 명시된 환경 의존성이 없어 그 경로를 검증할 수 없다. 해당 사례의 독립적인 다른 경로는 계속 실행하고 각각 분리 보고한다.
+- LIVE PENDING: 클라이언트/상태 증거를 확보하지 못했거나 CI/실행이 완료되지 않았다. callback return, compile, screenshot write만 성공한 경우도 여기에 해당한다.
+
+최종 표에는 사례별 상태와 입력 경로를 각각 적는다. 예를 들어 선택기에서 synthetic_screen_callback=PASS, os_input_xtest_xdotool=BLOCKED라면 선택기의 실제 사용자 클릭을 PASS로 합치지 않는다. 사람의 수동 플레이 증거는 human_manual_play로 별도 기록한다. 대형 배낭 아이콘이 재현되면 GUI callback 성공과 별개로 시각 회귀를 FAIL로 기록한다. 의미상 시각 검증이 불가능하면 캡처·픽셀·파티클 로그만으로 PASS를 만들지 않고 LIVE PENDING으로 남긴다. 필요한 입력/런타임 환경 차단은 해당 경로 또는 사례에만 기록하며 전체 live QA PASS라고 부르지 않는다.
+
+## 6. 구현 승인 후 완료 기준
+
+구현은 이 문서의 사용자 검토 및 별도 승인을 받은 다음 진행한다. 승인된 경우 완료 전에 다음을 증명한다.
+
+1. 새 client QA 소스셋이 test-only artifact로 실행되고 배포 JAR에는 포함되지 않는다.
+2. 기존 113개 GameTest와 저장소 필수 CI가 새 코드에서도 그대로 실행되고 결과를 보고한다.
+3. 새 QA 워크플로는 PR #105를 변경하지 않고, 해당 후속 Draft PR에서 실제로 실행된다.
+4. 일곱 시나리오는 독립적으로 실행되고 입력 경로·상태 assertion·before/after 증거가 보존된다.
+5. 창 접근 또는 선택 모드 미설치가 다른 사례를 막지 않는다.
+6. 새 Draft PR, 정확한 HEAD, 각 workflow run URL 및 사례별 PASS/FAIL/BLOCKED/LIVE PENDING을 최종 표에 기록한다.
+
+이 설계서는 구현·제품 수정·PR Ready 전환·병합 승인이 아니다.

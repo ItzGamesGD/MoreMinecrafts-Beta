@@ -1,0 +1,383 @@
+{
+ "candidate": "B25-T3",
+ "checks": [
+  {
+   "evidence": {
+    "apex_placed": false,
+    "budgets": [
+     10,
+     11,
+     12,
+     14,
+     17,
+     16
+    ],
+    "occupied_y": [
+     0,
+     64
+    ],
+    "reserved_apex_y": 79,
+    "slab_thickness": 1,
+    "total_budget": 80
+   },
+   "id": "HEIGHT_C1",
+   "status": "PASS"
+  },
+  {
+   "evidence": {
+    "apex_placed": false,
+    "budgets": [
+     10,
+     11,
+     12,
+     14,
+     17,
+     16
+    ],
+    "occupied_y": [
+     0,
+     63
+    ],
+    "reserved_apex_y": 79,
+    "slab_thickness": 1,
+    "total_budget": 80
+   },
+   "id": "HEIGHT_C2",
+   "status": "PASS"
+  },
+  {
+   "evidence": "C1 and C2 fit 80; sanctum clear 15 vs 16, walking floors differ by 1.",
+   "id": "SLAB_OWNERSHIP",
+   "status": "UNVERIFIED"
+  },
+  {
+   "evidence": {
+    "base_axis_limit": 45,
+    "envelope_far_corner_diameter": 46.32493928760188,
+    "inner": [
+     -12,
+     12,
+     -12,
+     12,
+     25,
+     25
+    ],
+    "note": "Envelope is permitted/reserved coordinates, not fully built exterior.",
+    "reserved_base_envelope": [
+     -22,
+     22,
+     -22,
+     22,
+     45,
+     45
+    ],
+    "wall_far_corner_diameter": 31.906112267087632,
+    "wall_outer": [
+     -15,
+     15,
+     -15,
+     15,
+     31,
+     31
+    ]
+   },
+   "id": "AXIS_DIAMETER",
+   "status": "PASS"
+  },
+  {
+   "evidence": {
+    "interior_faces": 100,
+    "meaning": "Individual 2-deep axis carvings retain >=1 rear/side block; not simultaneous final niche layout.",
+    "run_histogram": {
+     "3": 52,
+     "4": 32,
+     "5": 8,
+     "6": 8
+    },
+    "valid_by_probe_width": {
+     "1": 44,
+     "3": 20
+    }
+   },
+   "id": "NICHE_DEPTH_EXISTENCE",
+   "status": "PASS"
+  },
+  {
+   "evidence": "Voxel can fit in sample niche; width, height, arch, interaction and full layout unspecified.",
+   "id": "VAULT_FINAL_LAYOUT",
+   "status": "UNVERIFIED"
+  },
+  {
+   "evidence": {
+    "condition": "ONLY if full 7x7 footprint and filled central D17 must be disjoint inside D25",
+    "minimum_overlap": 19,
+    "placements": 225,
+    "witness": {
+     "center": [
+      -9,
+      0
+     ],
+     "overlap_altar_central": [
+      [
+       -8,
+       -1
+      ],
+      [
+       -8,
+       0
+      ],
+      [
+       -8,
+       1
+      ]
+     ],
+     "overlap_ring_central": [
+      [
+       -8,
+       -2
+      ],
+      [
+       -8,
+       2
+      ],
+      [
+       -7,
+       -3
+      ],
+      [
+       -7,
+       -2
+      ],
+      [
+       -7,
+       -1
+      ],
+      [
+       -7,
+       0
+      ],
+      [
+       -7,
+       1
+      ],
+      [
+       -7,
+       2
+      ],
+      [
+       -7,
+       3
+      ],
+      [
+       -6,
+       -3
+      ],
+      [
+       -6,
+       -2
+      ],
+      [
+       -6,
+       -1
+      ],
+      [
+       -6,
+       0
+      ],
+      [
+       -6,
+       1
+      ],
+      [
+       -6,
+       2
+      ],
+      [
+       -6,
+       3
+      ]
+     ],
+     "overlap_square_band_sensitivity": [
+      [
+       -9,
+       -3
+      ],
+      [
+       -9,
+       -2
+      ],
+      [
+       -9,
+       -1
+      ],
+      [
+       -9,
+       0
+      ],
+      [
+       -9,
+       1
+      ],
+      [
+       -9,
+       2
+      ],
+      [
+       -9,
+       3
+      ],
+      [
+       -8,
+       -3
+      ],
+      [
+       -8,
+       3
+      ]
+     ],
+     "overlap_square_central": [
+      [
+       -8,
+       -2
+      ],
+      [
+       -8,
+       -1
+      ],
+      [
+       -8,
+       0
+      ],
+      [
+       -8,
+       1
+      ],
+      [
+       -8,
+       2
+      ],
+      [
+       -7,
+       -3
+      ],
+      [
+       -7,
+       -2
+      ],
+      [
+       -7,
+       -1
+      ],
+      [
+       -7,
+       0
+      ],
+      [
+       -7,
+       1
+      ],
+      [
+       -7,
+       2
+      ],
+      [
+       -7,
+       3
+      ],
+      [
+       -6,
+       -3
+      ],
+      [
+       -6,
+       -2
+      ],
+      [
+       -6,
+       -1
+      ],
+      [
+       -6,
+       0
+      ],
+      [
+       -6,
+       1
+      ],
+      [
+       -6,
+       2
+      ],
+      [
+       -6,
+       3
+      ]
+     ]
+    }
+   },
+   "id": "DISJOINT_ENVELOPE_IN_INNER",
+   "status": "CONFLICT"
+  },
+  {
+   "evidence": "Exact ring/circle strokes, overlap permission, border width, altar count and full pillar/niche/entry layout missing. Conditional envelope conflict is not a design impossibility proof.",
+   "id": "ACTUAL_PATTERN_ALTAR_COMPATIBILITY",
+   "status": "UNVERIFIED"
+  },
+  {
+   "evidence": "Four cardinal witnesses hold 4-wide walking lane, separate 3x3 pillar and separate rail station within reserve.",
+   "id": "EXTERIOR_LOCAL_FOOTPRINT",
+   "status": "PASS"
+  },
+  {
+   "evidence": {
+    "condition": "IF support outer edge is x22, +1 outward canopy at x23 exceeds X/Z limit",
+    "coordinates": [
+     [
+      23,
+      -1
+     ],
+     [
+      23,
+      0
+     ],
+     [
+      23,
+      1
+     ]
+    ],
+    "note": "Alternative support placement/integration not disproved; overall canopy feasibility UNVERIFIED."
+   },
+   "id": "CANOPY_AT_OUTERMOST_SUPPORT",
+   "status": "CONFLICT"
+  },
+  {
+   "evidence": "Full turn, diagonal walking width, rail continuity, ~7 spacing, vertical clearance, eaves, supports, arches, landings and balcony attachments not placed.",
+   "id": "EXTERIOR_COMPLETE",
+   "status": "UNVERIFIED"
+  },
+  {
+   "evidence": "Tier radii/count/heights, curved twin stairs width/rise, entry merge geometry, island join not defined.",
+   "id": "BASE_DETAILS",
+   "status": "UNVERIFIED"
+  },
+  {
+   "evidence": "12 arch radius/pier section/rise, reward altar, floating ring, floor extent and boundary/railing coordinates unresolved; roofless maintained.",
+   "id": "SANCTUM_DETAILS",
+   "status": "UNVERIFIED"
+  }
+ ],
+ "geometry03": {
+  "prerequisites": [
+   "slab ownership C1/C2",
+   "exact motif strokes and overlap rule",
+   "Q70 border width",
+   "niche/vault dimensions and layout",
+   "3D stairs/pillars/rail/canopy integration",
+   "base/sanctum detail dimensions"
+  ],
+  "ready_for_NBT_Java_worldgen": false,
+  "ready_for_bounded_coordinate_exploration": true,
+  "ready_for_final_layout": false
+ },
+ "source_commit": "a5fcb95fe4c81ee0ec422f78f4883aa623480ba1"
+}

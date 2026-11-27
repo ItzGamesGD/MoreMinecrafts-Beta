@@ -1,0 +1,22 @@
+=== ST-01 P7 MODEL_RECONSTRUCTION: ROYAL HALL DAIS PLAN (Y = -20) ===
+Coordinate space: X east+, Z south+ (South is Down). Dais surface at Y=-20.
+Legend: [S]=Sarcophagus, [B]=Candidate B (+X), [C]=Candidate C (-X), [A]=Candidate A (-Z), [X]=South Collision, [.]=Dais Floor, [ ]=Air
+
+       .  .  . -25 .  .  .  . -20 .  .  .  . -15
+Z=29 |                                          
+Z=30 |          ~  ~  ~  ~  ~  ~  ~  ~  ~       
+Z=31 |          ~  ~  ~  ~  ~  ~  ~  ~  ~       
+Z=32 |       .  .  .  .  P [A] P  .  .  .  .    
+Z=33 |       .  .  .  . [C][*][B] .  .  .  .    
+Z=34 |       .  .  .  . [S][X][S] .  .  .  .    
+Z=35 |       .  .  .  . [S][S][S] .  .  .  .    
+Z=36 |       .  .  .  . [S][S][S] .  .  .  .    
+Z=37 |       .  .  .  . [S][S][S] .  .  .  .    
+
+Notes:
+- [*] = Primary chest base placeholder (-21, -20, 33)
+- [B] = Candidate B (+X East extension to (-20, -20, 33)) -> Faces NORTH
+- [C] = Candidate C (-X West extension to (-22, -20, 33)) -> Faces NORTH
+- [A] = Candidate A (-Z North extension to (-21, -20, 32)) -> Faces WEST/EAST, consumes front tread access
+- [X] = South Collision cell (-21, -20, 34) -> COLLIDES with Sarcophagus front wall
+- [S] = Sarcophagus body (X -22..-20, Z 34..37, Y -20..-19)

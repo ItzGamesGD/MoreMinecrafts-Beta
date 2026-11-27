@@ -1,0 +1,4 @@
+[00:59:10] [Server thread/INFO] (Minecraft) Done (5.448s)! For help, type "help"
+[00:59:10] [Server thread/INFO] (Minecraft) RCON running on 127.0.0.1:25596
+[00:59:52] [Server thread/INFO] (Minecraft) Stopping server
+BUILD SUCCESSFUL in 1m 41s

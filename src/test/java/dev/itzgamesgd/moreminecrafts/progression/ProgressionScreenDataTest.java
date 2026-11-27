@@ -23,7 +23,7 @@ final class ProgressionScreenDataTest {
     @Test void researchScreenDataExposesServerRuleAvailabilityAndRequirements() {
         var state = new ResearchProgressState(Map.of());
         var rows = ProgressionScreenData.research(state, null, Map.of(), 0);
-        assertEquals(ResearchCatalog.v3Catalog().size() + ResearchCatalog.v4Additions().size(), rows.size());
+        assertEquals(ResearchCatalog.allCatalogEntries().size(), rows.size());
         for (var row : rows) {
             assertEquals(0, row.level());
             assertTrue(row.maximumLevel() > 0);

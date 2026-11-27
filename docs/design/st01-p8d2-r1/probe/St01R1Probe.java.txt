@@ -1,0 +1,300 @@
+package dev.itzgamesgd.moreminecrafts.worldgenprobe.st01r1;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import dev.itzgamesgd.moreminecrafts.pyramid.worldgen.St01Eligibility;
+import dev.itzgamesgd.moreminecrafts.pyramid.worldgen.St01Instr;
+import dev.itzgamesgd.moreminecrafts.pyramid.worldgen.St01PlacementConfig;
+import dev.itzgamesgd.moreminecrafts.pyramid.worldgen.St01PyramidStructure;
+import java.lang.management.ManagementFactory;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.biome.Biomes;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.chunk.status.ChunkStatus;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.RandomState;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureStart;
+import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadStructurePlacement;
+
+/**
+ * ST-01 P8-D2-R1 DISPOSABLE probe (never committed as code). Modes (-Dmm.st01.r1.mode): bench (the P8-D2 vanilla call + per-stage
+ * instrumentation snapshot), cheaplocate (vanilla ring order, eligibility on the main thread through a probe terrain view, real start
+ * validation via STRUCTURE_STARTS), evalcmp (production eligibility vs an exact-equivalent cheap-first variant over every anchor).
+ */
+public final class St01R1Probe implements ModInitializer {
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
+    private static final Identifier ST01 = Identifier.fromNamespaceAndPath("moreminecrafts", "st01_pyramid");
+
+    @Override
+    public void onInitialize() {
+        String out = System.getProperty("mm.st01.r1.out");
+        if (out == null) return;
+        String mode = System.getProperty("mm.st01.r1.mode", "bench");
+        ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+            Map<String, Object> res = new LinkedHashMap<>();
+            res.put("mode", mode); res.put("instr_on", St01Instr.ON);
+            try {
+                ServerLevel level = server.overworld();
+                res.put("seed", level.getSeed());
+                switch (mode) {
+                    case "bench" -> bench(level, res);
+                    case "cheaplocate" -> cheaplocate(level, res);
+                    case "evalcmp" -> evalcmp(level, res);
+                    default -> res.put("error", "unknown mode");
+                }
+            } catch (Throwable t) {
+                res.put("error", t.toString());
+                StringBuilder sb = new StringBuilder(); for (StackTraceElement e : t.getStackTrace()) sb.append(e).append('\n'); res.put("error_stack", sb.toString());
+            }
+            try { Files.writeString(Path.of(out), GSON.toJson(res), StandardCharsets.UTF_8); } catch (Exception e) { e.printStackTrace(); }
+            Runtime.getRuntime().halt(0);
+        });
+    }
+
+    static Holder<Structure> st01(ServerLevel level) { return level.registryAccess().lookupOrThrow(Registries.STRUCTURE).get(ST01).orElseThrow(); }
+    static RandomSpreadStructurePlacement placement(ServerLevel level) {
+        return (RandomSpreadStructurePlacement) level.registryAccess().lookupOrThrow(Registries.STRUCTURE_SET).get(ST01).orElseThrow().value().placement();
+    }
+    static Map<String, Object> instr() {
+        Map<String, Object> m = new TreeMap<>();
+        St01Instr.snapshot().forEach((k, v) -> m.put(k, Map.of("n", v[0], "total_ms", v[1] / 1e6, "max_ms", v[2] / 1e6)));
+        return m;
+    }
+    static long evals() { return St01PyramidStructure.VERDICT_COUNTS.values().stream().mapToLong(java.util.concurrent.atomic.AtomicLong::get).sum(); }
+
+    // ------------------------------------------------------------ bench: identical call to P8-D2, plus instrumentation snapshot
+    private static void bench(ServerLevel level, Map<String, Object> res) {
+        int radius = Integer.getInteger("mm.st01.r1.radius", 20);
+        String[] origins = System.getProperty("mm.st01.r1.origins", "0,0").split(";");
+        int repeats = Integer.getInteger("mm.st01.r1.repeats", 1);
+        res.put("radius_param", radius);
+        var set = HolderSet.direct(st01(level));
+        var st = st01(level).value();
+        var mx = ManagementFactory.getThreadMXBean();
+        List<Map<String, Object>> calls = new ArrayList<>();
+        int oi = 0;
+        for (String o : origins) {
+            String[] p = o.split(",");
+            BlockPos origin = new BlockPos(Integer.parseInt(p[0]), 64, Integer.parseInt(p[1]));
+            for (int rep = 0; rep <= repeats; rep++) {
+                Map<String, Object> c = new LinkedHashMap<>();
+                c.put("origin", o); c.put("state", rep == 0 ? (oi == 0 ? "cold" : "later-origin-partially-warm") : "warm-repeat");
+                St01Instr.reset();
+                long e0 = evals(), cpu0 = mx.getCurrentThreadCpuTime(), t0 = System.nanoTime();
+                BlockPos found = level.findNearestMapStructure(set, origin, radius, false);
+                long wall = System.nanoTime() - t0;
+                c.put("wall_ms", wall / 1e6); c.put("main_thread_cpu_ms", (mx.getCurrentThreadCpuTime() - cpu0) / 1e6);
+                c.put("st01_evaluations", evals() - e0);
+                c.put("instr", instr());
+                c.put("found", found != null);
+                if (found != null) {
+                    ChunkPos fc = ChunkPos.containing(found);
+                    StructureStart s = level.getChunk(fc.x(), fc.z(), ChunkStatus.STRUCTURE_STARTS).getStartForStructure(st);
+                    c.put("result_chunk", fc.x() + "," + fc.z()); c.put("result_valid", s != null && s.isValid());
+                }
+                calls.add(c);
+            }
+            oi++;
+        }
+        res.put("calls", calls);
+    }
+
+    // ------------------------------------------------------------ probe terrain view (same calls as production GeneratorTerrain)
+    static final class CTerrain implements St01Eligibility.Terrain {
+        final ChunkGenerator gen; final RandomState rs; final ServerLevel level;
+        final Map<Long, Integer> memo = new HashMap<>();
+        long heightCalls, heightComputes, heightNs, biomeCalls, biomeNs;
+        CTerrain(ServerLevel level) { this.level = level; this.gen = level.getChunkSource().getGenerator(); this.rs = level.getChunkSource().randomState(); }
+        @Override public int surfaceHeight(int x, int z) {
+            heightCalls++;
+            long k = ((long) x << 32) ^ (z & 0xFFFFFFFFL);
+            Integer h = memo.get(k);
+            if (h != null) return h;
+            long t0 = System.nanoTime();
+            int v = gen.getBaseHeight(x, z, Heightmap.Types.WORLD_SURFACE_WG, level, rs);
+            heightNs += System.nanoTime() - t0; heightComputes++;
+            memo.put(k, v);
+            return v;
+        }
+        @Override public boolean isDesertCell(int qx, int qy, int qz) {
+            biomeCalls++;
+            long t0 = System.nanoTime();
+            boolean b = level.getUncachedNoiseBiome(qx, qy, qz).is(Biomes.DESERT);
+            biomeNs += System.nanoTime() - t0;
+            return b;
+        }
+    }
+
+    // ------------------------------------------------------------ experimental, exact-equivalent cheap-first eligibility
+    record ExpResult(St01Eligibility.Result result, boolean earlyHeightReject, int desertCellsChecked) {}
+
+    static boolean cellColumnDesert(St01Eligibility.Terrain t, int qx, int qz) {
+        int surfaceBlockY = t.surfaceHeight(qx * 4 + 2, qz * 4 + 2) - 1;
+        int qy = Math.floorDiv(surfaceBlockY - 2, 4);
+        return t.isDesertCell(qx, qy, qz) && t.isDesertCell(qx, qy + 1, qz);
+    }
+
+    /** Same predicate set as St01Eligibility.evaluate; only the order of the AND-ed checks differs, plus a height-range early exit. */
+    static ExpResult expEvaluate(St01Eligibility.Terrain t, int cx, int cz) {
+        int half = St01PlacementConfig.FOOTPRINT_HALF_WIDTH;
+        int qx0 = Math.floorDiv(cx - half - 2, 4), qx1 = Math.floorDiv(cx + half - 2, 4) + 1;
+        int qz0 = Math.floorDiv(cz - half - 2, 4), qz1 = Math.floorDiv(cz + half - 2, 4) + 1;
+        LinkedHashSet<Long> order = new LinkedHashSet<>();
+        order.add(pack(Math.floorDiv(cx, 4), Math.floorDiv(cz, 4)));
+        // spread-first: corners, edge midpoints, then a stride-3 lattice, then everything else (union = the production cell set)
+        int[] xs = {qx0, (qx0 + qx1) / 2, qx1}, zs = {qz0, (qz0 + qz1) / 2, qz1};
+        for (int x : xs) for (int z : zs) order.add(pack(x, z));
+        for (int x = qx0; x <= qx1; x += 3) for (int z = qz0; z <= qz1; z += 3) order.add(pack(x, z));
+        for (int x = qx0; x <= qx1; x++) for (int z = qz0; z <= qz1; z++) order.add(pack(x, z));
+        int checked = 0;
+        for (long c : order) {
+            checked++;
+            if (!cellColumnDesert(t, (int) (c >> 32), (int) c)) return new ExpResult(new St01Eligibility.Result(St01Eligibility.Verdict.REJECT_BIOME, 0, 0, 0, 0, 0, 0), false, checked);
+        }
+        int lim = St01PlacementConfig.MAX_HEIGHT_DIFFERENCE;
+        int mn = Integer.MAX_VALUE, mx = Integer.MIN_VALUE;
+        for (int dx = -half; dx <= half; dx += 8) for (int dz = -half; dz <= half; dz += 8) {
+            int h = t.surfaceHeight(cx + dx, cz + dz); mn = Math.min(mn, h); mx = Math.max(mx, h);
+            if (mx - mn > lim) return new ExpResult(new St01Eligibility.Result(St01Eligibility.Verdict.REJECT_HEIGHT_DIFFERENCE, mn, mx, 0, mx - mn, 0, 0), true, checked);
+        }
+        int[] heights = new int[(2 * half + 1) * (2 * half + 1)];
+        int n = 0;
+        for (int dx = -half; dx <= half; dx++) for (int dz = -half; dz <= half; dz++) {
+            int h = t.surfaceHeight(cx + dx, cz + dz); heights[n++] = h; mn = Math.min(mn, h); mx = Math.max(mx, h);
+            if (mx - mn > lim) return new ExpResult(new St01Eligibility.Result(St01Eligibility.Verdict.REJECT_HEIGHT_DIFFERENCE, mn, mx, 0, mx - mn, 0, 0), true, checked);
+        }
+        Arrays.sort(heights);
+        int min = heights[0], max = heights[heights.length - 1], yf = heights[heights.length / 2];
+        int diff = max - min, cut = Math.max(0, max - yf), skirt = Math.max(0, yf - min);
+        St01Eligibility.Verdict v;
+        if (diff > lim) v = St01Eligibility.Verdict.REJECT_HEIGHT_DIFFERENCE;
+        else if (cut > St01PlacementConfig.MAX_CUT) v = St01Eligibility.Verdict.REJECT_CUT;
+        else if (skirt > St01PlacementConfig.MAX_SKIRT) v = St01Eligibility.Verdict.REJECT_SKIRT;
+        else if (!t.isDesertCell(Math.floorDiv(cx, 4), Math.floorDiv(yf, 4), Math.floorDiv(cz, 4))) v = St01Eligibility.Verdict.REJECT_BIOME;
+        else v = St01Eligibility.Verdict.ELIGIBLE;
+        return new ExpResult(new St01Eligibility.Result(v, min, max, yf, diff, cut, skirt), false, checked);
+    }
+    static long pack(int x, int z) { return ((long) x << 32) | (z & 0xFFFFFFFFL); }
+
+    // ------------------------------------------------------------ evalcmp: every potential anchor in +-10240, both algorithms, alternating order
+    private static void evalcmp(ServerLevel level, Map<String, Object> res) {
+        var pl = placement(level); long seed = level.getSeed(); int spacing = pl.spacing(), rc = 10240 / 16;
+        int r0 = Math.floorDiv(-rc, spacing), r1 = Math.floorDiv(rc - 1, spacing);
+        long[] prod = new long[6], exp = new long[6]; // ns, heightComputes, heightNs, biomeCalls, biomeNs, heightCalls
+        int n = 0, mismatchVerdict = 0, mismatchFull = 0, early = 0;
+        Map<String, Integer> verdicts = new TreeMap<>(), centrePass = new TreeMap<>();
+        List<Long> prodPer = new ArrayList<>(), expPer = new ArrayList<>();
+        List<String> mismatches = new ArrayList<>();
+        long expDesertCells = 0, prodDesertCellsApprox = 0;
+        for (int rx = r0; rx <= r1; rx++) for (int rz = r0; rz <= r1; rz++) {
+            ChunkPos pc = pl.getPotentialStructureChunk(seed, rx * spacing, rz * spacing);
+            if (Math.abs(pc.getMiddleBlockX()) > 10240 || Math.abs(pc.getMiddleBlockZ()) > 10240) continue;
+            int cx = pc.getMinBlockX() + 8, cz = pc.getMinBlockZ() + 8;
+            CTerrain a = new CTerrain(level), b = new CTerrain(level);
+            St01Eligibility.Result pr; ExpResult er; long tp, te;
+            if ((n & 1) == 0) {
+                long t0 = System.nanoTime(); pr = St01Eligibility.evaluate(a, cx, cz); tp = System.nanoTime() - t0;
+                t0 = System.nanoTime(); er = expEvaluate(b, cx, cz); te = System.nanoTime() - t0;
+            } else {
+                long t0 = System.nanoTime(); er = expEvaluate(b, cx, cz); te = System.nanoTime() - t0;
+                t0 = System.nanoTime(); pr = St01Eligibility.evaluate(a, cx, cz); tp = System.nanoTime() - t0;
+            }
+            n++;
+            verdicts.merge(pr.verdict().name(), 1, Integer::sum);
+            if (pr.verdict() != er.result().verdict()) { mismatchVerdict++; if (mismatches.size() < 20) mismatches.add(pc + " prod=" + pr + " exp=" + er.result()); }
+            else if (!er.earlyHeightReject() && !pr.equals(er.result())) { mismatchFull++; if (mismatches.size() < 20) mismatches.add(pc + " FULL prod=" + pr + " exp=" + er.result()); }
+            if (er.earlyHeightReject()) early++;
+            expDesertCells += er.desertCellsChecked();
+            prod[0] += tp; prod[1] += a.heightComputes; prod[2] += a.heightNs; prod[3] += a.biomeCalls; prod[4] += a.biomeNs; prod[5] += a.heightCalls;
+            exp[0] += te; exp[1] += b.heightComputes; exp[2] += b.heightNs; exp[3] += b.biomeCalls; exp[4] += b.biomeNs; exp[5] += b.heightCalls;
+            prodPer.add(tp); expPer.add(te);
+            // stage survival from the production path
+            boolean centre = cellColumnDesert(new CTerrain(level), Math.floorDiv(cx, 4), Math.floorDiv(cz, 4));
+            centrePass.merge(centre ? "centre_cell_desert" : "centre_cell_not_desert", 1, Integer::sum);
+        }
+        res.put("anchors", n);
+        res.put("production_verdicts", verdicts);
+        res.put("centre_cell", centrePass);
+        res.put("verdict_mismatches", mismatchVerdict);
+        res.put("full_result_mismatches_excluding_early_height_rejects", mismatchFull);
+        res.put("early_height_rejects_experimental", early);
+        res.put("mismatch_samples", mismatches);
+        res.put("production", Map.of("total_ms", prod[0] / 1e6, "height_computes", prod[1], "height_ms", prod[2] / 1e6, "biome_lookups", prod[3], "biome_ms", prod[4] / 1e6, "height_calls", prod[5], "per_anchor", stats(prodPer)));
+        res.put("experimental", Map.of("total_ms", exp[0] / 1e6, "height_computes", exp[1], "height_ms", exp[2] / 1e6, "biome_lookups", exp[3], "biome_ms", exp[4] / 1e6, "height_calls", exp[5], "per_anchor", stats(expPer), "desert_cells_checked", expDesertCells));
+    }
+    static Map<String, Object> stats(List<Long> v) {
+        long[] a = v.stream().mapToLong(Long::longValue).sorted().toArray();
+        return Map.of("median_ms", a[a.length / 2] / 1e6, "p99_ms", a[(int) (a.length * 0.99)] / 1e6, "max_ms", a[a.length - 1] / 1e6);
+    }
+
+    // ------------------------------------------------------------ cheaplocate: vanilla ring order + main-thread eligibility + real-start validation
+    private static void cheaplocate(ServerLevel level, Map<String, Object> res) {
+        int radius = Integer.getInteger("mm.st01.r1.radius", 20);
+        boolean useExp = System.getProperty("mm.st01.r1.elig", "exp").equals("exp");
+        String[] p = System.getProperty("mm.st01.r1.origins", "0,0").split(";")[0].split(",");
+        BlockPos origin = new BlockPos(Integer.parseInt(p[0]), 64, Integer.parseInt(p[1]));
+        res.put("radius_param", radius); res.put("eligibility", useExp ? "experimental exact-equivalent cheap-first" : "production St01Eligibility.evaluate");
+        var pl = placement(level); var st = st01(level).value(); long seed = level.getSeed(); int spacing = pl.spacing();
+        int sx = origin.getX() >> 4, sz = origin.getZ() >> 4;
+        St01Instr.reset();
+        long e0 = evals();
+        long t0 = System.nanoTime(), eligNs = 0, validateNs = 0;
+        int candidates = 0, eligible = 0, validated = 0;
+        long hc = 0, hns = 0, bc = 0, bns = 0;
+        Map<String, Integer> verdicts = new TreeMap<>();
+        String result = null; int ringFound = -1;
+        outer:
+        for (int r = 0; r <= radius; r++) {
+            for (int k = -r; k <= r; k++) {
+                boolean ek = k == -r || k == r;
+                for (int l = -r; l <= r; l++) {
+                    if (!ek && l != -r && l != r) continue;
+                    ChunkPos pc = pl.getPotentialStructureChunk(seed, sx + spacing * k, sz + spacing * l);
+                    candidates++;
+                    CTerrain t = new CTerrain(level);
+                    long a0 = System.nanoTime();
+                    St01Eligibility.Verdict v = useExp ? expEvaluate(t, pc.getMinBlockX() + 8, pc.getMinBlockZ() + 8).result().verdict()
+                            : St01Eligibility.evaluate(t, pc.getMinBlockX() + 8, pc.getMinBlockZ() + 8).verdict();
+                    eligNs += System.nanoTime() - a0;
+                    hc += t.heightComputes; hns += t.heightNs; bc += t.biomeCalls; bns += t.biomeNs;
+                    verdicts.merge(v.name(), 1, Integer::sum);
+                    if (v != St01Eligibility.Verdict.ELIGIBLE) continue;
+                    eligible++;
+                    long b0 = System.nanoTime();
+                    StructureStart s = level.getChunk(pc.x(), pc.z(), ChunkStatus.STRUCTURE_STARTS).getStartForStructure(st);
+                    validateNs += System.nanoTime() - b0;
+                    if (s != null && s.isValid()) { validated++; result = pc.x() + "," + pc.z(); ringFound = r; break outer; }
+                }
+            }
+        }
+        long wall = System.nanoTime() - t0;
+        res.put("wall_ms", wall / 1e6); res.put("main_thread_blocked_ms", wall / 1e6);
+        res.put("eligibility_ms", eligNs / 1e6); res.put("validation_getChunk_STRUCTURE_STARTS_ms", validateNs / 1e6);
+        res.put("candidates", candidates); res.put("eligible", eligible); res.put("validated_valid_starts", validated);
+        res.put("verdicts", verdicts);
+        res.put("height_computes", hc); res.put("height_ms", hns / 1e6); res.put("biome_lookups", bc); res.put("biome_ms", bns / 1e6);
+        res.put("production_fgp_evaluations_during_validation", evals() - e0);
+        res.put("instr", instr());
+        res.put("result_chunk", result); res.put("ring", ringFound);
+    }
+}

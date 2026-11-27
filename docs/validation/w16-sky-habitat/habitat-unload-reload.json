@@ -1,0 +1,26 @@
+{
+  "chunkReload": true,
+  "chunkUnload": true,
+  "seed": 42,
+  "surfaces": [
+    {
+      "template": "moreminecrafts:sky_islands/forest/tower",
+      "relativeHeight": 60,
+      "biome": "minecraft:birch_forest",
+      "x": -349,
+      "y": 131,
+      "z": -238,
+      "structure": "moreminecrafts:sky_island_forest"
+    },
+    {
+      "template": "moreminecrafts:sky_islands/tower_5",
+      "relativeHeight": 87,
+      "biome": "minecraft:birch_forest",
+      "x": -339,
+      "y": 157,
+      "z": -253,
+      "structure": "moreminecrafts:sky_island_forest"
+    }
+  ],
+  "pass": true
+}

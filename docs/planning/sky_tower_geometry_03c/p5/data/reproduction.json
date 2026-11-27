@@ -1,0 +1,444 @@
+{
+ "P3_regenerated_equal": {
+  "blocks_C1.csv": true,
+  "blocks_C2.csv": true,
+  "objects_C1.json": true,
+  "objects_C2.json": true,
+  "tread_tops_C1.json": true
+ },
+ "P5_regenerated_equal": {
+  "model.json": true,
+  "source_hashes.json": true,
+  "reservations_C2.json": true,
+  "layers_C2.json": true,
+  "objects_C2.json": true,
+  "blocks_C2.csv": true,
+  "reservations_C1.json": true,
+  "layers_C1.json": true,
+  "objects_C1.json": true,
+  "blocks_C1.csv": true
+ },
+ "P4_sections": {
+  "section_blocks.csv": {
+   "non_tower_claims": 2213,
+   "not_in_P3": 0
+  },
+  "section_blocks_k2_lap3.csv": {
+   "non_tower_claims": 2232,
+   "not_in_P3": 0
+  }
+ },
+ "P4_historic_walk_results": {
+  "walk_balcony_B2-1_in.json": {
+   "name": "balcony_B2-1_in",
+   "result": "REACHED",
+   "seconds": 1.1,
+   "y_start": 104.0,
+   "y_end": 104.0,
+   "max_y_gain_between_samples": 0.0,
+   "radius_min": 17.5,
+   "radius_max": 21.269,
+   "lane": null,
+   "stayed_in_lane": null
+  },
+  "walk_balcony_B2-1_out.json": {
+   "name": "balcony_B2-1_out",
+   "result": "REACHED",
+   "seconds": 1.1,
+   "y_start": 104.0,
+   "y_end": 104.0,
+   "max_y_gain_between_samples": 0.0,
+   "radius_min": 17.674,
+   "radius_max": 21.587,
+   "lane": null,
+   "stayed_in_lane": null
+  },
+  "walk_balcony_B2-1_push_outward.json": {
+   "name": "balcony_B2-1_push_outward",
+   "result": "TIMEOUT",
+   "seconds": 6.1,
+   "y_start": 104.0,
+   "y_end": 104.0,
+   "max_y_gain_between_samples": 0.0,
+   "radius_min": 21.587,
+   "radius_max": 23.25,
+   "lane": null,
+   "stayed_in_lane": null
+  },
+  "walk_balcony_B2-5_in.json": {
+   "name": "balcony_B2-5_in",
+   "result": "REACHED",
+   "seconds": 1.1,
+   "y_start": 110.5,
+   "y_end": 110.5,
+   "max_y_gain_between_samples": 0.0,
+   "radius_min": 17.5,
+   "radius_max": 21.398,
+   "lane": null,
+   "stayed_in_lane": null
+  },
+  "walk_balcony_B2-5_out.json": {
+   "name": "balcony_B2-5_out",
+   "result": "REACHED",
+   "seconds": 1.1,
+   "y_start": 110.5,
+   "y_end": 110.5,
+   "max_y_gain_between_samples": 0.0,
+   "radius_min": 18.127,
+   "radius_max": 21.587,
+   "lane": null,
+   "stayed_in_lane": null
+  },
+  "walk_balcony_B2-5_push_outward.json": {
+   "name": "balcony_B2-5_push_outward",
+   "result": "TIMEOUT",
+   "seconds": 6.1,
+   "y_start": 110.5,
+   "y_end": 110.5,
+   "max_y_gain_between_samples": 0.0,
+   "radius_min": 21.587,
+   "radius_max": 23.251,
+   "lane": null,
+   "stayed_in_lane": null
+  },
+  "walk_k2_lap3_lane0.json": {
+   "name": "K2_lap3_lane0",
+   "result": "REACHED",
+   "seconds": 22.4,
+   "y_start": 108.0,
+   "y_end": 122.0,
+   "max_y_gain_between_samples": 0.5,
+   "radius_min": 16.32,
+   "radius_max": 16.473,
+   "lane": [
+    15.5,
+    16.5
+   ],
+   "stayed_in_lane": true
+  },
+  "walk_k2_lap3_lane1.json": {
+   "name": "K2_lap3_lane1",
+   "result": "REACHED",
+   "seconds": 23.0,
+   "y_start": 108.0,
+   "y_end": 122.0,
+   "max_y_gain_between_samples": 0.5,
+   "radius_min": 16.969,
+   "radius_max": 17.006,
+   "lane": [
+    16.5,
+    17.5
+   ],
+   "stayed_in_lane": true
+  },
+  "walk_k2_lap3_lane2.json": {
+   "name": "K2_lap3_lane2",
+   "result": "REACHED",
+   "seconds": 24.5,
+   "y_start": 108.0,
+   "y_end": 122.0,
+   "max_y_gain_between_samples": 0.5,
+   "radius_min": 17.967,
+   "radius_max": 18.01,
+   "lane": [
+    17.5,
+    18.5
+   ],
+   "stayed_in_lane": true
+  },
+  "walk_k2_lap3_lane3.json": {
+   "name": "K2_lap3_lane3",
+   "result": "REACHED",
+   "seconds": 26.0,
+   "y_start": 108.0,
+   "y_end": 122.0,
+   "max_y_gain_between_samples": 0.5,
+   "radius_min": 18.474,
+   "radius_max": 18.659,
+   "lane": [
+    18.5,
+    19.5
+   ],
+   "stayed_in_lane": true
+  },
+  "walk_k3_lap2_lane0.json": {
+   "name": "K3_stairblocks_lap2_lane0",
+   "result": "REACHED",
+   "seconds": 23.0,
+   "y_start": 102.0,
+   "y_end": 114.0,
+   "max_y_gain_between_samples": 1.0,
+   "radius_min": 15.858,
+   "radius_max": 16.491,
+   "lane": [
+    15.5,
+    16.5
+   ],
+   "stayed_in_lane": true
+  },
+  "walk_k3_lap2_lane1.json": {
+   "name": "K3_stairblocks_lap2_lane1",
+   "result": "REACHED",
+   "seconds": 23.2,
+   "y_start": 102.0,
+   "y_end": 114.0,
+   "max_y_gain_between_samples": 1.0,
+   "radius_min": 16.968,
+   "radius_max": 17.011,
+   "lane": [
+    16.5,
+    17.5
+   ],
+   "stayed_in_lane": true
+  },
+  "walk_k3_lap2_lane2.json": {
+   "name": "K3_stairblocks_lap2_lane2",
+   "result": "REACHED",
+   "seconds": 24.8,
+   "y_start": 102.0,
+   "y_end": 114.0,
+   "max_y_gain_between_samples": 1.0,
+   "radius_min": 17.72,
+   "radius_max": 18.099,
+   "lane": [
+    17.5,
+    18.5
+   ],
+   "stayed_in_lane": true
+  },
+  "walk_k3_lap2_lane3.json": {
+   "name": "K3_stairblocks_lap2_lane3",
+   "result": "REACHED",
+   "seconds": 26.1,
+   "y_start": 102.0,
+   "y_end": 114.0,
+   "max_y_gain_between_samples": 1.0,
+   "radius_min": 18.488,
+   "radius_max": 18.666,
+   "lane": [
+    18.5,
+    19.5
+   ],
+   "stayed_in_lane": true
+  },
+  "walk_k3_lap3_lane0.json": {
+   "name": "K3_stairblocks_lap3_lane0",
+   "result": "STUCK",
+   "seconds": 18.7,
+   "y_start": 108.0,
+   "y_end": 115.0,
+   "max_y_gain_between_samples": 1.0,
+   "radius_min": 16.046,
+   "radius_max": 16.466,
+   "lane": [
+    15.5,
+    16.5
+   ],
+   "stayed_in_lane": true
+  },
+  "walk_k3_lap3_lane1.json": {
+   "name": "K3_stairblocks_lap3_lane1",
+   "result": "REACHED",
+   "seconds": 23.3,
+   "y_start": 108.0,
+   "y_end": 122.0,
+   "max_y_gain_between_samples": 1.0,
+   "radius_min": 16.969,
+   "radius_max": 17.179,
+   "lane": [
+    16.5,
+    17.5
+   ],
+   "stayed_in_lane": true
+  },
+  "walk_k3_lap3_lane2.json": {
+   "name": "K3_stairblocks_lap3_lane2",
+   "result": "REACHED",
+   "seconds": 25.6,
+   "y_start": 108.0,
+   "y_end": 122.0,
+   "max_y_gain_between_samples": 1.0,
+   "radius_min": 17.552,
+   "radius_max": 18.517,
+   "lane": [
+    17.5,
+    18.5
+   ],
+   "stayed_in_lane": true
+  },
+  "walk_k3_lap3_lane3.json": {
+   "name": "K3_stairblocks_lap3_lane3",
+   "result": "REACHED",
+   "seconds": 25.7,
+   "y_start": 108.0,
+   "y_end": 122.0,
+   "max_y_gain_between_samples": 1.0,
+   "radius_min": 18.482,
+   "radius_max": 18.652,
+   "lane": [
+    18.5,
+    19.5
+   ],
+   "stayed_in_lane": true
+  },
+  "walk_lap2_lane0.json": {
+   "name": "lap2_lane0",
+   "result": "REACHED",
+   "seconds": 22.4,
+   "y_start": 102.0,
+   "y_end": 114.0,
+   "max_y_gain_between_samples": 0.5,
+   "radius_min": 16.319,
+   "radius_max": 16.457,
+   "lane": [
+    15.5,
+    16.5
+   ],
+   "stayed_in_lane": true
+  },
+  "walk_lap2_lane1.json": {
+   "name": "lap2_lane1",
+   "result": "REACHED",
+   "seconds": 23.0,
+   "y_start": 102.0,
+   "y_end": 114.0,
+   "max_y_gain_between_samples": 0.5,
+   "radius_min": 16.968,
+   "radius_max": 17.005,
+   "lane": [
+    16.5,
+    17.5
+   ],
+   "stayed_in_lane": true
+  },
+  "walk_lap2_lane2.json": {
+   "name": "lap2_lane2",
+   "result": "REACHED",
+   "seconds": 24.5,
+   "y_start": 102.0,
+   "y_end": 114.0,
+   "max_y_gain_between_samples": 0.5,
+   "radius_min": 17.968,
+   "radius_max": 18.015,
+   "lane": [
+    17.5,
+    18.5
+   ],
+   "stayed_in_lane": true
+  },
+  "walk_lap2_lane3.json": {
+   "name": "lap2_lane3",
+   "result": "REACHED",
+   "seconds": 25.8,
+   "y_start": 102.0,
+   "y_end": 114.0,
+   "max_y_gain_between_samples": 0.5,
+   "radius_min": 18.47,
+   "radius_max": 18.661,
+   "lane": [
+    18.5,
+    19.5
+   ],
+   "stayed_in_lane": true
+  },
+  "walk_rail_push_120.json": {
+   "name": "rail_push_outward_120deg",
+   "result": "TIMEOUT",
+   "seconds": 6.1,
+   "y_start": 105.5,
+   "y_end": 105.5,
+   "max_y_gain_between_samples": 0.0,
+   "radius_min": 18.0,
+   "radius_max": 19.695,
+   "lane": null,
+   "stayed_in_lane": null
+  },
+  "walk_rail_push_215.json": {
+   "name": "rail_push_outward_215deg",
+   "result": "TIMEOUT",
+   "seconds": 6.1,
+   "y_start": 109.0,
+   "y_end": 109.0,
+   "max_y_gain_between_samples": 0.0,
+   "radius_min": 18.0,
+   "radius_max": 19.695,
+   "lane": null,
+   "stayed_in_lane": null
+  },
+  "walk_rail_push_300.json": {
+   "name": "rail_push_outward_300deg",
+   "result": "TIMEOUT",
+   "seconds": 6.1,
+   "y_start": 112.0,
+   "y_end": 112.0,
+   "max_y_gain_between_samples": 0.0,
+   "radius_min": 18.0,
+   "radius_max": 19.695,
+   "lane": null,
+   "stayed_in_lane": null
+  }
+ },
+ "P4_historic_placement": {
+  "server_placement_check.json": {
+   "positions_checked": 50760,
+   "listed_blocks": 9223,
+   "mismatches": 0,
+   "sample": [],
+   "world_offset": [
+    999,
+    80,
+    1000
+   ],
+   "status": "STATIC PASS (live placement matches export)"
+  },
+  "server_placement_check_k1.json": {
+   "positions_checked": 48600,
+   "listed_blocks": 9118,
+   "mismatches": 0,
+   "sample": [],
+   "world_offset": [
+    1099,
+    80,
+    999
+   ],
+   "status": "STATIC PASS (live placement matches export)"
+  },
+  "server_placement_check_k2_lap3.json": {
+   "positions_checked": 54990,
+   "listed_blocks": 9762,
+   "mismatches": 0,
+   "sample": [],
+   "world_offset": [
+    1399,
+    74,
+    1000
+   ],
+   "status": "STATIC PASS (live placement matches export)"
+  },
+  "server_placement_check_k3.json": {
+   "positions_checked": 48600,
+   "listed_blocks": 9119,
+   "mismatches": 0,
+   "sample": [],
+   "world_offset": [
+    1199,
+    80,
+    999
+   ],
+   "status": "STATIC PASS (live placement matches export)"
+  },
+  "server_placement_check_k3_lap3.json": {
+   "positions_checked": 52650,
+   "listed_blocks": 9650,
+   "mismatches": 0,
+   "sample": [],
+   "world_offset": [
+    1299,
+    74,
+    999
+   ],
+   "status": "STATIC PASS (live placement matches export)"
+  }
+ },
+ "note": "P4 evidence carried as historical only; no new LIVE pass. P3 regeneration uses archived solved selection; CP-SAT search not rerun."
+}

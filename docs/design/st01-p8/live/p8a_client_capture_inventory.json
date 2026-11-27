@@ -1,0 +1,277 @@
+{
+ "note": "Original 14 captures were never modified (hashes below match original_sha256.txt). Camera poses for the original run were not recorded; measured poses exist only for R2/R2b runs.",
+ "originals": [
+  {
+   "file": "0000_01-full-hall-exterior-oblique.png",
+   "sha256": "afc926fc9bce3ac97e5802073f42a350fed6211bf1fac42a20de030ec7fce879",
+   "class": "MISFRAMED",
+   "reason": "camera at flat-world ground level; hall not in frame (pose not recorded; cause inferred from R2 run: creative flight lost after teleport)"
+  },
+  {
+   "file": "0001_02-roof-overview-from-north.png",
+   "sha256": "0240cfedf069d80252f4929348e9ba485a12aab18a3778ffb900e058b7f7b3e1",
+   "class": "MISFRAMED",
+   "reason": "same as 01"
+  },
+  {
+   "file": "0002_03-entrance-exterior-approach.png",
+   "sha256": "7ca422cf9ab09263a9a563b11446e27f04e497348388f33f79bfa0807fcb1b3a",
+   "class": "MISFRAMED",
+   "reason": "same as 01"
+  },
+  {
+   "file": "0003_04-entrance-doorway-threshold.png",
+   "sha256": "3a3669d96ce300b6f9de3ae7b278da413ece7463a9b10aae9a6e6d7a5f45b6cc",
+   "class": "USABLE",
+   "reason": "doorway threshold: entrance walls and interior floor legible without adjustment; fairly dark"
+  },
+  {
+   "file": "0004_05-hall-interior-toward-dais.png",
+   "sha256": "4c9ca8eee869cef12b03aa4e3294fe30f59af8c7dd4c95b041e2586913a4945b",
+   "class": "DARK",
+   "reason": "hall interior toward dais; pillars and carved base only legible after brightening"
+  },
+  {
+   "file": "0005_06-primary-chest-and-dais-north.png",
+   "sha256": "b23366b2bdc65eba7308f801b44e60c619c0b546c7a987fe4ccedbf7b886f53d",
+   "class": "DARK",
+   "reason": "dais steps and PRIMARY chest top visible only after brightening"
+  },
+  {
+   "file": "0006_07-primary-chest-and-dais-northwest.png",
+   "sha256": "7382a1d505770ee11f430e81bffcba28e7f017ed05b95dd5d5ee043b844f8c5f",
+   "class": "DARK",
+   "reason": "stairs and chest from NW; legible after brightening"
+  },
+  {
+   "file": "0007_08-guardian-arena-from-north.png",
+   "sha256": "14fa84577bf3850ff409e554312edae7bc5b7fc3ff523c3e67700b2319e2d3af",
+   "class": "DARK",
+   "reason": "carved central base and arena; legible after brightening"
+  },
+  {
+   "file": "0008_09-guardian-arena-from-west.png",
+   "sha256": "03debc10791b1aeef42210b52d84d66827165d6796ae5ec743cfe3222016c127",
+   "class": "OBSTRUCTED",
+   "reason": "near-featureless; camera embedded in or against a block (suspected; pose not recorded)"
+  },
+  {
+   "file": "0009_10-sarcophagus-dais-from-west.png",
+   "sha256": "031aae7f3579ef4246336a82bf6504271bd3c4b2131a8581ae6b0c69f143c58d",
+   "class": "DARK",
+   "reason": "sarcophagus/dais from west; partly legible after brightening"
+  },
+  {
+   "file": "0010_11-frontal-stairs-approach.png",
+   "sha256": "18a5d4287b3bd1dac1fc185fe83901e001a36d6ec03eccb810eb7c65f86d3be8",
+   "class": "DARK",
+   "reason": "frontal dais with chest; best composition once brightened"
+  },
+  {
+   "file": "0011_12-side-depth-east-interior.png",
+   "sha256": "f1e8df16bdc3ad14cada3232eed275325ce0cc90103d3caf2ace14c40c47d3e0",
+   "class": "OBSTRUCTED",
+   "reason": "near-featureless; camera embedded in or against a block (suspected; pose not recorded)"
+  },
+  {
+   "file": "0012_13-side-depth-west-exterior.png",
+   "sha256": "9c2f168fdf4f97766c487e6d3d34461a2898a1ffc25482629a47cdfbe7b9e39d",
+   "class": "MISFRAMED",
+   "reason": "camera at flat-world ground level; hall not in frame"
+  },
+  {
+   "file": "0013_14-rear-view-from-south.png",
+   "sha256": "10b47a9bfbcd97a402fb4e0a4170b73c1ccf104ebea84aa42781ece251aa34f0",
+   "class": "MISFRAMED",
+   "reason": "camera at flat-world ground level; hall not in frame"
+  }
+ ],
+ "recaptures": [
+  {
+   "file": "0000_R2-01-exterior-north-front.png",
+   "sha256": "ce5236873e4735013ce88b6ffaafdc50c3853e9438dab2d248ae5acbaffb6642",
+   "class": "MISFRAMED",
+   "note": "superseded by the R2b recapture"
+  },
+  {
+   "file": "0000_R2-20-primary-chest-open-54-slot.png",
+   "sha256": "752f4631a8b3123ad2cc7cfe13b2806ab9d052c56d92332f90df9d31b9d8fbc4",
+   "class": "USABLE",
+   "note": "PRIMARY B chest opened: Large Chest, 6 rows, 54 container slots"
+  },
+  {
+   "file": "0000_R2b-01-exterior-north-front.png",
+   "sha256": "2ec7c6a41dc8788323c6acac6cd00d36f53f3dbdfddf6584bab91e40fdd1d489",
+   "class": "USABLE",
+   "note": "spectator camera at the commanded pose (measured == commanded)"
+  },
+  {
+   "file": "0001_R2-02-exterior-oblique-northwest.png",
+   "sha256": "d4a6432776a33519ec7b96c6d341b4396616c3c89f2daa529e652d6db163cce5",
+   "class": "MISFRAMED",
+   "note": "superseded by the R2b recapture"
+  },
+  {
+   "file": "0001_R2b-02-exterior-oblique-northwest.png",
+   "sha256": "ac7e718769d0ec9c2b8b434e06e423e9a1a74d756d1efcaccf075d3243a66641",
+   "class": "USABLE",
+   "note": "spectator camera at the commanded pose (measured == commanded)"
+  },
+  {
+   "file": "0002_R2-03-exterior-oblique-northeast.png",
+   "sha256": "09eccee4525116f6f1cba76d586cc8bc5251bb22b32cc91ff4fbfc2fe8063156",
+   "class": "MISFRAMED",
+   "note": "superseded by the R2b recapture"
+  },
+  {
+   "file": "0002_R2b-03-exterior-oblique-northeast.png",
+   "sha256": "72187f170f7fcbd90299d772df58a5e042c8f5608ce8a36948fdb3872dba7c25",
+   "class": "USABLE",
+   "note": "spectator camera at the commanded pose (measured == commanded)"
+  },
+  {
+   "file": "0003_R2-04-exterior-roof-overview.png",
+   "sha256": "026243bf7e9161acf91f623789911d3e3f2ecd13e6742339a00d2aaa7fece133",
+   "class": "MISFRAMED",
+   "note": "superseded by the R2b recapture"
+  },
+  {
+   "file": "0003_R2b-04-exterior-roof-overview.png",
+   "sha256": "c1f256cfa4fb5c8e5ea1189d38408d237edf5822d1fcce22bb25c50a316524fa",
+   "class": "USABLE",
+   "note": "spectator camera at the commanded pose (measured == commanded)"
+  },
+  {
+   "file": "0004_R2-05-entrance-approach-exterior.png",
+   "sha256": "98270cb1c157b9fc5d4b149c988bcaed59742ec4b4d1ad153aeab2496dc0b04b",
+   "class": "MISFRAMED",
+   "note": "superseded by the R2b recapture"
+  },
+  {
+   "file": "0004_R2b-05-entrance-approach-exterior.png",
+   "sha256": "b43ce04c4a45e4c77a922b594a2719903b29bf423f783401e0caf6346b0f1f2d",
+   "class": "USABLE",
+   "note": "spectator camera at the commanded pose (measured == commanded)"
+  },
+  {
+   "file": "0005_R2-06-doorway-looking-in.png",
+   "sha256": "655a9e3b85042b1e4a14eca847bea9e0c4138ad47d0285fe1218e8bf7b04d29e",
+   "class": "MISFRAMED",
+   "note": "superseded by the R2b recapture"
+  },
+  {
+   "file": "0005_R2b-06-doorway-looking-in.png",
+   "sha256": "79e36006b8c1956ce3093b74b2d5b3e54e916cef0122a4245b3077bb2fcdd7af",
+   "class": "USABLE",
+   "note": "spectator camera at the commanded pose (measured == commanded)"
+  },
+  {
+   "file": "0006_R2-07-hall-from-entrance.png",
+   "sha256": "e949ffe867959125dd03b9f4f135b5ef5a78ff493ccd5b894035c258176765a6",
+   "class": "USABLE",
+   "note": ""
+  },
+  {
+   "file": "0006_R2b-09-chest-and-dais-front.png",
+   "sha256": "9801fc905958edcc7619a018eb87c37a7828d9c6f26181f69a39c111be6aa9c0",
+   "class": "USABLE",
+   "note": "spectator camera at the commanded pose (measured == commanded)"
+  },
+  {
+   "file": "0007_R2-08-mid-hall-toward-dais.png",
+   "sha256": "c369c8f660599ef404fa66c67ae11e9cdb9cb4fb93e98c1805af99ced18d492f",
+   "class": "USABLE",
+   "note": ""
+  },
+  {
+   "file": "0007_R2b-16-side-depth-east-interior.png",
+   "sha256": "64aad51d8f8ffe2e03003aeb46c42abf574a528f1e9f886ad2c0b16b63675e62",
+   "class": "USABLE",
+   "note": "spectator camera at the commanded pose (measured == commanded); manifest lists eye block smooth_sandstone but the frame is clear and legible"
+  },
+  {
+   "file": "0008_R2-09-chest-and-dais-front.png",
+   "sha256": "dc342ba139c1da34a944755fa6f489d3469bfd74fad68326123f0ca6dba5071a",
+   "class": "OBSTRUCTED",
+   "note": "superseded by the R2b recapture"
+  },
+  {
+   "file": "0008_R2b-18-exterior-rear-south.png",
+   "sha256": "e977a965b1ea6f048523156d86e57063408c94ac19e44279698a7af1978c52c2",
+   "class": "USABLE",
+   "note": "spectator camera at the commanded pose (measured == commanded)"
+  },
+  {
+   "file": "0009_R2-10-chest-closeup-from-dais.png",
+   "sha256": "77624e8e89545c7fe2b450427e7331c73f3107b1dd3a0a711820ba1db7a94044",
+   "class": "USABLE",
+   "note": ""
+  },
+  {
+   "file": "0009_R2b-19-exterior-side-west.png",
+   "sha256": "627407b1bdbf4a770b74d1b7dff601b2c5ee1801540c193e6bf398c455066fe1",
+   "class": "USABLE",
+   "note": "spectator camera at the commanded pose (measured == commanded)"
+  },
+  {
+   "file": "0010_R2-11-guardian-arena-from-north.png",
+   "sha256": "b09b02ce9d93affe398484c8baf220ab7468c325e8a0aa931f69b60c91e93d52",
+   "class": "USABLE",
+   "note": ""
+  },
+  {
+   "file": "0011_R2-12-guardian-arena-from-west.png",
+   "sha256": "52b72754147f3b3405f000723a579db5149901b28786fe22a48147aa59167a3e",
+   "class": "USABLE",
+   "note": ""
+  },
+  {
+   "file": "0012_R2-13-sarcophagus-dais-west.png",
+   "sha256": "fdb4ab37864fef0f4ab4fd98669d22b856df0d44cc273584acfc95c5432cb4e4",
+   "class": "USABLE",
+   "note": ""
+  },
+  {
+   "file": "0013_R2-14-frontal-stairs-low.png",
+   "sha256": "07cab23865dd751f1f4e426204ab4d457ce536445a5971243b81cb3628293987",
+   "class": "USABLE",
+   "note": ""
+  },
+  {
+   "file": "0014_R2-15-stairs-from-side.png",
+   "sha256": "4abdeea487829e8c9d71a45bce4ecbfc51a1cbe381a8a032bb16ab6a033dab75",
+   "class": "USABLE",
+   "note": ""
+  },
+  {
+   "file": "0015_R2-16-side-depth-east-interior.png",
+   "sha256": "59b555b4ce27fd0eb3ed4616988d7c2378fbae8f3793af0a4447d32297207bcb",
+   "class": "OBSTRUCTED",
+   "note": "superseded by the R2b recapture"
+  },
+  {
+   "file": "0016_R2-17-side-depth-west-interior.png",
+   "sha256": "2568d38d39065011cb6cafd523bc043df1f1252407e794354b74f3916178d5d8",
+   "class": "USABLE",
+   "note": ""
+  },
+  {
+   "file": "0017_R2-18-exterior-rear-south.png",
+   "sha256": "e96c7274b6c8e66ff2c62e0a3652eb4efed4552e8d51b7318ebcc6f33ed3b3a0",
+   "class": "MISFRAMED",
+   "note": "superseded by the R2b recapture"
+  },
+  {
+   "file": "0018_R2-19-exterior-side-west.png",
+   "sha256": "05363cfac241fde453ddab2769ac9da16cc0355df52d86db42e24a78fb3d8c8b",
+   "class": "MISFRAMED",
+   "note": "superseded by the R2b recapture"
+  }
+ ],
+ "run_manifests": [
+  "p8a_client_manifest_r2_run1.json",
+  "p8a_client_manifest_r2b.json",
+  "p8a_client_manifest_r2c.json",
+  "p8a_client_manifest_r2d.json"
+ ]
+}

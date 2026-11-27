@@ -1,0 +1,128 @@
+{
+ "C1": {
+  "positions_checked": 159048,
+  "blocks": 32366,
+  "origin": [
+   -23,
+   0,
+   -23
+  ],
+  "max": [
+   23,
+   71,
+   23
+  ],
+  "offset": [
+   1000,
+   90,
+   1000
+  ],
+  "functions": [
+   "c1_0",
+   "c1_1",
+   "c1_2",
+   "c1_3",
+   "c1_4",
+   "c1_5",
+   "c1_6",
+   "c1_7",
+   "c1_8",
+   "c1_9",
+   "c1_10",
+   "c1_11",
+   "c1_12",
+   "c1_13",
+   "c1_14",
+   "c1_15"
+  ],
+  "template_sha256": "285ca97322fb79fcaa44289a5e1eb9cb024e507415ef455a26c76d3d39ffe0ac",
+  "forceload": "Marked 25 chunks in minecraft:overworld from [60, 60] to [64, 64] to be force loaded",
+  "placement": "Loaded template \"p5:c1\" at 977, 90, 977",
+  "function_responses": [
+   "Running function p5:c1_0",
+   "Running function p5:c1_1",
+   "Running function p5:c1_2",
+   "Running function p5:c1_3",
+   "Running function p5:c1_4",
+   "Running function p5:c1_5",
+   "Running function p5:c1_6",
+   "Running function p5:c1_7",
+   "Running function p5:c1_8",
+   "Running function p5:c1_9",
+   "Running function p5:c1_10",
+   "Running function p5:c1_11",
+   "Running function p5:c1_12",
+   "Running function p5:c1_13",
+   "Running function p5:c1_14",
+   "Running function p5:c1_15"
+  ],
+  "error_score": "errors has 32366 [p5]",
+  "status": "CONFLICT",
+  "scope": "actual strict placement only; not player movement"
+ },
+ "C2": {
+  "positions_checked": 156839,
+  "blocks": 31617,
+  "origin": [
+   -23,
+   0,
+   -23
+  ],
+  "max": [
+   23,
+   70,
+   23
+  ],
+  "offset": [
+   1100,
+   90,
+   1000
+  ],
+  "functions": [
+   "c2_0",
+   "c2_1",
+   "c2_2",
+   "c2_3",
+   "c2_4",
+   "c2_5",
+   "c2_6",
+   "c2_7",
+   "c2_8",
+   "c2_9",
+   "c2_10",
+   "c2_11",
+   "c2_12",
+   "c2_13",
+   "c2_14",
+   "c2_15"
+  ],
+  "template_sha256": "27c6a6ccd85f7beee754327c19d1cc8f1abd2ea51de0b6e3685d5ae3c7202f59",
+  "forceload": "Marked 25 chunks in minecraft:overworld from [66, 60] to [70, 64] to be force loaded",
+  "placement": "Loaded template \"p5:c2\" at 1077, 90, 977",
+  "function_responses": [
+   "Running function p5:c2_0",
+   "Running function p5:c2_1",
+   "Running function p5:c2_2",
+   "Running function p5:c2_3",
+   "Running function p5:c2_4",
+   "Running function p5:c2_5",
+   "Running function p5:c2_6",
+   "Running function p5:c2_7",
+   "Running function p5:c2_8",
+   "Running function p5:c2_9",
+   "Running function p5:c2_10",
+   "Running function p5:c2_11",
+   "Running function p5:c2_12",
+   "Running function p5:c2_13",
+   "Running function p5:c2_14",
+   "Running function p5:c2_15"
+  ],
+  "error_score": "errors has 31617 [p5]",
+  "status": "CONFLICT",
+  "scope": "actual strict placement only; not player movement"
+ },
+ "startup": {
+  "datapack list enabled": "There are 2 data pack(s) enabled: [vanilla (built-in)], [file/p5 (world)]",
+  "scoreboard objectives add p5 dummy": "Created new objective [p5]"
+ }
+}

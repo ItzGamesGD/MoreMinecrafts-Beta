@@ -1,0 +1,101 @@
+{
+ "note": "Full-resolution (1920x1080) PNGs are in build/st01-p8a-client/captures-r2/ (not committed). D1B = approved P8-A baseline asset (git 20a3578), D1A = D1 asset; identical spectator camera poses (measured == commanded for all 24). Comparison sheets d1_before_after_N.jpg are compressed review copies.",
+ "frames": [
+  {
+   "file": "0000_D1A-01-chamber-floor-elevated-north.png",
+   "sha256": "542ffc647639eef53d439a9caf388b814eba8b55feb61fafdc6e8c96a930dd2d"
+  },
+  {
+   "file": "0000_D1B-01-chamber-floor-elevated-north.png",
+   "sha256": "ce024465b3c23872d08cedf5e34d816b7cb0096a2f2f46302d27030ce9df469c"
+  },
+  {
+   "file": "0001_D1A-02-field-motif-aimed-east.png",
+   "sha256": "2d9225f6b916a60f16ab2af973670dc177b3b145411e0511db39c7fcb19cca1a"
+  },
+  {
+   "file": "0001_D1B-02-field-motif-aimed-east.png",
+   "sha256": "1ac308147b14f1ed0a847adac09293d112488a32f2e17ab165052958049779c1"
+  },
+  {
+   "file": "0002_D1A-03-field-motif-aimed-west.png",
+   "sha256": "b6ac79993235969b3e0b05a033a872083a414adb4f79509f79d6bdb0723efc54"
+  },
+  {
+   "file": "0002_D1B-03-field-motif-aimed-west.png",
+   "sha256": "002f233228b8e7b8af68f3b7f8079629b0c3beefe8ffa30aa2440a85a979db22"
+  },
+  {
+   "file": "0003_D1A-04-runner-from-doorway-floor-level.png",
+   "sha256": "b33472109fea961fa44b6dec74a1aa18636dd0046cc84d3597989f92251f14f2"
+  },
+  {
+   "file": "0003_D1B-04-runner-from-doorway-floor-level.png",
+   "sha256": "49481c30575db637c0961b274318bb3a26ef8c669f998fa07a4d6b81d837f12c"
+  },
+  {
+   "file": "0004_D1A-05-guardian-arena-from-dais-side-high.png",
+   "sha256": "6a8921975fb7c64e07a8b84bd386eee6844af7f55efc57e008c6295da595c1de"
+  },
+  {
+   "file": "0004_D1B-05-guardian-arena-from-dais-side-high.png",
+   "sha256": "7171332a94a0cc03504bdbfcdd0c56530ce6d752e5089a2146dbe7430a05b886"
+  },
+  {
+   "file": "0005_D1A-06-west-aisle-floor-level.png",
+   "sha256": "df91247e3d4dd30c82141ef7c148a42c3fd5732e81a8ba32aed83b12b136791b"
+  },
+  {
+   "file": "0005_D1B-06-west-aisle-floor-level.png",
+   "sha256": "40c3971a32f8f652187fd3ef3658bb950ee0a1924928f16aa453f03a83aef9e7"
+  },
+  {
+   "file": "0006_D1A-07-stairs-front-low.png",
+   "sha256": "1c420c4666977afa65837f5670509270390571147bf2e7731f6eb8860ae5fc98"
+  },
+  {
+   "file": "0006_D1B-07-stairs-front-low.png",
+   "sha256": "ac48533e551e4a1f6946f098d73bbaf1236fd5f7398304e31ab2d5114042f360"
+  },
+  {
+   "file": "0007_D1A-08-stairs-side.png",
+   "sha256": "927b11c7798a58c582698aab9c9cf2d729cbd56d4a0c7a7579907ebbcc410461"
+  },
+  {
+   "file": "0007_D1B-08-stairs-side.png",
+   "sha256": "4a9a0098c770b1c6a8a02c45c884de0b819f62a09ef91f7494744ac09475ff8c"
+  },
+  {
+   "file": "0008_D1A-09-final-stair-to-dais-connection.png",
+   "sha256": "30fed9599d579c2da0ae90c42a0903fbe00a6cf9e25ce5486d3242b123c2c179"
+  },
+  {
+   "file": "0008_D1B-09-final-stair-to-dais-connection.png",
+   "sha256": "7ec928e6791931f6b3cdddb7f21387e59108ac1d9d7c0a35e49d6a5ce04887ec"
+  },
+  {
+   "file": "0009_D1A-10-primary-chest-and-dais-front.png",
+   "sha256": "9ac0acce3e2ae3947821abfa50fa8737e98c4a1adbf13a03160adffa798601d5"
+  },
+  {
+   "file": "0009_D1B-10-primary-chest-and-dais-front.png",
+   "sha256": "9801fc905958edcc7619a018eb87c37a7828d9c6f26181f69a39c111be6aa9c0"
+  },
+  {
+   "file": "0010_D1A-11-dais-from-above.png",
+   "sha256": "9cbed53307d42d0eb8a2acecf811cc2cd8fda13fc9da884be323cef507fb8399"
+  },
+  {
+   "file": "0010_D1B-11-dais-from-above.png",
+   "sha256": "2bf06de8e73f3db046700334718ac939c0f809d340b51484dbb9926291faa775"
+  },
+  {
+   "file": "0011_D1A-12-hall-floor-from-rear-high.png",
+   "sha256": "ce32c051fe9f09e14e2ce3b1fbeb639d57a762747b53fa1bd49ca2d797ebd438"
+  },
+  {
+   "file": "0011_D1B-12-hall-floor-from-rear-high.png",
+   "sha256": "44445ec738f2546549f3a49fceaf58bd722130c20f6446873ef15edda04632ac"
+  }
+ ]
+}

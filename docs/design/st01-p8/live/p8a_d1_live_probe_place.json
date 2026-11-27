@@ -1,0 +1,141 @@
+{
+  "phase": "place",
+  "voxel_mismatches": 0,
+  "voxel_mismatch_pairs": {},
+  "materials_in_world": {
+    "sandstone": 7784,
+    "smooth_sandstone": 11366,
+    "smooth_red_sandstone": 168,
+    "air": 9615,
+    "chiseled_sandstone": 304,
+    "cut_sandstone": 1161,
+    "gold_block": 2,
+    "sandstone_stairs": 18,
+    "chest": 2
+  },
+  "state_sha256": "e5bcd185122b43e88092722b850b368a4131bdc2f193ede06ecddde7b3686b89",
+  "route": {
+    "dais": "target\u003dBlockPos{x\u003d-17, y\u003d-20, z\u003d34} exact\u003dfalse withinTolerance\u003dtrue nodes\u003d29 maxRise\u003d1.0 [fromChunkLoaded\u003dtrue toChunkLoaded\u003dtrue onGround\u003dtrue followRange\u003d35.0 nav\u003dGroundPathNavigation selfPath\u003d1/true acc8Path\u003d27/true acc0Path\u003d29/false]",
+    "arena": "target\u003dBlockPos{x\u003d-21, y\u003d-22, z\u003d26} exact\u003dtrue withinTolerance\u003dtrue nodes\u003d25 maxRise\u003d0.0 [fromChunkLoaded\u003dtrue toChunkLoaded\u003dtrue onGround\u003dtrue followRange\u003d35.0 nav\u003dGroundPathNavigation selfPath\u003d1/true acc8Path\u003d16/true acc0Path\u003d25/true]",
+    "stairs_exact": "11/18",
+    "chest": "target\u003dBlockPos{x\u003d-21, y\u003d-20, z\u003d32} exact\u003dfalse withinTolerance\u003dtrue nodes\u003d28 maxRise\u003d1.0 [fromChunkLoaded\u003dtrue toChunkLoaded\u003dtrue onGround\u003dtrue followRange\u003d35.0 nav\u003dGroundPathNavigation selfPath\u003d1/true acc8Path\u003d26/true acc0Path\u003d28/false]"
+  },
+  "placed_hash_recorded": true,
+  "checks": [
+    {
+      "id": "P8A_LIVE_TEMPLATE_LOAD",
+      "title": "Template loads from the game\u0027s StructureTemplateManager",
+      "verdict": "PASS",
+      "evidence": "loaded moreminecrafts:pyramid/royal_hall"
+    },
+    {
+      "id": "P8A_LIVE_TEMPLATE_SIZE",
+      "title": "Template size equals the 39x20x39 reservation",
+      "verdict": "PASS",
+      "evidence": "size\u003d39x20x39"
+    },
+    {
+      "id": "P8A_LIVE_PLACE_RETURN",
+      "title": "StructureTemplate.placeInWorld returns true at origin BlockPos{x\u003d-40, y\u003d-24, z\u003d2}",
+      "verdict": "PASS",
+      "evidence": "returned\u003dtrue origin\u003dBlockPos{x\u003d-40, y\u003d-24, z\u003d2} rotation\u003dNONE mirror\u003dNONE"
+    },
+    {
+      "id": "P8A_LIVE_VOXEL_MATCH",
+      "title": "Every block in the 39x20x39 volume matches the committed NBT (exact BlockState)",
+      "verdict": "PASS",
+      "evidence": "volume\u003d30420 mismatches\u003d0"
+    },
+    {
+      "id": "P8A_LIVE_CHEST_STATES",
+      "title": "PRIMARY B halves: minecraft:chest, facing\u003dnorth, type left at (-21,-20,33) / right at (-20,-20,33)",
+      "verdict": "PASS",
+      "evidence": "left\u003dBlock{minecraft:chest}[facing\u003dnorth,type\u003dleft,waterlogged\u003dfalse] right\u003dBlock{minecraft:chest}[facing\u003dnorth,type\u003dright,waterlogged\u003dfalse]"
+    },
+    {
+      "id": "P8A_LIVE_CHEST_BLOCK_ENTITIES",
+      "title": "Both halves have a ChestBlockEntity",
+      "verdict": "PASS",
+      "evidence": "left\u003dChestBlockEntity right\u003dChestBlockEntity"
+    },
+    {
+      "id": "P8A_LIVE_CHEST_PAIRING",
+      "title": "Vanilla ChestBlock pairing: halves point at each other and combine as a double chest (left\u003dSECOND, right\u003dFIRST)",
+      "verdict": "PASS",
+      "evidence": "connected(left)\u003dBlockPos{x\u003d-20, y\u003d-20, z\u003d33} connected(right)\u003dBlockPos{x\u003d-21, y\u003d-20, z\u003d33} blockType(left)\u003dSECOND blockType(right)\u003dFIRST"
+    },
+    {
+      "id": "P8A_LIVE_CHEST_CONTAINER_54",
+      "title": "Chest inventory resolves to one 54-slot container from either half",
+      "verdict": "PASS",
+      "evidence": "ChestBlock.getContainer(left)\u003dCompoundContainer size\u003d54"
+    },
+    {
+      "id": "P8A_LIVE_CHEST_CONTAINER_FROM_RIGHT",
+      "title": "Right half resolves to the same 54-slot double container",
+      "verdict": "PASS",
+      "evidence": "ChestBlock.getContainer(right)\u003dCompoundContainer size\u003d54"
+    },
+    {
+      "id": "P8A_LIVE_CHEST_NOT_OBSTRUCTED",
+      "title": "No solid block above either half (vanilla opening obstruction check passes)",
+      "verdict": "PASS",
+      "evidence": "isChestBlockedAt left\u003dfalse right\u003dfalse above(left)\u003dBlock{minecraft:air} above(right)\u003dBlock{minecraft:air}"
+    },
+    {
+      "id": "P8A_LIVE_GUARDIAN_FLOOR",
+      "title": "Guardian 3B anchor (-21,-22,26) stands on a sturdy floor at y\u003d-23",
+      "verdict": "PASS",
+      "evidence": "floor\u003dBlock{minecraft:smooth_red_sandstone} sturdyUp\u003dtrue"
+    },
+    {
+      "id": "P8A_LIVE_GUARDIAN_CLEARANCE_3x5x3",
+      "title": "3x5x3 clearance above the Guardian 3B anchor is all air",
+      "verdict": "PASS",
+      "evidence": "air\u003d45/45 (x -22..-20, y -22..-18, z 25..27)"
+    },
+    {
+      "id": "P8A_LIVE_GUARDIAN_HEADROOM",
+      "title": "Air headroom above the Guardian 3B anchor is at least 10 blocks",
+      "verdict": "PASS",
+      "evidence": "contiguous air blocks from anchor upward (to template top): 13"
+    },
+    {
+      "id": "P8A_LIVE_GUARDIAN_COLLISION",
+      "title": "Tomb Guardian entity box at the anchor has no collision with the structure",
+      "verdict": "PASS",
+      "evidence": "box\u003dAABB[-21.174999952316284, -22.0, 25.825000047683716] -\u003e [-19.825000047683716, -17.649999618530273, 27.174999952316284] noCollision\u003dtrue dims\u003dEntityDimensions[width\u003d1.3499999, height\u003d4.3500004, eyeHeight\u003d3.6975005, attachments\u003dnet.minecraft.world.entity.EntityAttachments@6bf556f7, fixed\u003dfalse]"
+    },
+    {
+      "id": "P8A_LIVE_ROUTE_DOORWAY",
+      "title": "Doorway opening (x -22..-20, y -22..-20, z 2..4) is clear air in the live world",
+      "verdict": "PASS",
+      "evidence": "doorway open cells at z\u003d3: 9/9"
+    },
+    {
+      "id": "P8A_LIVE_ROUTE_ARENA",
+      "title": "Vanilla pathfinding from the doorway reaches the Guardian 3B arena anchor (-21,-22,26)",
+      "verdict": "PASS",
+      "evidence": "target\u003dBlockPos{x\u003d-21, y\u003d-22, z\u003d26} exact\u003dtrue withinTolerance\u003dtrue nodes\u003d25 maxRise\u003d0.0 [fromChunkLoaded\u003dtrue toChunkLoaded\u003dtrue onGround\u003dtrue followRange\u003d35.0 nav\u003dGroundPathNavigation selfPath\u003d1/true acc8Path\u003d16/true acc0Path\u003d25/true]"
+    },
+    {
+      "id": "P8A_LIVE_ROUTE_CHEST",
+      "title": "Vanilla pathfinding from the doorway reaches the cell north of the PRIMARY chest (-21,-20,32)",
+      "verdict": "PARTIAL",
+      "evidence": "target\u003dBlockPos{x\u003d-21, y\u003d-20, z\u003d32} exact\u003dfalse withinTolerance\u003dtrue nodes\u003d28 maxRise\u003d1.0 [fromChunkLoaded\u003dtrue toChunkLoaded\u003dtrue onGround\u003dtrue followRange\u003d35.0 nav\u003dGroundPathNavigation selfPath\u003d1/true acc8Path\u003d26/true acc0Path\u003d28/false]"
+    },
+    {
+      "id": "P8A_LIVE_ROUTE_DAIS",
+      "title": "Vanilla pathfinding from the doorway reaches the dais top (-17,-20,34) without a 1-block jump",
+      "verdict": "PARTIAL",
+      "evidence": "target\u003dBlockPos{x\u003d-17, y\u003d-20, z\u003d34} exact\u003dfalse withinTolerance\u003dtrue nodes\u003d29 maxRise\u003d1.0 [fromChunkLoaded\u003dtrue toChunkLoaded\u003dtrue onGround\u003dtrue followRange\u003d35.0 nav\u003dGroundPathNavigation selfPath\u003d1/true acc8Path\u003d27/true acc0Path\u003d29/false]"
+    },
+    {
+      "id": "P8A_LIVE_ROUTE_STAIRS",
+      "title": "Vanilla pathfinding reaches the top of all 18 frontal dais stair cells (x -25..-17, z 30..31)",
+      "verdict": "PARTIAL",
+      "evidence": "exact\u003d11/18 withinTolerance\u003d18/18 max node rise\u003d1.0"
+    }
+  ],
+  "all_pass": false
+}

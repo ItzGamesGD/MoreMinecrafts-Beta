@@ -1,0 +1,1 @@
+{"status":"INFEASIBLE","seconds":0.0,"gap_deg":80,"balconies_required":false,"contact_min":3,"a5_strict":true,"sequential_fixed_pillars":false,"name":"T1_whole_block_D45_pillars_only_gap80","geometry":{"rb":19.5,"domain":["whole",45]},"pillar_candidates":0,"band_columns":452,"ring_columns":288}

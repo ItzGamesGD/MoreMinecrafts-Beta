@@ -1,0 +1,7 @@
+{
+ "jar": "build/libs/moreminecrafts-0.1.0-alpha.1.jar",
+ "jar_sha256": "dd4c09aa914e1a253c9ea2dc9a33ced0054cce314d0861f59df81548f306cc52",
+ "template_sha256": "cec5bced051fdddcf5ebe80ed267ea3c5749126559ef982f82ac1b4dd435cd27",
+ "approved_template_byte_identical": true,
+ "final_build_scope": "all588unit + focused4serverGameTests + data validation and packaging; full530batch529pass/1legacytimingfail; unchanged legacy case passes isolated"
+}

@@ -1,0 +1,268 @@
+{
+  "mode": "f-run",
+  "seed": 7001,
+  "y_band": "-48..0",
+  "reservations": 4,
+  "algo": "st05-stage0f-construction-v1",
+  "placements": [
+    {
+      "id": "20d89ee7a8aa754c",
+      "center": "-837,-1174",
+      "reserved_floorY": -25,
+      "state_at_entry": "RESERVED",
+      "snapshot_ms": 5323,
+      "structure_pieces_near": 37,
+      "structure_types_near": {
+        "minecraft:mineshaft": 1,
+        "minecraft:ocean_ruin_warm": 1,
+        "minecraft:trial_chambers": 1
+      },
+      "planning_ms": 3716,
+      "candidates": [
+        {
+          "idx": 0,
+          "floorY": -25,
+          "ok": true,
+          "reason": "",
+          "score_milli": 80200,
+          "parts": {
+            "C": 63,
+            "T": 95,
+            "F": 94,
+            "E": 76
+          },
+          "route_work": 39065,
+          "hash": "f1629a90896a63e66e876d6b745be00e3c7e6b58d9c99fc050c034f256b024de",
+          "cells": 73716,
+          "stats": {
+            "arena_variant_0": 1,
+            "fluid_cells_removed_in_volume": 8,
+            "sealed_fluid_cells": 12
+          },
+          "routes": [
+            "dir=1 len=11 stairs=6 turns=1",
+            "dir=3 len=32 stairs=23 turns=2"
+          ]
+        },
+        {
+          "idx": 1,
+          "floorY": -24,
+          "ok": true,
+          "reason": "",
+          "score_milli": 80600,
+          "parts": {
+            "C": 63,
+            "T": 96,
+            "F": 94,
+            "E": 76
+          },
+          "route_work": 39241,
+          "hash": "baa8cc0987c3ccb17da56bf875e3265d8ef71c3d9692a684d3446a14037f4850",
+          "cells": 73713,
+          "stats": {
+            "arena_variant_0": 1,
+            "fluid_cells_removed_in_volume": 8,
+            "sealed_fluid_cells": 12
+          },
+          "routes": [
+            "dir=1 len=11 stairs=7 turns=1",
+            "dir=3 len=32 stairs=22 turns=2"
+          ]
+        },
+        {
+          "idx": 2,
+          "floorY": -26,
+          "ok": true,
+          "reason": "",
+          "score_milli": 80200,
+          "parts": {
+            "C": 63,
+            "T": 95,
+            "F": 94,
+            "E": 76
+          },
+          "route_work": 38791,
+          "hash": "35ae3609835974c543bb10eac619c41759793c85436d0dc4cfb7848b4e1065b8",
+          "cells": 73716,
+          "stats": {
+            "arena_variant_0": 1,
+            "fluid_cells_removed_in_volume": 8,
+            "sealed_fluid_cells": 12
+          },
+          "routes": [
+            "dir=1 len=11 stairs=5 turns=1",
+            "dir=3 len=32 stairs=24 turns=2"
+          ]
+        },
+        {
+          "idx": 3,
+          "floorY": -23,
+          "ok": true,
+          "reason": "",
+          "score_milli": 80200,
+          "parts": {
+            "C": 63,
+            "T": 95,
+            "F": 94,
+            "E": 76
+          },
+          "route_work": 39328,
+          "hash": "86a6f115b0c104d697c4d60b2d0c4af0c15892f1478a77ccbfeba19358928a7f",
+          "cells": 73716,
+          "stats": {
+            "arena_variant_0": 1,
+            "fluid_cells_removed_in_volume": 44,
+            "gravity_support_cells": 5,
+            "sealed_fluid_cells": 12
+          },
+          "routes": [
+            "dir=1 len=11 stairs=8 turns=1",
+            "dir=3 len=32 stairs=21 turns=2"
+          ]
+        },
+        {
+          "idx": 4,
+          "floorY": -27,
+          "ok": true,
+          "reason": "",
+          "score_milli": 79800,
+          "parts": {
+            "C": 63,
+            "T": 94,
+            "F": 94,
+            "E": 76
+          },
+          "route_work": 38410,
+          "hash": "1582f2e26715749d5b4fd50c88151aba2c8ce0c0db730a306984cb5dcdf462e9",
+          "cells": 73716,
+          "stats": {
+            "arena_variant_0": 1,
+            "fluid_cells_removed_in_volume": 8,
+            "sealed_fluid_cells": 12
+          },
+          "routes": [
+            "dir=1 len=11 stairs=4 turns=1",
+            "dir=3 len=32 stairs=25 turns=2"
+          ]
+        },
+        {
+          "idx": 5,
+          "floorY": -22,
+          "ok": true,
+          "reason": "",
+          "score_milli": 79800,
+          "parts": {
+            "C": 62,
+            "T": 95,
+            "F": 94,
+            "E": 76
+          },
+          "route_work": 39829,
+          "hash": "873637c1b57cfbe970e9328d7547c39bf4817c485465629c74ea8150ab134e34",
+          "cells": 73755,
+          "stats": {
+            "arena_variant_0": 1,
+            "fluid_cells_removed_in_volume": 182,
+            "gravity_support_cells": 8,
+            "sealed_fluid_cells": 11
+          },
+          "routes": [
+            "dir=1 len=12 stairs=9 turns=1",
+            "dir=3 len=32 stairs=20 turns=2"
+          ]
+        },
+        {
+          "idx": 6,
+          "floorY": -28,
+          "ok": true,
+          "reason": "",
+          "score_milli": 79000,
+          "parts": {
+            "C": 63,
+            "T": 92,
+            "F": 94,
+            "E": 76
+          },
+          "route_work": 37926,
+          "hash": "a1133d02f0eb2c07a57b24a68f88360b1173d9e981d48e3deedeb3917fa6742e",
+          "cells": 73714,
+          "stats": {
+            "arena_variant_0": 1,
+            "fluid_cells_removed_in_volume": 8,
+            "sealed_fluid_cells": 12
+          },
+          "routes": [
+            "dir=1 len=11 stairs=3 turns=1",
+            "dir=3 len=32 stairs=26 turns=2"
+          ]
+        },
+        {
+          "idx": 7,
+          "floorY": -21,
+          "ok": true,
+          "reason": "",
+          "score_milli": 79000,
+          "parts": {
+            "C": 60,
+            "T": 95,
+            "F": 94,
+            "E": 76
+          },
+          "route_work": 40912,
+          "hash": "e70181142441b33e3ee623bd3faed1ba347ee48f82b33cde338f309b7b6ddd24",
+          "cells": 73800,
+          "stats": {
+            "arena_variant_0": 1,
+            "fluid_cells_removed_in_volume": 426,
+            "gravity_support_cells": 8,
+            "sealed_fluid_cells": 11
+          },
+          "routes": [
+            "dir=1 len=13 stairs=10 turns=1",
+            "dir=3 len=32 stairs=19 turns=2"
+          ]
+        }
+      ],
+      "cave_components": 1027,
+      "cave_qualified_components": 9,
+      "chosen_candidate": 1,
+      "chosen_floorY": -24,
+      "variant": "INTACT",
+      "plan_hash": "baa8cc0987c3ccb17da56bf875e3265d8ef71c3d9692a684d3446a14037f4850",
+      "plan_cells": 73713,
+      "plan_ops": 76923,
+      "plan_stats": {
+        "arena_variant_0": 1,
+        "fluid_cells_removed_in_volume": 8,
+        "sealed_fluid_cells": 12
+      },
+      "batches": 68,
+      "apply_ms": 2376,
+      "action": "CONSTRUCTED",
+      "plan_mismatches": 0,
+      "verify_failures": [
+        "ROUTE_NOT_WALKABLE_WITHIN_CAP dir=3 dist=35",
+        "CORRIDOR_CLEARANCE_OR_FLOOR_BAD x12"
+      ],
+      "measured": {
+        "fluid_adjacent_open_cells": 0,
+        "exterior_radius": 34,
+        "max_solid_offset": 22,
+        "vault_blocks_expected": 7,
+        "walk_arena_to_cave_dir1": 17,
+        "walk_arena_to_cave_dir3": 42,
+        "corridors": 2,
+        "vault_blocks": 7,
+        "ominous_vault_at_exact_center": true
+      },
+      "writes": 76923,
+      "ms": 12222,
+      "final_state": "QUARANTINED",
+      "final_reason": "VERIFY_FAILED ROUTE_NOT_WALKABLE_WITHIN_CAP dir=3 dist=35;CORRIDOR_CLEARANCE_OR_FLOOR_BAD x12",
+      "reservation_preserved": true
+    }
+  ],
+  "world_writes": 76923,
+  "chunk_saves": 18,
+  "post_tick_reverification": []
+}

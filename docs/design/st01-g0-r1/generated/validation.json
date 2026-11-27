@@ -1,0 +1,1384 @@
+{
+  "status": "PASS",
+  "matrix": [
+    {
+      "whole_rotation": "SOUTH",
+      "access": "EAST",
+      "d1_only_exact_exception": true,
+      "rotated_navigation_executed": true,
+      "three_wide_access_from_landing": true,
+      "underground_boundary_sealed": true,
+      "inactive_route_filled": true,
+      "mandatory_room_goals": true,
+      "unreachable_room_goals": [],
+      "cavity_overlap_contract": true,
+      "overlap_report": [],
+      "minecraft_26_3_states": true,
+      "palette_errors": [],
+      "p2_stair_clearance": true,
+      "p2_stair_failures": [],
+      "new_access_vs_p1_p2": true,
+      "illegal_access_overlaps": [],
+      "operation_replay": true,
+      "cover_intact_closed": true,
+      "entrance_to_primary": true,
+      "guardian_clearance": true,
+      "secret_concealed": true,
+      "secret_open_treasury": true,
+      "secret_open_crypt": true,
+      "independent_array_transform": true,
+      "block_state_rotation_inverse": true,
+      "descent_4high_and_treads": true,
+      "light_supports": true,
+      "light_count": 94,
+      "block_entity_positions": true,
+      "palette_complete": true,
+      "primary_double_handedness": true,
+      "anchor": [
+        -21,
+        -20,
+        33
+      ],
+      "primary_right": [
+        -20,
+        -20,
+        33
+      ],
+      "guardian": [
+        -21,
+        -22,
+        26
+      ],
+      "fixed_treasury": [
+        6,
+        -30,
+        26
+      ],
+      "fixed_crypt": [
+        15,
+        -30,
+        -1
+      ],
+      "rotated_palette": [
+        {
+          "id": "minecraft:air"
+        },
+        {
+          "id": "minecraft:sandstone"
+        },
+        {
+          "id": "minecraft:chiseled_sandstone"
+        },
+        {
+          "id": "minecraft:cut_sandstone"
+        },
+        {
+          "id": "minecraft:gold_block"
+        },
+        {
+          "id": "minecraft:black_terracotta"
+        },
+        {
+          "id": "minecraft:diamond_block"
+        },
+        {
+          "id": "minecraft:oak_planks"
+        },
+        {
+          "id": "minecraft:flower_pot"
+        },
+        {
+          "id": "minecraft:smooth_sandstone"
+        },
+        {
+          "id": "minecraft:wall_torch",
+          "properties": {
+            "facing": "east"
+          }
+        },
+        {
+          "id": "minecraft:wall_torch",
+          "properties": {
+            "facing": "west"
+          }
+        },
+        {
+          "id": "minecraft:wall_torch",
+          "properties": {
+            "facing": "south"
+          }
+        },
+        {
+          "id": "minecraft:wall_torch",
+          "properties": {
+            "facing": "north"
+          }
+        },
+        {
+          "id": "minecraft:chest",
+          "properties": {
+            "facing": "west",
+            "type": "single",
+            "waterlogged": "false"
+          }
+        },
+        {
+          "id": "minecraft:cyan_concrete"
+        },
+        {
+          "id": "minecraft:lapis_block"
+        },
+        {
+          "id": "minecraft:smooth_red_sandstone"
+        },
+        {
+          "id": "minecraft:sandstone_stairs",
+          "properties": {
+            "facing": "south",
+            "half": "bottom",
+            "shape": "straight",
+            "waterlogged": "false"
+          }
+        },
+        {
+          "id": "minecraft:chest",
+          "properties": {
+            "facing": "north",
+            "type": "left",
+            "waterlogged": "false"
+          }
+        },
+        {
+          "id": "minecraft:chest",
+          "properties": {
+            "facing": "north",
+            "type": "right",
+            "waterlogged": "false"
+          }
+        }
+      ],
+      "bounds": [
+        -40,
+        40,
+        -32,
+        39,
+        -40,
+        40
+      ],
+      "closed_reachable": 10540,
+      "open_reachable": 11280,
+      "fixed_destinations_across_routes": true
+    },
+    {
+      "whole_rotation": "WEST",
+      "access": "EAST",
+      "d1_only_exact_exception": true,
+      "rotated_navigation_executed": true,
+      "three_wide_access_from_landing": true,
+      "underground_boundary_sealed": true,
+      "inactive_route_filled": true,
+      "mandatory_room_goals": true,
+      "unreachable_room_goals": [],
+      "cavity_overlap_contract": true,
+      "overlap_report": [],
+      "minecraft_26_3_states": true,
+      "palette_errors": [],
+      "p2_stair_clearance": true,
+      "p2_stair_failures": [],
+      "new_access_vs_p1_p2": true,
+      "illegal_access_overlaps": [],
+      "operation_replay": true,
+      "cover_intact_closed": true,
+      "entrance_to_primary": true,
+      "guardian_clearance": true,
+      "secret_concealed": true,
+      "secret_open_treasury": true,
+      "secret_open_crypt": true,
+      "independent_array_transform": true,
+      "block_state_rotation_inverse": true,
+      "descent_4high_and_treads": true,
+      "light_supports": true,
+      "light_count": 94,
+      "block_entity_positions": true,
+      "palette_complete": true,
+      "primary_double_handedness": true,
+      "anchor": [
+        -33,
+        -20,
+        -21
+      ],
+      "primary_right": [
+        -33,
+        -20,
+        -20
+      ],
+      "guardian": [
+        -26,
+        -22,
+        -21
+      ],
+      "fixed_treasury": [
+        -26,
+        -30,
+        6
+      ],
+      "fixed_crypt": [
+        1,
+        -30,
+        15
+      ],
+      "rotated_palette": [
+        {
+          "id": "minecraft:air"
+        },
+        {
+          "id": "minecraft:sandstone"
+        },
+        {
+          "id": "minecraft:chiseled_sandstone"
+        },
+        {
+          "id": "minecraft:cut_sandstone"
+        },
+        {
+          "id": "minecraft:gold_block"
+        },
+        {
+          "id": "minecraft:black_terracotta"
+        },
+        {
+          "id": "minecraft:diamond_block"
+        },
+        {
+          "id": "minecraft:oak_planks"
+        },
+        {
+          "id": "minecraft:flower_pot"
+        },
+        {
+          "id": "minecraft:smooth_sandstone"
+        },
+        {
+          "id": "minecraft:wall_torch",
+          "properties": {
+            "facing": "south"
+          }
+        },
+        {
+          "id": "minecraft:wall_torch",
+          "properties": {
+            "facing": "north"
+          }
+        },
+        {
+          "id": "minecraft:wall_torch",
+          "properties": {
+            "facing": "west"
+          }
+        },
+        {
+          "id": "minecraft:wall_torch",
+          "properties": {
+            "facing": "east"
+          }
+        },
+        {
+          "id": "minecraft:chest",
+          "properties": {
+            "facing": "north",
+            "type": "single",
+            "waterlogged": "false"
+          }
+        },
+        {
+          "id": "minecraft:cyan_concrete"
+        },
+        {
+          "id": "minecraft:lapis_block"
+        },
+        {
+          "id": "minecraft:smooth_red_sandstone"
+        },
+        {
+          "id": "minecraft:sandstone_stairs",
+          "properties": {
+            "facing": "west",
+            "half": "bottom",
+            "shape": "straight",
+            "waterlogged": "false"
+          }
+        },
+        {
+          "id": "minecraft:chest",
+          "properties": {
+            "facing": "east",
+            "type": "left",
+            "waterlogged": "false"
+          }
+        },
+        {
+          "id": "minecraft:chest",
+          "properties": {
+            "facing": "east",
+            "type": "right",
+            "waterlogged": "false"
+          }
+        }
+      ],
+      "bounds": [
+        -40,
+        40,
+        -32,
+        39,
+        -40,
+        40
+      ],
+      "closed_reachable": 10540,
+      "open_reachable": 11280,
+      "fixed_destinations_across_routes": true
+    },
+    {
+      "whole_rotation": "NORTH",
+      "access": "EAST",
+      "d1_only_exact_exception": true,
+      "rotated_navigation_executed": true,
+      "three_wide_access_from_landing": true,
+      "underground_boundary_sealed": true,
+      "inactive_route_filled": true,
+      "mandatory_room_goals": true,
+      "unreachable_room_goals": [],
+      "cavity_overlap_contract": true,
+      "overlap_report": [],
+      "minecraft_26_3_states": true,
+      "palette_errors": [],
+      "p2_stair_clearance": true,
+      "p2_stair_failures": [],
+      "new_access_vs_p1_p2": true,
+      "illegal_access_overlaps": [],
+      "operation_replay": true,
+      "cover_intact_closed": true,
+      "entrance_to_primary": true,
+      "guardian_clearance": true,
+      "secret_concealed": true,
+      "secret_open_treasury": true,
+      "secret_open_crypt": true,
+      "independent_array_transform": true,
+      "block_state_rotation_inverse": true,
+      "descent_4high_and_treads": true,
+      "light_supports": true,
+      "light_count": 94,
+      "block_entity_positions": true,
+      "palette_complete": true,
+      "primary_double_handedness": true,
+      "anchor": [
+        21,
+        -20,
+        -33
+      ],
+      "primary_right": [
+        20,
+        -20,
+        -33
+      ],
+      "guardian": [
+        21,
+        -22,
+        -26
+      ],
+      "fixed_treasury": [
+        -6,
+        -30,
+        -26
+      ],
+      "fixed_crypt": [
+        -15,
+        -30,
+        1
+      ],
+      "rotated_palette": [
+        {
+          "id": "minecraft:air"
+        },
+        {
+          "id": "minecraft:sandstone"
+        },
+        {
+          "id": "minecraft:chiseled_sandstone"
+        },
+        {
+          "id": "minecraft:cut_sandstone"
+        },
+        {
+          "id": "minecraft:gold_block"
+        },
+        {
+          "id": "minecraft:black_terracotta"
+        },
+        {
+          "id": "minecraft:diamond_block"
+        },
+        {
+          "id": "minecraft:oak_planks"
+        },
+        {
+          "id": "minecraft:flower_pot"
+        },
+        {
+          "id": "minecraft:smooth_sandstone"
+        },
+        {
+          "id": "minecraft:wall_torch",
+          "properties": {
+            "facing": "west"
+          }
+        },
+        {
+          "id": "minecraft:wall_torch",
+          "properties": {
+            "facing": "east"
+          }
+        },
+        {
+          "id": "minecraft:wall_torch",
+          "properties": {
+            "facing": "north"
+          }
+        },
+        {
+          "id": "minecraft:wall_torch",
+          "properties": {
+            "facing": "south"
+          }
+        },
+        {
+          "id": "minecraft:chest",
+          "properties": {
+            "facing": "east",
+            "type": "single",
+            "waterlogged": "false"
+          }
+        },
+        {
+          "id": "minecraft:cyan_concrete"
+        },
+        {
+          "id": "minecraft:lapis_block"
+        },
+        {
+          "id": "minecraft:smooth_red_sandstone"
+        },
+        {
+          "id": "minecraft:sandstone_stairs",
+          "properties": {
+            "facing": "north",
+            "half": "bottom",
+            "shape": "straight",
+            "waterlogged": "false"
+          }
+        },
+        {
+          "id": "minecraft:chest",
+          "properties": {
+            "facing": "south",
+            "type": "left",
+            "waterlogged": "false"
+          }
+        },
+        {
+          "id": "minecraft:chest",
+          "properties": {
+            "facing": "south",
+            "type": "right",
+            "waterlogged": "false"
+          }
+        }
+      ],
+      "bounds": [
+        -40,
+        40,
+        -32,
+        39,
+        -40,
+        40
+      ],
+      "closed_reachable": 10540,
+      "open_reachable": 11280,
+      "fixed_destinations_across_routes": true
+    },
+    {
+      "whole_rotation": "EAST",
+      "access": "EAST",
+      "d1_only_exact_exception": true,
+      "rotated_navigation_executed": true,
+      "three_wide_access_from_landing": true,
+      "underground_boundary_sealed": true,
+      "inactive_route_filled": true,
+      "mandatory_room_goals": true,
+      "unreachable_room_goals": [],
+      "cavity_overlap_contract": true,
+      "overlap_report": [],
+      "minecraft_26_3_states": true,
+      "palette_errors": [],
+      "p2_stair_clearance": true,
+      "p2_stair_failures": [],
+      "new_access_vs_p1_p2": true,
+      "illegal_access_overlaps": [],
+      "operation_replay": true,
+      "cover_intact_closed": true,
+      "entrance_to_primary": true,
+      "guardian_clearance": true,
+      "secret_concealed": true,
+      "secret_open_treasury": true,
+      "secret_open_crypt": true,
+      "independent_array_transform": true,
+      "block_state_rotation_inverse": true,
+      "descent_4high_and_treads": true,
+      "light_supports": true,
+      "light_count": 94,
+      "block_entity_positions": true,
+      "palette_complete": true,
+      "primary_double_handedness": true,
+      "anchor": [
+        33,
+        -20,
+        21
+      ],
+      "primary_right": [
+        33,
+        -20,
+        20
+      ],
+      "guardian": [
+        26,
+        -22,
+        21
+      ],
+      "fixed_treasury": [
+        26,
+        -30,
+        -6
+      ],
+      "fixed_crypt": [
+        -1,
+        -30,
+        -15
+      ],
+      "rotated_palette": [
+        {
+          "id": "minecraft:air"
+        },
+        {
+          "id": "minecraft:sandstone"
+        },
+        {
+          "id": "minecraft:chiseled_sandstone"
+        },
+        {
+          "id": "minecraft:cut_sandstone"
+        },
+        {
+          "id": "minecraft:gold_block"
+        },
+        {
+          "id": "minecraft:black_terracotta"
+        },
+        {
+          "id": "minecraft:diamond_block"
+        },
+        {
+          "id": "minecraft:oak_planks"
+        },
+        {
+          "id": "minecraft:flower_pot"
+        },
+        {
+          "id": "minecraft:smooth_sandstone"
+        },
+        {
+          "id": "minecraft:wall_torch",
+          "properties": {
+            "facing": "north"
+          }
+        },
+        {
+          "id": "minecraft:wall_torch",
+          "properties": {
+            "facing": "south"
+          }
+        },
+        {
+          "id": "minecraft:wall_torch",
+          "properties": {
+            "facing": "east"
+          }
+        },
+        {
+          "id": "minecraft:wall_torch",
+          "properties": {
+            "facing": "west"
+          }
+        },
+        {
+          "id": "minecraft:chest",
+          "properties": {
+            "facing": "south",
+            "type": "single",
+            "waterlogged": "false"
+          }
+        },
+        {
+          "id": "minecraft:cyan_concrete"
+        },
+        {
+          "id": "minecraft:lapis_block"
+        },
+        {
+          "id": "minecraft:smooth_red_sandstone"
+        },
+        {
+          "id": "minecraft:sandstone_stairs",
+          "properties": {
+            "facing": "east",
+            "half": "bottom",
+            "shape": "straight",
+            "waterlogged": "false"
+          }
+        },
+        {
+          "id": "minecraft:chest",
+          "properties": {
+            "facing": "west",
+            "type": "left",
+            "waterlogged": "false"
+          }
+        },
+        {
+          "id": "minecraft:chest",
+          "properties": {
+            "facing": "west",
+            "type": "right",
+            "waterlogged": "false"
+          }
+        }
+      ],
+      "bounds": [
+        -40,
+        40,
+        -32,
+        39,
+        -40,
+        40
+      ],
+      "closed_reachable": 10540,
+      "open_reachable": 11280,
+      "fixed_destinations_across_routes": true
+    },
+    {
+      "whole_rotation": "SOUTH",
+      "access": "WEST",
+      "d1_only_exact_exception": true,
+      "rotated_navigation_executed": true,
+      "three_wide_access_from_landing": true,
+      "underground_boundary_sealed": true,
+      "inactive_route_filled": true,
+      "mandatory_room_goals": true,
+      "unreachable_room_goals": [],
+      "cavity_overlap_contract": true,
+      "overlap_report": [
+        {
+          "a": "P4:CB1",
+          "b": "P4:CC",
+          "voxel_count": 48,
+          "allowed": true
+        }
+      ],
+      "minecraft_26_3_states": true,
+      "palette_errors": [],
+      "p2_stair_clearance": true,
+      "p2_stair_failures": [],
+      "new_access_vs_p1_p2": true,
+      "illegal_access_overlaps": [],
+      "operation_replay": true,
+      "cover_intact_closed": true,
+      "entrance_to_primary": true,
+      "guardian_clearance": true,
+      "secret_concealed": true,
+      "secret_open_treasury": true,
+      "secret_open_crypt": true,
+      "independent_array_transform": true,
+      "block_state_rotation_inverse": true,
+      "descent_4high_and_treads": true,
+      "light_supports": true,
+      "light_count": 94,
+      "block_entity_positions": true,
+      "palette_complete": true,
+      "primary_double_handedness": true,
+      "anchor": [
+        -21,
+        -20,
+        33
+      ],
+      "primary_right": [
+        -20,
+        -20,
+        33
+      ],
+      "guardian": [
+        -21,
+        -22,
+        26
+      ],
+      "fixed_treasury": [
+        6,
+        -30,
+        26
+      ],
+      "fixed_crypt": [
+        15,
+        -30,
+        -1
+      ],
+      "rotated_palette": [
+        {
+          "id": "minecraft:air"
+        },
+        {
+          "id": "minecraft:sandstone"
+        },
+        {
+          "id": "minecraft:chiseled_sandstone"
+        },
+        {
+          "id": "minecraft:cut_sandstone"
+        },
+        {
+          "id": "minecraft:gold_block"
+        },
+        {
+          "id": "minecraft:black_terracotta"
+        },
+        {
+          "id": "minecraft:diamond_block"
+        },
+        {
+          "id": "minecraft:oak_planks"
+        },
+        {
+          "id": "minecraft:flower_pot"
+        },
+        {
+          "id": "minecraft:smooth_sandstone"
+        },
+        {
+          "id": "minecraft:wall_torch",
+          "properties": {
+            "facing": "east"
+          }
+        },
+        {
+          "id": "minecraft:wall_torch",
+          "properties": {
+            "facing": "west"
+          }
+        },
+        {
+          "id": "minecraft:wall_torch",
+          "properties": {
+            "facing": "south"
+          }
+        },
+        {
+          "id": "minecraft:wall_torch",
+          "properties": {
+            "facing": "north"
+          }
+        },
+        {
+          "id": "minecraft:chest",
+          "properties": {
+            "facing": "west",
+            "type": "single",
+            "waterlogged": "false"
+          }
+        },
+        {
+          "id": "minecraft:cyan_concrete"
+        },
+        {
+          "id": "minecraft:lapis_block"
+        },
+        {
+          "id": "minecraft:smooth_red_sandstone"
+        },
+        {
+          "id": "minecraft:sandstone_stairs",
+          "properties": {
+            "facing": "south",
+            "half": "bottom",
+            "shape": "straight",
+            "waterlogged": "false"
+          }
+        },
+        {
+          "id": "minecraft:chest",
+          "properties": {
+            "facing": "north",
+            "type": "left",
+            "waterlogged": "false"
+          }
+        },
+        {
+          "id": "minecraft:chest",
+          "properties": {
+            "facing": "north",
+            "type": "right",
+            "waterlogged": "false"
+          }
+        }
+      ],
+      "bounds": [
+        -40,
+        40,
+        -32,
+        39,
+        -40,
+        40
+      ],
+      "closed_reachable": 10540,
+      "open_reachable": 11366,
+      "fixed_destinations_across_routes": true
+    },
+    {
+      "whole_rotation": "WEST",
+      "access": "WEST",
+      "d1_only_exact_exception": true,
+      "rotated_navigation_executed": true,
+      "three_wide_access_from_landing": true,
+      "underground_boundary_sealed": true,
+      "inactive_route_filled": true,
+      "mandatory_room_goals": true,
+      "unreachable_room_goals": [],
+      "cavity_overlap_contract": true,
+      "overlap_report": [
+        {
+          "a": "P4:CB1",
+          "b": "P4:CC",
+          "voxel_count": 48,
+          "allowed": true
+        }
+      ],
+      "minecraft_26_3_states": true,
+      "palette_errors": [],
+      "p2_stair_clearance": true,
+      "p2_stair_failures": [],
+      "new_access_vs_p1_p2": true,
+      "illegal_access_overlaps": [],
+      "operation_replay": true,
+      "cover_intact_closed": true,
+      "entrance_to_primary": true,
+      "guardian_clearance": true,
+      "secret_concealed": true,
+      "secret_open_treasury": true,
+      "secret_open_crypt": true,
+      "independent_array_transform": true,
+      "block_state_rotation_inverse": true,
+      "descent_4high_and_treads": true,
+      "light_supports": true,
+      "light_count": 94,
+      "block_entity_positions": true,
+      "palette_complete": true,
+      "primary_double_handedness": true,
+      "anchor": [
+        -33,
+        -20,
+        -21
+      ],
+      "primary_right": [
+        -33,
+        -20,
+        -20
+      ],
+      "guardian": [
+        -26,
+        -22,
+        -21
+      ],
+      "fixed_treasury": [
+        -26,
+        -30,
+        6
+      ],
+      "fixed_crypt": [
+        1,
+        -30,
+        15
+      ],
+      "rotated_palette": [
+        {
+          "id": "minecraft:air"
+        },
+        {
+          "id": "minecraft:sandstone"
+        },
+        {
+          "id": "minecraft:chiseled_sandstone"
+        },
+        {
+          "id": "minecraft:cut_sandstone"
+        },
+        {
+          "id": "minecraft:gold_block"
+        },
+        {
+          "id": "minecraft:black_terracotta"
+        },
+        {
+          "id": "minecraft:diamond_block"
+        },
+        {
+          "id": "minecraft:oak_planks"
+        },
+        {
+          "id": "minecraft:flower_pot"
+        },
+        {
+          "id": "minecraft:smooth_sandstone"
+        },
+        {
+          "id": "minecraft:wall_torch",
+          "properties": {
+            "facing": "south"
+          }
+        },
+        {
+          "id": "minecraft:wall_torch",
+          "properties": {
+            "facing": "north"
+          }
+        },
+        {
+          "id": "minecraft:wall_torch",
+          "properties": {
+            "facing": "west"
+          }
+        },
+        {
+          "id": "minecraft:wall_torch",
+          "properties": {
+            "facing": "east"
+          }
+        },
+        {
+          "id": "minecraft:chest",
+          "properties": {
+            "facing": "north",
+            "type": "single",
+            "waterlogged": "false"
+          }
+        },
+        {
+          "id": "minecraft:cyan_concrete"
+        },
+        {
+          "id": "minecraft:lapis_block"
+        },
+        {
+          "id": "minecraft:smooth_red_sandstone"
+        },
+        {
+          "id": "minecraft:sandstone_stairs",
+          "properties": {
+            "facing": "west",
+            "half": "bottom",
+            "shape": "straight",
+            "waterlogged": "false"
+          }
+        },
+        {
+          "id": "minecraft:chest",
+          "properties": {
+            "facing": "east",
+            "type": "left",
+            "waterlogged": "false"
+          }
+        },
+        {
+          "id": "minecraft:chest",
+          "properties": {
+            "facing": "east",
+            "type": "right",
+            "waterlogged": "false"
+          }
+        }
+      ],
+      "bounds": [
+        -40,
+        40,
+        -32,
+        39,
+        -40,
+        40
+      ],
+      "closed_reachable": 10540,
+      "open_reachable": 11366,
+      "fixed_destinations_across_routes": true
+    },
+    {
+      "whole_rotation": "NORTH",
+      "access": "WEST",
+      "d1_only_exact_exception": true,
+      "rotated_navigation_executed": true,
+      "three_wide_access_from_landing": true,
+      "underground_boundary_sealed": true,
+      "inactive_route_filled": true,
+      "mandatory_room_goals": true,
+      "unreachable_room_goals": [],
+      "cavity_overlap_contract": true,
+      "overlap_report": [
+        {
+          "a": "P4:CB1",
+          "b": "P4:CC",
+          "voxel_count": 48,
+          "allowed": true
+        }
+      ],
+      "minecraft_26_3_states": true,
+      "palette_errors": [],
+      "p2_stair_clearance": true,
+      "p2_stair_failures": [],
+      "new_access_vs_p1_p2": true,
+      "illegal_access_overlaps": [],
+      "operation_replay": true,
+      "cover_intact_closed": true,
+      "entrance_to_primary": true,
+      "guardian_clearance": true,
+      "secret_concealed": true,
+      "secret_open_treasury": true,
+      "secret_open_crypt": true,
+      "independent_array_transform": true,
+      "block_state_rotation_inverse": true,
+      "descent_4high_and_treads": true,
+      "light_supports": true,
+      "light_count": 94,
+      "block_entity_positions": true,
+      "palette_complete": true,
+      "primary_double_handedness": true,
+      "anchor": [
+        21,
+        -20,
+        -33
+      ],
+      "primary_right": [
+        20,
+        -20,
+        -33
+      ],
+      "guardian": [
+        21,
+        -22,
+        -26
+      ],
+      "fixed_treasury": [
+        -6,
+        -30,
+        -26
+      ],
+      "fixed_crypt": [
+        -15,
+        -30,
+        1
+      ],
+      "rotated_palette": [
+        {
+          "id": "minecraft:air"
+        },
+        {
+          "id": "minecraft:sandstone"
+        },
+        {
+          "id": "minecraft:chiseled_sandstone"
+        },
+        {
+          "id": "minecraft:cut_sandstone"
+        },
+        {
+          "id": "minecraft:gold_block"
+        },
+        {
+          "id": "minecraft:black_terracotta"
+        },
+        {
+          "id": "minecraft:diamond_block"
+        },
+        {
+          "id": "minecraft:oak_planks"
+        },
+        {
+          "id": "minecraft:flower_pot"
+        },
+        {
+          "id": "minecraft:smooth_sandstone"
+        },
+        {
+          "id": "minecraft:wall_torch",
+          "properties": {
+            "facing": "west"
+          }
+        },
+        {
+          "id": "minecraft:wall_torch",
+          "properties": {
+            "facing": "east"
+          }
+        },
+        {
+          "id": "minecraft:wall_torch",
+          "properties": {
+            "facing": "north"
+          }
+        },
+        {
+          "id": "minecraft:wall_torch",
+          "properties": {
+            "facing": "south"
+          }
+        },
+        {
+          "id": "minecraft:chest",
+          "properties": {
+            "facing": "east",
+            "type": "single",
+            "waterlogged": "false"
+          }
+        },
+        {
+          "id": "minecraft:cyan_concrete"
+        },
+        {
+          "id": "minecraft:lapis_block"
+        },
+        {
+          "id": "minecraft:smooth_red_sandstone"
+        },
+        {
+          "id": "minecraft:sandstone_stairs",
+          "properties": {
+            "facing": "north",
+            "half": "bottom",
+            "shape": "straight",
+            "waterlogged": "false"
+          }
+        },
+        {
+          "id": "minecraft:chest",
+          "properties": {
+            "facing": "south",
+            "type": "left",
+            "waterlogged": "false"
+          }
+        },
+        {
+          "id": "minecraft:chest",
+          "properties": {
+            "facing": "south",
+            "type": "right",
+            "waterlogged": "false"
+          }
+        }
+      ],
+      "bounds": [
+        -40,
+        40,
+        -32,
+        39,
+        -40,
+        40
+      ],
+      "closed_reachable": 10540,
+      "open_reachable": 11366,
+      "fixed_destinations_across_routes": true
+    },
+    {
+      "whole_rotation": "EAST",
+      "access": "WEST",
+      "d1_only_exact_exception": true,
+      "rotated_navigation_executed": true,
+      "three_wide_access_from_landing": true,
+      "underground_boundary_sealed": true,
+      "inactive_route_filled": true,
+      "mandatory_room_goals": true,
+      "unreachable_room_goals": [],
+      "cavity_overlap_contract": true,
+      "overlap_report": [
+        {
+          "a": "P4:CB1",
+          "b": "P4:CC",
+          "voxel_count": 48,
+          "allowed": true
+        }
+      ],
+      "minecraft_26_3_states": true,
+      "palette_errors": [],
+      "p2_stair_clearance": true,
+      "p2_stair_failures": [],
+      "new_access_vs_p1_p2": true,
+      "illegal_access_overlaps": [],
+      "operation_replay": true,
+      "cover_intact_closed": true,
+      "entrance_to_primary": true,
+      "guardian_clearance": true,
+      "secret_concealed": true,
+      "secret_open_treasury": true,
+      "secret_open_crypt": true,
+      "independent_array_transform": true,
+      "block_state_rotation_inverse": true,
+      "descent_4high_and_treads": true,
+      "light_supports": true,
+      "light_count": 94,
+      "block_entity_positions": true,
+      "palette_complete": true,
+      "primary_double_handedness": true,
+      "anchor": [
+        33,
+        -20,
+        21
+      ],
+      "primary_right": [
+        33,
+        -20,
+        20
+      ],
+      "guardian": [
+        26,
+        -22,
+        21
+      ],
+      "fixed_treasury": [
+        26,
+        -30,
+        -6
+      ],
+      "fixed_crypt": [
+        -1,
+        -30,
+        -15
+      ],
+      "rotated_palette": [
+        {
+          "id": "minecraft:air"
+        },
+        {
+          "id": "minecraft:sandstone"
+        },
+        {
+          "id": "minecraft:chiseled_sandstone"
+        },
+        {
+          "id": "minecraft:cut_sandstone"
+        },
+        {
+          "id": "minecraft:gold_block"
+        },
+        {
+          "id": "minecraft:black_terracotta"
+        },
+        {
+          "id": "minecraft:diamond_block"
+        },
+        {
+          "id": "minecraft:oak_planks"
+        },
+        {
+          "id": "minecraft:flower_pot"
+        },
+        {
+          "id": "minecraft:smooth_sandstone"
+        },
+        {
+          "id": "minecraft:wall_torch",
+          "properties": {
+            "facing": "north"
+          }
+        },
+        {
+          "id": "minecraft:wall_torch",
+          "properties": {
+            "facing": "south"
+          }
+        },
+        {
+          "id": "minecraft:wall_torch",
+          "properties": {
+            "facing": "east"
+          }
+        },
+        {
+          "id": "minecraft:wall_torch",
+          "properties": {
+            "facing": "west"
+          }
+        },
+        {
+          "id": "minecraft:chest",
+          "properties": {
+            "facing": "south",
+            "type": "single",
+            "waterlogged": "false"
+          }
+        },
+        {
+          "id": "minecraft:cyan_concrete"
+        },
+        {
+          "id": "minecraft:lapis_block"
+        },
+        {
+          "id": "minecraft:smooth_red_sandstone"
+        },
+        {
+          "id": "minecraft:sandstone_stairs",
+          "properties": {
+            "facing": "east",
+            "half": "bottom",
+            "shape": "straight",
+            "waterlogged": "false"
+          }
+        },
+        {
+          "id": "minecraft:chest",
+          "properties": {
+            "facing": "west",
+            "type": "left",
+            "waterlogged": "false"
+          }
+        },
+        {
+          "id": "minecraft:chest",
+          "properties": {
+            "facing": "west",
+            "type": "right",
+            "waterlogged": "false"
+          }
+        }
+      ],
+      "bounds": [
+        -40,
+        40,
+        -32,
+        39,
+        -40,
+        40
+      ],
+      "closed_reachable": 10540,
+      "open_reachable": 11366,
+      "fixed_destinations_across_routes": true
+    }
+  ],
+  "failures": [],
+  "limits": [
+    "All new room/decor/palette fields remain proposals. This report does not approve them.",
+    "Conservative full-cube collision for stairs/slabs/chests; 1-block ascent allows jumping.",
+    "Navigation is executed on all eight rotated occupancy grids; integer and array transforms cross-check independently.",
+    "No production build or Minecraft execution."
+  ]
+}

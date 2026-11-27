@@ -14,8 +14,6 @@ public final class ModOreGeneration {
     public static void initialize() {
         if ("1".equals(System.getenv("MOREMINECRAFTS_VISUAL_VALIDATION"))) return;
         addOverworld("ore_titanium");
-        addOverworld("ore_tungsten");
-        addOverworld("ore_tungsten_upper");
         addOverworld("ore_mythril");
         addOverworld("ore_mythril_upper");
         addOverworld("ore_etherium");

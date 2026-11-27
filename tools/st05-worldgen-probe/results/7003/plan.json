@@ -1,0 +1,95 @@
+{
+  "mode": "plan",
+  "seed": 7003,
+  "y_band": "-48..0",
+  "plan_window_chunks": 24,
+  "plan_mask_ms_single_thread": 64641,
+  "plan_mask_ms_4_threads_shuffled_columns": 17012,
+  "plan_mask_digest_single": "d1df21f2baf5b497",
+  "plan_mask_digest_4_threads_shuffled": "d1df21f2baf5b497",
+  "plan_mask_order_independent": true,
+  "plan_open_voxels": 419161,
+  "window_dependence": {
+    "half_chunks_4": {
+      "window_blocks": 128,
+      "components": 48,
+      "components_touching_window_edge": 18,
+      "open_voxel_fraction_in_edge_touching_components": 0.9813122469081755,
+      "largest_component_voxels": 26546
+    },
+    "half_chunks_8": {
+      "window_blocks": 256,
+      "components": 112,
+      "components_touching_window_edge": 22,
+      "open_voxel_fraction_in_edge_touching_components": 0.8453702643928122,
+      "largest_component_voxels": 86855
+    },
+    "half_chunks_12": {
+      "window_blocks": 384,
+      "components": 182,
+      "components_touching_window_edge": 26,
+      "open_voxel_fraction_in_edge_touching_components": 0.6847941483105537,
+      "largest_component_voxels": 131886
+    }
+  },
+  "identity_consistency_across_windows": {
+    "half_chunks_4_vs_12": {
+      "interior_components_id_kept_in_full_window": 30,
+      "interior_components_id_lost": 0,
+      "edge_touching_components_id_kept_by_anchor_luck": 9,
+      "edge_touching_components_id_changed": 9
+    },
+    "half_chunks_8_vs_12": {
+      "interior_components_id_kept_in_full_window": 90,
+      "interior_components_id_lost": 0,
+      "edge_touching_components_id_kept_by_anchor_luck": 5,
+      "edge_touching_components_id_changed": 17
+    }
+  },
+  "chamber_proxy_caverns_resolved_interior": 0,
+  "chamber_proxy_caverns_unresolved_edge_touching": 0,
+  "chamber_proxy_resolved_sizes_voxels": [],
+  "duplicate_ids_in_window": 0,
+  "spacing_policy_experiment_ILLUSTRATIVE_not_adopted": {
+    "S64": {
+      "eligible_E": 0,
+      "conflict_pairs": 0,
+      "P1_spacing_before_roll_rolled": 0,
+      "P1_placed": 0,
+      "P2_roll_first_rolled_winners": 0,
+      "P2_placed": 0,
+      "G_global_greedy_after_roll_placed": 0,
+      "P1_placed_shuffled_input_order": 0
+    },
+    "S96": {
+      "eligible_E": 0,
+      "conflict_pairs": 0,
+      "P1_spacing_before_roll_rolled": 0,
+      "P1_placed": 0,
+      "P2_roll_first_rolled_winners": 0,
+      "P2_placed": 0,
+      "G_global_greedy_after_roll_placed": 0,
+      "P1_placed_shuffled_input_order": 0
+    },
+    "S128": {
+      "eligible_E": 0,
+      "conflict_pairs": 0,
+      "P1_spacing_before_roll_rolled": 0,
+      "P1_placed": 0,
+      "P2_roll_first_rolled_winners": 0,
+      "P2_placed": 0,
+      "G_global_greedy_after_roll_placed": 0,
+      "P1_placed_shuffled_input_order": 0
+    },
+    "S192": {
+      "eligible_E": 0,
+      "conflict_pairs": 0,
+      "P1_spacing_before_roll_rolled": 0,
+      "P1_placed": 0,
+      "P2_roll_first_rolled_winners": 0,
+      "P2_placed": 0,
+      "G_global_greedy_after_roll_placed": 0,
+      "P1_placed_shuffled_input_order": 0
+    }
+  }
+}

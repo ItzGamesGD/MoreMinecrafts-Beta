@@ -1,0 +1,104 @@
+ST05D|arena build|VERIFIED | [] | mismatches=0 | ms=20760 wallMs=20772
+ST05D|PASS A0 real arena built and VERIFIED by the Stage 0-F pipeline|VERIFIED | [] | mismatches=0 | ms=20760
+ST05D|PASS A0b arena registered with the runtime|[-837, -1174, -26]
+ST05D|PASS A1 standing in the entrance arch (r=31.5) does not start the challenge|active=false
+ST05D|PASS A2 wall-ring position (r=31.5, y+14) does not start the challenge|
+ST05D|PASS A3 real walk-in through the north arch starts the challenge|round=1
+ST05D|PASS A4 exactly one admission for the single real participant|[2654e3c3-150d-3857-a426-0b141796a4e0@1]
+ST05D|PASS B1a round 1 reached|
+ST05D|PASS B1b spawn warning observed|maxWarnLeft=20 sample=r1 moreminecrafts:cave_zombie@-857,-26,-1173 warnLeft=20
+ST05D|PASS B1c alive mobs never exceed 12 (peak=5, round allocations=5)|peak=5
+ST05D|B1d replenish not applicable|round has 5 allocations, all spawn in the first batch (<=12)
+ST05D|PASS D1a shared Trial Key recorded and exactly one key entity (max simultaneous=1)|awarded=true
+ST05D|PASS D1b real player picked up the key (0->1, entities found=1)|
+ST05D|PASS B1f transition length 200 ticks (approved 200)|interStart=403 nextStart=603
+ST05D|PASS B2a round 2 reached|
+ST05D|PASS B2b spawn warning observed|maxWarnLeft=20 sample=r2 minecraft:zombie#baby@-852,-26,-1173 warnLeft=20
+ST05D|PASS B2c alive mobs never exceed 12 (peak=6, round allocations=6)|peak=6
+ST05D|B2d replenish not applicable|round has 6 allocations, all spawn in the first batch (<=12)
+ST05D|PASS D2a shared Trial Key recorded and exactly one key entity (max simultaneous=1)|awarded=true
+ST05D|PASS D2b real player picked up the key (1->2, entities found=1)|
+ST05D|PASS B2f transition length 200 ticks (approved 200)|interStart=629 nextStart=829
+ST05D|PASS B3a round 3 reached|
+ST05D|PASS B3b spawn warning observed|maxWarnLeft=20 sample=r3 minecraft:skeleton@-852,-26,-1157 warnLeft=20
+ST05D|PASS B3c alive mobs never exceed 12 (peak=7, round allocations=7)|peak=7
+ST05D|B3d replenish not applicable|round has 7 allocations, all spawn in the first batch (<=12)
+ST05D|PASS B3e supply chests placed|chests=1
+ST05D|PASS D3a shared Trial Key recorded and exactly one key entity (max simultaneous=1)|awarded=true
+ST05D|PASS D3b real player picked up the key (2->3, entities found=1)|
+ST05D|PASS B3f transition length 700 ticks (approved 700)|interStart=867 nextStart=1567
+ST05D|PASS B4a round 4 reached|
+ST05D|PASS B4b spawn warning observed|maxWarnLeft=20 sample=r4 moreminecrafts:cave_skeleton@-844,-26,-1157 warnLeft=20
+ST05D|PASS B4c alive mobs never exceed 12 (peak=7, round allocations=7)|peak=7
+ST05D|B4d replenish not applicable|round has 7 allocations, all spawn in the first batch (<=12)
+ST05D|PASS D4a shared Trial Key recorded and exactly one key entity (max simultaneous=1)|awarded=true
+ST05D|PASS D4b real player picked up the key (3->4, entities found=1)|
+ST05D|PASS B4f transition length 200 ticks (approved 200)|interStart=1590 nextStart=1790
+ST05D|PASS B5a round 5 reached|
+ST05D|PASS B5b spawn warning observed|maxWarnLeft=20 sample=r5 moreminecrafts:armored_skeleton@-827,-26,-1193 warnLeft=20
+ST05D|PASS B5c alive mobs never exceed 12 (peak=9, round allocations=9)|peak=9
+ST05D|B5d replenish not applicable|round has 9 allocations, all spawn in the first batch (<=12)
+ST05D|PASS B5e supply chests placed|chests=2
+ST05D|PASS D5a shared Trial Key recorded and exactly one key entity (max simultaneous=1)|awarded=true
+ST05D|PASS D5b real player picked up the key (4->5, entities found=1)|
+ST05D|PASS B5f transition length 700 ticks (approved 700)|interStart=1815 nextStart=2515
+ST05D|PASS B6a round 6 reached|
+ST05D|PASS B6b spawn warning observed|maxWarnLeft=20 sample=r6 moreminecrafts:bandit@-855,-26,-1182 warnLeft=20
+ST05D|PASS B6c alive mobs never exceed 12 (peak=7, round allocations=7)|peak=7
+ST05D|B6d replenish not applicable|round has 7 allocations, all spawn in the first batch (<=12)
+ST05D|PASS D6a shared Trial Key recorded and exactly one key entity (max simultaneous=1)|awarded=true
+ST05D|PASS D6b real player picked up the key (5->6, entities found=1)|
+ST05D|PASS B6f transition length 200 ticks (approved 200)|interStart=2538 nextStart=2738
+ST05D|PASS C1 R7 boss spawned and bound|
+ST05D|PASS C2 boss bar visible on the real client|
+ST05D|boss attack windup seen|pose=1 hp=300.0 dist=3.8
+ST05D|client/server click probe|grabbed=true atkScale=1.00 mainHand=minecraft:netherite_sword | lastHurtMob=none snapshot="blocks":0,"shieldDisabled":0,"recovery" mode=SURVIVAL selected=0
+ST05D|boss fight sample|tick=0 hp=300.0 dist=3.8 shield=true aimed/clicks=1/1 bossHitsOnPlayer=0 raw=0.0
+ST05D|boss attack windup seen|pose=6 hp=300.0 dist=2.8
+ST05D|boss attack windup seen|pose=3 hp=300.0 dist=2.8
+ST05D|boss damage event|src=player by=player amt=14.0 bossFrozen=false attackerFrozen=false hp=300.0
+ST05D|boss damage event|src=player by=player amt=14.0 bossFrozen=false attackerFrozen=false hp=286.0
+ST05D|boss damage event|src=player by=player amt=14.0 bossFrozen=false attackerFrozen=false hp=272.0
+ST05D|boss attack windup seen|pose=2 hp=258.0 dist=3.2
+ST05D|boss damage event|src=player by=player amt=14.0 bossFrozen=false attackerFrozen=false hp=258.0
+ST05D|boss damage event|src=player by=player amt=14.0 bossFrozen=false attackerFrozen=false hp=244.0
+ST05D|client/server click probe|grabbed=true atkScale=1.00 mainHand=minecraft:netherite_sword | lastHurtMob=immortal_gladiator snapshot="blocks":0,"shieldDisabled":310,"recover mode=SURVIVAL selected=0
+ST05D|boss fight sample|tick=10 hp=230.0 dist=2.6 shield=false aimed/clicks=11/11 bossHitsOnPlayer=4 raw=40.0
+ST05D|boss damage event|src=player by=player amt=14.0 bossFrozen=false attackerFrozen=false hp=230.0
+ST05D|boss damage event|src=player by=player amt=14.0 bossFrozen=false attackerFrozen=false hp=216.0
+ST05D|boss damage event|src=player by=player amt=14.0 bossFrozen=false attackerFrozen=false hp=202.0
+ST05D|boss damage event|src=player by=player amt=14.0 bossFrozen=false attackerFrozen=false hp=188.0
+ST05D|C4 server restart mid-fight|hp=174.0
+ST05D|restart state before|a1388fcd-28ed-37ac-81a0-b0bae83ce839 round=7 boss=875bdd96-550a-3ed3-a1eb-9755a4841e07 keysAwarded=[1, 2, 3, 4, 5, 6] trialKeysHeld=6 ominousHeld=0 roster=1 hp=174.0 active=true quarantined=false bossLoaded=true
+ST05D|restart state after|a1388fcd-28ed-37ac-81a0-b0bae83ce839 round=7 boss=875bdd96-550a-3ed3-a1eb-9755a4841e07 keysAwarded=[1, 2, 3, 4, 5, 6] trialKeysHeld=6 ominousHeld=0 roster=1 hp=174.0 active=true quarantined=false bossLoaded=true
+ST05D|PASS C4d after a real server restart the same attempt, round, boss and held keys are restored|a1388fcd-28ed-37ac-81a0-b0bae83ce839 round=7 boss=875bdd96-550a-3ed3-a1eb-9755a4841e07 keysAwarded=[1, 2, 3, 4, 5, 6] trialKeysHeld=6 ominousHeld=0 roster=1 hp=174.0 active=true quarantined=false bossLoaded=true
+ST05D|PASS C4e boss HP survives the restart|174.0 -> 174.0
+ST05D|PASS C4f boss bar re-shown after the restart|
+ST05D|boss damage event|src=player by=player amt=14.0 bossFrozen=false attackerFrozen=false hp=174.0
+ST05D|boss damage event|src=player by=player amt=14.0 bossFrozen=false attackerFrozen=false hp=160.0
+ST05D|boss damage event|src=player by=player amt=14.0 bossFrozen=false attackerFrozen=false hp=146.0
+ST05D|boss damage event|src=player by=player amt=14.0 bossFrozen=false attackerFrozen=false hp=132.0
+ST05D|phase two at hp|118.0/300.0
+ST05D|PASS C3 phase two entered at <=40% HP|hp=118.0/300.0
+ST05D|boss damage event|src=player by=player amt=14.0 bossFrozen=false attackerFrozen=false hp=118.0
+ST05D|boss damage event|src=player by=player amt=14.0 bossFrozen=false attackerFrozen=false hp=104.0
+ST05D|client/server click probe|grabbed=true atkScale=1.00 mainHand=minecraft:netherite_sword | lastHurtMob=immortal_gladiator snapshot="blocks":0,"shieldDisabled":27,"recovery mode=SURVIVAL selected=0
+ST05D|boss fight sample|tick=20 hp=90.0 dist=2.6 shield=false aimed/clicks=21/21 bossHitsOnPlayer=10 raw=100.0
+ST05D|boss damage event|src=player by=player amt=14.0 bossFrozen=false attackerFrozen=false hp=90.0
+ST05D|boss damage event|src=player by=player amt=14.0 bossFrozen=false attackerFrozen=false hp=76.0
+ST05D|boss damage event|src=player by=player amt=14.0 bossFrozen=false attackerFrozen=false hp=62.0
+ST05D|boss damage event|src=player by=player amt=14.0 bossFrozen=false attackerFrozen=false hp=48.0
+ST05D|boss damage event|src=player by=player amt=21.0 bossFrozen=false attackerFrozen=false hp=34.0
+ST05D|boss damage event|src=player by=player amt=14.0 bossFrozen=false attackerFrozen=false hp=13.0
+ST05D|PASS C5 boss defeated by real melee within the budget|aimed/clicks=26/27 bossHitsOnPlayer=16 minBossHp=13.0 minPlayerHealth=20.0 attackPosesSeen=[false, true, true, true, false, false, true, false]
+ST05D|PASS C6 exactly one boss existed at any time|
+ST05D|PASS D7 shared Ominous Trial Key: one entity (max 1), player holds 0 before the boss fight and 1 after (picked up on its own near the boss, entities left on the floor 1)|found=1
+ST05D|end state|outcome=SUCCESS keysAwarded=[1, 2, 3, 4, 5, 6, 7] cooldown=77911 cleanupPending=false quarantined=false
+ST05D|PASS D8 success ended normally with seven key records, cooldown running, not quarantined|outcome=SUCCESS keysAwarded=[1, 2, 3, 4, 5, 6, 7] cooldown=77911 cleanupPending=false quarantined=false
+ST05D|D9-early structure reading (player beside the vault)|mismatches=1 cells=[-837,-26,-1174 want Block{minecraft:vault}[facing=north,ominous=true,vault_state=inactive] have Block{minecraft:vault}[facing=north,ominous=true,vault_state=active]]
+ST05D|PASS D10 supply chests removed on completion|left=0
+ST05D|PASS D11 re-entry during cooldown does not start a new challenge|active=false cooldown=77551
+ST05D|FAIL D9 arena structure intact after the challenge, strict (plan mismatches)|mismatches=1
+ST05D|D9 mismatching cells|[-838,-27,-1192 want Block{minecraft:polished_deepslate} have Block{minecraft:air}]
+ST05D|round events|t=270 round=1 phase=ROUND outcome=NONE ; t=403 round=1 phase=INTERMISSION outcome=NONE ; t=603 round=2 phase=ROUND outcome=NONE ; t=629 round=2 phase=INTERMISSION outcome=NONE ; t=829 round=3 phase=ROUND outcome=NONE ; t=867 round=3 phase=INTERMISSION outcome=NONE ; t=1567 round=4 phase=ROUND outcome=NONE ; t=1590 round=4 phase=INTERMISSION outcome=NONE ; t=1790 round=5 phase=ROUND outcome=NONE ; t=1815 round=5 phase=INTERMISSION outcome=NONE ; t=2515 round=6 phase=ROUND outcome=NONE ; t=2538 round=6 phase=INTERMISSION outcome=NONE ; t=2738 round=7 phase=ROUND outcome=NONE ; t=314 round=7 phase=ENDED outcome=SUCCESS
+ST05D|done|scenario completed

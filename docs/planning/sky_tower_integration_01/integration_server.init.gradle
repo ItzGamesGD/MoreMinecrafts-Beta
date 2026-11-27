@@ -1,0 +1,6 @@
+// Dedicated disposable integration world. Configure Loom's runDir, which overrides JavaExec workingDir.
+allprojects {
+    afterEvaluate { p ->
+        p.extensions.getByName("loom").runs.getByName("server").setRunDir("/tmp/sky-tower-integration-server")
+    }
+}

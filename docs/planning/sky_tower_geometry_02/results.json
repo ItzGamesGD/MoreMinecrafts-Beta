@@ -1,0 +1,2468 @@
+{
+ "segments": [
+  {
+   "segment": "BASE",
+   "budget_h": 10,
+   "y_start": 0,
+   "y_end": 9
+  },
+  {
+   "segment": "F1",
+   "budget_h": 11,
+   "y_start": 10,
+   "y_end": 20
+  },
+  {
+   "segment": "F2",
+   "budget_h": 12,
+   "y_start": 21,
+   "y_end": 32
+  },
+  {
+   "segment": "F3",
+   "budget_h": 14,
+   "y_start": 33,
+   "y_end": 46
+  },
+  {
+   "segment": "F4",
+   "budget_h": 17,
+   "y_start": 47,
+   "y_end": 63
+  },
+  {
+   "segment": "SANCTUM",
+   "budget_h": 16,
+   "y_start": 64,
+   "y_end": 79
+  }
+ ],
+ "candidates": [
+  {
+   "id": "B25-T1",
+   "center": "B",
+   "inner_d": 25,
+   "wall_t": 1,
+   "wall_outer_d": 27,
+   "reserve_band": 9,
+   "cells": {
+    "interior": 489,
+    "wall_per_layer": 88,
+    "slab_per_layer": 577,
+    "reserve_band": 1020,
+    "envelope45": 1597
+   },
+   "extent_wall_outer": [
+    27,
+    27
+   ],
+   "extent_inner": [
+    25,
+    25
+   ],
+   "extent_envelope": [
+    45,
+    45
+   ],
+   "far_corner_diameter_wall": 28.32,
+   "far_corner_diameter_env": 46.325,
+   "row_section": {
+    "inner_cells_on_axis_row": 25,
+    "wall_cells_on_axis_row_plus": 1,
+    "wall_cells_on_axis_row_minus": 1,
+    "inner_cells_on_main_diagonal": 17,
+    "wall_cells_on_main_diagonal_plus": 1
+   },
+   "symmetry_wall": {
+    "mirrorX": true,
+    "mirrorZ": true,
+    "diag": true,
+    "rot90": true
+   },
+   "symmetry_inner": {
+    "mirrorX": true,
+    "mirrorZ": true,
+    "diag": true,
+    "rot90": true
+   },
+   "closed_face_adjacency": true,
+   "wall_components_8conn": 1,
+   "corner_only_joints": 16,
+   "inner_contiguous": true,
+   "outer_octant_profile": [
+    [
+     0,
+     13
+    ],
+    [
+     1,
+     13
+    ],
+    [
+     2,
+     13
+    ],
+    [
+     3,
+     13
+    ],
+    [
+     4,
+     12
+    ],
+    [
+     5,
+     12
+    ],
+    [
+     6,
+     12
+    ],
+    [
+     7,
+     11
+    ],
+    [
+     8,
+     10
+    ],
+    [
+     9,
+     10
+    ]
+   ],
+   "outer_octant_runs": [
+    4,
+    3,
+    1,
+    2
+   ],
+   "ray": {
+    "rays": 3600,
+    "leaks": 0,
+    "inner_face_radius_min": 11.86,
+    "inner_face_radius_max": 12.98,
+    "wall_thickness_min": 0.02,
+    "wall_thickness_max": 2.16
+   },
+   "fits": {
+    "walk4+rail1": true,
+    "walk4+pillar3": true
+   }
+  },
+  {
+   "id": "B25-T2",
+   "center": "B",
+   "inner_d": 25,
+   "wall_t": 2,
+   "wall_outer_d": 29,
+   "reserve_band": 8,
+   "cells": {
+    "interior": 489,
+    "wall_per_layer": 176,
+    "slab_per_layer": 665,
+    "reserve_band": 932,
+    "envelope45": 1597
+   },
+   "extent_wall_outer": [
+    29,
+    29
+   ],
+   "extent_inner": [
+    25,
+    25
+   ],
+   "extent_envelope": [
+    45,
+    45
+   ],
+   "far_corner_diameter_wall": 30.232,
+   "far_corner_diameter_env": 46.325,
+   "row_section": {
+    "inner_cells_on_axis_row": 25,
+    "wall_cells_on_axis_row_plus": 2,
+    "wall_cells_on_axis_row_minus": 2,
+    "inner_cells_on_main_diagonal": 17,
+    "wall_cells_on_main_diagonal_plus": 2
+   },
+   "symmetry_wall": {
+    "mirrorX": true,
+    "mirrorZ": true,
+    "diag": true,
+    "rot90": true
+   },
+   "symmetry_inner": {
+    "mirrorX": true,
+    "mirrorZ": true,
+    "diag": true,
+    "rot90": true
+   },
+   "closed_face_adjacency": true,
+   "wall_components_8conn": 1,
+   "corner_only_joints": 0,
+   "inner_contiguous": true,
+   "outer_octant_profile": [
+    [
+     0,
+     14
+    ],
+    [
+     1,
+     14
+    ],
+    [
+     2,
+     14
+    ],
+    [
+     3,
+     14
+    ],
+    [
+     4,
+     13
+    ],
+    [
+     5,
+     13
+    ],
+    [
+     6,
+     13
+    ],
+    [
+     7,
+     12
+    ],
+    [
+     8,
+     12
+    ],
+    [
+     9,
+     11
+    ],
+    [
+     10,
+     10
+    ]
+   ],
+   "outer_octant_runs": [
+    4,
+    3,
+    2,
+    1,
+    1
+   ],
+   "ray": {
+    "rays": 3600,
+    "leaks": 0,
+    "inner_face_radius_min": 11.86,
+    "inner_face_radius_max": 12.98,
+    "wall_thickness_min": 1.03,
+    "wall_thickness_max": 2.82
+   },
+   "fits": {
+    "walk4+rail1": true,
+    "walk4+pillar3": true
+   }
+  },
+  {
+   "id": "B25-T3",
+   "center": "B",
+   "inner_d": 25,
+   "wall_t": 3,
+   "wall_outer_d": 31,
+   "reserve_band": 7,
+   "cells": {
+    "interior": 489,
+    "wall_per_layer": 260,
+    "slab_per_layer": 749,
+    "reserve_band": 848,
+    "envelope45": 1597
+   },
+   "extent_wall_outer": [
+    31,
+    31
+   ],
+   "extent_inner": [
+    25,
+    25
+   ],
+   "extent_envelope": [
+    45,
+    45
+   ],
+   "far_corner_diameter_wall": 31.906,
+   "far_corner_diameter_env": 46.325,
+   "row_section": {
+    "inner_cells_on_axis_row": 25,
+    "wall_cells_on_axis_row_plus": 3,
+    "wall_cells_on_axis_row_minus": 3,
+    "inner_cells_on_main_diagonal": 17,
+    "wall_cells_on_main_diagonal_plus": 2
+   },
+   "symmetry_wall": {
+    "mirrorX": true,
+    "mirrorZ": true,
+    "diag": true,
+    "rot90": true
+   },
+   "symmetry_inner": {
+    "mirrorX": true,
+    "mirrorZ": true,
+    "diag": true,
+    "rot90": true
+   },
+   "closed_face_adjacency": true,
+   "wall_components_8conn": 1,
+   "corner_only_joints": 0,
+   "inner_contiguous": true,
+   "outer_octant_profile": [
+    [
+     0,
+     15
+    ],
+    [
+     1,
+     15
+    ],
+    [
+     2,
+     15
+    ],
+    [
+     3,
+     15
+    ],
+    [
+     4,
+     14
+    ],
+    [
+     5,
+     14
+    ],
+    [
+     6,
+     14
+    ],
+    [
+     7,
+     13
+    ],
+    [
+     8,
+     13
+    ],
+    [
+     9,
+     12
+    ],
+    [
+     10,
+     11
+    ]
+   ],
+   "outer_octant_runs": [
+    4,
+    3,
+    2,
+    1,
+    1
+   ],
+   "ray": {
+    "rays": 3600,
+    "leaks": 0,
+    "inner_face_radius_min": 11.86,
+    "inner_face_radius_max": 12.98,
+    "wall_thickness_min": 2.05,
+    "wall_thickness_max": 3.55
+   },
+   "fits": {
+    "walk4+rail1": true,
+    "walk4+pillar3": true
+   },
+   "model3d_C1_s1": {
+    "voxels": 24235,
+    "wall_layers": [
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19,
+     20,
+     22,
+     23,
+     24,
+     25,
+     26,
+     27,
+     28,
+     29,
+     30,
+     31,
+     32,
+     34,
+     35,
+     36,
+     37,
+     38,
+     39,
+     40,
+     41,
+     42,
+     43,
+     44,
+     45,
+     46,
+     48,
+     49,
+     50,
+     51,
+     52,
+     53,
+     54,
+     55,
+     56,
+     57,
+     58,
+     59,
+     60,
+     61,
+     62,
+     63
+    ],
+    "wall_vertically_aligned": true,
+    "voxels_outside_wall_outer_disc": 0,
+    "voxels_outside_y0_y79": 0,
+    "voxels_above_sanctum_floor": 0,
+    "zone_counts": {
+     "BASE_CORE": 7490,
+     "WALL": 13000,
+     "SLAB": 3745
+    }
+   }
+  },
+  {
+   "id": "B25-T4",
+   "center": "B",
+   "inner_d": 25,
+   "wall_t": 4,
+   "wall_outer_d": 33,
+   "reserve_band": 6,
+   "cells": {
+    "interior": 489,
+    "wall_per_layer": 372,
+    "slab_per_layer": 861,
+    "reserve_band": 736,
+    "envelope45": 1597
+   },
+   "extent_wall_outer": [
+    33,
+    33
+   ],
+   "extent_inner": [
+    25,
+    25
+   ],
+   "extent_envelope": [
+    45,
+    45
+   ],
+   "far_corner_diameter_wall": 34.205,
+   "far_corner_diameter_env": 46.325,
+   "row_section": {
+    "inner_cells_on_axis_row": 25,
+    "wall_cells_on_axis_row_plus": 4,
+    "wall_cells_on_axis_row_minus": 4,
+    "inner_cells_on_main_diagonal": 17,
+    "wall_cells_on_main_diagonal_plus": 3
+   },
+   "symmetry_wall": {
+    "mirrorX": true,
+    "mirrorZ": true,
+    "diag": true,
+    "rot90": true
+   },
+   "symmetry_inner": {
+    "mirrorX": true,
+    "mirrorZ": true,
+    "diag": true,
+    "rot90": true
+   },
+   "closed_face_adjacency": true,
+   "wall_components_8conn": 1,
+   "corner_only_joints": 0,
+   "inner_contiguous": true,
+   "outer_octant_profile": [
+    [
+     0,
+     16
+    ],
+    [
+     1,
+     16
+    ],
+    [
+     2,
+     16
+    ],
+    [
+     3,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     5,
+     15
+    ],
+    [
+     6,
+     15
+    ],
+    [
+     7,
+     14
+    ],
+    [
+     8,
+     14
+    ],
+    [
+     9,
+     13
+    ],
+    [
+     10,
+     13
+    ],
+    [
+     11,
+     12
+    ]
+   ],
+   "outer_octant_runs": [
+    5,
+    2,
+    2,
+    2,
+    1
+   ],
+   "ray": {
+    "rays": 3600,
+    "leaks": 0,
+    "inner_face_radius_min": 11.86,
+    "inner_face_radius_max": 12.98,
+    "wall_thickness_min": 3.29,
+    "wall_thickness_max": 4.89
+   },
+   "fits": {
+    "walk4+rail1": true,
+    "walk4+pillar3": false
+   }
+  },
+  {
+   "id": "B27-T1",
+   "center": "B",
+   "inner_d": 27,
+   "wall_t": 1,
+   "wall_outer_d": 29,
+   "reserve_band": 8,
+   "cells": {
+    "interior": 577,
+    "wall_per_layer": 88,
+    "slab_per_layer": 665,
+    "reserve_band": 932,
+    "envelope45": 1597
+   },
+   "extent_wall_outer": [
+    29,
+    29
+   ],
+   "extent_inner": [
+    27,
+    27
+   ],
+   "extent_envelope": [
+    45,
+    45
+   ],
+   "far_corner_diameter_wall": 30.232,
+   "far_corner_diameter_env": 46.325,
+   "row_section": {
+    "inner_cells_on_axis_row": 27,
+    "wall_cells_on_axis_row_plus": 1,
+    "wall_cells_on_axis_row_minus": 1,
+    "inner_cells_on_main_diagonal": 19,
+    "wall_cells_on_main_diagonal_plus": 1
+   },
+   "symmetry_wall": {
+    "mirrorX": true,
+    "mirrorZ": true,
+    "diag": true,
+    "rot90": true
+   },
+   "symmetry_inner": {
+    "mirrorX": true,
+    "mirrorZ": true,
+    "diag": true,
+    "rot90": true
+   },
+   "closed_face_adjacency": true,
+   "wall_components_8conn": 1,
+   "corner_only_joints": 24,
+   "inner_contiguous": true,
+   "outer_octant_profile": [
+    [
+     0,
+     14
+    ],
+    [
+     1,
+     14
+    ],
+    [
+     2,
+     14
+    ],
+    [
+     3,
+     14
+    ],
+    [
+     4,
+     13
+    ],
+    [
+     5,
+     13
+    ],
+    [
+     6,
+     13
+    ],
+    [
+     7,
+     12
+    ],
+    [
+     8,
+     12
+    ],
+    [
+     9,
+     11
+    ],
+    [
+     10,
+     10
+    ]
+   ],
+   "outer_octant_runs": [
+    4,
+    3,
+    2,
+    1,
+    1
+   ],
+   "ray": {
+    "rays": 3600,
+    "leaks": 0,
+    "inner_face_radius_min": 12.92,
+    "inner_face_radius_max": 14.16,
+    "wall_thickness_min": 0.02,
+    "wall_thickness_max": 1.78
+   },
+   "fits": {
+    "walk4+rail1": true,
+    "walk4+pillar3": true
+   }
+  },
+  {
+   "id": "B27-T2",
+   "center": "B",
+   "inner_d": 27,
+   "wall_t": 2,
+   "wall_outer_d": 31,
+   "reserve_band": 7,
+   "cells": {
+    "interior": 577,
+    "wall_per_layer": 172,
+    "slab_per_layer": 749,
+    "reserve_band": 848,
+    "envelope45": 1597
+   },
+   "extent_wall_outer": [
+    31,
+    31
+   ],
+   "extent_inner": [
+    27,
+    27
+   ],
+   "extent_envelope": [
+    45,
+    45
+   ],
+   "far_corner_diameter_wall": 31.906,
+   "far_corner_diameter_env": 46.325,
+   "row_section": {
+    "inner_cells_on_axis_row": 27,
+    "wall_cells_on_axis_row_plus": 2,
+    "wall_cells_on_axis_row_minus": 2,
+    "inner_cells_on_main_diagonal": 19,
+    "wall_cells_on_main_diagonal_plus": 1
+   },
+   "symmetry_wall": {
+    "mirrorX": true,
+    "mirrorZ": true,
+    "diag": true,
+    "rot90": true
+   },
+   "symmetry_inner": {
+    "mirrorX": true,
+    "mirrorZ": true,
+    "diag": true,
+    "rot90": true
+   },
+   "closed_face_adjacency": true,
+   "wall_components_8conn": 1,
+   "corner_only_joints": 0,
+   "inner_contiguous": true,
+   "outer_octant_profile": [
+    [
+     0,
+     15
+    ],
+    [
+     1,
+     15
+    ],
+    [
+     2,
+     15
+    ],
+    [
+     3,
+     15
+    ],
+    [
+     4,
+     14
+    ],
+    [
+     5,
+     14
+    ],
+    [
+     6,
+     14
+    ],
+    [
+     7,
+     13
+    ],
+    [
+     8,
+     13
+    ],
+    [
+     9,
+     12
+    ],
+    [
+     10,
+     11
+    ]
+   ],
+   "outer_octant_runs": [
+    4,
+    3,
+    2,
+    1,
+    1
+   ],
+   "ray": {
+    "rays": 3600,
+    "leaks": 0,
+    "inner_face_radius_min": 12.92,
+    "inner_face_radius_max": 14.16,
+    "wall_thickness_min": 1.03,
+    "wall_thickness_max": 2.51
+   },
+   "fits": {
+    "walk4+rail1": true,
+    "walk4+pillar3": true
+   },
+   "model3d_C1_s1": {
+    "voxels": 19835,
+    "wall_layers": [
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19,
+     20,
+     22,
+     23,
+     24,
+     25,
+     26,
+     27,
+     28,
+     29,
+     30,
+     31,
+     32,
+     34,
+     35,
+     36,
+     37,
+     38,
+     39,
+     40,
+     41,
+     42,
+     43,
+     44,
+     45,
+     46,
+     48,
+     49,
+     50,
+     51,
+     52,
+     53,
+     54,
+     55,
+     56,
+     57,
+     58,
+     59,
+     60,
+     61,
+     62,
+     63
+    ],
+    "wall_vertically_aligned": true,
+    "voxels_outside_wall_outer_disc": 0,
+    "voxels_outside_y0_y79": 0,
+    "voxels_above_sanctum_floor": 0,
+    "zone_counts": {
+     "BASE_CORE": 7490,
+     "WALL": 8600,
+     "SLAB": 3745
+    }
+   }
+  },
+  {
+   "id": "B27-T3",
+   "center": "B",
+   "inner_d": 27,
+   "wall_t": 3,
+   "wall_outer_d": 33,
+   "reserve_band": 6,
+   "cells": {
+    "interior": 577,
+    "wall_per_layer": 284,
+    "slab_per_layer": 861,
+    "reserve_band": 736,
+    "envelope45": 1597
+   },
+   "extent_wall_outer": [
+    33,
+    33
+   ],
+   "extent_inner": [
+    27,
+    27
+   ],
+   "extent_envelope": [
+    45,
+    45
+   ],
+   "far_corner_diameter_wall": 34.205,
+   "far_corner_diameter_env": 46.325,
+   "row_section": {
+    "inner_cells_on_axis_row": 27,
+    "wall_cells_on_axis_row_plus": 3,
+    "wall_cells_on_axis_row_minus": 3,
+    "inner_cells_on_main_diagonal": 19,
+    "wall_cells_on_main_diagonal_plus": 2
+   },
+   "symmetry_wall": {
+    "mirrorX": true,
+    "mirrorZ": true,
+    "diag": true,
+    "rot90": true
+   },
+   "symmetry_inner": {
+    "mirrorX": true,
+    "mirrorZ": true,
+    "diag": true,
+    "rot90": true
+   },
+   "closed_face_adjacency": true,
+   "wall_components_8conn": 1,
+   "corner_only_joints": 0,
+   "inner_contiguous": true,
+   "outer_octant_profile": [
+    [
+     0,
+     16
+    ],
+    [
+     1,
+     16
+    ],
+    [
+     2,
+     16
+    ],
+    [
+     3,
+     16
+    ],
+    [
+     4,
+     16
+    ],
+    [
+     5,
+     15
+    ],
+    [
+     6,
+     15
+    ],
+    [
+     7,
+     14
+    ],
+    [
+     8,
+     14
+    ],
+    [
+     9,
+     13
+    ],
+    [
+     10,
+     13
+    ],
+    [
+     11,
+     12
+    ]
+   ],
+   "outer_octant_runs": [
+    5,
+    2,
+    2,
+    2,
+    1
+   ],
+   "ray": {
+    "rays": 3600,
+    "leaks": 0,
+    "inner_face_radius_min": 12.92,
+    "inner_face_radius_max": 14.16,
+    "wall_thickness_min": 2.19,
+    "wall_thickness_max": 3.8
+   },
+   "fits": {
+    "walk4+rail1": true,
+    "walk4+pillar3": false
+   }
+  },
+  {
+   "id": "B27-T4",
+   "center": "B",
+   "inner_d": 27,
+   "wall_t": 4,
+   "wall_outer_d": 35,
+   "reserve_band": 5,
+   "cells": {
+    "interior": 577,
+    "wall_per_layer": 396,
+    "slab_per_layer": 973,
+    "reserve_band": 624,
+    "envelope45": 1597
+   },
+   "extent_wall_outer": [
+    35,
+    35
+   ],
+   "extent_inner": [
+    27,
+    27
+   ],
+   "extent_envelope": [
+    45,
+    45
+   ],
+   "far_corner_diameter_wall": 36.359,
+   "far_corner_diameter_env": 46.325,
+   "row_section": {
+    "inner_cells_on_axis_row": 27,
+    "wall_cells_on_axis_row_plus": 4,
+    "wall_cells_on_axis_row_minus": 4,
+    "inner_cells_on_main_diagonal": 19,
+    "wall_cells_on_main_diagonal_plus": 3
+   },
+   "symmetry_wall": {
+    "mirrorX": true,
+    "mirrorZ": true,
+    "diag": true,
+    "rot90": true
+   },
+   "symmetry_inner": {
+    "mirrorX": true,
+    "mirrorZ": true,
+    "diag": true,
+    "rot90": true
+   },
+   "closed_face_adjacency": true,
+   "wall_components_8conn": 1,
+   "corner_only_joints": 0,
+   "inner_contiguous": true,
+   "outer_octant_profile": [
+    [
+     0,
+     17
+    ],
+    [
+     1,
+     17
+    ],
+    [
+     2,
+     17
+    ],
+    [
+     3,
+     17
+    ],
+    [
+     4,
+     17
+    ],
+    [
+     5,
+     16
+    ],
+    [
+     6,
+     16
+    ],
+    [
+     7,
+     16
+    ],
+    [
+     8,
+     15
+    ],
+    [
+     9,
+     15
+    ],
+    [
+     10,
+     14
+    ],
+    [
+     11,
+     13
+    ],
+    [
+     12,
+     12
+    ]
+   ],
+   "outer_octant_runs": [
+    5,
+    3,
+    2,
+    1,
+    1,
+    1
+   ],
+   "ray": {
+    "rays": 3600,
+    "leaks": 0,
+    "inner_face_radius_min": 12.92,
+    "inner_face_radius_max": 14.16,
+    "wall_thickness_min": 2.95,
+    "wall_thickness_max": 4.94
+   },
+   "fits": {
+    "walk4+rail1": true,
+    "walk4+pillar3": false
+   }
+  },
+  {
+   "id": "C26-T1",
+   "center": "C",
+   "inner_d": 26,
+   "wall_t": 1,
+   "wall_outer_d": 28,
+   "reserve_band": 8,
+   "cells": {
+    "interior": 540,
+    "wall_per_layer": 76,
+    "slab_per_layer": 616,
+    "reserve_band": 912,
+    "envelope45": 1528
+   },
+   "extent_wall_outer": [
+    28,
+    28
+   ],
+   "extent_inner": [
+    26,
+    26
+   ],
+   "extent_envelope": [
+    44,
+    44
+   ],
+   "far_corner_diameter_wall": 29.12,
+   "far_corner_diameter_env": 45.343,
+   "row_section": {
+    "inner_cells_on_axis_row": 26,
+    "wall_cells_on_axis_row_plus": 1,
+    "wall_cells_on_axis_row_minus": 1,
+    "inner_cells_on_main_diagonal": 18,
+    "wall_cells_on_main_diagonal_plus": 1
+   },
+   "symmetry_wall": {
+    "mirrorX": true,
+    "mirrorZ": true,
+    "diag": true,
+    "rot90": true
+   },
+   "symmetry_inner": {
+    "mirrorX": true,
+    "mirrorZ": true,
+    "diag": true,
+    "rot90": true
+   },
+   "closed_face_adjacency": true,
+   "wall_components_8conn": 1,
+   "corner_only_joints": 32,
+   "inner_contiguous": true,
+   "outer_octant_profile": [
+    [
+     0,
+     13
+    ],
+    [
+     1,
+     13
+    ],
+    [
+     2,
+     13
+    ],
+    [
+     3,
+     13
+    ],
+    [
+     4,
+     12
+    ],
+    [
+     5,
+     12
+    ],
+    [
+     6,
+     11
+    ],
+    [
+     7,
+     11
+    ],
+    [
+     8,
+     10
+    ],
+    [
+     9,
+     9
+    ]
+   ],
+   "outer_octant_runs": [
+    4,
+    2,
+    2,
+    1,
+    1
+   ],
+   "ray": {
+    "rays": 3600,
+    "leaks": 16,
+    "inner_face_radius_min": 12.54,
+    "inner_face_radius_max": 13.6,
+    "wall_thickness_min": 0.02,
+    "wall_thickness_max": 1.42
+   },
+   "fits": {
+    "walk4+rail1": true,
+    "walk4+pillar3": true
+   }
+  },
+  {
+   "id": "C26-T2",
+   "center": "C",
+   "inner_d": 26,
+   "wall_t": 2,
+   "wall_outer_d": 30,
+   "reserve_band": 7,
+   "cells": {
+    "interior": 540,
+    "wall_per_layer": 176,
+    "slab_per_layer": 716,
+    "reserve_band": 812,
+    "envelope45": 1528
+   },
+   "extent_wall_outer": [
+    30,
+    30
+   ],
+   "extent_inner": [
+    26,
+    26
+   ],
+   "extent_envelope": [
+    44,
+    44
+   ],
+   "far_corner_diameter_wall": 31.305,
+   "far_corner_diameter_env": 45.343,
+   "row_section": {
+    "inner_cells_on_axis_row": 26,
+    "wall_cells_on_axis_row_plus": 2,
+    "wall_cells_on_axis_row_minus": 2,
+    "inner_cells_on_main_diagonal": 18,
+    "wall_cells_on_main_diagonal_plus": 2
+   },
+   "symmetry_wall": {
+    "mirrorX": true,
+    "mirrorZ": true,
+    "diag": true,
+    "rot90": true
+   },
+   "symmetry_inner": {
+    "mirrorX": true,
+    "mirrorZ": true,
+    "diag": true,
+    "rot90": true
+   },
+   "closed_face_adjacency": true,
+   "wall_components_8conn": 1,
+   "corner_only_joints": 0,
+   "inner_contiguous": true,
+   "outer_octant_profile": [
+    [
+     0,
+     14
+    ],
+    [
+     1,
+     14
+    ],
+    [
+     2,
+     14
+    ],
+    [
+     3,
+     14
+    ],
+    [
+     4,
+     13
+    ],
+    [
+     5,
+     13
+    ],
+    [
+     6,
+     13
+    ],
+    [
+     7,
+     12
+    ],
+    [
+     8,
+     11
+    ],
+    [
+     9,
+     11
+    ],
+    [
+     10,
+     10
+    ]
+   ],
+   "outer_octant_runs": [
+    4,
+    3,
+    1,
+    2,
+    1
+   ],
+   "ray": {
+    "rays": 3600,
+    "leaks": 0,
+    "inner_face_radius_min": 12.54,
+    "inner_face_radius_max": 13.61,
+    "wall_thickness_min": 1.04,
+    "wall_thickness_max": 2.83
+   },
+   "fits": {
+    "walk4+rail1": true,
+    "walk4+pillar3": true
+   },
+   "model3d_C1_s1": {
+    "voxels": 19540,
+    "wall_layers": [
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19,
+     20,
+     22,
+     23,
+     24,
+     25,
+     26,
+     27,
+     28,
+     29,
+     30,
+     31,
+     32,
+     34,
+     35,
+     36,
+     37,
+     38,
+     39,
+     40,
+     41,
+     42,
+     43,
+     44,
+     45,
+     46,
+     48,
+     49,
+     50,
+     51,
+     52,
+     53,
+     54,
+     55,
+     56,
+     57,
+     58,
+     59,
+     60,
+     61,
+     62,
+     63
+    ],
+    "wall_vertically_aligned": true,
+    "voxels_outside_wall_outer_disc": 0,
+    "voxels_outside_y0_y79": 0,
+    "voxels_above_sanctum_floor": 0,
+    "zone_counts": {
+     "BASE_CORE": 7160,
+     "WALL": 8800,
+     "SLAB": 3580
+    }
+   }
+  },
+  {
+   "id": "C26-T3",
+   "center": "C",
+   "inner_d": 26,
+   "wall_t": 3,
+   "wall_outer_d": 32,
+   "reserve_band": 6,
+   "cells": {
+    "interior": 540,
+    "wall_per_layer": 272,
+    "slab_per_layer": 812,
+    "reserve_band": 716,
+    "envelope45": 1528
+   },
+   "extent_wall_outer": [
+    32,
+    32
+   ],
+   "extent_inner": [
+    26,
+    26
+   ],
+   "extent_envelope": [
+    44,
+    44
+   ],
+   "far_corner_diameter_wall": 33.287,
+   "far_corner_diameter_env": 45.343,
+   "row_section": {
+    "inner_cells_on_axis_row": 26,
+    "wall_cells_on_axis_row_plus": 3,
+    "wall_cells_on_axis_row_minus": 3,
+    "inner_cells_on_main_diagonal": 18,
+    "wall_cells_on_main_diagonal_plus": 2
+   },
+   "symmetry_wall": {
+    "mirrorX": true,
+    "mirrorZ": true,
+    "diag": true,
+    "rot90": true
+   },
+   "symmetry_inner": {
+    "mirrorX": true,
+    "mirrorZ": true,
+    "diag": true,
+    "rot90": true
+   },
+   "closed_face_adjacency": true,
+   "wall_components_8conn": 1,
+   "corner_only_joints": 0,
+   "inner_contiguous": true,
+   "outer_octant_profile": [
+    [
+     0,
+     15
+    ],
+    [
+     1,
+     15
+    ],
+    [
+     2,
+     15
+    ],
+    [
+     3,
+     15
+    ],
+    [
+     4,
+     14
+    ],
+    [
+     5,
+     14
+    ],
+    [
+     6,
+     14
+    ],
+    [
+     7,
+     13
+    ],
+    [
+     8,
+     13
+    ],
+    [
+     9,
+     12
+    ],
+    [
+     10,
+     11
+    ]
+   ],
+   "outer_octant_runs": [
+    4,
+    3,
+    2,
+    1,
+    1
+   ],
+   "ray": {
+    "rays": 3600,
+    "leaks": 0,
+    "inner_face_radius_min": 12.54,
+    "inner_face_radius_max": 13.61,
+    "wall_thickness_min": 2.07,
+    "wall_thickness_max": 3.56
+   },
+   "fits": {
+    "walk4+rail1": true,
+    "walk4+pillar3": false
+   }
+  },
+  {
+   "id": "C26-T4",
+   "center": "C",
+   "inner_d": 26,
+   "wall_t": 4,
+   "wall_outer_d": 34,
+   "reserve_band": 5,
+   "cells": {
+    "interior": 540,
+    "wall_per_layer": 372,
+    "slab_per_layer": 912,
+    "reserve_band": 616,
+    "envelope45": 1528
+   },
+   "extent_wall_outer": [
+    34,
+    34
+   ],
+   "extent_inner": [
+    26,
+    26
+   ],
+   "extent_envelope": [
+    44,
+    44
+   ],
+   "far_corner_diameter_wall": 35.384,
+   "far_corner_diameter_env": 45.343,
+   "row_section": {
+    "inner_cells_on_axis_row": 26,
+    "wall_cells_on_axis_row_plus": 4,
+    "wall_cells_on_axis_row_minus": 4,
+    "inner_cells_on_main_diagonal": 18,
+    "wall_cells_on_main_diagonal_plus": 3
+   },
+   "symmetry_wall": {
+    "mirrorX": true,
+    "mirrorZ": true,
+    "diag": true,
+    "rot90": true
+   },
+   "symmetry_inner": {
+    "mirrorX": true,
+    "mirrorZ": true,
+    "diag": true,
+    "rot90": true
+   },
+   "closed_face_adjacency": true,
+   "wall_components_8conn": 1,
+   "corner_only_joints": 0,
+   "inner_contiguous": true,
+   "outer_octant_profile": [
+    [
+     0,
+     16
+    ],
+    [
+     1,
+     16
+    ],
+    [
+     2,
+     16
+    ],
+    [
+     3,
+     16
+    ],
+    [
+     4,
+     15
+    ],
+    [
+     5,
+     15
+    ],
+    [
+     6,
+     15
+    ],
+    [
+     7,
+     14
+    ],
+    [
+     8,
+     14
+    ],
+    [
+     9,
+     13
+    ],
+    [
+     10,
+     12
+    ],
+    [
+     11,
+     12
+    ]
+   ],
+   "outer_octant_runs": [
+    4,
+    3,
+    2,
+    1,
+    2
+   ],
+   "ray": {
+    "rays": 3600,
+    "leaks": 0,
+    "inner_face_radius_min": 12.54,
+    "inner_face_radius_max": 13.61,
+    "wall_thickness_min": 3.09,
+    "wall_thickness_max": 4.67
+   },
+   "fits": {
+    "walk4+rail1": true,
+    "walk4+pillar3": false
+   }
+  }
+ ],
+ "vertical": {
+  "sum_of_budgets": 80,
+  "span_from_coordinates": 80,
+  "every_layer_exactly_one_segment": true,
+  "contiguous": true,
+  "C1_s1": [
+   {
+    "segment": "BASE",
+    "budget_h": 10,
+    "y_start": 0,
+    "y_end": 9,
+    "slab": null,
+    "base_mass": [
+     0,
+     9
+    ],
+    "clear": null,
+    "walk_surface_top": 9,
+    "note": "podium mass y0-9; F1 floor slab lies in F1"
+   },
+   {
+    "segment": "F1",
+    "budget_h": 11,
+    "y_start": 10,
+    "y_end": 20,
+    "slab": [
+     10,
+     10
+    ],
+    "clear": [
+     11,
+     20
+    ],
+    "clear_h": 10,
+    "ceiling": "next segment floor slab"
+   },
+   {
+    "segment": "F2",
+    "budget_h": 12,
+    "y_start": 21,
+    "y_end": 32,
+    "slab": [
+     21,
+     21
+    ],
+    "clear": [
+     22,
+     32
+    ],
+    "clear_h": 11,
+    "ceiling": "next segment floor slab"
+   },
+   {
+    "segment": "F3",
+    "budget_h": 14,
+    "y_start": 33,
+    "y_end": 46,
+    "slab": [
+     33,
+     33
+    ],
+    "clear": [
+     34,
+     46
+    ],
+    "clear_h": 13,
+    "ceiling": "next segment floor slab"
+   },
+   {
+    "segment": "F4",
+    "budget_h": 17,
+    "y_start": 47,
+    "y_end": 63,
+    "slab": [
+     47,
+     47
+    ],
+    "clear": [
+     48,
+     63
+    ],
+    "clear_h": 16,
+    "ceiling": "next segment floor slab"
+   },
+   {
+    "segment": "SANCTUM",
+    "budget_h": 16,
+    "y_start": 64,
+    "y_end": 79,
+    "slab": [
+     64,
+     64
+    ],
+    "clear": [
+     65,
+     79
+    ],
+    "clear_h": 15,
+    "arch_zone": [
+     65,
+     79
+    ],
+    "apex_y": 79,
+    "roof": null
+   }
+  ],
+  "C1_s2": [
+   {
+    "segment": "BASE",
+    "budget_h": 10,
+    "y_start": 0,
+    "y_end": 9,
+    "slab": null,
+    "base_mass": [
+     0,
+     9
+    ],
+    "clear": null,
+    "walk_surface_top": 9,
+    "note": "podium mass y0-9; F1 floor slab lies in F1"
+   },
+   {
+    "segment": "F1",
+    "budget_h": 11,
+    "y_start": 10,
+    "y_end": 20,
+    "slab": [
+     10,
+     11
+    ],
+    "clear": [
+     12,
+     20
+    ],
+    "clear_h": 9,
+    "ceiling": "next segment floor slab"
+   },
+   {
+    "segment": "F2",
+    "budget_h": 12,
+    "y_start": 21,
+    "y_end": 32,
+    "slab": [
+     21,
+     22
+    ],
+    "clear": [
+     23,
+     32
+    ],
+    "clear_h": 10,
+    "ceiling": "next segment floor slab"
+   },
+   {
+    "segment": "F3",
+    "budget_h": 14,
+    "y_start": 33,
+    "y_end": 46,
+    "slab": [
+     33,
+     34
+    ],
+    "clear": [
+     35,
+     46
+    ],
+    "clear_h": 12,
+    "ceiling": "next segment floor slab"
+   },
+   {
+    "segment": "F4",
+    "budget_h": 17,
+    "y_start": 47,
+    "y_end": 63,
+    "slab": [
+     47,
+     48
+    ],
+    "clear": [
+     49,
+     63
+    ],
+    "clear_h": 15,
+    "ceiling": "next segment floor slab"
+   },
+   {
+    "segment": "SANCTUM",
+    "budget_h": 16,
+    "y_start": 64,
+    "y_end": 79,
+    "slab": [
+     64,
+     65
+    ],
+    "clear": [
+     66,
+     79
+    ],
+    "clear_h": 14,
+    "arch_zone": [
+     66,
+     79
+    ],
+    "apex_y": 79,
+    "roof": null
+   }
+  ],
+  "C2_s1": [
+   {
+    "segment": "BASE",
+    "budget_h": 10,
+    "y_start": 0,
+    "y_end": 9,
+    "slab": [
+     9,
+     9
+    ],
+    "base_mass": [
+     0,
+     9
+    ],
+    "clear": null,
+    "walk_surface_top": 9,
+    "note": "podium mass y0-9; its top 1 layer(s) are the F1 floor"
+   },
+   {
+    "segment": "F1",
+    "budget_h": 11,
+    "y_start": 10,
+    "y_end": 20,
+    "slab": [
+     20,
+     20
+    ],
+    "clear": [
+     10,
+     19
+    ],
+    "clear_h": 10,
+    "floor": "previous segment top slab / base top"
+   },
+   {
+    "segment": "F2",
+    "budget_h": 12,
+    "y_start": 21,
+    "y_end": 32,
+    "slab": [
+     32,
+     32
+    ],
+    "clear": [
+     21,
+     31
+    ],
+    "clear_h": 11,
+    "floor": "previous segment top slab / base top"
+   },
+   {
+    "segment": "F3",
+    "budget_h": 14,
+    "y_start": 33,
+    "y_end": 46,
+    "slab": [
+     46,
+     46
+    ],
+    "clear": [
+     33,
+     45
+    ],
+    "clear_h": 13,
+    "floor": "previous segment top slab / base top"
+   },
+   {
+    "segment": "F4",
+    "budget_h": 17,
+    "y_start": 47,
+    "y_end": 63,
+    "slab": [
+     63,
+     63
+    ],
+    "clear": [
+     47,
+     62
+    ],
+    "clear_h": 16,
+    "floor": "previous segment top slab / base top"
+   },
+   {
+    "segment": "SANCTUM",
+    "budget_h": 16,
+    "y_start": 64,
+    "y_end": 79,
+    "slab": null,
+    "clear": [
+     64,
+     79
+    ],
+    "clear_h": 16,
+    "arch_zone": [
+     64,
+     79
+    ],
+    "apex_y": 79,
+    "roof": null,
+    "note": "floor is F4's top slab"
+   }
+  ],
+  "C2_s2": [
+   {
+    "segment": "BASE",
+    "budget_h": 10,
+    "y_start": 0,
+    "y_end": 9,
+    "slab": [
+     8,
+     9
+    ],
+    "base_mass": [
+     0,
+     9
+    ],
+    "clear": null,
+    "walk_surface_top": 9,
+    "note": "podium mass y0-9; its top 2 layer(s) are the F1 floor"
+   },
+   {
+    "segment": "F1",
+    "budget_h": 11,
+    "y_start": 10,
+    "y_end": 20,
+    "slab": [
+     19,
+     20
+    ],
+    "clear": [
+     10,
+     18
+    ],
+    "clear_h": 9,
+    "floor": "previous segment top slab / base top"
+   },
+   {
+    "segment": "F2",
+    "budget_h": 12,
+    "y_start": 21,
+    "y_end": 32,
+    "slab": [
+     31,
+     32
+    ],
+    "clear": [
+     21,
+     30
+    ],
+    "clear_h": 10,
+    "floor": "previous segment top slab / base top"
+   },
+   {
+    "segment": "F3",
+    "budget_h": 14,
+    "y_start": 33,
+    "y_end": 46,
+    "slab": [
+     45,
+     46
+    ],
+    "clear": [
+     33,
+     44
+    ],
+    "clear_h": 12,
+    "floor": "previous segment top slab / base top"
+   },
+   {
+    "segment": "F4",
+    "budget_h": 17,
+    "y_start": 47,
+    "y_end": 63,
+    "slab": [
+     62,
+     63
+    ],
+    "clear": [
+     47,
+     61
+    ],
+    "clear_h": 15,
+    "floor": "previous segment top slab / base top"
+   },
+   {
+    "segment": "SANCTUM",
+    "budget_h": 16,
+    "y_start": 64,
+    "y_end": 79,
+    "slab": null,
+    "clear": [
+     64,
+     79
+    ],
+    "clear_h": 16,
+    "arch_zone": [
+     64,
+     79
+    ],
+    "apex_y": 79,
+    "roof": null,
+    "note": "floor is F4's top slab"
+   }
+  ]
+ },
+ "checks": [
+  {
+   "id": "V1",
+   "item": "height sum = 80 (Q27/Q28)",
+   "status": "PASS",
+   "evidence": "sum budgets 80; coordinate span y0..y79 = 80"
+  },
+  {
+   "id": "V2",
+   "item": "no overlap / gap between segments",
+   "status": "PASS",
+   "evidence": "each of 80 layers belongs to exactly one segment"
+  },
+  {
+   "id": "P-B25-T1",
+   "item": "plan candidate",
+   "status": "CANDIDATE_FAIL",
+   "evidence": "outer (27, 27), inner (25, 25), reserve 9, corner joints 16, fits {'walk4+rail1': True, 'walk4+pillar3': True}"
+  },
+  {
+   "id": "P-B25-T2",
+   "item": "plan candidate",
+   "status": "PASS",
+   "evidence": "outer (29, 29), inner (25, 25), reserve 8, corner joints 0, fits {'walk4+rail1': True, 'walk4+pillar3': True}"
+  },
+  {
+   "id": "P-B25-T3",
+   "item": "plan candidate",
+   "status": "PASS",
+   "evidence": "outer (31, 31), inner (25, 25), reserve 7, corner joints 0, fits {'walk4+rail1': True, 'walk4+pillar3': True}"
+  },
+  {
+   "id": "P-B25-T4",
+   "item": "plan candidate",
+   "status": "PASS",
+   "evidence": "outer (33, 33), inner (25, 25), reserve 6, corner joints 0, fits {'walk4+rail1': True, 'walk4+pillar3': False}"
+  },
+  {
+   "id": "P-B27-T1",
+   "item": "plan candidate",
+   "status": "CANDIDATE_FAIL",
+   "evidence": "outer (29, 29), inner (27, 27), reserve 8, corner joints 24, fits {'walk4+rail1': True, 'walk4+pillar3': True}"
+  },
+  {
+   "id": "P-B27-T2",
+   "item": "plan candidate",
+   "status": "PASS",
+   "evidence": "outer (31, 31), inner (27, 27), reserve 7, corner joints 0, fits {'walk4+rail1': True, 'walk4+pillar3': True}"
+  },
+  {
+   "id": "P-B27-T3",
+   "item": "plan candidate",
+   "status": "PASS",
+   "evidence": "outer (33, 33), inner (27, 27), reserve 6, corner joints 0, fits {'walk4+rail1': True, 'walk4+pillar3': False}"
+  },
+  {
+   "id": "P-B27-T4",
+   "item": "plan candidate",
+   "status": "PASS",
+   "evidence": "outer (35, 35), inner (27, 27), reserve 5, corner joints 0, fits {'walk4+rail1': True, 'walk4+pillar3': False}"
+  },
+  {
+   "id": "P-C26-T1",
+   "item": "plan candidate",
+   "status": "CANDIDATE_FAIL",
+   "evidence": "outer (28, 28), inner (26, 26), reserve 8, corner joints 32, fits {'walk4+rail1': True, 'walk4+pillar3': True}"
+  },
+  {
+   "id": "P-C26-T2",
+   "item": "plan candidate",
+   "status": "PASS",
+   "evidence": "outer (30, 30), inner (26, 26), reserve 7, corner joints 0, fits {'walk4+rail1': True, 'walk4+pillar3': True}"
+  },
+  {
+   "id": "P-C26-T3",
+   "item": "plan candidate",
+   "status": "PASS",
+   "evidence": "outer (32, 32), inner (26, 26), reserve 6, corner joints 0, fits {'walk4+rail1': True, 'walk4+pillar3': False}"
+  },
+  {
+   "id": "P-C26-T4",
+   "item": "plan candidate",
+   "status": "PASS",
+   "evidence": "outer (34, 34), inner (26, 26), reserve 5, corner joints 0, fits {'walk4+rail1': True, 'walk4+pillar3': False}"
+  }
+ ],
+ "forward_geometry03": {
+  "B25": {
+   "central_D17": {
+    "7x7_positions": 0,
+    "3x3_positions": 96
+   },
+   "central_D17+band1(D19)": {
+    "7x7_positions": 0,
+    "3x3_positions": 20
+   },
+   "inner+niche2(D29)_vs_D17": {
+    "7x7_positions": 0
+   }
+  },
+  "B27": {
+   "central_D17": {
+    "7x7_positions": 0,
+    "3x3_positions": 176
+   },
+   "central_D17+band1(D19)": {
+    "7x7_positions": 0,
+    "3x3_positions": 100
+   },
+   "inner+niche2(D31)_vs_D17": {
+    "7x7_positions": 4
+   }
+  },
+  "C26": {
+   "note": "odd-size patterns (3x3/7x7/9x9/17) cannot be centred on a corner axis; not evaluated"
+  }
+ },
+ "sanctum_12dir_rounding": {
+  "13.5": {
+   "points": [
+    [
+     -14,
+     0
+    ],
+    [
+     -12,
+     -7
+    ],
+    [
+     -12,
+     7
+    ],
+    [
+     -7,
+     -12
+    ],
+    [
+     -7,
+     12
+    ],
+    [
+     0,
+     -14
+    ],
+    [
+     0,
+     14
+    ],
+    [
+     7,
+     -12
+    ],
+    [
+     7,
+     12
+    ],
+    [
+     12,
+     -7
+    ],
+    [
+     12,
+     7
+    ],
+    [
+     14,
+     0
+    ]
+   ],
+   "count": 12,
+   "symmetry": {
+    "mirrorX": true,
+    "mirrorZ": true,
+    "diag": true,
+    "rot90": true
+   }
+  },
+  "14.0": {
+   "points": [
+    [
+     -14,
+     0
+    ],
+    [
+     -12,
+     -7
+    ],
+    [
+     -12,
+     7
+    ],
+    [
+     -7,
+     -12
+    ],
+    [
+     -7,
+     12
+    ],
+    [
+     0,
+     -14
+    ],
+    [
+     0,
+     14
+    ],
+    [
+     7,
+     -12
+    ],
+    [
+     7,
+     12
+    ],
+    [
+     12,
+     -7
+    ],
+    [
+     12,
+     7
+    ],
+    [
+     14,
+     0
+    ]
+   ],
+   "count": 12,
+   "symmetry": {
+    "mirrorX": true,
+    "mirrorZ": true,
+    "diag": true,
+    "rot90": true
+   }
+  },
+  "14.5": {
+   "points": [
+    [
+     -14,
+     0
+    ],
+    [
+     -13,
+     -7
+    ],
+    [
+     -13,
+     7
+    ],
+    [
+     -7,
+     -13
+    ],
+    [
+     -7,
+     13
+    ],
+    [
+     0,
+     -14
+    ],
+    [
+     0,
+     14
+    ],
+    [
+     7,
+     -13
+    ],
+    [
+     7,
+     13
+    ],
+    [
+     13,
+     -7
+    ],
+    [
+     13,
+     7
+    ],
+    [
+     14,
+     0
+    ]
+   ],
+   "count": 12,
+   "symmetry": {
+    "mirrorX": true,
+    "mirrorZ": true,
+    "diag": true,
+    "rot90": true
+   }
+  },
+  "15.0": {
+   "points": [
+    [
+     -15,
+     0
+    ],
+    [
+     -13,
+     -7
+    ],
+    [
+     -13,
+     7
+    ],
+    [
+     -8,
+     -13
+    ],
+    [
+     -7,
+     13
+    ],
+    [
+     0,
+     -15
+    ],
+    [
+     0,
+     15
+    ],
+    [
+     8,
+     -13
+    ],
+    [
+     8,
+     13
+    ],
+    [
+     13,
+     -8
+    ],
+    [
+     13,
+     7
+    ],
+    [
+     15,
+     0
+    ]
+   ],
+   "count": 12,
+   "symmetry": {
+    "mirrorX": false,
+    "mirrorZ": false,
+    "diag": false,
+    "rot90": false
+   }
+  }
+ },
+ "euclid45_max_axis_D": 43,
+ "stair_input": {
+  "B25-T3": {
+   "walk_centerline_radius": 17.5,
+   "circumference": 110.0,
+   "rise_per_turn": {
+    "F1->F2": 11,
+    "F2->F3": 12,
+    "F3->F4": 14,
+    "F4->SANCTUM": 17
+   },
+   "avg_grade_per_block": {
+    "F1->F2": 0.1,
+    "F2->F3": 0.109,
+    "F3->F4": 0.127,
+    "F4->SANCTUM": 0.155
+   }
+  },
+  "B27-T2": {
+   "walk_centerline_radius": 17.5,
+   "circumference": 110.0,
+   "rise_per_turn": {
+    "F1->F2": 11,
+    "F2->F3": 12,
+    "F3->F4": 14,
+    "F4->SANCTUM": 17
+   },
+   "avg_grade_per_block": {
+    "F1->F2": 0.1,
+    "F2->F3": 0.109,
+    "F3->F4": 0.127,
+    "F4->SANCTUM": 0.155
+   }
+  },
+  "C26-T2": {
+   "walk_centerline_radius": 17.0,
+   "circumference": 106.8,
+   "rise_per_turn": {
+    "F1->F2": 11,
+    "F2->F3": 12,
+    "F3->F4": 14,
+    "F4->SANCTUM": 17
+   },
+   "avg_grade_per_block": {
+    "F1->F2": 0.103,
+    "F2->F3": 0.112,
+    "F3->F4": 0.131,
+    "F4->SANCTUM": 0.159
+   }
+  }
+ }
+}

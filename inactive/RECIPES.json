@@ -1,0 +1,13 @@
+[
+ {"id": "st05-p0-materialize", "family": "validation-st05-p0-probe",
+  "note": "Deterministic materializer shipped in the same tree; output files must hash to the recorded blobs.",
+  "cwd": "tools/st05-p0-probe-01", "cmd": ["python3", "-I", "materialize.py", "--out", "{tmp}"],
+  "outputs": {"tools/st05-p0-probe-01/inputs-v1.json": "{tmp}/inputs-v1.json",
+              "tools/st05-p0-probe-01/schedules-v1.json": "{tmp}/schedules-v1.json",
+              "tools/st05-p0-probe-01/expected-traces-v1.json": "{tmp}/expected-traces-v1.json",
+              "tools/st05-p0-probe-01/runplan-v1.json": "{tmp}/runplan-v1.json"}},
+ {"id": "st05-p0-oracle", "family": "validation-st05-p0-probe",
+  "note": "Independent oracle shipped in the same tree; writes goldens next to itself.",
+  "cwd": "tools/st05-p0-probe-01", "cmd": ["python3", "-I", "oracle/oracle.py"],
+  "outputs": {"tools/st05-p0-probe-01/oracle/goldens-v1.json": "tools/st05-p0-probe-01/oracle/goldens-v1.json"}}
+]

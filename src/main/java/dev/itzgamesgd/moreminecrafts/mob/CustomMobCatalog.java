@@ -46,7 +46,6 @@ import net.minecraft.world.entity.ambient.Bat;
 import net.minecraft.world.entity.animal.wolf.Wolf;
 import net.minecraft.world.entity.animal.bee.Bee;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 
@@ -103,7 +102,7 @@ public final class CustomMobCatalog {
     public static final EntityType<Drowned> DROWNED_SAILOR = type("drowned_sailor", Drowned::new, 0.6f, 1.95f);
     public static final EntityType<Drowned> DEEP_SEA_DROWNED = type("deep_sea_drowned", Drowned::new, 0.6f, 1.95f);
     public static final EntityType<Drowned> RIVER_DROWNED = type("river_drowned", Drowned::new, 0.6f, 1.95f);
-    public static final EntityType<Piglin> WILD_PIGLIN = type("wild_piglin", Piglin::new, 0.6f, 1.95f);
+    public static final EntityType<Piglin> WILD_PIGLIN = type("wild_piglin", WildPiglin::new, 0.6f, 1.95f);
     public static final EntityType<Pillager> BANDIT = type("bandit", (type, level) -> new BanditEntity(type, level), 0.6f, 1.95f, MobCategory.MONSTER, false, 8, true);
     public static final EntityType<Pillager> BANDIT_ARCHER = type("bandit_archer", (type, level) -> new BanditArcher(type, level), 0.6f, 1.95f, MobCategory.MONSTER, false, 8, true);
     public static final EntityType<Vindicator> BANDIT_WARRIOR = type("bandit_warrior", Vindicator::new, 0.6f, 1.95f);
@@ -112,10 +111,14 @@ public final class CustomMobCatalog {
             MobCategory.CREATURE, false, 10, false);
     public static final EntityType<Bat> CAVE_BAT = type("cave_bat", (type, level) -> new CaveBatEntity(type, level), 0.9f, 0.9f,
             MobCategory.AMBIENT, false, 5, false);
-    public static final EntityType<Bee> GIANT_BEE = type("giant_bee", Bee::new, 1.0f, 0.8f, MobCategory.CREATURE, false);
+    public static final EntityType<Bee> GIANT_BEE = type("giant_bee", GiantBeeEntity::new, 1.0f, 0.8f, MobCategory.CREATURE, false);
     public static final EntityType<LesserPhantom> LESSER_PHANTOM = type("lesser_phantom",
             (type, level) -> new LesserPhantom(type, level), 0.7f, 0.45f);
     public static final EntityType<Creeper> CAVE_CREEPER = type("cave_creeper", Creeper::new, 0.6f, 1.7f);
+    public static final EntityType<Vindicator> PILLAGER_COMMANDER = type("pillager_commander", Vindicator::new, 0.6f, 1.95f);
+    public static final EntityType<Pillager> PILLAGER_BEASTMASTER = type("pillager_beastmaster", Pillager::new, 0.6f, 1.95f, MobCategory.MONSTER, false, 8, true);
+    public static final EntityType<Vindicator> ARMORY_GUARD = type("armory_guard", Vindicator::new, 0.6f, 1.95f);
+    public static final EntityType<Pillager> PILLAGER_DRILLMASTER = type("pillager_drillmaster", Pillager::new, 0.6f, 1.95f, MobCategory.MONSTER, false, 8, true);
 
     private static <T extends Mob> EntityType<T> type(String path, EntityType.EntityFactory<T> factory,
                                                        float width, float height) {
@@ -208,6 +211,14 @@ public final class CustomMobCatalog {
             BiomeModifications.addSpawn(BiomeSelectors.tag(spec.biomeTag), spec.type.getCategory(),
                     spec.type, spec.weight, spec.minGroup, spec.maxGroup);
         }
+        FabricDefaultAttributeRegistry.register(PILLAGER_COMMANDER,
+                Vindicator.createAttributes().add(Attributes.MAX_HEALTH, 40.0D).build());
+        FabricDefaultAttributeRegistry.register(PILLAGER_BEASTMASTER,
+                Pillager.createAttributes().build());
+        FabricDefaultAttributeRegistry.register(ARMORY_GUARD,
+                Vindicator.createAttributes().add(Attributes.MAX_HEALTH, 28.0D).build());
+        FabricDefaultAttributeRegistry.register(PILLAGER_DRILLMASTER,
+                Pillager.createAttributes().add(Attributes.MAX_HEALTH, 30.0D).build());
         MoreMinecrafts.LOGGER.info("Registered {} vanilla-model custom mobs and spawn rules.", SPAWNS.size());
     }
 
@@ -303,8 +314,10 @@ public final class CustomMobCatalog {
             case NETHER -> level.getBlockState(pos).isAir() && level.getBlockState(pos.below()).isSolid();
             case WATER -> level.getFluidState(pos).is(net.minecraft.tags.FluidTags.WATER);
             case SKY -> pos.getY() > level.getSeaLevel() + 12 && level.canSeeSky(pos);
-            case GROUND -> level.getBlockState(pos).isAir() && level.getBlockState(pos.below()).isSolid() &&
-                    !level.getBlockState(pos.below()).is(Blocks.MAGMA_BLOCK);
+            case SKY_ISLAND -> pos.getY() > level.getSeaLevel() + SKY_ISLAND_MIN_HEIGHT_ABOVE_SEA
+                    && level.canSeeSky(pos)
+                    && level.getBlockState(pos).isAir() && level.getBlockState(pos.below()).isSolid();
+            case GROUND -> level.getBlockState(pos).isAir() && level.getBlockState(pos.below()).isSolid();
         };
     }
 
@@ -312,7 +325,19 @@ public final class CustomMobCatalog {
         return SPAWNS.stream().map(SpawnSpec::type).toList();
     }
 
-    private enum SpawnKind { GROUND, CAVE, NETHER, WATER, SKY }
+    /**
+     * {@code SKY_ISLAND} spawn kind (§15.6 P2 isolated list, group B variants): above sea level + 30, open to the
+     * sky, standing on a solid block. It is never registered as a biome spawn; the sky-island structures'
+     * {@code spawn_overrides} supply the candidates and {@code SkyIslandRegion} supplies the region gate.
+     */
+    public static boolean skyIslandSurface(net.minecraft.world.level.ServerLevelAccessor level, BlockPos pos) {
+        return allowed(SpawnKind.SKY_ISLAND, level, pos);
+    }
+
+    /** PROVISIONAL: minimum sky-island spawn height above sea level for group B natural spawns. */
+    public static final int SKY_ISLAND_MIN_HEIGHT_ABOVE_SEA = 30;
+
+    private enum SpawnKind { GROUND, CAVE, NETHER, WATER, SKY, SKY_ISLAND }
     private record SpawnSpec(EntityType<? extends Mob> type, AttributeSupplier.Builder attributes,
                              net.minecraft.tags.TagKey<net.minecraft.world.level.biome.Biome> biomeTag,
                              int weight, int minGroup, int maxGroup, SpawnKind kind) {}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "F": "moreminecrafts:sky_feather",
+    "G": "moreminecrafts:gale_shard",
+    "B": "minecraft:breeze_rod",
+    "W": "minecraft:bow",
+    "E": "moreminecrafts:etherium_ingot"
+  },
+  "pattern": [
+    "FGF",
+    "BWB",
+    "BEB"
+  ],
+  "result": {
+    "count": 1,
+    "id": "moreminecrafts:wind_archers_bow"
+  }
+}

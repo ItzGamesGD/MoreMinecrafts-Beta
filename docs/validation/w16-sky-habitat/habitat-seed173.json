@@ -1,0 +1,42 @@
+{
+  "seed": 173,
+  "surfaces": [
+    {
+      "structure": "moreminecrafts:sky_island_mountain_meadow",
+      "z": -24,
+      "y": 180,
+      "x": 114,
+      "biome": "minecraft:meadow",
+      "relativeHeight": 63,
+      "template": "moreminecrafts:sky_islands/meadow/ruins"
+    },
+    {
+      "structure": "moreminecrafts:sky_island_mountain_meadow",
+      "z": -48,
+      "y": 177,
+      "x": 120,
+      "biome": "minecraft:meadow",
+      "relativeHeight": 60,
+      "template": "moreminecrafts:sky_islands/meadow/satellite_a"
+    },
+    {
+      "structure": "moreminecrafts:sky_island_mountain_meadow",
+      "z": -23,
+      "y": 183,
+      "x": 121,
+      "biome": "minecraft:meadow",
+      "relativeHeight": 66,
+      "template": "moreminecrafts:sky_islands/ruins_d"
+    },
+    {
+      "structure": "moreminecrafts:sky_island_mountain_meadow",
+      "z": -78,
+      "y": 181,
+      "x": 120,
+      "biome": "minecraft:meadow",
+      "relativeHeight": 70,
+      "template": "moreminecrafts:sky_islands/meadow/satellite_b"
+    }
+  ],
+  "pass": true
+}

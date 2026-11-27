@@ -24,10 +24,13 @@ discover_minecraft_window() {
     return 1
   fi
 
-  windows="$(xdotool search --onlyvisible --name '.*' 2>/dev/null || true)"
+  # The visible-name search alone was observed to omit the framed, active Minecraft window on GitHub runners,
+  # so also take SDL's WM_CLASS matches in any state and require the map state explicitly below.
+  windows="$( { xdotool search --onlyvisible --name '.*' 2>/dev/null || true; xdotool search --class 'com.mojang.minecraft' 2>/dev/null || true; } | sort -un)"
   for window_id in $windows; do
     [[ "$window_id" =~ ^[0-9]+$ ]] || continue
     [[ "$window_id" != "$root_id" ]] || continue
+    xwininfo -id "$window_id" 2>/dev/null | grep -q 'Map State: IsViewable' || continue
 
     class="$(x11_window_property "$window_id" WM_CLASS)"
     pid="$(x11_window_property "$window_id" _NET_WM_PID)"
@@ -92,4 +95,23 @@ x11_transform_coordinates() {
   (( X11_CLICK_LOCAL_X < X11_GAME_WINDOW_WIDTH && X11_CLICK_LOCAL_Y < X11_GAME_WINDOW_HEIGHT )) || return 1
   X11_CLICK_ROOT_X=$((X11_GAME_WINDOW_X + X11_CLICK_LOCAL_X))
   X11_CLICK_ROOT_Y=$((X11_GAME_WINDOW_Y + X11_CLICK_LOCAL_Y))
+}
+
+# Realistic left click: an explicit XTest press, a short hold, then release. "xdotool click" delivers press and release
+# back to back and was observed to reach SDL as two presses, which makes the vanilla inventory screen send two
+# container-click packets (place, then pick the item up again). Use this helper for every real-input click.
+x11_click_held() {
+  local hold="${1:-0.1}"
+  xdotool mousedown 1
+  sleep "$hold"
+  xdotool mouseup 1
+}
+
+# Held click with Shift down (quick-move).
+x11_shift_click_held() {
+  xdotool keydown shift
+  sleep 0.15
+  x11_click_held "${1:-0.1}"
+  sleep 0.15
+  xdotool keyup shift
 }

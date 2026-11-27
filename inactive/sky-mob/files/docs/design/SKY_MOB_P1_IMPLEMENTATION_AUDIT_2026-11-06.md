@@ -1,0 +1,85 @@
+# SKY-MOB P1 implementation and verification audit (2026-11-06)
+
+This is an implementation audit for the P1 branch. Issue #230 Q01–Q87 and approved D1–D6 remain the design authority; this report records code behavior and evidence without changing those decisions. P1-Q01 B authorizes use of Minecraft 26.3's native Looting loot condition while retaining Q85's exact 5% unenchanted emerald chance. The level-specific bonus values below describe the selected implementation curve only; they are not new approved balance decisions.
+
+## Scope and state
+
+- Base: `docs/sky-mob-p0-authority-20261106` at P0 commit `90ca11bc54ee85b3a9267d600668edc0cb052a3c`.
+- Head at audit start: `0002278574e86dd6f2ab0c74e3f8339bd2c2a949` (`implement/sky-mob-p1-entities-20261106`).
+- Existing P1 commits: `f33f8dc` entity implementation; `f17ff24` Crystal Bug collision/loadout and test corrections; `0002278` direct Cloud Slime attack test.
+- P1 audit fixes: `ba20789` stable Cloud Slime attack modifier and expanded water/loot tests; `0fa2218` correct Minecraft 26.3 `can_breathe_under_water` tag identifier.
+- Latest code verification: GitHub Actions Fabric CI run [42160197193](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/42160197193) at code-equivalent commit `a2d4e5e` completed in 5m16s. Java 25 compile/test/build tasks passed; only the unrelated Colosseum GameTest failed.
+- Final report head: `7b7721e` is documentation-only; run [42161099101](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/42161099101) repeated the same code result: 19/19 Sky-Mob tests passed and the same single Colosseum test failed.
+- Existing checkout was clean after selecting the requested branch. No GameTest process or prior local GameTest output was found.
+- A prior GitHub Actions run for `0002278` is the only reusable full-suite evidence found. Its log is at [Fabric CI run 42156604064](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/42156604064).
+
+## Entity audit
+
+| Entity / ID | Registration, parent and fixed data | Audit result |
+|---|---|---|
+| 구름 망령 / `moreminecrafts:cloud_wraith` | `Zombie` through `SkyZombieBase`; zombie melee goals, target selector and attributes; 30 HP, attack 5, speed 0.23; 0.6×1.95; MONSTER. Q48 disables Drowned conversion. Q47/Q67 underwater-breathing membership is supplied independently of Q51 through the 26.3 `can_breathe_under_water` tag. | **PASS** for registration, stats, inherited melee, fixed equipment, Drowned-conversion exception and water-breathing tag parity with vanilla Zombie in run `42160197193`. |
+| 천궁 사수 / `moreminecrafts:skyguard_archer` | `AbstractSkeleton`; skeleton ranged goals, bow cadence, movement, range and target selector; 30 HP, skeleton speed, 0.6×1.99; arrow base damage multiplied by 1.4; fixed plain bow. It does not inherit `Skeleton`'s powder-snow Stray conversion path (D4). Q47/Q67 underwater-breathing membership is independent of Q51. | **PASS** for inspected inheritance, direct arrow-damage test, Stray-conversion exclusion and water-breathing tag parity with vanilla Skeleton. Untagged vanilla `#skeletons` target-selection effects remain **UNVERIFIED** under V5. |
+| 수정 벌레 / `moreminecrafts:crystal_bug` | `Silverfish`; 24 HP, attack 4, vanilla Silverfish speed; scale 2.5 with matching 2.5× collision dimensions; arthropod and bane-of-arthropods tags. `registerGoals` removes `SilverfishWakeUpFriendsGoal` and `SilverfishMergeWithStoneGoal`; the ordinary melee/retaliation goals remain. | **PASS** for the two goal removals, block/support prevention covered by its GameTest, type, scale, category and stats in run `42161099101`. **UNVERIFIED** for indirect Silverfish support/alert routes beyond the tested removed goals and 120-tick fixture. |
+| 구름 슬라임 / `moreminecrafts:cloud_slime` | `Slime`; size health 4/12/32, vanilla speed, 2.5× damage on damaging sizes, zero small-size damage, 2–4 same-type split children, final-small-only Wind Charge table. D5-a remains a P4 natural-spawn constraint. | Initial code **FAIL**: repeated `setSize` calls compounded the attack multiplier. Fixed by using one stable permanent 50% attack modifier and removing it for the tiny size. Size-rewrite, split-count/type, tiny-damage, loot and persistence tests **PASS** in run `42160197193`. |
+| 타락한 파수병 / `moreminecrafts:fallen_sentinel` | `Zombie`, reproducing Husk's shared Zombie movement/melee AI; 40 HP, attack 6, speed 0.23; undead-only classification; Husklike sounds, sun immunity and water-to-Zombie conversion. A successful melee hit rolls 40% Weakness I for 60 ticks. | **PASS** for direct effect-rate, water-conversion, stats and fixed-equipment checks in run `42161099101`. Husk-vs-Zombie differences are tabulated below. Reinforcement composition remains **UNVERIFIED** under V6. |
+
+Common code and test coverage found: unique registry IDs, hostile category/cap, fixed loadouts, no pickup, no equipment drops, adult-only behavior, peaceful creation/removal, persistence, daylight/fire/fall/freeze/lightning immunity, and ordinary/explosion/suffocation damage. Design and code do not add natural-spawn or Trial Spawner hookups.
+
+The P1 test class has 19 `@GameTest` methods at the audited head. It checks the entities at runtime; compile success alone is not treated as design compliance.
+
+## Inheritance and vanilla behavior notes
+
+| Choice | Behavior kept | Behavior changed or omitted |
+|---|---|---|
+| Cloud Wraith extends `Zombie` | Zombie melee path, target selector, adult collision and zombie oxygen/drowning code; no custom flight or AI. | Drowned conversion is explicitly disabled by Q48. Q51 classification is separate from vanilla counterpart water-breathing and is now asserted by a dedicated parity test; that assertion awaits execution. |
+| Skyguard Archer extends `AbstractSkeleton` | Shared AbstractSkeleton bow attack implementation, ranged combat goal, skeleton cadence/movement/range and targeting. `getArrow` applies 1.4× vanilla base damage. | Avoids `Skeleton`'s Stray conversion implementation to satisfy D4. Class-based skeleton targeting remains, while `#skeletons` tag membership is still V5-pending and was not invented. |
+| Fallen Sentinel extends `Zombie`, not `Husk` | Husk inherits the Zombie melee/movement implementation, so its core ground combat is shared. Sentinel copies Husk sounds and water-to-Zombie conversion. | It replaces Husk's Hunger-on-hit with the approved Weakness effect. It bypasses Husk-specific `finalizeSpawn` extras such as jockey/passenger setup; D1/Q55 require adult, fixed-loadout entities. It keeps only explicit Husk-like behavior rather than inheriting every present/future Husk override. Zombie reinforcement behavior can differ from Husk; V6 is unresolved and no custom exception was added. |
+
+## P1-Q01 B loot function and probabilities
+
+Crystal Bug uses `minecraft:random_chance_with_enchanted_bonus` on the emerald pool, with `unenchanted_chance: 0.05`, the Looting enchantment, and a `minecraft:linear` enchanted chance (`base: 0.06`, `per_level_above_first: 0.01`). This keeps the exact Q85 no-Looting chance at 5% and lets Minecraft 26.3 evaluate the killer's Looting level through its native loot context (Q64).
+
+| Looting level | Function-derived chance in this implementation | Status of value |
+|---:|---:|---|
+| None | 5% | Q85-approved base |
+| I | 6% | Implementation curve; not separately approved |
+| II | 7% | Implementation curve; not separately approved |
+| III | 8% | Implementation curve; not separately approved |
+
+The original P1 GameTest sampled 4,000 seeds and logged 4.975% at level 0 and 8.0% at Looting III. The audit adds 20,000-seed checks at levels 0–III. These are statistical checks, not a single-drop assertion; the exact probabilities also follow from the JSON curve passed to the native condition. The 6/7/8% curve is not declared a new design authority; the still-open emerald economy/balance review remains in Q85's follow-up list.
+
+## Existing verification evidence
+
+### GitHub Actions at `0002278`, `ba20789` and `a2d4e5e`
+
+- Java 25 `compileJava`, `compileClientJava`, `compileGametestJava`, `test`, and `build`: **PASS**.
+- `runGameTest`: **FAIL** on P1 heads. The repeatedly failing Colosseum test is outside the P1 changed-file list, but that alone does not establish that the failure is unrelated to P1. The comparative evidence and current causal assessment are recorded below.
+- At `0002278`, Sky-Mob log markers showed loot (4.975% base, 8% Looting III), Husk water behavior and slime splitting; no Sky-Mob failure was reported. All 19 Sky-Mob tests are treated as passed in that run because the sole reported failed test was the Colosseum test.
+- At `ba20789`, Java 25 compile/test/build steps completed, then `runGameTest` failed on two new parity assertions because the new resource file was named `can_breathe_underwater.json`; Minecraft 26.3's identifier is `can_breathe_under_water`. That filename was corrected in `0fa2218`. Seventeen of the 19 Sky-Mob GameTests had no reported failure; the resize-sequence test passed. Looting samples logged `[0.05, 0.06, 0.07005, 0.08005]`. The Colosseum tick-74 failure also occurred.
+- At `a2d4e5e`, run `42160197193` completed in 5m16s. Java 25 `compileJava`, `compileClientJava`, `compileGametestJava`, `test`, and `build` passed. All 19 Sky-Mob GameTests passed, including water-breathing parity and Cloud Slime repeated-size checks. Looting sampled `[0.05, 0.06, 0.07005, 0.08005]`. Full `runGameTest` failed only on the same Colosseum tick-74 assertion.
+- The runner log does not report full-suite aggregate total/success/skip counts. It reports required failures; an exact total or skip count cannot be recovered from these logs.
+- Server and client smoke jobs were **SKIPPED** because the build job failed at `runGameTest`. This is not a smoke-test pass.
+- Additional workflow runs on that SHA: Sky Islands Validation, K5 Mapped Sources Probe, K5 Stage 23-A Batch 3 Crafting Probe, Tooling Readiness, and K5 Production Restart all completed successfully. They are not substitutes for this branch's build, GameTest or smoke checks.
+
+### Local audit environment
+
+- Java 25.0.4.1 is installed and selected. Gradle wrapper 9.6.0 is present.
+- Local `compileJava compileClientJava compileGametestJava test build` did not reach project configuration: Gradle could not resolve Fabric Loom 1.17.21 because the Java process could not reach Maven (`Network is unreachable`). Direct `curl` to the Fabric Maven artifact returned HTTP 200, so this is recorded as a local Gradle network/proxy limitation, not a source compile failure.
+- Local Gradle tasks could not be executed because plugin resolution was blocked in this environment. Their code equivalent passed in Java 25 GitHub CI. Server and client smoke remain unverified because their jobs were skipped after `runGameTest` failed.
+
+## Scope boundary and open findings
+
+**OUT_OF_SCOPE for P1:** natural-spawn module and weights (including D5-a/D5-b implementation), Trial Spawner wiring and 2–3 mob composition, C2, C4, C5, combat-combination table, safe-fall pursuit, final models/textures/animation, and live server/client acceptance beyond available smoke workflows.
+
+**UNVERIFIED:** full-suite aggregate and skip counts (not emitted by runner); exact 2.5× Crystal Bug collision in world placement contexts; indirect Silverfish support/infestation paths beyond the removed goals; V5 class/tag target-selection consequences; V6 Zombie/Husk reinforcement mix; client and server smoke.
+
+**FAIL:** the full GameTest suite fails at `colosseum_game_tests_absence_grace_resumes_on_return_and_expires_otherwise`, assertion “return resumes the same attempt on tick 74.” P1 runs `0002278`, `ba20789`, `a2d4e5e`, `7b7721e`, and `dc6e625` all reported this failure. The test starts a 1,500 ms wall-clock grace after teleporting the player out at test tick 40, returns the player at tick 60, and checks resumed state at tick 75. An overloaded server could consume the grace before it observes the return; the CI failure line does not include the attempt state or elapsed time, so that mechanism remains a hypothesis. The P1 GameTest load is a plausible indirect contributor, not a proven cause.
+
+### Colosseum regression isolation addendum (2026-11-06)
+
+- Repository branch HEAD `dc6e625b88dbb8f548308ed2e69acd33fb440a56` matches the remote branch and PR #239 head. PR #239 remains Draft. The worktree was clean; no other agent or Gradle/GameTest process was active.
+- Base branch Fabric CI run [#1477](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/42146871736) ran Java 25's `./gradlew clean test build compileGametestJava runGameTest` successfully, followed by successful server and client smoke jobs. Exact P0 SHA CI run [#1479](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/42150754123) completed its Build and server-smoke jobs successfully; its overall workflow was later cancelled while client-smoke was running. Because `Build` runs the full command above, the P0 GameTest suite completed successfully there.
+- The five latest useful P1 failure logs inspected were CI runs [#1480](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/42156604064), [#1481](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/42159388010), [#1483](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/42160197193), [#1484](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/42161099101), and [#1485](https://github.com/ItzGamesGD/MoreMinecrafts-Beta/actions/runs/42161852532). Each logged the same Colosseum assertion. Run #1481 logged two additional Sky-Mob water-tag failures from the then-incorrect resource filename; those passed after the filename correction. The three later runs logged only the Colosseum GameTest failure. Their summaries did not include the whole-suite pass/skip total.
+- This is a CI-level A/B signal of **P0 PASS / P1 FAIL**, so a P1-associated regression is likely. It does not isolate the cause: P1 adds entity registrations, new test classes, and runtime test work; no production Colosseum class or Colosseum test source changed. The two implementations share the GameTest server and its wall-clock scheduling, so suite load/tick lag is a plausible indirect path. No CI diagnostic shows whether the attempt had expired, retained a grace deadline, or changed identity at the assertion.
+- An isolated local A/B was attempted with separate P0/P1 worktrees and separate Gradle homes. Both stopped before configuration because the isolated wrapper homes could not download Gradle 9.6.0 (`Connection refused`); neither local GameTest ran. We did not reuse a shared server/world/cache or alter the Colosseum assertion. The cross-run CI comparison is therefore the available A/B evidence, not a same-machine repeated experiment.
+- **Disposition:** the P1/Colosseum causal relationship is **LIKELY but not proven**; the specific runtime cause is **UNVERIFIED**. No assertion was weakened and no timeout/tick delay was added. Do not mark the full GameTest suite PASS or approve P1 until the regression is isolated and the final CI suite is green.

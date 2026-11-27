@@ -11,9 +11,13 @@
       "title": "광석 채굴",
       "titleKey": "moreminecrafts.research.v3_01.title",
       "descriptionKey": "moreminecrafts.research.v3_01.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        1
+      ],
+      "researchPrerequisites": [
+        "resources_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -129,9 +133,13 @@
       "title": "벌목",
       "titleKey": "moreminecrafts.research.v3_02.title",
       "descriptionKey": "moreminecrafts.research.v3_02.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        4
+      ],
+      "researchPrerequisites": [
+        "resources_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -235,9 +243,13 @@
       "title": "광물 보존",
       "titleKey": "moreminecrafts.research.v3_03.title",
       "descriptionKey": "moreminecrafts.research.v3_03.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        10
+      ],
+      "researchPrerequisites": [
+        "resources_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -341,9 +353,15 @@
       "title": "광역 굴착",
       "titleKey": "moreminecrafts.research.v3_04.title",
       "descriptionKey": "moreminecrafts.research.v3_04.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        2,
+        3
+      ],
+      "researchPrerequisites": [
+        "resources_root",
+        "v3.research.01"
+      ],
       "costs": [
         {
           "level": 1,
@@ -387,9 +405,14 @@
       "title": "자동 벌목 장치",
       "titleKey": "moreminecrafts.research.v3_05.title",
       "descriptionKey": "moreminecrafts.research.v3_05.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        5
+      ],
+      "researchPrerequisites": [
+        "resources_root",
+        "v3.research.02"
+      ],
       "costs": [
         {
           "level": 1,
@@ -433,9 +456,13 @@
       "title": "연료 절약",
       "titleKey": "moreminecrafts.research.v3_06.title",
       "descriptionKey": "moreminecrafts.research.v3_06.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        11
+      ],
+      "researchPrerequisites": [
+        "production_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -515,9 +542,13 @@
       "title": "정밀 제련",
       "titleKey": "moreminecrafts.research.v3_07.title",
       "descriptionKey": "moreminecrafts.research.v3_07.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        11
+      ],
+      "researchPrerequisites": [
+        "production_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -633,9 +664,13 @@
       "title": "정밀 제작",
       "titleKey": "moreminecrafts.research.v3_08.title",
       "descriptionKey": "moreminecrafts.research.v3_08.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        14
+      ],
+      "researchPrerequisites": [
+        "production_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -745,9 +780,13 @@
       "title": "목재 가공",
       "titleKey": "moreminecrafts.research.v3_09.title",
       "descriptionKey": "moreminecrafts.research.v3_09.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        14
+      ],
+      "researchPrerequisites": [
+        "production_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -797,9 +836,13 @@
       "title": "장비 정비",
       "titleKey": "moreminecrafts.research.v3_10.title",
       "descriptionKey": "moreminecrafts.research.v3_10.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        16
+      ],
+      "researchPrerequisites": [
+        "production_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -903,9 +946,14 @@
       "title": "고속 제련",
       "titleKey": "moreminecrafts.research.v3_11.title",
       "descriptionKey": "moreminecrafts.research.v3_11.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        12
+      ],
+      "researchPrerequisites": [
+        "production_root",
+        "v3.research.07"
+      ],
       "costs": [
         {
           "level": 1,
@@ -991,9 +1039,15 @@
       "title": "고속·고효율 화로",
       "titleKey": "moreminecrafts.research.v3_12.title",
       "descriptionKey": "moreminecrafts.research.v3_12.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        12,
+        13
+      ],
+      "researchPrerequisites": [
+        "production_root",
+        "v3.research.11"
+      ],
       "costs": [
         {
           "level": 1,
@@ -1037,9 +1091,14 @@
       "title": "상자 정렬",
       "titleKey": "moreminecrafts.research.v3_13.title",
       "descriptionKey": "moreminecrafts.research.v3_13.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        17
+      ],
+      "researchPrerequisites": [
+        "production_root",
+        "v3.research.08"
+      ],
       "costs": [
         {
           "level": 1,
@@ -1083,9 +1142,13 @@
       "title": "작물 재배",
       "titleKey": "moreminecrafts.research.v3_14.title",
       "descriptionKey": "moreminecrafts.research.v3_14.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        20
+      ],
+      "researchPrerequisites": [
+        "living_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -1189,9 +1252,13 @@
       "title": "종자 연구",
       "titleKey": "moreminecrafts.research.v3_15.title",
       "descriptionKey": "moreminecrafts.research.v3_15.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        21
+      ],
+      "researchPrerequisites": [
+        "living_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -1259,9 +1326,13 @@
       "title": "토양 연구",
       "titleKey": "moreminecrafts.research.v3_16.title",
       "descriptionKey": "moreminecrafts.research.v3_16.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        22
+      ],
+      "researchPrerequisites": [
+        "living_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -1335,9 +1406,13 @@
       "title": "가축 사육",
       "titleKey": "moreminecrafts.research.v3_17.title",
       "descriptionKey": "moreminecrafts.research.v3_17.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        25
+      ],
+      "researchPrerequisites": [
+        "living_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -1423,9 +1498,13 @@
       "title": "양봉 연구",
       "titleKey": "moreminecrafts.research.v3_18.title",
       "descriptionKey": "moreminecrafts.research.v3_18.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        26
+      ],
+      "researchPrerequisites": [
+        "living_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -1493,9 +1572,13 @@
       "title": "어업 연구",
       "titleKey": "moreminecrafts.research.v3_19.title",
       "descriptionKey": "moreminecrafts.research.v3_19.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        27
+      ],
+      "researchPrerequisites": [
+        "living_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -1605,9 +1688,14 @@
       "title": "3×3 경작",
       "titleKey": "moreminecrafts.research.v3_20.title",
       "descriptionKey": "moreminecrafts.research.v3_20.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        22
+      ],
+      "researchPrerequisites": [
+        "living_root",
+        "v3.research.16"
+      ],
       "costs": [
         {
           "level": 1,
@@ -1645,9 +1733,14 @@
       "title": "성숙 작물 일괄 수확",
       "titleKey": "moreminecrafts.research.v3_21.title",
       "descriptionKey": "moreminecrafts.research.v3_21.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        20
+      ],
+      "researchPrerequisites": [
+        "living_root",
+        "v3.research.14"
+      ],
       "costs": [
         {
           "level": 1,
@@ -1691,9 +1784,14 @@
       "title": "먹이 투척·번식",
       "titleKey": "moreminecrafts.research.v3_22.title",
       "descriptionKey": "moreminecrafts.research.v3_22.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        26
+      ],
+      "researchPrerequisites": [
+        "living_root",
+        "v3.research.17"
+      ],
       "costs": [
         {
           "level": 1,
@@ -1731,9 +1829,14 @@
       "title": "낚시 기술",
       "titleKey": "moreminecrafts.research.v3_23.title",
       "descriptionKey": "moreminecrafts.research.v3_23.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        29
+      ],
+      "researchPrerequisites": [
+        "living_root",
+        "v3.research.19"
+      ],
       "costs": [
         {
           "level": 1,
@@ -1819,9 +1922,15 @@
       "title": "자동 농장",
       "titleKey": "moreminecrafts.research.v3_24.title",
       "descriptionKey": "moreminecrafts.research.v3_24.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        24
+      ],
+      "researchPrerequisites": [
+        "living_root",
+        "v3.research.14",
+        "v3.research.15"
+      ],
       "costs": [
         {
           "level": 1,
@@ -1871,9 +1980,14 @@
       "title": "관개 장치",
       "titleKey": "moreminecrafts.research.v3_25.title",
       "descriptionKey": "moreminecrafts.research.v3_25.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        23
+      ],
+      "researchPrerequisites": [
+        "living_root",
+        "v3.research.16"
+      ],
       "costs": [
         {
           "level": 1,
@@ -1917,9 +2031,14 @@
       "title": "통발 개선",
       "titleKey": "moreminecrafts.research.v3_26.title",
       "descriptionKey": "moreminecrafts.research.v3_26.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        28
+      ],
+      "researchPrerequisites": [
+        "living_root",
+        "v3.research.19"
+      ],
       "costs": [
         {
           "level": 1,
@@ -1963,9 +2082,13 @@
       "title": "검술",
       "titleKey": "moreminecrafts.research.v3_27.title",
       "descriptionKey": "moreminecrafts.research.v3_27.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        31
+      ],
+      "researchPrerequisites": [
+        "combat_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -2033,9 +2156,13 @@
       "title": "도끼 전투",
       "titleKey": "moreminecrafts.research.v3_28.title",
       "descriptionKey": "moreminecrafts.research.v3_28.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        33
+      ],
+      "researchPrerequisites": [
+        "combat_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -2103,9 +2230,13 @@
       "title": "사격",
       "titleKey": "moreminecrafts.research.v3_29.title",
       "descriptionKey": "moreminecrafts.research.v3_29.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        34
+      ],
+      "researchPrerequisites": [
+        "combat_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -2179,9 +2310,13 @@
       "title": "방패",
       "titleKey": "moreminecrafts.research.v3_30.title",
       "descriptionKey": "moreminecrafts.research.v3_30.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        36
+      ],
+      "researchPrerequisites": [
+        "combat_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -2249,9 +2384,13 @@
       "title": "방어구 운용",
       "titleKey": "moreminecrafts.research.v3_31.title",
       "descriptionKey": "moreminecrafts.research.v3_31.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        37
+      ],
+      "researchPrerequisites": [
+        "combat_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -2319,9 +2458,13 @@
       "title": "투척 전투",
       "titleKey": "moreminecrafts.research.v3_32.title",
       "descriptionKey": "moreminecrafts.research.v3_32.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        38
+      ],
+      "researchPrerequisites": [
+        "combat_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -2389,9 +2532,14 @@
       "title": "연속 검격",
       "titleKey": "moreminecrafts.research.v3_33.title",
       "descriptionKey": "moreminecrafts.research.v3_33.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        32
+      ],
+      "researchPrerequisites": [
+        "combat_root",
+        "v3.research.27"
+      ],
       "costs": [
         {
           "level": 1,
@@ -2429,9 +2577,14 @@
       "title": "반격 방패",
       "titleKey": "moreminecrafts.research.v3_34.title",
       "descriptionKey": "moreminecrafts.research.v3_34.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        36
+      ],
+      "researchPrerequisites": [
+        "combat_root",
+        "v3.research.30"
+      ],
       "costs": [
         {
           "level": 1,
@@ -2469,9 +2622,15 @@
       "title": "전술 사격",
       "titleKey": "moreminecrafts.research.v3_35.title",
       "descriptionKey": "moreminecrafts.research.v3_35.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        35,
+        40
+      ],
+      "researchPrerequisites": [
+        "combat_root",
+        "v3.research.29"
+      ],
       "costs": [
         {
           "level": 1,
@@ -2515,9 +2674,13 @@
       "title": "좀비",
       "titleKey": "moreminecrafts.research.v3_36.title",
       "descriptionKey": "moreminecrafts.research.v3_36.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        41
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -2585,9 +2748,13 @@
       "title": "스켈레톤",
       "titleKey": "moreminecrafts.research.v3_37.title",
       "descriptionKey": "moreminecrafts.research.v3_37.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        42
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -2655,9 +2822,13 @@
       "title": "크리퍼",
       "titleKey": "moreminecrafts.research.v3_38.title",
       "descriptionKey": "moreminecrafts.research.v3_38.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        43
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -2725,9 +2896,13 @@
       "title": "거미",
       "titleKey": "moreminecrafts.research.v3_39.title",
       "descriptionKey": "moreminecrafts.research.v3_39.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        44
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -2765,9 +2940,13 @@
       "title": "엔더맨",
       "titleKey": "moreminecrafts.research.v3_40.title",
       "descriptionKey": "moreminecrafts.research.v3_40.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        45
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -2805,9 +2984,13 @@
       "title": "슬라임",
       "titleKey": "moreminecrafts.research.v3_41.title",
       "descriptionKey": "moreminecrafts.research.v3_41.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        46
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -2845,9 +3028,13 @@
       "title": "일리저",
       "titleKey": "moreminecrafts.research.v3_42.title",
       "descriptionKey": "moreminecrafts.research.v3_42.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        47
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -2885,9 +3072,13 @@
       "title": "피글린",
       "titleKey": "moreminecrafts.research.v3_43.title",
       "descriptionKey": "moreminecrafts.research.v3_43.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        48
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -2961,9 +3152,13 @@
       "title": "호글린",
       "titleKey": "moreminecrafts.research.v3_44.title",
       "descriptionKey": "moreminecrafts.research.v3_44.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        49
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -3031,9 +3226,13 @@
       "title": "수중 적대 생물",
       "titleKey": "moreminecrafts.research.v3_45.title",
       "descriptionKey": "moreminecrafts.research.v3_45.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        50
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -3107,9 +3306,13 @@
       "title": "희귀 생물",
       "titleKey": "moreminecrafts.research.v3_46.title",
       "descriptionKey": "moreminecrafts.research.v3_46.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        51
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -3195,9 +3398,13 @@
       "title": "보스 생태",
       "titleKey": "moreminecrafts.research.v3_47.title",
       "descriptionKey": "moreminecrafts.research.v3_47.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        52
+      ],
+      "researchPrerequisites": [
+        "ecology_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -3265,9 +3472,14 @@
       "title": "생물 추적 장치",
       "titleKey": "moreminecrafts.research.v3_48.title",
       "descriptionKey": "moreminecrafts.research.v3_48.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        51
+      ],
+      "researchPrerequisites": [
+        "ecology_root",
+        "v3.research.46"
+      ],
       "costs": [
         {
           "level": 1,
@@ -3311,9 +3523,13 @@
       "title": "항법",
       "titleKey": "moreminecrafts.research.v3_49.title",
       "descriptionKey": "moreminecrafts.research.v3_49.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        55
+      ],
+      "researchPrerequisites": [
+        "world_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -3381,9 +3597,13 @@
       "title": "승마",
       "titleKey": "moreminecrafts.research.v3_50.title",
       "descriptionKey": "moreminecrafts.research.v3_50.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        56
+      ],
+      "researchPrerequisites": [
+        "world_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -3493,9 +3713,13 @@
       "title": "비행",
       "titleKey": "moreminecrafts.research.v3_51.title",
       "descriptionKey": "moreminecrafts.research.v3_51.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        57
+      ],
+      "researchPrerequisites": [
+        "world_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -3569,9 +3793,13 @@
       "title": "고고학",
       "titleKey": "moreminecrafts.research.v3_52.title",
       "descriptionKey": "moreminecrafts.research.v3_52.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        59
+      ],
+      "researchPrerequisites": [
+        "world_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -3645,9 +3873,13 @@
       "title": "주민 거래",
       "titleKey": "moreminecrafts.research.v3_53.title",
       "descriptionKey": "moreminecrafts.research.v3_53.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        61
+      ],
+      "researchPrerequisites": [
+        "world_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -3715,9 +3947,13 @@
       "title": "피글린 교역",
       "titleKey": "moreminecrafts.research.v3_54.title",
       "descriptionKey": "moreminecrafts.research.v3_54.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        48
+      ],
+      "researchPrerequisites": [
+        "world_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -3785,9 +4021,13 @@
       "title": "생존·원정 준비",
       "titleKey": "moreminecrafts.research.v3_55.title",
       "descriptionKey": "moreminecrafts.research.v3_55.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        53
+      ],
+      "researchPrerequisites": [
+        "world_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -3855,9 +4095,14 @@
       "title": "정밀 비행",
       "titleKey": "moreminecrafts.research.v3_56.title",
       "descriptionKey": "moreminecrafts.research.v3_56.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        57
+      ],
+      "researchPrerequisites": [
+        "v3.research.51",
+        "world_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -3937,9 +4182,14 @@
       "title": "동력 보트",
       "titleKey": "moreminecrafts.research.v3_57.title",
       "descriptionKey": "moreminecrafts.research.v3_57.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        55
+      ],
+      "researchPrerequisites": [
+        "v3.research.49",
+        "world_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -3983,9 +4233,15 @@
       "title": "차원 간 물품 운송",
       "titleKey": "moreminecrafts.research.v3_58.title",
       "descriptionKey": "moreminecrafts.research.v3_58.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        58,
+        62
+      ],
+      "researchPrerequisites": [
+        "v3.research.55",
+        "world_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -4029,9 +4285,13 @@
       "title": "양조 기초",
       "titleKey": "moreminecrafts.research.v3_59.title",
       "descriptionKey": "moreminecrafts.research.v3_59.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        63
+      ],
+      "researchPrerequisites": [
+        "alchemy_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -4099,9 +4359,14 @@
       "title": "물약 연구",
       "titleKey": "moreminecrafts.research.v3_60.title",
       "descriptionKey": "moreminecrafts.research.v3_60.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        64
+      ],
+      "researchPrerequisites": [
+        "alchemy_root",
+        "v3.research.59"
+      ],
       "costs": [
         {
           "level": 1,
@@ -4169,9 +4434,15 @@
       "title": "투척·잔류 물약",
       "titleKey": "moreminecrafts.research.v3_61.title",
       "descriptionKey": "moreminecrafts.research.v3_61.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        65,
+        66
+      ],
+      "researchPrerequisites": [
+        "alchemy_root",
+        "v3.research.60"
+      ],
       "costs": [
         {
           "level": 1,
@@ -4239,9 +4510,14 @@
       "title": "상태 효과",
       "titleKey": "moreminecrafts.research.v3_62.title",
       "descriptionKey": "moreminecrafts.research.v3_62.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        67
+      ],
+      "researchPrerequisites": [
+        "alchemy_root",
+        "v3.research.60"
+      ],
       "costs": [
         {
           "level": 1,
@@ -4315,9 +4591,13 @@
       "title": "마법 재료",
       "titleKey": "moreminecrafts.research.v3_63.title",
       "descriptionKey": "moreminecrafts.research.v3_63.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        68
+      ],
+      "researchPrerequisites": [
+        "alchemy_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -4391,9 +4671,13 @@
       "title": "XP 획득",
       "titleKey": "moreminecrafts.research.v3_64.title",
       "descriptionKey": "moreminecrafts.research.v3_64.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        69
+      ],
+      "researchPrerequisites": [
+        "alchemy_root"
+      ],
       "costs": [
         {
           "level": 1,
@@ -4467,9 +4751,14 @@
       "title": "촉매 보존",
       "titleKey": "moreminecrafts.research.v3_65.title",
       "descriptionKey": "moreminecrafts.research.v3_65.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        68
+      ],
+      "researchPrerequisites": [
+        "alchemy_root",
+        "v3.research.63"
+      ],
       "costs": [
         {
           "level": 1,
@@ -4537,9 +4826,14 @@
       "title": "고급 양조",
       "titleKey": "moreminecrafts.research.v3_66.title",
       "descriptionKey": "moreminecrafts.research.v3_66.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        69
+      ],
+      "researchPrerequisites": [
+        "alchemy_root",
+        "v3.research.59"
+      ],
       "costs": [
         {
           "level": 1,
@@ -4577,9 +4871,14 @@
       "title": "XP 제어",
       "titleKey": "moreminecrafts.research.v3_67.title",
       "descriptionKey": "moreminecrafts.research.v3_67.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        69
+      ],
+      "researchPrerequisites": [
+        "alchemy_root",
+        "v3.research.64"
+      ],
       "costs": [
         {
           "level": 1,
@@ -4629,9 +4928,14 @@
       "title": "물약 혼합",
       "titleKey": "moreminecrafts.research.v3_68.title",
       "descriptionKey": "moreminecrafts.research.v3_68.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        64
+      ],
+      "researchPrerequisites": [
+        "alchemy_root",
+        "v3.research.60"
+      ],
       "costs": [
         {
           "level": 1,
@@ -4675,9 +4979,14 @@
       "title": "양조 공정 제어",
       "titleKey": "moreminecrafts.research.v3_69.title",
       "descriptionKey": "moreminecrafts.research.v3_69.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        69
+      ],
+      "researchPrerequisites": [
+        "alchemy_root",
+        "v3.research.59"
+      ],
       "costs": [
         {
           "level": 1,
@@ -4721,9 +5030,14 @@
       "title": "물약 농축",
       "titleKey": "moreminecrafts.research.v3_70.title",
       "descriptionKey": "moreminecrafts.research.v3_70.description",
-      "prerequisitesDefined": false,
-      "knowledgePrerequisites": [],
-      "researchPrerequisites": [],
+      "prerequisitesDefined": true,
+      "knowledgePrerequisites": [
+        70
+      ],
+      "researchPrerequisites": [
+        "alchemy_root",
+        "v3.research.68"
+      ],
       "costs": [
         {
           "level": 1,

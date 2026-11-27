@@ -1,0 +1,96 @@
+legend: = main passage  - optional branch  o optional room  v vestibule  s stair tread  l landing  r royal approach(5)  A antechamber  t 3-wide threshold  P P1 context  H hall clear interior reservation  h hall shell reservation  V secret vault cand. A  S secret stair cand. A  # solid  ! +-40 marker
+PLAN  layer Y=-22  X[-46,46] Z[-46,46]  north(-Z) up, east(+X) right.  '!' marks |X|=41 / |Z|=41 (pyramid projection +-40 boundary)
+  Z\X        '         '         '         '         +         '         '         '         '      
+ -46       !                                                                                 !     
+ -45       !                                                                                 !     
+ -44       !                                                                                 !     
+ -43       !                                                                                 !     
+ -42       !                                                                                 !     
+ -41  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ -40       !                                                                                 !     
+ -39       !                                                                                 !     
+ -38       !                                                                                 !     
+ -37       !                                                                                 !     
+ -36       !                                                                                 !     
+ -35       !                                                                                 !     
+ -34       !                                                                                 !     
+ -33       !                                                                                 !     
+ -32       !                                                                                 !     
+ -31       !                                                                                 !     
+ -30       !                                                                                 !     
+ -29       !                                                                                 !     
+ -28       !                                                                                 !     
+ -27       !                                                                                 !     
+ -26       !                                                                                 !     
+ -25       !                                                                                 !     
+ -24       !                                                                                 !     
+ -23       !                                                                                 !     
+ -22       !                                                                                 !     
+ -21       !                                                                                 !     
+ -20       !                                                                                 !     
+ -19       !                                                                                 !     
+ -18       !                                                                                 !     
+ -17       !                                                                                 !     
+ -16       !                                                                                 !     
+ -15       !                                                                                 !     
+ -14       !                                                                                 !     
+ -13       !                                                                                 !     
+ -12       !                                                    AAAAAAAAAAAAAAAAAAA          !     
+ -11       !                                                    AAAAAAAAAAAAAAAAAAA          !     
+ -10       !                                                    AAAAAAAAAAAAAAAAAAA          !     
+  -9       !                                        s===rrrrrrrrAAAAAAAAAAAAAAAAAAA          !     
+  -8       !                                        s===rrrrrrrrAAAAAAAAAAAAAAAAAAA          !     
+  -7       !                                        s===rrrrrrrrAAAAAAAAAAAAAAAAAAA          !     
+  -6       !                                        s===rrrrrrrrAAAAAAAAAAAAAAAAAAA          !     
+  -5       !                                        s===rrrrrrrrAAAAAAAAAAAAAAAAAAA          !     
+  -4       !                                        s===        AAAAAAAAAAAAAAAAAAA          !     
+  -3       !                                        s===        AAAAAAAAAAAAAAAAAAA          !     
+  -2       !                                                    AAAAAAAAAAAAAAAAAAA          !     
+  -1       !                                                            ttt                  !     
+  +0       !                                                            ttt                  !     
+  +1       !                                                            ttt                  !     
+  +2       !                                          hhhhhhhhhhhhhhhhhhttthhhhhhhhhhhhhhhhhh!     
+  +3       !                                          hhhhhhhhhhhhhhhhhhttthhhhhhhhhhhhhhhhhh!     
+  +4       !                                          hhhhhhhhhhhhhhhhhhttthhhhhhhhhhhhhhhhhh!     
+  +5       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+  +6       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+  +7       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+  +8       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+  +9       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+ +10       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+ +11       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+ +12       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+ +13       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+ +14       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+ +15       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+ +16       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+ +17       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+ +18       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+ +19       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+ +20       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+ +21       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+ +22       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+ +23       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+ +24       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+ +25       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+ +26       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+ +27       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+ +28       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+ +29       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+ +30       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+ +31       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+ +32       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+ +33       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+ +34       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+ +35       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+ +36       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+ +37       !                                          hhhHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh!     
+ +38       !                                          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +39       !                                          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +40       !                                          hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh!     
+ +41  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ +42       !                                                                                 !     
+ +43       !                                                                                 !     
+ +44       !                                                                                 !     
+ +45       !                                                                                 !     
+ +46       !                                                                                 !     
