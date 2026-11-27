@@ -224,17 +224,24 @@ public final class DeepSeaPoseidon extends BoneSkillMonster {
     private void pullTick(ServerLevel level, Vec3 chest, int tick) {
         if (tick == 12) playSound(SoundEvents.CONDUIT_ACTIVATE, 2.0F, 1.4F);
         if (tick < 12 || tick > 52) return;
-        // Whirlpool cone in front of the spinning trident: rings shrink toward the tip and turn with it.
-        Vec3 tip = tridentHandPosition().add(facing.scale(2.4));
+        // Fan-spun trident: both blade ends trace a disc in front of the hand (720 deg/s, matching the clip), and
+        // the water storm streams from the cone in front back toward the hub.
+        Vec3 hub = tridentHandPosition().add(facing.scale(0.4));
         Vec3 side = new Vec3(-facing.z, 0, facing.x), up = new Vec3(0, 1, 0);
-        for (int ring = 0; ring < 4; ring++) {
-            double dist = 1.0 + ring * 2.2, radius = 0.4 + ring * 0.7;
-            for (int k = 0; k < 3; k++) {
-                double ang = tick * 0.5 - ring * 0.6 + k * 2.094;
-                Vec3 p = tip.add(facing.scale(dist)).add(side.scale(Math.cos(ang) * radius)).add(up.scale(Math.sin(ang) * radius));
-                level.sendParticles(ParticleTypes.BUBBLE, p.x, p.y, p.z, 1, 0, 0, 0, 0);
-                if (k == 0) level.sendParticles(ParticleTypes.DOLPHIN, p.x, p.y, p.z, 2, 0.05, 0.05, 0.05, 0);
+        double blade = Math.toRadians((tick - 12) * 36.0);
+        for (int end = 0; end < 2; end++) {
+            double ang = blade + end * Math.PI;
+            for (double r = 0.8; r <= 1.6; r += 0.4) {
+                Vec3 p = hub.add(side.scale(Math.cos(ang) * r)).add(up.scale(Math.sin(ang) * r));
+                level.sendParticles(ParticleTypes.BUBBLE, p.x, p.y, p.z, 1, 0.02, 0.02, 0.02, 0);
             }
+        }
+        for (int k = 0; k < 6; k++) {
+            double ang = random.nextDouble() * Math.PI * 2, rad = 1.0 + random.nextDouble() * 2.5, dist = 3.0 + random.nextDouble() * (Tuning.PULL_REACH - 3.0);
+            Vec3 p = hub.add(facing.scale(dist)).add(side.scale(Math.cos(ang) * rad)).add(up.scale(Math.sin(ang) * rad));
+            Vec3 v = hub.subtract(p).normalize();
+            level.sendParticles(ParticleTypes.BUBBLE, p.x, p.y, p.z, 0, v.x, v.y, v.z, 0.6);
+            if (k < 2) level.sendParticles(ParticleTypes.DOLPHIN, p.x, p.y, p.z, 1, 0.1, 0.1, 0.1, 0);
         }
         Vec3 into = chest.add(facing.scale(2.2));
         for (LivingEntity e : victims(level, chest, facing, Tuning.PULL_REACH, Tuning.PULL_ARC, 4.0)) {

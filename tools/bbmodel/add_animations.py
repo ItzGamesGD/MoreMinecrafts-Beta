@@ -303,23 +303,26 @@ def poseidon():
         **float_legs(0, 0.45, 0.65, 1.2),
     }
     trident_pitch(attack_swing, [(0, 0), (0.4, -90), (0.85, -90), (1.2, 0)])
-    # 450 deg/s. The three prongs repeat every 120 deg, so the earlier 1080 deg/s (108 deg per frame at 10 fps)
-    # looked frozen on video; 45 deg per frame at 10 fps and 7.5 at 60 fps both read as spinning.
-    spin = [(0.6, (0, 0, 0)), (2.6, (0, 900, 0)), (3.0, (0, 900, 0))]
-    skill_pull = {  # skill 1: arm thrust straight ahead, the trident spins on its own axis (0.6-2.6 s) and drags targets in
+    # Fan spin (owner 2026-11-27): the arm points straight ahead and the trident, held at mid-shaft and turned
+    # perpendicular to the arm, spins like a fan blade around the arm's axis to whip up the water storm.
+    # The hold bone's Euler order is Z*Y*X: X=-90 first lays the shaft across the arm, then Y spins it about the
+    # arm axis (with the chain at 90 deg the arm's long axis points forward). 720 deg/s: 72 deg per 10 fps frame.
+    fan = [(0, (0, 0, 0)), (0.6, (-90, 0, 0))] + [(round(0.6 + 0.1 * k, 2), (-90, 72 * k, 0)) for k in range(1, 21)] + [(3.0, (0, 1440, 0))]
+    grip_mid = [(0, (0, 0, 0)), (0.3, (0, 0, 0)), (0.6, (0, -10, 0)), (2.6, (0, -10, 0)), (3.0, (0, 0, 0))]
+    skill_pull = {  # skill 1: arm thrust straight ahead, the trident spins like a fan (0.6-2.6 s) and the water storm drags targets in
         "pelvis_bone": {"position": kf((0, 0, 0, 0), (0.6, 0, 0, 2), (2.6, 0, 0, 3), (3.0, 0, 0, 0))},
         "torso_core_bone": {"rotation": kf((0, 0, 0, 0), (0.6, 6, 0, 0), (2.6, 8, 0, 0), (3.0, 0, 0, 0)),
                             "position": [(0, (0, 0, 0)), (0.6, (0, 0, 0))] + [(round(0.6 + i * 0.1, 3), (0.25 * (-1) ** i, 0, 0)) for i in range(1, 20)] + [(2.6, (0, 0, 0)), (3.0, (0, 0, 0))]},
-        "arm_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (0.6, 90, 0, 0), (2.6, 90, 0, 0), (3.0, 0, 0, 0))},
+        "arm_upper_right_bone": {"rotation": kf((0, 0, 0, 0), (0.6, 84, 0, 0), (2.6, 82, 0, 0), (3.0, 0, 0, 0))},
         "arm_lower_right_bone": {"rotation": kf((0, 0, 0, 0), (0.3, 30, 0, 0), (0.6, 0, 0, 0), (2.6, 0, 0, 0), (3.0, 0, 0, 0))},
         "arm_upper_left_bone": {"rotation": kf((0, 0, 0, 0), (0.6, 30, 0, -40), (2.6, 30, 0, -46), (3.0, 0, 0, 0))},
         "arm_lower_left_bone": {"rotation": kf((0, 0, 0, 0), (0.6, 40, 0, 0), (2.6, 40, 0, 0), (3.0, 0, 0, 0))},
         "head_core_bone": {"rotation": kf((0, 0, 0, 0), (0.6, -6, 0, 0), (2.6, -6, 0, 0), (3.0, 0, 0, 0))},
         "cape_top_bone": {"rotation": kf((0, 0, 0, 0), (0.6, -24, 0, 0), (1.6, -34, 0, 6), (2.6, -24, 0, -6), (3.0, 0, 0, 0))},
-        "trident_shaft_bone": {"rotation": spin},
+        "trident_hold_bone": {"rotation": fan},
+        "trident_shaft_bone": {"position": grip_mid},
         **float_legs(0, 0.6, 1.6, 2.6, 3.0),
     }
-    trident_pitch(skill_pull, [(0, 0), (0.6, -90), (2.6, -90), (3.0, 0)])
     skill_charge = {  # skill 2: coil and aim for 1.2 s (telegraph), streamlined piercing dash 1.2-1.9 s, recover
         "pelvis_bone": {"rotation": kf((0, 0, 0, 0), (1.2, -22, 0, 0), (1.3, -80, 0, 0), (1.9, -80, 0, 0), (2.6, 0, 0, 0)),
                         "position": kf((0, 0, 0, 0), (1.2, 0, 0, 4), (1.3, 0, 0, -2), (1.9, 0, 0, -2), (2.6, 0, 0, 0))},
