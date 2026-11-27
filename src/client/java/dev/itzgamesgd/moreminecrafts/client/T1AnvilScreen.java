@@ -11,6 +11,8 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AnvilScreen;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.resources.Identifier;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AnvilMenu;
@@ -21,7 +23,8 @@ import java.util.Locale;
 
 /** Keeps the vanilla Anvil panel and slots, adding stable mode tabs and an in-place Enhance action. */
 public final class T1AnvilScreen extends AnvilScreen {
-    private static final int SHORT_COLOR = 0xFF8B1A1A;
+    private static final int SHORT_COLOR = EnchantAnvilSkin.TEXT_BAD;
+    private static final Identifier ERROR_SPRITE = Identifier.withDefaultNamespace("container/anvil/error");
     private Button action;
     private final Button[] modes = new Button[3];
 
@@ -42,15 +45,17 @@ public final class T1AnvilScreen extends AnvilScreen {
         super.subInit();
         String[] keys = {"enhancement", "normal_anvil", "book_combine"};
         int[] widths = {56, 80, 112};
+        String[] tabTextures = {"anvil_tab_112", "anvil_tab_160", "anvil_tab_224"};   // named by native art width
         int x = leftPos - 36;
         for (int i = 0; i < 3; i++) {
             final int index = i;
-            modes[i] = addRenderableWidget(Button.builder(Component.translatable("menu.moreminecrafts." + keys[i]), b -> request(index))
-                    .bounds(x, topPos - 24, widths[i], 20).build());
+            modes[i] = addRenderableWidget(new EnchantSkinButton(x, topPos - 24, widths[i], 20,
+                    Component.translatable("menu.moreminecrafts." + keys[i]), b -> request(index),
+                    EnchantSkinButton.Look.plain(tabTextures[i], "selected")));
             x += widths[i];
         }
-        action = addRenderableWidget(Button.builder(Component.empty(), b -> request(3))
-                .bounds(leftPos + 101, topPos + 42, 70, 20).build());
+        action = addRenderableWidget(new EnchantSkinButton(leftPos + 101, topPos + 42, 70, 20, Component.empty(),
+                b -> request(3), EnchantSkinButton.Look.plain("enhance_btn", "disabled")));
         refresh();
     }
 
@@ -120,25 +125,34 @@ public final class T1AnvilScreen extends AnvilScreen {
     @Override
     public void extractBackground(GuiGraphicsExtractor g, int mouseX, int mouseY, float delta) {
         super.extractBackground(g, mouseX, mouseY, delta);
-        if (mode() == 0) {
-            // The result slot and arrow belong to the old material→output interaction. Keep only the two inputs.
-            g.fill(leftPos + 99, topPos + 34, leftPos + 175, topPos + 71, 0xFFC6C6C6);
-            // The vanilla rename field is inactive in Enhancement mode; use its space for the two cost lines.
-            // Cover through row 35 too: the 16-px field sprite (rows 20-35) otherwise leaves its bottom highlight.
-            g.fill(leftPos + 55, topPos + 19, leftPos + 173, topPos + 36, 0xFFC6C6C6);
-            drawCatalystCell(g);
+        // The skin covers the whole vanilla panel (slots, arrow, rename field and error icon included) and redraws what
+        // each mode needs at the unchanged vanilla coordinates.
+        EnchantAnvilSkin.blit(g, "anvil_panel_frame", leftPos, topPos, 176, 166);
+        EnchantAnvilSkin.blit(g, "anvil_panel_overlay", leftPos, topPos, 176, 166);
+        int catalystIndex = ((T1AnvilModes) menu).moreminecrafts$catalystSlotIndex();
+        for (int i = 0; i < menu.slots.size(); i++) {
+            if (mode() == 0 && i == 2) continue;                 // no result slot in Enhancement mode
+            if (mode() != 0 && i == catalystIndex) continue;     // the catalyst slot only exists in Enhancement mode
+            Slot slot = menu.getSlot(i);
+            String look = i == 0 ? "slot_equipment_normal" : i == 1 && mode() == 2 ? "slot_book_normal" : "slot_normal";
+            EnchantAnvilSkin.blit(g, look, leftPos + slot.x - 1, topPos + slot.y - 1, 18, 18);
         }
-    }
-
-    /** Vanilla-style cell behind the catalyst slot, which the vanilla anvil texture does not provide. */
-    private void drawCatalystCell(GuiGraphicsExtractor g) {
-        int x = leftPos + AnvilCatalystUiLayout.SLOT_X - 1;
-        int y = topPos + AnvilCatalystUiLayout.SLOT_Y - 1;
-        g.fill(x, y, x + 18, y + 18, 0xFF8B8B8B);
-        g.fill(x, y, x + 17, y + 1, 0xFF373737);
-        g.fill(x, y, x + 1, y + 17, 0xFF373737);
-        g.fill(x + 1, y + 17, x + 18, y + 18, 0xFFFFFFFF);
-        g.fill(x + 17, y + 1, x + 18, y + 18, 0xFFFFFFFF);
+        EnchantAnvilSkin.blit(g, "plus", leftPos + 55, topPos + 50, 10, 10);
+        if (mode() == 0) {
+            // The two cost lines use the space of the rename field and the old result arrow.
+            EnchantAnvilSkin.blit(g, "cost_panel_a", leftPos + 99, topPos + 34, 76, 37);
+            EnchantAnvilSkin.blit(g, "cost_panel_b", leftPos + 55, topPos + 19, 118, 17);
+            return;
+        }
+        EnchantAnvilSkin.blit(g, "output_arrow", leftPos + 99, topPos + 45, 22, 15);
+        if ((menu.getSlot(0).hasItem() || menu.getSlot(1).hasItem()) && !menu.getSlot(2).hasItem()) {
+            g.blitSprite(RenderPipelines.GUI_TEXTURED, ERROR_SPRITE, leftPos + 99, topPos + 45, 28, 21);
+        }
+        if (mode() == 1) {
+            // Rename field background (the vanilla sprite sits under the covered area).
+            g.fill(leftPos + 59, topPos + 20, leftPos + 169, topPos + 36, 0xFF986A24);
+            g.fill(leftPos + 60, topPos + 21, leftPos + 168, topPos + 35, 0xFF120A20);
+        }
     }
 
     @Override
@@ -148,13 +162,35 @@ public final class T1AnvilScreen extends AnvilScreen {
         super.extractSlot(g, slot, mouseX, mouseY);
     }
 
+    /** Vanilla repair labels redrawn in the skin's light colours (the vanilla ones are dark text for a grey panel). */
+    private void extractRepairLabels(GuiGraphicsExtractor g) {
+        g.text(font, title, titleLabelX, titleLabelY, EnchantAnvilSkin.TEXT, false);
+        g.text(font, Component.translatable("container.inventory"), inventoryLabelX, inventoryLabelY, EnchantAnvilSkin.TEXT, false);
+        int cost = menu.getCost();
+        if (cost <= 0 || minecraft.player == null) return;
+        Component label = null;
+        int color = 0xFF80FF20;
+        if (cost >= 40 && !minecraft.player.getAbilities().instabuild) {
+            label = Component.translatable("container.repair.expensive");
+            color = 0xFFFF6060;
+        } else if (menu.getSlot(2).hasItem()) {
+            label = Component.translatable("container.repair.cost", cost);
+            if (!menu.getSlot(2).mayPickup(minecraft.player)) color = 0xFFFF6060;
+        }
+        if (label != null) {
+            int x = imageWidth - 8 - font.width(label) - 2;
+            g.fill(x - 2, 67, imageWidth - 8, 79, 0x4F000000);
+            g.text(font, label, x, 69, color, true);
+        }
+    }
+
     @Override
     protected void extractLabels(GuiGraphicsExtractor g, int mouseX, int mouseY) {
         if (mode() == 1) {
-            super.extractLabels(g, mouseX, mouseY);
+            extractRepairLabels(g);
             return;
         }
-        g.text(font, Component.translatable("container.inventory"), 8, 72, 0xFF404040, false);
+        g.text(font, Component.translatable("container.inventory"), 8, 72, EnchantAnvilSkin.TEXT, false);
         if (mode() == 0) {
             var equipment = menu.getSlot(0).getItem();
             boolean accessory = AccessoryEnhancementOperation.isAccessory(equipment);
@@ -175,16 +211,16 @@ public final class T1AnvilScreen extends AnvilScreen {
                     : EnhancementOperation.isEnhancementMaterial(stoneStack);
             boolean xpOk = minecraft.player != null && RawXp.canPay(minecraft.player, xp);
             // Insufficient cost lines are drawn red (vanilla anvil convention); the Enhance tooltip lists the exact amounts.
-            int costColor = xpOk && stoneOk && stoneStack.getCount() >= stone ? 0xFF303030 : SHORT_COLOR;
+            int costColor = xpOk && stoneOk && stoneStack.getCount() >= stone ? EnchantAnvilSkin.TEXT : SHORT_COLOR;
             var catalystStack = accessory ? menu.getSlot(((T1AnvilModes) menu).moreminecrafts$catalystSlotIndex()).getItem()
                     : net.minecraft.world.item.ItemStack.EMPTY;
             int catalystColor = catalystStack.is(dev.itzgamesgd.moreminecrafts.registry.ModItems.RELIC_CATALYST)
-                    && catalystStack.getCount() >= catalyst ? 0xFF303030 : SHORT_COLOR;
+                    && catalystStack.getCount() >= catalyst ? EnchantAnvilSkin.TEXT : SHORT_COLOR;
             if (!equipment.isEmpty() && current >= maximum) {
-                g.text(font, Component.literal("+" + current + " → ").append(Component.translatable("menu.moreminecrafts.maximum")), 62, 6, 0xFF303030, false);
+                g.text(font, Component.literal("+" + current + " → ").append(Component.translatable("menu.moreminecrafts.maximum")), 62, 6, EnchantAnvilSkin.TEXT, false);
             } else if (hasRequirement) {
                 // Empty or non-enhanceable input shows no step; the Enhance button tooltip explains what to insert.
-                g.text(font, Component.literal("+" + current + " → +" + target), 62, 6, 0xFF303030, false);
+                g.text(font, Component.literal("+" + current + " → +" + target), 62, 6, EnchantAnvilSkin.TEXT, false);
                 if (accessory) {
                     // The three costs do not fit one line in the panel, so the catalyst count wraps to its own line.
                     g.text(font, Component.translatable("menu.moreminecrafts.accessory_enhancement_cost_line_compact",
@@ -201,7 +237,7 @@ public final class T1AnvilScreen extends AnvilScreen {
         } else {
             g.text(font, Component.translatable("menu.moreminecrafts.xp_amount",
                     NumberFormat.getIntegerInstance(Locale.ROOT).format(menu.getCost())),
-                    115, 6, 0xFF303030, false);
+                    115, 6, EnchantAnvilSkin.TEXT, false);
         }
     }
 }

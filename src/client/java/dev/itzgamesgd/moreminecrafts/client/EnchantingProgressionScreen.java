@@ -36,7 +36,7 @@ public final class EnchantingProgressionScreen extends AbstractContainerScreen<E
     private List<EnchantmentTrees.Node> visibleOptions = List.of();
     private String selectedOption;
     private String selectedEquipment;
-    private final Button[][] nodes = new Button[TREE_PAGE_ROWS][5];
+    private final EnchantSkinButton[][] nodes = new EnchantSkinButton[TREE_PAGE_ROWS][5];
     private final Button[] optionRows = new Button[OPTION_PAGE_ROWS];
     private Button enchantTab;
     private Button optionTab;
@@ -62,20 +62,24 @@ public final class EnchantingProgressionScreen extends AbstractContainerScreen<E
     protected void init() {
         super.init();
         viewportScale = ViewportScale.fit(width, height, GUI_WIDTH, GUI_HEIGHT, 8.0D);
-        enchantTab = addRenderableWidget(Button.builder(Component.translatable("menu.moreminecrafts.enchantment"), b -> {
+        var tabLook = EnchantSkinButton.Look.sliced("anvil_tab_224", "selected", 224, 40, 16);
+        enchantTab = addRenderableWidget(new EnchantSkinButton(leftPos + 8, topPos + 8, 154, 20,
+                Component.translatable("menu.moreminecrafts.enchantment"), b -> {
             treePage = 0;
             request(0);
-        }).bounds(leftPos + 8, topPos + 8, 154, 20).build());
-        optionTab = addRenderableWidget(Button.builder(Component.translatable("menu.moreminecrafts.book_option"), b -> {
+        }, tabLook));
+        optionTab = addRenderableWidget(new EnchantSkinButton(leftPos + 168, topPos + 8, 154, 20,
+                Component.translatable("menu.moreminecrafts.book_option"), b -> {
             optionPage = 0;
             request(1);
-        }).bounds(leftPos + 168, topPos + 8, 154, 20).build());
+        }, tabLook));
 
         for (int row = 0; row < TREE_PAGE_ROWS; row++) {
             for (int level = 1; level <= 5; level++) {
                 final int rowIndex = row;
                 final int targetLevel = level;
-                nodes[row][level - 1] = addRenderableWidget(Button.builder(Component.empty(), b -> {
+                nodes[row][level - 1] = addRenderableWidget(new EnchantSkinButton(leftPos + NODE_LEFT, topPos + TREE_TOP, 18, 18,
+                        Component.empty(), b -> {
                     if (rowIndex >= visibleTree.size()) return;
                     EnchantmentTrees.Node node = visibleTree.get(rowIndex);
                     int current = T1Operations.enchantments(menu.getSlot(0).getItem()).getOrDefault(node.id(), 0);
@@ -83,43 +87,51 @@ public final class EnchantingProgressionScreen extends AbstractContainerScreen<E
                         int index = menu.tree().indexOf(node);
                         if (index >= 0) request(100 + index);
                     }
-                }).bounds(leftPos + NODE_LEFT, topPos + TREE_TOP, 18, 18).build());
+                }, EnchantSkinButton.Look.plain("node", "locked")));
             }
         }
 
         for (int row = 0; row < OPTION_PAGE_ROWS; row++) {
             final int rowIndex = row;
-            optionRows[row] = addRenderableWidget(Button.builder(Component.empty(), b -> {
+            optionRows[row] = addRenderableWidget(new EnchantSkinButton(leftPos + 8, topPos + 86 + row * 21, 314, 20,
+                    Component.empty(), b -> {
                 if (rowIndex < visibleOptions.size()) selectedOption = visibleOptions.get(rowIndex).id();
                 refresh();
-            }).bounds(leftPos + 8, topPos + 86 + row * 21, 314, 20).build());
+            }, EnchantSkinButton.Look.plain("option_row", "disabled"))
+                    .selectedWhen(() -> rowIndex < visibleOptions.size()
+                            && visibleOptions.get(rowIndex).id().equals(selectedOption)));
         }
 
-        previousTree = addRenderableWidget(Button.builder(Component.literal("<"), b -> {
+        previousTree = addRenderableWidget(new EnchantSkinButton(leftPos + 216, topPos + 246, 20, 18,
+                Component.literal("<"), b -> {
             treePage = Math.max(0, treePage - 1);
             refresh();
-        }).bounds(leftPos + 216, topPos + 246, 20, 18).build());
-        nextTree = addRenderableWidget(Button.builder(Component.literal(">"), b -> {
+        }, EnchantSkinButton.Look.glyph("arrow_left")));
+        nextTree = addRenderableWidget(new EnchantSkinButton(leftPos + 292, topPos + 246, 20, 18,
+                Component.literal(">"), b -> {
             treePage++;
             refresh();
-        }).bounds(leftPos + 292, topPos + 246, 20, 18).build());
-        previousOptions = addRenderableWidget(Button.builder(Component.literal("<"), b -> {
+        }, EnchantSkinButton.Look.glyph("arrow_right")));
+        previousOptions = addRenderableWidget(new EnchantSkinButton(leftPos + 272, topPos + 171, 20, 18,
+                Component.literal("<"), b -> {
             optionPage = Math.max(0, optionPage - 1);
             refresh();
-        }).bounds(leftPos + 272, topPos + 171, 20, 18).build());
-        nextOptions = addRenderableWidget(Button.builder(Component.literal(">"), b -> {
+        }, EnchantSkinButton.Look.glyph("arrow_left")));
+        nextOptions = addRenderableWidget(new EnchantSkinButton(leftPos + 296, topPos + 171, 20, 18,
+                Component.literal(">"), b -> {
             optionPage++;
             refresh();
-        }).bounds(leftPos + 296, topPos + 171, 20, 18).build());
-        reset = addRenderableWidget(Button.builder(Component.translatable("menu.moreminecrafts.reset"), b -> {
+        }, EnchantSkinButton.Look.glyph("arrow_right")));
+        reset = addRenderableWidget(new EnchantSkinButton(leftPos + 8, topPos + 246, 90, 18,
+                Component.translatable("menu.moreminecrafts.reset"), b -> {
             EnchantmentTrees.Node node = selectedOptionNode();
             if (node != null) {
                 int index = menu.tree().indexOf(node);
                 if (index >= 0) request(200 + index);
             }
-        }).bounds(leftPos + 8, topPos + 246, 90, 18).build());
-        apply = addRenderableWidget(Button.builder(Component.empty(), b -> request(2))
-                .bounds(leftPos + 102, topPos + 246, 220, 18).build());
+        }, EnchantSkinButton.Look.plain("reset_btn", "disabled")));
+        apply = addRenderableWidget(new EnchantSkinButton(leftPos + 102, topPos + 246, 220, 18, Component.empty(),
+                b -> request(2), EnchantSkinButton.Look.plain("apply_btn", "disabled")));
         refresh();
     }
 
@@ -203,7 +215,7 @@ public final class EnchantingProgressionScreen extends AbstractContainerScreen<E
         for (int row = 0; row < TREE_PAGE_ROWS; row++) {
             EnchantmentTrees.Node node = row < visibleTree.size() ? visibleTree.get(row) : null;
             for (int level = 1; level <= 5; level++) {
-                Button button = nodes[row][level - 1];
+                EnchantSkinButton button = nodes[row][level - 1];
                 button.visible = menu.mode() == 0 && node != null && level <= node.maximum();
                 if (!button.visible) continue;
                 int offset = node.prerequisite().isEmpty() ? 0 : Math.max(0, node.prerequisiteLevel() - 1);
@@ -217,6 +229,7 @@ public final class EnchantingProgressionScreen extends AbstractContainerScreen<E
                 boolean purchasable = next && quote.allowed() && registered;
                 button.active = purchasable && RawXp.canPay(minecraft.player, quote.cost());
                 button.setMessage(Component.empty());
+                button.forcedState(nodeTextureState(level, current, quote, registered));
                 button.setTooltip(nodeTooltip(node, level, current, quote, registered, purchasable));
             }
         }
@@ -363,48 +376,43 @@ public final class EnchantingProgressionScreen extends AbstractContainerScreen<E
             g.pose().scale((float) viewportScale.scale(), (float) viewportScale.scale());
         }
         int x = leftPos, y = topPos;
-        g.fill(x, y, x + GUI_WIDTH, y + GUI_HEIGHT, 0xFFC6C6C6);
-        g.fill(x + 2, y + 2, x + 328, y + 3, 0xFFFFFFFF);
-        g.fill(x + 2, y + 2, x + 3, y + GUI_HEIGHT - 2, 0xFFFFFFFF);
-        g.fill(x + GUI_WIDTH - 3, y + 3, x + GUI_WIDTH - 2, y + GUI_HEIGHT - 2, 0xFF555555);
-        g.fill(x + 2, y + GUI_HEIGHT - 3, x + GUI_WIDTH - 2, y + GUI_HEIGHT - 2, 0xFF555555);
+        EnchantAnvilSkin.blit(g, "enchant_panel_frame", x, y, GUI_WIDTH, GUI_HEIGHT);
+        EnchantAnvilSkin.blit(g, "enchant_panel_overlay", x, y, GUI_WIDTH, GUI_HEIGHT);
         for (var slot : menu.slots) {
             if (!slot.isActive()) continue;
-            int sx = x + slot.x - 1, sy = y + slot.y - 1;
-            g.fill(sx, sy, sx + 18, sy + 18, 0xFF373737);
-            g.fill(sx + 1, sy + 1, sx + 18, sy + 18, 0xFFFFFFFF);
-            g.fill(sx + 1, sy + 1, sx + 17, sy + 17, 0xFF8B8B8B);
+            String look = slot == menu.getSlot(0) ? "slot_equipment_normal" : slot == menu.getSlot(1) ? "slot_book_normal" : "slot_normal";
+            EnchantAnvilSkin.blit(g, look, x + slot.x - 1, y + slot.y - 1, 18, 18);
         }
         if (fitHere) g.pose().popMatrix();
     }
 
     @Override
     protected void extractLabels(GuiGraphicsExtractor g, int mouseX, int mouseY) {
-        g.text(font, Component.translatable("container.inventory"), inventoryLabelX, inventoryLabelY, 0xFF404040, false);
+        g.text(font, Component.translatable("container.inventory"), inventoryLabelX, inventoryLabelY, EnchantAnvilSkin.TEXT, false);
         ItemStack equipment = menu.getSlot(0).getItem();
         Component equipmentName = equipment.isEmpty() ? Component.translatable("menu.moreminecrafts.equipment") : equipment.getHoverName();
         if (menu.mode() == 1) {
-            g.text(font, font.substrByWidth(equipmentName, 94).getString(), 36, 46, 0xFF404040, false);
-            g.text(font, Component.translatable("menu.moreminecrafts.book_input"), 160, 46, 0xFF404040, false);
+            g.text(font, font.substrByWidth(equipmentName, 94).getString(), 36, 46, EnchantAnvilSkin.TEXT, false);
+            g.text(font, Component.translatable("menu.moreminecrafts.book_input"), 160, 46, EnchantAnvilSkin.TEXT, false);
             T1Operations.book(menu.getSlot(1).getItem()).ifPresent(book -> {
                 Component source = Component.translatable(enchantmentKey(book.id())).append(" ").append(BookOptionRules.roman(book.level()));
-                g.text(font, font.substrByWidth(source, 162).getString(), 160, 58, 0xFF555555, false);
+                g.text(font, font.substrByWidth(source, 162).getString(), 160, 58, EnchantAnvilSkin.TEXT_DIM, false);
             });
             drawOptionRows(g);
             drawOptionDetail(g);
             return;
         }
 
-        g.text(font, font.substrByWidth(equipmentName, 188).getString(), 36, 46, 0xFF404040, false);
-        g.text(font, xpText(), 238, 47, 0xFF404040, false);
+        g.text(font, font.substrByWidth(equipmentName, 188).getString(), 36, 46, EnchantAnvilSkin.TEXT, false);
+        g.text(font, xpText(), 238, 47, EnchantAnvilSkin.TEXT, false);
         if (visibleTree.isEmpty()) {
-            g.text(font, Component.translatable("menu.moreminecrafts.insert_equipment"), 10, 77, 0xFF404040, false);
+            g.text(font, Component.translatable("menu.moreminecrafts.insert_equipment"), 10, 77, EnchantAnvilSkin.TEXT, false);
             return;
         }
         drawTreeConnectors(g);
         for (int row = 0; row < visibleTree.size(); row++) drawTreeRow(g, row, visibleTree.get(row));
         Component page = Component.translatable("menu.moreminecrafts.page", treePage + 1, treePages.size());
-        g.text(font, page, 242, 251, 0xFF404040, false);
+        g.text(font, page, 242, 251, EnchantAnvilSkin.TEXT, false);
     }
 
     private void drawTreeConnectors(GuiGraphicsExtractor g) {
@@ -414,10 +422,11 @@ public final class EnchantingProgressionScreen extends AbstractContainerScreen<E
             EnchantmentTrees.Node node = visibleTree.get(row);
             int offset = node.prerequisite().isEmpty() ? 0 : Math.max(0, node.prerequisiteLevel() - 1);
             int nodeY = TREE_TOP + row * TREE_ROW_STEP + 1;
+            int owned = T1Operations.enchantments(menu.getSlot(0).getItem()).getOrDefault(node.id(), 0);
             for (int level = 1; level < node.maximum(); level++) {
                 int fromX = NODE_LEFT + (offset + level - 1) * NODE_STEP + 18;
                 int toX = NODE_LEFT + (offset + level) * NODE_STEP;
-                g.fill(fromX, nodeY + 9, toX, nodeY + 10, 0xFF555555);
+                EnchantAnvilSkin.horizontal(g, owned >= level + 1 ? "connector_h_active" : "connector_h_normal", fromX, nodeY + 9, toX - fromX);
             }
             Integer sourceRow = rowById.get(node.prerequisite());
             if (sourceRow != null && node.prerequisiteLevel() > 0) {
@@ -426,7 +435,8 @@ public final class EnchantingProgressionScreen extends AbstractContainerScreen<E
                 int centerX = NODE_LEFT + (sourceOffset + node.prerequisiteLevel() - 1) * NODE_STEP + 9;
                 int sourceY = TREE_TOP + sourceRow * TREE_ROW_STEP + 19;
                 int targetY = nodeY;
-                g.fill(centerX, Math.min(sourceY, targetY), centerX + 1, Math.max(sourceY, targetY), 0xFF555555);
+                EnchantAnvilSkin.vertical(g, owned > 0 ? "connector_v_active" : "connector_v_normal", centerX,
+                        Math.min(sourceY, targetY), Math.max(sourceY, targetY) - Math.min(sourceY, targetY));
             }
         }
     }
@@ -436,7 +446,7 @@ public final class EnchantingProgressionScreen extends AbstractContainerScreen<E
         Component name = Component.translatable(enchantmentKey(node.id()));
         Component shortName = font.substrByWidth(name, 95).getString().equals(name.getString())
                 ? name : Component.literal(font.plainSubstrByWidth(name.getString(), 94) + "…");
-        g.text(font, shortName, 8, rowY + 7, 0xFF303030, false);
+        g.text(font, shortName, 8, rowY + 7, EnchantAnvilSkin.TEXT, false);
         int current = T1Operations.enchantments(menu.getSlot(0).getItem()).getOrDefault(node.id(), 0);
         EnchantmentTrees.Quote quote = EnchantmentTrees.quote(EquipmentTreeResolver.resolve(menu.getSlot(0).getItem()),
                 T1Operations.enchantments(menu.getSlot(0).getItem()), node.id());
@@ -445,10 +455,6 @@ public final class EnchantingProgressionScreen extends AbstractContainerScreen<E
             int nodeX = NODE_LEFT + (offset + level - 1) * NODE_STEP;
             int nodeY = rowY + 1;
             int color = nodeStateColor(level, current, quote, registered(node.id()));
-            g.fill(nodeX, nodeY, nodeX + 18, nodeY + 1, color);
-            g.fill(nodeX, nodeY + 17, nodeX + 18, nodeY + 18, color);
-            g.fill(nodeX, nodeY, nodeX + 1, nodeY + 18, color);
-            g.fill(nodeX + 17, nodeY, nodeX + 18, nodeY + 18, color);
             g.item(new ItemStack(Items.ENCHANTED_BOOK), nodeX + 3, nodeY + 2);
             String roman = BookOptionRules.roman(level);
             int labelColor = color;
@@ -457,50 +463,57 @@ public final class EnchantingProgressionScreen extends AbstractContainerScreen<E
         }
     }
 
+    /** Node frame look: owned, locked (unreachable, conflicting or not allowed) or available. */
+    private static String nodeTextureState(int level, int current, EnchantmentTrees.Quote quote, boolean registered) {
+        if (level <= current) return "owned";
+        if (level > current + 1) return "locked";
+        if (!registered || "conflict".equals(quote.reason()) || !quote.allowed()) return "locked";
+        return "available";
+    }
+
     private int nodeStateColor(int level, int current, EnchantmentTrees.Quote quote, boolean registered) {
-        if (level <= current) return 0xFF3A8F3A;
-        if (level > current + 1) return 0xFF686868;
-        if (!registered || "conflict".equals(quote.reason())) return 0xFFB23A3A;
-        if (!quote.allowed()) return 0xFF777777;
-        if (!RawXp.canPay(minecraft.player, quote.cost())) return 0xFFD4A12A;
-        return quote.premium() > 0 ? 0xFFD4A12A : 0xFFE9E9E9;
+        if (level <= current) return 0xFFF6CA5C;
+        if (level > current + 1) return 0xFF766C74;
+        if (!registered || "conflict".equals(quote.reason())) return 0xFFFF7A7A;
+        if (!quote.allowed()) return 0xFF766C74;
+        if (!RawXp.canPay(minecraft.player, quote.cost())) return 0xFFDAA844;
+        return quote.premium() > 0 ? 0xFFDAA844 : 0xFFE6DAF2;
     }
 
     private void drawOptionRows(GuiGraphicsExtractor g) {
-        g.text(font, Component.translatable("menu.moreminecrafts.option_column_enchantment"), 17, 75, 0xFF404040, false);
-        g.text(font, Component.translatable("menu.moreminecrafts.option_column_current"), 150, 75, 0xFF404040, false);
-        g.text(font, Component.translatable("menu.moreminecrafts.option_column_possible"), 217, 75, 0xFF404040, false);
+        g.text(font, Component.translatable("menu.moreminecrafts.option_column_enchantment"), 17, 75, EnchantAnvilSkin.TEXT, false);
+        g.text(font, Component.translatable("menu.moreminecrafts.option_column_current"), 150, 75, EnchantAnvilSkin.TEXT, false);
+        g.text(font, Component.translatable("menu.moreminecrafts.option_column_possible"), 217, 75, EnchantAnvilSkin.TEXT, false);
         ItemStack equipment = menu.getSlot(0).getItem();
         Map<String, Integer> options = T1Operations.options(equipment);
         for (int row = 0; row < visibleOptions.size(); row++) {
             EnchantmentTrees.Node node = visibleOptions.get(row);
             int y = 86 + row * 21;
             boolean selected = node.id().equals(selectedOption);
-            if (selected) g.fill(9, y + 1, 321, y + 19, 0xFF7296B8);
             int current = options.getOrDefault(node.id(), 0);
             Component name = Component.translatable(enchantmentKey(node.id()));
             Component clippedName = font.width(name) > 128
                     ? Component.literal(font.plainSubstrByWidth(name.getString(), 124) + "…") : name;
-            g.text(font, clippedName, 17, y + 6, selected ? 0xFFFFFFFF : 0xFF303030, false);
+            g.text(font, clippedName, 17, y + 6, selected ? 0xFFFFFFFF : EnchantAnvilSkin.TEXT, false);
             String currentText = current == 0 ? Component.translatable("menu.moreminecrafts.option_none").getString()
                     : "(+" + BookOptionRules.roman(current) + ")";
             g.text(font, Component.literal(currentText), 150, y + 6,
-                    selected ? 0xFFFFFFFF : 0xFF303030, false);
+                    selected ? 0xFFFFFFFF : EnchantAnvilSkin.TEXT, false);
             String possible = "(+I)–(+" + BookOptionRules.roman(BookOptionRules.MAXIMUMS.get(node.id())) + ")";
             g.text(font, Component.literal(possible), 217, y + 6,
-                    selected ? 0xFFFFFFFF : 0xFF303030, false);
+                    selected ? 0xFFFFFFFF : EnchantAnvilSkin.TEXT, false);
         }
-        g.text(font, xpText(), 232, 64, 0xFF404040, false);
-        if (allOptions.isEmpty()) g.text(font, Component.translatable("menu.moreminecrafts.no_options_for_equipment"), 12, 98, 0xFF404040, false);
+        g.text(font, xpText(), 232, 64, EnchantAnvilSkin.TEXT, false);
+        if (allOptions.isEmpty()) g.text(font, Component.translatable("menu.moreminecrafts.no_options_for_equipment"), 12, 98, EnchantAnvilSkin.TEXT, false);
         if (allOptions.size() > OPTION_PAGE_ROWS) {
             g.text(font, Component.translatable("menu.moreminecrafts.page", optionPage + 1,
-                    (allOptions.size() + OPTION_PAGE_ROWS - 1) / OPTION_PAGE_ROWS), 223, 176, 0xFF404040, false);
+                    (allOptions.size() + OPTION_PAGE_ROWS - 1) / OPTION_PAGE_ROWS), 223, 176, EnchantAnvilSkin.TEXT, false);
         }
     }
 
     private void drawOptionDetail(GuiGraphicsExtractor g) {
         EnchantmentTrees.Node selected = selectedOptionNode();
-        g.fill(8, 191, 322, 192, 0xFF888888);
+        EnchantAnvilSkin.blit(g, "divider", 8, 191, 314, 1);
         if (selected == null) return;
         int current = T1Operations.options(menu.getSlot(0).getItem()).getOrDefault(selected.id(), 0);
         int maximum = BookOptionRules.MAXIMUMS.get(selected.id());
@@ -508,15 +521,15 @@ public final class EnchantingProgressionScreen extends AbstractContainerScreen<E
         Component currentText = current == 0 ? Component.translatable("menu.moreminecrafts.option_none")
                 : Component.literal("(+" + BookOptionRules.roman(current) + ")");
         Component title = Component.translatable("menu.moreminecrafts.option_detail_title", name, currentText);
-        g.text(font, font.substrByWidth(title, 314).getString(), 8, 196, 0xFF303030, false);
+        g.text(font, font.substrByWidth(title, 314).getString(), 8, 196, EnchantAnvilSkin.TEXT, false);
         g.text(font, Component.translatable("menu.moreminecrafts.option_possible_range", "+I", "+" + BookOptionRules.roman(maximum)),
-                8, 208, 0xFF303030, false);
+                8, 208, EnchantAnvilSkin.TEXT, false);
         String source = T1Operations.book(menu.getSlot(1).getItem()).filter(b -> b.id().equals(selected.id()))
                 .map(b -> Component.translatable("menu.moreminecrafts.option_source_level", BookOptionRules.roman(b.level())).getString())
                 .orElseGet(() -> Component.translatable("menu.moreminecrafts.option_source_random").getString());
-        g.text(font, Component.literal(source), 8, 220, 0xFF555555, false);
+        g.text(font, Component.literal(source), 8, 220, EnchantAnvilSkin.TEXT_DIM, false);
         Component effect = Component.translatable(optionEffectKey(selected.id()));
-        g.text(font, font.substrByWidth(effect, 314).getString(), 8, 232, 0xFF303030, false);
+        g.text(font, font.substrByWidth(effect, 314).getString(), 8, 232, EnchantAnvilSkin.TEXT, false);
     }
 
     private static String optionEffectKey(String id) {
