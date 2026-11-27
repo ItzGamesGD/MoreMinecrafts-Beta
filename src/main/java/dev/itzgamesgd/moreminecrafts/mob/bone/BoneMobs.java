@@ -40,6 +40,10 @@ public final class BoneMobs {
             EntityType.Builder.<FloatingJellyfish>of(FloatingJellyfish::new, MobCategory.CREATURE)
                     .sized(0.9F, 1.5F).eyeHeight(1.0F).clientTrackingRange(8));
 
+    public static final EntityType<dev.itzgamesgd.moreminecrafts.boss.PoseidonTrident> POSEIDON_TRIDENT = register("poseidon_trident",
+            EntityType.Builder.<dev.itzgamesgd.moreminecrafts.boss.PoseidonTrident>of(dev.itzgamesgd.moreminecrafts.boss.PoseidonTrident::new, MobCategory.MISC)
+                    .sized(0.5F, 0.5F).clientTrackingRange(8).updateInterval(1).noSave().noSummon().noLootTable());
+
     private static <T extends net.minecraft.world.entity.Entity> EntityType<T> register(String path, EntityType.Builder<T> builder) {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, ModIds.id(path));
         return Registry.register(BuiltInRegistries.ENTITY_TYPE, key, builder.build(key));

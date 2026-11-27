@@ -3,7 +3,7 @@
  "name": "Deep Sea Poseidon",
  "source": {
   "file": "deep_sea_poseidon.bbmodel",
-  "sha256": "2b457e9ef6b01d54f7cdb4e828ab8c9fb02cdb4a6f6d2e1dc9b531b061a3f9eb",
+  "sha256": "b69ca0cd45eb7ecbe5489db6df4e6081df6b8f2207bed72763e4f29a28d0b65a",
   "meta": {
    "format_version": "5.0",
    "model_format": "bedrock",
@@ -73365,7 +73365,7 @@
        2.6,
        [
         0.0,
-        -2160.0,
+        -900.0,
         0.0
        ]
       ],
@@ -73373,7 +73373,7 @@
        3.0,
        [
         0.0,
-        -2160.0,
+        -900.0,
         0.0
        ]
       ]

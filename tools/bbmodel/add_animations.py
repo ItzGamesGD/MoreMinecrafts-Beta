@@ -303,7 +303,9 @@ def poseidon():
         **float_legs(0, 0.45, 0.65, 1.2),
     }
     trident_pitch(attack_swing, [(0, 0), (0.4, -90), (0.85, -90), (1.2, 0)])
-    spin = [(0.6, (0, 0, 0)), (2.6, (0, 2160, 0)), (3.0, (0, 2160, 0))]
+    # 450 deg/s. The three prongs repeat every 120 deg, so the earlier 1080 deg/s (108 deg per frame at 10 fps)
+    # looked frozen on video; 45 deg per frame at 10 fps and 7.5 at 60 fps both read as spinning.
+    spin = [(0.6, (0, 0, 0)), (2.6, (0, 900, 0)), (3.0, (0, 900, 0))]
     skill_pull = {  # skill 1: arm thrust straight ahead, the trident spins on its own axis (0.6-2.6 s) and drags targets in
         "pelvis_bone": {"position": kf((0, 0, 0, 0), (0.6, 0, 0, 2), (2.6, 0, 0, 3), (3.0, 0, 0, 0))},
         "torso_core_bone": {"rotation": kf((0, 0, 0, 0), (0.6, 6, 0, 0), (2.6, 8, 0, 0), (3.0, 0, 0, 0)),

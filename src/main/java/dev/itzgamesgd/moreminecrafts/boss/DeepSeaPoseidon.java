@@ -24,10 +24,6 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
-import net.minecraft.world.entity.projectile.arrow.ThrownTrident;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
@@ -69,7 +65,7 @@ public final class DeepSeaPoseidon extends BoneSkillMonster {
     private int pullCooldown = 80, chargeCooldown = 120, throwCooldown = 60, basicIndex;
     private Vec3 aim = new Vec3(0, 0, 1);
     private final Set<UUID> chargeHits = new HashSet<>();
-    private ThrownTrident thrown;
+    private PoseidonTrident thrown;
 
     public DeepSeaPoseidon(EntityType<? extends DeepSeaPoseidon> type, Level level) {
         super(type, level);
@@ -228,12 +224,17 @@ public final class DeepSeaPoseidon extends BoneSkillMonster {
     private void pullTick(ServerLevel level, Vec3 chest, int tick) {
         if (tick == 12) playSound(SoundEvents.CONDUIT_ACTIVATE, 2.0F, 1.4F);
         if (tick < 12 || tick > 52) return;
-        Vec3 tip = chest.add(facing.scale(2.8));
-        double a = tick * 0.9;
-        for (int i = 0; i < 3; i++) {
-            double r = 0.6, ang = a + i * 2.094;
-            level.sendParticles(ParticleTypes.BUBBLE, tip.x + Math.cos(ang) * r * facing.z, tip.y + Math.sin(ang) * r,
-                    tip.z - Math.cos(ang) * r * facing.x, 1, 0, 0, 0, 0);
+        // Whirlpool cone in front of the spinning trident: rings shrink toward the tip and turn with it.
+        Vec3 tip = tridentHandPosition().add(facing.scale(2.4));
+        Vec3 side = new Vec3(-facing.z, 0, facing.x), up = new Vec3(0, 1, 0);
+        for (int ring = 0; ring < 4; ring++) {
+            double dist = 1.0 + ring * 2.2, radius = 0.4 + ring * 0.7;
+            for (int k = 0; k < 3; k++) {
+                double ang = tick * 0.5 - ring * 0.6 + k * 2.094;
+                Vec3 p = tip.add(facing.scale(dist)).add(side.scale(Math.cos(ang) * radius)).add(up.scale(Math.sin(ang) * radius));
+                level.sendParticles(ParticleTypes.BUBBLE, p.x, p.y, p.z, 1, 0, 0, 0, 0);
+                if (k == 0) level.sendParticles(ParticleTypes.DOLPHIN, p.x, p.y, p.z, 2, 0.05, 0.05, 0.05, 0);
+            }
         }
         Vec3 into = chest.add(facing.scale(2.2));
         for (LivingEntity e : victims(level, chest, facing, Tuning.PULL_REACH, Tuning.PULL_ARC, 4.0)) {
@@ -286,36 +287,26 @@ public final class DeepSeaPoseidon extends BoneSkillMonster {
         }
     }
 
+    /** World position of the right hand that holds the trident (throw origin and catch point). */
+    public Vec3 tridentHandPosition() {
+        Vec3 right = new Vec3(-facing.z, 0, facing.x);
+        return position().add(0, getBbHeight() * 0.6, 0).add(right.scale(0.45)).add(facing.scale(0.5));
+    }
+
+    void onTridentCaught() {
+        thrown = null;
+        playSound(SoundEvents.TRIDENT_RETURN, 2.0F, 1.2F);
+        Vec3 hand = tridentHandPosition();
+        if (level() instanceof ServerLevel level) level.sendParticles(ParticleTypes.GLOW, hand.x, hand.y, hand.z, 10, 0.2, 0.3, 0.2, 0.02);
+    }
+
     private void throwTick(ServerLevel level, Vec3 chest, int tick) {
         if (tick == 14) {
-            ItemStack stack = new ItemStack(Items.TRIDENT);
-            stack.set(net.minecraft.core.component.DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true); // glowing trident
-            ThrownTrident trident = new ThrownTrident(level, this, stack);
-            trident.pickup = AbstractArrow.Pickup.DISALLOWED;
-            trident.setBaseDamage(Tuning.THROW_DAMAGE);
-            Vec3 from = chest.add(facing.scale(0.8)).add(0, 0.6, 0);
-            trident.setPos(from.x, from.y, from.z);
+            Vec3 from = tridentHandPosition().add(0, 0.5, 0);
             LivingEntity target = getTarget();
-            Vec3 to = target != null ? target.position().add(0, target.getBbHeight() * 0.5, 0) : from.add(facing.scale(10));
-            Vec3 d = to.subtract(from);
-            trident.shoot(d.x, d.y + d.horizontalDistance() * 0.05, d.z, 2.6F, 0.0F);
-            level.addFreshEntity(trident);
-            thrown = trident;
+            Vec3 to = target != null ? target.position().add(0, target.getBbHeight() * 0.5, 0) : from.add(aim.scale(12));
+            thrown = PoseidonTrident.launch(level, this, from, to.subtract(from));
             playSound(SoundEvents.TRIDENT_THROW.value(), 2.0F, 0.9F);
-        }
-        if (tick == 14 + Tuning.THROW_RETURN_TICKS) {
-            if (thrown != null && !thrown.isRemoved()) {
-                Vec3 from = thrown.position();
-                Vec3 hand = chest.add(facing.scale(0.6)).add(0, 0.6, 0);
-                Vec3 d = hand.subtract(from);
-                for (double r = 0; r <= d.length(); r += 0.5) {
-                    Vec3 p = from.add(d.normalize().scale(r));
-                    level.sendParticles(ParticleTypes.GLOW, p.x, p.y, p.z, 1, 0.05, 0.05, 0.05, 0.0);
-                }
-                thrown.discard();
-            }
-            thrown = null;
-            playSound(SoundEvents.TRIDENT_RETURN, 2.0F, 1.0F);
         }
     }
 
@@ -333,7 +324,7 @@ public final class DeepSeaPoseidon extends BoneSkillMonster {
 
     @Override
     public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
-        if (source.getDirectEntity() == thrown && thrown != null) return false;
+        if (source.getDirectEntity() instanceof PoseidonTrident) return false;
         return super.hurtServer(level, source, amount * Tuning.DAMAGE_TAKEN);
     }
 

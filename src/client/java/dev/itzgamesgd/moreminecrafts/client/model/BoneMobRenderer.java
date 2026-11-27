@@ -58,6 +58,7 @@ public final class BoneMobRenderer<T extends BoneSkillMonster> extends MobRender
                 SkyWyvern.SKILLS);
         register(BoneMobs.FLOATING_JELLYFISH, new Spec("floating_jellyfish", 0.5F, "idle", null, 1.0F, 1.0F, null, "death", true, null),
                 FloatingJellyfish.SKILLS);
+        EntityRendererRegistry.register(BoneMobs.POSEIDON_TRIDENT, PoseidonTridentRenderer::new);
     }
 
     @Override
