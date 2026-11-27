@@ -1,6 +1,11 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "minecraft:item/netherite_pickaxe"
+    "type": "minecraft:special",
+    "base": "moreminecrafts:item/mining_drill_base",
+    "model": {
+      "type": "moreminecrafts:pose_mesh",
+      "model": "mining_drill",
+      "texture": "moreminecrafts:textures/item/mining_drill_3d.png"
+    }
   }
 }

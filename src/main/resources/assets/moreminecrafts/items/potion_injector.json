@@ -1,6 +1,11 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "minecraft:item/potion"
+    "type": "minecraft:special",
+    "base": "moreminecrafts:item/potion_injector_base",
+    "model": {
+      "type": "moreminecrafts:pose_mesh",
+      "model": "potion_injector",
+      "texture": "moreminecrafts:textures/item/potion_injector_3d.png"
+    }
   }
 }

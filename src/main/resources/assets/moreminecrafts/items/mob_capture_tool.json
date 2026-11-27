@@ -1,6 +1,11 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "minecraft:item/brush"
+    "type": "minecraft:special",
+    "base": "moreminecrafts:item/mob_capture_tool_base",
+    "model": {
+      "type": "moreminecrafts:pose_mesh",
+      "model": "mob_capture_tool",
+      "texture": "moreminecrafts:textures/item/mob_capture_tool_3d.png"
+    }
   }
 }
