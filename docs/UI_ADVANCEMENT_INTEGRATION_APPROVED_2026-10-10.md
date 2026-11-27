@@ -186,3 +186,12 @@ Owner decisions (2026-11-27) for the skin assets:
 - Assets are authored on the native art grid at 2 art px per GUI px. Frame thickness is 8 GUI px so it never overlaps content that starts at 8 GUI px.
 
 Changing any layout dimension or slot coordinate requires a new owner decision.
+
+#### Enchanting and anvil frame direction — owner decision 2026-11-27 (amends the skin assets above)
+
+- **Frame corners and side bands:** the enchanting table and anvil frames take an ornate corner treatment: gold filigree at each corner with a round gem set in the corner, and a rune-engraved side band along each long edge. The reference is the owner's mood image for these screens.
+- **Palette:** the gems, rune band and inner accents are **purple family**, not blue. Gold stays as the metal colour. The dark centre stays the violet-navy field already in the frame.
+- **Controls stay plain.** The reference's glowing cyan button borders and coloured button text are **not** adopted. The earlier rule (controls have no ornament; derived states only) still applies to tabs, option rows, buttons and slots.
+- **Decoration scope** is unchanged: frame corners, side bands and the centre overlay only. Corner pieces stay inside the 8 GUI px frame border so content that starts at 8 GUI px is not covered.
+- **Anvil sheet:** the anvil needs its own image sheet built on this frame direction. The Enchanting-table and anvil sharing of one corner family is the owner's reading of "인챈트 테이블 / 모루 전용 모서리"; it is recorded here as the working assumption until the owner says otherwise.
+- Implementation and live validation are pending. Layout dimensions and slot coordinates are unchanged by this amendment.
