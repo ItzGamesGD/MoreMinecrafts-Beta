@@ -141,7 +141,7 @@ public final class T1AnvilScreen extends AnvilScreen {
         if (mode() == 0) {
             // The two cost lines use the space of the rename field and the old result arrow.
             EnchantAnvilSkin.blit(g, "cost_panel_a", leftPos + 99, topPos + 34, 76, 37);
-            EnchantAnvilSkin.blit(g, "cost_panel_b", leftPos + 55, topPos + 19, 118, 17);
+            EnchantAnvilSkin.blit(g, "cost_panel_b", leftPos + 50, topPos + 19, 118, 17);
             return;
         }
         EnchantAnvilSkin.blit(g, "output_arrow", leftPos + 99, topPos + 45, 22, 15);
@@ -217,27 +217,27 @@ public final class T1AnvilScreen extends AnvilScreen {
             int catalystColor = catalystStack.is(dev.itzgamesgd.moreminecrafts.registry.ModItems.RELIC_CATALYST)
                     && catalystStack.getCount() >= catalyst ? EnchantAnvilSkin.TEXT : SHORT_COLOR;
             if (!equipment.isEmpty() && current >= maximum) {
-                g.text(font, Component.literal("+" + current + " → ").append(Component.translatable("menu.moreminecrafts.maximum")), 62, 6, EnchantAnvilSkin.TEXT, false);
+                g.text(font, Component.literal("+" + current + " → ").append(Component.translatable("menu.moreminecrafts.maximum")), 54, 10, EnchantAnvilSkin.TEXT, false);
             } else if (hasRequirement) {
                 // Empty or non-enhanceable input shows no step; the Enhance button tooltip explains what to insert.
-                g.text(font, Component.literal("+" + current + " → +" + target), 62, 6, EnchantAnvilSkin.TEXT, false);
+                g.text(font, Component.literal("+" + current + " → +" + target), 54, 10, EnchantAnvilSkin.TEXT, false);
                 if (accessory) {
                     // The three costs do not fit one line in the panel, so the catalyst count wraps to its own line.
                     g.text(font, Component.translatable("menu.moreminecrafts.accessory_enhancement_cost_line_compact",
-                            NumberFormat.getIntegerInstance(Locale.ROOT).format(xp), stone), 62, 18, costColor, false);
+                            NumberFormat.getIntegerInstance(Locale.ROOT).format(xp), stone), 54, 23, costColor, false);
                     if (catalyst > 0) {
                         g.text(font, Component.translatable("menu.moreminecrafts.accessory_enhancement_catalyst_line", catalyst),
-                                62, 28, catalystColor, false);
+                                54, 38, catalystColor, false);
                     }
                 } else {
                     g.text(font, Component.translatable("menu.moreminecrafts.enhancement_cost_line",
-                            NumberFormat.getIntegerInstance(Locale.ROOT).format(xp), stone), 62, 18, costColor, false);
+                            NumberFormat.getIntegerInstance(Locale.ROOT).format(xp), stone), 54, 23, costColor, false);
                 }
             }
         } else {
             g.text(font, Component.translatable("menu.moreminecrafts.xp_amount",
                     NumberFormat.getIntegerInstance(Locale.ROOT).format(menu.getCost())),
-                    115, 6, EnchantAnvilSkin.TEXT, false);
+                    115, 10, EnchantAnvilSkin.TEXT, false);
         }
     }
 }
