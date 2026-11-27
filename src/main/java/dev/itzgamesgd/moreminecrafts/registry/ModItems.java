@@ -68,6 +68,14 @@ public final class ModItems {
     public static final Item VOID_STAR_SHARD = material("void_star_shard");
     public static final Item VOID_GRAVITY_CORE = material("void_gravity_core");
     public static final Item SHIMMERING_SOUL_GLASS = material("shimmering_soul_glass");
+    public static final Item FORGEMASTER_SUMMON_EMBER = register("forgemaster_summon_ember", key ->
+            new dev.itzgamesgd.moreminecrafts.boss.BossSummonItem(
+                    dev.itzgamesgd.moreminecrafts.boss.PiglinForgemasterEntities.PIGLIN_FORGEMASTER,
+                    new Item.Properties().setId(key)));
+    public static final Item POSEIDON_SUMMON_CONCH = register("poseidon_summon_conch", key ->
+            new dev.itzgamesgd.moreminecrafts.boss.BossSummonItem(
+                    dev.itzgamesgd.moreminecrafts.mob.bone.BoneMobs.DEEP_SEA_POSEIDON,
+                    new Item.Properties().setId(key)));
     private static final ResourceKey<Item> FOUNDATION_PROBE_KEY =
             ResourceKey.create(Registries.ITEM, ModIds.id("foundation_probe"));
     public static final ResourceKey<Item> ENHANCEMENT_STONE_KEY =
@@ -327,6 +335,8 @@ public final class ModItems {
             entries.accept(VOID_STAR_SHARD);
             entries.accept(VOID_GRAVITY_CORE);
             entries.accept(SHIMMERING_SOUL_GLASS);
+            entries.accept(FORGEMASTER_SUMMON_EMBER);
+            entries.accept(POSEIDON_SUMMON_CONCH);
         });
         CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.NATURAL_BLOCKS).register(entries -> {
             entries.accept(ModBlocks.TITANIUM_ORE);

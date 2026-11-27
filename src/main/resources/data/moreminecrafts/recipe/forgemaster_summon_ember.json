@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "moreminecrafts:blazing_relic_core",
+    "moreminecrafts:blazing_relic_core",
+    "minecraft:blaze_rod",
+    "minecraft:gold_ingot"
+  ],
+  "result": {
+    "id": "moreminecrafts:forgemaster_summon_ember",
+    "count": 1
+  }
+}
