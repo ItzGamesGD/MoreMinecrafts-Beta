@@ -46,6 +46,7 @@ final class EnchantAnvilSkinResourceTest {
         m.put("divider", new int[]{628, 2});
         m.put("plus", new int[]{20, 20});
         m.put("output_arrow", new int[]{44, 30});
+        m.put("output_error", new int[]{56, 42});
         return m;
     }
 

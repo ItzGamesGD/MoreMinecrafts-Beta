@@ -11,8 +11,6 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AnvilScreen;
-import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.resources.Identifier;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AnvilMenu;
@@ -24,12 +22,13 @@ import java.util.Locale;
 /** Keeps the vanilla Anvil panel and slots, adding stable mode tabs and an in-place Enhance action. */
 public final class T1AnvilScreen extends AnvilScreen {
     private static final int SHORT_COLOR = EnchantAnvilSkin.TEXT_BAD;
-    private static final Identifier ERROR_SPRITE = Identifier.withDefaultNamespace("container/anvil/error");
     private Button action;
     private final Button[] modes = new Button[3];
 
     public T1AnvilScreen(AnvilMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
+        // Vanilla draws the title at y=6, inside the 8 GUI px skin frame; 9 keeps it on the content side.
+        titleLabelY = 9;
     }
 
     private int mode() {
@@ -146,7 +145,7 @@ public final class T1AnvilScreen extends AnvilScreen {
         }
         EnchantAnvilSkin.blit(g, "output_arrow", leftPos + 99, topPos + 45, 22, 15);
         if ((menu.getSlot(0).hasItem() || menu.getSlot(1).hasItem()) && !menu.getSlot(2).hasItem()) {
-            g.blitSprite(RenderPipelines.GUI_TEXTURED, ERROR_SPRITE, leftPos + 99, topPos + 45, 28, 21);
+            EnchantAnvilSkin.blit(g, "output_error", leftPos + 99, topPos + 45, 28, 21);
         }
         if (mode() == 1) {
             // Rename field background (the vanilla sprite sits under the covered area).
