@@ -725,6 +725,7 @@
   "moreminecrafts.contract.holding": "%1$s  %2$s/%3$s",
   "moreminecrafts.contract.reward.emeralds": "에메랄드 %s개",
   "moreminecrafts.contract.reward.item": "%1$s x%2$s",
+  "moreminecrafts.contract.title": "의뢰 계약서",
   "moreminecrafts.contract.button.accept": "수락",
   "moreminecrafts.contract.button.complete": "완료",
   "moreminecrafts.contract.button.abandon": "포기",

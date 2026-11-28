@@ -858,6 +858,7 @@
   "moreminecrafts.contract.holding": "%1$s  %2$s/%3$s",
   "moreminecrafts.contract.reward.emeralds": "%s Emeralds",
   "moreminecrafts.contract.reward.item": "%1$s x%2$s",
+  "moreminecrafts.contract.title": "Commission Contract",
   "moreminecrafts.contract.button.accept": "Accept",
   "moreminecrafts.contract.button.complete": "Complete",
   "moreminecrafts.contract.button.abandon": "Abandon",
