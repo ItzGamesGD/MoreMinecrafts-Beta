@@ -750,7 +750,24 @@ public final class VisualValidationHarness {
                 if (!takeCapture()) return;
                 try {
                     client.gui.setScreen(null);
-                    client.gui.setScreen(new ContractScreen("reference-contract"));
+                    // A real offered contract in the inventory: the screen closes itself when no contract is found.
+                    String contractId = "reference-contract";
+                    var contract = new dev.itzgamesgd.moreminecrafts.bounty.ContractData(contractId,
+                            dev.itzgamesgd.moreminecrafts.bounty.ContractData.Tier.BEGINNER,
+                            dev.itzgamesgd.moreminecrafts.bounty.ContractData.Status.OFFERED,
+                            List.of(
+                                    new dev.itzgamesgd.moreminecrafts.bounty.ContractData.Objective(
+                                            dev.itzgamesgd.moreminecrafts.bounty.ContractData.Category.DELIVERY,
+                                            "minecraft:oak_log", 128, 0, List.of()),
+                                    new dev.itzgamesgd.moreminecrafts.bounty.ContractData.Objective(
+                                            dev.itzgamesgd.moreminecrafts.bounty.ContractData.Category.DELIVERY,
+                                            "minecraft:iron_ingot", 32, 0, List.of()),
+                                    new dev.itzgamesgd.moreminecrafts.bounty.ContractData.Objective(
+                                            dev.itzgamesgd.moreminecrafts.bounty.ContractData.Category.DELIVERY,
+                                            "minecraft:leather", 20, 0, List.of())),
+                            new dev.itzgamesgd.moreminecrafts.bounty.ContractData.Reward(12, "minecraft:leather", 1));
+                    client.player.getInventory().add(dev.itzgamesgd.moreminecrafts.bounty.ContractStacks.create(contract));
+                    client.gui.setScreen(new ContractScreen(contractId));
                     queueUiScreenshot("contract-screen.png");
                 } catch (RuntimeException e) {
                     MoreMinecrafts.LOGGER.error("REFERENCE_CAPTURE_FAILED screen=contract-screen", e);
