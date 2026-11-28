@@ -6,7 +6,6 @@ on:
       - feat/research-v4-a-c-20261010
       - feat/research-knowledge-ui-integration
       - codex/pr75-research-node-tree-impl
-      - claude/enchant-anvil-skin-integration-20261127
   pull_request:
     branches:
       - main
@@ -33,7 +32,7 @@ jobs:
   client-visual-validation:
     # Run for the integration pull request so captured Knowledge screens are attached to its review.
     name: client-visual-validation
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     timeout-minutes: 35
     steps:
       - name: Checkout
