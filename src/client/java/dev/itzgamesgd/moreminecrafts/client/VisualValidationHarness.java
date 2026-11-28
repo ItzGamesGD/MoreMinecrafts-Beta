@@ -751,7 +751,7 @@ public final class VisualValidationHarness {
                 try {
                     client.gui.setScreen(null);
                     // A real offered contract in the inventory: the screen closes itself when no contract is found.
-                    String contractId = "reference-contract";
+                    String contractId = "6f2b1c3e-4d5a-4b7c-8e9f-0a1b2c3d4e5f";
                     var contract = new dev.itzgamesgd.moreminecrafts.bounty.ContractData(contractId,
                             dev.itzgamesgd.moreminecrafts.bounty.ContractData.Tier.BEGINNER,
                             dev.itzgamesgd.moreminecrafts.bounty.ContractData.Status.OFFERED,
