@@ -195,3 +195,10 @@ Changing any layout dimension or slot coordinate requires a new owner decision.
 - **Decoration scope** is unchanged: frame corners, side bands and the centre overlay only. Corner pieces stay inside the 8 GUI px frame border so content that starts at 8 GUI px is not covered.
 - **Anvil sheet:** the anvil needs its own image sheet built on this frame direction. The Enchanting-table and anvil sharing of one corner family is the owner's reading of "인챈트 테이블 / 모루 전용 모서리"; it is recorded here as the working assumption until the owner says otherwise.
 - Implementation and live validation are pending. Layout dimensions and slot coordinates are unchanged by this amendment.
+
+#### Discipline selector hub — colour and grammar amendment — 2026-11-28 (owner direction, reference pending)
+
+- The 2026-11-25 "unified research grammar" for the seven-discipline selector is **amended for colour**: the violet-only restriction no longer applies. The owner wants a more decorative, flashier look for this hub.
+- Navigation, sector geometry, the seven discipline list and the four-card selector behaviour are unchanged.
+- The final visual direction is **not decided yet**. It waits for owner reference images. Until they are approved, no texture or colour for this screen is implemented, and the 2026-11-25 research-kit assets are not reused as the design.
+- Implementation and live validation remain pending.
